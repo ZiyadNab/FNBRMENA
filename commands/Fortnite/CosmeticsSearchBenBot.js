@@ -195,7 +195,7 @@ module.exports = {
                     ctx.font = '46px Arabic'
                     ctx.fillText(name, 256, 425)
                     ctx.textAlign='center';
-                    ctx.font = '15px Sans'
+                    ctx.font = applyText(canvas, description);
                     ctx.fillText(description, 256, 470)
                     
                    

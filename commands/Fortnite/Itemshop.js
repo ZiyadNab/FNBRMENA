@@ -6,10 +6,10 @@ const fortniteAPI = new FortniteAPI(key.apis.fortniteio);
 const Canvas = require('canvas');
 var sp;
 var fe;
-var ready;
 var language;
 var loading;
 var send;
+var cosmetics;
 
 module.exports = {
     commands: 'itemshop',
@@ -24,28 +24,29 @@ module.exports = {
 
             if(lang === "en"){
                 language = "en"
-                loading = "Loading ..."
+                loading = "Loading a total"
                 send = "Sending the image please wait"
+                cosmetics = "cosmetics please wait"
             }
             if(lang === "ar"){
                 language = "ar"
-                loading = "تم اكتمال"
+                loading = "تحميل جميع العناصر بدد"
                 send = "جاري ارسال الصورة الرجاء الانتظار"
+                cosmetics = "عنصر الرجاء الانتظار"
             }
         
             fortniteAPI.getDailyShop(options = {lang: language})
             .then(async res => {
                 console.log(res);
+                var length = res.featured.length + res.daily.length + res.specialFeatured.length;
 
                 // generating animation
                 const generating = new Discord.MessageEmbed()
                 generating.setColor('#BB00EE')
                 const emoji = client.emojis.cache.get("805690920157970442")
-                generating.setTitle(`${loading} ${emoji}`)
+                generating.setTitle(`${loading} ${length} ${cosmetics}... ${emoji}`)
                 message.channel.send(generating)
                 .then( async msg => {
-
-                var length = res.featured.length + res.daily.length + res.specialFeatured.length;
 
                 var f;
                 var width;

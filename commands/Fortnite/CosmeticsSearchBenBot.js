@@ -55,6 +55,8 @@ module.exports = {
                     var rarity = res.data.series.name;
                 }
 
+                console.log(rarity)
+
                 //searching
                 if(rarity === 'أسطوري'){
                     //creating image

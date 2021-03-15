@@ -61,12 +61,11 @@ module.exports = {
                     ctx.fillStyle = '#ffffff';
                     ctx.textAlign='center';
                     ctx.font = '46px Arabic'
-                    ctx.fillText(name, 256, 430)
+                    ctx.fillText(name, 256, 425)
                     ctx.textAlign='center';
                     ctx.font = applyText(canvas, description);
-                    ctx.fillText(description, 256, 460)
-                    const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                    ctx.drawImage(credit, 15, 15, 146, 40);
+                    ctx.fillText(description, 256, 470)
+                    
                     
                 }
                 if(rarity === 'ملحمي'){
@@ -204,8 +203,7 @@ module.exports = {
                     ctx.textAlign='center';
                     ctx.font = '15px Sans'
                     ctx.fillText(description, 256, 460)
-                    const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                    ctx.drawImage(credit, 15, 15, 146, 40);
+                    
                    
                 }
                 if(rarity === 'سلسلة Star Wars'){

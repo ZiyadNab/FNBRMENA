@@ -43,7 +43,7 @@ module.exports = {
                 const generating = new Discord.MessageEmbed()
                 generating.setColor('#BB00EE')
                 const emoji = client.emojis.cache.get("805690920157970442")
-                generating.setTitle(`${ready} ${emoji}`)
+                generating.setTitle(`${loading} ${emoji}`)
                 message.channel.send(generating)
                 .then( async msg => {
 
@@ -132,15 +132,6 @@ module.exports = {
 
                 //searching
                 for(let i = 0; i < res.featured.length; i++){
-
-                    var percentage = (i / length) * 100;
-                    percentage = percentage | 0;
-
-                    //counter embed
-                    const counter = new Discord.MessageEmbed()
-                    counter.setColor("#BB00EE")
-                    counter.setTitle(`${loading} ${percentage}% ${emoji}`)
-                    msg.edit(counter)
 
                     //skin informations
                     var name = res.featured[i].name;
@@ -771,15 +762,6 @@ module.exports = {
 
                     //searching
                     for(let i = 0; i < res.daily.length; i++){
-
-                        var percentage = ((i + res.featured.length) / length) * 100;
-                        percentage = percentage | 0;
-
-                        //counter embed
-                        const counter = new Discord.MessageEmbed()
-                        counter.setColor("#BB00EE")
-                        counter.setTitle(`${loading} ${percentage}% ${emoji}`)
-                        msg.edit(counter)
 
                         //skin informations
                         var name = res.daily[i].name;
@@ -1447,15 +1429,6 @@ module.exports = {
 
                     //searching
                     for(let i = 0; i < res.specialFeatured.length; i++){
-
-                        var percentage = ((i + res.featured.length + res.daily.length) / length) * 100;
-                        percentage = percentage | 0;
-
-                        //counter embed
-                        const counter = new Discord.MessageEmbed()
-                        counter.setColor("#BB00EE")
-                        counter.setTitle(`${loading} ${percentage}% ${emoji}`)
-                        msg.edit(counter)
 
                         //skin informations
                         var name = res.specialFeatured[i].name;

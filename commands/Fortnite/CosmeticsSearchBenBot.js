@@ -31,7 +31,7 @@ module.exports = {
 
         Fortnite.CosmeticsSearch(query)
         .then( async (res) => {
-            console.log(res.data.name);
+            console.log(res.data);
 
                 //font
                 const applyText = (canvas, text) => {

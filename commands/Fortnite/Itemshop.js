@@ -30,7 +30,7 @@ module.exports = {
             }
             if(lang === "ar"){
                 language = "ar"
-                loading = "تحميل جميع العناصر بدد"
+                loading = "تحميل جميع العناصر بمجموع"
                 send = "جاري ارسال الصورة الرجاء الانتظار"
                 cosmetics = "عنصر الرجاء الانتظار"
             }
@@ -38,9 +38,9 @@ module.exports = {
             fortniteAPI.getDailyShop(options = {lang: language})
             .then(async res => {
                 console.log(res);
-                var length = res.featured.length + res.daily.length + res.specialFeatured.length;
 
                 // generating animation
+                var length = res.featured.length + res.daily.length + res.specialFeatured.length;
                 const generating = new Discord.MessageEmbed()
                 generating.setColor('#BB00EE')
                 const emoji = client.emojis.cache.get("805690920157970442")

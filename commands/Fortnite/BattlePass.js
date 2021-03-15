@@ -19,29 +19,29 @@ module.exports = {
             var lang = data.val().lang;
 
             if(lang === "en"){
-                ready = "Getting the API Ready ..."
                 language = "en"
-                loading = "Loading ..."
+                loading = "Loading a total"
                 send = "Sending the image please wait"
+                cosmetics = "cosmetics please wait"
             }
             if(lang === "ar"){
-                ready = "جاري اعداد الـ API ..."
                 language = "ar"
-                loading = "تم اكتمال"
+                loading = "تحميل جميع العناصر بمجموع"
                 send = "جاري ارسال الصورة الرجاء الانتظار"
+                cosmetics = "عنصر الرجاء الانتظار"
             }
 
             fortniteAPI.getBattlepassRewards(season = args, options = {lang: language})
                 .then(async res => {
-                console.log(res.paid);
+    
                 // generating animation
+                var length = res.paid.rewards.length + res.free.rewards.length;
                 const generating = new Discord.MessageEmbed()
                 generating.setColor('#BB00EE')
                 const emoji = client.emojis.cache.get("805690920157970442")
                 generating.setTitle(`${ready} ${emoji}`)
-                message.channel.send(generating)
+                message.channel.send(`${loading} ${length} ${cosmetics}... ${emoji}`)
                 .then( async msg => {
-                    var length = res.paid.rewards.length + res.free.rewards.length;
 
                     // picture sizes here for paid ...
                     var shape = (length / 2);
@@ -93,15 +93,6 @@ module.exports = {
 
                     //adding skins to canvas
                     for (let i = 0; i < length; i++){
-
-                        var percentage = (i / length) * 100;
-                        percentage = percentage | 0;
-
-                        //counter embed
-                        const counter = new Discord.MessageEmbed()
-                        counter.setColor("#BB00EE")
-                        counter.setTitle(`${loading} ${percentage}% ${emoji}`)
-                        await msg.edit(counter)
 
                         if(i >= res.paid.rewards.length){
 

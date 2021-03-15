@@ -13,13 +13,25 @@ module.exports = {
 
         fnbrco.getUpcoming()
         .then((res) => {
-            console.log(res.length);
+
+            if(lang === "en"){
+                language = "en"
+                loading = "Loading a total"
+                send = "Sending the image please wait"
+                cosmetics = "cosmetics please wait"
+            }
+            if(lang === "ar"){
+                language = "ar"
+                loading = "تحميل جميع العناصر بمجموع"
+                send = "جاري ارسال الصورة الرجاء الانتظار"
+                cosmetics = "عنصر الرجاء الانتظار"
+            }
             
                 // generating animation
                 const generating = new Discord.MessageEmbed()
                 generating.setColor('#BB00EE')
                 const emoji = client.emojis.cache.get("805690920157970442")
-                generating.setTitle(`Generating ... ${emoji}`)
+                generating.setTitle(`${loading} ${$res.length} ${cosmetics}... ${emoji}`)
                 message.channel.send(generating)
                 .then( async msg => {
 
@@ -80,15 +92,6 @@ module.exports = {
 
                 //adding skins to canvas
                 for (let i = 0; i < res.length; i++){
-
-                    var percentage = (i / res.length) * 100;
-                    percentage = percentage | 0;
-
-                    //counter embed
-                    const counter = new Discord.MessageEmbed()
-                    counter.setColor("#BB00EE")
-                    counter.setTitle(`Loading... ${percentage}% ${emoji}`)
-                    await msg.edit(counter)
 
                     //skin informations
                     var name = res[i].name;

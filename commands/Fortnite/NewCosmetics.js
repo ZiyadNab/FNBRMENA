@@ -25,19 +25,18 @@ module.exports = {
             var lang = data.val().lang;
             Fortnite.CosmeticsNew(lang)
                 .then(async res => {
-                    console.log(res.data.items);
 
                     if(lang === "en"){
-                        ready = "Getting the API Ready ..."
                         language = "en"
-                        loading = "Loading ..."
+                        loading = "Loading a total"
                         send = "Sending the image please wait"
+                        cosmetics = "cosmetics please wait"
                     }
                     if(lang === "ar"){
-                        ready = "جاري اعداد الـ API ..."
                         language = "ar"
-                        loading = "تم اكتمال"
+                        loading = "تحميل جميع العناصر بمجموع"
                         send = "جاري ارسال الصورة الرجاء الانتظار"
+                        cosmetics = "عنصر الرجاء الانتظار"
                     }
 
                     // generating animation
@@ -45,7 +44,7 @@ module.exports = {
                     generating.setColor('#BB00EE')
                     const emoji = client.emojis.cache.get("805690920157970442")
                     generating.setTitle(`${ready} ${emoji}`)
-                    message.channel.send(generating)
+                    message.channel.send(`${loading} ${res.data.items.length} ${cosmetics}... ${emoji}`)
                     .then( async msg => {
 
                     // picture sizes here ...
@@ -107,15 +106,6 @@ module.exports = {
 
                     //adding skins to canvas
                     for (let i = 0; i < res.data.items.length; i++){
-
-                        var percentage = (i / res.data.items.length) * 100;
-                        percentage = percentage | 0;
-
-                        //counter embed
-                        const counter = new Discord.MessageEmbed()
-                        counter.setColor("#BB00EE")
-                        counter.setTitle(`${loading} ${percentage}% ${emoji}`)
-                        await msg.edit(counter)
 
                         //skin informations
                         var name = res.data.items[i].name;

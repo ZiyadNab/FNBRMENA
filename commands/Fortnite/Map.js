@@ -113,7 +113,7 @@ module.exports = {
                         const generating = new Discord.MessageEmbed()
                         generating.setColor('#BB00EE')
                         const emoji = client.emojis.cache.get("805690920157970442")
-                        generating.setTitle(`Generating ... ${emoji}`)
+                        generating.setTitle(`جاري التحميل ... ${emoji}`)
                         message.channel.send(generating)
                             .then( async msg => {
                                 const imagePOI = new Discord.MessageEmbed()

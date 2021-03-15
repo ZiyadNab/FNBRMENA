@@ -34,7 +34,7 @@ module.exports = {
         
         fnbrco.getItem(str, 2, '')
         .then( async (res) => {
-            console.log(res);
+            
 
             const numbers = {
                 0: '0️⃣',
@@ -109,26 +109,27 @@ module.exports = {
 
                                     const applyText = (canvas, text) => {
                                                 const ctx = canvas.getContext('2d');
-                                                let fontSize = 40;
+                                                let fontSize = 36;
                                                 do {
                                                     ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
                                                 } while (ctx.measureText(text).width > 420);
                                                 return ctx.font;
                                             };
 
-                                    const background = await Canvas.loadImage('assets/Rarities/legendary.png');
+                                    const background = await Canvas.loadImage('./assets/Rarities/New/legendary.png');
                                     ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
                                     const skin = await Canvas.loadImage(skinImage);
                                     ctx.drawImage(skin, 0, 0, canvas.width, canvas.height);
-                                    const border = await Canvas.loadImage('assets/Rarities/borderLegendary.png');
+                                    const border = await Canvas.loadImage('./assets/Rarities/New/borderLegendary.png');
                                     ctx.drawImage(border, 0, 0, canvas.width, canvas.height);
                                     const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                                     ctx.drawImage(credit, 30, 35, 146, 40);
                                     ctx.fillStyle = '#ffffff';
-                                    ctx.font = '40px Burbank Big Condensed'
-                                    ctx.fillText(res[num].name, 30, 430)
+                                    ctx.textAlign='center';
+                                    ctx.font = '46px Burbank Big Condensed'
+                                    ctx.fillText(res[num].name, 256, 430)
                                     ctx.font = applyText(canvas, res[num].description);
-                                    ctx.fillText(res[num].description, 30, 470)
+                                    ctx.fillText(res[num].description, 256, 470)
                                     const att = new Discord.MessageAttachment(canvas.toBuffer(), str+'.png');
                                     await message.channel.send(att);
 
@@ -174,26 +175,27 @@ module.exports = {
                     
                                     const applyText = (canvas, text) => {
                                                 const ctx = canvas.getContext('2d');
-                                                let fontSize = 40;
+                                                let fontSize = 36;
                                                 do {
                                                     ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
                                                 } while (ctx.measureText(text).width > 420);
                                                 return ctx.font;
                                             };
 
-                                    const background = await Canvas.loadImage('assets/Rarities/epic.png');
+                                    const background = await Canvas.loadImage('./assets/Rarities/New/epic.png');
                                     ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
                                     const skin = await Canvas.loadImage(skinImage);
                                     ctx.drawImage(skin, 0, 0, canvas.width, canvas.height);
-                                    const border = await Canvas.loadImage('assets/Rarities/borderEpic.png');
+                                    const border = await Canvas.loadImage('./assets/Rarities/New/borderEpic.png');
                                     ctx.drawImage(border, 0, 0, canvas.width, canvas.height);
                                     const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                                     ctx.drawImage(credit, 30, 35, 146, 40);
                                     ctx.fillStyle = '#ffffff';
-                                    ctx.font = '40px Burbank Big Condensed'
-                                    ctx.fillText(res[num].name, 30, 430)
+                                    ctx.textAlign='center';
+                                    ctx.font = '46px Burbank Big Condensed'
+                                    ctx.fillText(res[num].name, 256, 430)
                                     ctx.font = applyText(canvas, res[num].description);
-                                    ctx.fillText(res[num].description, 30, 470)
+                                    ctx.fillText(res[num].description, 256, 470)
                                     const att = new Discord.MessageAttachment(canvas.toBuffer(), str+'.png');
                                     await message.channel.send(att)
                                 
@@ -238,26 +240,27 @@ module.exports = {
                     
                                     const applyText = (canvas, text) => {
                                                 const ctx = canvas.getContext('2d');
-                                                let fontSize = 40;
+                                                let fontSize = 36;
                                                 do {
                                                     ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
                                                 } while (ctx.measureText(text).width > 420);
                                                 return ctx.font;
                                             };
 
-                                    const background = await Canvas.loadImage('assets/Rarities/rare.png');
+                                    const background = await Canvas.loadImage('./assets/Rarities/New/rare.png');
                                     ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
                                     const skin = await Canvas.loadImage(skinImage);
                                     ctx.drawImage(skin, 0, 0, canvas.width, canvas.height);
-                                    const border = await Canvas.loadImage('assets/Rarities/borderRare.png');
+                                    const border = await Canvas.loadImage('./assets/Rarities/New/borderRare.png');
                                     ctx.drawImage(border, 0, 0, canvas.width, canvas.height);
                                     const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                                     ctx.drawImage(credit, 30, 35, 146, 40);
                                     ctx.fillStyle = '#ffffff';
-                                    ctx.font = '40px Burbank Big Condensed'
-                                    ctx.fillText(res[num].name, 30, 430)
+                                    ctx.textAlign='center';
+                                    ctx.font = '46px Burbank Big Condensed'
+                                    ctx.fillText(res[num].name, 256, 430)
                                     ctx.font = applyText(canvas, res[num].description);
-                                    ctx.fillText(res[num].description, 30, 470)
+                                    ctx.fillText(res[num].description, 256, 470)
                                     const att = new Discord.MessageAttachment(canvas.toBuffer(), str+'.png');
                                     await message.channel.send(att)
                                 
@@ -302,26 +305,27 @@ module.exports = {
                     
                                     const applyText = (canvas, text) => {
                                                 const ctx = canvas.getContext('2d');
-                                                let fontSize = 40;
+                                                let fontSize = 36;
                                                 do {
                                                     ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
                                                 } while (ctx.measureText(text).width > 420);
                                                 return ctx.font;
                                             };
 
-                                    const background = await Canvas.loadImage('assets/Rarities/uncommon.png');
+                                    const background = await Canvas.loadImage('./assets/Rarities/New/uncommon.png');
                                     ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
                                     const skin = await Canvas.loadImage(skinImage);
                                     ctx.drawImage(skin, 0, 0, canvas.width, canvas.height);
-                                    const border = await Canvas.loadImage('assets/Rarities/borderUncommon.png');
+                                    const border = await Canvas.loadImage('./assets/Rarities/New/borderUncommon.png');
                                     ctx.drawImage(border, 0, 0, canvas.width, canvas.height);
                                     const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                                     ctx.drawImage(credit, 30, 35, 146, 40);
                                     ctx.fillStyle = '#ffffff';
-                                    ctx.font = '40px Burbank Big Condensed'
-                                    ctx.fillText(res[num].name, 30, 430)
+                                    ctx.textAlign='center';
+                                    ctx.font = '46px Burbank Big Condensed'
+                                    ctx.fillText(res[num].name, 256, 430)
                                     ctx.font = applyText(canvas, res[num].description);
-                                    ctx.fillText(res[num].description, 30, 470)
+                                    ctx.fillText(res[num].description, 256, 470)
                                     const att = new Discord.MessageAttachment(canvas.toBuffer(), str+'.png');
                                     await message.channel.send(att)
                                 
@@ -366,7 +370,7 @@ module.exports = {
                     
                                     const applyText = (canvas, text) => {
                                         const ctx = canvas.getContext('2d');
-                                        let fontSize = 40;
+                                        let fontSize = 36;
                                         do {
                                             ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
                                         } while (ctx.measureText(text).width > 420);
@@ -376,19 +380,20 @@ module.exports = {
                                     const canvas = Canvas.createCanvas(512, 512);
                                     const ctx = canvas.getContext('2d');
 
-                                    const background = await Canvas.loadImage('assets/Rarities/common.png');
+                                    const background = await Canvas.loadImage('./assets/Rarities/New/common.png');
                                     ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
                                     const skin = await Canvas.loadImage(skinImage);
                                     ctx.drawImage(skin, 0, 0, canvas.width, canvas.height);
-                                    const border = await Canvas.loadImage('assets/Rarities/borderCommon.png');
+                                    const border = await Canvas.loadImage('./assets/Rarities/New/borderCommon.png');
                                     ctx.drawImage(border, 0, 0, canvas.width, canvas.height);
                                     const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                                     ctx.drawImage(credit, 30, 35, 146, 40);
                                     ctx.fillStyle = '#ffffff';
-                                    ctx.font = '40px Burbank Big Condensed'
-                                    ctx.fillText(res[num].name, 30, 430)
+                                    ctx.textAlign='center';
+                                    ctx.font = '46px Burbank Big Condensed'
+                                    ctx.fillText(res[num].name, 256, 430)
                                     ctx.font = applyText(canvas, res[num].description);
-                                    ctx.fillText(res[num].description, 30, 470)
+                                    ctx.fillText(res[num].description, 256, 470)
                                     const att = new Discord.MessageAttachment(canvas.toBuffer(), str+'.png');
                                     await message.channel.send(att)
                                 
@@ -433,7 +438,7 @@ module.exports = {
                         
                                     const applyText = (canvas, text) => {
                                         const ctx = canvas.getContext('2d');
-                                        let fontSize = 40;
+                                        let fontSize = 36;
                                         do {
                                             ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
                                         } while (ctx.measureText(text).width > 420);
@@ -443,19 +448,20 @@ module.exports = {
                                     const canvas = Canvas.createCanvas(512, 512);
                                     const ctx = canvas.getContext('2d');
 
-                                    const background = await Canvas.loadImage('assets/Rarities/marvel.png');
+                                    const background = await Canvas.loadImage('./assets/Rarities/New/marvel.png');
                                     ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
                                     const skin = await Canvas.loadImage(skinImage);
                                     ctx.drawImage(skin, 0, 0, canvas.width, canvas.height);
-                                    const border = await Canvas.loadImage('assets/Rarities/borderMarvel.png');
+                                    const border = await Canvas.loadImage('./assets/Rarities/New/borderMarvel.png');
                                     ctx.drawImage(border, 0, 0, canvas.width, canvas.height);
                                     const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                                     ctx.drawImage(credit, 30, 35, 146, 40);
                                     ctx.fillStyle = '#ffffff';
-                                    ctx.font = '40px Burbank Big Condensed'
-                                    ctx.fillText(res[num].name, 30, 430)
+                                    ctx.textAlign='center';
+                                    ctx.font = '46px Burbank Big Condensed'
+                                    ctx.fillText(res[num].name, 256, 430)
                                     ctx.font = applyText(canvas, res[num].description);
-                                    ctx.fillText(res[num].description, 30, 470)
+                                    ctx.fillText(res[num].description, 256, 470)
                                     const att = new Discord.MessageAttachment(canvas.toBuffer(), str+'.png');
                                     await message.channel.send(att)
                                 
@@ -500,7 +506,7 @@ module.exports = {
                     
                                     const applyText = (canvas, text) => {
                                         const ctx = canvas.getContext('2d');
-                                        let fontSize = 40;
+                                        let fontSize = 36;
                                         do {
                                             ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
                                         } while (ctx.measureText(text).width > 420);
@@ -510,19 +516,20 @@ module.exports = {
                                     const canvas = Canvas.createCanvas(512, 512);
                                     const ctx = canvas.getContext('2d');
 
-                                    const background = await Canvas.loadImage('assets/Rarities/dc.png');
+                                    const background = await Canvas.loadImage('./assets/Rarities/New/dc.png');
                                     ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
                                     const skin = await Canvas.loadImage(skinImage);
                                     ctx.drawImage(skin, 0, 0, canvas.width, canvas.height);
-                                    const border = await Canvas.loadImage('assets/Rarities/borderDc.png');
+                                    const border = await Canvas.loadImage('./assets/Rarities/New/borderDc.png');
                                     ctx.drawImage(border, 0, 0, canvas.width, canvas.height);
                                     const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                                     ctx.drawImage(credit, 30, 35, 146, 40);
                                     ctx.fillStyle = '#ffffff';
-                                    ctx.font = '40px Burbank Big Condensed'
-                                    ctx.fillText(res[num].name, 30, 430)
+                                    ctx.textAlign='center';
+                                    ctx.font = '46px Burbank Big Condensed'
+                                    ctx.fillText(res[num].name, 256, 430)
                                     ctx.font = applyText(canvas, res[num].description);
-                                    ctx.fillText(res[num].description, 30, 470)
+                                    ctx.fillText(res[num].description, 256, 470)
                                     const att = new Discord.MessageAttachment(canvas.toBuffer(), str+'.png');
                                     await message.channel.send(att)
                                 
@@ -567,7 +574,7 @@ module.exports = {
                     
                                     const applyText = (canvas, text) => {
                                         const ctx = canvas.getContext('2d');
-                                        let fontSize = 40;
+                                        let fontSize = 36;
                                         do {
                                             ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
                                         } while (ctx.measureText(text).width > 420);
@@ -577,19 +584,20 @@ module.exports = {
                                     const canvas = Canvas.createCanvas(512, 512);
                                     const ctx = canvas.getContext('2d');
 
-                                    const background = await Canvas.loadImage('assets/Rarities/dark.png');
+                                    const background = await Canvas.loadImage('./assets/Rarities/New/dark.png');
                                     ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
                                     const skin = await Canvas.loadImage(skinImage);
                                     ctx.drawImage(skin, 0, 0, canvas.width, canvas.height);
-                                    const border = await Canvas.loadImage('assets/Rarities/borderDark.png');
+                                    const border = await Canvas.loadImage('./assets/Rarities/New/borderDark.png');
                                     ctx.drawImage(border, 0, 0, canvas.width, canvas.height);
                                     const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                                     ctx.drawImage(credit, 30, 35, 146, 40);
                                     ctx.fillStyle = '#ffffff';
-                                    ctx.font = '40px Burbank Big Condensed'
-                                    ctx.fillText(res[num].name, 30, 430)
+                                    ctx.textAlign='center';
+                                    ctx.font = '46px Burbank Big Condensed'
+                                    ctx.fillText(res[num].name, 256, 430)
                                     ctx.font = applyText(canvas, res[num].description);
-                                    ctx.fillText(res[num].description, 30, 470)
+                                    ctx.fillText(res[num].description, 256, 470)
                                     const att = new Discord.MessageAttachment(canvas.toBuffer(), str+'.png');
                                     await message.channel.send(att)
                                 
@@ -634,7 +642,7 @@ module.exports = {
                         
                                     const applyText = (canvas, text) => {
                                         const ctx = canvas.getContext('2d');
-                                        let fontSize = 40;
+                                        let fontSize = 36;
                                         do {
                                             ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
                                         } while (ctx.measureText(text).width > 420);
@@ -644,19 +652,20 @@ module.exports = {
                                     const canvas = Canvas.createCanvas(512, 512);
                                     const ctx = canvas.getContext('2d');
 
-                                    const background = await Canvas.loadImage('assets/Rarities/icon.png');
+                                    const background = await Canvas.loadImage('./assets/Rarities/New/icon.png');
                                     ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
                                     const skin = await Canvas.loadImage(skinImage);
                                     ctx.drawImage(skin, 0, 0, canvas.width, canvas.height);
-                                    const border = await Canvas.loadImage('assets/Rarities/borderIcon.png');
+                                    const border = await Canvas.loadImage('./assets/Rarities/New/borderIcon.png');
                                     ctx.drawImage(border, 0, 0, canvas.width, canvas.height);
                                     const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                                     ctx.drawImage(credit, 30, 35, 146, 40);
                                     ctx.fillStyle = '#ffffff';
-                                    ctx.font = '40px Burbank Big Condensed'
-                                    ctx.fillText(res[num].name, 30, 430)
+                                    ctx.textAlign='center';
+                                    ctx.font = '46px Burbank Big Condensed'
+                                    ctx.fillText(res[num].name, 256, 430)
                                     ctx.font = applyText(canvas, res[num].description);
-                                    ctx.fillText(res[num].description, 30, 470)
+                                    ctx.fillText(res[num].description, 256, 470)
                                     const att = new Discord.MessageAttachment(canvas.toBuffer(), str+'.png');
                                     await message.channel.send(att)
                                 
@@ -701,7 +710,7 @@ module.exports = {
                     
                                     const applyText = (canvas, text) => {
                                         const ctx = canvas.getContext('2d');
-                                        let fontSize = 40;
+                                        let fontSize = 36;
                                         do {
                                             ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
                                         } while (ctx.measureText(text).width > 420);
@@ -711,19 +720,20 @@ module.exports = {
                                     const canvas = Canvas.createCanvas(512, 512);
                                     const ctx = canvas.getContext('2d');
 
-                                    const background = await Canvas.loadImage('assets/Rarities/starwars.png');
+                                    const background = await Canvas.loadImage('./assets/Rarities/New/starwars.png');
                                     ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
                                     const skin = await Canvas.loadImage(skinImage);
                                     ctx.drawImage(skin, 0, 0, canvas.width, canvas.height);
-                                    const border = await Canvas.loadImage('assets/Rarities/borderStarwars.png');
+                                    const border = await Canvas.loadImage('./assets/Rarities/New/borderStarwars.png');
                                     ctx.drawImage(border, 0, 0, canvas.width, canvas.height);
                                     const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                                     ctx.drawImage(credit, 30, 35, 146, 40);
                                     ctx.fillStyle = '#ffffff';
-                                    ctx.font = '40px Burbank Big Condensed'
-                                    ctx.fillText(res[num].name, 30, 430)
+                                    ctx.textAlign='center';
+                                    ctx.font = '46px Burbank Big Condensed'
+                                    ctx.fillText(res[num].name, 256, 430)
                                     ctx.font = applyText(canvas, res[num].description);
-                                    ctx.fillText(res[num].description, 30, 470)
+                                    ctx.fillText(res[num].description, 256, 470)
                                     const att = new Discord.MessageAttachment(canvas.toBuffer(), str+'.png');
                                     await message.channel.send(att)
                                 
@@ -768,7 +778,7 @@ module.exports = {
                     
                                     const applyText = (canvas, text) => {
                                         const ctx = canvas.getContext('2d');
-                                        let fontSize = 40;
+                                        let fontSize = 36;
                                         do {
                                             ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
                                         } while (ctx.measureText(text).width > 420);
@@ -778,19 +788,20 @@ module.exports = {
                                     const canvas = Canvas.createCanvas(512, 512);
                                     const ctx = canvas.getContext('2d');
 
-                                    const background = await Canvas.loadImage('assets/Rarities/shadow.png');
+                                    const background = await Canvas.loadImage('./assets/Rarities/New/shadow.png');
                                     ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
                                     const skin = await Canvas.loadImage(skinImage);
                                     ctx.drawImage(skin, 0, 0, canvas.width, canvas.height);
-                                    const border = await Canvas.loadImage('assets/Rarities/borderShadow.png');
+                                    const border = await Canvas.loadImage('./assets/Rarities/New/borderShadow.png');
                                     ctx.drawImage(border, 0, 0, canvas.width, canvas.height);
                                     const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                                     ctx.drawImage(credit, 30, 35, 146, 40);
                                     ctx.fillStyle = '#ffffff';
-                                    ctx.font = '40px Burbank Big Condensed'
-                                    ctx.fillText(res[num].name, 30, 430)
+                                    ctx.textAlign='center';
+                                    ctx.font = '46px Burbank Big Condensed'
+                                    ctx.fillText(res[num].name, 256, 430)
                                     ctx.font = applyText(canvas, res[num].description);
-                                    ctx.fillText(res[num].description, 30, 470)
+                                    ctx.fillText(res[num].description, 256, 470)
                                     const att = new Discord.MessageAttachment(canvas.toBuffer(), str+'.png');
                                     await message.channel.send(att)
                                 
@@ -835,7 +846,7 @@ module.exports = {
                     
                                     const applyText = (canvas, text) => {
                                         const ctx = canvas.getContext('2d');
-                                        let fontSize = 40;
+                                        let fontSize = 36;
                                         do {
                                             ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
                                         } while (ctx.measureText(text).width > 420);
@@ -845,19 +856,20 @@ module.exports = {
                                     const canvas = Canvas.createCanvas(512, 512);
                                     const ctx = canvas.getContext('2d');
 
-                                    const background = await Canvas.loadImage('assets/Rarities/slurp.png');
+                                    const background = await Canvas.loadImage('./assets/Rarities/New/slurp.png');
                                     ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
                                     const skin = await Canvas.loadImage(skinImage);
                                     ctx.drawImage(skin, 0, 0, canvas.width, canvas.height);
-                                    const border = await Canvas.loadImage('assets/Rarities/borderSlurp.png');
+                                    const border = await Canvas.loadImage('./assets/Rarities/New/borderSlurp.png');
                                     ctx.drawImage(border, 0, 0, canvas.width, canvas.height);
                                     const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                                     ctx.drawImage(credit, 30, 35, 146, 40);
                                     ctx.fillStyle = '#ffffff';
-                                    ctx.font = '40px Burbank Big Condensed'
-                                    ctx.fillText(res[num].name, 30, 430)
+                                    ctx.textAlign='center';
+                                    ctx.font = '46px Burbank Big Condensed'
+                                    ctx.fillText(res[num].name, 256, 430)
                                     ctx.font = applyText(canvas, res[num].description);
-                                    ctx.fillText(res[num].description, 30, 470)
+                                    ctx.fillText(res[num].description, 256, 470)
                                     const att = new Discord.MessageAttachment(canvas.toBuffer(), str+'.png');
                                     await message.channel.send(att)
                                 
@@ -902,7 +914,7 @@ module.exports = {
                     
                                     const applyText = (canvas, text) => {
                                         const ctx = canvas.getContext('2d');
-                                        let fontSize = 40;
+                                        let fontSize = 36;
                                         do {
                                             ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
                                         } while (ctx.measureText(text).width > 420);
@@ -912,19 +924,20 @@ module.exports = {
                                     const canvas = Canvas.createCanvas(512, 512);
                                     const ctx = canvas.getContext('2d');
 
-                                    const background = await Canvas.loadImage('assets/Rarities/frozen.png');
+                                    const background = await Canvas.loadImage('./assets/Rarities/New/frozen.png');
                                     ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
                                     const skin = await Canvas.loadImage(skinImage);
                                     ctx.drawImage(skin, 0, 0, canvas.width, canvas.height);
-                                    const border = await Canvas.loadImage('assets/Rarities/borderFrozen.png');
+                                    const border = await Canvas.loadImage('./assets/Rarities/New/borderFrozen.png');
                                     ctx.drawImage(border, 0, 0, canvas.width, canvas.height);
                                     const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                                     ctx.drawImage(credit, 30, 35, 146, 40);
                                     ctx.fillStyle = '#ffffff';
-                                    ctx.font = '40px Burbank Big Condensed'
-                                    ctx.fillText(res[num].name, 30, 430)
+                                    ctx.textAlign='center';
+                                    ctx.font = '46px Burbank Big Condensed'
+                                    ctx.fillText(res[num].name, 256, 430)
                                     ctx.font = applyText(canvas, res[num].description);
-                                    ctx.fillText(res[num].description, 30, 470)
+                                    ctx.fillText(res[num].description, 256, 470)
                                     const att = new Discord.MessageAttachment(canvas.toBuffer(), str+'.png');
                                     await message.channel.send(att)
                                 
@@ -969,7 +982,7 @@ module.exports = {
                     
                                     const applyText = (canvas, text) => {
                                         const ctx = canvas.getContext('2d');
-                                        let fontSize = 40;
+                                        let fontSize = 36;
                                         do {
                                             ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
                                         } while (ctx.measureText(text).width > 420);
@@ -979,19 +992,20 @@ module.exports = {
                                     const canvas = Canvas.createCanvas(512, 512);
                                     const ctx = canvas.getContext('2d');
 
-                                    const background = await Canvas.loadImage('assets/Rarities/lava.png');
+                                    const background = await Canvas.loadImage('./assets/Rarities/New/lava.png');
                                     ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
                                     const skin = await Canvas.loadImage(skinImage);
                                     ctx.drawImage(skin, 0, 0, canvas.width, canvas.height);
-                                    const border = await Canvas.loadImage('assets/Rarities/borderLava.png');
+                                    const border = await Canvas.loadImage('./assets/Rarities/New/borderLava.png');
                                     ctx.drawImage(border, 0, 0, canvas.width, canvas.height);
                                     const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                                     ctx.drawImage(credit, 30, 35, 146, 40);
                                     ctx.fillStyle = '#ffffff';
-                                    ctx.font = '40px Burbank Big Condensed'
-                                    ctx.fillText(res[num].name, 30, 430)
+                                    ctx.textAlign='center';
+                                    ctx.font = '46px Burbank Big Condensed'
+                                    ctx.fillText(res[num].name, 256, 430)
                                     ctx.font = applyText(canvas, res[num].description);
-                                    ctx.fillText(res[num].description, 30, 470)
+                                    ctx.fillText(res[num].description, 256, 470)
                                     const att = new Discord.MessageAttachment(canvas.toBuffer(), str+'.png');
                                     await message.channel.send(att)
                                 
@@ -1036,7 +1050,7 @@ module.exports = {
                     
                                     const applyText = (canvas, text) => {
                                         const ctx = canvas.getContext('2d');
-                                        let fontSize = 40;
+                                        let fontSize = 36;
                                         do {
                                             ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
                                         } while (ctx.measureText(text).width > 420);
@@ -1046,19 +1060,20 @@ module.exports = {
                                     const canvas = Canvas.createCanvas(512, 512);
                                     const ctx = canvas.getContext('2d');
 
-                                    const background = await Canvas.loadImage('assets/Rarities/gaming.png');
+                                    const background = await Canvas.loadImage('./assets/Rarities/New/gaming.png');
                                     ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
                                     const skin = await Canvas.loadImage(skinImage);
                                     ctx.drawImage(skin, 0, 0, canvas.width, canvas.height);
-                                    const border = await Canvas.loadImage('assets/Rarities/borderGaming.png');
+                                    const border = await Canvas.loadImage('./assets/Rarities/New/borderGaming.png');
                                     ctx.drawImage(border, 0, 0, canvas.width, canvas.height);
                                     const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                                     ctx.drawImage(credit, 30, 35, 146, 40);
                                     ctx.fillStyle = '#ffffff';
-                                    ctx.font = '40px Burbank Big Condensed'
-                                    ctx.fillText(res[num].name, 30, 430)
+                                    ctx.textAlign='center';
+                                    ctx.font = '46px Burbank Big Condensed'
+                                    ctx.fillText(res[num].name, 256, 430)
                                     ctx.font = applyText(canvas, res[num].description);
-                                    ctx.fillText(res[num].description, 30, 470)
+                                    ctx.fillText(res[num].description, 256, 470)
                                     const att = new Discord.MessageAttachment(canvas.toBuffer(), str+'.png');
                                     await message.channel.send(att)
                                 
@@ -1137,7 +1152,7 @@ module.exports = {
 
                         const applyText = (canvas, text) => {
                                         const ctx = canvas.getContext('2d');
-                                        let fontSize = 40;
+                                        let fontSize = 36;
                                         do {
                                             ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
                                         } while (ctx.measureText(text).width > 420);
@@ -1147,19 +1162,20 @@ module.exports = {
                         const canvas = Canvas.createCanvas(512, 512);
                         const ctx = canvas.getContext('2d');
 
-                        const background = await Canvas.loadImage('assets/Rarities/legendary.png');
+                        const background = await Canvas.loadImage('./assets/Rarities/New/legendary.png');
                         ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
                         const skin = await Canvas.loadImage(skinImage);
                         ctx.drawImage(skin, 0, 0, canvas.width, canvas.height);
-                        const border = await Canvas.loadImage('assets/Rarities/borderLegendary.png');
+                        const border = await Canvas.loadImage('./assets/Rarities/New/borderLegendary.png');
                         ctx.drawImage(border, 0, 0, canvas.width, canvas.height);
                         const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                         ctx.drawImage(credit, 30, 35, 146, 40);
                         ctx.fillStyle = '#ffffff';
-                        ctx.font = '40px Burbank Big Condensed'
-                        ctx.fillText(res[num].name, 30, 430)
-                        ctx.font = applyText(canvas, res[num].description);
-                        ctx.fillText(res[num].description, 30, 470)
+                                    ctx.textAlign='center';
+                                    ctx.font = '46px Burbank Big Condensed'
+                                    ctx.fillText(res[num].name, 256, 430)
+                                    ctx.font = applyText(canvas, res[num].description);
+                                    ctx.fillText(res[num].description, 256, 470)
                         const att = new Discord.MessageAttachment(canvas.toBuffer(), str+'.png');
                         await message.channel.send(att);
 
@@ -1206,7 +1222,7 @@ module.exports = {
         
                         const applyText = (canvas, text) => {
                                         const ctx = canvas.getContext('2d');
-                                        let fontSize = 40;
+                                        let fontSize = 36;
                                         do {
                                             ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
                                         } while (ctx.measureText(text).width > 420);
@@ -1216,19 +1232,20 @@ module.exports = {
                         const canvas = Canvas.createCanvas(512, 512);
                         const ctx = canvas.getContext('2d');
 
-                        const background = await Canvas.loadImage('assets/Rarities/epic.png');
+                        const background = await Canvas.loadImage('./assets/Rarities/New/epic.png');
                         ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
                         const skin = await Canvas.loadImage(skinImage);
                         ctx.drawImage(skin, 0, 0, canvas.width, canvas.height);
-                        const border = await Canvas.loadImage('assets/Rarities/borderEpic.png');
+                        const border = await Canvas.loadImage('./assets/Rarities/New/borderEpic.png');
                         ctx.drawImage(border, 0, 0, canvas.width, canvas.height);
                         const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                         ctx.drawImage(credit, 30, 35, 146, 40);
                         ctx.fillStyle = '#ffffff';
-                        ctx.font = '40px Burbank Big Condensed'
-                        ctx.fillText(res[num].name, 30, 430)
-                        ctx.font = applyText(canvas, res[num].description);
-                        ctx.fillText(res[num].description, 30, 470)
+                                    ctx.textAlign='center';
+                                    ctx.font = '46px Burbank Big Condensed'
+                                    ctx.fillText(res[num].name, 256, 430)
+                                    ctx.font = applyText(canvas, res[num].description);
+                                    ctx.fillText(res[num].description, 256, 470)
                         const att = new Discord.MessageAttachment(canvas.toBuffer(), str+'.png');
                         await message.channel.send(att)
                     
@@ -1274,7 +1291,7 @@ module.exports = {
         
                         const applyText = (canvas, text) => {
                                         const ctx = canvas.getContext('2d');
-                                        let fontSize = 40;
+                                        let fontSize = 36;
                                         do {
                                             ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
                                         } while (ctx.measureText(text).width > 420);
@@ -1284,19 +1301,20 @@ module.exports = {
                         const canvas = Canvas.createCanvas(512, 512);
                         const ctx = canvas.getContext('2d');
 
-                        const background = await Canvas.loadImage('assets/Rarities/rare.png');
+                        const background = await Canvas.loadImage('./assets/Rarities/New/rare.png');
                         ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
                         const skin = await Canvas.loadImage(skinImage);
                         ctx.drawImage(skin, 0, 0, canvas.width, canvas.height);
-                        const border = await Canvas.loadImage('assets/Rarities/borderRare.png');
+                        const border = await Canvas.loadImage('./assets/Rarities/New/borderRare.png');
                         ctx.drawImage(border, 0, 0, canvas.width, canvas.height);
                         const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                         ctx.drawImage(credit, 30, 35, 146, 40);
                         ctx.fillStyle = '#ffffff';
-                        ctx.font = '40px Burbank Big Condensed'
-                        ctx.fillText(res[num].name, 30, 430)
-                        ctx.font = applyText(canvas, res[num].description);
-                        ctx.fillText(res[num].description, 30, 470)
+                                    ctx.textAlign='center';
+                                    ctx.font = '46px Burbank Big Condensed'
+                                    ctx.fillText(res[num].name, 256, 430)
+                                    ctx.font = applyText(canvas, res[num].description);
+                                    ctx.fillText(res[num].description, 256, 470)
                         const att = new Discord.MessageAttachment(canvas.toBuffer(), str+'.png');
                         await message.channel.send(att)
                     
@@ -1342,7 +1360,7 @@ module.exports = {
         
                         const applyText = (canvas, text) => {
                                         const ctx = canvas.getContext('2d');
-                                        let fontSize = 40;
+                                        let fontSize = 36;
                                         do {
                                             ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
                                         } while (ctx.measureText(text).width > 420);
@@ -1352,19 +1370,20 @@ module.exports = {
                         const canvas = Canvas.createCanvas(512, 512);
                         const ctx = canvas.getContext('2d');
 
-                        const background = await Canvas.loadImage('assets/Rarities/uncommon.png');
+                        const background = await Canvas.loadImage('./assets/Rarities/New/uncommon.png');
                         ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
                         const skin = await Canvas.loadImage(skinImage);
                         ctx.drawImage(skin, 0, 0, canvas.width, canvas.height);
-                        const border = await Canvas.loadImage('assets/Rarities/borderUncommon.png');
+                        const border = await Canvas.loadImage('./assets/Rarities/New/borderUncommon.png');
                         ctx.drawImage(border, 0, 0, canvas.width, canvas.height);
                         const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                         ctx.drawImage(credit, 30, 35, 146, 40);
                         ctx.fillStyle = '#ffffff';
-                        ctx.font = '40px Burbank Big Condensed'
-                        ctx.fillText(res[num].name, 30, 430)
-                        ctx.font = applyText(canvas, res[num].description);
-                        ctx.fillText(res[num].description, 30, 470)
+                                    ctx.textAlign='center';
+                                    ctx.font = '46px Burbank Big Condensed'
+                                    ctx.fillText(res[num].name, 256, 430)
+                                    ctx.font = applyText(canvas, res[num].description);
+                                    ctx.fillText(res[num].description, 256, 470)
                         const att = new Discord.MessageAttachment(canvas.toBuffer(), str+'.png');
                         await message.channel.send(att)
                     
@@ -1410,7 +1429,7 @@ module.exports = {
         
                         const applyText = (canvas, text) => {
                                         const ctx = canvas.getContext('2d');
-                                        let fontSize = 40;
+                                        let fontSize = 36;
                                         do {
                                             ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
                                         } while (ctx.measureText(text).width > 420);
@@ -1420,19 +1439,20 @@ module.exports = {
                         const canvas = Canvas.createCanvas(512, 512);
                         const ctx = canvas.getContext('2d');
 
-                        const background = await Canvas.loadImage('assets/Rarities/common.png');
+                        const background = await Canvas.loadImage('./assets/Rarities/New/common.png');
                         ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
                         const skin = await Canvas.loadImage(skinImage);
                         ctx.drawImage(skin, 0, 0, canvas.width, canvas.height);
-                        const border = await Canvas.loadImage('assets/Rarities/borderCommon.png');
+                        const border = await Canvas.loadImage('./assets/Rarities/New/borderCommon.png');
                         ctx.drawImage(border, 0, 0, canvas.width, canvas.height);
                         const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                         ctx.drawImage(credit, 30, 35, 146, 40);
                         ctx.fillStyle = '#ffffff';
-                        ctx.font = '40px Burbank Big Condensed'
-                        ctx.fillText(res[num].name, 30, 430)
-                        ctx.font = applyText(canvas, res[num].description);
-                        ctx.fillText(res[num].description, 30, 470)
+                                    ctx.textAlign='center';
+                                    ctx.font = '46px Burbank Big Condensed'
+                                    ctx.fillText(res[num].name, 256, 430)
+                                    ctx.font = applyText(canvas, res[num].description);
+                                    ctx.fillText(res[num].description, 256, 470)
                         const att = new Discord.MessageAttachment(canvas.toBuffer(), str+'.png');
                         await message.channel.send(att)
                     
@@ -1478,7 +1498,7 @@ module.exports = {
             
                         const applyText = (canvas, text) => {
                                         const ctx = canvas.getContext('2d');
-                                        let fontSize = 40;
+                                        let fontSize = 36;
                                         do {
                                             ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
                                         } while (ctx.measureText(text).width > 420);
@@ -1488,19 +1508,20 @@ module.exports = {
                         const canvas = Canvas.createCanvas(512, 512);
                         const ctx = canvas.getContext('2d');
 
-                        const background = await Canvas.loadImage('assets/Rarities/marvel.png');
+                        const background = await Canvas.loadImage('./assets/Rarities/New/marvel.png');
                         ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
                         const skin = await Canvas.loadImage(skinImage);
                         ctx.drawImage(skin, 0, 0, canvas.width, canvas.height);
-                        const border = await Canvas.loadImage('assets/Rarities/borderMarvel.png');
+                        const border = await Canvas.loadImage('./assets/Rarities/New/borderMarvel.png');
                         ctx.drawImage(border, 0, 0, canvas.width, canvas.height);
                         const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                         ctx.drawImage(credit, 30, 35, 146, 40);
                         ctx.fillStyle = '#ffffff';
-                        ctx.font = '40px Burbank Big Condensed'
-                        ctx.fillText(res[num].name, 30, 430)
-                        ctx.font = applyText(canvas, res[num].description);
-                        ctx.fillText(res[num].description, 30, 470)
+                                    ctx.textAlign='center';
+                                    ctx.font = '46px Burbank Big Condensed'
+                                    ctx.fillText(res[num].name, 256, 430)
+                                    ctx.font = applyText(canvas, res[num].description);
+                                    ctx.fillText(res[num].description, 256, 470)
                         const att = new Discord.MessageAttachment(canvas.toBuffer(), str+'.png');
                         await message.channel.send(att)
                     
@@ -1546,7 +1567,7 @@ module.exports = {
         
                         const applyText = (canvas, text) => {
                                         const ctx = canvas.getContext('2d');
-                                        let fontSize = 40;
+                                        let fontSize = 36;
                                         do {
                                             ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
                                         } while (ctx.measureText(text).width > 420);
@@ -1556,19 +1577,20 @@ module.exports = {
                         const canvas = Canvas.createCanvas(512, 512);
                         const ctx = canvas.getContext('2d');
 
-                        const background = await Canvas.loadImage('assets/Rarities/dc.png');
+                        const background = await Canvas.loadImage('./assets/Rarities/New/dc.png');
                         ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
                         const skin = await Canvas.loadImage(skinImage);
                         ctx.drawImage(skin, 0, 0, canvas.width, canvas.height);
-                        const border = await Canvas.loadImage('assets/Rarities/borderDc.png');
+                        const border = await Canvas.loadImage('./assets/Rarities/New/borderDc.png');
                         ctx.drawImage(border, 0, 0, canvas.width, canvas.height);
                         const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                         ctx.drawImage(credit, 30, 35, 146, 40);
                         ctx.fillStyle = '#ffffff';
-                        ctx.font = '40px Burbank Big Condensed'
-                        ctx.fillText(res[num].name, 30, 430)
-                        ctx.font = applyText(canvas, res[num].description);
-                        ctx.fillText(res[num].description, 30, 470)
+                                    ctx.textAlign='center';
+                                    ctx.font = '46px Burbank Big Condensed'
+                                    ctx.fillText(res[num].name, 256, 430)
+                                    ctx.font = applyText(canvas, res[num].description);
+                                    ctx.fillText(res[num].description, 256, 470)
                         const att = new Discord.MessageAttachment(canvas.toBuffer(), str+'.png');
                         await message.channel.send(att)
                     
@@ -1614,7 +1636,7 @@ module.exports = {
         
                         const applyText = (canvas, text) => {
                                         const ctx = canvas.getContext('2d');
-                                        let fontSize = 40;
+                                        let fontSize = 36;
                                         do {
                                             ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
                                         } while (ctx.measureText(text).width > 420);
@@ -1624,19 +1646,20 @@ module.exports = {
                         const canvas = Canvas.createCanvas(512, 512);
                         const ctx = canvas.getContext('2d');
 
-                        const background = await Canvas.loadImage('assets/Rarities/dark.png');
+                        const background = await Canvas.loadImage('./assets/Rarities/New/dark.png');
                         ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
                         const skin = await Canvas.loadImage(skinImage);
                         ctx.drawImage(skin, 0, 0, canvas.width, canvas.height);
-                        const border = await Canvas.loadImage('assets/Rarities/borderDark.png');
+                        const border = await Canvas.loadImage('./assets/Rarities/New/borderDark.png');
                         ctx.drawImage(border, 0, 0, canvas.width, canvas.height);
                         const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                         ctx.drawImage(credit, 30, 35, 146, 40);
                         ctx.fillStyle = '#ffffff';
-                        ctx.font = '40px Burbank Big Condensed'
-                        ctx.fillText(res[num].name, 30, 430)
-                        ctx.font = applyText(canvas, res[num].description);
-                        ctx.fillText(res[num].description, 30, 470)
+                                    ctx.textAlign='center';
+                                    ctx.font = '46px Burbank Big Condensed'
+                                    ctx.fillText(res[num].name, 256, 430)
+                                    ctx.font = applyText(canvas, res[num].description);
+                                    ctx.fillText(res[num].description, 256, 470)
                         const att = new Discord.MessageAttachment(canvas.toBuffer(), str+'.png');
                         await message.channel.send(att)
                     
@@ -1682,7 +1705,7 @@ module.exports = {
             
                         const applyText = (canvas, text) => {
                                         const ctx = canvas.getContext('2d');
-                                        let fontSize = 40;
+                                        let fontSize = 36;
                                         do {
                                             ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
                                         } while (ctx.measureText(text).width > 420);
@@ -1692,19 +1715,20 @@ module.exports = {
                         const canvas = Canvas.createCanvas(512, 512);
                         const ctx = canvas.getContext('2d');
 
-                        const background = await Canvas.loadImage('assets/Rarities/icon.png');
+                        const background = await Canvas.loadImage('./assets/Rarities/New/icon.png');
                         ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
                         const skin = await Canvas.loadImage(skinImage);
                         ctx.drawImage(skin, 0, 0, canvas.width, canvas.height);
-                        const border = await Canvas.loadImage('assets/Rarities/borderIcon.png');
+                        const border = await Canvas.loadImage('./assets/Rarities/New/borderIcon.png');
                         ctx.drawImage(border, 0, 0, canvas.width, canvas.height);
                         const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                         ctx.drawImage(credit, 30, 35, 146, 40);
                         ctx.fillStyle = '#ffffff';
-                        ctx.font = '40px Burbank Big Condensed'
-                        ctx.fillText(res[num].name, 30, 430)
-                        ctx.font = applyText(canvas, res[num].description);
-                        ctx.fillText(res[num].description, 30, 470)
+                                    ctx.textAlign='center';
+                                    ctx.font = '46px Burbank Big Condensed'
+                                    ctx.fillText(res[num].name, 256, 430)
+                                    ctx.font = applyText(canvas, res[num].description);
+                                    ctx.fillText(res[num].description, 256, 470)
                         const att = new Discord.MessageAttachment(canvas.toBuffer(), str+'.png');
                         await message.channel.send(att)
                     
@@ -1750,7 +1774,7 @@ module.exports = {
         
                         const applyText = (canvas, text) => {
                                         const ctx = canvas.getContext('2d');
-                                        let fontSize = 40;
+                                        let fontSize = 36;
                                         do {
                                             ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
                                         } while (ctx.measureText(text).width > 420);
@@ -1760,19 +1784,20 @@ module.exports = {
                         const canvas = Canvas.createCanvas(512, 512);
                         const ctx = canvas.getContext('2d');
 
-                        const background = await Canvas.loadImage('assets/Rarities/starwars.png');
+                        const background = await Canvas.loadImage('./assets/Rarities/New/starwars.png');
                         ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
                         const skin = await Canvas.loadImage(skinImage);
                         ctx.drawImage(skin, 0, 0, canvas.width, canvas.height);
-                        const border = await Canvas.loadImage('assets/Rarities/borderStarwars.png');
+                        const border = await Canvas.loadImage('./assets/Rarities/New/borderStarwars.png');
                         ctx.drawImage(border, 0, 0, canvas.width, canvas.height);
                         const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                         ctx.drawImage(credit, 30, 35, 146, 40);
                         ctx.fillStyle = '#ffffff';
-                        ctx.font = '40px Burbank Big Condensed'
-                        ctx.fillText(res[num].name, 30, 430)
-                        ctx.font = applyText(canvas, res[num].description);
-                        ctx.fillText(res[num].description, 30, 470)
+                                    ctx.textAlign='center';
+                                    ctx.font = '46px Burbank Big Condensed'
+                                    ctx.fillText(res[num].name, 256, 430)
+                                    ctx.font = applyText(canvas, res[num].description);
+                                    ctx.fillText(res[num].description, 256, 470)
                         const att = new Discord.MessageAttachment(canvas.toBuffer(), str+'.png');
                         await message.channel.send(att)
                     
@@ -1818,7 +1843,7 @@ module.exports = {
         
                         const applyText = (canvas, text) => {
                                         const ctx = canvas.getContext('2d');
-                                        let fontSize = 40;
+                                        let fontSize = 36;
                                         do {
                                             ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
                                         } while (ctx.measureText(text).width > 420);
@@ -1828,19 +1853,20 @@ module.exports = {
                         const canvas = Canvas.createCanvas(512, 512);
                         const ctx = canvas.getContext('2d');
 
-                        const background = await Canvas.loadImage('assets/Rarities/shadow.png');
+                        const background = await Canvas.loadImage('./assets/Rarities/New/shadow.png');
                         ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
                         const skin = await Canvas.loadImage(skinImage);
                         ctx.drawImage(skin, 0, 0, canvas.width, canvas.height);
-                        const border = await Canvas.loadImage('assets/Rarities/borderShadow.png');
+                        const border = await Canvas.loadImage('./assets/Rarities/New/borderShadow.png');
                         ctx.drawImage(border, 0, 0, canvas.width, canvas.height);
                         const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                         ctx.drawImage(credit, 30, 35, 146, 40);
                         ctx.fillStyle = '#ffffff';
-                        ctx.font = '40px Burbank Big Condensed'
-                        ctx.fillText(res[num].name, 30, 430)
-                        ctx.font = applyText(canvas, res[num].description);
-                        ctx.fillText(res[num].description, 30, 470)
+                                    ctx.textAlign='center';
+                                    ctx.font = '46px Burbank Big Condensed'
+                                    ctx.fillText(res[num].name, 256, 430)
+                                    ctx.font = applyText(canvas, res[num].description);
+                                    ctx.fillText(res[num].description, 256, 470)
                         const att = new Discord.MessageAttachment(canvas.toBuffer(), str+'.png');
                         await message.channel.send(att)
                     
@@ -1886,7 +1912,7 @@ module.exports = {
         
                         const applyText = (canvas, text) => {
                                         const ctx = canvas.getContext('2d');
-                                        let fontSize = 40;
+                                        let fontSize = 36;
                                         do {
                                             ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
                                         } while (ctx.measureText(text).width > 420);
@@ -1896,19 +1922,20 @@ module.exports = {
                         const canvas = Canvas.createCanvas(512, 512);
                         const ctx = canvas.getContext('2d');
 
-                        const background = await Canvas.loadImage('assets/Rarities/slurp.png');
+                        const background = await Canvas.loadImage('./assets/Rarities/New/slurp.png');
                         ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
                         const skin = await Canvas.loadImage(skinImage);
                         ctx.drawImage(skin, 0, 0, canvas.width, canvas.height);
-                        const border = await Canvas.loadImage('assets/Rarities/borderSlurp.png');
+                        const border = await Canvas.loadImage('./assets/Rarities/New/borderSlurp.png');
                         ctx.drawImage(border, 0, 0, canvas.width, canvas.height);
                         const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                         ctx.drawImage(credit, 30, 35, 146, 40);
                         ctx.fillStyle = '#ffffff';
-                        ctx.font = '40px Burbank Big Condensed'
-                        ctx.fillText(res[num].name, 30, 430)
-                        ctx.font = applyText(canvas, res[num].description);
-                        ctx.fillText(res[num].description, 30, 470)
+                                    ctx.textAlign='center';
+                                    ctx.font = '46px Burbank Big Condensed'
+                                    ctx.fillText(res[num].name, 256, 430)
+                                    ctx.font = applyText(canvas, res[num].description);
+                                    ctx.fillText(res[num].description, 256, 470)
                         const att = new Discord.MessageAttachment(canvas.toBuffer(), str+'.png');
                         await message.channel.send(att)
                     
@@ -1954,7 +1981,7 @@ module.exports = {
         
                         const applyText = (canvas, text) => {
                                         const ctx = canvas.getContext('2d');
-                                        let fontSize = 40;
+                                        let fontSize = 36;
                                         do {
                                             ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
                                         } while (ctx.measureText(text).width > 420);
@@ -1964,19 +1991,20 @@ module.exports = {
                         const canvas = Canvas.createCanvas(512, 512);
                         const ctx = canvas.getContext('2d');
 
-                        const background = await Canvas.loadImage('assets/Rarities/frozen.png');
+                        const background = await Canvas.loadImage('./assets/Rarities/New/frozen.png');
                         ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
                         const skin = await Canvas.loadImage(skinImage);
                         ctx.drawImage(skin, 0, 0, canvas.width, canvas.height);
-                        const border = await Canvas.loadImage('assets/Rarities/borderFrozen.png');
+                        const border = await Canvas.loadImage('./assets/Rarities/New/borderFrozen.png');
                         ctx.drawImage(border, 0, 0, canvas.width, canvas.height);
                         const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                         ctx.drawImage(credit, 30, 35, 146, 40);
                         ctx.fillStyle = '#ffffff';
-                        ctx.font = '40px Burbank Big Condensed'
-                        ctx.fillText(res[num].name, 30, 430)
-                        ctx.font = applyText(canvas, res[num].description);
-                        ctx.fillText(res[num].description, 30, 470)
+                                    ctx.textAlign='center';
+                                    ctx.font = '46px Burbank Big Condensed'
+                                    ctx.fillText(res[num].name, 256, 430)
+                                    ctx.font = applyText(canvas, res[num].description);
+                                    ctx.fillText(res[num].description, 256, 470)
                         const att = new Discord.MessageAttachment(canvas.toBuffer(), str+'.png');
                         await message.channel.send(att)
                     
@@ -2022,7 +2050,7 @@ module.exports = {
         
                         const applyText = (canvas, text) => {
                                         const ctx = canvas.getContext('2d');
-                                        let fontSize = 40;
+                                        let fontSize = 36;
                                         do {
                                             ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
                                         } while (ctx.measureText(text).width > 420);
@@ -2032,19 +2060,20 @@ module.exports = {
                         const canvas = Canvas.createCanvas(512, 512);
                         const ctx = canvas.getContext('2d');
 
-                        const background = await Canvas.loadImage('assets/Rarities/lava.png');
+                        const background = await Canvas.loadImage('./assets/Rarities/New/lava.png');
                         ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
                         const skin = await Canvas.loadImage(skinImage);
                         ctx.drawImage(skin, 0, 0, canvas.width, canvas.height);
-                        const border = await Canvas.loadImage('assets/Rarities/borderLava.png');
+                        const border = await Canvas.loadImage('./assets/Rarities/New/borderLava.png');
                         ctx.drawImage(border, 0, 0, canvas.width, canvas.height);
                         const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                         ctx.drawImage(credit, 30, 35, 146, 40);
                         ctx.fillStyle = '#ffffff';
-                        ctx.font = '40px Burbank Big Condensed'
-                        ctx.fillText(res[num].name, 30, 430)
-                        ctx.font = applyText(canvas, res[num].description);
-                        ctx.fillText(res[num].description, 30, 470)
+                                    ctx.textAlign='center';
+                                    ctx.font = '46px Burbank Big Condensed'
+                                    ctx.fillText(res[num].name, 256, 430)
+                                    ctx.font = applyText(canvas, res[num].description);
+                                    ctx.fillText(res[num].description, 256, 470)
                         const att = new Discord.MessageAttachment(canvas.toBuffer(), str+'.png');
                         await message.channel.send(att)
                     
@@ -2090,7 +2119,7 @@ module.exports = {
         
                         const applyText = (canvas, text) => {
                                         const ctx = canvas.getContext('2d');
-                                        let fontSize = 40;
+                                        let fontSize = 36;
                                         do {
                                             ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
                                         } while (ctx.measureText(text).width > 420);
@@ -2100,19 +2129,20 @@ module.exports = {
                         const canvas = Canvas.createCanvas(512, 512);
                         const ctx = canvas.getContext('2d');
 
-                        const background = await Canvas.loadImage('assets/Rarities/gaming.png');
+                        const background = await Canvas.loadImage('./assets/Rarities/New/gaming.png');
                         ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
                         const skin = await Canvas.loadImage(skinImage);
                         ctx.drawImage(skin, 0, 0, canvas.width, canvas.height);
-                        const border = await Canvas.loadImage('assets/Rarities/borderGaming.png');
+                        const border = await Canvas.loadImage('./assets/Rarities/New/borderGaming.png');
                         ctx.drawImage(border, 0, 0, canvas.width, canvas.height);
                         const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                         ctx.drawImage(credit, 30, 35, 146, 40);
                         ctx.fillStyle = '#ffffff';
-                        ctx.font = '40px Burbank Big Condensed'
-                        ctx.fillText(res[num].name, 30, 430)
-                        ctx.font = applyText(canvas, res[num].description);
-                        ctx.fillText(res[num].description, 30, 470)
+                                    ctx.textAlign='center';
+                                    ctx.font = '46px Burbank Big Condensed'
+                                    ctx.fillText(res[num].name, 256, 430)
+                                    ctx.font = applyText(canvas, res[num].description);
+                                    ctx.fillText(res[num].description, 256, 470)
                         const att = new Discord.MessageAttachment(canvas.toBuffer(), str+'.png');
                         await message.channel.send(att)
                     

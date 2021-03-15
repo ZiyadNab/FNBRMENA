@@ -149,6 +149,7 @@ module.exports = {
                                 ctx.fillStyle = '#ffffff';
                                 ctx.font = '40px Arabic'
                                 ctx.fillText(name, (30 + x), (y + 430))
+                                
                                 ctx.font = applyText(canvas, description);
                                 ctx.fillText(description, (30 + x), (y + 470))
                             }

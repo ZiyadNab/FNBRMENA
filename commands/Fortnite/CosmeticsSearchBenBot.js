@@ -26,7 +26,7 @@ module.exports = {
 
         axios.get('https://benbotfn.tk/api/v1/cosmetics/br/search?lang=en&searchLang=en&matchMethod=full&name='+str)
             .then(async res => {
-                console.log(res.data);
+                console.log(res.data.name);
 
                 //font
                 const applyText = (canvas, text) => {

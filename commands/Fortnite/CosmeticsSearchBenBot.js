@@ -1,6 +1,7 @@
 const FortniteAPI = require("fortnite-api-com");
 const Canvas = require('canvas');
-const key = require('../../Coinfigs/config.json')
+const key = require('../../Coinfigs/config.json');
+const { default: axios } = require("axios");
 const config = {
     apikey: key.apis.fortniteapi,
     language: "en",
@@ -23,14 +24,7 @@ module.exports = {
         }
         const replaced = str.split(' ').join('+');
 
-        var query = {
-            matchMethod: "contains",
-            name: str,
-            language:"ar"
-          };
-
-        Fortnite.CosmeticsSearch(query)
-        .then( async (res) => {
+        axios.get('https://benbotfn.tk/api/v1/cosmetics/br/search?lang=en&searchLang=en&matchMethod=full&name='+str)
             console.log(res.data);
 
                 //font
@@ -53,11 +47,7 @@ module.exports = {
                 //skin informations
                 var name = res.data.name;
                 var description = res.data.description;
-                if (res.data.icons.featured == null){
-                    var image = res.data.icons.icon
-                }else{
-                    var image = res.data.icons.featured
-                }
+                var image = res.data.icons.icon
                 if(res.data.series === null){
                     var rarity = res.data.rarity;
                 }else{
@@ -65,7 +55,7 @@ module.exports = {
                 }
 
                 //searching
-                if(rarity === 'legendary'){
+                if(rarity === 'أسطوري'){
                     //creating image
                     const skinholder = await Canvas.loadImage('./assets/Rarities/New/legendary.png')
                     ctx.drawImage(skinholder, 0,0, 512, 512)
@@ -85,7 +75,7 @@ module.exports = {
                     ctx.drawImage(credit, 15, 15, 146, 40);
                     
                 }
-                if(rarity === 'epic'){
+                if(rarity === 'ملحمي'){
                     //creating image
                     const skinholder = await Canvas.loadImage('./assets/Rarities/New/epic.png')
                     ctx.drawImage(skinholder, 0,0, 512, 512)
@@ -105,7 +95,7 @@ module.exports = {
                     ctx.drawImage(credit, 30, 35, 146, 40);
                     
                 }
-                if(rarity === 'rare'){
+                if(rarity === 'نادر'){
                     //creating image                   
                     const skinholder = await Canvas.loadImage('./assets/Rarities/New/rare.png')
                     ctx.drawImage(skinholder, 0,0, 512, 512)

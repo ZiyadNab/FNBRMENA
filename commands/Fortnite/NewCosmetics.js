@@ -95,6 +95,7 @@ module.exports = {
 
                     //AR text font
                     Canvas.registerFont('./assets/font/Lalezar-Regular.ttf', {family: 'Arabic',weight: "700",style: "bold"});
+                    Canvas.registerFont('./assets/font/BurbankBigCondensed-Black.ttf' ,{family: 'Burbank Big Condensed',weight: "700",style: "bold"})
 
                     // creating canvas
                     const canvas = Canvas.createCanvas(width, height);
@@ -148,7 +149,6 @@ module.exports = {
                                 ctx.fillStyle = '#ffffff';
                                 ctx.font = '40px Arabic'
                                 ctx.fillText(name, (30 + x), (y + 430))
-                                
                                 ctx.font = applyText(canvas, description);
                                 ctx.fillText(description, (30 + x), (y + 470))
                             }

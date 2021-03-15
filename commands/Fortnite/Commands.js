@@ -10,7 +10,7 @@ module.exports = {
         
         admin.database().ref("ERA's").child("Users").child(message.author.id).once('value', function (data) {
             var lang = data.val().lang;
-            if(llang === "en"){
+            if(lang === "en"){
                 const commandsEN = new Discord.MessageEmbed()
                 .setColor('#BB00EE')
                 .setTitle('Commands')
@@ -40,7 +40,7 @@ module.exports = {
                 msgReact.delete({timeout: 500})
             } 
             
-            if(llang === "ar"){
+            if(lang === "ar"){
                 const commandsEN = new Discord.MessageEmbed()
                 .setColor('#BB00EE')
                 .setTitle('Commands')

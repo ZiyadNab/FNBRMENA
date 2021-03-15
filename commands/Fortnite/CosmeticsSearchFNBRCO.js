@@ -117,6 +117,8 @@ module.exports = {
                                                 } while (ctx.measureText(text).width > 420);
                                                 return ctx.font;
                                             };
+                                            const canvas = Canvas.createCanvas(512, 512);
+                                            const ctx = canvas.getContext('2d');
 
                                     const background = await Canvas.loadImage('./assets/Rarities/New/legendary.png');
                                     ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
@@ -183,6 +185,8 @@ module.exports = {
                                                 } while (ctx.measureText(text).width > 420);
                                                 return ctx.font;
                                             };
+                                            const canvas = Canvas.createCanvas(512, 512);
+                                            const ctx = canvas.getContext('2d');
 
                                     const background = await Canvas.loadImage('./assets/Rarities/New/epic.png');
                                     ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
@@ -248,6 +252,8 @@ module.exports = {
                                                 } while (ctx.measureText(text).width > 420);
                                                 return ctx.font;
                                             };
+                                            const canvas = Canvas.createCanvas(512, 512);
+                                            const ctx = canvas.getContext('2d');
 
                                     const background = await Canvas.loadImage('./assets/Rarities/New/rare.png');
                                     ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
@@ -313,6 +319,8 @@ module.exports = {
                                                 } while (ctx.measureText(text).width > 420);
                                                 return ctx.font;
                                             };
+                                            const canvas = Canvas.createCanvas(512, 512);
+                                            const ctx = canvas.getContext('2d');
 
                                     const background = await Canvas.loadImage('./assets/Rarities/New/uncommon.png');
                                     ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
@@ -371,13 +379,15 @@ module.exports = {
                                 if (res[num].rarity === 'common'){
                     
                                     const applyText = (canvas, text) => {
-                                        const ctx = canvas.getContext('2d');
-                                        let fontSize = 36;
-                                        do {
-                                            ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
-                                        } while (ctx.measureText(text).width > 420);
-                                        return ctx.font;
-                                    };
+                                                const ctx = canvas.getContext('2d');
+                                                let fontSize = 36;
+                                                do {
+                                                    ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
+                                                } while (ctx.measureText(text).width > 420);
+                                                return ctx.font;
+                                            };
+                                            const canvas = Canvas.createCanvas(512, 512);
+                                            const ctx = canvas.getContext('2d');
                     
                                     const canvas = Canvas.createCanvas(512, 512);
                                     const ctx = canvas.getContext('2d');
@@ -439,13 +449,15 @@ module.exports = {
                                 if (res[num].rarity === 'marvel'){
                         
                                     const applyText = (canvas, text) => {
-                                        const ctx = canvas.getContext('2d');
-                                        let fontSize = 36;
-                                        do {
-                                            ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
-                                        } while (ctx.measureText(text).width > 420);
-                                        return ctx.font;
-                                    };
+                                                const ctx = canvas.getContext('2d');
+                                                let fontSize = 36;
+                                                do {
+                                                    ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
+                                                } while (ctx.measureText(text).width > 420);
+                                                return ctx.font;
+                                            };
+                                            const canvas = Canvas.createCanvas(512, 512);
+                                            const ctx = canvas.getContext('2d');
                     
                                     const canvas = Canvas.createCanvas(512, 512);
                                     const ctx = canvas.getContext('2d');
@@ -507,13 +519,15 @@ module.exports = {
                                 if (res[num].rarity === 'dc'){
                     
                                     const applyText = (canvas, text) => {
-                                        const ctx = canvas.getContext('2d');
-                                        let fontSize = 36;
-                                        do {
-                                            ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
-                                        } while (ctx.measureText(text).width > 420);
-                                        return ctx.font;
-                                    };
+                                                const ctx = canvas.getContext('2d');
+                                                let fontSize = 36;
+                                                do {
+                                                    ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
+                                                } while (ctx.measureText(text).width > 420);
+                                                return ctx.font;
+                                            };
+                                            const canvas = Canvas.createCanvas(512, 512);
+                                            const ctx = canvas.getContext('2d');
                     
                                     const canvas = Canvas.createCanvas(512, 512);
                                     const ctx = canvas.getContext('2d');
@@ -575,13 +589,15 @@ module.exports = {
                                 if (res[num].rarity === 'dark'){
                     
                                     const applyText = (canvas, text) => {
-                                        const ctx = canvas.getContext('2d');
-                                        let fontSize = 36;
-                                        do {
-                                            ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
-                                        } while (ctx.measureText(text).width > 420);
-                                        return ctx.font;
-                                    };
+                                                const ctx = canvas.getContext('2d');
+                                                let fontSize = 36;
+                                                do {
+                                                    ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
+                                                } while (ctx.measureText(text).width > 420);
+                                                return ctx.font;
+                                            };
+                                            const canvas = Canvas.createCanvas(512, 512);
+                                            const ctx = canvas.getContext('2d');
                     
                                     const canvas = Canvas.createCanvas(512, 512);
                                     const ctx = canvas.getContext('2d');
@@ -643,13 +659,15 @@ module.exports = {
                                 if (res[num].rarity === 'icon_series'){
                         
                                     const applyText = (canvas, text) => {
-                                        const ctx = canvas.getContext('2d');
-                                        let fontSize = 36;
-                                        do {
-                                            ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
-                                        } while (ctx.measureText(text).width > 420);
-                                        return ctx.font;
-                                    };
+                                                const ctx = canvas.getContext('2d');
+                                                let fontSize = 36;
+                                                do {
+                                                    ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
+                                                } while (ctx.measureText(text).width > 420);
+                                                return ctx.font;
+                                            };
+                                            const canvas = Canvas.createCanvas(512, 512);
+                                            const ctx = canvas.getContext('2d');
                     
                                     const canvas = Canvas.createCanvas(512, 512);
                                     const ctx = canvas.getContext('2d');
@@ -711,13 +729,15 @@ module.exports = {
                                 if (res[num].rarity === 'star_wars'){
                     
                                     const applyText = (canvas, text) => {
-                                        const ctx = canvas.getContext('2d');
-                                        let fontSize = 36;
-                                        do {
-                                            ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
-                                        } while (ctx.measureText(text).width > 420);
-                                        return ctx.font;
-                                    };
+                                                const ctx = canvas.getContext('2d');
+                                                let fontSize = 36;
+                                                do {
+                                                    ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
+                                                } while (ctx.measureText(text).width > 420);
+                                                return ctx.font;
+                                            };
+                                            const canvas = Canvas.createCanvas(512, 512);
+                                            const ctx = canvas.getContext('2d');
                     
                                     const canvas = Canvas.createCanvas(512, 512);
                                     const ctx = canvas.getContext('2d');
@@ -779,13 +799,15 @@ module.exports = {
                                 if (res[num].rarity === 'shadow'){
                     
                                     const applyText = (canvas, text) => {
-                                        const ctx = canvas.getContext('2d');
-                                        let fontSize = 36;
-                                        do {
-                                            ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
-                                        } while (ctx.measureText(text).width > 420);
-                                        return ctx.font;
-                                    };
+                                                const ctx = canvas.getContext('2d');
+                                                let fontSize = 36;
+                                                do {
+                                                    ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
+                                                } while (ctx.measureText(text).width > 420);
+                                                return ctx.font;
+                                            };
+                                            const canvas = Canvas.createCanvas(512, 512);
+                                            const ctx = canvas.getContext('2d');
                     
                                     const canvas = Canvas.createCanvas(512, 512);
                                     const ctx = canvas.getContext('2d');
@@ -847,13 +869,15 @@ module.exports = {
                                 if (res[num].rarity === 'slurp'){
                     
                                     const applyText = (canvas, text) => {
-                                        const ctx = canvas.getContext('2d');
-                                        let fontSize = 36;
-                                        do {
-                                            ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
-                                        } while (ctx.measureText(text).width > 420);
-                                        return ctx.font;
-                                    };
+                                                const ctx = canvas.getContext('2d');
+                                                let fontSize = 36;
+                                                do {
+                                                    ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
+                                                } while (ctx.measureText(text).width > 420);
+                                                return ctx.font;
+                                            };
+                                            const canvas = Canvas.createCanvas(512, 512);
+                                            const ctx = canvas.getContext('2d');
                     
                                     const canvas = Canvas.createCanvas(512, 512);
                                     const ctx = canvas.getContext('2d');
@@ -915,13 +939,15 @@ module.exports = {
                                 if (res[num].rarity === 'frozen'){
                     
                                     const applyText = (canvas, text) => {
-                                        const ctx = canvas.getContext('2d');
-                                        let fontSize = 36;
-                                        do {
-                                            ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
-                                        } while (ctx.measureText(text).width > 420);
-                                        return ctx.font;
-                                    };
+                                                const ctx = canvas.getContext('2d');
+                                                let fontSize = 36;
+                                                do {
+                                                    ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
+                                                } while (ctx.measureText(text).width > 420);
+                                                return ctx.font;
+                                            };
+                                            const canvas = Canvas.createCanvas(512, 512);
+                                            const ctx = canvas.getContext('2d');
                     
                                     const canvas = Canvas.createCanvas(512, 512);
                                     const ctx = canvas.getContext('2d');
@@ -983,13 +1009,15 @@ module.exports = {
                                 if (res[num].rarity === 'lava'){
                     
                                     const applyText = (canvas, text) => {
-                                        const ctx = canvas.getContext('2d');
-                                        let fontSize = 36;
-                                        do {
-                                            ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
-                                        } while (ctx.measureText(text).width > 420);
-                                        return ctx.font;
-                                    };
+                                                const ctx = canvas.getContext('2d');
+                                                let fontSize = 36;
+                                                do {
+                                                    ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
+                                                } while (ctx.measureText(text).width > 420);
+                                                return ctx.font;
+                                            };
+                                            const canvas = Canvas.createCanvas(512, 512);
+                                            const ctx = canvas.getContext('2d');
                     
                                     const canvas = Canvas.createCanvas(512, 512);
                                     const ctx = canvas.getContext('2d');
@@ -1051,13 +1079,15 @@ module.exports = {
                                 if (res[num].rarity === 'gaming_legends'){
                     
                                     const applyText = (canvas, text) => {
-                                        const ctx = canvas.getContext('2d');
-                                        let fontSize = 36;
-                                        do {
-                                            ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
-                                        } while (ctx.measureText(text).width > 420);
-                                        return ctx.font;
-                                    };
+                                                const ctx = canvas.getContext('2d');
+                                                let fontSize = 36;
+                                                do {
+                                                    ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
+                                                } while (ctx.measureText(text).width > 420);
+                                                return ctx.font;
+                                            };
+                                            const canvas = Canvas.createCanvas(512, 512);
+                                            const ctx = canvas.getContext('2d');
                     
                                     const canvas = Canvas.createCanvas(512, 512);
                                     const ctx = canvas.getContext('2d');
@@ -1153,14 +1183,14 @@ module.exports = {
                     if (res[num].rarity === 'legendary'){
 
                         const applyText = (canvas, text) => {
-                                        const ctx = canvas.getContext('2d');
-                                        let fontSize = 36;
-                                        do {
-                                            ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
-                                        } while (ctx.measureText(text).width > 420);
-                                        return ctx.font;
-                                    };
-                    
+                                                const ctx = canvas.getContext('2d');
+                                                let fontSize = 36;
+                                                do {
+                                                    ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
+                                                } while (ctx.measureText(text).width > 420);
+                                                return ctx.font;
+                                            };
+                                            
                         const canvas = Canvas.createCanvas(512, 512);
                         const ctx = canvas.getContext('2d');
 
@@ -1223,13 +1253,14 @@ module.exports = {
                     if (res[num].rarity === 'epic'){
         
                         const applyText = (canvas, text) => {
-                                        const ctx = canvas.getContext('2d');
-                                        let fontSize = 36;
-                                        do {
-                                            ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
-                                        } while (ctx.measureText(text).width > 420);
-                                        return ctx.font;
-                                    };
+                                                const ctx = canvas.getContext('2d');
+                                                let fontSize = 36;
+                                                do {
+                                                    ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
+                                                } while (ctx.measureText(text).width > 420);
+                                                return ctx.font;
+                                            };
+                                          
                     
                         const canvas = Canvas.createCanvas(512, 512);
                         const ctx = canvas.getContext('2d');
@@ -1292,13 +1323,14 @@ module.exports = {
                     if (res[num].rarity === 'rare'){
         
                         const applyText = (canvas, text) => {
-                                        const ctx = canvas.getContext('2d');
-                                        let fontSize = 36;
-                                        do {
-                                            ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
-                                        } while (ctx.measureText(text).width > 420);
-                                        return ctx.font;
-                                    };
+                                                const ctx = canvas.getContext('2d');
+                                                let fontSize = 36;
+                                                do {
+                                                    ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
+                                                } while (ctx.measureText(text).width > 420);
+                                                return ctx.font;
+                                            };
+                                        
                     
                         const canvas = Canvas.createCanvas(512, 512);
                         const ctx = canvas.getContext('2d');
@@ -1361,13 +1393,13 @@ module.exports = {
                     if (res[num].rarity === 'uncommon'){
         
                         const applyText = (canvas, text) => {
-                                        const ctx = canvas.getContext('2d');
-                                        let fontSize = 36;
-                                        do {
-                                            ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
-                                        } while (ctx.measureText(text).width > 420);
-                                        return ctx.font;
-                                    };
+                                                const ctx = canvas.getContext('2d');
+                                                let fontSize = 36;
+                                                do {
+                                                    ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
+                                                } while (ctx.measureText(text).width > 420);
+                                                return ctx.font;
+                                            };
                     
                         const canvas = Canvas.createCanvas(512, 512);
                         const ctx = canvas.getContext('2d');
@@ -1430,13 +1462,13 @@ module.exports = {
                     if (res[num].rarity === 'common'){
         
                         const applyText = (canvas, text) => {
-                                        const ctx = canvas.getContext('2d');
-                                        let fontSize = 36;
-                                        do {
-                                            ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
-                                        } while (ctx.measureText(text).width > 420);
-                                        return ctx.font;
-                                    };
+                                                const ctx = canvas.getContext('2d');
+                                                let fontSize = 36;
+                                                do {
+                                                    ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
+                                                } while (ctx.measureText(text).width > 420);
+                                                return ctx.font;
+                                            };
                     
                         const canvas = Canvas.createCanvas(512, 512);
                         const ctx = canvas.getContext('2d');
@@ -1499,13 +1531,13 @@ module.exports = {
                     if (res[num].rarity === 'marvel'){
             
                         const applyText = (canvas, text) => {
-                                        const ctx = canvas.getContext('2d');
-                                        let fontSize = 36;
-                                        do {
-                                            ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
-                                        } while (ctx.measureText(text).width > 420);
-                                        return ctx.font;
-                                    };
+                                                const ctx = canvas.getContext('2d');
+                                                let fontSize = 36;
+                                                do {
+                                                    ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
+                                                } while (ctx.measureText(text).width > 420);
+                                                return ctx.font;
+                                            };
                     
                         const canvas = Canvas.createCanvas(512, 512);
                         const ctx = canvas.getContext('2d');
@@ -1568,13 +1600,13 @@ module.exports = {
                     if (res[num].rarity === 'dc'){
         
                         const applyText = (canvas, text) => {
-                                        const ctx = canvas.getContext('2d');
-                                        let fontSize = 36;
-                                        do {
-                                            ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
-                                        } while (ctx.measureText(text).width > 420);
-                                        return ctx.font;
-                                    };
+                                                const ctx = canvas.getContext('2d');
+                                                let fontSize = 36;
+                                                do {
+                                                    ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
+                                                } while (ctx.measureText(text).width > 420);
+                                                return ctx.font;
+                                            };
                     
                         const canvas = Canvas.createCanvas(512, 512);
                         const ctx = canvas.getContext('2d');
@@ -1637,13 +1669,13 @@ module.exports = {
                     if (res[num].rarity === 'dark'){
         
                         const applyText = (canvas, text) => {
-                                        const ctx = canvas.getContext('2d');
-                                        let fontSize = 36;
-                                        do {
-                                            ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
-                                        } while (ctx.measureText(text).width > 420);
-                                        return ctx.font;
-                                    };
+                                                const ctx = canvas.getContext('2d');
+                                                let fontSize = 36;
+                                                do {
+                                                    ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
+                                                } while (ctx.measureText(text).width > 420);
+                                                return ctx.font;
+                                            };
                     
                         const canvas = Canvas.createCanvas(512, 512);
                         const ctx = canvas.getContext('2d');
@@ -1706,13 +1738,13 @@ module.exports = {
                     if (res[num].rarity === 'icon_series'){
             
                         const applyText = (canvas, text) => {
-                                        const ctx = canvas.getContext('2d');
-                                        let fontSize = 36;
-                                        do {
-                                            ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
-                                        } while (ctx.measureText(text).width > 420);
-                                        return ctx.font;
-                                    };
+                                                const ctx = canvas.getContext('2d');
+                                                let fontSize = 36;
+                                                do {
+                                                    ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
+                                                } while (ctx.measureText(text).width > 420);
+                                                return ctx.font;
+                                            };
                     
                         const canvas = Canvas.createCanvas(512, 512);
                         const ctx = canvas.getContext('2d');
@@ -1775,13 +1807,13 @@ module.exports = {
                     if (res[num].rarity === 'star_wars'){
         
                         const applyText = (canvas, text) => {
-                                        const ctx = canvas.getContext('2d');
-                                        let fontSize = 36;
-                                        do {
-                                            ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
-                                        } while (ctx.measureText(text).width > 420);
-                                        return ctx.font;
-                                    };
+                                                const ctx = canvas.getContext('2d');
+                                                let fontSize = 36;
+                                                do {
+                                                    ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
+                                                } while (ctx.measureText(text).width > 420);
+                                                return ctx.font;
+                                            };
                     
                         const canvas = Canvas.createCanvas(512, 512);
                         const ctx = canvas.getContext('2d');
@@ -1844,13 +1876,13 @@ module.exports = {
                     if (res[num].rarity === 'shadow'){
         
                         const applyText = (canvas, text) => {
-                                        const ctx = canvas.getContext('2d');
-                                        let fontSize = 36;
-                                        do {
-                                            ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
-                                        } while (ctx.measureText(text).width > 420);
-                                        return ctx.font;
-                                    };
+                                                const ctx = canvas.getContext('2d');
+                                                let fontSize = 36;
+                                                do {
+                                                    ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
+                                                } while (ctx.measureText(text).width > 420);
+                                                return ctx.font;
+                                            };
                     
                         const canvas = Canvas.createCanvas(512, 512);
                         const ctx = canvas.getContext('2d');
@@ -1913,13 +1945,13 @@ module.exports = {
                     if (res[num].rarity === 'slurp'){
         
                         const applyText = (canvas, text) => {
-                                        const ctx = canvas.getContext('2d');
-                                        let fontSize = 36;
-                                        do {
-                                            ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
-                                        } while (ctx.measureText(text).width > 420);
-                                        return ctx.font;
-                                    };
+                                                const ctx = canvas.getContext('2d');
+                                                let fontSize = 36;
+                                                do {
+                                                    ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
+                                                } while (ctx.measureText(text).width > 420);
+                                                return ctx.font;
+                                            };
                     
                         const canvas = Canvas.createCanvas(512, 512);
                         const ctx = canvas.getContext('2d');
@@ -1982,13 +2014,13 @@ module.exports = {
                     if (res[num].rarity === 'frozen'){
         
                         const applyText = (canvas, text) => {
-                                        const ctx = canvas.getContext('2d');
-                                        let fontSize = 36;
-                                        do {
-                                            ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
-                                        } while (ctx.measureText(text).width > 420);
-                                        return ctx.font;
-                                    };
+                                                const ctx = canvas.getContext('2d');
+                                                let fontSize = 36;
+                                                do {
+                                                    ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
+                                                } while (ctx.measureText(text).width > 420);
+                                                return ctx.font;
+                                            };
                     
                         const canvas = Canvas.createCanvas(512, 512);
                         const ctx = canvas.getContext('2d');
@@ -2051,13 +2083,13 @@ module.exports = {
                     if (res[num].rarity === 'lava'){
         
                         const applyText = (canvas, text) => {
-                                        const ctx = canvas.getContext('2d');
-                                        let fontSize = 36;
-                                        do {
-                                            ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
-                                        } while (ctx.measureText(text).width > 420);
-                                        return ctx.font;
-                                    };
+                                                const ctx = canvas.getContext('2d');
+                                                let fontSize = 36;
+                                                do {
+                                                    ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
+                                                } while (ctx.measureText(text).width > 420);
+                                                return ctx.font;
+                                            };
                     
                         const canvas = Canvas.createCanvas(512, 512);
                         const ctx = canvas.getContext('2d');
@@ -2120,13 +2152,13 @@ module.exports = {
                     if (res[num].rarity === 'gaming_legends'){
         
                         const applyText = (canvas, text) => {
-                                        const ctx = canvas.getContext('2d');
-                                        let fontSize = 36;
-                                        do {
-                                            ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
-                                        } while (ctx.measureText(text).width > 420);
-                                        return ctx.font;
-                                    };
+                                                const ctx = canvas.getContext('2d');
+                                                let fontSize = 36;
+                                                do {
+                                                    ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
+                                                } while (ctx.measureText(text).width > 420);
+                                                return ctx.font;
+                                            };
                     
                         const canvas = Canvas.createCanvas(512, 512);
                         const ctx = canvas.getContext('2d');

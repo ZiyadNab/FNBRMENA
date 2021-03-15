@@ -140,7 +140,7 @@ module.exports = {
                     const counter = new Discord.MessageEmbed()
                     counter.setColor("#BB00EE")
                     counter.setTitle(`${loading} ${percentage}% ${emoji}`)
-                    await msg.edit(counter)
+                    msg.edit(counter)
 
                     //skin informations
                     var name = res.featured[i].name;
@@ -779,7 +779,7 @@ module.exports = {
                         const counter = new Discord.MessageEmbed()
                         counter.setColor("#BB00EE")
                         counter.setTitle(`${loading} ${percentage}% ${emoji}`)
-                        await msg.edit(counter)
+                        msg.edit(counter)
 
                         //skin informations
                         var name = res.daily[i].name;
@@ -1455,7 +1455,7 @@ module.exports = {
                         const counter = new Discord.MessageEmbed()
                         counter.setColor("#BB00EE")
                         counter.setTitle(`${loading} ${percentage}% ${emoji}`)
-                        await msg.edit(counter)
+                        msg.edit(counter)
 
                         //skin informations
                         var name = res.specialFeatured[i].name;

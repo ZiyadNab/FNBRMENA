@@ -386,8 +386,6 @@ module.exports = {
                                                 } while (ctx.measureText(text).width > 420);
                                                 return ctx.font;
                                             };
-                                            const canvas = Canvas.createCanvas(512, 512);
-                                            const ctx = canvas.getContext('2d');
                     
                                     const canvas = Canvas.createCanvas(512, 512);
                                     const ctx = canvas.getContext('2d');
@@ -458,9 +456,6 @@ module.exports = {
                                             };
                                             const canvas = Canvas.createCanvas(512, 512);
                                             const ctx = canvas.getContext('2d');
-                    
-                                    const canvas = Canvas.createCanvas(512, 512);
-                                    const ctx = canvas.getContext('2d');
 
                                     const background = await Canvas.loadImage('./assets/Rarities/New/marvel.png');
                                     ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
@@ -526,8 +521,6 @@ module.exports = {
                                                 } while (ctx.measureText(text).width > 420);
                                                 return ctx.font;
                                             };
-                                            const canvas = Canvas.createCanvas(512, 512);
-                                            const ctx = canvas.getContext('2d');
                     
                                     const canvas = Canvas.createCanvas(512, 512);
                                     const ctx = canvas.getContext('2d');
@@ -596,8 +589,6 @@ module.exports = {
                                                 } while (ctx.measureText(text).width > 420);
                                                 return ctx.font;
                                             };
-                                            const canvas = Canvas.createCanvas(512, 512);
-                                            const ctx = canvas.getContext('2d');
                     
                                     const canvas = Canvas.createCanvas(512, 512);
                                     const ctx = canvas.getContext('2d');
@@ -666,8 +657,6 @@ module.exports = {
                                                 } while (ctx.measureText(text).width > 420);
                                                 return ctx.font;
                                             };
-                                            const canvas = Canvas.createCanvas(512, 512);
-                                            const ctx = canvas.getContext('2d');
                     
                                     const canvas = Canvas.createCanvas(512, 512);
                                     const ctx = canvas.getContext('2d');
@@ -736,8 +725,6 @@ module.exports = {
                                                 } while (ctx.measureText(text).width > 420);
                                                 return ctx.font;
                                             };
-                                            const canvas = Canvas.createCanvas(512, 512);
-                                            const ctx = canvas.getContext('2d');
                     
                                     const canvas = Canvas.createCanvas(512, 512);
                                     const ctx = canvas.getContext('2d');
@@ -806,8 +793,6 @@ module.exports = {
                                                 } while (ctx.measureText(text).width > 420);
                                                 return ctx.font;
                                             };
-                                            const canvas = Canvas.createCanvas(512, 512);
-                                            const ctx = canvas.getContext('2d');
                     
                                     const canvas = Canvas.createCanvas(512, 512);
                                     const ctx = canvas.getContext('2d');
@@ -876,8 +861,6 @@ module.exports = {
                                                 } while (ctx.measureText(text).width > 420);
                                                 return ctx.font;
                                             };
-                                            const canvas = Canvas.createCanvas(512, 512);
-                                            const ctx = canvas.getContext('2d');
                     
                                     const canvas = Canvas.createCanvas(512, 512);
                                     const ctx = canvas.getContext('2d');
@@ -946,8 +929,6 @@ module.exports = {
                                                 } while (ctx.measureText(text).width > 420);
                                                 return ctx.font;
                                             };
-                                            const canvas = Canvas.createCanvas(512, 512);
-                                            const ctx = canvas.getContext('2d');
                     
                                     const canvas = Canvas.createCanvas(512, 512);
                                     const ctx = canvas.getContext('2d');
@@ -1016,8 +997,6 @@ module.exports = {
                                                 } while (ctx.measureText(text).width > 420);
                                                 return ctx.font;
                                             };
-                                            const canvas = Canvas.createCanvas(512, 512);
-                                            const ctx = canvas.getContext('2d');
                     
                                     const canvas = Canvas.createCanvas(512, 512);
                                     const ctx = canvas.getContext('2d');
@@ -1086,8 +1065,6 @@ module.exports = {
                                                 } while (ctx.measureText(text).width > 420);
                                                 return ctx.font;
                                             };
-                                            const canvas = Canvas.createCanvas(512, 512);
-                                            const ctx = canvas.getContext('2d');
                     
                                     const canvas = Canvas.createCanvas(512, 512);
                                     const ctx = canvas.getContext('2d');

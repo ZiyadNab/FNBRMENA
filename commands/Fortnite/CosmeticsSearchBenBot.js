@@ -1,14 +1,8 @@
 const FortniteAPI = require("fortnite-api-com");
 const Canvas = require('canvas');
 const key = require('../../Coinfigs/config.json');
-const { default: axios } = require("axios");
-const config = {
-    apikey: key.apis.fortniteapi,
-    language: "en",
-    debug: true
-  };
+const axios = require("axios");
 
-var Fortnite = new FortniteAPI(config);
 
 module.exports = {
     commands: 'searchben',
@@ -24,9 +18,8 @@ module.exports = {
         }
         const replaced = str.split(' ').join('+');
 
-        axios.get('https://benbotfn.tk/api/v1/cosmetics/br/search?lang=en&searchLang=en&matchMethod=full&name='+str)
+        axios.get('https://benbotfn.tk/api/v1/cosmetics/br/search?lang=ar&searchLang=en&matchMethod=full&name='+str)
             .then(async res => {
-                console.log(res.data.name);
 
                 //font
                 const applyText = (canvas, text) => {
@@ -54,8 +47,6 @@ module.exports = {
                 }else{
                     var rarity = res.data.series.name;
                 }
-
-                console.log(rarity)
 
                 //searching
                 if(rarity === 'أسطوري'){

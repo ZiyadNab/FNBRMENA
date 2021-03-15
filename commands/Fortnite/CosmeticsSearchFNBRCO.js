@@ -27,6 +27,8 @@ module.exports = {
     permissionError: 'Sorry you do not have acccess to this command',
     callback: async (message, arguments, text, Discord, client) => {
 
+        Canvas.registerFont('./assets/font/BurbankBigCondensed-Black.otf' ,{family: 'Burbank Big Condensed',weight: "700",style: "bold"})
+
         var str = arguments[0];
         for (let i = 1; i < arguments.length; i++){
             str = str +' '+ arguments[i];

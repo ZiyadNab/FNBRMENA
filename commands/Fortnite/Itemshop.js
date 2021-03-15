@@ -23,13 +23,11 @@ module.exports = {
             var lang = data.val().lang;
 
             if(lang === "en"){
-                ready = "Getting the API Ready ..."
                 language = "en"
                 loading = "Loading ..."
                 send = "Sending the image please wait"
             }
             if(lang === "ar"){
-                ready = "جاري اعداد الـ API ..."
                 language = "ar"
                 loading = "تم اكتمال"
                 send = "جاري ارسال الصورة الرجاء الانتظار"

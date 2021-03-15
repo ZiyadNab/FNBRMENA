@@ -80,12 +80,11 @@ module.exports = {
                     ctx.fillStyle = '#ffffff';
                     ctx.textAlign='center';
                     ctx.font = '46px Arabic'
-                    ctx.fillText(name, 256, 430)
+                    ctx.fillText(name, 256, 425)
                     ctx.textAlign='center';
                     ctx.font = applyText(canvas, description);
-                    ctx.fillText(description, 256, 460)
-                    const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                    ctx.drawImage(credit, 30, 35, 146, 40);
+                    ctx.fillText(description, 256, 470)
+                    
                     
                 }
                 if(rarity === 'نادر'){
@@ -99,12 +98,11 @@ module.exports = {
                     ctx.fillStyle = '#ffffff';
                     ctx.textAlign='center';
                     ctx.font = '46px Arabic'
-                    ctx.fillText(name, 256, 430)
+                    ctx.fillText(name, 256, 425)
                     ctx.textAlign='center';
                     ctx.font = applyText(canvas, description);
-                    ctx.fillText(description, 256, 460)
-                    const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                    ctx.drawImage(credit, 30, 35, 146, 40);
+                    ctx.fillText(description, 256, 470)
+                    
                     
                 }
                 if(rarity === 'غير شائع'){
@@ -119,12 +117,11 @@ module.exports = {
                     ctx.fillStyle = '#ffffff';
                     ctx.textAlign='center';
                     ctx.font = '46px Arabic'
-                    ctx.fillText(name, 256, 430)
+                    ctx.fillText(name, 256, 425)
                     ctx.textAlign='center';
                     ctx.font = applyText(canvas, description);
-                    ctx.fillText(description, 256, 460)
-                    const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                    ctx.drawImage(credit, 30, 35, 146, 40);
+                    ctx.fillText(description, 256, 470)
+                    
                     
                 }
                 if(rarity === 'سلسلة MARVEL'){
@@ -139,12 +136,11 @@ module.exports = {
                     ctx.fillStyle = '#ffffff';
                     ctx.textAlign='center';
                     ctx.font = '46px Arabic'
-                    ctx.fillText(name, 256, 430)
+                    ctx.fillText(name, 256, 425)
                     ctx.textAlign='center';
                     ctx.font = applyText(canvas, description);
-                    ctx.fillText(description, 256, 460)
-                    const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                    ctx.drawImage(credit, 30, 35, 146, 40);
+                    ctx.fillText(description, 256, 470)
+                    
                     
                 }
                 if(rarity === 'سلسلة DC'){
@@ -159,12 +155,11 @@ module.exports = {
                     ctx.fillStyle = '#ffffff';
                     ctx.textAlign='center';
                     ctx.font = '46px Arabic'
-                    ctx.fillText(name, 256, 430)
+                    ctx.fillText(name, 256, 425)
                     ctx.textAlign='center';
                     ctx.font = applyText(canvas, description);
-                    ctx.fillText(description, 256, 460)
-                    const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                    ctx.drawImage(credit, 30, 35, 146, 40);
+                    ctx.fillText(description, 256, 470)
+                    
                     
                 }
                 if(rarity === 'سلسلة DARK'){
@@ -179,12 +174,11 @@ module.exports = {
                     ctx.fillStyle = '#ffffff';
                     ctx.textAlign='center';
                     ctx.font = '46px Arabic'
-                    ctx.fillText(name, 256, 430)
+                    ctx.fillText(name, 256, 425)
                     ctx.textAlign='center';
                     ctx.font = applyText(canvas, description);
-                    ctx.fillText(description, 256, 460)
-                    const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                    ctx.drawImage(credit, 30, 35, 146, 40);
+                    ctx.fillText(description, 256, 470)
+                    
                     
                 }
                 if(rarity === 'سلسلة المشاهير'){
@@ -199,10 +193,10 @@ module.exports = {
                     ctx.fillStyle = '#ffffff';
                     ctx.textAlign='center';
                     ctx.font = '46px Arabic'
-                    ctx.fillText(name, 256, 430)
+                    ctx.fillText(name, 256, 425)
                     ctx.textAlign='center';
                     ctx.font = '15px Sans'
-                    ctx.fillText(description, 256, 460)
+                    ctx.fillText(description, 256, 470)
                     
                    
                 }
@@ -218,12 +212,11 @@ module.exports = {
                     ctx.fillStyle = '#ffffff';
                     ctx.textAlign='center';
                     ctx.font = '46px Arabic'
-                    ctx.fillText(name, 256, 430)
+                    ctx.fillText(name, 256, 425)
                     ctx.textAlign='center';
                     ctx.font = applyText(canvas, description);
-                    ctx.fillText(description, 256, 460)
-                    const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                    ctx.drawImage(credit, 30, 35, 146, 40);
+                    ctx.fillText(description, 256, 470)
+                    
                     
                 }
                 if(rarity === 'Shadow Series'){
@@ -238,12 +231,11 @@ module.exports = {
                     ctx.fillStyle = '#ffffff';
                     ctx.textAlign='center';
                     ctx.font = '46px Arabic'
-                    ctx.fillText(name, 256, 430)
+                    ctx.fillText(name, 256, 425)
                     ctx.textAlign='center';
                     ctx.font = applyText(canvas, description);
-                    ctx.fillText(description, 256, 460)
-                    const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                    ctx.drawImage(credit, 30, 35, 146, 40);
+                    ctx.fillText(description, 256, 470)
+                    
                    
                 }
                 if(rarity === 'سلسلة الشراب Series'){
@@ -258,12 +250,11 @@ module.exports = {
                     ctx.fillStyle = '#ffffff';
                     ctx.textAlign='center';
                     ctx.font = '46px Arabic'
-                    ctx.fillText(name, 256, 430)
+                    ctx.fillText(name, 256, 425)
                     ctx.textAlign='center';
                     ctx.font = applyText(canvas, description);
-                    ctx.fillText(description, 256, 460)
-                    const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                    ctx.drawImage(credit, 30, 35, 146, 40);
+                    ctx.fillText(description, 256, 470)
+                    
                     
                 }
                 if(rarity === 'سلسلة التجمد'){
@@ -278,12 +269,11 @@ module.exports = {
                     ctx.fillStyle = '#ffffff';
                     ctx.textAlign='center';
                     ctx.font = '46px Arabic'
-                    ctx.fillText(name, 256, 430)
+                    ctx.fillText(name, 256, 425)
                     ctx.textAlign='center';
                     ctx.font = applyText(canvas, description);
-                    ctx.fillText(description, 256, 460)
-                    const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                    ctx.drawImage(credit, 30, 35, 146, 40);
+                    ctx.fillText(description, 256, 470)
+                    
         
                 }
                 if(rarity === 'سلسلة الحمم'){
@@ -298,12 +288,11 @@ module.exports = {
                     ctx.fillStyle = '#ffffff';
                     ctx.textAlign='center';
                     ctx.font = '46px Arabic'
-                    ctx.fillText(name, 256, 430)
+                    ctx.fillText(name, 256, 425)
                     ctx.textAlign='center';
                     ctx.font = applyText(canvas, description);
-                    ctx.fillText(description, 256, 460)
-                    const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                    ctx.drawImage(credit, 30, 35, 146, 40);
+                    ctx.fillText(description, 256, 470)
+                    
                 }
                 if(rarity === 'سلسلة أساطير الألعاب'){
                     //creating image                   
@@ -317,12 +306,11 @@ module.exports = {
                     ctx.fillStyle = '#ffffff';
                     ctx.textAlign='center';
                     ctx.font = '46px Arabic'
-                    ctx.fillText(name, 256, 430)
+                    ctx.fillText(name, 256, 425)
                     ctx.textAlign='center';
                     ctx.font = applyText(canvas, description);
-                    ctx.fillText(description, 256, 460)
-                    const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                    ctx.drawImage(credit, 30, 35, 146, 40);
+                    ctx.fillText(description, 256, 470)
+                    
                 }
 
                 const att = new Discord.MessageAttachment(canvas.toBuffer('image/jpeg', {quality: 0.5}), replaced+'.jpg')

@@ -93,10 +93,12 @@ module.exports = {
                 ctx.textAlign='center';
                 if(lang === "en"){
                     ctx.font = '30px Burbank Big Condensed'
+                    ctx.fillText(res.data.data.DaysLeft+lefttt, (length + (leftt / 2) + 165), 118)
                 }else if(lang === "ar"){
                     ctx.font = '30px Arabic'
+                    ctx.fillText(res.data.data.DaysLeft+lefttt, (length + (leftt / 2) + 165), 114)
                 }
-                ctx.fillText(res.data.data.DaysLeft+lefttt, (length + (leftt / 2) + 165), 116)
+                
 
                 const att = new Discord.MessageAttachment(canvas.toBuffer(), "season5.png")
                 await message.channel.send(att)

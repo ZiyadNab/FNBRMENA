@@ -1,7 +1,7 @@
 const axios = require('axios');
 const Canvas = require('canvas')
-var gone;
-var left;
+var gonee;
+var leftt;
 var Slength;
 var days;
 
@@ -18,8 +18,8 @@ module.exports = {
                 var lang = data.val().lang;
 
                 if(lang === "en"){
-                    gone = " Days Gone"
-                    left = " Days Left"
+                    gonee = " Days Gone"
+                    leftt = " Days Left"
                     Slength = "Season Length "
                     days = " Days"
                 }
@@ -82,7 +82,7 @@ module.exports = {
                 }else if(lang === "ar"){
                     ctx.font = '30px Arabic'
                 }
-                ctx.fillText(res.data.data.DaysGone+gone, (length / 2) + 165, 220)
+                ctx.fillText(res.data.data.DaysGone+gonee, (length / 2) + 165, 220)
 
                 //left
                 var leftlength = ((res.data.data.DaysLeft + 1) / res.data.data.SeasonLength)
@@ -96,7 +96,7 @@ module.exports = {
                 }else if(lang === "ar"){
                     ctx.font = '30px Arabic'
                 }
-                ctx.fillText(res.data.data.DaysLeft+left, (length + (leftt / 2) + 165), 118)
+                ctx.fillText(res.data.data.DaysLeft+leftt, (length + (leftt / 2) + 165), 118)
 
                 const att = new Discord.MessageAttachment(canvas.toBuffer(), "season5.png")
                 await message.channel.send(att)

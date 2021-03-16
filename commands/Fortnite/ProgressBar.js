@@ -25,7 +25,7 @@ module.exports = {
                 }
                 if(lang === "ar"){
                     gonee = " يوم مضى"
-                    leftt = " يوم متبقي"
+                    lefttt = " يوم متبقي"
                     Slength = "طول السيزون "
                     days = " يوم"
                 }

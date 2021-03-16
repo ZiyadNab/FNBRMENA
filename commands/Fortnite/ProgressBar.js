@@ -96,7 +96,7 @@ module.exports = {
                     ctx.fillText(res.data.data.DaysLeft+lefttt, (length + (leftt / 2) + 165), 118)
                 }else if(lang === "ar"){
                     ctx.font = '30px Arabic'
-                    ctx.fillText(res.data.data.DaysLeft+lefttt, (length + (leftt / 2) + 165), 114)
+                    ctx.fillText(res.data.data.DaysLeft+lefttt, (length + (leftt / 2) + 165), 111)
                 }
                 
 

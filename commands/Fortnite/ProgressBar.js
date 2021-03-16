@@ -88,7 +88,7 @@ module.exports = {
                 var leftlength = ((res.data.data.DaysLeft + 1) / res.data.data.SeasonLength)
                 var leftt = 817 * leftlength
                 const left = await Canvas.loadImage('./assets/Bar/BarWhite.png')
-                ctx.drawImage(left, (length + 165), 130, lefttt, 8)
+                ctx.drawImage(left, (length + 165), 130, leftt, 8)
                 ctx.fillStyle = '#ffffff';
                 ctx.textAlign='center';
                 if(lang === "en"){

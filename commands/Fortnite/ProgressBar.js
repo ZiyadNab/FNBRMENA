@@ -20,7 +20,7 @@ module.exports = {
             .then( async msg => {
 
             var percentage = (res.data.data.DaysGone / res.data.data.SeasonLength);
-            var length = 1014 * percentage
+            var length = 817 * percentage
 
             //canvas
             const canvas = Canvas.createCanvas(1100, 300);
@@ -36,35 +36,29 @@ module.exports = {
 
             //bar
             const bar = await Canvas.loadImage('./assets/Bar/Bar.png')
-            ctx.drawImage(bar, 50, 131, length, 34)
+            ctx.drawImage(bar, 165, 144, length, 33)
             ctx.fillStyle = '#ffffff';
             ctx.textAlign='center';
             ctx.font = 'normal 30px Burbank Big Condensed'
-            ctx.fillText(((percentage * 100) | 0) + "%", (length + 20), 158)
+            ctx.fillText(((percentage * 100) | 0) + "%", (length + 142), 170)
 
             //gone
             const gone = await Canvas.loadImage('./assets/Bar/green.png')
-            ctx.drawImage(gone, 50, 175, length, 11)
+            ctx.drawImage(gone, 165, 183, length, 8)
             ctx.fillStyle = '#ffffff';
             ctx.textAlign='center';
             ctx.font = 'normal 30px Burbank Big Condensed'
-            ctx.fillText(res.data.data.DaysGone+" Days Gone", (length / 2), 215)
+            ctx.fillText(res.data.data.DaysGone+" Days Gone", (length / 2) + 165, 220)
 
             //left
             var leftlength = ((res.data.data.DaysLeft + 1) / res.data.data.SeasonLength)
-            var leftt = 1014 * leftlength
+            var leftt = 817 * leftlength
             const left = await Canvas.loadImage('./assets/Bar/BarWhite.png')
-            ctx.drawImage(left, (length + 50), 115, leftt, 11)
+            ctx.drawImage(left, (length + 165), 130, leftt, 8)
             ctx.fillStyle = '#ffffff';
             ctx.textAlign='center';
             ctx.font = 'normal 30px Burbank Big Condensed'
-            ctx.fillText(res.data.data.DaysLeft+" Days Left", (length + (leftt / 2) + 50), 105)
-
-            //season
-            ctx.fillStyle = '#ffffff';
-            ctx.textAlign='left';
-            ctx.font = 'normal 60px Burbank Big Condensed'
-            ctx.fillText("Season 5 Chapter 2", 50, 70)
+            ctx.fillText(res.data.data.DaysLeft+" Days Left", (length + (leftt / 2) + 165), 118)
 
             const att = new Discord.MessageAttachment(canvas.toBuffer(), "season5.png")
             await message.channel.send(att)

@@ -1,5 +1,9 @@
 const axios = require('axios');
 const Canvas = require('canvas')
+var gone;
+var left;
+var Slength;
+var days;
 
 module.exports = {
     commands: 'progress',
@@ -7,85 +11,117 @@ module.exports = {
     minArgs: 0,
     maxArgs: 0,
     permissionError: 'Sorry you do not have acccess to this command',
-    callback: (message, arguments, text, Discord, client) => {
+    callback: (message, arguments, text, Discord, client, admin) => {
         axios.get('https://api.peely.de/v1/br/progress/data')
         .then(async (res) => {
-            console.log(res.data);
+            admin.database().ref("ERA's").child("Users").child(message.author.id).once('value', function (data) {
+                var lang = data.val().lang;
 
-            const generating = new Discord.MessageEmbed()
-            generating.setColor('#BB00EE')
-            const emoji = client.emojis.cache.get("805690920157970442")
-            generating.setTitle(`Generating Season Info ... ${emoji}`)
-            message.channel.send(generating)
-            .then( async msg => {
+                if(lang === "en"){
+                    gone = " Days Gone"
+                    left = " Days Left"
+                    Slength = "Season Length "
+                    days = " Days"
+                }
+                if(lang === "ar"){
+                    gone = " يوم مضى"
+                    left = " يوم متبقي"
+                    Slength = "طول السيزون "
+                    days = " يوم"
+                }
 
-            var percentage = (res.data.data.DaysGone / res.data.data.SeasonLength);
-            var length = 817 * percentage
+                const generating = new Discord.MessageEmbed()
+                generating.setColor('#BB00EE')
+                const emoji = client.emojis.cache.get("805690920157970442")
+                generating.setTitle(`Generating Season Info ... ${emoji}`)
+                message.channel.send(generating)
+                .then( async msg => {
 
-            //font
-            Canvas.registerFont('./assets/font/BurbankBigCondensed-Black.otf' ,{family: 'Burbank Big Condensed',weight: "700",style: "bold"})
-            
-            //canvas
-            const canvas = Canvas.createCanvas(1100, 300);
-            const ctx = canvas.getContext('2d'); 
+                var percentage = (res.data.data.DaysGone / res.data.data.SeasonLength);
+                var length = 817 * percentage
 
-            //background
-            const background = await Canvas.loadImage('./assets/Bar/card.png')
-            ctx.drawImage(background, 0, 0, canvas.width, canvas.height)
-            ctx.fillStyle = '#ffffff';
-            ctx.textAlign='center';
-            ctx.font = 'normal 25px Burbank Big Condensed'
-            ctx.fillText("Season Length "+ res.data.data.SeasonLength +" Days", (1100 / 2), 290)
+                //font
+                Canvas.registerFont('./assets/font/Lalezar-Regular.ttf', {family: 'Arabic',weight: "700",style: "bold"});
+                Canvas.registerFont('./assets/font/BurbankBigCondensed-Black.otf' ,{family: 'Burbank Big Condensed',weight: "700",style: "bold"})
+                
+                //canvas
+                const canvas = Canvas.createCanvas(1100, 300);
+                const ctx = canvas.getContext('2d'); 
 
-            //bar
-            const bar = await Canvas.loadImage('./assets/Bar/Bar.png')
-            ctx.drawImage(bar, 165, 144, length, 33)
-            ctx.fillStyle = '#ffffff';
-            ctx.textAlign='center';
-            ctx.font = 'normal 30px Burbank Big Condensed'
-            ctx.fillText(((percentage * 100) | 0) + "%", (length + 142), 170)
+                //background
+                const background = await Canvas.loadImage('./assets/Bar/card.png')
+                ctx.drawImage(background, 0, 0, canvas.width, canvas.height)
+                ctx.fillStyle = '#ffffff';
+                ctx.textAlign='center';
+                if(lang === "en"){
+                    ctx.font = '25px Burbank Big Condensed'
+                }else if(lang === "ar"){
+                    ctx.font = '25px Arabic'
+                }
+                ctx.fillText(Slength+ res.data.data.SeasonLength +days, (1100 / 2), 290)
 
-            //gone
-            const gone = await Canvas.loadImage('./assets/Bar/green.png')
-            ctx.drawImage(gone, 165, 183, length, 8)
-            ctx.fillStyle = '#ffffff';
-            ctx.textAlign='center';
-            ctx.font = 'normal 30px Burbank Big Condensed'
-            ctx.fillText(res.data.data.DaysGone+" Days Gone", (length / 2) + 165, 220)
+                //bar
+                const bar = await Canvas.loadImage('./assets/Bar/Bar.png')
+                ctx.drawImage(bar, 165, 144, length, 33)
+                ctx.fillStyle = '#ffffff';
+                ctx.textAlign='center';
+                if(lang === "en"){
+                    ctx.font = '30px Burbank Big Condensed'
+                }else if(lang === "ar"){
+                    ctx.font = '30px Arabic'
+                }
+                ctx.fillText(((percentage * 100) | 0) + "%", (length + 142), 170)
 
-            //left
-            var leftlength = ((res.data.data.DaysLeft + 1) / res.data.data.SeasonLength)
-            var leftt = 817 * leftlength
-            const left = await Canvas.loadImage('./assets/Bar/BarWhite.png')
-            ctx.drawImage(left, (length + 165), 130, leftt, 8)
-            ctx.fillStyle = '#ffffff';
-            ctx.textAlign='center';
-            ctx.font = 'normal 30px Burbank Big Condensed'
-            ctx.fillText(res.data.data.DaysLeft+" Days Left", (length + (leftt / 2) + 165), 118)
+                //gone
+                const gone = await Canvas.loadImage('./assets/Bar/green.png')
+                ctx.drawImage(gone, 165, 183, length, 8)
+                ctx.fillStyle = '#ffffff';
+                ctx.textAlign='center';
+                if(lang === "en"){
+                    ctx.font = '30px Burbank Big Condensed'
+                }else if(lang === "ar"){
+                    ctx.font = '30px Arabic'
+                }
+                ctx.fillText(res.data.data.DaysGone+gone, (length / 2) + 165, 220)
 
-            const att = new Discord.MessageAttachment(canvas.toBuffer(), "season5.png")
-            await message.channel.send(att)
+                //left
+                var leftlength = ((res.data.data.DaysLeft + 1) / res.data.data.SeasonLength)
+                var leftt = 817 * leftlength
+                const left = await Canvas.loadImage('./assets/Bar/BarWhite.png')
+                ctx.drawImage(left, (length + 165), 130, leftt, 8)
+                ctx.fillStyle = '#ffffff';
+                ctx.textAlign='center';
+                if(lang === "en"){
+                    ctx.font = '30px Burbank Big Condensed'
+                }else if(lang === "ar"){
+                    ctx.font = '30px Arabic'
+                }
+                ctx.fillText(res.data.data.DaysLeft+left, (length + (leftt / 2) + 165), 118)
 
-            const progress = new Discord.MessageEmbed()
-            progress.setColor('#BB00EE')
-            progress.setTitle('Progress Bar')
-            progress.setDescription('FNBR_MENA Bot has generated a season progress for you')
-            progress.addFields(
-                    {name: 'Days Left', value: res.data.data.DaysLeft, inline: true},
-                    {name: 'Days Gone', value: res.data.data.DaysGone, inline: true},
-                    {name: 'Season Length', value: res.data.data.SeasonLength, inline: true}
-                )
-                progress.setFooter('Generated By FNBR_MENA Bot')
-                progress.setAuthor('FNBR_MENA Bot', 'https://i.imgur.com/LfotEkZ.jpg', 'https://twitter.com/FNBR_MENA')
-                message.reply(progress);
-                msg.delete()
+                const att = new Discord.MessageAttachment(canvas.toBuffer(), "season5.png")
+                await message.channel.send(att)
+
+                const progress = new Discord.MessageEmbed()
+                progress.setColor('#BB00EE')
+                progress.setTitle('Progress Bar')
+                progress.setDescription('FNBR_MENA Bot has generated a season progress for you')
+                progress.addFields(
+                        {name: 'Days Left', value: res.data.data.DaysLeft, inline: true},
+                        {name: 'Days Gone', value: res.data.data.DaysGone, inline: true},
+                        {name: 'Season Length', value: res.data.data.SeasonLength, inline: true}
+                    )
+                    progress.setFooter('Generated By FNBR_MENA Bot')
+                    progress.setAuthor('FNBR_MENA Bot', 'https://i.imgur.com/LfotEkZ.jpg', 'https://twitter.com/FNBR_MENA')
+                    message.reply(progress);
+                    msg.delete()
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
             })
             .catch((err) => {
                 console.log(err)
             })
-        })
-        .catch((err) => {
-            console.log(err)
         })
     },
     

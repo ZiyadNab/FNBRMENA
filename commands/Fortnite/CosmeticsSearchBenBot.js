@@ -124,6 +124,25 @@ module.exports = {
                     
                     
                 }
+                if(rarity === 'شائع'){
+                    //creating image                    
+                    const skinholder = await Canvas.loadImage('./assets/Rarities/New/common.png')
+                    ctx.drawImage(skinholder, 0,0, 512, 512)
+                    const skin = await Canvas.loadImage(image);
+                    ctx.drawImage(skin, 0,0, 512, 512)
+                    const skinborder = await Canvas.loadImage('./assets/Rarities/New/borderCommon.png')
+                    ctx.drawImage(skinborder, 0,0, 512, 512)
+                    ctx.drawImage(skinborder, 0,0, 512, 512)
+                    ctx.fillStyle = '#ffffff';
+                    ctx.textAlign='center';
+                    ctx.font = '46px Arabic'
+                    ctx.fillText(name, 256, 425)
+                    ctx.textAlign='center';
+                    ctx.font = applyText(canvas, description);
+                    ctx.fillText(description, 256, 470)
+                    
+                    
+                }
                 if(rarity === 'سلسلة MARVEL'){
                     //creating image                    
                     const skinholder = await Canvas.loadImage('./assets/Rarities/New/marvel.png')

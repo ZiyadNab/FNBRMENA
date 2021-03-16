@@ -22,6 +22,9 @@ module.exports = {
             var percentage = (res.data.data.DaysGone / res.data.data.SeasonLength);
             var length = 817 * percentage
 
+            //font
+            Canvas.registerFont('./assets/font/BurbankBigCondensed-Black.otf' ,{family: 'Burbank Big Condensed',weight: "700",style: "bold"})
+            
             //canvas
             const canvas = Canvas.createCanvas(1100, 300);
             const ctx = canvas.getContext('2d'); 

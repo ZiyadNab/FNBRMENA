@@ -74,7 +74,7 @@ module.exports = {
 
                 //gone
                 const gone = await Canvas.loadImage('./assets/Bar/green.png')
-                ctx.drawImage(gone, 165, 183, 0, 8)
+                ctx.drawImage(gone, 165, 183, 0,20)
                 ctx.fillStyle = '#ffffff';
                 ctx.textAlign='center';
                 if(lang === "en"){

@@ -11,7 +11,6 @@ module.exports = {
     callback: (message, arguments, text, Discord, client) => {
         axios.get('https://fn-api.com/api/shop_categories')
         .then( async (res) => {
-            console.log(res.data);
 
             // generating animation
             const generating = new Discord.MessageEmbed()
@@ -35,10 +34,13 @@ module.exports = {
             //height
             var height = 100;
             for (let i = 0; i < length; i++){
-                height += 150 + 27;
+                height += 150;
             }
 
             height += 100
+
+            //font
+            Canvas.registerFont('./assets/font/BurbankBigCondensed-Black.otf' ,{family: 'Burbank Big Condensed',weight: "700",style: "bold"})
 
             //canvas
             const canvas = Canvas.createCanvas(width, height);
@@ -80,7 +82,7 @@ module.exports = {
             ctx.fillStyle = '#000000';
             ctx.textAlign='center';
             ctx.font = '50px Burbank Big Condensed'
-            ctx.fillText("Applies at " + time, (x + 400), (y + 70))
+            ctx.fillText("Applies at 3:00 AM", (x + 400), (y + 70))
 
             const sending = new Discord.MessageEmbed()
             .setColor('#BB00EE')

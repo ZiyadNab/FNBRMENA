@@ -58,7 +58,7 @@ module.exports = {
                 }else if(lang === "ar"){
                     ctx.font = '25px Arabic'
                 }
-                ctx.fillText(Slength+ res.data.data.SeasonLength +days, (1100 / 2), 290)
+                ctx.fillText(Slength+ res.data.data.SeasonLength +days, (1100 / 2), 288)
 
                 //bar
                 const bar = await Canvas.loadImage('./assets/Bar/Bar.png')
@@ -74,7 +74,7 @@ module.exports = {
 
                 //gone
                 const gone = await Canvas.loadImage('./assets/Bar/green.png')
-                ctx.drawImage(gone, 165, 183, 0,20)
+                ctx.drawImage(gone, 165, 183, length,8)
                 ctx.fillStyle = '#ffffff';
                 ctx.textAlign='center';
                 if(lang === "en"){

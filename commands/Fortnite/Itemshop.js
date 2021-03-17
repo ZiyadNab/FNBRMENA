@@ -37,7 +37,6 @@ module.exports = {
         
             fortniteAPI.getDailyShop(options = {lang: language})
             .then(async res => {
-                console.log(res);
 
                 // generating animation
                 var length = res.featured.length + res.daily.length + res.specialFeatured.length;

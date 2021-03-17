@@ -11,18 +11,17 @@ module.exports = {
     callback: (message, arguments, text, Discord, client) => {
         axios.get('https://fn-api.com/api/shop_categories')
         .then( async (res) => {
-            console.log(res.data);
+            console.log(res)
+            //length
+            var length = res.data.shopCategories.length;
 
             // generating animation
             const generating = new Discord.MessageEmbed()
             generating.setColor('#BB00EE')
             const emoji = client.emojis.cache.get("805690920157970442")
-            generating.setTitle(`Getting the API ready ... ${emoji}`)
+            generating.setTitle(`Loading ${length} Sections... ${emoji}`)
             message.channel.send(generating)
             .then( async msg => {
-
-            var length = res.data.shopCategories.length;
-            console.log(length);
 
             //time
             var time = moment(res.data.timestamp).format("h:mm a");
@@ -35,7 +34,7 @@ module.exports = {
             //height
             var height = 100;
             for (let i = 0; i < length; i++){
-                height += 150 + 27;
+                height += 150;
             }
 
             height += 100
@@ -55,15 +54,6 @@ module.exports = {
             //data
             for (let i = 0; i < length; i++){
 
-                var percentage = (i / length) * 100;
-                percentage = percentage | 0;
-
-                //counter embed
-                const counter = new Discord.MessageEmbed()
-                counter.setColor("#BB00EE")
-                counter.setTitle(`Completing... ${percentage}% ${emoji}`)
-                msg.edit(counter)
-
                 const card = await Canvas.loadImage('./assets/Section/card.png')
                 ctx.drawImage(card,x, y, 850,150)
 
@@ -80,7 +70,7 @@ module.exports = {
             ctx.fillStyle = '#000000';
             ctx.textAlign='center';
             ctx.font = '50px Burbank Big Condensed'
-            ctx.fillText("Applies at " + time, (x + 400), (y + 70))
+            ctx.fillText("Applies at 3:00 AM", (x + 400), (y + 70))
 
             const sending = new Discord.MessageEmbed()
             .setColor('#BB00EE')

@@ -48,7 +48,7 @@ module.exports = {
                     .then( async msg => {
 
                     // picture sizes here ...
-                    var shape = (res.data.items.length / 2);
+                    var shape = (res.data.items.length / 4);
                     if (shape % 2 !== 0){
                         shape += 1;
                         shape = shape | 0;

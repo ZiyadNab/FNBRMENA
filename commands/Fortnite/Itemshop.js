@@ -183,7 +183,7 @@ module.exports = {
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
-                                ctx.font = '60px Arabic'
+                                ctx.font = applyText(canvas, name);
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Arabic'
@@ -224,7 +224,7 @@ module.exports = {
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
-                                ctx.font = '60px Arabic'
+                                ctx.font = applyText(canvas, name);
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Arabic'
@@ -264,7 +264,7 @@ module.exports = {
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
-                                ctx.font = '60px Arabic'
+                                ctx.font = applyText(canvas, name);
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Arabic'
@@ -305,7 +305,7 @@ module.exports = {
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
-                                ctx.font = '60px Arabic'
+                                ctx.font = applyText(canvas, name);
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Arabic'
@@ -346,7 +346,7 @@ module.exports = {
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
-                                ctx.font = '60px Arabic'
+                                ctx.font = applyText(canvas, name);
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Arabic'
@@ -404,7 +404,7 @@ module.exports = {
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
-                                ctx.font = '60px Arabic'
+                                ctx.font = applyText(canvas, name);
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Arabic'
@@ -445,7 +445,7 @@ module.exports = {
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
-                                ctx.font = '60px Arabic'
+                                ctx.font = applyText(canvas, name);
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Arabic'
@@ -485,7 +485,7 @@ module.exports = {
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
-                                ctx.font = '60px Arabic'
+                                ctx.font = applyText(canvas, name);
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Arabic'
@@ -527,7 +527,7 @@ module.exports = {
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
-                                ctx.font = '60px Arabic'
+                                ctx.font = applyText(canvas, name);
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Arabic'
@@ -568,7 +568,7 @@ module.exports = {
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
-                                ctx.font = '60px Arabic'
+                                ctx.font = applyText(canvas, name);
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Arabic'
@@ -608,7 +608,7 @@ module.exports = {
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
-                                ctx.font = '60px Arabic'
+                                ctx.font = applyText(canvas, name);
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Arabic'
@@ -649,7 +649,7 @@ module.exports = {
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
-                                ctx.font = '60px Arabic'
+                                ctx.font = applyText(canvas, name);
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Arabic'
@@ -690,7 +690,7 @@ module.exports = {
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
-                                ctx.font = '60px Arabic'
+                                ctx.font = applyText(canvas, name);
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Arabic'
@@ -732,7 +732,7 @@ module.exports = {
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
-                                ctx.font = '60px Arabic'
+                                ctx.font = applyText(canvas, name);
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Arabic'
@@ -813,7 +813,7 @@ module.exports = {
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
-                                ctx.font = '60px Arabic'
+                                ctx.font = applyText(canvas, name);
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Arabic'
@@ -854,7 +854,7 @@ module.exports = {
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
-                                ctx.font = '60px Arabic'
+                                ctx.font = applyText(canvas, name);
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Arabic'
@@ -894,7 +894,7 @@ module.exports = {
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
-                                ctx.font = '60px Arabic'
+                                ctx.font = applyText(canvas, name);
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Arabic'
@@ -935,7 +935,7 @@ module.exports = {
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
-                                ctx.font = '60px Arabic'
+                                ctx.font = applyText(canvas, name);
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Arabic'
@@ -976,7 +976,7 @@ module.exports = {
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
-                                ctx.font = '60px Arabic'
+                                ctx.font = applyText(canvas, name);
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Arabic'
@@ -1017,7 +1017,7 @@ module.exports = {
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
-                                ctx.font = '60px Arabic'
+                                ctx.font = applyText(canvas, name);
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Arabic'
@@ -1058,7 +1058,7 @@ module.exports = {
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
-                                ctx.font = '60px Arabic'
+                                ctx.font = applyText(canvas, name);
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Arabic'
@@ -1099,7 +1099,7 @@ module.exports = {
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
-                                ctx.font = '60px Arabic'
+                                ctx.font = applyText(canvas, name);
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Arabic'
@@ -1139,7 +1139,7 @@ module.exports = {
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
-                                ctx.font = '60px Arabic'
+                                ctx.font = applyText(canvas, name);
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Arabic'
@@ -1181,7 +1181,7 @@ module.exports = {
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
-                                ctx.font = '60px Arabic'
+                                ctx.font = applyText(canvas, name);
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Arabic'
@@ -1222,7 +1222,7 @@ module.exports = {
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
-                                ctx.font = '60px Arabic'
+                                ctx.font = applyText(canvas, name);
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Arabic'
@@ -1262,7 +1262,7 @@ module.exports = {
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
-                                ctx.font = '60px Arabic'
+                                ctx.font = applyText(canvas, name);
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Arabic'
@@ -1303,7 +1303,7 @@ module.exports = {
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
-                                ctx.font = '60px Arabic'
+                                ctx.font = applyText(canvas, name);
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Arabic'
@@ -1344,7 +1344,7 @@ module.exports = {
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
-                                ctx.font = '60px Arabic'
+                                ctx.font = applyText(canvas, name);
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Arabic'
@@ -1386,7 +1386,7 @@ module.exports = {
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
-                                ctx.font = '60px Arabic'
+                                ctx.font = applyText(canvas, name);
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Arabic'
@@ -1480,7 +1480,7 @@ module.exports = {
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
-                                ctx.font = '60px Arabic'
+                                ctx.font = applyText(canvas, name);
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Arabic'
@@ -1521,7 +1521,7 @@ module.exports = {
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
-                                ctx.font = '60px Arabic'
+                                ctx.font = applyText(canvas, name);
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Arabic'
@@ -1561,7 +1561,7 @@ module.exports = {
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
-                                ctx.font = '60px Arabic'
+                                ctx.font = applyText(canvas, name);
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Arabic'
@@ -1602,7 +1602,7 @@ module.exports = {
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
-                                ctx.font = '60px Arabic'
+                                ctx.font = applyText(canvas, name);
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Arabic'
@@ -1643,7 +1643,7 @@ module.exports = {
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
-                                ctx.font = '60px Arabic'
+                                ctx.font = applyText(canvas, name);
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Arabic'
@@ -1684,7 +1684,7 @@ module.exports = {
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
-                                ctx.font = '60px Arabic'
+                                ctx.font = applyText(canvas, name);
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Arabic'
@@ -1725,7 +1725,7 @@ module.exports = {
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
-                                ctx.font = '60px Arabic'
+                                ctx.font = applyText(canvas, name);
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Arabic'
@@ -1766,7 +1766,7 @@ module.exports = {
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
-                                ctx.font = '60px Arabic'
+                                ctx.font = applyText(canvas, name);
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Arabic'
@@ -1806,7 +1806,7 @@ module.exports = {
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
-                                ctx.font = '60px Arabic'
+                                ctx.font = applyText(canvas, name);
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Arabic'
@@ -1848,7 +1848,7 @@ module.exports = {
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
-                                ctx.font = '60px Arabic'
+                                ctx.font = applyText(canvas, name);
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Arabic'
@@ -1889,7 +1889,7 @@ module.exports = {
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
-                                ctx.font = '60px Arabic'
+                                ctx.font = applyText(canvas, name);
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Arabic'
@@ -1929,7 +1929,7 @@ module.exports = {
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
-                                ctx.font = '60px Arabic'
+                                ctx.font = applyText(canvas, name);
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Arabic'
@@ -1970,7 +1970,7 @@ module.exports = {
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
-                                ctx.font = '60px Arabic'
+                                ctx.font = applyText(canvas, name);
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Arabic'
@@ -2011,7 +2011,7 @@ module.exports = {
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
-                                ctx.font = '60px Arabic'
+                                ctx.font = applyText(canvas, name);
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Arabic'
@@ -2053,7 +2053,7 @@ module.exports = {
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
-                                ctx.font = '60px Arabic'
+                                ctx.font = applyText(canvas, name);
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Arabic'

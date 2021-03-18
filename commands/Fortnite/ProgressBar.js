@@ -70,7 +70,13 @@ module.exports = {
                 }else if(lang === "ar"){
                     ctx.font = '30px Arabic'
                 }
-                ctx.fillText(((percentage * 100) | 0) + "%", (length + 142), 170)
+                if(length > (817 / 2)){
+                    ctx.fillStyle = '#ffffff';
+                    ctx.fillText(((percentage * 100) | 0) + "%", (length + 142), 170)
+                }else {
+                    ctx.fillStyle = '#000000';
+                    ctx.fillText(((percentage * 100) | 0) + "%", (length + 142), 170)
+                }
 
                 //gone
                 const gone = await Canvas.loadImage('./assets/Bar/green.png')

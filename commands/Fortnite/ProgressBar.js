@@ -4,6 +4,7 @@ var gonee;
 var lefttt;
 var Slength;
 var days;
+var gen;
 
 module.exports = {
     commands: 'progress',
@@ -18,12 +19,14 @@ module.exports = {
                 var lang = data.val().lang;
 
                 if(lang === "en"){
+                    gen = "Generating Season Info"
                     gonee = " Days Gone"
                     lefttt = " Days Left"
                     Slength = "Season Length "
                     days = " Days"
                 }
                 if(lang === "ar"){
+                    gen = "جاري تحميل معلومات السيزون"
                     gonee = " يوم مضى"
                     lefttt = " يوم متبقي"
                     Slength = "طول السيزون "
@@ -33,7 +36,7 @@ module.exports = {
                 const generating = new Discord.MessageEmbed()
                 generating.setColor('#BB00EE')
                 const emoji = client.emojis.cache.get("805690920157970442")
-                generating.setTitle(`Generating Season Info ... ${emoji}`)
+                generating.setTitle(`${gen} ... ${emoji}`)
                 message.channel.send(generating)
                 .then( async msg => {
 

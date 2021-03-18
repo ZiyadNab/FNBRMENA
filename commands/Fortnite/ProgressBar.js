@@ -78,7 +78,7 @@ module.exports = {
                     ctx.fillText(((percentage * 100) | 0) + "%", (length + 142), 170)
                 }else {
                     ctx.fillStyle = '#000000';
-                    ctx.fillText(((percentage * 100) | 0) + "%", (length + 160), 170)
+                    ctx.fillText(((percentage * 100) | 0) + "%", (length + 180), 170)
                 }
 
                 //gone

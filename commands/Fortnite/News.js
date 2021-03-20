@@ -54,7 +54,7 @@ module.exports = {
                                 if(reaction.emoji.name === '1️⃣'){
                                     Fortnite.NewsBR("en")
                                     .then(async res => {
-                                        
+                                        console.log(res.data)
 
                                         Canvas.registerFont('./assets/font/BurbankBigCondensed-Black.otf' ,{family: 'Burbank Big Condensed',weight: "700",style: "bold"})
 
@@ -77,7 +77,11 @@ module.exports = {
                                                     ctx.fillStyle = '#ffffff';
                                                     ctx.textAlign='center';
                                                     ctx.font = '60px Burbank Big Condensed'
-                                                    ctx.fillText(res.data.motds[j].tabTitle, ((layout * text) / 2), 66)
+                                                    if(res.data.motds[j].tabTitle !== null){
+                                                        ctx.fillText(res.data.motds[j].tabTitle, ((layout * text) / 2), 66)
+                                                    }else{
+                                                        ctx.fillText(res.data.motds[j].title, ((layout * text) / 2), 66)
+                                                    }
                                                     x += layout
                                                     text += 2;
                                                 }else{
@@ -86,7 +90,11 @@ module.exports = {
                                                     ctx.fillStyle = '#ffffff';
                                                     ctx.textAlign='center';
                                                     ctx.font = '60px Burbank Big Condensed'
-                                                    ctx.fillText(res.data.motds[j].tabTitle, ((layout * text) / 2), 66)
+                                                    if(res.data.motds[j].tabTitle !== null){
+                                                        ctx.fillText(res.data.motds[j].tabTitle, ((layout * text) / 2), 66)
+                                                    }else{
+                                                        ctx.fillText(res.data.motds[j].title, ((layout * text) / 2), 66)
+                                                    }
                                                     x += layout
                                                     text += 2;
                                                 }
@@ -106,7 +114,7 @@ module.exports = {
                                                 px = 45
                                                 y = lines * 22
                                                 x = 910
-                                            }else if (lines < 2){
+                                            }else if (lines <= 2){
                                                 px = 60
                                                 y = 0
                                                 x = 900
@@ -208,7 +216,7 @@ module.exports = {
                                                 px = 45
                                                 y = lines * 22
                                                 x = 910
-                                            }else if (lines < 2){
+                                            }else if (lines <= 2){
                                                 px = 60
                                                 y = 0
                                                 x = 900
@@ -282,7 +290,11 @@ module.exports = {
                                                     ctx.fillStyle = '#ffffff';
                                                     ctx.textAlign='center';
                                                     ctx.font = '60px Burbank Big Condensed'
-                                                    ctx.fillText(res.data.motds[j].tabTitle, ((layout * text) / 2), 66)
+                                                    if(res.data.motds[j].tabTitle !== null){
+                                                        ctx.fillText(res.data.motds[j].tabTitle, ((layout * text) / 2), 66)
+                                                    }else{
+                                                        ctx.fillText(res.data.motds[j].title, ((layout * text) / 2), 66)
+                                                    }
                                                     x += layout
                                                     text += 2;
                                                 }else{
@@ -291,7 +303,11 @@ module.exports = {
                                                     ctx.fillStyle = '#ffffff';
                                                     ctx.textAlign='center';
                                                     ctx.font = '60px Burbank Big Condensed'
-                                                    ctx.fillText(res.data.motds[j].tabTitle, ((layout * text) / 2), 66)
+                                                    if(res.data.motds[j].tabTitle !== null){
+                                                        ctx.fillText(res.data.motds[j].tabTitle, ((layout * text) / 2), 66)
+                                                    }else{
+                                                        ctx.fillText(res.data.motds[j].title, ((layout * text) / 2), 66)
+                                                    }
                                                     x += layout
                                                     text += 2;
                                                 }
@@ -311,7 +327,7 @@ module.exports = {
                                                 px = 45
                                                 y = lines * 22
                                                 x = 910
-                                            }else if (lines < 2){
+                                            }else if (lines <= 2){
                                                 px = 60
                                                 y = 0
                                                 x = 900
@@ -416,7 +432,11 @@ module.exports = {
                                                         ctx.fillStyle = '#ffffff';
                                                         ctx.textAlign='center';
                                                         ctx.font = '60px Arabic'
+                                                        if(res.data.motds[j].tabTitle !== null){
                                                         ctx.fillText(res.data.motds[j].tabTitle, ((layout * text) / 2), 66)
+                                                    }else{
+                                                        ctx.fillText(res.data.motds[j].title, ((layout * text) / 2), 66)
+                                                    }
                                                         x += layout
                                                         text += 2;
                                                     }else{
@@ -425,7 +445,11 @@ module.exports = {
                                                         ctx.fillStyle = '#ffffff';
                                                         ctx.textAlign='center';
                                                         ctx.font = '60px Arabic'
+                                                        if(res.data.motds[j].tabTitle !== null){
                                                         ctx.fillText(res.data.motds[j].tabTitle, ((layout * text) / 2), 66)
+                                                    }else{
+                                                        ctx.fillText(res.data.motds[j].title, ((layout * text) / 2), 66)
+                                                    }
                                                         x += layout
                                                         text += 2;
                                                     }
@@ -445,7 +469,7 @@ module.exports = {
                                                     px = 45
                                                     y = lines * 28
                                                     x = 910
-                                                }else if (lines < 2){
+                                                }else if (lines <= 2){
                                                     px = 60
                                                     y = 0
                                                     x = 900
@@ -547,7 +571,7 @@ module.exports = {
                                                     px = 45
                                                     y = lines * 28
                                                     x = 910
-                                                }else if (lines < 2){
+                                                }else if (lines <= 2){
                                                     px = 60
                                                     y = 0
                                                     x = 900
@@ -621,7 +645,11 @@ module.exports = {
                                                         ctx.fillStyle = '#ffffff';
                                                         ctx.textAlign='center';
                                                         ctx.font = '60px Arabic'
+                                                        if(res.data.motds[j].tabTitle !== null){
                                                         ctx.fillText(res.data.motds[j].tabTitle, ((layout * text) / 2), 66)
+                                                    }else{
+                                                        ctx.fillText(res.data.motds[j].title, ((layout * text) / 2), 66)
+                                                    }
                                                         x += layout
                                                         text += 2;
                                                     }else{
@@ -630,7 +658,11 @@ module.exports = {
                                                         ctx.fillStyle = '#ffffff';
                                                         ctx.textAlign='center';
                                                         ctx.font = '60px Arabic'
+                                                        if(res.data.motds[j].tabTitle !== null){
                                                         ctx.fillText(res.data.motds[j].tabTitle, ((layout * text) / 2), 66)
+                                                    }else{
+                                                        ctx.fillText(res.data.motds[j].title, ((layout * text) / 2), 66)
+                                                    }
                                                         x += layout
                                                         text += 2;
                                                     }
@@ -650,7 +682,7 @@ module.exports = {
                                                     px = 45
                                                     y = lines * 28
                                                     x = 910
-                                                }else if (lines < 2){
+                                                }else if (lines <= 2){
                                                     px = 60
                                                     y = 0
                                                     x = 900

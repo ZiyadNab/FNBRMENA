@@ -408,7 +408,7 @@ module.exports = {
                     const errorData = new Discord.MessageEmbed()
                     .setColor('#BB00EE')
                     .setTitle(err.data)
-                    message.channel.seend(errorData)
+                    message.channel.send(errorData)
                 })
 
             } if(lang === "ar"){
@@ -799,7 +799,7 @@ module.exports = {
                         const errorData = new Discord.MessageEmbed()
                         .setColor('#BB00EE')
                         .setTitle("عذرا لا يوجد ملف بالرمز هذا")
-                        message.channel.seend(errorData)
+                        message.channel.send(errorData)
                     })
                 }
             })

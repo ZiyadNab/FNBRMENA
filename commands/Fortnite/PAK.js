@@ -15,6 +15,7 @@ module.exports = {
                 axios.get(`https://benbotfn.tk/api/v1/cosmetics/br/dynamic/${args}?lang=en`)
                 .then(async res => {
                     console.log(res.data);
+
                     // generating animation
                     const generating = new Discord.MessageEmbed()
                     generating.setColor('#BB00EE')
@@ -404,7 +405,10 @@ module.exports = {
                         console.log(err);
                     })
                 }).catch(err => {
-                    console.log(err);
+                    const errorData = new Discord.MessageEmbed()
+                    .setColor('#BB00EE')
+                    .setTitle(err.data)
+                    message.channel.seend(errorData)
                 })
 
             } if(lang === "ar"){
@@ -792,7 +796,10 @@ module.exports = {
                             console.log(err);
                         })
                     }).catch(err => {
-                        console.log(err);
+                        const errorData = new Discord.MessageEmbed()
+                        .setColor('#BB00EE')
+                        .setTitle("عذرا لا يوجد ملف بالرمز هذا")
+                        message.channel.seend(errorData)
                     })
                 }
             })

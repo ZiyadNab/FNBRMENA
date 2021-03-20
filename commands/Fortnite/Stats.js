@@ -18,7 +18,7 @@ var All
 
 
 module.exports = {
-    commands: 'stat',
+    commands: 'stats',
     expectedArgs: '<Stat>',
     minArgs: 1,
     maxArgs: null,

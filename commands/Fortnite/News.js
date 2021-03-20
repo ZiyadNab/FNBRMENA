@@ -54,7 +54,6 @@ module.exports = {
                                 if(reaction.emoji.name === '1️⃣'){
                                     Fortnite.NewsBR("en")
                                     .then(async res => {
-                                        console.log(res.data)
 
                                         Canvas.registerFont('./assets/font/BurbankBigCondensed-Black.otf' ,{family: 'Burbank Big Condensed',weight: "700",style: "bold"})
 
@@ -99,6 +98,7 @@ module.exports = {
                                                     text += 2;
                                                 }
                                             }
+
                                             //lines
                                             const t = wrap(res.data.motds[i].body, {width: 50})
                                             const lines = (t.split(/\r\n|\r|\n/).length)
@@ -110,11 +110,11 @@ module.exports = {
                                                 px = 45
                                                 y = lines * 28
                                                 x = 910
-                                            }else if(lines > 2 && lines <= 4){
+                                            }else if(lines >= 2 && lines <= 4){
                                                 px = 45
                                                 y = lines * 22
                                                 x = 910
-                                            }else if (lines <= 2){
+                                            }else if (lines < 2){
                                                 px = 60
                                                 y = 0
                                                 x = 900
@@ -212,11 +212,11 @@ module.exports = {
                                                 px = 45
                                                 y = lines * 28
                                                 x = 910
-                                            }else if(lines > 2 && lines <= 4){
+                                            }else if(lines >= 2 && lines <= 4){
                                                 px = 45
                                                 y = lines * 22
                                                 x = 910
-                                            }else if (lines <= 2){
+                                            }else if (lines < 2){
                                                 px = 60
                                                 y = 0
                                                 x = 900
@@ -323,11 +323,11 @@ module.exports = {
                                                 px = 45
                                                 y = lines * 28
                                                 x = 910
-                                            }else if(lines > 2 && lines <= 4){
+                                            }else if(lines >= 2 && lines <= 4){
                                                 px = 45
                                                 y = lines * 22
                                                 x = 910
-                                            }else if (lines <= 2){
+                                            }else if (lines < 2){
                                                 px = 60
                                                 y = 0
                                                 x = 900
@@ -465,11 +465,11 @@ module.exports = {
                                                     px = 45
                                                     y = lines * 35
                                                     x = 910
-                                                }else if(lines > 2 && lines <= 4){
+                                                }else if(lines >= 2 && lines <= 4){
                                                     px = 45
                                                     y = lines * 28
                                                     x = 910
-                                                }else if (lines <= 2){
+                                                }else if (lines < 2){
                                                     px = 60
                                                     y = 0
                                                     x = 900
@@ -567,11 +567,11 @@ module.exports = {
                                                     px = 45
                                                     y = lines * 35
                                                     x = 910
-                                                }else if(lines > 2 && lines <= 4){
+                                                }else if(lines >= 2 && lines <= 4){
                                                     px = 45
                                                     y = lines * 28
                                                     x = 910
-                                                }else if (lines <= 2){
+                                                }else if (lines < 2){
                                                     px = 60
                                                     y = 0
                                                     x = 900
@@ -678,11 +678,11 @@ module.exports = {
                                                     px = 45
                                                     y = lines * 35
                                                     x = 910
-                                                }else if(lines > 2 && lines <= 4){
+                                                }else if(lines >= 2 && lines <= 4){
                                                     px = 45
                                                     y = lines * 28
                                                     x = 910
-                                                }else if (lines <= 2){
+                                                }else if (lines < 2){
                                                     px = 60
                                                     y = 0
                                                     x = 900

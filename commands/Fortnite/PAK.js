@@ -407,7 +407,7 @@ module.exports = {
                 }).catch(err => {
                     const errorData = new Discord.MessageEmbed()
                     .setColor('#BB00EE')
-                    .setTitle(err.data)
+                    .setTitle(err.data.error)
                     message.channel.send(errorData)
                 })
 

@@ -3,7 +3,7 @@ const axios = require('axios');
 
 module.exports = {
     commands: 'pak',
-    expectedArgs: '[Pak Number]',
+    expectedArgs: '[ Pak Number ]',
     minArgs: 1,
     maxArgs: 1,
     permissionError: 'Sorry you do not have acccess to this command',

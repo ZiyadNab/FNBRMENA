@@ -40,6 +40,7 @@ module.exports = {
             'MANAGE_EMOJIS',
           ]
 
+            var shifted = args.shift();
             var valid = true
             for(const Perm of args){
                 if(!validPermissions.includes(Perm)){
@@ -67,7 +68,6 @@ module.exports = {
                                     const reaction = collected.first();
                                     if(reaction.emoji.name === '✅'){
 
-                                        var shifted = args.shift();
                                         admin.database().ref("ERA's").child("Commands").child(shifted).once('value', async data => {
                                             if(data.exists()){
                                                 await admin.database().ref("ERA's").child("Commands").child(shifted).child("Perms").set([

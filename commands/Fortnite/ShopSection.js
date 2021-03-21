@@ -78,12 +78,7 @@ module.exports = {
 
                 y += 120;
             }
-
-            ctx.fillStyle = '#000000';
-            ctx.textAlign='center';
-            ctx.font = '50px Burbank Big Condensed'
-            ctx.fillText("Applies at 3:00 AM", (x + 400), (y + 70))
-
+            
             const sending = new Discord.MessageEmbed()
             .setColor('#BB00EE')
             .setTitle(`Sending the image please wait ... ${emoji}`)

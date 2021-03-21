@@ -3,8 +3,8 @@ const config = require('../../Coinfigs/config.json')
 module.exports = {
     commands: 'admin',
     expectedArgs: '',
-    minArgs: 1,
-    maxArgs: null,
+    minArgs: 0,
+    maxArgs: 0,
     permissionError: 'Sorry you do not have acccess to this command',
     callback: (message, args, text, Discord, client, admin) => {
         const commandsEN = new Discord.MessageEmbed()

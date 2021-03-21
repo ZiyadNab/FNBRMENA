@@ -75,7 +75,7 @@ module.exports = {
                                                 ])
                                             const done = new Discord.MessageEmbed()
                                             done.setColor('#BB00EE')
-                                            done.setTitle("The " + args + " permission(s) has been addedd")
+                                            done.setTitle("The " + shifted + " permission(s) has been addedd")
                                             message.channel.send(done)
                                             }else{
                                                 const errCommand = new Discord.MessageEmbed()

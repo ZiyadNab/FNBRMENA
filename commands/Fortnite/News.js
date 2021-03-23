@@ -516,15 +516,15 @@ module.exports = {
                                                 if(lines > 4){
                                                     px = 45
                                                     y = lines * 35
-                                                    x = 910
+                                                    x = 895
                                                 }else if(lines >= 2 && lines <= 4){
                                                     px = 45
                                                     y = lines * 28
-                                                    x = 910
+                                                    x = 895
                                                 }else if (lines < 2){
                                                     px = 60
                                                     y = 0
-                                                    x = 900
+                                                    x = 885
                                                 }
     
                                                 //credit

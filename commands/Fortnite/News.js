@@ -606,7 +606,7 @@ module.exports = {
                                                         ctx.drawImage(Used,x,0,layout,100)
                                                         ctx.fillStyle = '#ffffff';
                                                         ctx.textAlign='center';
-                                                        ctx.font = applyText(canvas, res.data.motds[j].tabTitle);
+                                                        ctx.font = applyText(canvas, res.data.messages[j].adspace);
                                                         ctx.fillText(res.data.messages[j].adspace, ((layout * text) / 2), 66)
                                                         x += layout
                                                         text += 2;
@@ -615,7 +615,7 @@ module.exports = {
                                                         ctx.drawImage(NotUsed,x,0,layout,100)
                                                         ctx.fillStyle = '#ffffff';
                                                         ctx.textAlign='center';
-                                                        ctx.font = applyText(canvas, res.data.motds[j].tabTitle);
+                                                        ctx.font = applyText(canvas, res.data.messages[j].adspace);
                                                         ctx.fillText(res.data.messages[j].adspace, ((layout * text) / 2), 66)
                                                         x += layout
                                                         text += 2;

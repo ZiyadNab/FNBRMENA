@@ -144,7 +144,7 @@ module.exports = {
                                             ctx.fillText(res.data.motds[i].title, 50, x - y)
 
                                             //body
-                                            ctx.fillStyle = '#34e4f8';
+                                            ctx.fillStyle = '#33edff';
                                             ctx.textAlign='left';
                                             ctx.font = `${px}px Burbank Big Condensed`
                                             ctx.fillText(t, 33, 970 - y)
@@ -259,7 +259,7 @@ module.exports = {
                                             ctx.fillText(res.data.messages[i].title, 50, x - y)
 
                                             //body
-                                            ctx.fillStyle = '#34e4f8';
+                                            ctx.fillStyle = '#33edff';
                                             ctx.textAlign='left';
                                             ctx.font = `${px}px Burbank Big Condensed`
                                             ctx.fillText(t, 33, 970 - y)
@@ -383,7 +383,7 @@ module.exports = {
                                             ctx.fillText(res.data.motds[i].title, 50, x - y)
 
                                             //body
-                                            ctx.fillStyle = '#34e4f8';
+                                            ctx.fillStyle = '#33edff';
                                             ctx.textAlign='left';
                                             ctx.font = `${px}px Burbank Big Condensed`
                                             ctx.fillText(t, 33, 970 - y)
@@ -538,7 +538,7 @@ module.exports = {
                                                 ctx.fillText(res.data.motds[i].title, 1870, x - y)
     
                                                 //body
-                                                ctx.fillStyle = '#34e4f8';
+                                                ctx.fillStyle = '#33edff';
                                                 ctx.textAlign='right';
                                                 ctx.font = `${px}px Arabic`
                                                 ctx.fillText(t, 1885, 970 - y)
@@ -656,7 +656,7 @@ module.exports = {
                                                 ctx.fillText(res.data.messages[i].title, 1870, x - y)
     
                                                 //body
-                                                ctx.fillStyle = '#34e4f8';
+                                                ctx.fillStyle = '#33edff';
                                                 ctx.textAlign='right';
                                                 ctx.font = `${px}px Arabic`
                                                 ctx.fillText(t, 1885, 970 - y)
@@ -780,7 +780,7 @@ module.exports = {
                                                 ctx.fillText(res.data.motds[i].title, 1870, x - y)
     
                                                 //body
-                                                ctx.fillStyle = '#34e4f8';
+                                                ctx.fillStyle = '#33edff';
                                                 ctx.textAlign='right';
                                                 ctx.font = `${px}px Arabic`
                                                 ctx.fillText(t, 1885, 970 - y)

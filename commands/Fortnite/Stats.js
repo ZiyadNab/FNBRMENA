@@ -113,22 +113,24 @@ module.exports = {
                     ctx.drawImage(background, 0, 0, canvas.width, canvas.height)
 
                     //name
+                    const playerName = "Player Name: " + res.data.account.name
                     ctx.fillStyle = '#ffffff';
                     ctx.textAlign='left';
                     ctx.font = 'normal 180px Burbank Big Condensed'
-                    ctx.fillText("Player Name: " + res.data.account.name, 100, 230)
+                    ctx.fillText(playerName, 100, 230)
 
                     //|
+                    const diff = ctx.measureText(playerName).width
                     ctx.fillStyle = '#ffffff';
                     ctx.textAlign='left';
                     ctx.font = 'normal 210px Burbank Big Condensed'
-                    ctx.fillText("|", (((res.data.account.name.length + 13) *78)), 230)
+                    ctx.fillText("|", diff + 50, 230)
 
                     //lvl
                     ctx.fillStyle = '#ffffff';
                     ctx.textAlign='left';
                     ctx.font = 'normal 180px Burbank Big Condensed'
-                    ctx.fillText("lvl: " + res.data.battlePass.level, (((res.data.account.name.length + 13) *80) + 30), 230)
+                    ctx.fillText("lvl: " + res.data.battlePass.level, diff + 100, 230)
 
                     //platform
                     ctx.fillStyle = '#ffffff';

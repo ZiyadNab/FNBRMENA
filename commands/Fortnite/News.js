@@ -24,6 +24,19 @@ module.exports = {
         admin.database().ref("ERA's").child("Users").child(message.author.id).once('value', async function (data) {
             var lang = data.val().lang;
 
+            const applyText = (canvas, text) => {
+                const ctx = canvas.getContext('2d');
+                let fontSize = 60;
+                do {
+                    if(lang === "en"){
+                        ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
+                    }else if(lang === "ar"){
+                        ctx.font = `${fontSize -= 1}px Arabic`;
+                    }
+                } while (ctx.measureText(text).width > 420);
+                return ctx.font;
+            };
+
             if(lang === "en"){
                 const mode = new Discord.MessageEmbed()
                 .setColor('#BB00EE')
@@ -75,7 +88,7 @@ module.exports = {
                                                     ctx.drawImage(Used,x,0,layout,100)
                                                     ctx.fillStyle = '#ffffff';
                                                     ctx.textAlign='center';
-                                                    ctx.font = '60px Burbank Big Condensed'
+                                                    ctx.font = applyText(canvas, res.data.motds[j].tabTitle);
                                                     if(res.data.motds[j].tabTitle !== null){
                                                         ctx.fillText(res.data.motds[j].tabTitle, ((layout * text) / 2), 66)
                                                     }else{
@@ -88,7 +101,7 @@ module.exports = {
                                                     ctx.drawImage(NotUsed,x,0,layout,100)
                                                     ctx.fillStyle = '#ffffff';
                                                     ctx.textAlign='center';
-                                                    ctx.font = '60px Burbank Big Condensed'
+                                                    ctx.font = applyText(canvas, res.data.motds[j].tabTitle);
                                                     if(res.data.motds[j].tabTitle !== null){
                                                         ctx.fillText(res.data.motds[j].tabTitle, ((layout * text) / 2), 66)
                                                     }else{
@@ -186,7 +199,7 @@ module.exports = {
                                                     ctx.drawImage(Used,x,0,layout,100)
                                                     ctx.fillStyle = '#ffffff';
                                                     ctx.textAlign='center';
-                                                    ctx.font = '60px Burbank Big Condensed'
+                                                    ctx.font = applyText(canvas, res.data.motds[j].tabTitle);
                                                     ctx.fillText(res.data.messages[j].adspace, ((layout * text) / 2), 66)
                                                     x += layout
                                                     text += 2;
@@ -195,7 +208,7 @@ module.exports = {
                                                     ctx.drawImage(NotUsed,x,0,layout,100)
                                                     ctx.fillStyle = '#ffffff';
                                                     ctx.textAlign='center';
-                                                    ctx.font = '60px Burbank Big Condensed'
+                                                    ctx.font = applyText(canvas, res.data.motds[j].tabTitle);
                                                     ctx.fillText(res.data.messages[j].adspace, ((layout * text) / 2), 66)
                                                     x += layout
                                                     text += 2;
@@ -289,7 +302,7 @@ module.exports = {
                                                     ctx.drawImage(Used,x,0,layout,100)
                                                     ctx.fillStyle = '#ffffff';
                                                     ctx.textAlign='center';
-                                                    ctx.font = '60px Burbank Big Condensed'
+                                                    ctx.font = applyText(canvas, res.data.motds[j].tabTitle);
                                                     if(res.data.motds[j].tabTitle !== null){
                                                         ctx.fillText(res.data.motds[j].tabTitle, ((layout * text) / 2), 66)
                                                     }else{
@@ -302,7 +315,7 @@ module.exports = {
                                                     ctx.drawImage(NotUsed,x,0,layout,100)
                                                     ctx.fillStyle = '#ffffff';
                                                     ctx.textAlign='center';
-                                                    ctx.font = '60px Burbank Big Condensed'
+                                                    ctx.font = applyText(canvas, res.data.motds[j].tabTitle);
                                                     if(res.data.motds[j].tabTitle !== null){
                                                         ctx.fillText(res.data.motds[j].tabTitle, ((layout * text) / 2), 66)
                                                     }else{
@@ -431,7 +444,7 @@ module.exports = {
                                                         ctx.drawImage(Used,x,0,layout,100)
                                                         ctx.fillStyle = '#ffffff';
                                                         ctx.textAlign='center';
-                                                        ctx.font = '60px Arabic'
+                                                        ctx.font = applyText(canvas, res.data.motds[j].tabTitle);
                                                         if(res.data.motds[j].tabTitle !== null){
                                                         ctx.fillText(res.data.motds[j].tabTitle, ((layout * text) / 2), 66)
                                                     }else{
@@ -444,7 +457,7 @@ module.exports = {
                                                         ctx.drawImage(NotUsed,x,0,layout,100)
                                                         ctx.fillStyle = '#ffffff';
                                                         ctx.textAlign='center';
-                                                        ctx.font = '60px Arabic'
+                                                        ctx.font = applyText(canvas, res.data.motds[j].tabTitle);
                                                         if(res.data.motds[j].tabTitle !== null){
                                                         ctx.fillText(res.data.motds[j].tabTitle, ((layout * text) / 2), 66)
                                                     }else{
@@ -541,7 +554,7 @@ module.exports = {
                                                         ctx.drawImage(Used,x,0,layout,100)
                                                         ctx.fillStyle = '#ffffff';
                                                         ctx.textAlign='center';
-                                                        ctx.font = '60px Arabic'
+                                                        ctx.font = applyText(canvas, res.data.motds[j].tabTitle);
                                                         ctx.fillText(res.data.messages[j].adspace, ((layout * text) / 2), 66)
                                                         x += layout
                                                         text += 2;
@@ -550,7 +563,7 @@ module.exports = {
                                                         ctx.drawImage(NotUsed,x,0,layout,100)
                                                         ctx.fillStyle = '#ffffff';
                                                         ctx.textAlign='center';
-                                                        ctx.font = '60px Arabic'
+                                                        ctx.font = applyText(canvas, res.data.motds[j].tabTitle);
                                                         ctx.fillText(res.data.messages[j].adspace, ((layout * text) / 2), 66)
                                                         x += layout
                                                         text += 2;
@@ -644,7 +657,7 @@ module.exports = {
                                                         ctx.drawImage(Used,x,0,layout,100)
                                                         ctx.fillStyle = '#ffffff';
                                                         ctx.textAlign='center';
-                                                        ctx.font = '60px Arabic'
+                                                        ctx.font = applyText(canvas, res.data.motds[j].tabTitle);
                                                         if(res.data.motds[j].tabTitle !== null){
                                                         ctx.fillText(res.data.motds[j].tabTitle, ((layout * text) / 2), 66)
                                                     }else{
@@ -657,7 +670,7 @@ module.exports = {
                                                         ctx.drawImage(NotUsed,x,0,layout,100)
                                                         ctx.fillStyle = '#ffffff';
                                                         ctx.textAlign='center';
-                                                        ctx.font = '60px Arabic'
+                                                        ctx.font = applyText(canvas, res.data.motds[j].tabTitle);
                                                         if(res.data.motds[j].tabTitle !== null){
                                                         ctx.fillText(res.data.motds[j].tabTitle, ((layout * text) / 2), 66)
                                                     }else{

@@ -291,19 +291,6 @@ module.exports = {
                                         const length = res.data.motds.length
                                         const layout = 1920 / length
 
-                                        const applyText = (canvas, text) => {
-                                            const ctx = canvas.getContext('2d');
-                                            let fontSize = 60;
-                                            do {
-                                                if(lang === "en"){
-                                                    ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
-                                                }else if(lang === "ar"){
-                                                    ctx.font = `${fontSize -= 1}px Arabic`;
-                                                }
-                                            } while (ctx.measureText(text).width > layout - 100);
-                                            return ctx.font;
-                                        };
-
                                         for(let i = 0; i < length; i++){
                                             const photo = await Canvas.loadImage(res.data.motds[i].image)
                                             ctx.drawImage(photo,0,0,canvas.width,canvas.height)
@@ -445,6 +432,19 @@ module.exports = {
     
                                             const length = res.data.motds.length
                                             const layout = 1920 / length
+
+                                            const applyText = (canvas, text) => {
+                                                const ctx = canvas.getContext('2d');
+                                                let fontSize = 60;
+                                                do {
+                                                    if(lang === "en"){
+                                                        ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
+                                                    }else if(lang === "ar"){
+                                                        ctx.font = `${fontSize -= 1}px Arabic`;
+                                                    }
+                                                } while (ctx.measureText(text).width > layout - 100);
+                                                return ctx.font;
+                                            };
     
                                             for(let i = 0; i < length; i++){
                                                 const photo = await Canvas.loadImage(res.data.motds[i].image)

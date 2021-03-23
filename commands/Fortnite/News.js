@@ -133,6 +133,9 @@ module.exports = {
                                                 x = 900
                                             }
 
+                                            const fog = await Canvas.loadImage('./assets/News/fog.png')
+                                            ctx.drawImage(fog,0,0,1920,1080)
+
                                             //credit
                                             const credit = await Canvas.loadImage('./assets/Credits/FNBR.png')
                                             ctx.drawImage(credit,1550,950,370,125)
@@ -247,6 +250,9 @@ module.exports = {
                                                 y = 0
                                                 x = 900
                                             }
+
+                                            const fog = await Canvas.loadImage('./assets/News/fog.png')
+                                            ctx.drawImage(fog,0,0,1920,1080)
 
                                             //credit
                                             const credit = await Canvas.loadImage('./assets/Credits/FNBR.png')
@@ -371,6 +377,9 @@ module.exports = {
                                                 y = 0
                                                 x = 900
                                             }
+
+                                            const fog = await Canvas.loadImage('./assets/News/fog.png')
+                                            ctx.drawImage(fog,0,0,1920,1080)
 
                                             //credit
                                             const credit = await Canvas.loadImage('./assets/Credits/FNBR.png')
@@ -526,6 +535,9 @@ module.exports = {
                                                     y = 0
                                                     x = 885
                                                 }
+
+                                                const fog = await Canvas.loadImage('./assets/News/fog.png')
+                                                ctx.drawImage(fog,0,0,1920,1080)
     
                                                 //credit
                                                 const credit = await Canvas.loadImage('./assets/Credits/FNBR.png')
@@ -542,9 +554,6 @@ module.exports = {
                                                 ctx.textAlign='right';
                                                 ctx.font = `${px}px Arabic`
                                                 ctx.fillText(t, 1885, 970 - y)
-
-                                                const fog = await Canvas.loadImage('./assets/News/fog.png')
-                                                ctx.drawImage(fog,0,0,1920,1080)
 
                                                 arrayBR[i] = canvas.toBuffer('image/jpeg', {quality: 0.5})
                                             }
@@ -644,6 +653,9 @@ module.exports = {
                                                     y = 0
                                                     x = 885
                                                 }
+
+                                                const fog = await Canvas.loadImage('./assets/News/fog.png')
+                                                ctx.drawImage(fog,0,0,1920,1080)
     
                                                 //credit
                                                 const credit = await Canvas.loadImage('./assets/Credits/FNBR.png')
@@ -768,6 +780,9 @@ module.exports = {
                                                     y = 0
                                                     x = 885
                                                 }
+
+                                                const fog = await Canvas.loadImage('./assets/News/fog.png')
+                                                ctx.drawImage(fog,0,0,1920,1080)
     
                                                 //credit
                                                 const credit = await Canvas.loadImage('./assets/Credits/FNBR.png')

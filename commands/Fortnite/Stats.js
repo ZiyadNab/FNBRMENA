@@ -33,7 +33,6 @@ module.exports = {
 
         Fortnite.BRStats(query)
             .then( async res =>{
-                console.log(res)
                 
             if(!res.error){
 
@@ -131,7 +130,7 @@ module.exports = {
                     ctx.fillStyle = '#ffffff';
                     ctx.textAlign='left';
                     ctx.font = 'normal 180px Burbank Big Condensed'
-                    ctx.fillText("lvl: " + res.data.battlePass.level, (diff + 300), 230)
+                    ctx.fillText("lvl: " + res.data.battlePass.level, (diff + 250), 230)
 
                     //platform
                     ctx.fillStyle = '#ffffff';

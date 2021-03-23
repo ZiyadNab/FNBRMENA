@@ -98,13 +98,14 @@ module.exports = {
                 })
                 msgReact.delete()
 
-            const generating = new Discord.MessageEmbed()
-            generating.setColor('#BB00EE')
-            const emoji = client.emojis.cache.get("805690920157970442")
-            generating.setTitle(`Getting Player Stats info ... ${emoji}`)
-            message.channel.send(generating)
-            .then( async msg => {
+                const generating = new Discord.MessageEmbed()
+                generating.setColor('#BB00EE')
+                const emoji = client.emojis.cache.get("805690920157970442")
+                generating.setTitle(`Getting Player Stats info ... ${emoji}`)
+                message.channel.send(generating)
+                .then( async msg => {
 
+                    Canvas.registerFont('./assets/font/BurbankBigCondensed-Black.otf' ,{family: 'Burbank Big Condensed',weight: "700",style: "bold"})
                     const canvas = Canvas.createCanvas(3500, 2200);
                     const ctx = canvas.getContext('2d');
                                                 
@@ -124,13 +125,13 @@ module.exports = {
                     ctx.fillStyle = '#ffffff';
                     ctx.textAlign='left';
                     ctx.font = 'normal 210px Burbank Big Condensed'
-                    ctx.fillText("|", diff + 50, 230)
+                    ctx.fillText("|", (diff + 150), 230)
 
                     //lvl
                     ctx.fillStyle = '#ffffff';
                     ctx.textAlign='left';
                     ctx.font = 'normal 180px Burbank Big Condensed'
-                    ctx.fillText("lvl: " + res.data.battlePass.level, diff + 100, 230)
+                    ctx.fillText("lvl: " + res.data.battlePass.level, (diff + 300), 230)
 
                     //platform
                     ctx.fillStyle = '#ffffff';

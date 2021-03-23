@@ -152,7 +152,7 @@ module.exports = {
                                             ctx.font = `${px}px Burbank Big Condensed`
                                             ctx.fillText(t, 33, 970 - y)
 
-                                            arrayBR[i] = canvas.toBuffer('image/jpeg', {quality: 0.5})
+                                            arrayBR[i] = canvas.toBuffer('image/jpeg')
                                         }
                                         if(arrayBR.length == 1){
                                             await PreGif.setImages(arrayBR[0])
@@ -270,7 +270,7 @@ module.exports = {
                                             ctx.font = `${px}px Burbank Big Condensed`
                                             ctx.fillText(t, 33, 970 - y)
 
-                                            arraySTW[i] = canvas.toBuffer('image/jpeg', {quality: 0.5})
+                                            arraySTW[i] = canvas.toBuffer('image/jpeg')
                                         }
                                         if(arraySTW.length == 1){
                                             await PreGif.setImages(arraySTW[0])
@@ -397,7 +397,7 @@ module.exports = {
                                             ctx.font = `${px}px Burbank Big Condensed`
                                             ctx.fillText(t, 33, 970 - y)
 
-                                            arrayCR[i] = canvas.toBuffer('image/jpeg', {quality: 0.5})
+                                            arrayCR[i] = canvas.toBuffer('image/jpeg')
                                         }
                                         if(arrayCR.length == 1){
                                             await PreGif.setImages(arrayCR[0])
@@ -555,7 +555,7 @@ module.exports = {
                                                 ctx.font = `${px}px Arabic`
                                                 ctx.fillText(t, 1885, 970 - y)
 
-                                                arrayBR[i] = canvas.toBuffer('image/jpeg', {quality: 0.5})
+                                                arrayBR[i] = canvas.toBuffer('image/jpeg')
                                             }
                                             if(arrayBR.length == 1){
                                                 await PreGif.setImages(arrayBR[0])
@@ -673,7 +673,7 @@ module.exports = {
                                                 ctx.font = `${px}px Arabic`
                                                 ctx.fillText(t, 1885, 970 - y)
     
-                                                arraySTW[i] = canvas.toBuffer('image/jpeg', {quality: 0.5})
+                                                arraySTW[i] = canvas.toBuffer('image/jpeg')
                                             }
                                             if(arraySTW.length == 1){
                                                 await PreGif.setImages(arraySTW[0])
@@ -800,7 +800,7 @@ module.exports = {
                                                 ctx.font = `${px}px Arabic`
                                                 ctx.fillText(t, 1885, 970 - y)
     
-                                                arrayCR[i] = canvas.toBuffer('image/jpeg', {quality: 0.5})
+                                                arrayCR[i] = canvas.toBuffer('image/jpeg')
                                             }
                                             if(arrayCR.length == 1){
                                                 await PreGif.setImages(arrayCR[0])

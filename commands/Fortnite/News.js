@@ -542,7 +542,10 @@ module.exports = {
                                                 ctx.textAlign='right';
                                                 ctx.font = `${px}px Arabic`
                                                 ctx.fillText(t, 1885, 970 - y)
-    
+
+                                                const fog = await Canvas.loadImage('./assets/News/fog.png')
+                                                ctx.drawImage(fog,0,0,1920,1080)
+
                                                 arrayBR[i] = canvas.toBuffer('image/jpeg', {quality: 0.5})
                                             }
                                             if(arrayBR.length == 1){
@@ -560,9 +563,6 @@ module.exports = {
                                             if(arrayBR.length == 5){
                                                 await PreGif.setImages(arrayBR[0],arrayBR[1],arrayBR[2],arrayBR[3],arrayBR[4])
                                             }
-
-                                            const fog = await Canvas.loadImage('./assets/News/fog.png')
-                                            ctx.drawImage(fog,0,0,1920,1080)
                                             
                                             PreGif.setDelay(3 * 1000)
                                             const gif = await PreGif.create()

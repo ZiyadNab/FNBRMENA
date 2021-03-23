@@ -24,19 +24,6 @@ module.exports = {
         admin.database().ref("ERA's").child("Users").child(message.author.id).once('value', async function (data) {
             var lang = data.val().lang;
 
-            const applyText = (canvas, text) => {
-                const ctx = canvas.getContext('2d');
-                let fontSize = 60;
-                do {
-                    if(lang === "en"){
-                        ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
-                    }else if(lang === "ar"){
-                        ctx.font = `${fontSize -= 1}px Arabic`;
-                    }
-                } while (ctx.measureText(text).width > 420);
-                return ctx.font;
-            };
-
             if(lang === "en"){
                 const mode = new Discord.MessageEmbed()
                 .setColor('#BB00EE')
@@ -76,6 +63,19 @@ module.exports = {
 
                                         const length = res.data.motds.length
                                         const layout = 1920 / length
+
+                                        const applyText = (canvas, text) => {
+                                            const ctx = canvas.getContext('2d');
+                                            let fontSize = 60;
+                                            do {
+                                                if(lang === "en"){
+                                                    ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
+                                                }else if(lang === "ar"){
+                                                    ctx.font = `${fontSize -= 1}px Arabic`;
+                                                }
+                                            } while (ctx.measureText(text).width > layout - 100);
+                                            return ctx.font;
+                                        };
 
                                         for(let i = 0; i < length; i++){
                                             const photo = await Canvas.loadImage(res.data.motds[i].image)
@@ -290,6 +290,19 @@ module.exports = {
 
                                         const length = res.data.motds.length
                                         const layout = 1920 / length
+
+                                        const applyText = (canvas, text) => {
+                                            const ctx = canvas.getContext('2d');
+                                            let fontSize = 60;
+                                            do {
+                                                if(lang === "en"){
+                                                    ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
+                                                }else if(lang === "ar"){
+                                                    ctx.font = `${fontSize -= 1}px Arabic`;
+                                                }
+                                            } while (ctx.measureText(text).width > layout - 100);
+                                            return ctx.font;
+                                        };
 
                                         for(let i = 0; i < length; i++){
                                             const photo = await Canvas.loadImage(res.data.motds[i].image)

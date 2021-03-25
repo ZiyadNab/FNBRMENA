@@ -63,7 +63,7 @@ module.exports = {
                         for(let i = 0; i<=f; i++){
                             lines++;
                             if(3 === lines){
-                                height += 512 +25;
+                                height += 512 +50;
                                 lines = 0;
                             }
                         }

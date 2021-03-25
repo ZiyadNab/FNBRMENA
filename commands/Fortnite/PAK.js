@@ -456,6 +456,9 @@ module.exports = {
                                 }
                             }
 
+                            //Font
+                            Canvas.registerFont('./assets/font/Lalezar-Regular.ttf', {family: 'Arabic',weight: "700",style: "bold"});
+
                             const applyText = (canvas, text) => {
                                 const ctx = canvas.getContext('2d');
                                 let fontSize = 40;
@@ -464,9 +467,6 @@ module.exports = {
                                 } while (ctx.measureText(text).width > 420);
                                 return ctx.font;
                             };
-
-                            //Font
-                            Canvas.registerFont('./assets/font/Lalezar-Regular.ttf', {family: 'Arabic',weight: "700",style: "bold"});
 
                             // creating canvas
                             const canvas = Canvas.createCanvas(width, height);

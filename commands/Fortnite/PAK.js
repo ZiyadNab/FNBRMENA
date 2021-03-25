@@ -66,17 +66,12 @@ module.exports = {
                             const ctx = canvas.getContext('2d');
                             let fontSize = 36;
                             do {
-                                if(lang === "en"){
-                                    ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
-                                }else if(lang === "ar"){
-                                    ctx.font = `${fontSize -= 1}px Arabic`;
-                                }
+                                ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
                             } while (ctx.measureText(text).width > 420);
                             return ctx.font;
                         };
 
                         //AR text font
-                        Canvas.registerFont('./assets/font/Lalezar-Regular.ttf', {family: 'Arabic',weight: "700",style: "bold"});
                         Canvas.registerFont('./assets/font/BurbankBigCondensed-Black.otf' ,{family: 'Burbank Big Condensed',weight: "700",style: "bold"})
 
                         // creating canvas
@@ -465,10 +460,13 @@ module.exports = {
                                 const ctx = canvas.getContext('2d');
                                 let fontSize = 40;
                                 do {
-                                    ctx.font = `${fontSize -= 1}px Sans`;
+                                    ctx.font = `${fontSize -= 1}px Arabic`;
                                 } while (ctx.measureText(text).width > 420);
                                 return ctx.font;
                             };
+
+                            //Font
+                            Canvas.registerFont('./assets/font/Lalezar-Regular.ttf', {family: 'Arabic',weight: "700",style: "bold"});
 
                             // creating canvas
                             const canvas = Canvas.createCanvas(width, height);

@@ -138,7 +138,13 @@ module.exports = {
                 const code = await Canvas.loadImage('./assets/Credits/code.png')
                 ctx.drawImage(code, 100, (height - 300), 1000, 200)
 
+                ctx.fillStyle = "#ffffff";
+                ctx.textAlign='center'
+                ctx.font = '600px Burbank Big Condensed'
+                ctx.fillText("Featured", (width / 2), 500)
+
                 ctx.fillStyle = '#ffffff';
+                ctx.textAlign='left'
                 ctx.font = '150px Burbank Big Condensed'
                 ctx.fillText("Featured", x, (y - 50))
 

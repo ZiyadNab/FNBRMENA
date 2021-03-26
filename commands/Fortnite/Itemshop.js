@@ -50,9 +50,9 @@ module.exports = {
                 var f;
                 var width;
                 var lines = 0;
-                var height = 1250;
+                var height = 500;
                 var x = 250;
-                var y = 1000;
+                var y = 250;
                 var newline = 0;
                 if(res.featured.length >= res.specialFeatured.length){
                     f = res.featured.length;
@@ -138,13 +138,7 @@ module.exports = {
                 const code = await Canvas.loadImage('./assets/Credits/code.png')
                 ctx.drawImage(code, 100, (height - 300), 1000, 200)
 
-                ctx.fillStyle = "#ffffff";
-                ctx.textAlign='center'
-                ctx.font = '600px Burbank Big Condensed'
-                ctx.fillText("Itemshop", (width / 2), 700)
-
                 ctx.fillStyle = '#ffffff';
-                ctx.textAlign='left'
                 ctx.font = '150px Burbank Big Condensed'
                 ctx.fillText("Featured", x, (y - 50))
 
@@ -766,11 +760,11 @@ module.exports = {
 
             if(fe == 3){
                 x = 2086;
-                y = 1000;
+                y = 250;
                 newline = 0;
             }else if(fe === 5){
                 x = 3160;
-                y = 1000;
+                y = 250;
                 newline = 0;
             }
 
@@ -1427,16 +1421,16 @@ module.exports = {
 
                     if (sp == 5){
                         x = 3747 + 250;
-                        y = 1000;
+                        y = 250;
                         newline = 0;
                     }else if (sp == 3){
                         if(fe === 5){
                             x = 5046;
-                            y = 1000;
+                            y = 250;
                             newline = 0;
                         }else if (fe === 3){
                             x = 3922;
-                            y = 1000;
+                            y = 250;
                             newline = 0;
                         }
                     }

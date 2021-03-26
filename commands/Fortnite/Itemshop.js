@@ -54,6 +54,7 @@ module.exports = {
                 var x = 250;
                 var y = 250;
                 var newline = 0;
+                var checking= 0;
                 if(res.featured.length >= res.specialFeatured.length){
                     f = res.featured.length;
                     if(res.featured.length >= 1 && res.featured.length <= 12){
@@ -98,9 +99,9 @@ module.exports = {
                         width = (12*512) + (25 * 12) + 500;
                         for(let i = 0; i<f; i++){
                             lines++;
-                            if(5 === lines){
+                            if(3 === lines){
                                 height += 512 +50;
-                                lines = 0;
+                                lines = 0
                             }
                         }
                     }

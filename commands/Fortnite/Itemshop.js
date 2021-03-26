@@ -50,11 +50,10 @@ module.exports = {
                 var f;
                 var width;
                 var lines = 0;
-                var height = 500;
+                var height = 1000;
                 var x = 250;
                 var y = 250;
                 var newline = 0;
-                var checking= 0;
                 if(res.featured.length >= res.specialFeatured.length){
                     f = res.featured.length;
                     if(res.featured.length >= 1 && res.featured.length <= 12){
@@ -64,7 +63,7 @@ module.exports = {
                         for(let i = 0; i<=f; i++){
                             lines++;
                             if(3 === lines){
-                                height += 512 +50;
+                                height += 512 +25;
                                 lines = 0;
                             }
                         }
@@ -138,6 +137,12 @@ module.exports = {
                 //code
                 const code = await Canvas.loadImage('./assets/Credits/code.png')
                 ctx.drawImage(code, 100, (height - 300), 1000, 200)
+
+                //itemshop
+                ctx.fillStyle = '#ffffff';
+                ctx.textAlign='center';
+                ctx.font = '300px Burbank Big Condensed'
+                ctx.fillText("Itemshop", (width / 2), 100)
 
                 ctx.fillStyle = '#ffffff';
                 ctx.font = '150px Burbank Big Condensed'

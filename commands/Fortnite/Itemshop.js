@@ -50,9 +50,9 @@ module.exports = {
                 var f;
                 var width;
                 var lines = 0;
-                var height = 500;
+                var height = 1000;
                 var x = 250;
-                var y = 250;
+                var y = 500;
                 var newline = 0;
                 if(res.featured.length >= res.specialFeatured.length){
                     f = res.featured.length;
@@ -760,11 +760,11 @@ module.exports = {
 
             if(fe == 3){
                 x = 2086;
-                y = 250;
+                y = 500;
                 newline = 0;
             }else if(fe === 5){
                 x = 3160;
-                y = 250;
+                y = 500;
                 newline = 0;
             }
 
@@ -1421,16 +1421,16 @@ module.exports = {
 
                     if (sp == 5){
                         x = 3747 + 250;
-                        y = 250;
+                        y = 500;
                         newline = 0;
                     }else if (sp == 3){
                         if(fe === 5){
                             x = 5046;
-                            y = 250;
+                            y = 500;
                             newline = 0;
                         }else if (fe === 3){
                             x = 3922;
-                            y = 250;
+                            y = 500;
                             newline = 0;
                         }
                     }

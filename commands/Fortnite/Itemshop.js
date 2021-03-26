@@ -141,7 +141,7 @@ module.exports = {
                 ctx.fillStyle = "#ffffff";
                 ctx.textAlign='center'
                 ctx.font = '600px Burbank Big Condensed'
-                ctx.fillText("Featured", (width / 2), 500)
+                ctx.fillText("Itemshop", (width / 2), 1500)
 
                 ctx.fillStyle = '#ffffff';
                 ctx.textAlign='left'

@@ -51,7 +51,7 @@ module.exports = {
                 var width;
                 var lines = 0;
                 var height = 1000;
-                var x = 500;
+                var x = 250;
                 var y = 500;
                 var newline = 0;
                 if(res.featured.length >= res.specialFeatured.length){
@@ -759,7 +759,7 @@ module.exports = {
                 x = x + 25 + 512; 
                 if (fe === newline){
                     y = y + 25 + 512;
-                    x = 250;
+                    x = 500;
                     newline = 0;
                 }
                 
@@ -767,11 +767,11 @@ module.exports = {
 
             if(fe == 3){
                 x = 2086;
-                y = 250;
+                y = 500;
                 newline = 0;
             }else if(fe === 5){
                 x = 3160;
-                y = 250;
+                y = 500;
                 newline = 0;
             }
 
@@ -1427,17 +1427,17 @@ module.exports = {
                     if(res.specialFeatured.length !== 0){
 
                     if (sp == 5){
-                        x = 3747 + 250;
-                        y = 250;
+                        x = 3747 + 500;
+                        y = 500;
                         newline = 0;
                     }else if (sp == 3){
                         if(fe === 5){
                             x = 5046;
-                            y = 250;
+                            y = 500;
                             newline = 0;
                         }else if (fe === 3){
                             x = 3922;
-                            y = 250;
+                            y = 500;
                             newline = 0;
                         }
                     }
@@ -2081,7 +2081,7 @@ module.exports = {
                        if (sp === newline){
                           y = y + 25 + 512;
                           if (sp == 5){
-                            x = 3747 + 250;
+                            x = 3747 + 500;
                             newline = 0;                    
                           }else if (sp == 3){
                                 if(fe === 5){

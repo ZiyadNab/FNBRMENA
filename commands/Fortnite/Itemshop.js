@@ -50,9 +50,9 @@ module.exports = {
                 var f;
                 var width;
                 var lines = 0;
-                var height = 1000;
+                var height = 500;
                 var x = 250;
-                var y = 500;
+                var y = 250;
                 var newline = 0;
                 if(res.featured.length >= res.specialFeatured.length){
                     f = res.featured.length;
@@ -100,7 +100,7 @@ module.exports = {
                             lines++;
                             if(3 === lines){
                                 height += 512 +50;
-                                lines = 0
+                                lines = 0;
                             }
                         }
                     }
@@ -138,14 +138,7 @@ module.exports = {
                 const code = await Canvas.loadImage('./assets/Credits/code.png')
                 ctx.drawImage(code, 100, (height - 300), 1000, 200)
 
-                //itemshop
                 ctx.fillStyle = '#ffffff';
-                ctx.textAlign='center';
-                ctx.font = '500px Burbank Big Condensed'
-                ctx.fillText("Itemshop", (width / 2), 100)
-
-                ctx.fillStyle = '#ffffff';
-                ctx.textAlign='left';
                 ctx.font = '150px Burbank Big Condensed'
                 ctx.fillText("Featured", x, (y - 50))
 
@@ -759,7 +752,7 @@ module.exports = {
                 x = x + 25 + 512; 
                 if (fe === newline){
                     y = y + 25 + 512;
-                    x = 500;
+                    x = 250;
                     newline = 0;
                 }
                 
@@ -767,11 +760,11 @@ module.exports = {
 
             if(fe == 3){
                 x = 2086;
-                y = 500;
+                y = 250;
                 newline = 0;
             }else if(fe === 5){
                 x = 3160;
-                y = 500;
+                y = 250;
                 newline = 0;
             }
 
@@ -1427,17 +1420,17 @@ module.exports = {
                     if(res.specialFeatured.length !== 0){
 
                     if (sp == 5){
-                        x = 3747 + 500;
-                        y = 500;
+                        x = 3747 + 250;
+                        y = 250;
                         newline = 0;
                     }else if (sp == 3){
                         if(fe === 5){
                             x = 5046;
-                            y = 500;
+                            y = 250;
                             newline = 0;
                         }else if (fe === 3){
                             x = 3922;
-                            y = 500;
+                            y = 250;
                             newline = 0;
                         }
                     }
@@ -2081,7 +2074,7 @@ module.exports = {
                        if (sp === newline){
                           y = y + 25 + 512;
                           if (sp == 5){
-                            x = 3747 + 500;
+                            x = 3747 + 250;
                             newline = 0;                    
                           }else if (sp == 3){
                                 if(fe === 5){

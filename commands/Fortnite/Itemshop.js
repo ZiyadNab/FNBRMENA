@@ -51,8 +51,8 @@ module.exports = {
                 var width;
                 var lines = 0;
                 var height = 1000;
-                var x = 250;
-                var y = 250;
+                var x = 500;
+                var y = 500;
                 var newline = 0;
                 if(res.featured.length >= res.specialFeatured.length){
                     f = res.featured.length;
@@ -141,10 +141,11 @@ module.exports = {
                 //itemshop
                 ctx.fillStyle = '#ffffff';
                 ctx.textAlign='center';
-                ctx.font = '300px Burbank Big Condensed'
+                ctx.font = '500px Burbank Big Condensed'
                 ctx.fillText("Itemshop", (width / 2), 100)
 
                 ctx.fillStyle = '#ffffff';
+                ctx.textAlign='left';
                 ctx.font = '150px Burbank Big Condensed'
                 ctx.fillText("Featured", x, (y - 50))
 

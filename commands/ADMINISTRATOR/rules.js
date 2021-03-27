@@ -2,7 +2,7 @@ const config = require('../../Coinfigs/config.json')
 
 module.exports = {
     commands: 'rules',
-    expectedArgs: '[ Announce Statment ]',
+    expectedArgs: '[ Rule Statment ]',
     minArgs: 1,
     maxArgs: null,
     permissionError: 'Sorry you do not have acccess to this command',
@@ -11,7 +11,6 @@ module.exports = {
         messageAnnounce.setColor('#BB00EE')
         messageAnnounce.setTitle(text)
         const accounce = client.channels.cache.find(channel => channel.id === config.channels.rules)
-        accounce.send(messageAnnounce)
         if(accounce.send(messageAnnounce)){
             const messageAnnounceDone = new Discord.MessageEmbed()
             messageAnnounceDone.setColor('#BB00EE')

@@ -142,7 +142,7 @@ module.exports = (client, commandOptions, admin) => {
                     }else if (lang === "ar"){
                       const SyntaxErrorAR = new Discord.MessageEmbed()
                       .setColor('#BB00EE')
-                      .setTitle(`:x: غلط في عملية كتابة الامر الرجاء كتابة الامر بالشكل الصحيح ${expectedArgs} ${alias}${prefix}`)
+                      .setTitle(`:x: غلط في عملية كتابة الامر الرجاء كتابة الامر بالشكل الصحيح \n${prefix}${alias} ${expectedArgs}`)
                       message.channel.send(SyntaxErrorAR)
                     }
                     return
@@ -155,12 +155,12 @@ module.exports = (client, commandOptions, admin) => {
                     if(lang === "en"){
                         const err = new Discord.MessageEmbed()
                         .setColor('#BB00EE')
-                        .setTitle(":x: Sorry this command is offline at the moment")
+                        .setTitle(":x: Sorry this command is offline at the moment, please try again later")
                         message.channel.send(err)
                     }else if(lang === "ar"){
                         const err = new Discord.MessageEmbed()
                         .setColor('#BB00EE')
-                        .setTitle(":x: نأسف تم ايقاف الامر لمدة معينة")
+                        .setTitle(":x: نأسف تم ايقاف الامر لمدة معينة. نرجوا المحاولة لاحقا")
                         message.channel.send(err)
                     }
                   }

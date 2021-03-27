@@ -89,7 +89,7 @@ module.exports = (client, commandOptions, admin) => {
                       if(lang === "en"){
                         const PermErr = new Discord.MessageEmbed()
                         .setColor('#BB00EE')
-                        .setTitle(permissionError)
+                        .setTitle(":robot: "+permissionError)
                         message.channel.send(PermErr)
                       }else if(lang === "ar"){
                         const PermErr = new Discord.MessageEmbed()
@@ -151,40 +151,37 @@ module.exports = (client, commandOptions, admin) => {
                   // Handle the custom command code
               
                   callback(message, args, args.join(' '),Discord, client, admin)
-                } 
-                if(lang === "en"){
-                  if(access === "false"){
-                    const err = new Discord.MessageEmbed()
-                    .setColor('#BB00EE')
-                    .setTitle("Sorry this command is offline at the moment")
-                    message.channel.send(err)
-                  }else if(lang === "ar"){
-                    if(access === "false"){
-                      const err = new Discord.MessageEmbed()
-                      .setColor('#BB00EE')
-                      .setTitle("نأسف تم ايقاف الامر لمدة معينة")
-                      message.channel.send(err)
+                } if(access === "false"){
+                    if(lang === "en"){
+                        const err = new Discord.MessageEmbed()
+                        .setColor('#BB00EE')
+                        .setTitle("Sorry this command is offline at the moment")
+                        message.channel.send(err)
+                    }else if(lang === "ar"){
+                        const err = new Discord.MessageEmbed()
+                        .setColor('#BB00EE')
+                        .setTitle("نأسف تم ايقاف الامر لمدة معينة")
+                        message.channel.send(err)
                     }
                   }
+                })
+              return
+              }else{
+                if(lang === "en"){
+                  const off = new Discord.MessageEmbed()
+                  .setColor('#BB00EE')
+                  .setTitle(":robot: Errr, Sorry the bot is off at the moment")
+                  message.channel.send(off)
+                }else if(lang === "ar"){
+                  const offAR = new Discord.MessageEmbed()
+                  .setColor('#BB00EE')
+                  .setTitle(":robot: عذرا البوت مغلت بالوقت الحالي")
+                  message.channel.send(offAR)
                 }
-              })
-            return
-            }else{
-              if(lang === "en"){
-                const off = new Discord.MessageEmbed()
-                .setColor('#BB00EE')
-                .setTitle(":robot: Errr, Sorry the bot is off at the moment")
-                message.channel.send(off)
-              }else if(lang === "ar"){
-                const offAR = new Discord.MessageEmbed()
-                .setColor('#BB00EE')
-                .setTitle(":robot: عذرا البوت مغلت بالوقت الحالي")
-                message.channel.send(offAR)
               }
-            }
-          })
-        }
-      })
+            })
+          }
+        })
       }
     }
   })

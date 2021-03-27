@@ -75,12 +75,12 @@ module.exports = {
                                                 ])
                                             const done = new Discord.MessageEmbed()
                                             done.setColor('#BB00EE')
-                                            done.setTitle("The " + shifted + " permission(s) has been addedd")
+                                            done.setTitle("✅ The " + shifted + " permission(s) has been addedd")
                                             message.channel.send(done)
                                             }else{
                                                 const errCommand = new Discord.MessageEmbed()
                                                 errCommand.setColor('#BB00EE')
-                                                errCommand.setTitle("The " + shifted + " is not a valid command")
+                                                errCommand.setTitle("❎ The " + shifted + " is not a valid command")
                                                 message.channel.send(errCommand)
                                             }
                                         })
@@ -90,10 +90,14 @@ module.exports = {
                                         admin.database().ref("ERA's").child("Commands").child(args[0]).child("Perms").once('value', async data => {
                                             if(data.exists()){
                                                 admin.database().ref("ERA's").child("Commands").child(args[0]).child("Perms").remove()
+                                                const secCommand = new Discord.MessageEmbed()
+                                                secCommand.setColor('#BB00EE')
+                                                secCommand.setTitle("✅ The " + args[0] + " has been removed")
+                                                message.channel.send(secCommand)
                                             }else{
                                                 const errCommand = new Discord.MessageEmbed()
                                                 errCommand.setColor('#BB00EE')
-                                                errCommand.setTitle("The " + args[0] + " doesn't have perms")
+                                                errCommand.setTitle("❎ The " + args[0] + " doesn't have perms")
                                                 message.channel.send(errCommand)
                                             }
                                         })
@@ -111,7 +115,7 @@ module.exports = {
                         }else{
                             const err = new Discord.MessageEmbed()
                             err.setColor('#BB00EE')
-                            err.setTitle("The " + args + " is not valid perm please type a valid one")
+                            err.setTitle("❎ The " + args + " is not valid perm please type a valid one")
                             message.channel.send(err)
                             }
 

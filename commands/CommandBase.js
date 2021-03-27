@@ -50,12 +50,12 @@ module.exports = (client, commandOptions, admin) => {
               if(lang === "en"){
                 const SyntaxError = new Discord.MessageEmbed()
                 .setColor('#BB00EE')
-                .setTitle(`Incorrect syntax! Use ${prefix}${alias} ${expectedArgs}`)
+                .setTitle(`:x: Incorrect syntax! Use ${prefix}${alias} ${expectedArgs}`)
                 message.channel.send(SyntaxError)
               }else if (lang === "ar"){
                 const SyntaxError = new Discord.MessageEmbed()
                 .setColor('#BB00EE')
-                .setTitle(`:robot: غلط في عملية كتابة الامر الرجاء كتابة الامر بالشكل الصحيح ${prefix}${alias} ${expectedArgs}`)
+                .setTitle(`:x: غلط في عملية كتابة الامر الرجاء كتابة الامر بالشكل الصحيح \n${prefix}${alias} ${expectedArgs}`)
                 message.channel.send(SyntaxError)
               }
               return

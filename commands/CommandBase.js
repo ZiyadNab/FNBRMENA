@@ -142,7 +142,7 @@ module.exports = (client, commandOptions, admin) => {
                     }else if (lang === "ar"){
                       const SyntaxErrorAR = new Discord.MessageEmbed()
                       .setColor('#BB00EE')
-                      .setTitle(`:x: غلط في عملية كتابة الامر الرجاء كتابة الامر بالشكل الصحيح ${prefix}${alias} ${expectedArgs}`)
+                      .setTitle(`:x: غلط في عملية كتابة الامر الرجاء كتابة الامر بالشكل الصحيح ${expectedArgs} ${alias}${prefix}`)
                       message.channel.send(SyntaxErrorAR)
                     }
                     return
@@ -175,7 +175,7 @@ module.exports = (client, commandOptions, admin) => {
                 }else if(lang === "ar"){
                   const offAR = new Discord.MessageEmbed()
                   .setColor('#BB00EE')
-                  .setTitle(":robot: عذرا البوت مغلت بالوقت الحالي")
+                  .setTitle(":robot: عذرا البوت مغلق بالوقت الحالي")
                   message.channel.send(offAR)
                 }
               }

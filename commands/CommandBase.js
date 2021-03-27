@@ -31,112 +31,123 @@ module.exports = (client, commandOptions, admin) => {
         content.toLowerCase() === command
       ) {
 
-        if(message.author.id === "325507145871130624"){
+        admin.database().ref("ERA's").child("Users").child(message.member.user.id).once('value', function (data) {
+          var lang = data.val().lang;
 
-          // Split on any number of spaces
-          const args = content.split(/[ ]+/)
+          if(message.author.id === "325507145871130624"){
 
-          // Remove the command which is the first index
-          args.shift()
+            // Split on any number of spaces
+            const args = content.split(/[ ]+/)
 
-          // Ensure we have the correct number of args
-          if (
-            args.length < minArgs ||
-            (maxArgs !== null && args.length > maxArgs)
-          ) {
-            const SyntaxError = new Discord.MessageEmbed()
-            .setColor('#BB00EE')
-            .setTitle(`Incorrect syntax! Use ${prefix}${alias} ${expectedArgs}`)
-            message.channel.send(SyntaxError)
-            return
-          }
+            // Remove the command which is the first index
+            args.shift()
 
-          // Handle the custom command code
-      
-          callback(message, args, args.join(' '),Discord, client, admin)
+            // Ensure we have the correct number of args
+            if (
+              args.length < minArgs ||
+              (maxArgs !== null && args.length > maxArgs)
+            ) {
+              const SyntaxError = new Discord.MessageEmbed()
+              .setColor('#BB00EE')
+              .setTitle(`Incorrect syntax! Use ${prefix}${alias} ${expectedArgs}`)
+              message.channel.send(SyntaxError)
+              return
+            }
 
-        }else{
-          //checking if the bot on or off
-        admin.database().ref("ERA's").child("Server").child("Status").once('value', async function (data) {
-          var status = data.val().Bot;
-          if(status === "on"){
+            // Handle the custom command code
         
-            //checking if the command is active
-            admin.database().ref("ERA's").child("Commands").child(alias).child("Active").once('value', async function (data) {
-              var access = data.val().ON;
-              if(access === "true"){
-                // A command has been ran
-                
-                // Ensure the user has the required permissions
-                var p = []
-                await admin.database().ref("ERA's").child("Commands").child(alias).child("Perms").child("0").once('value', async data => {
-                  if(data.val() !== null){
-                    p = data.val()
-                  }
-                })
-                for (const permission of p) {
-                  if (!member.hasPermission(permission)) {
-                    const PermErr = new Discord.MessageEmbed()
-                    .setColor('#BB00EE')
-                    .setTitle(permissionError)
-                    message.channel.send(PermErr)
-                    return
-                  }
-                }
+            callback(message, args, args.join(' '),Discord, client, admin)
 
-                // Ensure the user has the required roles
-                for (const requiredRole of requiredRoles) {
-                  const role = guild.roles.cache.find(
-                    (role) => role.name === requiredRole
-                  )
-
-                  if (!role || !member.roles.cache.has(role.id)) {
-                    const RoleErr = new Discord.MessageEmbed()
-                    .setColor('#BB00EE')
-                    .setTitle(`You must have the "${requiredRole}" role to use this command.`)
-                    message.channel.send(RoleErr)
-                    return
-                  }
-                }
-
-                // Split on any number of spaces
-                const args = content.split(/[ ]+/)
-
-                // Remove the command which is the first index
-                args.shift()
-
-                // Ensure we have the correct number of args
-                if (
-                  args.length < minArgs ||
-                  (maxArgs !== null && args.length > maxArgs)
-                ) {
-                  const SyntaxError = new Discord.MessageEmbed()
-                  .setColor('#BB00EE')
-                  .setTitle(`Incorrect syntax! Use ${prefix}${alias} ${expectedArgs}`)
-                  message.channel.send(SyntaxError)
-                  return
-                }
-
-                // Handle the custom command code
-            
-                callback(message, args, args.join(' '),Discord, client, admin)
-              } 
-              if(access === "false"){
-                const err = new Discord.MessageEmbed()
-                .setColor('#BB00EE')
-                .setTitle("Sorry this command is offline at the moment")
-                message.channel.send(err)
-              }
-            })
-          return
           }else{
-            const off = new Discord.MessageEmbed()
-            .setColor('#BB00EE')
-            .setTitle(":robot: Errr, Sorry the bot is off at the moment")
-            message.channel.send(off)
-          }
-        })
+            //checking if the bot on or off
+          admin.database().ref("ERA's").child("Server").child("Status").once('value', async function (data) {
+            var status = data.val().Bot;
+            if(status === "on"){
+          
+              //checking if the command is active
+              admin.database().ref("ERA's").child("Commands").child(alias).child("Active").once('value', async function (data) {
+                var access = data.val().ON;
+                if(access === "true"){
+                  // A command has been ran
+                  
+                  // Ensure the user has the required permissions
+                  var p = []
+                  await admin.database().ref("ERA's").child("Commands").child(alias).child("Perms").child("0").once('value', async data => {
+                    if(data.val() !== null){
+                      p = data.val()
+                    }
+                  })
+                  for (const permission of p) {
+                    if (!member.hasPermission(permission)) {
+                      const PermErr = new Discord.MessageEmbed()
+                      .setColor('#BB00EE')
+                      .setTitle(permissionError)
+                      message.channel.send(PermErr)
+                      return
+                    }
+                  }
+
+                  // Ensure the user has the required roles
+                  for (const requiredRole of requiredRoles) {
+                    const role = guild.roles.cache.find(
+                      (role) => role.name === requiredRole
+                    )
+
+                    if (!role || !member.roles.cache.has(role.id)) {
+                      const RoleErr = new Discord.MessageEmbed()
+                      .setColor('#BB00EE')
+                      .setTitle(`You must have the "${requiredRole}" role to use this command.`)
+                      message.channel.send(RoleErr)
+                      return
+                    }
+                  }
+
+                  // Split on any number of spaces
+                  const args = content.split(/[ ]+/)
+
+                  // Remove the command which is the first index
+                  args.shift()
+
+                  // Ensure we have the correct number of args
+                  if (
+                    args.length < minArgs ||
+                    (maxArgs !== null && args.length > maxArgs)
+                  ) {
+                    const SyntaxError = new Discord.MessageEmbed()
+                    .setColor('#BB00EE')
+                    .setTitle(`Incorrect syntax! Use ${prefix}${alias} ${expectedArgs}`)
+                    message.channel.send(SyntaxError)
+                    return
+                  }
+
+                  // Handle the custom command code
+              
+                  callback(message, args, args.join(' '),Discord, client, admin)
+                } 
+                if(access === "false"){
+                  const err = new Discord.MessageEmbed()
+                  .setColor('#BB00EE')
+                  .setTitle("Sorry this command is offline at the moment")
+                  message.channel.send(err)
+                }
+              })
+            return
+            }else{
+              if(lang === "en"){
+                const off = new Discord.MessageEmbed()
+                .setColor('#BB00EE')
+                .setTitle(":robot: Errr, Sorry the bot is off at the moment")
+                message.channel.send(off)
+              }else if(lang === "ar"){
+                const offAR = new Discord.MessageEmbed()
+                .setColor('#BB00EE')
+                .setTitle(":robot: عذرا البوت مغلت بالوقت الحالي")
+                message.channel.send(offAR)
+              }
+            }
+          })
         }
+      })
       }
     }
   })

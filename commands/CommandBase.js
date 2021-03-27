@@ -47,10 +47,17 @@ module.exports = (client, commandOptions, admin) => {
               args.length < minArgs ||
               (maxArgs !== null && args.length > maxArgs)
             ) {
-              const SyntaxError = new Discord.MessageEmbed()
-              .setColor('#BB00EE')
-              .setTitle(`Incorrect syntax! Use ${prefix}${alias} ${expectedArgs}`)
-              message.channel.send(SyntaxError)
+              if(lang === "en"){
+                const SyntaxError = new Discord.MessageEmbed()
+                .setColor('#BB00EE')
+                .setTitle(`Incorrect syntax! Use ${prefix}${alias} ${expectedArgs}`)
+                message.channel.send(SyntaxError)
+              }else if (lang === "ar"){
+                const SyntaxError = new Discord.MessageEmbed()
+                .setColor('#BB00EE')
+                .setTitle(`:robot: غلط في عملية كتابة الامر الرجاء كتابة الامر بالشكل الصحيح ${prefix}${alias} ${expectedArgs}`)
+                message.channel.send(SyntaxError)
+              }
               return
             }
 
@@ -79,10 +86,17 @@ module.exports = (client, commandOptions, admin) => {
                   })
                   for (const permission of p) {
                     if (!member.hasPermission(permission)) {
-                      const PermErr = new Discord.MessageEmbed()
-                      .setColor('#BB00EE')
-                      .setTitle(permissionError)
-                      message.channel.send(PermErr)
+                      if(lang === "en"){
+                        const PermErr = new Discord.MessageEmbed()
+                        .setColor('#BB00EE')
+                        .setTitle(permissionError)
+                        message.channel.send(PermErr)
+                      }else if(lang === "ar"){
+                        const PermErr = new Discord.MessageEmbed()
+                        .setColor('#BB00EE')
+                        .setTitle(":robot: عذرا ليس لديك صلاحية لهذا الامر.")
+                        message.channel.send(PermErr)
+                      }
                       return
                     }
                   }
@@ -94,10 +108,17 @@ module.exports = (client, commandOptions, admin) => {
                     )
 
                     if (!role || !member.roles.cache.has(role.id)) {
-                      const RoleErr = new Discord.MessageEmbed()
-                      .setColor('#BB00EE')
-                      .setTitle(`You must have the "${requiredRole}" role to use this command.`)
-                      message.channel.send(RoleErr)
+                      if(lang === "en"){
+                        const RoleErr = new Discord.MessageEmbed()
+                        .setColor('#BB00EE')
+                        .setTitle(`You must have the "${requiredRole}" role to use this command.`)
+                        message.channel.send(RoleErr)
+                      }else if(lang === "ar"){
+                        const RoleErrAR = new Discord.MessageEmbed()
+                        .setColor('#BB00EE')
+                        .setTitle(`هذا الامر فقط متوفر اذا كان لديك رول "${requiredRole}"`)
+                        message.channel.send(RoleErrAR)
+                      }
                       return
                     }
                   }
@@ -113,10 +134,17 @@ module.exports = (client, commandOptions, admin) => {
                     args.length < minArgs ||
                     (maxArgs !== null && args.length > maxArgs)
                   ) {
-                    const SyntaxError = new Discord.MessageEmbed()
-                    .setColor('#BB00EE')
-                    .setTitle(`Incorrect syntax! Use ${prefix}${alias} ${expectedArgs}`)
-                    message.channel.send(SyntaxError)
+                    if(lang === "en"){
+                      const SyntaxError = new Discord.MessageEmbed()
+                      .setColor('#BB00EE')
+                      .setTitle(`Incorrect syntax! Use ${prefix}${alias} ${expectedArgs}`)
+                      message.channel.send(SyntaxError)
+                    }else if (lang === "ar"){
+                      const SyntaxErrorAR = new Discord.MessageEmbed()
+                      .setColor('#BB00EE')
+                      .setTitle(`:robot: غلط في عملية كتابة الامر الرجاء كتابة الامر بالشكل الصحيح ${prefix}${alias} ${expectedArgs}`)
+                      message.channel.send(SyntaxErrorAR)
+                    }
                     return
                   }
 
@@ -124,11 +152,20 @@ module.exports = (client, commandOptions, admin) => {
               
                   callback(message, args, args.join(' '),Discord, client, admin)
                 } 
-                if(access === "false"){
-                  const err = new Discord.MessageEmbed()
-                  .setColor('#BB00EE')
-                  .setTitle("Sorry this command is offline at the moment")
-                  message.channel.send(err)
+                if(lang === "en"){
+                  if(access === "false"){
+                    const err = new Discord.MessageEmbed()
+                    .setColor('#BB00EE')
+                    .setTitle("Sorry this command is offline at the moment")
+                    message.channel.send(err)
+                  }else if(lang === "ar"){
+                    if(access === "false"){
+                      const err = new Discord.MessageEmbed()
+                      .setColor('#BB00EE')
+                      .setTitle("نأسف تم ايقاف الامر لمدة معينة")
+                      message.channel.send(err)
+                    }
+                  }
                 }
               })
             return

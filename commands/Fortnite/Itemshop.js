@@ -98,7 +98,7 @@ module.exports = {
                         width = (12*512) + (25 * 12) + 500;
                         for(let i = 0; i<f; i++){
                             lines++;
-                            if(3 === lines){
+                            if(5 === lines){
                                 height += 512 +50;
                                 lines = 0;
                             }

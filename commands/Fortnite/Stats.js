@@ -26,7 +26,7 @@ module.exports = {
     callback: async (message, arguments, text, Discord, client) => {
 
         query = {
-            name: arguments,
+            name: text,
             accountType:"epic",
             timeWindow: "lifetime"
         };

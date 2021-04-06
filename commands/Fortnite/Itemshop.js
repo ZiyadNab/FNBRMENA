@@ -73,11 +73,12 @@ module.exports = {
                         width = (12*512) + (25 * 12) + 500;
                         for(let i = 0; i<f; i++){
                             lines++;
-                            if(3 === lines){
+                            if(5 === lines){
                                 height += 512 +25;
                                 lines = 0;
                             }
                         }
+                        height += 300
                     }
                 }else if(res.featured.length <= res.specialFeatured.length){
                     f = res.specialFeatured.length;

@@ -2457,7 +2457,7 @@ module.exports = {
                         
                     
                     }
-                    if(rarity === 'سلسلة الشراب Series'){
+                    if(rarity === 'سلسلة الشراب'){
                         //creating image                   
                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/slurp.png')
                         ctx.drawImage(skinholder, 0,0, 512, 512)

@@ -2245,7 +2245,8 @@ module.exports = {
                         ctx.drawImage(skin, 0,0, 512, 512)
                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderLegendary.png')
                         ctx.drawImage(skinborder, 0,0, 512, 512)
-                        ctx.drawImage(skinborder, 0,0, 512, 512)
+                        const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                        ctx.drawImage(credit, 15, 15, 146, 40);
                         ctx.fillStyle = '#ffffff';
                         ctx.textAlign='center';
                         ctx.font = '46px Arabic'
@@ -2264,7 +2265,8 @@ module.exports = {
                         ctx.drawImage(skin, 0,0, 512, 512)
                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderEpic.png')
                         ctx.drawImage(skinborder, 0,0, 512, 512)
-                        ctx.drawImage(skinborder, 0,0, 512, 512)
+                        const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                        ctx.drawImage(credit, 15, 15, 146, 40);
                         ctx.fillStyle = '#ffffff';
                         ctx.textAlign='center';
                         ctx.font = '46px Arabic'
@@ -2283,6 +2285,8 @@ module.exports = {
                         ctx.drawImage(skin, 0,0, 512, 512)
                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderRare.png')
                         ctx.drawImage(skinborder, 0,0, 512, 512)
+                        const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                        ctx.drawImage(credit, 15, 15, 146, 40);
                         ctx.fillStyle = '#ffffff';
                         ctx.textAlign='center';
                         ctx.font = '46px Arabic'
@@ -2301,7 +2305,8 @@ module.exports = {
                         ctx.drawImage(skin, 0,0, 512, 512)
                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderUncommon.png')
                         ctx.drawImage(skinborder, 0,0, 512, 512)
-                        ctx.drawImage(skinborder, 0,0, 512, 512)
+                        const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                        ctx.drawImage(credit, 15, 15, 146, 40);
                         ctx.fillStyle = '#ffffff';
                         ctx.textAlign='center';
                         ctx.font = '46px Arabic'
@@ -2320,7 +2325,8 @@ module.exports = {
                         ctx.drawImage(skin, 0,0, 512, 512)
                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderCommon.png')
                         ctx.drawImage(skinborder, 0,0, 512, 512)
-                        ctx.drawImage(skinborder, 0,0, 512, 512)
+                        const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                        ctx.drawImage(credit, 15, 15, 146, 40);
                         ctx.fillStyle = '#ffffff';
                         ctx.textAlign='center';
                         ctx.font = '46px Arabic'
@@ -2339,7 +2345,8 @@ module.exports = {
                         ctx.drawImage(skin, 0,0, 512, 512)
                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderMarvel.png')
                         ctx.drawImage(skinborder, 0,0, 512, 512)
-                        ctx.drawImage(skinborder, 0,0, 512, 512)
+                        const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                        ctx.drawImage(credit, 15, 15, 146, 40);
                         ctx.fillStyle = '#ffffff';
                         ctx.textAlign='center';
                         ctx.font = '46px Arabic'
@@ -2358,7 +2365,8 @@ module.exports = {
                         ctx.drawImage(skin, 0,0, 512, 512)
                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderDc.png')
                         ctx.drawImage(skinborder, 0,0, 512, 512)
-                        ctx.drawImage(skinborder, 0,0, 512, 512)
+                        const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                        ctx.drawImage(credit, 15, 15, 146, 40);
                         ctx.fillStyle = '#ffffff';
                         ctx.textAlign='center';
                         ctx.font = '46px Arabic'
@@ -2377,7 +2385,8 @@ module.exports = {
                         ctx.drawImage(skin, 0,0, 512, 512)
                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderDark.png')
                         ctx.drawImage(skinborder, 0,0, 512, 512)
-                        ctx.drawImage(skinborder, 0,0, 512, 512)
+                        const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                        ctx.drawImage(credit, 15, 15, 146, 40);
                         ctx.fillStyle = '#ffffff';
                         ctx.textAlign='center';
                         ctx.font = '46px Arabic'
@@ -2396,7 +2405,8 @@ module.exports = {
                         ctx.drawImage(skin, 0,0, 512, 512)
                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderIcon.png')
                         ctx.drawImage(skinborder, 0,0, 512, 512)
-                        ctx.drawImage(skinborder, 0,0, 512, 512)
+                        const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                        ctx.drawImage(credit, 15, 15, 146, 40);
                         ctx.fillStyle = '#ffffff';
                         ctx.textAlign='center';
                         ctx.font = '46px Arabic'
@@ -2415,7 +2425,8 @@ module.exports = {
                         ctx.drawImage(skin, 0,0, 512, 512)
                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderStarwars.png')
                         ctx.drawImage(skinborder, 0,0, 512, 512)
-                        ctx.drawImage(skinborder, 0,0, 512, 512)
+                        const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                        ctx.drawImage(credit, 15, 15, 146, 40);
                         ctx.fillStyle = '#ffffff';
                         ctx.textAlign='center';
                         ctx.font = '46px Arabic'
@@ -2434,7 +2445,8 @@ module.exports = {
                         ctx.drawImage(skin, 0,0, 512, 512)
                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderShadow.png')
                         ctx.drawImage(skinborder, 0,0, 512, 512)
-                        ctx.drawImage(skinborder, 0,0, 512, 512)
+                        const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                        ctx.drawImage(credit, 15, 15, 146, 40);
                         ctx.fillStyle = '#ffffff';
                         ctx.textAlign='center';
                         ctx.font = '46px Arabic'
@@ -2453,7 +2465,8 @@ module.exports = {
                         ctx.drawImage(skin, 0,0, 512, 512)
                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderSlurp.png')
                         ctx.drawImage(skinborder, 0,0, 512, 512)
-                        ctx.drawImage(skinborder, 0,0, 512, 512)
+                        const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                        ctx.drawImage(credit, 15, 15, 146, 40);
                         ctx.fillStyle = '#ffffff';
                         ctx.textAlign='center';
                         ctx.font = '46px Arabic'
@@ -2472,7 +2485,8 @@ module.exports = {
                         ctx.drawImage(skin, 0,0, 512, 512)
                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderFrozen.png')
                         ctx.drawImage(skinborder, 0,0, 512, 512)
-                        ctx.drawImage(skinborder, 0,0, 512, 512)
+                        const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                        ctx.drawImage(credit, 15, 15, 146, 40);
                         ctx.fillStyle = '#ffffff';
                         ctx.textAlign='center';
                         ctx.font = '46px Arabic'
@@ -2491,7 +2505,8 @@ module.exports = {
                         ctx.drawImage(skin, 0,0, 512, 512)
                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderLava.png')
                         ctx.drawImage(skinborder, 0,0, 512, 512)
-                        ctx.drawImage(skinborder, 0,0, 512, 512)
+                        const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                        ctx.drawImage(credit, 15, 15, 146, 40);
                         ctx.fillStyle = '#ffffff';
                         ctx.textAlign='center';
                         ctx.font = '46px Arabic'
@@ -2509,7 +2524,8 @@ module.exports = {
                         ctx.drawImage(skin, 0,0, 512, 512)
                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderGaming.png')
                         ctx.drawImage(skinborder, 0,0, 512, 512)
-                        ctx.drawImage(skinborder, 0,0, 512, 512)
+                        const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                        ctx.drawImage(credit, 15, 15, 146, 40);
                         ctx.fillStyle = '#ffffff';
                         ctx.textAlign='center';
                         ctx.font = '46px Arabic'
@@ -2525,7 +2541,10 @@ module.exports = {
 
             })
             .catch((err) => {
-                console.log(err)
+                const Err = new Discord.MessageEmbed()
+                    .setColor('#BB00EE')
+                    .setTitle('عذرا لا يمكنني العثور على العنصر الرجاء التأكد من كتابة الاسم بشكل صحيح :robot:')
+                    message.reply(Err)
             })
             }
         })

@@ -120,14 +120,14 @@ module.exports = {
                                             const canvas = Canvas.createCanvas(512, 512);
                                             const ctx = canvas.getContext('2d');
 
-                                    const background = await Canvas.loadImage('./assets/Rarities/New/legendary.png');
+                                    const background = await Canvas.loadImage('./assets/Rarities/standard/legendary.png');
                                     ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
                                     const skin = await Canvas.loadImage(skinImage);
                                     ctx.drawImage(skin, 0, 0, canvas.width, canvas.height);
-                                    const border = await Canvas.loadImage('./assets/Rarities/New/borderLegendary.png');
+                                    const border = await Canvas.loadImage('./assets/Rarities/standard/borderLegendary.png');
                                     ctx.drawImage(border, 0, 0, canvas.width, canvas.height);
                                     const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                    ctx.drawImage(credit, 30, 35, 146, 40);
+                                    ctx.drawImage(credit, 15, 15, 146, 40);
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
                                     ctx.font = '46px Burbank Big Condensed'
@@ -188,14 +188,14 @@ module.exports = {
                                             const canvas = Canvas.createCanvas(512, 512);
                                             const ctx = canvas.getContext('2d');
 
-                                    const background = await Canvas.loadImage('./assets/Rarities/New/epic.png');
+                                    const background = await Canvas.loadImage('./assets/Rarities/standard/epic.png');
                                     ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
                                     const skin = await Canvas.loadImage(skinImage);
                                     ctx.drawImage(skin, 0, 0, canvas.width, canvas.height);
-                                    const border = await Canvas.loadImage('./assets/Rarities/New/borderEpic.png');
+                                    const border = await Canvas.loadImage('./assets/Rarities/standard/borderEpic.png');
                                     ctx.drawImage(border, 0, 0, canvas.width, canvas.height);
                                     const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                    ctx.drawImage(credit, 30, 35, 146, 40);
+                                    ctx.drawImage(credit, 15, 15, 146, 40);
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
                                     ctx.font = '46px Burbank Big Condensed'
@@ -255,14 +255,14 @@ module.exports = {
                                             const canvas = Canvas.createCanvas(512, 512);
                                             const ctx = canvas.getContext('2d');
 
-                                    const background = await Canvas.loadImage('./assets/Rarities/New/rare.png');
+                                    const background = await Canvas.loadImage('./assets/Rarities/standard/rare.png');
                                     ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
                                     const skin = await Canvas.loadImage(skinImage);
                                     ctx.drawImage(skin, 0, 0, canvas.width, canvas.height);
-                                    const border = await Canvas.loadImage('./assets/Rarities/New/borderRare.png');
+                                    const border = await Canvas.loadImage('./assets/Rarities/standard/borderRare.png');
                                     ctx.drawImage(border, 0, 0, canvas.width, canvas.height);
                                     const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                    ctx.drawImage(credit, 30, 35, 146, 40);
+                                    ctx.drawImage(credit, 15, 15, 146, 40);
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
                                     ctx.font = '46px Burbank Big Condensed'
@@ -322,14 +322,14 @@ module.exports = {
                                             const canvas = Canvas.createCanvas(512, 512);
                                             const ctx = canvas.getContext('2d');
 
-                                    const background = await Canvas.loadImage('./assets/Rarities/New/uncommon.png');
+                                    const background = await Canvas.loadImage('./assets/Rarities/standard/uncommon.png');
                                     ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
                                     const skin = await Canvas.loadImage(skinImage);
                                     ctx.drawImage(skin, 0, 0, canvas.width, canvas.height);
-                                    const border = await Canvas.loadImage('./assets/Rarities/New/borderUncommon.png');
+                                    const border = await Canvas.loadImage('./assets/Rarities/standard/borderUncommon.png');
                                     ctx.drawImage(border, 0, 0, canvas.width, canvas.height);
                                     const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                    ctx.drawImage(credit, 30, 35, 146, 40);
+                                    ctx.drawImage(credit, 15, 15, 146, 40);
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
                                     ctx.font = '46px Burbank Big Condensed'
@@ -390,14 +390,14 @@ module.exports = {
                                     const canvas = Canvas.createCanvas(512, 512);
                                     const ctx = canvas.getContext('2d');
 
-                                    const background = await Canvas.loadImage('./assets/Rarities/New/common.png');
+                                    const background = await Canvas.loadImage('./assets/Rarities/standard/common.png');
                                     ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
                                     const skin = await Canvas.loadImage(skinImage);
                                     ctx.drawImage(skin, 0, 0, canvas.width, canvas.height);
-                                    const border = await Canvas.loadImage('./assets/Rarities/New/borderCommon.png');
+                                    const border = await Canvas.loadImage('./assets/Rarities/standard/borderCommon.png');
                                     ctx.drawImage(border, 0, 0, canvas.width, canvas.height);
                                     const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                    ctx.drawImage(credit, 30, 35, 146, 40);
+                                    ctx.drawImage(credit, 15, 15, 146, 40);
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
                                     ctx.font = '46px Burbank Big Condensed'
@@ -457,14 +457,14 @@ module.exports = {
                                             const canvas = Canvas.createCanvas(512, 512);
                                             const ctx = canvas.getContext('2d');
 
-                                    const background = await Canvas.loadImage('./assets/Rarities/New/marvel.png');
+                                    const background = await Canvas.loadImage('./assets/Rarities/standard/marvel.png');
                                     ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
                                     const skin = await Canvas.loadImage(skinImage);
                                     ctx.drawImage(skin, 0, 0, canvas.width, canvas.height);
-                                    const border = await Canvas.loadImage('./assets/Rarities/New/borderMarvel.png');
+                                    const border = await Canvas.loadImage('./assets/Rarities/standard/borderMarvel.png');
                                     ctx.drawImage(border, 0, 0, canvas.width, canvas.height);
                                     const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                    ctx.drawImage(credit, 30, 35, 146, 40);
+                                    ctx.drawImage(credit, 15, 15, 146, 40);
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
                                     ctx.font = '46px Burbank Big Condensed'
@@ -525,14 +525,14 @@ module.exports = {
                                     const canvas = Canvas.createCanvas(512, 512);
                                     const ctx = canvas.getContext('2d');
 
-                                    const background = await Canvas.loadImage('./assets/Rarities/New/dc.png');
+                                    const background = await Canvas.loadImage('./assets/Rarities/standard/dc.png');
                                     ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
                                     const skin = await Canvas.loadImage(skinImage);
                                     ctx.drawImage(skin, 0, 0, canvas.width, canvas.height);
-                                    const border = await Canvas.loadImage('./assets/Rarities/New/borderDc.png');
+                                    const border = await Canvas.loadImage('./assets/Rarities/standard/borderDc.png');
                                     ctx.drawImage(border, 0, 0, canvas.width, canvas.height);
                                     const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                    ctx.drawImage(credit, 30, 35, 146, 40);
+                                    ctx.drawImage(credit, 15, 15, 146, 40);
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
                                     ctx.font = '46px Burbank Big Condensed'
@@ -593,14 +593,14 @@ module.exports = {
                                     const canvas = Canvas.createCanvas(512, 512);
                                     const ctx = canvas.getContext('2d');
 
-                                    const background = await Canvas.loadImage('./assets/Rarities/New/dark.png');
+                                    const background = await Canvas.loadImage('./assets/Rarities/standard/dark.png');
                                     ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
                                     const skin = await Canvas.loadImage(skinImage);
                                     ctx.drawImage(skin, 0, 0, canvas.width, canvas.height);
-                                    const border = await Canvas.loadImage('./assets/Rarities/New/borderDark.png');
+                                    const border = await Canvas.loadImage('./assets/Rarities/standard/borderDark.png');
                                     ctx.drawImage(border, 0, 0, canvas.width, canvas.height);
                                     const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                    ctx.drawImage(credit, 30, 35, 146, 40);
+                                    ctx.drawImage(credit, 15, 15, 146, 40);
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
                                     ctx.font = '46px Burbank Big Condensed'
@@ -661,14 +661,14 @@ module.exports = {
                                     const canvas = Canvas.createCanvas(512, 512);
                                     const ctx = canvas.getContext('2d');
 
-                                    const background = await Canvas.loadImage('./assets/Rarities/New/icon.png');
+                                    const background = await Canvas.loadImage('./assets/Rarities/standard/icon.png');
                                     ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
                                     const skin = await Canvas.loadImage(skinImage);
                                     ctx.drawImage(skin, 0, 0, canvas.width, canvas.height);
-                                    const border = await Canvas.loadImage('./assets/Rarities/New/borderIcon.png');
+                                    const border = await Canvas.loadImage('./assets/Rarities/standard/borderIcon.png');
                                     ctx.drawImage(border, 0, 0, canvas.width, canvas.height);
                                     const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                    ctx.drawImage(credit, 30, 35, 146, 40);
+                                    ctx.drawImage(credit, 15, 15, 146, 40);
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
                                     ctx.font = '46px Burbank Big Condensed'
@@ -729,14 +729,14 @@ module.exports = {
                                     const canvas = Canvas.createCanvas(512, 512);
                                     const ctx = canvas.getContext('2d');
 
-                                    const background = await Canvas.loadImage('./assets/Rarities/New/starwars.png');
+                                    const background = await Canvas.loadImage('./assets/Rarities/standard/starwars.png');
                                     ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
                                     const skin = await Canvas.loadImage(skinImage);
                                     ctx.drawImage(skin, 0, 0, canvas.width, canvas.height);
-                                    const border = await Canvas.loadImage('./assets/Rarities/New/borderStarwars.png');
+                                    const border = await Canvas.loadImage('./assets/Rarities/standard/borderStarwars.png');
                                     ctx.drawImage(border, 0, 0, canvas.width, canvas.height);
                                     const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                    ctx.drawImage(credit, 30, 35, 146, 40);
+                                    ctx.drawImage(credit, 15, 15, 146, 40);
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
                                     ctx.font = '46px Burbank Big Condensed'
@@ -797,14 +797,14 @@ module.exports = {
                                     const canvas = Canvas.createCanvas(512, 512);
                                     const ctx = canvas.getContext('2d');
 
-                                    const background = await Canvas.loadImage('./assets/Rarities/New/shadow.png');
+                                    const background = await Canvas.loadImage('./assets/Rarities/standard/shadow.png');
                                     ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
                                     const skin = await Canvas.loadImage(skinImage);
                                     ctx.drawImage(skin, 0, 0, canvas.width, canvas.height);
-                                    const border = await Canvas.loadImage('./assets/Rarities/New/borderShadow.png');
+                                    const border = await Canvas.loadImage('./assets/Rarities/standard/borderShadow.png');
                                     ctx.drawImage(border, 0, 0, canvas.width, canvas.height);
                                     const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                    ctx.drawImage(credit, 30, 35, 146, 40);
+                                    ctx.drawImage(credit, 15, 15, 146, 40);
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
                                     ctx.font = '46px Burbank Big Condensed'
@@ -865,14 +865,14 @@ module.exports = {
                                     const canvas = Canvas.createCanvas(512, 512);
                                     const ctx = canvas.getContext('2d');
 
-                                    const background = await Canvas.loadImage('./assets/Rarities/New/slurp.png');
+                                    const background = await Canvas.loadImage('./assets/Rarities/standard/slurp.png');
                                     ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
                                     const skin = await Canvas.loadImage(skinImage);
                                     ctx.drawImage(skin, 0, 0, canvas.width, canvas.height);
-                                    const border = await Canvas.loadImage('./assets/Rarities/New/borderSlurp.png');
+                                    const border = await Canvas.loadImage('./assets/Rarities/standard/borderSlurp.png');
                                     ctx.drawImage(border, 0, 0, canvas.width, canvas.height);
                                     const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                    ctx.drawImage(credit, 30, 35, 146, 40);
+                                    ctx.drawImage(credit, 15, 15, 146, 40);
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
                                     ctx.font = '46px Burbank Big Condensed'
@@ -933,14 +933,14 @@ module.exports = {
                                     const canvas = Canvas.createCanvas(512, 512);
                                     const ctx = canvas.getContext('2d');
 
-                                    const background = await Canvas.loadImage('./assets/Rarities/New/frozen.png');
+                                    const background = await Canvas.loadImage('./assets/Rarities/standard/frozen.png');
                                     ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
                                     const skin = await Canvas.loadImage(skinImage);
                                     ctx.drawImage(skin, 0, 0, canvas.width, canvas.height);
-                                    const border = await Canvas.loadImage('./assets/Rarities/New/borderFrozen.png');
+                                    const border = await Canvas.loadImage('./assets/Rarities/standard/borderFrozen.png');
                                     ctx.drawImage(border, 0, 0, canvas.width, canvas.height);
                                     const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                    ctx.drawImage(credit, 30, 35, 146, 40);
+                                    ctx.drawImage(credit, 15, 15, 146, 40);
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
                                     ctx.font = '46px Burbank Big Condensed'
@@ -1001,14 +1001,14 @@ module.exports = {
                                     const canvas = Canvas.createCanvas(512, 512);
                                     const ctx = canvas.getContext('2d');
 
-                                    const background = await Canvas.loadImage('./assets/Rarities/New/lava.png');
+                                    const background = await Canvas.loadImage('./assets/Rarities/standard/lava.png');
                                     ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
                                     const skin = await Canvas.loadImage(skinImage);
                                     ctx.drawImage(skin, 0, 0, canvas.width, canvas.height);
-                                    const border = await Canvas.loadImage('./assets/Rarities/New/borderLava.png');
+                                    const border = await Canvas.loadImage('./assets/Rarities/standard/borderLava.png');
                                     ctx.drawImage(border, 0, 0, canvas.width, canvas.height);
                                     const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                    ctx.drawImage(credit, 30, 35, 146, 40);
+                                    ctx.drawImage(credit, 15, 15, 146, 40);
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
                                     ctx.font = '46px Burbank Big Condensed'
@@ -1069,14 +1069,14 @@ module.exports = {
                                     const canvas = Canvas.createCanvas(512, 512);
                                     const ctx = canvas.getContext('2d');
 
-                                    const background = await Canvas.loadImage('./assets/Rarities/New/gaming.png');
+                                    const background = await Canvas.loadImage('./assets/Rarities/standard/gaming.png');
                                     ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
                                     const skin = await Canvas.loadImage(skinImage);
                                     ctx.drawImage(skin, 0, 0, canvas.width, canvas.height);
-                                    const border = await Canvas.loadImage('./assets/Rarities/New/borderGaming.png');
+                                    const border = await Canvas.loadImage('./assets/Rarities/standard/borderGaming.png');
                                     ctx.drawImage(border, 0, 0, canvas.width, canvas.height);
                                     const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                    ctx.drawImage(credit, 30, 35, 146, 40);
+                                    ctx.drawImage(credit, 15, 15, 146, 40);
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
                                     ctx.font = '46px Burbank Big Condensed'
@@ -1171,14 +1171,14 @@ module.exports = {
                         const canvas = Canvas.createCanvas(512, 512);
                         const ctx = canvas.getContext('2d');
 
-                        const background = await Canvas.loadImage('./assets/Rarities/New/legendary.png');
+                        const background = await Canvas.loadImage('./assets/Rarities/standard/legendary.png');
                         ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
                         const skin = await Canvas.loadImage(skinImage);
                         ctx.drawImage(skin, 0, 0, canvas.width, canvas.height);
-                        const border = await Canvas.loadImage('./assets/Rarities/New/borderLegendary.png');
+                        const border = await Canvas.loadImage('./assets/Rarities/standard/borderLegendary.png');
                         ctx.drawImage(border, 0, 0, canvas.width, canvas.height);
                         const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                        ctx.drawImage(credit, 30, 35, 146, 40);
+                        ctx.drawImage(credit, 15, 15, 146, 40);
                         ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
                                     ctx.font = '46px Burbank Big Condensed'
@@ -1242,14 +1242,14 @@ module.exports = {
                         const canvas = Canvas.createCanvas(512, 512);
                         const ctx = canvas.getContext('2d');
 
-                        const background = await Canvas.loadImage('./assets/Rarities/New/epic.png');
+                        const background = await Canvas.loadImage('./assets/Rarities/standard/epic.png');
                         ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
                         const skin = await Canvas.loadImage(skinImage);
                         ctx.drawImage(skin, 0, 0, canvas.width, canvas.height);
-                        const border = await Canvas.loadImage('./assets/Rarities/New/borderEpic.png');
+                        const border = await Canvas.loadImage('./assets/Rarities/standard/borderEpic.png');
                         ctx.drawImage(border, 0, 0, canvas.width, canvas.height);
                         const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                        ctx.drawImage(credit, 30, 35, 146, 40);
+                        ctx.drawImage(credit, 15, 15, 146, 40);
                         ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
                                     ctx.font = '46px Burbank Big Condensed'
@@ -1312,14 +1312,14 @@ module.exports = {
                         const canvas = Canvas.createCanvas(512, 512);
                         const ctx = canvas.getContext('2d');
 
-                        const background = await Canvas.loadImage('./assets/Rarities/New/rare.png');
+                        const background = await Canvas.loadImage('./assets/Rarities/standard/rare.png');
                         ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
                         const skin = await Canvas.loadImage(skinImage);
                         ctx.drawImage(skin, 0, 0, canvas.width, canvas.height);
-                        const border = await Canvas.loadImage('./assets/Rarities/New/borderRare.png');
+                        const border = await Canvas.loadImage('./assets/Rarities/standard/borderRare.png');
                         ctx.drawImage(border, 0, 0, canvas.width, canvas.height);
                         const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                        ctx.drawImage(credit, 30, 35, 146, 40);
+                        ctx.drawImage(credit, 15, 15, 146, 40);
                         ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
                                     ctx.font = '46px Burbank Big Condensed'
@@ -1381,14 +1381,14 @@ module.exports = {
                         const canvas = Canvas.createCanvas(512, 512);
                         const ctx = canvas.getContext('2d');
 
-                        const background = await Canvas.loadImage('./assets/Rarities/New/uncommon.png');
+                        const background = await Canvas.loadImage('./assets/Rarities/standard/uncommon.png');
                         ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
                         const skin = await Canvas.loadImage(skinImage);
                         ctx.drawImage(skin, 0, 0, canvas.width, canvas.height);
-                        const border = await Canvas.loadImage('./assets/Rarities/New/borderUncommon.png');
+                        const border = await Canvas.loadImage('./assets/Rarities/standard/borderUncommon.png');
                         ctx.drawImage(border, 0, 0, canvas.width, canvas.height);
                         const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                        ctx.drawImage(credit, 30, 35, 146, 40);
+                        ctx.drawImage(credit, 15, 15, 146, 40);
                         ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
                                     ctx.font = '46px Burbank Big Condensed'
@@ -1450,14 +1450,14 @@ module.exports = {
                         const canvas = Canvas.createCanvas(512, 512);
                         const ctx = canvas.getContext('2d');
 
-                        const background = await Canvas.loadImage('./assets/Rarities/New/common.png');
+                        const background = await Canvas.loadImage('./assets/Rarities/standard/common.png');
                         ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
                         const skin = await Canvas.loadImage(skinImage);
                         ctx.drawImage(skin, 0, 0, canvas.width, canvas.height);
-                        const border = await Canvas.loadImage('./assets/Rarities/New/borderCommon.png');
+                        const border = await Canvas.loadImage('./assets/Rarities/standard/borderCommon.png');
                         ctx.drawImage(border, 0, 0, canvas.width, canvas.height);
                         const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                        ctx.drawImage(credit, 30, 35, 146, 40);
+                        ctx.drawImage(credit, 15, 15, 146, 40);
                         ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
                                     ctx.font = '46px Burbank Big Condensed'
@@ -1519,14 +1519,14 @@ module.exports = {
                         const canvas = Canvas.createCanvas(512, 512);
                         const ctx = canvas.getContext('2d');
 
-                        const background = await Canvas.loadImage('./assets/Rarities/New/marvel.png');
+                        const background = await Canvas.loadImage('./assets/Rarities/standard/marvel.png');
                         ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
                         const skin = await Canvas.loadImage(skinImage);
                         ctx.drawImage(skin, 0, 0, canvas.width, canvas.height);
-                        const border = await Canvas.loadImage('./assets/Rarities/New/borderMarvel.png');
+                        const border = await Canvas.loadImage('./assets/Rarities/standard/borderMarvel.png');
                         ctx.drawImage(border, 0, 0, canvas.width, canvas.height);
                         const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                        ctx.drawImage(credit, 30, 35, 146, 40);
+                        ctx.drawImage(credit, 15, 15, 146, 40);
                         ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
                                     ctx.font = '46px Burbank Big Condensed'
@@ -1588,14 +1588,14 @@ module.exports = {
                         const canvas = Canvas.createCanvas(512, 512);
                         const ctx = canvas.getContext('2d');
 
-                        const background = await Canvas.loadImage('./assets/Rarities/New/dc.png');
+                        const background = await Canvas.loadImage('./assets/Rarities/standard/dc.png');
                         ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
                         const skin = await Canvas.loadImage(skinImage);
                         ctx.drawImage(skin, 0, 0, canvas.width, canvas.height);
-                        const border = await Canvas.loadImage('./assets/Rarities/New/borderDc.png');
+                        const border = await Canvas.loadImage('./assets/Rarities/standard/borderDc.png');
                         ctx.drawImage(border, 0, 0, canvas.width, canvas.height);
                         const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                        ctx.drawImage(credit, 30, 35, 146, 40);
+                        ctx.drawImage(credit, 15, 15, 146, 40);
                         ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
                                     ctx.font = '46px Burbank Big Condensed'
@@ -1657,14 +1657,14 @@ module.exports = {
                         const canvas = Canvas.createCanvas(512, 512);
                         const ctx = canvas.getContext('2d');
 
-                        const background = await Canvas.loadImage('./assets/Rarities/New/dark.png');
+                        const background = await Canvas.loadImage('./assets/Rarities/standard/dark.png');
                         ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
                         const skin = await Canvas.loadImage(skinImage);
                         ctx.drawImage(skin, 0, 0, canvas.width, canvas.height);
-                        const border = await Canvas.loadImage('./assets/Rarities/New/borderDark.png');
+                        const border = await Canvas.loadImage('./assets/Rarities/standard/borderDark.png');
                         ctx.drawImage(border, 0, 0, canvas.width, canvas.height);
                         const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                        ctx.drawImage(credit, 30, 35, 146, 40);
+                        ctx.drawImage(credit, 15, 15, 146, 40);
                         ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
                                     ctx.font = '46px Burbank Big Condensed'
@@ -1726,14 +1726,14 @@ module.exports = {
                         const canvas = Canvas.createCanvas(512, 512);
                         const ctx = canvas.getContext('2d');
 
-                        const background = await Canvas.loadImage('./assets/Rarities/New/icon.png');
+                        const background = await Canvas.loadImage('./assets/Rarities/standard/icon.png');
                         ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
                         const skin = await Canvas.loadImage(skinImage);
                         ctx.drawImage(skin, 0, 0, canvas.width, canvas.height);
-                        const border = await Canvas.loadImage('./assets/Rarities/New/borderIcon.png');
+                        const border = await Canvas.loadImage('./assets/Rarities/standard/borderIcon.png');
                         ctx.drawImage(border, 0, 0, canvas.width, canvas.height);
                         const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                        ctx.drawImage(credit, 30, 35, 146, 40);
+                        ctx.drawImage(credit, 15, 15, 146, 40);
                         ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
                                     ctx.font = '46px Burbank Big Condensed'
@@ -1795,14 +1795,14 @@ module.exports = {
                         const canvas = Canvas.createCanvas(512, 512);
                         const ctx = canvas.getContext('2d');
 
-                        const background = await Canvas.loadImage('./assets/Rarities/New/starwars.png');
+                        const background = await Canvas.loadImage('./assets/Rarities/standard/starwars.png');
                         ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
                         const skin = await Canvas.loadImage(skinImage);
                         ctx.drawImage(skin, 0, 0, canvas.width, canvas.height);
-                        const border = await Canvas.loadImage('./assets/Rarities/New/borderStarwars.png');
+                        const border = await Canvas.loadImage('./assets/Rarities/standard/borderStarwars.png');
                         ctx.drawImage(border, 0, 0, canvas.width, canvas.height);
                         const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                        ctx.drawImage(credit, 30, 35, 146, 40);
+                        ctx.drawImage(credit, 15, 15, 146, 40);
                         ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
                                     ctx.font = '46px Burbank Big Condensed'
@@ -1864,14 +1864,14 @@ module.exports = {
                         const canvas = Canvas.createCanvas(512, 512);
                         const ctx = canvas.getContext('2d');
 
-                        const background = await Canvas.loadImage('./assets/Rarities/New/shadow.png');
+                        const background = await Canvas.loadImage('./assets/Rarities/standard/shadow.png');
                         ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
                         const skin = await Canvas.loadImage(skinImage);
                         ctx.drawImage(skin, 0, 0, canvas.width, canvas.height);
-                        const border = await Canvas.loadImage('./assets/Rarities/New/borderShadow.png');
+                        const border = await Canvas.loadImage('./assets/Rarities/standard/borderShadow.png');
                         ctx.drawImage(border, 0, 0, canvas.width, canvas.height);
                         const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                        ctx.drawImage(credit, 30, 35, 146, 40);
+                        ctx.drawImage(credit, 15, 15, 146, 40);
                         ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
                                     ctx.font = '46px Burbank Big Condensed'
@@ -1933,14 +1933,14 @@ module.exports = {
                         const canvas = Canvas.createCanvas(512, 512);
                         const ctx = canvas.getContext('2d');
 
-                        const background = await Canvas.loadImage('./assets/Rarities/New/slurp.png');
+                        const background = await Canvas.loadImage('./assets/Rarities/standard/slurp.png');
                         ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
                         const skin = await Canvas.loadImage(skinImage);
                         ctx.drawImage(skin, 0, 0, canvas.width, canvas.height);
-                        const border = await Canvas.loadImage('./assets/Rarities/New/borderSlurp.png');
+                        const border = await Canvas.loadImage('./assets/Rarities/standard/borderSlurp.png');
                         ctx.drawImage(border, 0, 0, canvas.width, canvas.height);
                         const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                        ctx.drawImage(credit, 30, 35, 146, 40);
+                        ctx.drawImage(credit, 15, 15, 146, 40);
                         ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
                                     ctx.font = '46px Burbank Big Condensed'
@@ -2002,14 +2002,14 @@ module.exports = {
                         const canvas = Canvas.createCanvas(512, 512);
                         const ctx = canvas.getContext('2d');
 
-                        const background = await Canvas.loadImage('./assets/Rarities/New/frozen.png');
+                        const background = await Canvas.loadImage('./assets/Rarities/standard/frozen.png');
                         ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
                         const skin = await Canvas.loadImage(skinImage);
                         ctx.drawImage(skin, 0, 0, canvas.width, canvas.height);
-                        const border = await Canvas.loadImage('./assets/Rarities/New/borderFrozen.png');
+                        const border = await Canvas.loadImage('./assets/Rarities/standard/borderFrozen.png');
                         ctx.drawImage(border, 0, 0, canvas.width, canvas.height);
                         const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                        ctx.drawImage(credit, 30, 35, 146, 40);
+                        ctx.drawImage(credit, 15, 15, 146, 40);
                         ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
                                     ctx.font = '46px Burbank Big Condensed'
@@ -2071,14 +2071,14 @@ module.exports = {
                         const canvas = Canvas.createCanvas(512, 512);
                         const ctx = canvas.getContext('2d');
 
-                        const background = await Canvas.loadImage('./assets/Rarities/New/lava.png');
+                        const background = await Canvas.loadImage('./assets/Rarities/standard/lava.png');
                         ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
                         const skin = await Canvas.loadImage(skinImage);
                         ctx.drawImage(skin, 0, 0, canvas.width, canvas.height);
-                        const border = await Canvas.loadImage('./assets/Rarities/New/borderLava.png');
+                        const border = await Canvas.loadImage('./assets/Rarities/standard/borderLava.png');
                         ctx.drawImage(border, 0, 0, canvas.width, canvas.height);
                         const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                        ctx.drawImage(credit, 30, 35, 146, 40);
+                        ctx.drawImage(credit, 15, 15, 146, 40);
                         ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
                                     ctx.font = '46px Burbank Big Condensed'
@@ -2140,14 +2140,14 @@ module.exports = {
                         const canvas = Canvas.createCanvas(512, 512);
                         const ctx = canvas.getContext('2d');
 
-                        const background = await Canvas.loadImage('./assets/Rarities/New/gaming.png');
+                        const background = await Canvas.loadImage('./assets/Rarities/standard/gaming.png');
                         ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
                         const skin = await Canvas.loadImage(skinImage);
                         ctx.drawImage(skin, 0, 0, canvas.width, canvas.height);
-                        const border = await Canvas.loadImage('./assets/Rarities/New/borderGaming.png');
+                        const border = await Canvas.loadImage('./assets/Rarities/standard/borderGaming.png');
                         ctx.drawImage(border, 0, 0, canvas.width, canvas.height);
                         const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                        ctx.drawImage(credit, 30, 35, 146, 40);
+                        ctx.drawImage(credit, 15, 15, 146, 40);
                         ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
                                     ctx.font = '46px Burbank Big Condensed'

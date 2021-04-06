@@ -2543,7 +2543,7 @@ module.exports = {
             .catch((err) => {
                 const Err = new Discord.MessageEmbed()
                     .setColor('#BB00EE')
-                    .setTitle('عذرا :robot: \n لا يمكنني العثور على العنصر الرجاء التأكد من كتابة الاسم بشكل صحيح')
+                    .setTitle('عذرا :robot:, \n لا يمكنني العثور على العنصر الرجاء التأكد من كتابة الاسم بشكل صحيح')
                     message.reply(Err)
             })
             }

@@ -1,8 +1,8 @@
 const moment = require('moment');
 const Canvas = require('canvas');
 const fnbrjs = require('fnbr.js');
+const axios = require("axios");
 const FortniteAPI = require("fortnite-api-com");
-const { Client } = require('discord.js');
 const key = require('../../Coinfigs/config.json')
 const fnbrco = new fnbrjs(key.apis.fnbrjs);
 const config = {

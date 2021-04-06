@@ -124,7 +124,7 @@ module.exports = {
                                     ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
                                     const skin = await Canvas.loadImage(skinImage);
                                     ctx.drawImage(skin, 0, 0, canvas.width, canvas.height);
-                                    const border = await Canvas.loadImage('./assets/Rarities/standard/borderLegendary.png');
+                                    const border = await Canvas.loadImage('../assets/Rarities/standard/borderLegendary.png');
                                     ctx.drawImage(border, 0, 0, canvas.width, canvas.height);
                                     const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                                     ctx.drawImage(credit, 30, 35, 146, 40);

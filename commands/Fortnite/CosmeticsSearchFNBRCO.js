@@ -2520,7 +2520,7 @@ module.exports = {
                         
                     }
 
-                    const att = new Discord.MessageAttachment(canvas.toBuffer('image/jpeg', {quality: 0.5}), replaced+'.jpg')
+                    const att = new Discord.MessageAttachment(canvas.toBuffer('image/jpeg', {quality: 0.5}), text+'.jpg')
                     await message.channel.send(att)
 
             })

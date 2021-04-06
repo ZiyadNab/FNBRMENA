@@ -25,13 +25,13 @@ module.exports = {
     minArgs: 1,
     maxArgs: null,
     permissionError: 'Sorry you do not have acccess to this command',
-    callback: async (message, arguments, text, Discord, client, admin) => {
+    callback: async (message, args, text, Discord, client, admin) => {
 
         admin.database().ref("ERA's").child("Users").child(message.author.id).once('value', function (data) {
             var lang = data.val().lang;
-            var str = arguments[0];
-            for (let i = 1; i < arguments.length; i++){
-                str = str +' '+ arguments[i];
+            var str = args[0];
+            for (let i = 1; i < args.length; i++){
+                str = str +' '+ args[i];
             }
             if(lang === "en"){
 

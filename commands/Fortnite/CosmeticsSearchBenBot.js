@@ -51,11 +51,11 @@ module.exports = {
                 //searching
                 if(rarity === 'أسطوري'){
                     //creating image
-                    const skinholder = await Canvas.loadImage('./assets/Rarities/New/legendary.png')
+                    const skinholder = await Canvas.loadImage('./assets/Rarities/standard/legendary.png')
                     ctx.drawImage(skinholder, 0,0, 512, 512)
                     const skin = await Canvas.loadImage(image);
                     ctx.drawImage(skin, 0,0, 512, 512)
-                    const skinborder = await Canvas.loadImage('./assets/Rarities/New/borderLegendary.png')
+                    const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderLegendary.png')
                     ctx.drawImage(skinborder, 0,0, 512, 512)
                     ctx.drawImage(skinborder, 0,0, 512, 512)
                     ctx.fillStyle = '#ffffff';
@@ -70,11 +70,11 @@ module.exports = {
                 }
                 if(rarity === 'ملحمي'){
                     //creating image
-                    const skinholder = await Canvas.loadImage('./assets/Rarities/New/epic.png')
+                    const skinholder = await Canvas.loadImage('./assets/Rarities/standard/epic.png')
                     ctx.drawImage(skinholder, 0,0, 512, 512)
                     const skin = await Canvas.loadImage(image);
                     ctx.drawImage(skin, 0,0, 512, 512)
-                    const skinborder = await Canvas.loadImage('./assets/Rarities/New/borderEpic.png')
+                    const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderEpic.png')
                     ctx.drawImage(skinborder, 0,0, 512, 512)
                     ctx.drawImage(skinborder, 0,0, 512, 512)
                     ctx.fillStyle = '#ffffff';
@@ -89,11 +89,11 @@ module.exports = {
                 }
                 if(rarity === 'نادر'){
                     //creating image                   
-                    const skinholder = await Canvas.loadImage('./assets/Rarities/New/rare.png')
+                    const skinholder = await Canvas.loadImage('./assets/Rarities/standard/rare.png')
                     ctx.drawImage(skinholder, 0,0, 512, 512)
                     const skin = await Canvas.loadImage(image);
                     ctx.drawImage(skin, 0,0, 512, 512)
-                    const skinborder = await Canvas.loadImage('./assets/Rarities/New/borderRare.png')
+                    const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderRare.png')
                     ctx.drawImage(skinborder, 0,0, 512, 512)
                     ctx.fillStyle = '#ffffff';
                     ctx.textAlign='center';
@@ -107,11 +107,11 @@ module.exports = {
                 }
                 if(rarity === 'غير شائع'){
                     //creating image                    
-                    const skinholder = await Canvas.loadImage('./assets/Rarities/New/uncommon.png')
+                    const skinholder = await Canvas.loadImage('./assets/Rarities/standard/uncommon.png')
                     ctx.drawImage(skinholder, 0,0, 512, 512)
                     const skin = await Canvas.loadImage(image);
                     ctx.drawImage(skin, 0,0, 512, 512)
-                    const skinborder = await Canvas.loadImage('./assets/Rarities/New/borderUncommon.png')
+                    const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderUncommon.png')
                     ctx.drawImage(skinborder, 0,0, 512, 512)
                     ctx.drawImage(skinborder, 0,0, 512, 512)
                     ctx.fillStyle = '#ffffff';
@@ -126,11 +126,11 @@ module.exports = {
                 }
                 if(rarity === 'شائع'){
                     //creating image                    
-                    const skinholder = await Canvas.loadImage('./assets/Rarities/New/common.png')
+                    const skinholder = await Canvas.loadImage('./assets/Rarities/standard/common.png')
                     ctx.drawImage(skinholder, 0,0, 512, 512)
                     const skin = await Canvas.loadImage(image);
                     ctx.drawImage(skin, 0,0, 512, 512)
-                    const skinborder = await Canvas.loadImage('./assets/Rarities/New/borderCommon.png')
+                    const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderCommon.png')
                     ctx.drawImage(skinborder, 0,0, 512, 512)
                     ctx.drawImage(skinborder, 0,0, 512, 512)
                     ctx.fillStyle = '#ffffff';
@@ -145,11 +145,11 @@ module.exports = {
                 }
                 if(rarity === 'سلسلة MARVEL'){
                     //creating image                    
-                    const skinholder = await Canvas.loadImage('./assets/Rarities/New/marvel.png')
+                    const skinholder = await Canvas.loadImage('./assets/Rarities/standard/marvel.png')
                     ctx.drawImage(skinholder, 0,0, 512, 512)
                     const skin = await Canvas.loadImage(image);
                     ctx.drawImage(skin, 0,0, 512, 512)
-                    const skinborder = await Canvas.loadImage('./assets/Rarities/New/borderMarvel.png')
+                    const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderMarvel.png')
                     ctx.drawImage(skinborder, 0,0, 512, 512)
                     ctx.drawImage(skinborder, 0,0, 512, 512)
                     ctx.fillStyle = '#ffffff';
@@ -164,11 +164,11 @@ module.exports = {
                 }
                 if(rarity === 'سلسلة DC'){
                     //creating image                   
-                    const skinholder = await Canvas.loadImage('./assets/Rarities/New/dc.png')
+                    const skinholder = await Canvas.loadImage('./assets/Rarities/standard/dc.png')
                     ctx.drawImage(skinholder, 0,0, 512, 512)
                     const skin = await Canvas.loadImage(image);
                     ctx.drawImage(skin, 0,0, 512, 512)
-                    const skinborder = await Canvas.loadImage('./assets/Rarities/New/borderDc.png')
+                    const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderDc.png')
                     ctx.drawImage(skinborder, 0,0, 512, 512)
                     ctx.drawImage(skinborder, 0,0, 512, 512)
                     ctx.fillStyle = '#ffffff';
@@ -183,11 +183,11 @@ module.exports = {
                 }
                 if(rarity === 'سلسلة DARK'){
                     //creating image                   
-                    const skinholder = await Canvas.loadImage('./assets/Rarities/New/dark.png')
+                    const skinholder = await Canvas.loadImage('./assets/Rarities/standard/dark.png')
                     ctx.drawImage(skinholder, 0,0, 512, 512)
                     const skin = await Canvas.loadImage(image);
                     ctx.drawImage(skin, 0,0, 512, 512)
-                    const skinborder = await Canvas.loadImage('./assets/Rarities/New/borderDark.png')
+                    const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderDark.png')
                     ctx.drawImage(skinborder, 0,0, 512, 512)
                     ctx.drawImage(skinborder, 0,0, 512, 512)
                     ctx.fillStyle = '#ffffff';
@@ -202,11 +202,11 @@ module.exports = {
                 }
                 if(rarity === 'سلسلة المشاهير'){
                     //creating image                   
-                    const skinholder = await Canvas.loadImage('./assets/Rarities/New/icon.png')
+                    const skinholder = await Canvas.loadImage('./assets/Rarities/standard/icon.png')
                     ctx.drawImage(skinholder, 0,0, 512, 512)
                     const skin = await Canvas.loadImage(image);
                     ctx.drawImage(skin, 0,0, 512, 512)
-                    const skinborder = await Canvas.loadImage('./assets/Rarities/New/borderIcon.png')
+                    const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderIcon.png')
                     ctx.drawImage(skinborder, 0,0, 512, 512)
                     ctx.drawImage(skinborder, 0,0, 512, 512)
                     ctx.fillStyle = '#ffffff';
@@ -221,11 +221,11 @@ module.exports = {
                 }
                 if(rarity === 'سلسلة Star Wars'){
                     //creating image                   
-                    const skinholder = await Canvas.loadImage('./assets/Rarities/New/starwars.png')
+                    const skinholder = await Canvas.loadImage('./assets/Rarities/standard/starwars.png')
                     ctx.drawImage(skinholder, 0,0, 512, 512)
                     const skin = await Canvas.loadImage(image);
                     ctx.drawImage(skin, 0,0, 512, 512)
-                    const skinborder = await Canvas.loadImage('./assets/Rarities/New/borderStarwars.png')
+                    const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderStarwars.png')
                     ctx.drawImage(skinborder, 0,0, 512, 512)
                     ctx.drawImage(skinborder, 0,0, 512, 512)
                     ctx.fillStyle = '#ffffff';
@@ -240,11 +240,11 @@ module.exports = {
                 }
                 if(rarity === 'Shadow Series'){
                     //creating image                  
-                    const skinholder = await Canvas.loadImage('./assets/Rarities/New/shadow.png')
+                    const skinholder = await Canvas.loadImage('./assets/Rarities/standard/shadow.png')
                     ctx.drawImage(skinholder, 0,0, 512, 512)
                     const skin = await Canvas.loadImage(image);
                     ctx.drawImage(skin, 0,0, 512, 512)
-                    const skinborder = await Canvas.loadImage('./assets/Rarities/New/borderShadow.png')
+                    const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderShadow.png')
                     ctx.drawImage(skinborder, 0,0, 512, 512)
                     ctx.drawImage(skinborder, 0,0, 512, 512)
                     ctx.fillStyle = '#ffffff';
@@ -259,11 +259,11 @@ module.exports = {
                 }
                 if(rarity === 'سلسلة الشراب Series'){
                     //creating image                   
-                    const skinholder = await Canvas.loadImage('./assets/Rarities/New/slurp.png')
+                    const skinholder = await Canvas.loadImage('./assets/Rarities/standard/slurp.png')
                     ctx.drawImage(skinholder, 0,0, 512, 512)
                     const skin = await Canvas.loadImage(image);
                     ctx.drawImage(skin, 0,0, 512, 512)
-                    const skinborder = await Canvas.loadImage('./assets/Rarities/New/borderSlurp.png')
+                    const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderSlurp.png')
                     ctx.drawImage(skinborder, 0,0, 512, 512)
                     ctx.drawImage(skinborder, 0,0, 512, 512)
                     ctx.fillStyle = '#ffffff';
@@ -278,11 +278,11 @@ module.exports = {
                 }
                 if(rarity === 'سلسلة التجمد'){
                     //creating image                   
-                    const skinholder = await Canvas.loadImage('./assets/Rarities/New/frozen.png')
+                    const skinholder = await Canvas.loadImage('./assets/Rarities/standard/frozen.png')
                     ctx.drawImage(skinholder, 0,0, 512, 512)
                     const skin = await Canvas.loadImage(image);
                     ctx.drawImage(skin, 0,0, 512, 512)
-                    const skinborder = await Canvas.loadImage('./assets/Rarities/New/borderFrozen.png')
+                    const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderFrozen.png')
                     ctx.drawImage(skinborder, 0,0, 512, 512)
                     ctx.drawImage(skinborder, 0,0, 512, 512)
                     ctx.fillStyle = '#ffffff';
@@ -297,11 +297,11 @@ module.exports = {
                 }
                 if(rarity === 'سلسلة الحمم'){
                     //creating image                 
-                    const skinholder = await Canvas.loadImage('./assets/Rarities/New/lava.png')
+                    const skinholder = await Canvas.loadImage('./assets/Rarities/standard/lava.png')
                     ctx.drawImage(skinholder, 0,0, 512, 512)
                     const skin = await Canvas.loadImage(image);
                     ctx.drawImage(skin, 0,0, 512, 512)
-                    const skinborder = await Canvas.loadImage('./assets/Rarities/New/borderLava.png')
+                    const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderLava.png')
                     ctx.drawImage(skinborder, 0,0, 512, 512)
                     ctx.drawImage(skinborder, 0,0, 512, 512)
                     ctx.fillStyle = '#ffffff';
@@ -315,11 +315,11 @@ module.exports = {
                 }
                 if(rarity === 'سلسلة أساطير الألعاب'){
                     //creating image                   
-                    const skinholder = await Canvas.loadImage('./assets/Rarities/New/gaming.png')
+                    const skinholder = await Canvas.loadImage('./assets/Rarities/standard/gaming.png')
                     ctx.drawImage(skinholder, 0,0, 512, 512)
                     const skin = await Canvas.loadImage(image);
                     ctx.drawImage(skin, 0,0, 512, 512)
-                    const skinborder = await Canvas.loadImage('./assets/Rarities/New/borderGaming.png')
+                    const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderGaming.png')
                     ctx.drawImage(skinborder, 0,0, 512, 512)
                     ctx.drawImage(skinborder, 0,0, 512, 512)
                     ctx.fillStyle = '#ffffff';

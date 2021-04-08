@@ -94,6 +94,8 @@ module.exports = {
                     //adding skins to canvas
                     for (let i = 0; i < length; i++){
 
+                        newline = newline + 1;
+
                         if(i >= res.paid.rewards.length){
 
                             if (free === 0){
@@ -109,7 +111,6 @@ module.exports = {
                                 var image = res.free.rewards[free].images.icon;
                             }
                             var rarity = res.free.rewards[free].rarity;
-                            //newline = newline + 1;
 
                             //searching
                             if(rarity === 'legendary'){
@@ -505,7 +506,6 @@ module.exports = {
                                 var image = res.paid.rewards[i].images.icon;
                             }
                             var rarity = res.paid.rewards[i].rarity;
-                            newline = newline + 1;
 
                             //searching
                             if(rarity === 'legendary'){

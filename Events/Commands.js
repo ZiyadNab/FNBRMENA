@@ -4,7 +4,7 @@ module.exports = (client, admin, Array) => {
             if(!data.exists()){
                 admin.database().ref("ERA's").child("Commands").child(Command).set({
                     Command: Command,
-                    API: null,
+                    API: "null",
                     Active: {
                         ON: "true",
                         Reason: null,

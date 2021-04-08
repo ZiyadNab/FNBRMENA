@@ -1,8 +1,8 @@
 module.exports = {
-    commands: 'perms',
+    commands: 'api',
     expectedArgs: '[ Name Of the Command ] [ The Permission ]',
     minArgs: 2,
-    maxArgs: null,
+    maxArgs: 2,
     permissionError: 'Sorry you do not have acccess to this command',
     callback: async (message, args, text, Discord, client, admin) => {
 

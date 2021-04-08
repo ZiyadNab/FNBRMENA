@@ -56,7 +56,7 @@ module.exports = {
                     var heightline = 0;
                     var height = 512 + 150 + 800 + 1024;
                     var free = 0;
-                    var t = 1
+                    var t = 0
                     //forcing to be an int
                     if (colum % 2 !== 0){
                         colum = colum | 0;
@@ -74,6 +74,11 @@ module.exports = {
                     }
 
                     height += 25;
+
+                    //seeing if the items were endded at the end of the photo
+                    if(res.paid.rewards.length % 2 === 0){
+                        t = 512
+                    }
 
                     //AR text font
                     Canvas.registerFont('./assets/font/Lalezar-Regular.ttf', {family: 'Arabic',weight: "700",style: "bold"});
@@ -96,13 +101,9 @@ module.exports = {
 
                         if(i >= res.paid.rewards.length){
 
-                            if(res.paid.rewards.length % 2 === 0){
-                                console.log("Yes")
-                            }
-
                             if (free === 0){
                                 x = 50;
-                                y += 512 + 25 + 512;
+                                y += 512 + 25 + t;
                                 newline = 0;
                             }
                     
@@ -899,7 +900,6 @@ module.exports = {
                             y = y + 25 + 512;
                             x = 50;
                             newline = 0;
-                            t += 1;
                         }
                     }
                     const sending = new Discord.MessageEmbed()

@@ -49,7 +49,6 @@ module.exports = {
                         shape += 1;
                         shape = shape | 0;
                     }
-                    console.log(shape)
                     var x = 50;
                     var y = 800 + 100;                      
                     var colum = (shape / 5);
@@ -57,6 +56,7 @@ module.exports = {
                     var heightline = 0;
                     var height = 512 + 150 + 800 + 1024;
                     var free = 0;
+                    var t = 1
                     //forcing to be an int
                     if (colum % 2 !== 0){
                         colum = colum | 0;
@@ -96,9 +96,13 @@ module.exports = {
 
                         if(i >= res.paid.rewards.length){
 
+                            if(res.paid.rewards.length % 2 === 0){
+                                console.log("Yes")
+                            }
+
                             if (free === 0){
                                 x = 50;
-                                y += 512 + 25;
+                                y += 512 + 25 + 512;
                                 newline = 0;
                             }
                     
@@ -895,8 +899,8 @@ module.exports = {
                             y = y + 25 + 512;
                             x = 50;
                             newline = 0;
+                            t += 1;
                         }
-                        
                     }
                     const sending = new Discord.MessageEmbed()
                     .setColor('#BB00EE')

@@ -67,7 +67,7 @@ module.exports = {
                     var width = (colum * 512) + (25 * colum) + 75;
                                                 
                     //creating height for paid
-                    for (let i = 0; i < length; i++){
+                    for (let i = 0; i < res.paid.rewards.length; i++){
                         heightline += 1;
                         if (colum === heightline){
                             heightline = 0;
@@ -76,8 +76,16 @@ module.exports = {
                         }
                     }
 
+                    for (let i = 0; i < res.paid.free.length; i++){
+                        heightline += 1;
+                        if (colum === heightline){
+                            heightline = 0;
+                            height += 512 + 25;
+                        }
+                    }
+
                     //checking high
-                    if(((highcount * colum) - length) !== res.free.rewards.length){
+                    if(((count * colum) - res.paid.rewards.length) !== 0){
                         height -= 512
                     }
 

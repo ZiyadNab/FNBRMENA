@@ -68,6 +68,9 @@ module.exports = {
                                                 
                     //creating height for paid
                     for (let i = 0; i < res.paid.rewards.length; i++){
+                        if(i === (res.paid.rewards.length - 1)){
+                            break;
+                        }
                         heightline += 1;
                         if (colum === heightline){
                             heightline = 0;

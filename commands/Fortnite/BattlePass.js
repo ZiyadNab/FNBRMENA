@@ -76,7 +76,7 @@ module.exports = {
                         }
                     }
 
-                    for (let i = 0; i < res.paid.free.length; i++){
+                    for (let i = 0; i < res.free.rewards.length; i++){
                         heightline += 1;
                         if (colum === heightline){
                             heightline = 0;

@@ -76,7 +76,7 @@ module.exports = {
                     height += 25;
 
                     //seeing if the items were endded at the end of the photo
-                    if(res.paid.rewards.length % 2 === 0){
+                    if(res.paid.rewards.length % 2 !== 0){
                         t = 512
                     }
 

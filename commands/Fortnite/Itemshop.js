@@ -198,7 +198,7 @@ module.exports = {
                                 ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                            ctx.drawImage(credit, (30 + x), (y + 35), 146, 40);
+                            ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                         
                     }
                     if(rarity === 'epic'){
@@ -239,7 +239,7 @@ module.exports = {
                                 ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                            ctx.drawImage(credit, (30 + x), (y + 35), 146, 40);
+                            ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                     }
                     if(rarity === 'rare'){
                         //creating image
@@ -279,7 +279,7 @@ module.exports = {
                                 ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                            ctx.drawImage(credit, (30 + x), (y + 35), 146, 40);
+                            ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                     }
                     if(rarity === 'uncommon'){
                         //creating image
@@ -320,7 +320,7 @@ module.exports = {
                                 ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                            ctx.drawImage(credit, (30 + x), (y + 35), 146, 40);
+                            ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                     }
                     if(rarity === 'common'){
                         //creating image
@@ -361,7 +361,7 @@ module.exports = {
                                 ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                            ctx.drawImage(credit, (30 + x), (y + 35), 146, 40);
+                            ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                     }
                     if(rarity === 'marvel'){
                         //creating image
@@ -378,7 +378,7 @@ module.exports = {
                         ctx.font = '30px Burbank Big Condensed'
                         ctx.fillText(price, (30 + x), (y + 470))
                         const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                        ctx.drawImage(credit, (30 + x), (y + 35), 146, 40);
+                        ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                     }
                     if(rarity === 'dc'){
                         //creating image
@@ -419,7 +419,7 @@ module.exports = {
                                 ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                            ctx.drawImage(credit, (30 + x), (y + 35), 146, 40);
+                            ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                     }
                     if(rarity === 'dark'){
                         //creating image
@@ -460,7 +460,7 @@ module.exports = {
                                 ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                            ctx.drawImage(credit, (30 + x), (y + 35), 146, 40);
+                            ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                     }
                     if(rarity === 'icon series'){
                         //creating image
@@ -500,7 +500,7 @@ module.exports = {
                                 ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                            ctx.drawImage(credit, (30 + x), (y + 35), 146, 40);
+                            ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                         
                     }
                     if(rarity === 'star wars series'){
@@ -542,7 +542,7 @@ module.exports = {
                                 ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                            ctx.drawImage(credit, (30 + x), (y + 35), 146, 40);
+                            ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                     }
                     if(rarity === 'shadow series'){
                         //creating image
@@ -583,7 +583,7 @@ module.exports = {
                                 ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                            ctx.drawImage(credit, (30 + x), (y + 35), 146, 40);
+                            ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                     }
                     if(rarity === 'slurp series'){
                         //creating image
@@ -623,7 +623,7 @@ module.exports = {
                                 ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                            ctx.drawImage(credit, (30 + x), (y + 35), 146, 40);
+                            ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                         
                     }
                     if(rarity === 'frozen series'){
@@ -664,7 +664,7 @@ module.exports = {
                                 ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                            ctx.drawImage(credit, (30 + x), (y + 35), 146, 40);
+                            ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                         
                     }
                     if(rarity === 'lava series'){
@@ -705,7 +705,7 @@ module.exports = {
                                 ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                            ctx.drawImage(credit, (30 + x), (y + 35), 146, 40);
+                            ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                         
                     }
                     if(rarity === 'platform series'){
@@ -747,7 +747,7 @@ module.exports = {
                                 ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                            ctx.drawImage(credit, (30 + x), (y + 35), 146, 40);
+                            ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                     }
                 
                 // changing x and y
@@ -828,7 +828,7 @@ module.exports = {
                                 ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                            ctx.drawImage(credit, (30 + x), (y + 35), 146, 40);
+                            ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                             
                         }
                         if(rarity === 'epic'){
@@ -869,7 +869,7 @@ module.exports = {
                                 ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                            ctx.drawImage(credit, (30 + x), (y + 35), 146, 40);
+                            ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                         }
                         if(rarity === 'rare'){
                             //creating image
@@ -909,7 +909,7 @@ module.exports = {
                                 ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                            ctx.drawImage(credit, (30 + x), (y + 35), 146, 40);
+                            ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                         }
                         if(rarity === 'uncommon'){
                             //creating image
@@ -950,7 +950,7 @@ module.exports = {
                                 ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                            ctx.drawImage(credit, (30 + x), (y + 35), 146, 40);
+                            ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                         }
                         if(rarity === 'common'){
                             //creating image
@@ -991,7 +991,7 @@ module.exports = {
                                 ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                            ctx.drawImage(credit, (30 + x), (y + 35), 146, 40);
+                            ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                         }
                         if(rarity === 'marvel'){
                             //creating image
@@ -1032,7 +1032,7 @@ module.exports = {
                                 ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                            ctx.drawImage(credit, (30 + x), (y + 35), 146, 40);
+                            ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                         }
                         if(rarity === 'dc'){
                             //creating image
@@ -1073,7 +1073,7 @@ module.exports = {
                                 ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                            ctx.drawImage(credit, (30 + x), (y + 35), 146, 40);
+                            ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                         }
                         if(rarity === 'dark'){
                             //creating image
@@ -1114,7 +1114,7 @@ module.exports = {
                                 ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                            ctx.drawImage(credit, (30 + x), (y + 35), 146, 40);
+                            ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                         }
                         if(rarity === 'icon series'){
                             //creating image
@@ -1154,7 +1154,7 @@ module.exports = {
                                 ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                            ctx.drawImage(credit, (30 + x), (y + 35), 146, 40);
+                            ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                             
                         }
                         if(rarity === 'star wars series'){
@@ -1196,7 +1196,7 @@ module.exports = {
                                 ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                            ctx.drawImage(credit, (30 + x), (y + 35), 146, 40);
+                            ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                         }
                         if(rarity === 'shadow series'){
                             //creating image
@@ -1237,7 +1237,7 @@ module.exports = {
                                 ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                            ctx.drawImage(credit, (30 + x), (y + 35), 146, 40);
+                            ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                         }
                         if(rarity === 'slurp series'){
                             //creating image
@@ -1277,7 +1277,7 @@ module.exports = {
                                 ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                            ctx.drawImage(credit, (30 + x), (y + 35), 146, 40);
+                            ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                             
                         }
                         if(rarity === 'frozen series'){
@@ -1318,7 +1318,7 @@ module.exports = {
                                 ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                            ctx.drawImage(credit, (30 + x), (y + 35), 146, 40);
+                            ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                             
                         }
                         if(rarity === 'lava series'){
@@ -1359,7 +1359,7 @@ module.exports = {
                                 ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                            ctx.drawImage(credit, (30 + x), (y + 35), 146, 40);
+                            ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                             
                         }
                         if(rarity === 'platform series'){
@@ -1401,7 +1401,7 @@ module.exports = {
                                 ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                            ctx.drawImage(credit, (30 + x), (y + 35), 146, 40);
+                            ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                         }
 
                         // changing x and y
@@ -1495,7 +1495,7 @@ module.exports = {
                                 ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                            ctx.drawImage(credit, (30 + x), (y + 35), 146, 40);
+                            ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                             
                         }
                         if(rarity === 'epic'){
@@ -1536,7 +1536,7 @@ module.exports = {
                                 ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                            ctx.drawImage(credit, (30 + x), (y + 35), 146, 40);
+                            ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                         }
                         if(rarity === 'rare'){
                             //creating image
@@ -1576,7 +1576,7 @@ module.exports = {
                                 ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                            ctx.drawImage(credit, (30 + x), (y + 35), 146, 40);
+                            ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                         }
                         if(rarity === 'uncommon'){
                             //creating image
@@ -1617,7 +1617,7 @@ module.exports = {
                                 ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                            ctx.drawImage(credit, (30 + x), (y + 35), 146, 40);
+                            ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                         }
                         if(rarity === 'common'){
                             //creating image
@@ -1658,7 +1658,7 @@ module.exports = {
                                 ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                            ctx.drawImage(credit, (30 + x), (y + 35), 146, 40);
+                            ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                         }
                         if(rarity === 'marvel'){
                             //creating image
@@ -1699,7 +1699,7 @@ module.exports = {
                                 ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                            ctx.drawImage(credit, (30 + x), (y + 35), 146, 40);
+                            ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                         }
                         if(rarity === 'dc'){
                             //creating image
@@ -1740,7 +1740,7 @@ module.exports = {
                                 ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                            ctx.drawImage(credit, (30 + x), (y + 35), 146, 40);
+                            ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                         }
                         if(rarity === 'dark'){
                             //creating image
@@ -1781,7 +1781,7 @@ module.exports = {
                                 ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                            ctx.drawImage(credit, (30 + x), (y + 35), 146, 40);
+                            ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                         }
                         if(rarity === 'icon series'){
                             //creating image
@@ -1821,7 +1821,7 @@ module.exports = {
                                 ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                            ctx.drawImage(credit, (30 + x), (y + 35), 146, 40);
+                            ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                             
                         }
                         if(rarity === 'star wars series'){
@@ -1863,7 +1863,7 @@ module.exports = {
                                 ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                            ctx.drawImage(credit, (30 + x), (y + 35), 146, 40);
+                            ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                         }
                         if(rarity === 'shadow series'){
                             //creating image
@@ -1904,7 +1904,7 @@ module.exports = {
                                 ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                            ctx.drawImage(credit, (30 + x), (y + 35), 146, 40);
+                            ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                         }
                         if(rarity === 'slurp series'){
                             //creating image
@@ -1944,7 +1944,7 @@ module.exports = {
                                 ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                            ctx.drawImage(credit, (30 + x), (y + 35), 146, 40);
+                            ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                             
                         }
                         if(rarity === 'frozen series'){
@@ -1985,7 +1985,7 @@ module.exports = {
                                 ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                            ctx.drawImage(credit, (30 + x), (y + 35), 146, 40);
+                            ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                             
                         }
                         if(rarity === 'lava series'){
@@ -2026,7 +2026,7 @@ module.exports = {
                                 ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                            ctx.drawImage(credit, (30 + x), (y + 35), 146, 40);
+                            ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                             
                         }
                         if(rarity === 'platform series'){
@@ -2068,7 +2068,7 @@ module.exports = {
                                 ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                            ctx.drawImage(credit, (30 + x), (y + 35), 146, 40);
+                            ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                         }
 
                         // changing x and y

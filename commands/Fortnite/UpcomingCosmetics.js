@@ -11,11 +11,11 @@ module.exports = {
     permissionError: 'Sorry you do not have acccess to this command',
     callback: (message, arguments, text, Discord, client, admin) => {
 
-        fnbrco.getUpcoming()
-        .then((res) => {
+        admin.database().ref("ERA's").child("Users").child(message.author.id).once('value', function (data) {
+            var lang = data.val().lang;
 
-            admin.database().ref("ERA's").child("Users").child(message.author.id).once('value', function (data) {
-                var lang = data.val().lang;
+            fnbrco.getUpcoming()
+            .then((res) => {
 
                 if(lang === "en"){
                     language = "en"
@@ -346,9 +346,10 @@ module.exports = {
 
                 })
             })
-        })
-        .catch((err) => {
-            console.log(err)
+            .catch((err) => {
+                console.log(err)
+            })
+        
         })
     },
     requiredRoles: []

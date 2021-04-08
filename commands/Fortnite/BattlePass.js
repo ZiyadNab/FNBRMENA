@@ -83,8 +83,8 @@ module.exports = {
                     const canvas = Canvas.createCanvas(width, height);
                     const ctx = canvas.getContext('2d');
                     
-                    //creating the background
-                    const background = await Canvas.loadImage('./assets/Itemshop/background.png')
+                    // creating the background
+                    const background = await Canvas.loadImage('./assets/background.jpg')
                     ctx.drawImage(background, 0, 0, canvas.width, canvas.height)
 
                     //adding credits
@@ -94,13 +94,11 @@ module.exports = {
                     //adding skins to canvas
                     for (let i = 0; i < length; i++){
 
-                        newline = newline + 1;
-
                         if(i >= res.paid.rewards.length){
 
                             if (free === 0){
                                 x = 50;
-                                y += 512 + 25 + 512;
+                                y += 512 + 25;
                                 newline = 0;
                             }
                     
@@ -111,6 +109,7 @@ module.exports = {
                                 var image = res.free.rewards[free].images.icon;
                             }
                             var rarity = res.free.rewards[free].rarity;
+                            newline = newline + 1;
 
                             //searching
                             if(rarity === 'legendary'){
@@ -506,6 +505,7 @@ module.exports = {
                                 var image = res.paid.rewards[i].images.icon;
                             }
                             var rarity = res.paid.rewards[i].rarity;
+                            newline = newline + 1;
 
                             //searching
                             if(rarity === 'legendary'){
@@ -896,6 +896,7 @@ module.exports = {
                             x = 50;
                             newline = 0;
                         }
+                        
                     }
                     const sending = new Discord.MessageEmbed()
                     .setColor('#BB00EE')

@@ -647,7 +647,8 @@ module.exports = {
                             }
                             newline = newline + 1;
 
-                            //searching
+                            if(lang === "en"){
+                                //searching
                             if(rarity === 'Legendary'){
                                 //creating image
                                 const skinholder = await Canvas.loadImage('./assets/Rarities/legendary.png')
@@ -917,6 +918,279 @@ module.exports = {
                                 ctx.fillText(description, (30 + x), (y + 470))
                                 const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                                 ctx.drawImage(credit, (30 + x), (y + 35), 146, 40);
+                            }
+                            }else if(lang === "ar"){
+                                //searching
+                                if(rarity === 'أسطوري'){
+                                    //creating image
+                                    const skinholder = await Canvas.loadImage('./assets/Rarities/legendary.png')
+                                    ctx.drawImage(skinholder, x, y, 512, 512)
+                                    const skin = await Canvas.loadImage(image);
+                                    ctx.drawImage(skin, x, y, 512, 512)
+                                    const skinborder = await Canvas.loadImage('./assets/Rarities/borderLegendary.png')
+                                    ctx.drawImage(skinborder, x, y, 512, 512)
+                                    ctx.drawImage(skinborder, x, y, 512, 512)
+                                    ctx.fillStyle = '#ffffff';
+                                    ctx.font = '40px Burbank Big Condensed'
+                                    ctx.fillText(name, (30 + x), (y + 430))
+                                    ctx.font = '30px Burbank Big Condensed'
+                                    ctx.font = applyText(canvas, description);
+                                    ctx.fillText(description, (30 + x), (y + 470))
+                                    const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                                    ctx.drawImage(credit, (30 + x), (y + 35), 146, 40);
+                                    
+                                }
+                                if(rarity === 'ملحمي'){
+                                    //creating image
+                                    const skinholder = await Canvas.loadImage('./assets/Rarities/epic.png')
+                                    ctx.drawImage(skinholder, x, y, 512, 512)
+                                    const skin = await Canvas.loadImage(image);
+                                    ctx.drawImage(skin, x, y, 512, 512)
+                                    const skinborder = await Canvas.loadImage('./assets/Rarities/borderEpic.png')
+                                    ctx.drawImage(skinborder, x, y, 512, 512)
+                                    ctx.drawImage(skinborder, x, y, 512, 512)
+                                    ctx.fillStyle = '#ffffff';
+                                    ctx.font = '40px Burbank Big Condensed'
+                                    ctx.fillText(name, (30 + x), (y + 430))
+                                    ctx.font = '30px Burbank Big Condensed'
+                                    ctx.font = applyText(canvas, description);
+                                    ctx.fillText(description, (30 + x), (y + 470))
+                                    const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                                    ctx.drawImage(credit, (30 + x), (y + 35), 146, 40);
+                                }
+                                if(rarity === 'نادر'){
+                                    //creating image
+                                    const skinholder = await Canvas.loadImage('./assets/Rarities/rare.png')
+                                    ctx.drawImage(skinholder, x, y, 512, 512)
+                                    const skin = await Canvas.loadImage(image);
+                                    ctx.drawImage(skin, x, y, 512, 512)
+                                    const skinborder = await Canvas.loadImage('./assets/Rarities/borderRare.png')
+                                    ctx.drawImage(skinborder, x, y, 512, 512)
+                                    ctx.fillStyle = '#ffffff';
+                                    ctx.font = '40px Burbank Big Condensed'
+                                    ctx.fillText(name, (30 + x), (y + 430))
+                                    ctx.font = '30px Burbank Big Condensed'
+                                    ctx.font = applyText(canvas, description);
+                                    ctx.fillText(description, (30 + x), (y + 470))
+                                    const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                                    ctx.drawImage(credit, (30 + x), (y + 35), 146, 40);
+                                }
+                                if(rarity === 'غير شائع'){
+                                    //creating image
+                                    const skinholder = await Canvas.loadImage('./assets/Rarities/uncommon.png')
+                                    ctx.drawImage(skinholder, x, y, 512, 512)
+                                    const skin = await Canvas.loadImage(image);
+                                    ctx.drawImage(skin, x, y, 512, 512)
+                                    const skinborder = await Canvas.loadImage('./assets/Rarities/borderUncommon.png')
+                                    ctx.drawImage(skinborder, x, y, 512, 512)
+                                    ctx.drawImage(skinborder, x, y, 512, 512)
+                                    ctx.fillStyle = '#ffffff';
+                                    ctx.font = '40px Burbank Big Condensed'
+                                    ctx.fillText(name, (30 + x), (y + 430))
+                                    ctx.font = '30px Burbank Big Condensed'
+                                    ctx.font = applyText(canvas, description);
+                                    ctx.fillText(description, (30 + x), (y + 470))
+                                    const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                                    ctx.drawImage(credit, (30 + x), (y + 35), 146, 40);
+                                }
+                                if(rarity === 'Common'){
+                                    //creating image
+                                    const skinholder = await Canvas.loadImage('./assets/Rarities/common.png')
+                                    ctx.drawImage(skinholder, x, y, 512, 512)
+                                    const skin = await Canvas.loadImage(image);
+                                    ctx.drawImage(skin, x, y, 512, 512)
+                                    const skinborder = await Canvas.loadImage('./assets/Rarities/borderCommon.png')
+                                    ctx.drawImage(skinborder, x, y, 512, 512)
+                                    ctx.drawImage(skinborder, x, y, 512, 512)
+                                    ctx.fillStyle = '#ffffff';
+                                    ctx.font = '40px Burbank Big Condensed'
+                                    ctx.fillText(name, (30 + x), (y + 430))
+                                    ctx.font = '30px Burbank Big Condensed'
+                                    ctx.font = applyText(canvas, description);
+                                    ctx.fillText(description, (30 + x), (y + 470))
+                                    const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                                    ctx.drawImage(credit, (30 + x), (y + 35), 146, 40);
+                                }
+                                if(rarity === 'سلسلة MARVEL'){
+                                    //creating image
+                                    const skinholder = await Canvas.loadImage('./assets/Rarities/marvel.png')
+                                    ctx.drawImage(skinholder, x, y, 512, 512)
+                                    const skin = await Canvas.loadImage(image);
+                                    ctx.drawImage(skin, x, y, 512, 512)
+                                    const skinborder = await Canvas.loadImage('./assets/Rarities/borderMarvel.png')
+                                    ctx.drawImage(skinborder, x, y, 512, 512)
+                                    ctx.drawImage(skinborder, x, y, 512, 512)
+                                    ctx.fillStyle = '#ffffff';
+                                    ctx.font = '40px Burbank Big Condensed'
+                                    ctx.fillText(name, (30 + x), (y + 430))
+                                    ctx.font = '30px Burbank Big Condensed'
+                                    ctx.font = applyText(canvas, description);
+                                    ctx.fillText(description, (30 + x), (y + 470))
+                                    const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                                    ctx.drawImage(credit, (30 + x), (y + 35), 146, 40);
+                                }
+                                if(rarity === 'سلسلة DC'){
+                                    //creating image
+                                    const skinholder = await Canvas.loadImage('./assets/Rarities/dc.png')
+                                    ctx.drawImage(skinholder, x, y, 512, 512)
+                                    const skin = await Canvas.loadImage(image);
+                                    ctx.drawImage(skin, x, y, 512, 512)
+                                    const skinborder = await Canvas.loadImage('./assets/Rarities/borderDc.png')
+                                    ctx.drawImage(skinborder, x, y, 512, 512)
+                                    ctx.drawImage(skinborder, x, y, 512, 512)
+                                    ctx.fillStyle = '#ffffff';
+                                    ctx.font = '40px Burbank Big Condensed'
+                                    ctx.fillText(name, (30 + x), (y + 430))
+                                    ctx.font = '30px Burbank Big Condensed'
+                                    ctx.font = applyText(canvas, description);
+                                    ctx.fillText(description, (30 + x), (y + 470))
+                                    const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                                    ctx.drawImage(credit, (30 + x), (y + 35), 146, 40);
+                                }
+                                if(rarity === 'سلسلة DARK'){
+                                    //creating image
+                                    const skinholder = await Canvas.loadImage('./assets/Rarities/dark.png')
+                                    ctx.drawImage(skinholder, x, y, 512, 512)
+                                    const skin = await Canvas.loadImage(image);
+                                    ctx.drawImage(skin, x, y, 512, 512)
+                                    const skinborder = await Canvas.loadImage('./assets/Rarities/borderDark.png')
+                                    ctx.drawImage(skinborder, x, y, 512, 512)
+                                    ctx.drawImage(skinborder, x, y, 512, 512)
+                                    ctx.fillStyle = '#ffffff';
+                                    ctx.font = '40px Burbank Big Condensed'
+                                    ctx.fillText(name, (30 + x), (y + 430))
+                                    ctx.font = '30px Burbank Big Condensed'
+                                    ctx.font = applyText(canvas, description);
+                                    ctx.fillText(description, (30 + x), (y + 470))
+                                    const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                                    ctx.drawImage(credit, (30 + x), (y + 35), 146, 40);
+                                }
+                                if(rarity === 'سلسلة المشاهير'){
+                                    //creating image
+                                    const skinholder = await Canvas.loadImage('./assets/Rarities/icon.png')
+                                    ctx.drawImage(skinholder, x, y, 512, 512)
+                                    const skin = await Canvas.loadImage(image);
+                                    ctx.drawImage(skin, x, y, 512, 512)
+                                    const skinborder = await Canvas.loadImage('./assets/Rarities/borderIcon.png')
+                                    ctx.drawImage(skinborder, x, y, 512, 512)
+                                    ctx.drawImage(skinborder, x, y, 512, 512)
+                                    ctx.fillStyle = '#ffffff';
+                                    ctx.font = '40px Burbank Big Condensed'
+                                    ctx.fillText(name, (30 + x), (y + 430))
+                                    ctx.font = '30px Burbank Big Condensed'
+                                    ctx.font = applyText(canvas, description);
+                                    ctx.fillText(description, (30 + x), (y + 470))
+                                    const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                                    ctx.drawImage(credit, (30 + x), (y + 35), 146, 40);
+                                }
+                                if(rarity === 'سلسلة Star Wars'){
+                                    //creating image
+                                    const skinholder = await Canvas.loadImage('./assets/Rarities/starwars.png')
+                                    ctx.drawImage(skinholder, x, y, 512, 512)
+                                    const skin = await Canvas.loadImage(image);
+                                    ctx.drawImage(skin, x, y, 512, 512)
+                                    const skinborder = await Canvas.loadImage('./assets/Rarities/borderStarwars.png')
+                                    ctx.drawImage(skinborder, x, y, 512, 512)
+                                    ctx.drawImage(skinborder, x, y, 512, 512)
+                                    ctx.fillStyle = '#ffffff';
+                                    ctx.font = '40px Burbank Big Condensed'
+                                    ctx.fillText(name, (30 + x), (y + 430))
+                                    ctx.font = '30px Burbank Big Condensed'
+                                    ctx.font = applyText(canvas, description);
+                                    ctx.fillText(description, (30 + x), (y + 470))
+                                    const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                                    ctx.drawImage(credit, (30 + x), (y + 35), 146, 40);
+                                }
+                                if(rarity === 'Shadow Series'){
+                                    //creating image
+                                    const skinholder = await Canvas.loadImage('./assets/Rarities/shadow.png')
+                                    ctx.drawImage(skinholder, x, y, 512, 512)
+                                    const skin = await Canvas.loadImage(image);
+                                    ctx.drawImage(skin, x, y, 512, 512)
+                                    const skinborder = await Canvas.loadImage('./assets/Rarities/borderShadow.png')
+                                    ctx.drawImage(skinborder, x, y, 512, 512)
+                                    ctx.drawImage(skinborder, x, y, 512, 512)
+                                    ctx.fillStyle = '#ffffff';
+                                    ctx.font = '40px Burbank Big Condensed'
+                                    ctx.fillText(name, (30 + x), (y + 430))
+                                    ctx.font = '30px Burbank Big Condensed'
+                                    ctx.font = applyText(canvas, description);
+                                    ctx.fillText(description, (30 + x), (y + 470))
+                                    const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                                    ctx.drawImage(credit, (30 + x), (y + 35), 146, 40);
+                                }
+                                if(rarity === 'سلسلة الشراب Series'){
+                                    //creating image
+                                    const skinholder = await Canvas.loadImage('./assets/Rarities/slurp.png')
+                                    ctx.drawImage(skinholder, x, y, 512, 512)
+                                    const skin = await Canvas.loadImage(image);
+                                    ctx.drawImage(skin, x, y, 512, 512)
+                                    const skinborder = await Canvas.loadImage('./assets/Rarities/borderSlurp.png')
+                                    ctx.drawImage(skinborder, x, y, 512, 512)
+                                    ctx.drawImage(skinborder, x, y, 512, 512)
+                                    ctx.fillStyle = '#ffffff';
+                                    ctx.font = '40px Burbank Big Condensed'
+                                    ctx.fillText(name, (30 + x), (y + 430))
+                                    ctx.font = '30px Burbank Big Condensed'
+                                    ctx.font = applyText(canvas, description);
+                                    ctx.fillText(description, (30 + x), (y + 470))
+                                    const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                                    ctx.drawImage(credit, (30 + x), (y + 35), 146, 40);
+                                }
+                                if(rarity === 'سلسلة التجمد'){
+                                    //creating image
+                                    const skinholder = await Canvas.loadImage('./assets/Rarities/frozen.png')
+                                    ctx.drawImage(skinholder, x, y, 512, 512)
+                                    const skin = await Canvas.loadImage(image);
+                                    ctx.drawImage(skin, x, y, 512, 512)
+                                    const skinborder = await Canvas.loadImage('./assets/Rarities/borderFrozen.png')
+                                    ctx.drawImage(skinborder, x, y, 512, 512)
+                                    ctx.drawImage(skinborder, x, y, 512, 512)
+                                    ctx.fillStyle = '#ffffff';
+                                    ctx.font = '40px Burbank Big Condensed'
+                                    ctx.fillText(name, (30 + x), (y + 430))
+                                    ctx.font = '30px Burbank Big Condensed'
+                                    ctx.font = applyText(canvas, description);
+                                    ctx.fillText(description, (30 + x), (y + 470))
+                                    const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                                    ctx.drawImage(credit, (30 + x), (y + 35), 146, 40);
+                                }
+                                if(rarity === 'سلسلة الحمم'){
+                                    //creating image
+                                    const skinholder = await Canvas.loadImage('./assets/Rarities/lava.png')
+                                    ctx.drawImage(skinholder, x, y, 512, 512)
+                                    const skin = await Canvas.loadImage(image);
+                                    ctx.drawImage(skin, x, y, 512, 512)
+                                    const skinborder = await Canvas.loadImage('./assets/Rarities/borderLava.png')
+                                    ctx.drawImage(skinborder, x, y, 512, 512)
+                                    ctx.drawImage(skinborder, x, y, 512, 512)
+                                    ctx.fillStyle = '#ffffff';
+                                    ctx.font = '40px Burbank Big Condensed'
+                                    ctx.fillText(name, (30 + x), (y + 430))
+                                    ctx.font = '30px Burbank Big Condensed'
+                                    ctx.font = applyText(canvas, description);
+                                    ctx.fillText(description, (30 + x), (y + 470))
+                                    const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                                    ctx.drawImage(credit, (30 + x), (y + 35), 146, 40);
+                                }
+                                if(rarity === 'سلسلة أساطير الألعاب'){
+                                    //creating image
+                                    const skinholder = await Canvas.loadImage('./assets/Rarities/gaming.png')
+                                    ctx.drawImage(skinholder, x, y, 512, 512)
+                                    const skin = await Canvas.loadImage(image);
+                                    ctx.drawImage(skin, x, y, 512, 512)
+                                    const skinborder = await Canvas.loadImage('./assets/Rarities/borderGaming.png')
+                                    ctx.drawImage(skinborder, x, y, 512, 512)
+                                    ctx.drawImage(skinborder, x, y, 512, 512)
+                                    ctx.fillStyle = '#ffffff';
+                                    ctx.font = '40px Burbank Big Condensed'
+                                    ctx.fillText(name, (30 + x), (y + 430))
+                                    ctx.font = '30px Burbank Big Condensed'
+                                    ctx.font = applyText(canvas, description);
+                                    ctx.fillText(description, (30 + x), (y + 470))
+                                    const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                                    ctx.drawImage(credit, (30 + x), (y + 35), 146, 40);
+                                }
                             }
                             
                             

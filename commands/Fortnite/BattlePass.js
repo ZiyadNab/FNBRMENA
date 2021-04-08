@@ -85,7 +85,7 @@ module.exports = {
                     }
 
                     //checking high
-                    if(((count * colum) - res.paid.rewards.length) !== 0){
+                    if(((highcount * colum) - res.paid.rewards.length) !== 0){
                         height -= 512
                     }
 

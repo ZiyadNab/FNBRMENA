@@ -2240,11 +2240,11 @@ module.exports = {
                     if(rarity === 'أسطوري'){
                         //creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/legendary.png')
-                        ctx.drawImage(skinholder, 0,0, 512, 512)
+                        ctx.drawImage(skinholder, 0,0, canvas.width, canvas.height)
                         const skin = await Canvas.loadImage(image);
-                        ctx.drawImage(skin, 0,0, 512, 512)
+                        ctx.drawImage(skin, 0,0, canvas.width, canvas.height)
                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderLegendary.png')
-                        ctx.drawImage(skinborder, 0,0, 512, 512)
+                        ctx.drawImage(skinborder, 0,0, canvas.width, canvas.height)
                         const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                         ctx.drawImage(credit, 15, 15, 146, 40);
                         ctx.fillStyle = '#ffffff';

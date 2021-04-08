@@ -94,8 +94,6 @@ module.exports = {
                     //adding skins to canvas
                     for (let i = 0; i < length; i++){
 
-                        newline = newline + 1;
-
                         if(i >= res.paid.rewards.length){
 
                             if (free === 0){
@@ -896,7 +894,7 @@ module.exports = {
                             x = 50;
                             newline = 0;
                         }
-                        
+                        newline = newline + 1;
                     }
                     const sending = new Discord.MessageEmbed()
                     .setColor('#BB00EE')

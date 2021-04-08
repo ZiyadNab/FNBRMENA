@@ -648,7 +648,7 @@ module.exports = {
                             newline = newline + 1;
 
                             //searching
-                            if(rarity === 'legendary'){
+                            if(rarity === 'Legendary'){
                                 //creating image
                                 const skinholder = await Canvas.loadImage('./assets/Rarities/legendary.png')
                                 ctx.drawImage(skinholder, x, y, 512, 512)
@@ -676,7 +676,7 @@ module.exports = {
                                 ctx.drawImage(credit, (30 + x), (y + 35), 146, 40);
                                 
                             }
-                            if(rarity === 'epic'){
+                            if(rarity === 'Epic'){
                                 //creating image
                                 const skinholder = await Canvas.loadImage('./assets/Rarities/epic.png')
                                 ctx.drawImage(skinholder, x, y, 512, 512)
@@ -702,7 +702,7 @@ module.exports = {
                                 const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                                 ctx.drawImage(credit, (30 + x), (y + 35), 146, 40);
                             }
-                            if(rarity === 'rare'){
+                            if(rarity === 'Rare'){
                                 //creating image
                                 const skinholder = await Canvas.loadImage('./assets/Rarities/rare.png')
                                 ctx.drawImage(skinholder, x, y, 512, 512)
@@ -727,7 +727,7 @@ module.exports = {
                                 const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                                 ctx.drawImage(credit, (30 + x), (y + 35), 146, 40);
                             }
-                            if(rarity === 'uncommon'){
+                            if(rarity === 'Uncommon'){
                                 //creating image
                                 const skinholder = await Canvas.loadImage('./assets/Rarities/uncommon.png')
                                 ctx.drawImage(skinholder, x, y, 512, 512)
@@ -754,7 +754,7 @@ module.exports = {
                                 const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                                 ctx.drawImage(credit, (30 + x), (y + 35), 146, 40);
                             }
-                            if(rarity === 'common'){
+                            if(rarity === 'Common'){
                                 //creating image
                                 const skinholder = await Canvas.loadImage('./assets/Rarities/common.png')
                                 ctx.drawImage(skinholder, x, y, 512, 512)
@@ -781,7 +781,7 @@ module.exports = {
                                 const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                                 ctx.drawImage(credit, (30 + x), (y + 35), 146, 40);
                             }
-                            if(rarity === 'marvel'){
+                            if(rarity === 'MARVEL SERIES'){
                                 //creating image
                                 const skinholder = await Canvas.loadImage('./assets/Rarities/marvel.png')
                                 ctx.drawImage(skinholder, x, y, 512, 512)
@@ -808,7 +808,7 @@ module.exports = {
                                 const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                                 ctx.drawImage(credit, (30 + x), (y + 35), 146, 40);
                             }
-                            if(rarity === 'dc'){
+                            if(rarity === 'DC SERIES'){
                                 //creating image
                                 const skinholder = await Canvas.loadImage('./assets/Rarities/dc.png')
                                 ctx.drawImage(skinholder, x, y, 512, 512)
@@ -835,7 +835,7 @@ module.exports = {
                                 const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                                 ctx.drawImage(credit, (30 + x), (y + 35), 146, 40);
                             }
-                            if(rarity === 'dark'){
+                            if(rarity === 'DARK SERIES'){
                                 //creating image
                                 const skinholder = await Canvas.loadImage('./assets/Rarities/dark.png')
                                 ctx.drawImage(skinholder, x, y, 512, 512)
@@ -862,7 +862,7 @@ module.exports = {
                                 const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                                 ctx.drawImage(credit, (30 + x), (y + 35), 146, 40);
                             }
-                            if(rarity === 'icon'){
+                            if(rarity === 'Icon Series'){
                                 //creating image
                                 const skinholder = await Canvas.loadImage('./assets/Rarities/icon.png')
                                 ctx.drawImage(skinholder, x, y, 512, 512)
@@ -889,7 +889,7 @@ module.exports = {
                                 const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                                 ctx.drawImage(credit, (30 + x), (y + 35), 146, 40);
                             }
-                            if(rarity === 'starwars'){
+                            if(rarity === 'Star Wars Series'){
                                 //creating image
                                 const skinholder = await Canvas.loadImage('./assets/Rarities/starwars.png')
                                 ctx.drawImage(skinholder, x, y, 512, 512)
@@ -916,7 +916,7 @@ module.exports = {
                                 const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                                 ctx.drawImage(credit, (30 + x), (y + 35), 146, 40);
                             }
-                            if(rarity === 'shadow'){
+                            if(rarity === 'Shadow Series'){
                                 //creating image
                                 const skinholder = await Canvas.loadImage('./assets/Rarities/shadow.png')
                                 ctx.drawImage(skinholder, x, y, 512, 512)
@@ -943,7 +943,7 @@ module.exports = {
                                 const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                                 ctx.drawImage(credit, (30 + x), (y + 35), 146, 40);
                             }
-                            if(rarity === 'slurp'){
+                            if(rarity === 'Slurp Series'){
                                 //creating image
                                 const skinholder = await Canvas.loadImage('./assets/Rarities/slurp.png')
                                 ctx.drawImage(skinholder, x, y, 512, 512)
@@ -970,7 +970,7 @@ module.exports = {
                                 const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                                 ctx.drawImage(credit, (30 + x), (y + 35), 146, 40);
                             }
-                            if(rarity === 'frozen'){
+                            if(rarity === 'Frozen Series'){
                                 //creating image
                                 const skinholder = await Canvas.loadImage('./assets/Rarities/frozen.png')
                                 ctx.drawImage(skinholder, x, y, 512, 512)
@@ -997,7 +997,7 @@ module.exports = {
                                 const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                                 ctx.drawImage(credit, (30 + x), (y + 35), 146, 40);
                             }
-                            if(rarity === 'lava'){
+                            if(rarity === 'Lava Series'){
                                 //creating image
                                 const skinholder = await Canvas.loadImage('./assets/Rarities/lava.png')
                                 ctx.drawImage(skinholder, x, y, 512, 512)
@@ -1024,7 +1024,7 @@ module.exports = {
                                 const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                                 ctx.drawImage(credit, (30 + x), (y + 35), 146, 40);
                             }
-                            if(rarity === 'gaminglegends'){
+                            if(rarity === 'Gaming Legends Series'){
                                 //creating image
                                 const skinholder = await Canvas.loadImage('./assets/Rarities/gaming.png')
                                 ctx.drawImage(skinholder, x, y, 512, 512)

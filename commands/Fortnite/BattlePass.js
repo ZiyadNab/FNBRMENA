@@ -83,8 +83,8 @@ module.exports = {
                     const canvas = Canvas.createCanvas(width, height);
                     const ctx = canvas.getContext('2d');
                     
-                    // creating the background
-                    const background = await Canvas.loadImage('./assets/background.jpg')
+                    //creating the background
+                    const background = await Canvas.loadImage('./assets/Itemshop/background.png')
                     ctx.drawImage(background, 0, 0, canvas.width, canvas.height)
 
                     //adding credits
@@ -103,14 +103,12 @@ module.exports = {
                             }
                     
                             var name = res.free.rewards[free].name;
-                            var description = res.free.rewards[free].description;
                             if(res.free.rewards[free].images.icon === null){
                                 var image = 'https://i.imgur.com/h3MZw2G.png';
                             }else{
                                 var image = res.free.rewards[free].images.icon;
                             }
                             var rarity = res.free.rewards[free].rarity;
-                            newline = newline + 1;
 
                             //searching
                             if(rarity === 'legendary'){
@@ -506,7 +504,6 @@ module.exports = {
                                 var image = res.paid.rewards[i].images.icon;
                             }
                             var rarity = res.paid.rewards[i].rarity;
-                            newline = newline + 1;
 
                             //searching
                             if(rarity === 'legendary'){
@@ -896,6 +893,8 @@ module.exports = {
                             y = y + 25 + 512;
                             x = 50;
                             newline = 0;
+                        }else{
+                            newline = newline + 1;
                         }
                         
                     }

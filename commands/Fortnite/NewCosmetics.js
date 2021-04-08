@@ -643,7 +643,7 @@ module.exports = {
                             if(res.data.items[i].series === null){
                                 var rarity = res.data.items[i].rarity;
                             }else{
-                                var rarity = res.data.items[i].series;
+                                var rarity = res.data.items[i].series.name;
                             }
                             newline = newline + 1;
 
@@ -657,21 +657,12 @@ module.exports = {
                                 const skinborder = await Canvas.loadImage('./assets/Rarities/borderLegendary.png')
                                 ctx.drawImage(skinborder, x, y, 512, 512)
                                 ctx.drawImage(skinborder, x, y, 512, 512)
-                                if(lang === "en"){
-                                    ctx.fillStyle = '#ffffff';
-                                    ctx.font = '40px Burbank Big Condensed'
-                                    ctx.fillText(name, (30 + x), (y + 430))
-                                    ctx.font = '30px Burbank Big Condensed'
-                                    ctx.font = applyText(canvas, description);
-                                    ctx.fillText(description, (30 + x), (y + 470))
-                                }else if(lang === "ar"){
-                                    ctx.fillStyle = '#ffffff';
-                                    ctx.font = '40px Arabic'
-                                    ctx.fillText(name, (30 + x), (y + 430))
-                                    
-                                    ctx.font = applyText(canvas, description);
-                                    ctx.fillText(description, (30 + x), (y + 470))
-                                }
+                                ctx.fillStyle = '#ffffff';
+                                ctx.font = '40px Burbank Big Condensed'
+                                ctx.fillText(name, (30 + x), (y + 430))
+                                ctx.font = '30px Burbank Big Condensed'
+                                ctx.font = applyText(canvas, description);
+                                ctx.fillText(description, (30 + x), (y + 470))
                                 const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                                 ctx.drawImage(credit, (30 + x), (y + 35), 146, 40);
                                 
@@ -685,20 +676,12 @@ module.exports = {
                                 const skinborder = await Canvas.loadImage('./assets/Rarities/borderEpic.png')
                                 ctx.drawImage(skinborder, x, y, 512, 512)
                                 ctx.drawImage(skinborder, x, y, 512, 512)
-                                if(lang === "en"){
-                                    ctx.fillStyle = '#ffffff';
-                                    ctx.font = '40px Burbank Big Condensed'
-                                    ctx.fillText(name, (30 + x), (y + 430))
-                                    ctx.font = '30px Burbank Big Condensed'
-                                    ctx.font = applyText(canvas, description);
-                                    ctx.fillText(description, (30 + x), (y + 470))
-                                }else if(lang === "ar"){
-                                    ctx.fillStyle = '#ffffff';
-                                    ctx.font = '40px Arabic'
-                                    ctx.fillText(name, (30 + x), (y + 430))
-                                    ctx.font = applyText(canvas, description);
-                                    ctx.fillText(description, (30 + x), (y + 470))
-                                }
+                                ctx.fillStyle = '#ffffff';
+                                ctx.font = '40px Burbank Big Condensed'
+                                ctx.fillText(name, (30 + x), (y + 430))
+                                ctx.font = '30px Burbank Big Condensed'
+                                ctx.font = applyText(canvas, description);
+                                ctx.fillText(description, (30 + x), (y + 470))
                                 const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                                 ctx.drawImage(credit, (30 + x), (y + 35), 146, 40);
                             }
@@ -710,20 +693,12 @@ module.exports = {
                                 ctx.drawImage(skin, x, y, 512, 512)
                                 const skinborder = await Canvas.loadImage('./assets/Rarities/borderRare.png')
                                 ctx.drawImage(skinborder, x, y, 512, 512)
-                                if(lang === "en"){
-                                    ctx.fillStyle = '#ffffff';
-                                    ctx.font = '40px Burbank Big Condensed'
-                                    ctx.fillText(name, (30 + x), (y + 430))
-                                    ctx.font = '30px Burbank Big Condensed'
-                                    ctx.font = applyText(canvas, description);
-                                    ctx.fillText(description, (30 + x), (y + 470))
-                                }else if(lang === "ar"){
-                                    ctx.fillStyle = '#ffffff';
-                                    ctx.font = '40px Arabic'
-                                    ctx.fillText(name, (30 + x), (y + 430))
-                                    ctx.font = applyText(canvas, description);
-                                    ctx.fillText(description, (30 + x), (y + 470))
-                                }
+                                ctx.fillStyle = '#ffffff';
+                                ctx.font = '40px Burbank Big Condensed'
+                                ctx.fillText(name, (30 + x), (y + 430))
+                                ctx.font = '30px Burbank Big Condensed'
+                                ctx.font = applyText(canvas, description);
+                                ctx.fillText(description, (30 + x), (y + 470))
                                 const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                                 ctx.drawImage(credit, (30 + x), (y + 35), 146, 40);
                             }
@@ -736,21 +711,12 @@ module.exports = {
                                 const skinborder = await Canvas.loadImage('./assets/Rarities/borderUncommon.png')
                                 ctx.drawImage(skinborder, x, y, 512, 512)
                                 ctx.drawImage(skinborder, x, y, 512, 512)
-                                if(lang === "en"){
-                                    ctx.fillStyle = '#ffffff';
-                                    ctx.font = '40px Burbank Big Condensed'
-                                    ctx.fillText(name, (30 + x), (y + 430))
-                                    ctx.font = '30px Burbank Big Condensed'
-                                    ctx.font = applyText(canvas, description);
-                                    ctx.fillText(description, (30 + x), (y + 470))
-                                }else if(lang === "ar"){
-                                    ctx.fillStyle = '#ffffff';
-                                    ctx.font = '40px Arabic'
-                                    ctx.fillText(name, (30 + x), (y + 430))
-                                    
-                                    ctx.font = applyText(canvas, description);
-                                    ctx.fillText(description, (30 + x), (y + 470))
-                                }
+                                ctx.fillStyle = '#ffffff';
+                                ctx.font = '40px Burbank Big Condensed'
+                                ctx.fillText(name, (30 + x), (y + 430))
+                                ctx.font = '30px Burbank Big Condensed'
+                                ctx.font = applyText(canvas, description);
+                                ctx.fillText(description, (30 + x), (y + 470))
                                 const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                                 ctx.drawImage(credit, (30 + x), (y + 35), 146, 40);
                             }
@@ -763,21 +729,12 @@ module.exports = {
                                 const skinborder = await Canvas.loadImage('./assets/Rarities/borderCommon.png')
                                 ctx.drawImage(skinborder, x, y, 512, 512)
                                 ctx.drawImage(skinborder, x, y, 512, 512)
-                                if(lang === "en"){
-                                    ctx.fillStyle = '#ffffff';
-                                    ctx.font = '40px Burbank Big Condensed'
-                                    ctx.fillText(name, (30 + x), (y + 430))
-                                    ctx.font = '30px Burbank Big Condensed'
-                                    ctx.font = applyText(canvas, description);
-                                    ctx.fillText(description, (30 + x), (y + 470))
-                                }else if(lang === "ar"){
-                                    ctx.fillStyle = '#ffffff';
-                                    ctx.font = '40px Arabic'
-                                    ctx.fillText(name, (30 + x), (y + 430))
-                                    
-                                    ctx.font = applyText(canvas, description);
-                                    ctx.fillText(description, (30 + x), (y + 470))
-                                }
+                                ctx.fillStyle = '#ffffff';
+                                ctx.font = '40px Burbank Big Condensed'
+                                ctx.fillText(name, (30 + x), (y + 430))
+                                ctx.font = '30px Burbank Big Condensed'
+                                ctx.font = applyText(canvas, description);
+                                ctx.fillText(description, (30 + x), (y + 470))
                                 const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                                 ctx.drawImage(credit, (30 + x), (y + 35), 146, 40);
                             }
@@ -790,21 +747,12 @@ module.exports = {
                                 const skinborder = await Canvas.loadImage('./assets/Rarities/borderMarvel.png')
                                 ctx.drawImage(skinborder, x, y, 512, 512)
                                 ctx.drawImage(skinborder, x, y, 512, 512)
-                                if(lang === "en"){
-                                    ctx.fillStyle = '#ffffff';
-                                    ctx.font = '40px Burbank Big Condensed'
-                                    ctx.fillText(name, (30 + x), (y + 430))
-                                    ctx.font = '30px Burbank Big Condensed'
-                                    ctx.font = applyText(canvas, description);
-                                    ctx.fillText(description, (30 + x), (y + 470))
-                                }else if(lang === "ar"){
-                                    ctx.fillStyle = '#ffffff';
-                                    ctx.font = '40px Arabic'
-                                    ctx.fillText(name, (30 + x), (y + 430))
-                                    
-                                    ctx.font = applyText(canvas, description);
-                                    ctx.fillText(description, (30 + x), (y + 470))
-                                }
+                                ctx.fillStyle = '#ffffff';
+                                ctx.font = '40px Burbank Big Condensed'
+                                ctx.fillText(name, (30 + x), (y + 430))
+                                ctx.font = '30px Burbank Big Condensed'
+                                ctx.font = applyText(canvas, description);
+                                ctx.fillText(description, (30 + x), (y + 470))
                                 const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                                 ctx.drawImage(credit, (30 + x), (y + 35), 146, 40);
                             }
@@ -817,21 +765,12 @@ module.exports = {
                                 const skinborder = await Canvas.loadImage('./assets/Rarities/borderDc.png')
                                 ctx.drawImage(skinborder, x, y, 512, 512)
                                 ctx.drawImage(skinborder, x, y, 512, 512)
-                                if(lang === "en"){
-                                    ctx.fillStyle = '#ffffff';
-                                    ctx.font = '40px Burbank Big Condensed'
-                                    ctx.fillText(name, (30 + x), (y + 430))
-                                    ctx.font = '30px Burbank Big Condensed'
-                                    ctx.font = applyText(canvas, description);
-                                    ctx.fillText(description, (30 + x), (y + 470))
-                                }else if(lang === "ar"){
-                                    ctx.fillStyle = '#ffffff';
-                                    ctx.font = '40px Arabic'
-                                    ctx.fillText(name, (30 + x), (y + 430))
-                                    
-                                    ctx.font = applyText(canvas, description);
-                                    ctx.fillText(description, (30 + x), (y + 470))
-                                }
+                                ctx.fillStyle = '#ffffff';
+                                ctx.font = '40px Burbank Big Condensed'
+                                ctx.fillText(name, (30 + x), (y + 430))
+                                ctx.font = '30px Burbank Big Condensed'
+                                ctx.font = applyText(canvas, description);
+                                ctx.fillText(description, (30 + x), (y + 470))
                                 const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                                 ctx.drawImage(credit, (30 + x), (y + 35), 146, 40);
                             }
@@ -844,21 +783,12 @@ module.exports = {
                                 const skinborder = await Canvas.loadImage('./assets/Rarities/borderDark.png')
                                 ctx.drawImage(skinborder, x, y, 512, 512)
                                 ctx.drawImage(skinborder, x, y, 512, 512)
-                                if(lang === "en"){
-                                    ctx.fillStyle = '#ffffff';
-                                    ctx.font = '40px Burbank Big Condensed'
-                                    ctx.fillText(name, (30 + x), (y + 430))
-                                    ctx.font = '30px Burbank Big Condensed'
-                                    ctx.font = applyText(canvas, description);
-                                    ctx.fillText(description, (30 + x), (y + 470))
-                                }else if(lang === "ar"){
-                                    ctx.fillStyle = '#ffffff';
-                                    ctx.font = '40px Arabic'
-                                    ctx.fillText(name, (30 + x), (y + 430))
-                                    
-                                    ctx.font = applyText(canvas, description);
-                                    ctx.fillText(description, (30 + x), (y + 470))
-                                }
+                                ctx.fillStyle = '#ffffff';
+                                ctx.font = '40px Burbank Big Condensed'
+                                ctx.fillText(name, (30 + x), (y + 430))
+                                ctx.font = '30px Burbank Big Condensed'
+                                ctx.font = applyText(canvas, description);
+                                ctx.fillText(description, (30 + x), (y + 470))
                                 const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                                 ctx.drawImage(credit, (30 + x), (y + 35), 146, 40);
                             }
@@ -871,21 +801,12 @@ module.exports = {
                                 const skinborder = await Canvas.loadImage('./assets/Rarities/borderIcon.png')
                                 ctx.drawImage(skinborder, x, y, 512, 512)
                                 ctx.drawImage(skinborder, x, y, 512, 512)
-                                if(lang === "en"){
-                                    ctx.fillStyle = '#ffffff';
-                                    ctx.font = '40px Burbank Big Condensed'
-                                    ctx.fillText(name, (30 + x), (y + 430))
-                                    ctx.font = '30px Burbank Big Condensed'
-                                    ctx.font = applyText(canvas, description);
-                                    ctx.fillText(description, (30 + x), (y + 470))
-                                }else if(lang === "ar"){
-                                    ctx.fillStyle = '#ffffff';
-                                    ctx.font = '40px Arabic'
-                                    ctx.fillText(name, (30 + x), (y + 430))
-                                    
-                                    ctx.font = applyText(canvas, description);
-                                    ctx.fillText(description, (30 + x), (y + 470))
-                                }
+                                ctx.fillStyle = '#ffffff';
+                                ctx.font = '40px Burbank Big Condensed'
+                                ctx.fillText(name, (30 + x), (y + 430))
+                                ctx.font = '30px Burbank Big Condensed'
+                                ctx.font = applyText(canvas, description);
+                                ctx.fillText(description, (30 + x), (y + 470))
                                 const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                                 ctx.drawImage(credit, (30 + x), (y + 35), 146, 40);
                             }
@@ -898,21 +819,12 @@ module.exports = {
                                 const skinborder = await Canvas.loadImage('./assets/Rarities/borderStarwars.png')
                                 ctx.drawImage(skinborder, x, y, 512, 512)
                                 ctx.drawImage(skinborder, x, y, 512, 512)
-                                if(lang === "en"){
-                                    ctx.fillStyle = '#ffffff';
-                                    ctx.font = '40px Burbank Big Condensed'
-                                    ctx.fillText(name, (30 + x), (y + 430))
-                                    ctx.font = '30px Burbank Big Condensed'
-                                    ctx.font = applyText(canvas, description);
-                                    ctx.fillText(description, (30 + x), (y + 470))
-                                }else if(lang === "ar"){
-                                    ctx.fillStyle = '#ffffff';
-                                    ctx.font = '40px Arabic'
-                                    ctx.fillText(name, (30 + x), (y + 430))
-                                    
-                                    ctx.font = applyText(canvas, description);
-                                    ctx.fillText(description, (30 + x), (y + 470))
-                                }
+                                ctx.fillStyle = '#ffffff';
+                                ctx.font = '40px Burbank Big Condensed'
+                                ctx.fillText(name, (30 + x), (y + 430))
+                                ctx.font = '30px Burbank Big Condensed'
+                                ctx.font = applyText(canvas, description);
+                                ctx.fillText(description, (30 + x), (y + 470))
                                 const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                                 ctx.drawImage(credit, (30 + x), (y + 35), 146, 40);
                             }
@@ -925,21 +837,12 @@ module.exports = {
                                 const skinborder = await Canvas.loadImage('./assets/Rarities/borderShadow.png')
                                 ctx.drawImage(skinborder, x, y, 512, 512)
                                 ctx.drawImage(skinborder, x, y, 512, 512)
-                                if(lang === "en"){
-                                    ctx.fillStyle = '#ffffff';
-                                    ctx.font = '40px Burbank Big Condensed'
-                                    ctx.fillText(name, (30 + x), (y + 430))
-                                    ctx.font = '30px Burbank Big Condensed'
-                                    ctx.font = applyText(canvas, description);
-                                    ctx.fillText(description, (30 + x), (y + 470))
-                                }else if(lang === "ar"){
-                                    ctx.fillStyle = '#ffffff';
-                                    ctx.font = '40px Arabic'
-                                    ctx.fillText(name, (30 + x), (y + 430))
-                                    
-                                    ctx.font = applyText(canvas, description);
-                                    ctx.fillText(description, (30 + x), (y + 470))
-                                }
+                                ctx.fillStyle = '#ffffff';
+                                ctx.font = '40px Burbank Big Condensed'
+                                ctx.fillText(name, (30 + x), (y + 430))
+                                ctx.font = '30px Burbank Big Condensed'
+                                ctx.font = applyText(canvas, description);
+                                ctx.fillText(description, (30 + x), (y + 470))
                                 const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                                 ctx.drawImage(credit, (30 + x), (y + 35), 146, 40);
                             }
@@ -952,21 +855,12 @@ module.exports = {
                                 const skinborder = await Canvas.loadImage('./assets/Rarities/borderSlurp.png')
                                 ctx.drawImage(skinborder, x, y, 512, 512)
                                 ctx.drawImage(skinborder, x, y, 512, 512)
-                                if(lang === "en"){
-                                    ctx.fillStyle = '#ffffff';
-                                    ctx.font = '40px Burbank Big Condensed'
-                                    ctx.fillText(name, (30 + x), (y + 430))
-                                    ctx.font = '30px Burbank Big Condensed'
-                                    ctx.font = applyText(canvas, description);
-                                    ctx.fillText(description, (30 + x), (y + 470))
-                                }else if(lang === "ar"){
-                                    ctx.fillStyle = '#ffffff';
-                                    ctx.font = '40px Arabic'
-                                    ctx.fillText(name, (30 + x), (y + 430))
-                                    
-                                    ctx.font = applyText(canvas, description);
-                                    ctx.fillText(description, (30 + x), (y + 470))
-                                }
+                                ctx.fillStyle = '#ffffff';
+                                ctx.font = '40px Burbank Big Condensed'
+                                ctx.fillText(name, (30 + x), (y + 430))
+                                ctx.font = '30px Burbank Big Condensed'
+                                ctx.font = applyText(canvas, description);
+                                ctx.fillText(description, (30 + x), (y + 470))
                                 const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                                 ctx.drawImage(credit, (30 + x), (y + 35), 146, 40);
                             }
@@ -979,21 +873,12 @@ module.exports = {
                                 const skinborder = await Canvas.loadImage('./assets/Rarities/borderFrozen.png')
                                 ctx.drawImage(skinborder, x, y, 512, 512)
                                 ctx.drawImage(skinborder, x, y, 512, 512)
-                                if(lang === "en"){
-                                    ctx.fillStyle = '#ffffff';
-                                    ctx.font = '40px Burbank Big Condensed'
-                                    ctx.fillText(name, (30 + x), (y + 430))
-                                    ctx.font = '30px Burbank Big Condensed'
-                                    ctx.font = applyText(canvas, description);
-                                    ctx.fillText(description, (30 + x), (y + 470))
-                                }else if(lang === "ar"){
-                                    ctx.fillStyle = '#ffffff';
-                                    ctx.font = '40px Arabic'
-                                    ctx.fillText(name, (30 + x), (y + 430))
-                                    
-                                    ctx.font = applyText(canvas, description);
-                                    ctx.fillText(description, (30 + x), (y + 470))
-                                }
+                                ctx.fillStyle = '#ffffff';
+                                ctx.font = '40px Burbank Big Condensed'
+                                ctx.fillText(name, (30 + x), (y + 430))
+                                ctx.font = '30px Burbank Big Condensed'
+                                ctx.font = applyText(canvas, description);
+                                ctx.fillText(description, (30 + x), (y + 470))
                                 const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                                 ctx.drawImage(credit, (30 + x), (y + 35), 146, 40);
                             }
@@ -1006,21 +891,12 @@ module.exports = {
                                 const skinborder = await Canvas.loadImage('./assets/Rarities/borderLava.png')
                                 ctx.drawImage(skinborder, x, y, 512, 512)
                                 ctx.drawImage(skinborder, x, y, 512, 512)
-                                if(lang === "en"){
-                                    ctx.fillStyle = '#ffffff';
-                                    ctx.font = '40px Burbank Big Condensed'
-                                    ctx.fillText(name, (30 + x), (y + 430))
-                                    ctx.font = '30px Burbank Big Condensed'
-                                    ctx.font = applyText(canvas, description);
-                                    ctx.fillText(description, (30 + x), (y + 470))
-                                }else if(lang === "ar"){
-                                    ctx.fillStyle = '#ffffff';
-                                    ctx.font = '40px Arabic'
-                                    ctx.fillText(name, (30 + x), (y + 430))
-                                    
-                                    ctx.font = applyText(canvas, description);
-                                    ctx.fillText(description, (30 + x), (y + 470))
-                                }
+                                ctx.fillStyle = '#ffffff';
+                                ctx.font = '40px Burbank Big Condensed'
+                                ctx.fillText(name, (30 + x), (y + 430))
+                                ctx.font = '30px Burbank Big Condensed'
+                                ctx.font = applyText(canvas, description);
+                                ctx.fillText(description, (30 + x), (y + 470))
                                 const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                                 ctx.drawImage(credit, (30 + x), (y + 35), 146, 40);
                             }
@@ -1033,21 +909,12 @@ module.exports = {
                                 const skinborder = await Canvas.loadImage('./assets/Rarities/borderGaming.png')
                                 ctx.drawImage(skinborder, x, y, 512, 512)
                                 ctx.drawImage(skinborder, x, y, 512, 512)
-                                if(lang === "en"){
-                                    ctx.fillStyle = '#ffffff';
-                                    ctx.font = '40px Burbank Big Condensed'
-                                    ctx.fillText(name, (30 + x), (y + 430))
-                                    ctx.font = '30px Burbank Big Condensed'
-                                    ctx.font = applyText(canvas, description);
-                                    ctx.fillText(description, (30 + x), (y + 470))
-                                }else if(lang === "ar"){
-                                    ctx.fillStyle = '#ffffff';
-                                    ctx.font = '40px Arabic'
-                                    ctx.fillText(name, (30 + x), (y + 430))
-                                    
-                                    ctx.font = applyText(canvas, description);
-                                    ctx.fillText(description, (30 + x), (y + 470))
-                                }
+                                ctx.fillStyle = '#ffffff';
+                                ctx.font = '40px Burbank Big Condensed'
+                                ctx.fillText(name, (30 + x), (y + 430))
+                                ctx.font = '30px Burbank Big Condensed'
+                                ctx.font = applyText(canvas, description);
+                                ctx.fillText(description, (30 + x), (y + 470))
                                 const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                                 ctx.drawImage(credit, (30 + x), (y + 35), 146, 40);
                             }

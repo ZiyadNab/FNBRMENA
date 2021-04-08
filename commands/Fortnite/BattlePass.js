@@ -58,7 +58,7 @@ module.exports = {
                     var free = 0;
                     var adding = 0
                     var count = 0;
-                    var highcount = 1;
+                    var highcount = 0;
                     //forcing to be an int
                     if (colum % 2 !== 0){
                         colum = colum | 0;
@@ -85,8 +85,8 @@ module.exports = {
                     }
 
                     //checking high
-                    if(((highcount * colum) - res.paid.rewards.length) !== 0){
-                        //height -= 512
+                    if(((highcount * colum) - res.paid.rewards.length) === 0){
+                        height -= 512
                     }
 
                     height += 25;

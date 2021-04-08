@@ -58,7 +58,7 @@ module.exports = {
                     var free = 0;
                     var adding = 0
                     var count = 0;
-                    var highcount = 0;
+                    var highcount = 1;
                     //forcing to be an int
                     if (colum % 2 !== 0){
                         colum = colum | 0;

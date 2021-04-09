@@ -152,9 +152,15 @@ module.exports = {
                 const code = await Canvas.loadImage('./assets/Credits/code.png')
                 ctx.drawImage(code, 100, (height - 300), 1000, 200)
 
-                ctx.fillStyle = '#ffffff';
-                ctx.font = '150px Burbank Big Condensed'
-                ctx.fillText("Featured", x, (y - 50))
+                if(lang === "en"){
+                    ctx.fillStyle = '#ffffff';
+                    ctx.font = '150px Burbank Big Condensed'
+                    ctx.fillText("Featured", x, (y - 50))
+                }else if(lang === "ar"){
+                    ctx.fillStyle = '#ffffff';
+                    ctx.font = '150px Arabic'
+                    ctx.fillText("مميز", x, (y - 50))
+                }
 
                 //searching
                 for(let i = 0; i < res.featured.length; i++){
@@ -782,9 +788,15 @@ module.exports = {
                 newline = 0;
             }
 
-                        ctx.fillStyle = '#ffffff';
-                        ctx.font = '150px Burbank Big Condensed'
-                        ctx.fillText("Daily", x, (y - 50))
+                        if(lang === "en"){
+                            ctx.fillStyle = '#ffffff';
+                            ctx.font = '150px Burbank Big Condensed'
+                            ctx.fillText("Daily", x, (y - 50))
+                        }else if(lang === "ar"){
+                            ctx.fillStyle = '#ffffff';
+                            ctx.font = '150px Arabic'
+                            ctx.fillText("يومي", x, (y - 50))
+                        }
 
                     //searching
                     for(let i = 0; i < res.daily.length; i++){
@@ -1449,9 +1461,15 @@ module.exports = {
                         }
                     }
 
-                        ctx.fillStyle = '#ffffff';
-                        ctx.font = '150px Burbank Big Condensed'
-                        ctx.fillText("Special Featured", x, (y - 50))
+                        if(lang === "en"){
+                            ctx.fillStyle = '#ffffff';
+                            ctx.font = '150px Burbank Big Condensed'
+                            ctx.fillText("Special Featured", x, (y - 50))
+                        }else if(lang === "ar"){
+                            ctx.fillStyle = '#ffffff';
+                            ctx.font = '150px Arabic'
+                            ctx.fillText("عروض مميزة", x, (y - 50))
+                        }
 
                     //searching
                     for(let i = 0; i < res.specialFeatured.length; i++){

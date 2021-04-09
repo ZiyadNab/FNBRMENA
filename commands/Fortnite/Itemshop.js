@@ -775,7 +775,7 @@ module.exports = {
                     y = y + 25 + 512;
                     x = 250;
                     newline = 0;
-                    yBundle += 250
+                    yBundle += y + 25 + 512
                 }
                 
             }

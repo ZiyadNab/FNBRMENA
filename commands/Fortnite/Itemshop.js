@@ -160,12 +160,14 @@ module.exports = {
                 }else if(lang === "ar"){
                     if(fe === 3){
                         ctx.fillStyle = '#ffffff';
+                        ctx.textAlign='right';
                         ctx.font = '150px Arabic'
-                        ctx.fillText("مميز", x + 1836, (y - 50))
+                        ctx.fillText("مميز", x + 1586, (y - 50))
                     }else if(fe === 5){
                         ctx.fillStyle = '#ffffff';
+                        ctx.textAlign='right';
                         ctx.font = '150px Arabic'
-                        ctx.fillText("مميز", x + 2910, (y - 50))
+                        ctx.fillText("مميز", x + 2660, (y - 50))
                     }
                 }
 
@@ -803,12 +805,14 @@ module.exports = {
                         }else if(lang === "ar"){
                             if(fe === 3){
                                 ctx.fillStyle = '#ffffff';
+                                ctx.textAlign='right';
                                 ctx.font = '150px Arabic'
-                                ctx.fillText("يومي", x + 3160, (y - 50))
+                                ctx.fillText("يومي", x + 1586, (y - 50))
                             }else if(fe === 5){
                                 ctx.fillStyle = '#ffffff';
+                                ctx.textAlign='right';
                                 ctx.font = '150px Arabic'
-                                ctx.fillText("يومي", x + 7464, (y - 50))
+                                ctx.fillText("يومي", x + 2660, (y - 50))
                             }
                         }
 
@@ -1475,15 +1479,23 @@ module.exports = {
                         }
                     }
 
-                        if(lang === "en"){
+                    if(lang === "en"){
+                        ctx.fillStyle = '#ffffff';
+                        ctx.font = '150px Burbank Big Condensed'
+                        ctx.fillText("Daily", x, (y - 50))
+                    }else if(lang === "ar"){
+                        if(fe === 3){
                             ctx.fillStyle = '#ffffff';
-                            ctx.font = '150px Burbank Big Condensed'
-                            ctx.fillText("Special Featured", x, (y - 50))
-                        }else if(lang === "ar"){
-                            ctx.fillStyle = '#ffffff';
+                            ctx.textAlign='right';
                             ctx.font = '150px Arabic'
-                            ctx.fillText("عروض مميزة", x, (y - 50))
+                            ctx.fillText("يومي", x + 1586, (y - 50))
+                        }else if(fe === 5){
+                            ctx.fillStyle = '#ffffff';
+                            ctx.textAlign='right';
+                            ctx.font = '150px Arabic'
+                            ctx.fillText("يومي", x + 2660, (y - 50))
                         }
+                    }
 
                     //searching
                     for(let i = 0; i < res.specialFeatured.length; i++){

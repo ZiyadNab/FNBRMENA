@@ -217,13 +217,13 @@ module.exports = {
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Burbank Big Condensed'
-                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.fillText(price, (75 + x), (y + 490))
                                 ctx.textAlign='right';
                                 ctx.font = '36px Burbank Big Condensed'
-                                ctx.fillText(day + " Days", (470 + x), (y + 475))
+                                ctx.fillText(day + " Days", (487 + x), (y + 490))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                                ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
@@ -231,13 +231,13 @@ module.exports = {
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Arabic'
-                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.fillText(price, (75 + x), (y + 490))
                                 ctx.textAlign='right';
                                 ctx.font = '36px Arabic'
-                                ctx.fillText(day + " يوم", (470 + x), (y + 475))
+                                ctx.fillText(day + " يوم", (487 + x), (y + 490))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                                ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                             ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
@@ -258,13 +258,13 @@ module.exports = {
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Burbank Big Condensed'
-                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.fillText(price, (75 + x), (y + 490))
                                 ctx.textAlign='right';
                                 ctx.font = '36px Burbank Big Condensed'
-                                ctx.fillText(day + " Days", (470 + x), (y + 475))
+                                ctx.fillText(day + " Days", (487 + x), (y + 490))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                                ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
@@ -272,13 +272,13 @@ module.exports = {
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Arabic'
-                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.fillText(price, (75 + x), (y + 490))
                                 ctx.textAlign='right';
                                 ctx.font = '36px Arabic'
-                                ctx.fillText(day + " يوم", (470 + x), (y + 475))
+                                ctx.fillText(day + " يوم", (487 + x), (y + 490))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                                ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                             ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
@@ -298,7 +298,7 @@ module.exports = {
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Burbank Big Condensed'
-                                ctx.fillText(price, (80 + x), (y + 490))
+                                ctx.fillText(price, (75 + x), (y + 490))
                                 ctx.textAlign='right';
                                 ctx.font = '36px Burbank Big Condensed'
                                 ctx.fillText(day + " Days", (487 + x), (y + 490))
@@ -312,13 +312,13 @@ module.exports = {
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Arabic'
-                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.fillText(price, (75 + x), (y + 490))
                                 ctx.textAlign='right';
                                 ctx.font = '36px Arabic'
-                                ctx.fillText(day + " يوم", (470 + x), (y + 475))
+                                ctx.fillText(day + " يوم", (487 + x), (y + 490))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                                ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                             ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
@@ -339,13 +339,13 @@ module.exports = {
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Burbank Big Condensed'
-                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.fillText(price, (75 + x), (y + 490))
                                 ctx.textAlign='right';
                                 ctx.font = '36px Burbank Big Condensed'
-                                ctx.fillText(day + " Days", (470 + x), (y + 475))
+                                ctx.fillText(day + " Days", (487 + x), (y + 490))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                                ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
@@ -353,13 +353,13 @@ module.exports = {
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Arabic'
-                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.fillText(price, (75 + x), (y + 490))
                                 ctx.textAlign='right';
                                 ctx.font = '36px Arabic'
-                                ctx.fillText(day + " يوم", (470 + x), (y + 475))
+                                ctx.fillText(day + " يوم", (487 + x), (y + 490))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                                ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                             ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
@@ -380,13 +380,13 @@ module.exports = {
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Burbank Big Condensed'
-                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.fillText(price, (75 + x), (y + 490))
                                 ctx.textAlign='right';
                                 ctx.font = '36px Burbank Big Condensed'
-                                ctx.fillText(day + " Days", (470 + x), (y + 475))
+                                ctx.fillText(day + " Days", (487 + x), (y + 490))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                                ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
@@ -394,13 +394,13 @@ module.exports = {
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Arabic'
-                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.fillText(price, (75 + x), (y + 490))
                                 ctx.textAlign='right';
                                 ctx.font = '36px Arabic'
-                                ctx.fillText(day + " يوم", (470 + x), (y + 475))
+                                ctx.fillText(day + " يوم", (487 + x), (y + 490))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                                ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                             ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
@@ -438,13 +438,13 @@ module.exports = {
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Burbank Big Condensed'
-                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.fillText(price, (75 + x), (y + 490))
                                 ctx.textAlign='right';
                                 ctx.font = '36px Burbank Big Condensed'
-                                ctx.fillText(day + " Days", (470 + x), (y + 475))
+                                ctx.fillText(day + " Days", (487 + x), (y + 490))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                                ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
@@ -452,13 +452,13 @@ module.exports = {
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Arabic'
-                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.fillText(price, (75 + x), (y + 490))
                                 ctx.textAlign='right';
                                 ctx.font = '36px Arabic'
-                                ctx.fillText(day + " يوم", (470 + x), (y + 475))
+                                ctx.fillText(day + " يوم", (487 + x), (y + 490))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                                ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                             ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
@@ -479,13 +479,13 @@ module.exports = {
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Burbank Big Condensed'
-                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.fillText(price, (75 + x), (y + 490))
                                 ctx.textAlign='right';
                                 ctx.font = '36px Burbank Big Condensed'
-                                ctx.fillText(day + " Days", (470 + x), (y + 475))
+                                ctx.fillText(day + " Days", (487 + x), (y + 490))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                                ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
@@ -493,13 +493,13 @@ module.exports = {
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Arabic'
-                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.fillText(price, (75 + x), (y + 490))
                                 ctx.textAlign='right';
                                 ctx.font = '36px Arabic'
-                                ctx.fillText(day + " يوم", (470 + x), (y + 475))
+                                ctx.fillText(day + " يوم", (487 + x), (y + 490))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                                ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                             ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
@@ -519,13 +519,13 @@ module.exports = {
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Burbank Big Condensed'
-                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.fillText(price, (75 + x), (y + 490))
                                 ctx.textAlign='right';
                                 ctx.font = '36px Burbank Big Condensed'
-                                ctx.fillText(day + " Days", (470 + x), (y + 475))
+                                ctx.fillText(day + " Days", (487 + x), (y + 490))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                                ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
@@ -533,13 +533,13 @@ module.exports = {
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Arabic'
-                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.fillText(price, (75 + x), (y + 490))
                                 ctx.textAlign='right';
                                 ctx.font = '36px Arabic'
-                                ctx.fillText(day + " يوم", (470 + x), (y + 475))
+                                ctx.fillText(day + " يوم", (487 + x), (y + 490))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                                ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                             ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
@@ -561,13 +561,13 @@ module.exports = {
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Burbank Big Condensed'
-                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.fillText(price, (75 + x), (y + 490))
                                 ctx.textAlign='right';
                                 ctx.font = '36px Burbank Big Condensed'
-                                ctx.fillText(day + " Days", (470 + x), (y + 475))
+                                ctx.fillText(day + " Days", (487 + x), (y + 490))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                                ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
@@ -575,13 +575,13 @@ module.exports = {
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Arabic'
-                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.fillText(price, (75 + x), (y + 490))
                                 ctx.textAlign='right';
                                 ctx.font = '36px Arabic'
-                                ctx.fillText(day + " يوم", (470 + x), (y + 475))
+                                ctx.fillText(day + " يوم", (487 + x), (y + 490))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                                ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                             ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
@@ -602,13 +602,13 @@ module.exports = {
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Burbank Big Condensed'
-                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.fillText(price, (75 + x), (y + 490))
                                 ctx.textAlign='right';
                                 ctx.font = '36px Burbank Big Condensed'
-                                ctx.fillText(day + " Days", (470 + x), (y + 475))
+                                ctx.fillText(day + " Days", (487 + x), (y + 490))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                                ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
@@ -616,13 +616,13 @@ module.exports = {
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Arabic'
-                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.fillText(price, (75 + x), (y + 490))
                                 ctx.textAlign='right';
                                 ctx.font = '36px Arabic'
-                                ctx.fillText(day + " يوم", (470 + x), (y + 475))
+                                ctx.fillText(day + " يوم", (487 + x), (y + 490))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                                ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                             ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
@@ -642,13 +642,13 @@ module.exports = {
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Burbank Big Condensed'
-                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.fillText(price, (75 + x), (y + 490))
                                 ctx.textAlign='right';
                                 ctx.font = '36px Burbank Big Condensed'
-                                ctx.fillText(day + " Days", (470 + x), (y + 475))
+                                ctx.fillText(day + " Days", (487 + x), (y + 490))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                                ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
@@ -656,13 +656,13 @@ module.exports = {
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Arabic'
-                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.fillText(price, (75 + x), (y + 490))
                                 ctx.textAlign='right';
                                 ctx.font = '36px Arabic'
-                                ctx.fillText(day + " يوم", (470 + x), (y + 475))
+                                ctx.fillText(day + " يوم", (487 + x), (y + 490))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                                ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                             ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
@@ -683,13 +683,13 @@ module.exports = {
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Burbank Big Condensed'
-                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.fillText(price, (75 + x), (y + 490))
                                 ctx.textAlign='right';
                                 ctx.font = '36px Burbank Big Condensed'
-                                ctx.fillText(day + " Days", (470 + x), (y + 475))
+                                ctx.fillText(day + " Days", (487 + x), (y + 490))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                                ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
@@ -697,13 +697,13 @@ module.exports = {
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Arabic'
-                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.fillText(price, (75 + x), (y + 490))
                                 ctx.textAlign='right';
                                 ctx.font = '36px Arabic'
-                                ctx.fillText(day + " يوم", (470 + x), (y + 475))
+                                ctx.fillText(day + " يوم", (487 + x), (y + 490))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                                ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                             ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
@@ -724,13 +724,13 @@ module.exports = {
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Burbank Big Condensed'
-                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.fillText(price, (75 + x), (y + 490))
                                 ctx.textAlign='right';
                                 ctx.font = '36px Burbank Big Condensed'
-                                ctx.fillText(day + " Days", (470 + x), (y + 475))
+                                ctx.fillText(day + " Days", (487 + x), (y + 490))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                                ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
@@ -738,13 +738,13 @@ module.exports = {
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Arabic'
-                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.fillText(price, (75 + x), (y + 490))
                                 ctx.textAlign='right';
                                 ctx.font = '36px Arabic'
-                                ctx.fillText(day + " يوم", (470 + x), (y + 475))
+                                ctx.fillText(day + " يوم", (487 + x), (y + 490))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                                ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                             ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
@@ -766,13 +766,13 @@ module.exports = {
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Burbank Big Condensed'
-                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.fillText(price, (75 + x), (y + 490))
                                 ctx.textAlign='right';
                                 ctx.font = '36px Burbank Big Condensed'
-                                ctx.fillText(day + " Days", (470 + x), (y + 475))
+                                ctx.fillText(day + " Days", (487 + x), (y + 490))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                                ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
@@ -780,13 +780,13 @@ module.exports = {
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Arabic'
-                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.fillText(price, (75 + x), (y + 490))
                                 ctx.textAlign='right';
                                 ctx.font = '36px Arabic'
-                                ctx.fillText(day + " يوم", (470 + x), (y + 475))
+                                ctx.fillText(day + " يوم", (487 + x), (y + 490))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                                ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                             ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
@@ -862,13 +862,13 @@ module.exports = {
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Burbank Big Condensed'
-                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.fillText(price, (75 + x), (y + 490))
                                 ctx.textAlign='right';
                                 ctx.font = '36px Burbank Big Condensed'
-                                ctx.fillText(day + " Days", (470 + x), (y + 475))
+                                ctx.fillText(day + " Days", (487 + x), (y + 490))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                                ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
@@ -876,13 +876,13 @@ module.exports = {
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Arabic'
-                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.fillText(price, (75 + x), (y + 490))
                                 ctx.textAlign='right';
                                 ctx.font = '36px Arabic'
-                                ctx.fillText(day + " يوم", (470 + x), (y + 475))
+                                ctx.fillText(day + " يوم", (487 + x), (y + 490))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                                ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                             ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
@@ -903,13 +903,13 @@ module.exports = {
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Burbank Big Condensed'
-                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.fillText(price, (75 + x), (y + 490))
                                 ctx.textAlign='right';
                                 ctx.font = '36px Burbank Big Condensed'
-                                ctx.fillText(day + " Days", (470 + x), (y + 475))
+                                ctx.fillText(day + " Days", (487 + x), (y + 490))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                                ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
@@ -917,13 +917,13 @@ module.exports = {
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Arabic'
-                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.fillText(price, (75 + x), (y + 490))
                                 ctx.textAlign='right';
                                 ctx.font = '36px Arabic'
-                                ctx.fillText(day + " يوم", (470 + x), (y + 475))
+                                ctx.fillText(day + " يوم", (487 + x), (y + 490))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                                ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                             ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
@@ -943,13 +943,13 @@ module.exports = {
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Burbank Big Condensed'
-                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.fillText(price, (75 + x), (y + 490))
                                 ctx.textAlign='right';
                                 ctx.font = '36px Burbank Big Condensed'
-                                ctx.fillText(day + " Days", (470 + x), (y + 475))
+                                ctx.fillText(day + " Days", (487 + x), (y + 490))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                                ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
@@ -957,13 +957,13 @@ module.exports = {
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Arabic'
-                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.fillText(price, (75 + x), (y + 490))
                                 ctx.textAlign='right';
                                 ctx.font = '36px Arabic'
-                                ctx.fillText(day + " يوم", (470 + x), (y + 475))
+                                ctx.fillText(day + " يوم", (487 + x), (y + 490))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                                ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                             ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
@@ -984,13 +984,13 @@ module.exports = {
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Burbank Big Condensed'
-                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.fillText(price, (75 + x), (y + 490))
                                 ctx.textAlign='right';
                                 ctx.font = '36px Burbank Big Condensed'
-                                ctx.fillText(day + " Days", (470 + x), (y + 475))
+                                ctx.fillText(day + " Days", (487 + x), (y + 490))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                                ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
@@ -998,13 +998,13 @@ module.exports = {
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Arabic'
-                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.fillText(price, (75 + x), (y + 490))
                                 ctx.textAlign='right';
                                 ctx.font = '36px Arabic'
-                                ctx.fillText(day + " يوم", (470 + x), (y + 475))
+                                ctx.fillText(day + " يوم", (487 + x), (y + 490))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                                ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                             ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
@@ -1025,13 +1025,13 @@ module.exports = {
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Burbank Big Condensed'
-                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.fillText(price, (75 + x), (y + 490))
                                 ctx.textAlign='right';
                                 ctx.font = '36px Burbank Big Condensed'
-                                ctx.fillText(day + " Days", (470 + x), (y + 475))
+                                ctx.fillText(day + " Days", (487 + x), (y + 490))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                                ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
@@ -1039,13 +1039,13 @@ module.exports = {
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Arabic'
-                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.fillText(price, (75 + x), (y + 490))
                                 ctx.textAlign='right';
                                 ctx.font = '36px Arabic'
-                                ctx.fillText(day + " يوم", (470 + x), (y + 475))
+                                ctx.fillText(day + " يوم", (487 + x), (y + 490))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                                ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                             ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
@@ -1066,13 +1066,13 @@ module.exports = {
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Burbank Big Condensed'
-                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.fillText(price, (75 + x), (y + 490))
                                 ctx.textAlign='right';
                                 ctx.font = '36px Burbank Big Condensed'
-                                ctx.fillText(day + " Days", (470 + x), (y + 475))
+                                ctx.fillText(day + " Days", (487 + x), (y + 490))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                                ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
@@ -1080,13 +1080,13 @@ module.exports = {
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Arabic'
-                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.fillText(price, (75 + x), (y + 490))
                                 ctx.textAlign='right';
                                 ctx.font = '36px Arabic'
-                                ctx.fillText(day + " يوم", (470 + x), (y + 475))
+                                ctx.fillText(day + " يوم", (487 + x), (y + 490))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                                ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                             ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
@@ -1107,13 +1107,13 @@ module.exports = {
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Burbank Big Condensed'
-                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.fillText(price, (75 + x), (y + 490))
                                 ctx.textAlign='right';
                                 ctx.font = '36px Burbank Big Condensed'
-                                ctx.fillText(day + " Days", (470 + x), (y + 475))
+                                ctx.fillText(day + " Days", (487 + x), (y + 490))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                                ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
@@ -1121,13 +1121,13 @@ module.exports = {
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Arabic'
-                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.fillText(price, (75 + x), (y + 490))
                                 ctx.textAlign='right';
                                 ctx.font = '36px Arabic'
-                                ctx.fillText(day + " يوم", (470 + x), (y + 475))
+                                ctx.fillText(day + " يوم", (487 + x), (y + 490))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                                ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                             ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
@@ -1148,13 +1148,13 @@ module.exports = {
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Burbank Big Condensed'
-                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.fillText(price, (75 + x), (y + 490))
                                 ctx.textAlign='right';
                                 ctx.font = '36px Burbank Big Condensed'
-                                ctx.fillText(day + " Days", (470 + x), (y + 475))
+                                ctx.fillText(day + " Days", (487 + x), (y + 490))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                                ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
@@ -1162,13 +1162,13 @@ module.exports = {
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Arabic'
-                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.fillText(price, (75 + x), (y + 490))
                                 ctx.textAlign='right';
                                 ctx.font = '36px Arabic'
-                                ctx.fillText(day + " يوم", (470 + x), (y + 475))
+                                ctx.fillText(day + " يوم", (487 + x), (y + 490))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                                ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                             ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
@@ -1188,13 +1188,13 @@ module.exports = {
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Burbank Big Condensed'
-                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.fillText(price, (75 + x), (y + 490))
                                 ctx.textAlign='right';
                                 ctx.font = '36px Burbank Big Condensed'
-                                ctx.fillText(day + " Days", (470 + x), (y + 475))
+                                ctx.fillText(day + " Days", (487 + x), (y + 490))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                                ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
@@ -1202,13 +1202,13 @@ module.exports = {
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Arabic'
-                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.fillText(price, (75 + x), (y + 490))
                                 ctx.textAlign='right';
                                 ctx.font = '36px Arabic'
-                                ctx.fillText(day + " يوم", (470 + x), (y + 475))
+                                ctx.fillText(day + " يوم", (487 + x), (y + 490))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                                ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                             ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
@@ -1230,13 +1230,13 @@ module.exports = {
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Burbank Big Condensed'
-                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.fillText(price, (75 + x), (y + 490))
                                 ctx.textAlign='right';
                                 ctx.font = '36px Burbank Big Condensed'
-                                ctx.fillText(day + " Days", (470 + x), (y + 475))
+                                ctx.fillText(day + " Days", (487 + x), (y + 490))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                                ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
@@ -1244,13 +1244,13 @@ module.exports = {
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Arabic'
-                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.fillText(price, (75 + x), (y + 490))
                                 ctx.textAlign='right';
                                 ctx.font = '36px Arabic'
-                                ctx.fillText(day + " يوم", (470 + x), (y + 475))
+                                ctx.fillText(day + " يوم", (487 + x), (y + 490))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                                ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                             ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
@@ -1271,13 +1271,13 @@ module.exports = {
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Burbank Big Condensed'
-                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.fillText(price, (75 + x), (y + 490))
                                 ctx.textAlign='right';
                                 ctx.font = '36px Burbank Big Condensed'
-                                ctx.fillText(day + " Days", (470 + x), (y + 475))
+                                ctx.fillText(day + " Days", (487 + x), (y + 490))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                                ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
@@ -1285,13 +1285,13 @@ module.exports = {
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Arabic'
-                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.fillText(price, (75 + x), (y + 490))
                                 ctx.textAlign='right';
                                 ctx.font = '36px Arabic'
-                                ctx.fillText(day + " يوم", (470 + x), (y + 475))
+                                ctx.fillText(day + " يوم", (487 + x), (y + 490))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                                ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                             ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
@@ -1311,13 +1311,13 @@ module.exports = {
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Burbank Big Condensed'
-                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.fillText(price, (75 + x), (y + 490))
                                 ctx.textAlign='right';
                                 ctx.font = '36px Burbank Big Condensed'
-                                ctx.fillText(day + " Days", (470 + x), (y + 475))
+                                ctx.fillText(day + " Days", (487 + x), (y + 490))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                                ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
@@ -1325,13 +1325,13 @@ module.exports = {
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Arabic'
-                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.fillText(price, (75 + x), (y + 490))
                                 ctx.textAlign='right';
                                 ctx.font = '36px Arabic'
-                                ctx.fillText(day + " يوم", (470 + x), (y + 475))
+                                ctx.fillText(day + " يوم", (487 + x), (y + 490))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                                ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                             ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
@@ -1352,13 +1352,13 @@ module.exports = {
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Burbank Big Condensed'
-                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.fillText(price, (75 + x), (y + 490))
                                 ctx.textAlign='right';
                                 ctx.font = '36px Burbank Big Condensed'
-                                ctx.fillText(day + " Days", (470 + x), (y + 475))
+                                ctx.fillText(day + " Days", (487 + x), (y + 490))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                                ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
@@ -1366,13 +1366,13 @@ module.exports = {
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Arabic'
-                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.fillText(price, (75 + x), (y + 490))
                                 ctx.textAlign='right';
                                 ctx.font = '36px Arabic'
-                                ctx.fillText(day + " يوم", (470 + x), (y + 475))
+                                ctx.fillText(day + " يوم", (487 + x), (y + 490))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                                ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                             ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
@@ -1393,13 +1393,13 @@ module.exports = {
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Burbank Big Condensed'
-                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.fillText(price, (75 + x), (y + 490))
                                 ctx.textAlign='right';
                                 ctx.font = '36px Burbank Big Condensed'
-                                ctx.fillText(day + " Days", (470 + x), (y + 475))
+                                ctx.fillText(day + " Days", (487 + x), (y + 490))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                                ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
@@ -1407,13 +1407,13 @@ module.exports = {
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Arabic'
-                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.fillText(price, (75 + x), (y + 490))
                                 ctx.textAlign='right';
                                 ctx.font = '36px Arabic'
-                                ctx.fillText(day + " يوم", (470 + x), (y + 475))
+                                ctx.fillText(day + " يوم", (487 + x), (y + 490))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                                ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                             ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
@@ -1435,13 +1435,13 @@ module.exports = {
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Burbank Big Condensed'
-                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.fillText(price, (75 + x), (y + 490))
                                 ctx.textAlign='right';
                                 ctx.font = '36px Burbank Big Condensed'
-                                ctx.fillText(day + " Days", (470 + x), (y + 475))
+                                ctx.fillText(day + " Days", (487 + x), (y + 490))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                                ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
@@ -1449,13 +1449,13 @@ module.exports = {
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Arabic'
-                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.fillText(price, (75 + x), (y + 490))
                                 ctx.textAlign='right';
                                 ctx.font = '36px Arabic'
-                                ctx.fillText(day + " يوم", (470 + x), (y + 475))
+                                ctx.fillText(day + " يوم", (487 + x), (y + 490))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                                ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                             ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
@@ -1543,13 +1543,13 @@ module.exports = {
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Burbank Big Condensed'
-                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.fillText(price, (75 + x), (y + 490))
                                 ctx.textAlign='right';
                                 ctx.font = '36px Burbank Big Condensed'
-                                ctx.fillText(day + " Days", (470 + x), (y + 475))
+                                ctx.fillText(day + " Days", (487 + x), (y + 490))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                                ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
@@ -1557,13 +1557,13 @@ module.exports = {
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Arabic'
-                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.fillText(price, (75 + x), (y + 490))
                                 ctx.textAlign='right';
                                 ctx.font = '36px Arabic'
-                                ctx.fillText(day + " يوم", (470 + x), (y + 475))
+                                ctx.fillText(day + " يوم", (487 + x), (y + 490))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                                ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                             ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
@@ -1584,13 +1584,13 @@ module.exports = {
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Burbank Big Condensed'
-                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.fillText(price, (75 + x), (y + 490))
                                 ctx.textAlign='right';
                                 ctx.font = '36px Burbank Big Condensed'
-                                ctx.fillText(day + " Days", (470 + x), (y + 475))
+                                ctx.fillText(day + " Days", (487 + x), (y + 490))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                                ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
@@ -1598,13 +1598,13 @@ module.exports = {
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Arabic'
-                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.fillText(price, (75 + x), (y + 490))
                                 ctx.textAlign='right';
                                 ctx.font = '36px Arabic'
-                                ctx.fillText(day + " يوم", (470 + x), (y + 475))
+                                ctx.fillText(day + " يوم", (487 + x), (y + 490))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                                ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                             ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
@@ -1624,13 +1624,13 @@ module.exports = {
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Burbank Big Condensed'
-                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.fillText(price, (75 + x), (y + 490))
                                 ctx.textAlign='right';
                                 ctx.font = '36px Burbank Big Condensed'
-                                ctx.fillText(day + " Days", (470 + x), (y + 475))
+                                ctx.fillText(day + " Days", (487 + x), (y + 490))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                                ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
@@ -1638,13 +1638,13 @@ module.exports = {
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Arabic'
-                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.fillText(price, (75 + x), (y + 490))
                                 ctx.textAlign='right';
                                 ctx.font = '36px Arabic'
-                                ctx.fillText(day + " يوم", (470 + x), (y + 475))
+                                ctx.fillText(day + " يوم", (487 + x), (y + 490))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                                ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                             ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
@@ -1665,13 +1665,13 @@ module.exports = {
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Burbank Big Condensed'
-                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.fillText(price, (75 + x), (y + 490))
                                 ctx.textAlign='right';
                                 ctx.font = '36px Burbank Big Condensed'
-                                ctx.fillText(day + " Days", (470 + x), (y + 475))
+                                ctx.fillText(day + " Days", (487 + x), (y + 490))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                                ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
@@ -1679,13 +1679,13 @@ module.exports = {
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Arabic'
-                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.fillText(price, (75 + x), (y + 490))
                                 ctx.textAlign='right';
                                 ctx.font = '36px Arabic'
-                                ctx.fillText(day + " يوم", (470 + x), (y + 475))
+                                ctx.fillText(day + " يوم", (487 + x), (y + 490))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                                ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                             ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
@@ -1706,13 +1706,13 @@ module.exports = {
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Burbank Big Condensed'
-                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.fillText(price, (75 + x), (y + 490))
                                 ctx.textAlign='right';
                                 ctx.font = '36px Burbank Big Condensed'
-                                ctx.fillText(day + " Days", (470 + x), (y + 475))
+                                ctx.fillText(day + " Days", (487 + x), (y + 490))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                                ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
@@ -1720,13 +1720,13 @@ module.exports = {
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Arabic'
-                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.fillText(price, (75 + x), (y + 490))
                                 ctx.textAlign='right';
                                 ctx.font = '36px Arabic'
-                                ctx.fillText(day + " يوم", (470 + x), (y + 475))
+                                ctx.fillText(day + " يوم", (487 + x), (y + 490))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                                ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                             ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
@@ -1747,13 +1747,13 @@ module.exports = {
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Burbank Big Condensed'
-                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.fillText(price, (75 + x), (y + 490))
                                 ctx.textAlign='right';
                                 ctx.font = '36px Burbank Big Condensed'
-                                ctx.fillText(day + " Days", (470 + x), (y + 475))
+                                ctx.fillText(day + " Days", (487 + x), (y + 490))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                                ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
@@ -1761,13 +1761,13 @@ module.exports = {
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Arabic'
-                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.fillText(price, (75 + x), (y + 490))
                                 ctx.textAlign='right';
                                 ctx.font = '36px Arabic'
-                                ctx.fillText(day + " يوم", (470 + x), (y + 475))
+                                ctx.fillText(day + " يوم", (487 + x), (y + 490))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                                ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                             ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
@@ -1788,13 +1788,13 @@ module.exports = {
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Burbank Big Condensed'
-                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.fillText(price, (75 + x), (y + 490))
                                 ctx.textAlign='right';
                                 ctx.font = '36px Burbank Big Condensed'
-                                ctx.fillText(day + " Days", (470 + x), (y + 475))
+                                ctx.fillText(day + " Days", (487 + x), (y + 490))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                                ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
@@ -1802,13 +1802,13 @@ module.exports = {
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Arabic'
-                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.fillText(price, (75 + x), (y + 490))
                                 ctx.textAlign='right';
                                 ctx.font = '36px Arabic'
-                                ctx.fillText(day + " يوم", (470 + x), (y + 475))
+                                ctx.fillText(day + " يوم", (487 + x), (y + 490))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                                ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                             ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
@@ -1829,13 +1829,13 @@ module.exports = {
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Burbank Big Condensed'
-                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.fillText(price, (75 + x), (y + 490))
                                 ctx.textAlign='right';
                                 ctx.font = '36px Burbank Big Condensed'
-                                ctx.fillText(day + " Days", (470 + x), (y + 475))
+                                ctx.fillText(day + " Days", (487 + x), (y + 490))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                                ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
@@ -1843,13 +1843,13 @@ module.exports = {
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Arabic'
-                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.fillText(price, (75 + x), (y + 490))
                                 ctx.textAlign='right';
                                 ctx.font = '36px Arabic'
-                                ctx.fillText(day + " يوم", (470 + x), (y + 475))
+                                ctx.fillText(day + " يوم", (487 + x), (y + 490))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                                ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                             ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
@@ -1869,13 +1869,13 @@ module.exports = {
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Burbank Big Condensed'
-                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.fillText(price, (75 + x), (y + 490))
                                 ctx.textAlign='right';
                                 ctx.font = '36px Burbank Big Condensed'
-                                ctx.fillText(day + " Days", (470 + x), (y + 475))
+                                ctx.fillText(day + " Days", (487 + x), (y + 490))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                                ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
@@ -1883,13 +1883,13 @@ module.exports = {
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Arabic'
-                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.fillText(price, (75 + x), (y + 490))
                                 ctx.textAlign='right';
                                 ctx.font = '36px Arabic'
-                                ctx.fillText(day + " يوم", (470 + x), (y + 475))
+                                ctx.fillText(day + " يوم", (487 + x), (y + 490))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                                ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                             ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
@@ -1911,13 +1911,13 @@ module.exports = {
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Burbank Big Condensed'
-                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.fillText(price, (75 + x), (y + 490))
                                 ctx.textAlign='right';
                                 ctx.font = '36px Burbank Big Condensed'
-                                ctx.fillText(day + " Days", (470 + x), (y + 475))
+                                ctx.fillText(day + " Days", (487 + x), (y + 490))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                                ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
@@ -1925,13 +1925,13 @@ module.exports = {
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Arabic'
-                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.fillText(price, (75 + x), (y + 490))
                                 ctx.textAlign='right';
                                 ctx.font = '36px Arabic'
-                                ctx.fillText(day + " يوم", (470 + x), (y + 475))
+                                ctx.fillText(day + " يوم", (487 + x), (y + 490))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                                ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                             ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
@@ -1952,13 +1952,13 @@ module.exports = {
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Burbank Big Condensed'
-                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.fillText(price, (75 + x), (y + 490))
                                 ctx.textAlign='right';
                                 ctx.font = '36px Burbank Big Condensed'
-                                ctx.fillText(day + " Days", (470 + x), (y + 475))
+                                ctx.fillText(day + " Days", (487 + x), (y + 490))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                                ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
@@ -1966,13 +1966,13 @@ module.exports = {
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Arabic'
-                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.fillText(price, (75 + x), (y + 490))
                                 ctx.textAlign='right';
                                 ctx.font = '36px Arabic'
-                                ctx.fillText(day + " يوم", (470 + x), (y + 475))
+                                ctx.fillText(day + " يوم", (487 + x), (y + 490))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                                ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                             ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
@@ -1992,13 +1992,13 @@ module.exports = {
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Burbank Big Condensed'
-                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.fillText(price, (75 + x), (y + 490))
                                 ctx.textAlign='right';
                                 ctx.font = '36px Burbank Big Condensed'
-                                ctx.fillText(day + " Days", (470 + x), (y + 475))
+                                ctx.fillText(day + " Days", (487 + x), (y + 490))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                                ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
@@ -2006,13 +2006,13 @@ module.exports = {
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Arabic'
-                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.fillText(price, (75 + x), (y + 490))
                                 ctx.textAlign='right';
                                 ctx.font = '36px Arabic'
-                                ctx.fillText(day + " يوم", (470 + x), (y + 475))
+                                ctx.fillText(day + " يوم", (487 + x), (y + 490))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                                ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                             ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
@@ -2033,13 +2033,13 @@ module.exports = {
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Burbank Big Condensed'
-                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.fillText(price, (75 + x), (y + 490))
                                 ctx.textAlign='right';
                                 ctx.font = '36px Burbank Big Condensed'
-                                ctx.fillText(day + " Days", (470 + x), (y + 475))
+                                ctx.fillText(day + " Days", (487 + x), (y + 490))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                                ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
@@ -2047,13 +2047,13 @@ module.exports = {
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Arabic'
-                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.fillText(price, (75 + x), (y + 490))
                                 ctx.textAlign='right';
                                 ctx.font = '36px Arabic'
-                                ctx.fillText(day + " يوم", (470 + x), (y + 475))
+                                ctx.fillText(day + " يوم", (487 + x), (y + 490))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                                ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                             ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
@@ -2074,13 +2074,13 @@ module.exports = {
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Burbank Big Condensed'
-                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.fillText(price, (75 + x), (y + 490))
                                 ctx.textAlign='right';
                                 ctx.font = '36px Burbank Big Condensed'
-                                ctx.fillText(day + " Days", (470 + x), (y + 475))
+                                ctx.fillText(day + " Days", (487 + x), (y + 490))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                                ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
@@ -2088,13 +2088,13 @@ module.exports = {
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Arabic'
-                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.fillText(price, (75 + x), (y + 490))
                                 ctx.textAlign='right';
                                 ctx.font = '36px Arabic'
-                                ctx.fillText(day + " يوم", (470 + x), (y + 475))
+                                ctx.fillText(day + " يوم", (487 + x), (y + 490))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                                ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                             ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
@@ -2116,13 +2116,13 @@ module.exports = {
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Burbank Big Condensed'
-                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.fillText(price, (75 + x), (y + 490))
                                 ctx.textAlign='right';
                                 ctx.font = '36px Burbank Big Condensed'
-                                ctx.fillText(day + " Days", (470 + x), (y + 475))
+                                ctx.fillText(day + " Days", (487 + x), (y + 490))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                                ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
@@ -2130,13 +2130,13 @@ module.exports = {
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Arabic'
-                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.fillText(price, (75 + x), (y + 490))
                                 ctx.textAlign='right';
                                 ctx.font = '36px Arabic'
-                                ctx.fillText(day + " يوم", (470 + x), (y + 475))
+                                ctx.fillText(day + " يوم", (487 + x), (y + 490))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                                ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                             ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);

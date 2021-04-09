@@ -2208,13 +2208,13 @@ module.exports = {
                                 ctx.fillText(name, (512 + x), (y + 942))
                                 ctx.textAlign='left';
                                 ctx.font = '80px Burbank Big Condensed'
-                                ctx.fillText(price, (93 + x), (y + 987))
+                                ctx.fillText(price, (96 + x), (y + 987))
                                 ctx.textAlign='right';
                                 ctx.font = '80px Burbank Big Condensed'
                                 ctx.fillText(day + " Days", (982 + x), (y + 987))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 915), 80, 80);
+                                ctx.drawImage(v, (25 + x), (y + 920), 80, 80);
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
@@ -2249,13 +2249,13 @@ module.exports = {
                                 ctx.fillText(name, (512 + x), (y + 942))
                                 ctx.textAlign='left';
                                 ctx.font = '80px Burbank Big Condensed'
-                                ctx.fillText(price, (93 + x), (y + 987))
+                                ctx.fillText(price, (96 + x), (y + 987))
                                 ctx.textAlign='right';
                                 ctx.font = '80px Burbank Big Condensed'
                                 ctx.fillText(day + " Days", (982 + x), (y + 987))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 915), 80, 80);
+                                ctx.drawImage(v, (25 + x), (y + 920), 80, 80);
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
@@ -2289,13 +2289,13 @@ module.exports = {
                                 ctx.fillText(name, (512 + x), (y + 880))
                                 ctx.textAlign='left';
                                 ctx.font = '80px Burbank Big Condensed'
-                                ctx.fillText(price, (93 + x), (y + 987))
+                                ctx.fillText(price, (96 + x), (y + 987))
                                 ctx.textAlign='right';
                                 ctx.font = '80px Burbank Big Condensed'
                                 ctx.fillText(day + " Days", (982 + x), (y + 987))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 915), 80, 80);
+                                ctx.drawImage(v, (25 + x), (y + 920), 80, 80);
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
@@ -2329,13 +2329,13 @@ module.exports = {
                                 ctx.fillText(name, (512 + x), (y + 880))
                                 ctx.textAlign='left';
                                 ctx.font = '80px Burbank Big Condensed'
-                                ctx.fillText(price, (93 + x), (y + 987))
+                                ctx.fillText(price, (96 + x), (y + 987))
                                 ctx.textAlign='right';
                                 ctx.font = '80px Burbank Big Condensed'
                                 ctx.fillText(day + " Days", (982 + x), (y + 987))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 915), 80, 80);
+                                ctx.drawImage(v, (25 + x), (y + 920), 80, 80);
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
@@ -2369,13 +2369,13 @@ module.exports = {
                                 ctx.fillText(name, (512 + x), (y + 942))
                                 ctx.textAlign='left';
                                 ctx.font = '80px Burbank Big Condensed'
-                                ctx.fillText(price, (93 + x), (y + 987))
+                                ctx.fillText(price, (96 + x), (y + 987))
                                 ctx.textAlign='right';
                                 ctx.font = '80px Burbank Big Condensed'
                                 ctx.fillText(day + " Days", (982 + x), (y + 987))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 915), 80, 80);
+                                ctx.drawImage(v, (25 + x), (y + 920), 80, 80);
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
@@ -2409,13 +2409,13 @@ module.exports = {
                                 ctx.fillText(name, (512 + x), (y + 942))
                                 ctx.textAlign='left';
                                 ctx.font = '80px Burbank Big Condensed'
-                                ctx.fillText(price, (93 + x), (y + 987))
+                                ctx.fillText(price, (96 + x), (y + 987))
                                 ctx.textAlign='right';
                                 ctx.font = '80px Burbank Big Condensed'
                                 ctx.fillText(day + " Days", (982 + x), (y + 987))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 915), 80, 80);
+                                ctx.drawImage(v, (25 + x), (y + 920), 80, 80);
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
@@ -2450,13 +2450,13 @@ module.exports = {
                                 ctx.fillText(name, (512 + x), (y + 942))
                                 ctx.textAlign='left';
                                 ctx.font = '80px Burbank Big Condensed'
-                                ctx.fillText(price, (93 + x), (y + 987))
+                                ctx.fillText(price, (96 + x), (y + 987))
                                 ctx.textAlign='right';
                                 ctx.font = '80px Burbank Big Condensed'
                                 ctx.fillText(day + " Days", (982 + x), (y + 987))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 915), 80, 80);
+                                ctx.drawImage(v, (25 + x), (y + 920), 80, 80);
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
@@ -2491,13 +2491,13 @@ module.exports = {
                                 ctx.fillText(name, (512 + x), (y + 942))
                                 ctx.textAlign='left';
                                 ctx.font = '80px Burbank Big Condensed'
-                                ctx.fillText(price, (93 + x), (y + 987))
+                                ctx.fillText(price, (96 + x), (y + 987))
                                 ctx.textAlign='right';
                                 ctx.font = '80px Burbank Big Condensed'
                                 ctx.fillText(day + " Days", (982 + x), (y + 987))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 915), 80, 80);
+                                ctx.drawImage(v, (25 + x), (y + 920), 80, 80);
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
@@ -2531,13 +2531,13 @@ module.exports = {
                                 ctx.fillText(name, (512 + x), (y + 942))
                                 ctx.textAlign='left';
                                 ctx.font = '80px Burbank Big Condensed'
-                                ctx.fillText(price, (93 + x), (y + 987))
+                                ctx.fillText(price, (96 + x), (y + 987))
                                 ctx.textAlign='right';
                                 ctx.font = '80px Burbank Big Condensed'
                                 ctx.fillText(day + " Days", (982 + x), (y + 987))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 915), 80, 80);
+                                ctx.drawImage(v, (25 + x), (y + 920), 80, 80);
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
@@ -2572,13 +2572,13 @@ module.exports = {
                                 ctx.fillText(name, (512 + x), (y + 942))
                                 ctx.textAlign='left';
                                 ctx.font = '80px Burbank Big Condensed'
-                                ctx.fillText(price, (93 + x), (y + 987))
+                                ctx.fillText(price, (96 + x), (y + 987))
                                 ctx.textAlign='right';
                                 ctx.font = '80px Burbank Big Condensed'
                                 ctx.fillText(day + " Days", (982 + x), (y + 987))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 915), 80, 80);
+                                ctx.drawImage(v, (25 + x), (y + 920), 80, 80);
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
@@ -2612,13 +2612,13 @@ module.exports = {
                                 ctx.fillText(name, (512 + x), (y + 942))
                                 ctx.textAlign='left';
                                 ctx.font = '80px Burbank Big Condensed'
-                                ctx.fillText(price, (93 + x), (y + 987))
+                                ctx.fillText(price, (96 + x), (y + 987))
                                 ctx.textAlign='right';
                                 ctx.font = '80px Burbank Big Condensed'
                                 ctx.fillText(day + " Days", (982 + x), (y + 987))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 915), 80, 80);
+                                ctx.drawImage(v, (25 + x), (y + 920), 80, 80);
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
@@ -2652,13 +2652,13 @@ module.exports = {
                                 ctx.fillText(name, (512 + x), (y + 942))
                                 ctx.textAlign='left';
                                 ctx.font = '80px Burbank Big Condensed'
-                                ctx.fillText(price, (93 + x), (y + 987))
+                                ctx.fillText(price, (96 + x), (y + 987))
                                 ctx.textAlign='right';
                                 ctx.font = '80px Burbank Big Condensed'
                                 ctx.fillText(day + " Days", (982 + x), (y + 987))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 915), 80, 80);
+                                ctx.drawImage(v, (25 + x), (y + 920), 80, 80);
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
@@ -2693,13 +2693,13 @@ module.exports = {
                                 ctx.fillText(name, (512 + x), (y + 942))
                                 ctx.textAlign='left';
                                 ctx.font = '80px Burbank Big Condensed'
-                                ctx.fillText(price, (93 + x), (y + 987))
+                                ctx.fillText(price, (96 + x), (y + 987))
                                 ctx.textAlign='right';
                                 ctx.font = '80px Burbank Big Condensed'
                                 ctx.fillText(day + " Days", (982 + x), (y + 987))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 915), 80, 80);
+                                ctx.drawImage(v, (25 + x), (y + 920), 80, 80);
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
@@ -2734,13 +2734,13 @@ module.exports = {
                                 ctx.fillText(name, (512 + x), (y + 942))
                                 ctx.textAlign='left';
                                 ctx.font = '80px Burbank Big Condensed'
-                                ctx.fillText(price, (93 + x), (y + 987))
+                                ctx.fillText(price, (96 + x), (y + 987))
                                 ctx.textAlign='right';
                                 ctx.font = '80px Burbank Big Condensed'
                                 ctx.fillText(day + " Days", (982 + x), (y + 987))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 915), 80, 80);
+                                ctx.drawImage(v, (25 + x), (y + 920), 80, 80);
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
@@ -2775,13 +2775,13 @@ module.exports = {
                                 ctx.fillText(name, (512 + x), (y + 942))
                                 ctx.textAlign='left';
                                 ctx.font = '80px Burbank Big Condensed'
-                                ctx.fillText(price, (93 + x), (y + 987))
+                                ctx.fillText(price, (96 + x), (y + 987))
                                 ctx.textAlign='right';
                                 ctx.font = '80px Burbank Big Condensed'
                                 ctx.fillText(day + " Days", (982 + x), (y + 987))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 915), 80, 80);
+                                ctx.drawImage(v, (25 + x), (y + 920), 80, 80);
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';

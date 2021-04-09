@@ -54,7 +54,8 @@ module.exports = {
                 var x = 250;
                 var y = 250;
                 var newline = 0;
-                var yBundle = 250
+                var yBundleEN = 250
+                var yBundleAR = 250
                 if(res.featured.length >= res.specialFeatured.length){
                     f = res.featured.length;
                     if(res.featured.length >= 1 && res.featured.length <= 12){
@@ -798,7 +799,7 @@ module.exports = {
                     y = y + 25 + 512;
                     x = 250;
                     newline = 0;
-                    yBundle = y + 25 + 512
+                    yBundleEN = y + 25 + 512
                 }
                 
             }
@@ -2146,6 +2147,7 @@ module.exports = {
                         x = x + 25 + 512; 
                        if (sp === newline){
                           y = y + 25 + 512;
+                          yBundleAR = y + 25 + 512;
                           if (sp == 5){
                             x = 3747 + 250;
                             newline = 0;                    
@@ -2164,8 +2166,13 @@ module.exports = {
                 }
 
                 if(res.offers.length !== 0){
-                    x = 200
-                    y = yBundle
+                    if(lang === "en"){
+                        x = 200
+                        y = yBundleEN
+                    }else if(lang == "ar"){
+                        X = canvas.width - (250 + 1024 + 25 + 1024)
+                        y = yBundleAR
+                    }
 
                     if(lang === "en"){
                         ctx.fillStyle = '#ffffff';

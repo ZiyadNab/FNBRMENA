@@ -2208,7 +2208,7 @@ module.exports = {
                                 ctx.fillText(name, (512 + x), (y + 942))
                                 ctx.textAlign='left';
                                 ctx.font = '80px Burbank Big Condensed'
-                                ctx.fillText(price, (96 + x), (y + 998))
+                                ctx.fillText(price, (103 + x), (y + 987))
                                 ctx.textAlign='right';
                                 ctx.font = '80px Burbank Big Condensed'
                                 ctx.fillText(day + " Days", (982 + x), (y + 987))
@@ -2219,10 +2219,10 @@ module.exports = {
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
                                 ctx.font = applyTextBundle(canvas, name);
-                                ctx.fillText(name, (512 + x), (y + 930))
+                                ctx.fillText(name, (512 + x), (y + 910))
                                 ctx.textAlign='left';
                                 ctx.font = '80px Arabic'
-                                ctx.fillText(price, (96 + x), (y + 998))
+                                ctx.fillText(price, (103 + x), (y + 987))
                                 ctx.textAlign='right';
                                 ctx.font = '80px Arabic'
                                 ctx.fillText(day + " يوم", (982 + x), (y + 987))
@@ -2249,7 +2249,7 @@ module.exports = {
                                 ctx.fillText(name, (512 + x), (y + 942))
                                 ctx.textAlign='left';
                                 ctx.font = '80px Burbank Big Condensed'
-                                ctx.fillText(price, (96 + x), (y + 998))
+                                ctx.fillText(price, (103 + x), (y + 987))
                                 ctx.textAlign='right';
                                 ctx.font = '80px Burbank Big Condensed'
                                 ctx.fillText(day + " Days", (982 + x), (y + 987))
@@ -2260,10 +2260,10 @@ module.exports = {
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
                                 ctx.font = applyTextBundle(canvas, name);
-                                ctx.fillText(name, (512 + x), (y + 930))
+                                ctx.fillText(name, (512 + x), (y + 910))
                                 ctx.textAlign='left';
                                 ctx.font = '80px Arabic'
-                                ctx.fillText(price, (96 + x), (y + 998))
+                                ctx.fillText(price, (103 + x), (y + 987))
                                 ctx.textAlign='right';
                                 ctx.font = '80px Arabic'
                                 ctx.fillText(day + " يوم", (982 + x), (y + 987))
@@ -2289,7 +2289,7 @@ module.exports = {
                                 ctx.fillText(name, (512 + x), (y + 880))
                                 ctx.textAlign='left';
                                 ctx.font = '80px Burbank Big Condensed'
-                                ctx.fillText(price, (96 + x), (y + 998))
+                                ctx.fillText(price, (103 + x), (y + 987))
                                 ctx.textAlign='right';
                                 ctx.font = '80px Burbank Big Condensed'
                                 ctx.fillText(day + " Days", (982 + x), (y + 987))
@@ -2300,10 +2300,10 @@ module.exports = {
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
                                 ctx.font = applyTextBundle(canvas, name);
-                                ctx.fillText(name, (512 + x), (y + 930))
+                                ctx.fillText(name, (512 + x), (y + 910))
                                 ctx.textAlign='left';
                                 ctx.font = '80px Arabic'
-                                ctx.fillText(price, (96 + x), (y + 998))
+                                ctx.fillText(price, (103 + x), (y + 987))
                                 ctx.textAlign='right';
                                 ctx.font = '80px Arabic'
                                 ctx.fillText(day + " يوم", (982 + x), (y + 987))
@@ -2329,7 +2329,7 @@ module.exports = {
                                 ctx.fillText(name, (512 + x), (y + 880))
                                 ctx.textAlign='left';
                                 ctx.font = '80px Burbank Big Condensed'
-                                ctx.fillText(price, (96 + x), (y + 998))
+                                ctx.fillText(price, (103 + x), (y + 987))
                                 ctx.textAlign='right';
                                 ctx.font = '80px Burbank Big Condensed'
                                 ctx.fillText(day + " Days", (982 + x), (y + 987))
@@ -2340,10 +2340,10 @@ module.exports = {
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
                                 ctx.font = applyTextBundle(canvas, name);
-                                ctx.fillText(name, (512 + x), (y + 930))
+                                ctx.fillText(name, (512 + x), (y + 910))
                                 ctx.textAlign='left';
                                 ctx.font = '80px Arabic'
-                                ctx.fillText(price, (96 + x), (y + 998))
+                                ctx.fillText(price, (103 + x), (y + 987))
                                 ctx.textAlign='right';
                                 ctx.font = '80px Arabic'
                                 ctx.fillText(day + " يوم", (982 + x), (y + 987))
@@ -2369,7 +2369,7 @@ module.exports = {
                                 ctx.fillText(name, (512 + x), (y + 942))
                                 ctx.textAlign='left';
                                 ctx.font = '80px Burbank Big Condensed'
-                                ctx.fillText(price, (96 + x), (y + 998))
+                                ctx.fillText(price, (103 + x), (y + 987))
                                 ctx.textAlign='right';
                                 ctx.font = '80px Burbank Big Condensed'
                                 ctx.fillText(day + " Days", (982 + x), (y + 987))
@@ -2380,10 +2380,10 @@ module.exports = {
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
                                 ctx.font = applyTextBundle(canvas, name);
-                                ctx.fillText(name, (512 + x), (y + 930))
+                                ctx.fillText(name, (512 + x), (y + 910))
                                 ctx.textAlign='left';
                                 ctx.font = '80px Arabic'
-                                ctx.fillText(price, (96 + x), (y + 998))
+                                ctx.fillText(price, (103 + x), (y + 987))
                                 ctx.textAlign='right';
                                 ctx.font = '80px Arabic'
                                 ctx.fillText(day + " يوم", (982 + x), (y + 987))
@@ -2409,7 +2409,7 @@ module.exports = {
                                 ctx.fillText(name, (512 + x), (y + 942))
                                 ctx.textAlign='left';
                                 ctx.font = '80px Burbank Big Condensed'
-                                ctx.fillText(price, (96 + x), (y + 998))
+                                ctx.fillText(price, (103 + x), (y + 987))
                                 ctx.textAlign='right';
                                 ctx.font = '80px Burbank Big Condensed'
                                 ctx.fillText(day + " Days", (982 + x), (y + 987))
@@ -2420,10 +2420,10 @@ module.exports = {
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
                                 ctx.font = applyTextBundle(canvas, name);
-                                ctx.fillText(name, (512 + x), (y + 930))
+                                ctx.fillText(name, (512 + x), (y + 910))
                                 ctx.textAlign='left';
                                 ctx.font = '80px Arabic'
-                                ctx.fillText(price, (96 + x), (y + 998))
+                                ctx.fillText(price, (103 + x), (y + 987))
                                 ctx.textAlign='right';
                                 ctx.font = '80px Arabic'
                                 ctx.fillText(day + " يوم", (982 + x), (y + 987))
@@ -2450,7 +2450,7 @@ module.exports = {
                                 ctx.fillText(name, (512 + x), (y + 942))
                                 ctx.textAlign='left';
                                 ctx.font = '80px Burbank Big Condensed'
-                                ctx.fillText(price, (96 + x), (y + 998))
+                                ctx.fillText(price, (103 + x), (y + 987))
                                 ctx.textAlign='right';
                                 ctx.font = '80px Burbank Big Condensed'
                                 ctx.fillText(day + " Days", (982 + x), (y + 987))
@@ -2461,10 +2461,10 @@ module.exports = {
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
                                 ctx.font = applyTextBundle(canvas, name);
-                                ctx.fillText(name, (512 + x), (y + 930))
+                                ctx.fillText(name, (512 + x), (y + 910))
                                 ctx.textAlign='left';
                                 ctx.font = '80px Arabic'
-                                ctx.fillText(price, (96 + x), (y + 998))
+                                ctx.fillText(price, (103 + x), (y + 987))
                                 ctx.textAlign='right';
                                 ctx.font = '80px Arabic'
                                 ctx.fillText(day + " يوم", (982 + x), (y + 987))
@@ -2491,7 +2491,7 @@ module.exports = {
                                 ctx.fillText(name, (512 + x), (y + 942))
                                 ctx.textAlign='left';
                                 ctx.font = '80px Burbank Big Condensed'
-                                ctx.fillText(price, (96 + x), (y + 998))
+                                ctx.fillText(price, (103 + x), (y + 987))
                                 ctx.textAlign='right';
                                 ctx.font = '80px Burbank Big Condensed'
                                 ctx.fillText(day + " Days", (982 + x), (y + 987))
@@ -2502,10 +2502,10 @@ module.exports = {
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
                                 ctx.font = applyTextBundle(canvas, name);
-                                ctx.fillText(name, (512 + x), (y + 930))
+                                ctx.fillText(name, (512 + x), (y + 910))
                                 ctx.textAlign='left';
                                 ctx.font = '80px Arabic'
-                                ctx.fillText(price, (96 + x), (y + 998))
+                                ctx.fillText(price, (103 + x), (y + 987))
                                 ctx.textAlign='right';
                                 ctx.font = '80px Arabic'
                                 ctx.fillText(day + " يوم", (982 + x), (y + 987))
@@ -2531,7 +2531,7 @@ module.exports = {
                                 ctx.fillText(name, (512 + x), (y + 942))
                                 ctx.textAlign='left';
                                 ctx.font = '80px Burbank Big Condensed'
-                                ctx.fillText(price, (96 + x), (y + 998))
+                                ctx.fillText(price, (103 + x), (y + 987))
                                 ctx.textAlign='right';
                                 ctx.font = '80px Burbank Big Condensed'
                                 ctx.fillText(day + " Days", (982 + x), (y + 987))
@@ -2542,10 +2542,10 @@ module.exports = {
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
                                 ctx.font = applyTextBundle(canvas, name);
-                                ctx.fillText(name, (512 + x), (y + 930))
+                                ctx.fillText(name, (512 + x), (y + 910))
                                 ctx.textAlign='left';
                                 ctx.font = '80px Arabic'
-                                ctx.fillText(price, (96 + x), (y + 998))
+                                ctx.fillText(price, (103 + x), (y + 987))
                                 ctx.textAlign='right';
                                 ctx.font = '80px Arabic'
                                 ctx.fillText(day + " يوم", (982 + x), (y + 987))
@@ -2572,7 +2572,7 @@ module.exports = {
                                 ctx.fillText(name, (512 + x), (y + 942))
                                 ctx.textAlign='left';
                                 ctx.font = '80px Burbank Big Condensed'
-                                ctx.fillText(price, (96 + x), (y + 998))
+                                ctx.fillText(price, (103 + x), (y + 987))
                                 ctx.textAlign='right';
                                 ctx.font = '80px Burbank Big Condensed'
                                 ctx.fillText(day + " Days", (982 + x), (y + 987))
@@ -2583,10 +2583,10 @@ module.exports = {
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
                                 ctx.font = applyTextBundle(canvas, name);
-                                ctx.fillText(name, (512 + x), (y + 930))
+                                ctx.fillText(name, (512 + x), (y + 910))
                                 ctx.textAlign='left';
                                 ctx.font = '80px Arabic'
-                                ctx.fillText(price, (96 + x), (y + 998))
+                                ctx.fillText(price, (103 + x), (y + 987))
                                 ctx.textAlign='right';
                                 ctx.font = '80px Arabic'
                                 ctx.fillText(day + " يوم", (982 + x), (y + 987))
@@ -2612,7 +2612,7 @@ module.exports = {
                                 ctx.fillText(name, (512 + x), (y + 942))
                                 ctx.textAlign='left';
                                 ctx.font = '80px Burbank Big Condensed'
-                                ctx.fillText(price, (96 + x), (y + 998))
+                                ctx.fillText(price, (103 + x), (y + 987))
                                 ctx.textAlign='right';
                                 ctx.font = '80px Burbank Big Condensed'
                                 ctx.fillText(day + " Days", (982 + x), (y + 987))
@@ -2623,10 +2623,10 @@ module.exports = {
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
                                 ctx.font = applyTextBundle(canvas, name);
-                                ctx.fillText(name, (512 + x), (y + 930))
+                                ctx.fillText(name, (512 + x), (y + 910))
                                 ctx.textAlign='left';
                                 ctx.font = '80px Arabic'
-                                ctx.fillText(price, (96 + x), (y + 998))
+                                ctx.fillText(price, (103 + x), (y + 987))
                                 ctx.textAlign='right';
                                 ctx.font = '80px Arabic'
                                 ctx.fillText(day + " يوم", (982 + x), (y + 987))
@@ -2652,7 +2652,7 @@ module.exports = {
                                 ctx.fillText(name, (512 + x), (y + 942))
                                 ctx.textAlign='left';
                                 ctx.font = '80px Burbank Big Condensed'
-                                ctx.fillText(price, (96 + x), (y + 998))
+                                ctx.fillText(price, (103 + x), (y + 987))
                                 ctx.textAlign='right';
                                 ctx.font = '80px Burbank Big Condensed'
                                 ctx.fillText(day + " Days", (982 + x), (y + 987))
@@ -2663,10 +2663,10 @@ module.exports = {
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
                                 ctx.font = applyTextBundle(canvas, name);
-                                ctx.fillText(name, (512 + x), (y + 930))
+                                ctx.fillText(name, (512 + x), (y + 910))
                                 ctx.textAlign='left';
                                 ctx.font = '80px Arabic'
-                                ctx.fillText(price, (96 + x), (y + 998))
+                                ctx.fillText(price, (103 + x), (y + 987))
                                 ctx.textAlign='right';
                                 ctx.font = '80px Arabic'
                                 ctx.fillText(day + " يوم", (982 + x), (y + 987))
@@ -2693,7 +2693,7 @@ module.exports = {
                                 ctx.fillText(name, (512 + x), (y + 942))
                                 ctx.textAlign='left';
                                 ctx.font = '80px Burbank Big Condensed'
-                                ctx.fillText(price, (96 + x), (y + 998))
+                                ctx.fillText(price, (103 + x), (y + 987))
                                 ctx.textAlign='right';
                                 ctx.font = '80px Burbank Big Condensed'
                                 ctx.fillText(day + " Days", (982 + x), (y + 987))
@@ -2704,10 +2704,10 @@ module.exports = {
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
                                 ctx.font = applyTextBundle(canvas, name);
-                                ctx.fillText(name, (512 + x), (y + 930))
+                                ctx.fillText(name, (512 + x), (y + 910))
                                 ctx.textAlign='left';
                                 ctx.font = '80px Arabic'
-                                ctx.fillText(price, (96 + x), (y + 998))
+                                ctx.fillText(price, (103 + x), (y + 987))
                                 ctx.textAlign='right';
                                 ctx.font = '80px Arabic'
                                 ctx.fillText(day + " يوم", (982 + x), (y + 987))
@@ -2734,7 +2734,7 @@ module.exports = {
                                 ctx.fillText(name, (512 + x), (y + 942))
                                 ctx.textAlign='left';
                                 ctx.font = '80px Burbank Big Condensed'
-                                ctx.fillText(price, (96 + x), (y + 998))
+                                ctx.fillText(price, (103 + x), (y + 987))
                                 ctx.textAlign='right';
                                 ctx.font = '80px Burbank Big Condensed'
                                 ctx.fillText(day + " Days", (982 + x), (y + 987))
@@ -2745,10 +2745,10 @@ module.exports = {
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
                                 ctx.font = applyTextBundle(canvas, name);
-                                ctx.fillText(name, (512 + x), (y + 930))
+                                ctx.fillText(name, (512 + x), (y + 910))
                                 ctx.textAlign='left';
                                 ctx.font = '80px Arabic'
-                                ctx.fillText(price, (96 + x), (y + 998))
+                                ctx.fillText(price, (103 + x), (y + 987))
                                 ctx.textAlign='right';
                                 ctx.font = '80px Arabic'
                                 ctx.fillText(day + " يوم", (982 + x), (y + 987))
@@ -2775,7 +2775,7 @@ module.exports = {
                                 ctx.fillText(name, (512 + x), (y + 942))
                                 ctx.textAlign='left';
                                 ctx.font = '80px Burbank Big Condensed'
-                                ctx.fillText(price, (96 + x), (y + 998))
+                                ctx.fillText(price, (103 + x), (y + 987))
                                 ctx.textAlign='right';
                                 ctx.font = '80px Burbank Big Condensed'
                                 ctx.fillText(day + " Days", (982 + x), (y + 987))
@@ -2786,10 +2786,10 @@ module.exports = {
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
                                 ctx.font = applyTextBundle(canvas, name);
-                                ctx.fillText(name, (512 + x), (y + 930))
+                                ctx.fillText(name, (512 + x), (y + 910))
                                 ctx.textAlign='left';
                                 ctx.font = '80px Arabic'
-                                ctx.fillText(price, (96 + x), (y + 998))
+                                ctx.fillText(price, (103 + x), (y + 987))
                                 ctx.textAlign='right';
                                 ctx.font = '80px Arabic'
                                 ctx.fillText(day + " يوم", (982 + x), (y + 987))

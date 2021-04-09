@@ -298,7 +298,7 @@ module.exports = {
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Burbank Big Condensed'
-                                ctx.fillText(price, (40 + x), (y + 490))
+                                ctx.fillText(price, (60 + x), (y + 490))
                                 ctx.textAlign='right';
                                 ctx.font = '36px Burbank Big Condensed'
                                 ctx.fillText(day + " Days", (487 + x), (y + 490))

@@ -29,7 +29,7 @@ module.exports = {
             
             Fortnite.CosmeticsSearchAll(query)
             .then(async res => {
-                console.log(res.data)
+
                 //generating msg
                 var mess
                 if(lang === "en"){

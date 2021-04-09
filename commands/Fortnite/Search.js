@@ -38,13 +38,6 @@ module.exports = {
                     mess = "جاري البحث عن معلومات العنصر..."
                 }
 
-                const generating = new Discord.MessageEmbed()
-                generating.setColor('#BB00EE')
-                const emoji = client.emojis.cache.get("805690920157970442")
-                generating.setTitle(`${mess} ${emoji}`)
-                message.channel.send(generating)
-                .then( async msg => {
-
                 //list of reactions
                 const numbers = {
                     0: '0️⃣',
@@ -59,10 +52,23 @@ module.exports = {
                     9: '9️⃣',
                     10: '🔟',
                 }
-
                 //num for the specific item
                 var num
-                if(res.data.length === 1){
+
+                //if there is no item with this name
+                if(res.data.length === 0){
+                    if(lang === "en"){
+                        const Err = new Discord.MessageEmbed()
+                        .setColor('#BB00EE')
+                        .setTitle('Sorry :robot:, \nThere is no cosmetic with this name please check your speling and try again')
+                        message.reply(Err)
+                    }else if(lang === "ar"){
+                        const Err = new Discord.MessageEmbed()
+                        .setColor('#BB00EE')
+                        .setTitle('عذرا :robot:, \n لا يمكنني العثور على العنصر الرجاء التأكد من كتابة الاسم بشكل صحيح')
+                        message.reply(Err)
+                    }
+                }else if(res.data.length === 1){
                     num = 0;
                 }
                 if(res.data.length > 1){
@@ -104,8 +110,29 @@ module.exports = {
                                 msgID.delete()
                             }
                         }
+                    }).catch(err => {
+                        if(lang === "en"){
+                            msgReact.delete()
+                            const error = new Discord.MessageEmbed()
+                            .setColor('#BB00EE')
+                            .setTitle(":regional_indicator_x: Sorry we canceled your process becuase no option has been selected")
+                            message.reply(error)
+                        }else if(lang === "ar"){
+                            msgReact.delete()
+                            const error = new Discord.MessageEmbed()
+                            .setColor('#BB00EE')
+                            .setTitle(":regional_indicator_x: لقد لم ايقاف عمليتك بسبب عدم اختيارك للعنصر")
+                            message.reply(error)
+                        }
                     })
                 }
+
+                const generating = new Discord.MessageEmbed()
+                generating.setColor('#BB00EE')
+                const emoji = client.emojis.cache.get("805690920157970442")
+                generating.setTitle(`${mess} ${emoji}`)
+                message.channel.send(generating)
+                .then( async msg => {
 
                 //aplyText
                 const applyText = (canvas, text) => {

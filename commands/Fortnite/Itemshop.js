@@ -2286,7 +2286,7 @@ module.exports = {
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
                                 ctx.font = applyTextBundle(canvas, name);
-                                ctx.fillText(name, (512 + x), (y + 942))
+                                ctx.fillText(name, (512 + x), (y + 880))
                                 ctx.textAlign='left';
                                 ctx.font = '100px Burbank Big Condensed'
                                 ctx.fillText(price, (84 + x), (y + 987))
@@ -2326,7 +2326,7 @@ module.exports = {
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
                                 ctx.font = applyTextBundle(canvas, name);
-                                ctx.fillText(name, (512 + x), (y + 942))
+                                ctx.fillText(name, (512 + x), (y + 880))
                                 ctx.textAlign='left';
                                 ctx.font = '100px Burbank Big Condensed'
                                 ctx.fillText(price, (84 + x), (y + 987))

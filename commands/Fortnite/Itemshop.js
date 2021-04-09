@@ -54,6 +54,7 @@ module.exports = {
                 var x = 250;
                 var y = 250;
                 var newline = 0;
+                var yBundle = 250
                 if(res.featured.length >= res.specialFeatured.length){
                     f = res.featured.length;
                     if(res.featured.length >= 1 && res.featured.length <= 12){
@@ -774,6 +775,7 @@ module.exports = {
                     y = y + 25 + 512;
                     x = 250;
                     newline = 0;
+                    yBundle += 250
                 }
                 
             }
@@ -1428,17 +1430,17 @@ module.exports = {
                             ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                         }
 
-                        // changing x and y
-                        x = x + 25 + 512; 
-                        if (newline === 3){
-                           y = y + 25 + 512;
-                           if(fe == 3){
-                            x = 2086;
-                            newline = 0;
-                        }else if(fe === 5){
-                            x = 3160;
-                            newline = 0;
-                        }
+                            // changing x and y
+                            x = x + 25 + 512; 
+                            if (newline === 3){
+                            y = y + 25 + 512;
+                            if(fe == 3){
+                                x = 2086;
+                                newline = 0;
+                            }else if(fe === 5){
+                                x = 3160;
+                                newline = 0;
+                            }
                         }
                         
                     }
@@ -2119,8 +2121,656 @@ module.exports = {
                             }
                         }
                     }
+                    
                 }
 
+                if(res.offers.length !== 0){
+                    x = 200
+                    y = yBundle
+
+                    if(lang === "en"){
+                        ctx.fillStyle = '#ffffff';
+                        ctx.font = '150px Burbank Big Condensed'
+                        ctx.fillText("Special Featured", x, (y - 50))
+                    }else if(lang === "ar"){
+                        ctx.fillStyle = '#ffffff';
+                        ctx.font = '150px Arabic'
+                        ctx.fillText("عروض مميزة", x, (y - 50))
+                    }
+
+                    //searching
+                    for(let i = 0; i < res.offers.length; i++){
+
+                        //skin informations
+                        var name = res.offers[i].name;
+                        var price = res.offers[i].price;
+                        var image = res.offers[i].icon;
+                        var rarity = res.offers[i].rarity;
+                        var vbucks = "https://media.fortniteapi.io/images/652b99f7863db4ba398c40c326ac15a9/transparent.png";
+
+                        //moment
+                        var Now = moment();
+                        var last = moment(res.offers[i].lastAppearance);
+                        const day = Now.diff(last, 'days');
+                        newline = newline + 1;
+
+                        if(rarity === 'legendary'){
+                            //creating image
+                            const skinholder = await Canvas.loadImage('./assets/Rarities/standard/legendary.png')
+                            ctx.drawImage(skinholder, x, y, 1024, 1024)
+                            const skin = await Canvas.loadImage(image);
+                            ctx.drawImage(skin, x, y, 1024, 1024)
+                            const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderLegendary.png')
+                            ctx.drawImage(skinborder, x, y, 1024, 1024)
+                            if(lang === "en"){
+                                ctx.fillStyle = '#ffffff';
+                                ctx.textAlign='center';
+                                ctx.font = applyText(canvas, name);
+                                ctx.fillText(name, (512 + x), (y + 942))
+                                ctx.textAlign='left';
+                                ctx.font = '36px Burbank Big Condensed'
+                                ctx.fillText(price, (84 + x), (y + 987))
+                                ctx.textAlign='right';
+                                ctx.font = '36px Burbank Big Condensed'
+                                ctx.fillText(day + " Days", (982 + x), (y + 987))
+                                ctx.textAlign='left';
+                                const v = await Canvas.loadImage(vbucks);
+                                ctx.drawImage(v, (25 + x), (y + 947), 50, 50);
+                            }else if(lang === "ar"){
+                                ctx.fillStyle = '#ffffff';
+                                ctx.textAlign='center';
+                                ctx.font = applyText(canvas, name);
+                                ctx.fillText(name, (256 + x), (y + 430))
+                                ctx.textAlign='left';
+                                ctx.font = '36px Arabic'
+                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.textAlign='right';
+                                ctx.font = '36px Arabic'
+                                ctx.fillText(day + " يوم", (470 + x), (y + 475))
+                                ctx.textAlign='left';
+                                const v = await Canvas.loadImage(vbucks);
+                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                            }
+                            const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                            ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                            
+                        }
+                        if(rarity === 'epic'){
+                            //creating image
+                            const skinholder = await Canvas.loadImage('./assets/Rarities/standard/epic.png')
+                            ctx.drawImage(skinholder, x, y, 1024, 1024)
+                            const skin = await Canvas.loadImage(image);
+                            ctx.drawImage(skin, x, y, 1024, 1024)
+                            const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderEpic.png')
+                            ctx.drawImage(skinborder, x, y, 1024, 1024)
+                            if(lang === "en"){
+                                ctx.fillStyle = '#ffffff';
+                                ctx.textAlign='center';
+                                ctx.font = applyText(canvas, name);
+                                ctx.fillText(name, (512 + x), (y + 942))
+                                ctx.textAlign='left';
+                                ctx.font = '36px Burbank Big Condensed'
+                                ctx.fillText(price, (84 + x), (y + 987))
+                                ctx.textAlign='right';
+                                ctx.font = '36px Burbank Big Condensed'
+                                ctx.fillText(day + " Days", (982 + x), (y + 987))
+                                ctx.textAlign='left';
+                                const v = await Canvas.loadImage(vbucks);
+                                ctx.drawImage(v, (25 + x), (y + 947), 50, 50);
+                            }else if(lang === "ar"){
+                                ctx.fillStyle = '#ffffff';
+                                ctx.textAlign='center';
+                                ctx.font = applyText(canvas, name);
+                                ctx.fillText(name, (256 + x), (y + 430))
+                                ctx.textAlign='left';
+                                ctx.font = '36px Arabic'
+                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.textAlign='right';
+                                ctx.font = '36px Arabic'
+                                ctx.fillText(day + " يوم", (470 + x), (y + 475))
+                                ctx.textAlign='left';
+                                const v = await Canvas.loadImage(vbucks);
+                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                            }
+                            const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                            ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                        }
+                        if(rarity === 'rare'){
+                            //creating image
+                            const skinholder = await Canvas.loadImage('./assets/Rarities/standard/rare.png')
+                            ctx.drawImage(skinholder, x, y, 1024, 1024)
+                            const skin = await Canvas.loadImage(image);
+                            ctx.drawImage(skin, x, y, 1024, 1024)
+                            const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderRare.png')
+                            ctx.drawImage(skinborder, x, y, 1024, 1024)
+                            if(lang === "en"){
+                                ctx.fillStyle = '#ffffff';
+                                ctx.textAlign='center';
+                                ctx.font = applyText(canvas, name);
+                                ctx.fillText(name, (512 + x), (y + 942))
+                                ctx.textAlign='left';
+                                ctx.font = '36px Burbank Big Condensed'
+                                ctx.fillText(price, (84 + x), (y + 987))
+                                ctx.textAlign='right';
+                                ctx.font = '36px Burbank Big Condensed'
+                                ctx.fillText(day + " Days", (982 + x), (y + 987))
+                                ctx.textAlign='left';
+                                const v = await Canvas.loadImage(vbucks);
+                                ctx.drawImage(v, (25 + x), (y + 947), 50, 50);
+                            }else if(lang === "ar"){
+                                ctx.fillStyle = '#ffffff';
+                                ctx.textAlign='center';
+                                ctx.font = applyText(canvas, name);
+                                ctx.fillText(name, (256 + x), (y + 430))
+                                ctx.textAlign='left';
+                                ctx.font = '36px Arabic'
+                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.textAlign='right';
+                                ctx.font = '36px Arabic'
+                                ctx.fillText(day + " يوم", (470 + x), (y + 475))
+                                ctx.textAlign='left';
+                                const v = await Canvas.loadImage(vbucks);
+                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                            }
+                            const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                            ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                        }
+                        if(rarity === 'uncommon'){
+                            //creating image
+                            const skinholder = await Canvas.loadImage('./assets/Rarities/standard/uncommon.png')
+                            ctx.drawImage(skinholder, x, y, 1024, 1024)
+                            const skin = await Canvas.loadImage(image);
+                            ctx.drawImage(skin, x, y, 1024, 1024)
+                            const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderUncommon.png')
+                            ctx.drawImage(skinborder, x, y, 1024, 1024)
+                            if(lang === "en"){
+                                ctx.fillStyle = '#ffffff';
+                                ctx.textAlign='center';
+                                ctx.font = applyText(canvas, name);
+                                ctx.fillText(name, (512 + x), (y + 942))
+                                ctx.textAlign='left';
+                                ctx.font = '36px Burbank Big Condensed'
+                                ctx.fillText(price, (84 + x), (y + 987))
+                                ctx.textAlign='right';
+                                ctx.font = '36px Burbank Big Condensed'
+                                ctx.fillText(day + " Days", (982 + x), (y + 987))
+                                ctx.textAlign='left';
+                                const v = await Canvas.loadImage(vbucks);
+                                ctx.drawImage(v, (25 + x), (y + 947), 50, 50);
+                            }else if(lang === "ar"){
+                                ctx.fillStyle = '#ffffff';
+                                ctx.textAlign='center';
+                                ctx.font = applyText(canvas, name);
+                                ctx.fillText(name, (256 + x), (y + 430))
+                                ctx.textAlign='left';
+                                ctx.font = '36px Arabic'
+                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.textAlign='right';
+                                ctx.font = '36px Arabic'
+                                ctx.fillText(day + " يوم", (470 + x), (y + 475))
+                                ctx.textAlign='left';
+                                const v = await Canvas.loadImage(vbucks);
+                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                            }
+                            const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                            ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                        }
+                        if(rarity === 'common'){
+                            //creating image
+                            const skinholder = await Canvas.loadImage('./assets/Rarities/standard/common.png')
+                            ctx.drawImage(skinholder, x, y, 1024, 1024)
+                            const skin = await Canvas.loadImage(image);
+                            ctx.drawImage(skin, x, y, 1024, 1024)
+                            const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderCommon.png')
+                            ctx.drawImage(skinborder, x, y, 1024, 1024)
+                            if(lang === "en"){
+                                ctx.fillStyle = '#ffffff';
+                                ctx.textAlign='center';
+                                ctx.font = applyText(canvas, name);
+                                ctx.fillText(name, (512 + x), (y + 942))
+                                ctx.textAlign='left';
+                                ctx.font = '36px Burbank Big Condensed'
+                                ctx.fillText(price, (84 + x), (y + 987))
+                                ctx.textAlign='right';
+                                ctx.font = '36px Burbank Big Condensed'
+                                ctx.fillText(day + " Days", (982 + x), (y + 987))
+                                ctx.textAlign='left';
+                                const v = await Canvas.loadImage(vbucks);
+                                ctx.drawImage(v, (25 + x), (y + 947), 50, 50);
+                            }else if(lang === "ar"){
+                                ctx.fillStyle = '#ffffff';
+                                ctx.textAlign='center';
+                                ctx.font = applyText(canvas, name);
+                                ctx.fillText(name, (256 + x), (y + 430))
+                                ctx.textAlign='left';
+                                ctx.font = '36px Arabic'
+                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.textAlign='right';
+                                ctx.font = '36px Arabic'
+                                ctx.fillText(day + " يوم", (470 + x), (y + 475))
+                                ctx.textAlign='left';
+                                const v = await Canvas.loadImage(vbucks);
+                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                            }
+                            const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                            ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                        }
+                        if(rarity === 'marvel'){
+                            //creating image
+                            const skinholder = await Canvas.loadImage('./assets/Rarities/standard/marvel.png')
+                            ctx.drawImage(skinholder, x, y, 1024, 1024)
+                            const skin = await Canvas.loadImage(image);
+                            ctx.drawImage(skin, x, y, 1024, 1024)
+                            const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderMarvel.png')
+                            ctx.drawImage(skinborder, x, y, 1024, 1024)
+                            if(lang === "en"){
+                                ctx.fillStyle = '#ffffff';
+                                ctx.textAlign='center';
+                                ctx.font = applyText(canvas, name);
+                                ctx.fillText(name, (512 + x), (y + 942))
+                                ctx.textAlign='left';
+                                ctx.font = '36px Burbank Big Condensed'
+                                ctx.fillText(price, (84 + x), (y + 987))
+                                ctx.textAlign='right';
+                                ctx.font = '36px Burbank Big Condensed'
+                                ctx.fillText(day + " Days", (982 + x), (y + 987))
+                                ctx.textAlign='left';
+                                const v = await Canvas.loadImage(vbucks);
+                                ctx.drawImage(v, (25 + x), (y + 947), 50, 50);
+                            }else if(lang === "ar"){
+                                ctx.fillStyle = '#ffffff';
+                                ctx.textAlign='center';
+                                ctx.font = applyText(canvas, name);
+                                ctx.fillText(name, (256 + x), (y + 430))
+                                ctx.textAlign='left';
+                                ctx.font = '36px Arabic'
+                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.textAlign='right';
+                                ctx.font = '36px Arabic'
+                                ctx.fillText(day + " يوم", (470 + x), (y + 475))
+                                ctx.textAlign='left';
+                                const v = await Canvas.loadImage(vbucks);
+                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                            }
+                            const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                            ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                        }
+                        if(rarity === 'dc'){
+                            //creating image
+                            const skinholder = await Canvas.loadImage('./assets/Rarities/standard/dc.png')
+                            ctx.drawImage(skinholder, x, y, 1024, 1024)
+                            const skin = await Canvas.loadImage(image);
+                            ctx.drawImage(skin, x, y, 1024, 1024)
+                            const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderDc.png')
+                            ctx.drawImage(skinborder, x, y, 1024, 1024)
+                            ctx.drawImage(skinborder, x, y, 1024, 1024)
+                            if(lang === "en"){
+                                ctx.fillStyle = '#ffffff';
+                                ctx.textAlign='center';
+                                ctx.font = applyText(canvas, name);
+                                ctx.fillText(name, (512 + x), (y + 942))
+                                ctx.textAlign='left';
+                                ctx.font = '36px Burbank Big Condensed'
+                                ctx.fillText(price, (84 + x), (y + 987))
+                                ctx.textAlign='right';
+                                ctx.font = '36px Burbank Big Condensed'
+                                ctx.fillText(day + " Days", (982 + x), (y + 987))
+                                ctx.textAlign='left';
+                                const v = await Canvas.loadImage(vbucks);
+                                ctx.drawImage(v, (25 + x), (y + 947), 50, 50);
+                            }else if(lang === "ar"){
+                                ctx.fillStyle = '#ffffff';
+                                ctx.textAlign='center';
+                                ctx.font = applyText(canvas, name);
+                                ctx.fillText(name, (256 + x), (y + 430))
+                                ctx.textAlign='left';
+                                ctx.font = '36px Arabic'
+                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.textAlign='right';
+                                ctx.font = '36px Arabic'
+                                ctx.fillText(day + " يوم", (470 + x), (y + 475))
+                                ctx.textAlign='left';
+                                const v = await Canvas.loadImage(vbucks);
+                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                            }
+                            const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                            ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                        }
+                        if(rarity === 'dark'){
+                            //creating image
+                            const skinholder = await Canvas.loadImage('./assets/Rarities/standard/dark.png')
+                            ctx.drawImage(skinholder, x, y, 1024, 1024)
+                            const skin = await Canvas.loadImage(image);
+                            ctx.drawImage(skin, x, y, 1024, 1024)
+                            const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderDark.png')
+                            ctx.drawImage(skinborder, x, y, 1024, 1024)
+                            ctx.drawImage(skinborder, x, y, 1024, 1024)
+                            if(lang === "en"){
+                                ctx.fillStyle = '#ffffff';
+                                ctx.textAlign='center';
+                                ctx.font = applyText(canvas, name);
+                                ctx.fillText(name, (512 + x), (y + 942))
+                                ctx.textAlign='left';
+                                ctx.font = '36px Burbank Big Condensed'
+                                ctx.fillText(price, (84 + x), (y + 987))
+                                ctx.textAlign='right';
+                                ctx.font = '36px Burbank Big Condensed'
+                                ctx.fillText(day + " Days", (982 + x), (y + 987))
+                                ctx.textAlign='left';
+                                const v = await Canvas.loadImage(vbucks);
+                                ctx.drawImage(v, (25 + x), (y + 947), 50, 50);
+                            }else if(lang === "ar"){
+                                ctx.fillStyle = '#ffffff';
+                                ctx.textAlign='center';
+                                ctx.font = applyText(canvas, name);
+                                ctx.fillText(name, (256 + x), (y + 430))
+                                ctx.textAlign='left';
+                                ctx.font = '36px Arabic'
+                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.textAlign='right';
+                                ctx.font = '36px Arabic'
+                                ctx.fillText(day + " يوم", (470 + x), (y + 475))
+                                ctx.textAlign='left';
+                                const v = await Canvas.loadImage(vbucks);
+                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                            }
+                            const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                            ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                        }
+                        if(rarity === 'icon series'){
+                            //creating image
+                            const skinholder = await Canvas.loadImage('./assets/Rarities/standard/icon.png')
+                            ctx.drawImage(skinholder, x, y, 1024, 1024)
+                            const skin = await Canvas.loadImage(image);
+                            ctx.drawImage(skin, x, y, 1024, 1024)
+                            const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderIcon.png')
+                            ctx.drawImage(skinborder, x, y, 1024, 1024)
+                            if(lang === "en"){
+                                ctx.fillStyle = '#ffffff';
+                                ctx.textAlign='center';
+                                ctx.font = applyText(canvas, name);
+                                ctx.fillText(name, (512 + x), (y + 942))
+                                ctx.textAlign='left';
+                                ctx.font = '36px Burbank Big Condensed'
+                                ctx.fillText(price, (84 + x), (y + 987))
+                                ctx.textAlign='right';
+                                ctx.font = '36px Burbank Big Condensed'
+                                ctx.fillText(day + " Days", (982 + x), (y + 987))
+                                ctx.textAlign='left';
+                                const v = await Canvas.loadImage(vbucks);
+                                ctx.drawImage(v, (25 + x), (y + 947), 50, 50);
+                            }else if(lang === "ar"){
+                                ctx.fillStyle = '#ffffff';
+                                ctx.textAlign='center';
+                                ctx.font = applyText(canvas, name);
+                                ctx.fillText(name, (256 + x), (y + 430))
+                                ctx.textAlign='left';
+                                ctx.font = '36px Arabic'
+                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.textAlign='right';
+                                ctx.font = '36px Arabic'
+                                ctx.fillText(day + " يوم", (470 + x), (y + 475))
+                                ctx.textAlign='left';
+                                const v = await Canvas.loadImage(vbucks);
+                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                            }
+                            const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                            ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                            
+                        }
+                        if(rarity === 'star wars series'){
+                            //creating image
+                            const skinholder = await Canvas.loadImage('./assets/Rarities/standard/starwars.png')
+                            ctx.drawImage(skinholder, x, y, 1024, 1024)
+                            const skin = await Canvas.loadImage(image);
+                            ctx.drawImage(skin, x, y, 1024, 1024)
+                            const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderStarwars.png')
+                            ctx.drawImage(skinborder, x, y, 1024, 1024)
+                            if(lang === "en"){
+                                ctx.fillStyle = '#ffffff';
+                                ctx.textAlign='center';
+                                ctx.font = applyText(canvas, name);
+                                ctx.fillText(name, (512 + x), (y + 942))
+                                ctx.textAlign='left';
+                                ctx.font = '36px Burbank Big Condensed'
+                                ctx.fillText(price, (84 + x), (y + 987))
+                                ctx.textAlign='right';
+                                ctx.font = '36px Burbank Big Condensed'
+                                ctx.fillText(day + " Days", (982 + x), (y + 987))
+                                ctx.textAlign='left';
+                                const v = await Canvas.loadImage(vbucks);
+                                ctx.drawImage(v, (25 + x), (y + 947), 50, 50);
+                            }else if(lang === "ar"){
+                                ctx.fillStyle = '#ffffff';
+                                ctx.textAlign='center';
+                                ctx.font = applyText(canvas, name);
+                                ctx.fillText(name, (256 + x), (y + 430))
+                                ctx.textAlign='left';
+                                ctx.font = '36px Arabic'
+                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.textAlign='right';
+                                ctx.font = '36px Arabic'
+                                ctx.fillText(day + " يوم", (470 + x), (y + 475))
+                                ctx.textAlign='left';
+                                const v = await Canvas.loadImage(vbucks);
+                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                            }
+                            const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                            ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                        }
+                        if(rarity === 'shadow series'){
+                            //creating image
+                            const skinholder = await Canvas.loadImage('./assets/Rarities/standard/shadow.png')
+                            ctx.drawImage(skinholder, x, y, 1024, 1024)
+                            const skin = await Canvas.loadImage(image);
+                            ctx.drawImage(skin, x, y, 1024, 1024)
+                            const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderShadow.png')
+                            ctx.drawImage(skinborder, x, y, 1024, 1024)
+                            if(lang === "en"){
+                                ctx.fillStyle = '#ffffff';
+                                ctx.textAlign='center';
+                                ctx.font = applyText(canvas, name);
+                                ctx.fillText(name, (512 + x), (y + 942))
+                                ctx.textAlign='left';
+                                ctx.font = '36px Burbank Big Condensed'
+                                ctx.fillText(price, (84 + x), (y + 987))
+                                ctx.textAlign='right';
+                                ctx.font = '36px Burbank Big Condensed'
+                                ctx.fillText(day + " Days", (982 + x), (y + 987))
+                                ctx.textAlign='left';
+                                const v = await Canvas.loadImage(vbucks);
+                                ctx.drawImage(v, (25 + x), (y + 947), 50, 50);
+                            }else if(lang === "ar"){
+                                ctx.fillStyle = '#ffffff';
+                                ctx.textAlign='center';
+                                ctx.font = applyText(canvas, name);
+                                ctx.fillText(name, (256 + x), (y + 430))
+                                ctx.textAlign='left';
+                                ctx.font = '36px Arabic'
+                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.textAlign='right';
+                                ctx.font = '36px Arabic'
+                                ctx.fillText(day + " يوم", (470 + x), (y + 475))
+                                ctx.textAlign='left';
+                                const v = await Canvas.loadImage(vbucks);
+                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                            }
+                            const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                            ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                        }
+                        if(rarity === 'slurp series'){
+                            //creating image
+                            const skinholder = await Canvas.loadImage('./assets/Rarities/standard/slurp.png')
+                            ctx.drawImage(skinholder, x, y, 1024, 1024)
+                            const skin = await Canvas.loadImage(image);
+                            ctx.drawImage(skin, x, y, 1024, 1024)
+                            const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderSlurp.png')
+                            ctx.drawImage(skinborder, x, y, 1024, 1024)
+                            if(lang === "en"){
+                                ctx.fillStyle = '#ffffff';
+                                ctx.textAlign='center';
+                                ctx.font = applyText(canvas, name);
+                                ctx.fillText(name, (512 + x), (y + 942))
+                                ctx.textAlign='left';
+                                ctx.font = '36px Burbank Big Condensed'
+                                ctx.fillText(price, (84 + x), (y + 987))
+                                ctx.textAlign='right';
+                                ctx.font = '36px Burbank Big Condensed'
+                                ctx.fillText(day + " Days", (982 + x), (y + 987))
+                                ctx.textAlign='left';
+                                const v = await Canvas.loadImage(vbucks);
+                                ctx.drawImage(v, (25 + x), (y + 947), 50, 50);
+                            }else if(lang === "ar"){
+                                ctx.fillStyle = '#ffffff';
+                                ctx.textAlign='center';
+                                ctx.font = applyText(canvas, name);
+                                ctx.fillText(name, (256 + x), (y + 430))
+                                ctx.textAlign='left';
+                                ctx.font = '36px Arabic'
+                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.textAlign='right';
+                                ctx.font = '36px Arabic'
+                                ctx.fillText(day + " يوم", (470 + x), (y + 475))
+                                ctx.textAlign='left';
+                                const v = await Canvas.loadImage(vbucks);
+                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                            }
+                            const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                            ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                            
+                        }
+                        if(rarity === 'frozen series'){
+                            //creating image
+                            const skinholder = await Canvas.loadImage('./assets/Rarities/standard/frozen.png')
+                            ctx.drawImage(skinholder, x, y, 1024, 1024)
+                            const skin = await Canvas.loadImage(image);
+                            ctx.drawImage(skin, x, y, 1024, 1024)
+                            const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderFrozen.png')
+                            ctx.drawImage(skinborder, x, y, 1024, 1024)
+                            if(lang === "en"){
+                                ctx.fillStyle = '#ffffff';
+                                ctx.textAlign='center';
+                                ctx.font = applyText(canvas, name);
+                                ctx.fillText(name, (512 + x), (y + 942))
+                                ctx.textAlign='left';
+                                ctx.font = '36px Burbank Big Condensed'
+                                ctx.fillText(price, (84 + x), (y + 987))
+                                ctx.textAlign='right';
+                                ctx.font = '36px Burbank Big Condensed'
+                                ctx.fillText(day + " Days", (982 + x), (y + 987))
+                                ctx.textAlign='left';
+                                const v = await Canvas.loadImage(vbucks);
+                                ctx.drawImage(v, (25 + x), (y + 947), 50, 50);
+                            }else if(lang === "ar"){
+                                ctx.fillStyle = '#ffffff';
+                                ctx.textAlign='center';
+                                ctx.font = applyText(canvas, name);
+                                ctx.fillText(name, (256 + x), (y + 430))
+                                ctx.textAlign='left';
+                                ctx.font = '36px Arabic'
+                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.textAlign='right';
+                                ctx.font = '36px Arabic'
+                                ctx.fillText(day + " يوم", (470 + x), (y + 475))
+                                ctx.textAlign='left';
+                                const v = await Canvas.loadImage(vbucks);
+                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                            }
+                            const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                            ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                            
+                        }
+                        if(rarity === 'lava series'){
+                            //creating image
+                            const skinholder = await Canvas.loadImage('./assets/Rarities/standard/lava.png')
+                            ctx.drawImage(skinholder, x, y, 1024, 1024)
+                            const skin = await Canvas.loadImage(image);
+                            ctx.drawImage(skin, x, y, 1024, 1024)
+                            const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderLava.png')
+                            ctx.drawImage(skinborder, x, y, 1024, 1024)
+                            if(lang === "en"){
+                                ctx.fillStyle = '#ffffff';
+                                ctx.textAlign='center';
+                                ctx.font = applyText(canvas, name);
+                                ctx.fillText(name, (512 + x), (y + 942))
+                                ctx.textAlign='left';
+                                ctx.font = '36px Burbank Big Condensed'
+                                ctx.fillText(price, (84 + x), (y + 987))
+                                ctx.textAlign='right';
+                                ctx.font = '36px Burbank Big Condensed'
+                                ctx.fillText(day + " Days", (982 + x), (y + 987))
+                                ctx.textAlign='left';
+                                const v = await Canvas.loadImage(vbucks);
+                                ctx.drawImage(v, (25 + x), (y + 947), 50, 50);
+                            }else if(lang === "ar"){
+                                ctx.fillStyle = '#ffffff';
+                                ctx.textAlign='center';
+                                ctx.font = applyText(canvas, name);
+                                ctx.fillText(name, (256 + x), (y + 430))
+                                ctx.textAlign='left';
+                                ctx.font = '36px Arabic'
+                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.textAlign='right';
+                                ctx.font = '36px Arabic'
+                                ctx.fillText(day + " يوم", (470 + x), (y + 475))
+                                ctx.textAlign='left';
+                                const v = await Canvas.loadImage(vbucks);
+                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                            }
+                            const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                            ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                            
+                        }
+                        if(rarity === 'platform series'){
+                            //creating image
+                            const skinholder = await Canvas.loadImage('./assets/Rarities/standard/gaming.png')
+                            ctx.drawImage(skinholder, x, y, 1024, 1024)
+                            const skin = await Canvas.loadImage(image);
+                            ctx.drawImage(skin, x, y, 1024, 1024)
+                            const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderGaming.png')
+                            ctx.drawImage(skinborder, x, y, 1024, 1024)
+                            if(lang === "en"){
+                                ctx.fillStyle = '#ffffff';
+                                ctx.textAlign='center';
+                                ctx.font = applyText(canvas, name);
+                                ctx.fillText(name, (512 + x), (y + 942))
+                                ctx.textAlign='left';
+                                ctx.font = '36px Burbank Big Condensed'
+                                ctx.fillText(price, (84 + x), (y + 987))
+                                ctx.textAlign='right';
+                                ctx.font = '36px Burbank Big Condensed'
+                                ctx.fillText(day + " Days", (982 + x), (y + 987))
+                                ctx.textAlign='left';
+                                const v = await Canvas.loadImage(vbucks);
+                                ctx.drawImage(v, (25 + x), (y + 947), 50, 50);
+                            }else if(lang === "ar"){
+                                ctx.fillStyle = '#ffffff';
+                                ctx.textAlign='center';
+                                ctx.font = applyText(canvas, name);
+                                ctx.fillText(name, (256 + x), (y + 430))
+                                ctx.textAlign='left';
+                                ctx.font = '36px Arabic'
+                                ctx.fillText(price, (84 + x), (y + 475))
+                                ctx.textAlign='right';
+                                ctx.font = '36px Arabic'
+                                ctx.fillText(day + " يوم", (470 + x), (y + 475))
+                                ctx.textAlign='left';
+                                const v = await Canvas.loadImage(vbucks);
+                                ctx.drawImage(v, (25 + x), (y + 435), 50, 50);
+                            }
+                            const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                            ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                        }
+
+                            // changing x and y
+                            x = x + 25 + 1024; 
+                            if (newline === 3){
+                                y = y + 25 + 1024;
+                                newline = 0
+                                x = 250
+                            }
+                        }
+                    }
                 const sending = new Discord.MessageEmbed()
                 .setColor('#BB00EE')
                 .setTitle(`${send} ${emoji}`)

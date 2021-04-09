@@ -298,13 +298,13 @@ module.exports = {
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
                                 ctx.font = '36px Burbank Big Condensed'
-                                ctx.fillText(price, (30 + x), (y + 490))
+                                ctx.fillText(price, (40 + x), (y + 490))
                                 ctx.textAlign='right';
                                 ctx.font = '36px Burbank Big Condensed'
                                 ctx.fillText(day + " Days", (487 + x), (y + 490))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 450), 50, 50);
+                                ctx.drawImage(v, (10 + x), (y + 450), 50, 50);
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';

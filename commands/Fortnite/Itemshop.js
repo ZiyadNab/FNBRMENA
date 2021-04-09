@@ -166,8 +166,13 @@ module.exports = {
                 ctx.drawImage(background, 0, 0, canvas.width, canvas.height)
 
                 //code
-                const code = await Canvas.loadImage('./assets/Credits/code.png')
-                ctx.drawImage(code, 100, (height - 300), 1000, 200)
+                if(lang === "en"){
+                    const code = await Canvas.loadImage('./assets/Credits/code.png')
+                    ctx.drawImage(code, 100, (height - 300), 1000, 200)
+                }else if(lang === "ar"){
+                    const code = await Canvas.loadImage('./assets/Credits/codeAR.png')
+                    ctx.drawImage(code, (canvas.width - 1100), (height - 300), 1000, 200)
+                }
 
                 if(lang === "en"){
                     ctx.fillStyle = '#ffffff';
@@ -2170,7 +2175,7 @@ module.exports = {
                         x = 200
                         y = yBundleEN
                     }else if(lang == "ar"){
-                        X = canvas.width - (250 + 1024)
+                        X = canvas.width - (250)
                         y = yBundleAR
                     }
 

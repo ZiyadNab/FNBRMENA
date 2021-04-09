@@ -108,6 +108,18 @@ module.exports = {
                     }
                 }
 
+                lines = 0;
+                if(res.offers.length !== 0){
+                    height += 1224
+                    for(let i = 0; i < res.offers.length; i++){
+                        lines++;
+                        if(3 === lines){
+                            height += 512 +50;
+                            lines = 0;
+                        }
+                    }
+                }
+
                 height += 300;
 
                 //applyText

@@ -1497,7 +1497,7 @@ module.exports = {
                     if(lang === "en"){
                         ctx.fillStyle = '#ffffff';
                         ctx.font = '150px Burbank Big Condensed'
-                        ctx.fillText("Daily", x, (y - 50))
+                        ctx.fillText("Special Featured", x, (y - 50))
                     }else if(lang === "ar"){
                         if(sp === 3){
                             ctx.fillStyle = '#ffffff';
@@ -2170,11 +2170,12 @@ module.exports = {
                     if(lang === "en"){
                         ctx.fillStyle = '#ffffff';
                         ctx.font = '150px Burbank Big Condensed'
-                        ctx.fillText("Special Featured", x, (y - 50))
+                        ctx.fillText("Bundles", x, (y - 50))
                     }else if(lang === "ar"){
                         ctx.fillStyle = '#ffffff';
+                        ctx.textAlign='right';
                         ctx.font = '150px Arabic'
-                        ctx.fillText("عروض مميزة", x, (y - 50))
+                        ctx.fillText("الحزم", x + 2074, (y - 50))
                     }
 
                     //searching

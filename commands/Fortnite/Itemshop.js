@@ -158,9 +158,15 @@ module.exports = {
                     ctx.font = '150px Burbank Big Condensed'
                     ctx.fillText("Featured", x, (y - 50))
                 }else if(lang === "ar"){
-                    ctx.fillStyle = '#ffffff';
-                    ctx.font = '150px Arabic'
-                    ctx.fillText("مميز", x, (y - 50))
+                    if(fe === 3){
+                        ctx.fillStyle = '#ffffff';
+                        ctx.font = '150px Arabic'
+                        ctx.fillText("مميز", x + 1836, (y - 50))
+                    }else if(fe === 5){
+                        ctx.fillStyle = '#ffffff';
+                        ctx.font = '150px Arabic'
+                        ctx.fillText("مميز", x + 2910, (y - 50))
+                    }
                 }
 
                 //searching
@@ -775,7 +781,7 @@ module.exports = {
                     y = y + 25 + 512;
                     x = 250;
                     newline = 0;
-                    yBundle += y + 25 + 512
+                    yBundle = y + 25 + 512
                 }
                 
             }
@@ -795,9 +801,15 @@ module.exports = {
                             ctx.font = '150px Burbank Big Condensed'
                             ctx.fillText("Daily", x, (y - 50))
                         }else if(lang === "ar"){
-                            ctx.fillStyle = '#ffffff';
-                            ctx.font = '150px Arabic'
-                            ctx.fillText("يومي", x, (y - 50))
+                            if(fe === 3){
+                                ctx.fillStyle = '#ffffff';
+                                ctx.font = '150px Arabic'
+                                ctx.fillText("يومي", x + 3160, (y - 50))
+                            }else if(fe === 5){
+                                ctx.fillStyle = '#ffffff';
+                                ctx.font = '150px Arabic'
+                                ctx.fillText("يومي", x + 7464, (y - 50))
+                            }
                         }
 
                     //searching

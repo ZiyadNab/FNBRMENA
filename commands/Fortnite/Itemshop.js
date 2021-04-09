@@ -141,7 +141,7 @@ module.exports = {
                 //applyText
                 const applyTextBundle = (canvas, text) => {
                     const ctx = canvas.getContext('2d');
-                    let fontSize = 160;
+                    let fontSize = 150;
                     do {
                         if(lang === "en"){
                             ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
@@ -2207,14 +2207,14 @@ module.exports = {
                                 ctx.font = applyTextBundle(canvas, name);
                                 ctx.fillText(name, (512 + x), (y + 942))
                                 ctx.textAlign='left';
-                                ctx.font = '100px Burbank Big Condensed'
+                                ctx.font = '80px Burbank Big Condensed'
                                 ctx.fillText(price, (84 + x), (y + 987))
                                 ctx.textAlign='right';
-                                ctx.font = '100px Burbank Big Condensed'
+                                ctx.font = '80px Burbank Big Condensed'
                                 ctx.fillText(day + " Days", (982 + x), (y + 987))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 947), 50, 50);
+                                ctx.drawImage(v, (25 + x), (y + 947), 70, 70);
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
@@ -2248,14 +2248,14 @@ module.exports = {
                                 ctx.font = applyTextBundle(canvas, name);
                                 ctx.fillText(name, (512 + x), (y + 942))
                                 ctx.textAlign='left';
-                                ctx.font = '100px Burbank Big Condensed'
+                                ctx.font = '80px Burbank Big Condensed'
                                 ctx.fillText(price, (84 + x), (y + 987))
                                 ctx.textAlign='right';
-                                ctx.font = '100px Burbank Big Condensed'
+                                ctx.font = '80px Burbank Big Condensed'
                                 ctx.fillText(day + " Days", (982 + x), (y + 987))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 947), 50, 50);
+                                ctx.drawImage(v, (25 + x), (y + 947), 70, 70);
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
@@ -2288,24 +2288,24 @@ module.exports = {
                                 ctx.font = applyTextBundle(canvas, name);
                                 ctx.fillText(name, (512 + x), (y + 880))
                                 ctx.textAlign='left';
-                                ctx.font = '100px Burbank Big Condensed'
+                                ctx.font = '80px Burbank Big Condensed'
                                 ctx.fillText(price, (84 + x), (y + 987))
                                 ctx.textAlign='right';
-                                ctx.font = '100px Burbank Big Condensed'
+                                ctx.font = '80px Burbank Big Condensed'
                                 ctx.fillText(day + " Days", (982 + x), (y + 987))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 947), 50, 50);
+                                ctx.drawImage(v, (25 + x), (y + 947), 70, 70);
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
                                 ctx.font = applyTextBundle(canvas, name);
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
-                                ctx.font = '100px Arabic'
+                                ctx.font = '80px Arabic'
                                 ctx.fillText(price, (84 + x), (y + 475))
                                 ctx.textAlign='right';
-                                ctx.font = '100px Arabic'
+                                ctx.font = '80px Arabic'
                                 ctx.fillText(day + " يوم", (470 + x), (y + 475))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
@@ -2328,24 +2328,24 @@ module.exports = {
                                 ctx.font = applyTextBundle(canvas, name);
                                 ctx.fillText(name, (512 + x), (y + 880))
                                 ctx.textAlign='left';
-                                ctx.font = '100px Burbank Big Condensed'
+                                ctx.font = '80px Burbank Big Condensed'
                                 ctx.fillText(price, (84 + x), (y + 987))
                                 ctx.textAlign='right';
-                                ctx.font = '100px Burbank Big Condensed'
+                                ctx.font = '80px Burbank Big Condensed'
                                 ctx.fillText(day + " Days", (982 + x), (y + 987))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 947), 50, 50);
+                                ctx.drawImage(v, (25 + x), (y + 947), 70, 70);
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
                                 ctx.font = applyTextBundle(canvas, name);
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
-                                ctx.font = '100px Arabic'
+                                ctx.font = '80px Arabic'
                                 ctx.fillText(price, (84 + x), (y + 475))
                                 ctx.textAlign='right';
-                                ctx.font = '100px Arabic'
+                                ctx.font = '80px Arabic'
                                 ctx.fillText(day + " يوم", (470 + x), (y + 475))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
@@ -2368,24 +2368,24 @@ module.exports = {
                                 ctx.font = applyTextBundle(canvas, name);
                                 ctx.fillText(name, (512 + x), (y + 942))
                                 ctx.textAlign='left';
-                                ctx.font = '100px Burbank Big Condensed'
+                                ctx.font = '80px Burbank Big Condensed'
                                 ctx.fillText(price, (84 + x), (y + 987))
                                 ctx.textAlign='right';
-                                ctx.font = '100px Burbank Big Condensed'
+                                ctx.font = '80px Burbank Big Condensed'
                                 ctx.fillText(day + " Days", (982 + x), (y + 987))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 947), 50, 50);
+                                ctx.drawImage(v, (25 + x), (y + 947), 70, 70);
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
                                 ctx.font = applyTextBundle(canvas, name);
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
-                                ctx.font = '100px Arabic'
+                                ctx.font = '80px Arabic'
                                 ctx.fillText(price, (84 + x), (y + 475))
                                 ctx.textAlign='right';
-                                ctx.font = '100px Arabic'
+                                ctx.font = '80px Arabic'
                                 ctx.fillText(day + " يوم", (470 + x), (y + 475))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
@@ -2408,24 +2408,24 @@ module.exports = {
                                 ctx.font = applyTextBundle(canvas, name);
                                 ctx.fillText(name, (512 + x), (y + 942))
                                 ctx.textAlign='left';
-                                ctx.font = '100px Burbank Big Condensed'
+                                ctx.font = '80px Burbank Big Condensed'
                                 ctx.fillText(price, (84 + x), (y + 987))
                                 ctx.textAlign='right';
-                                ctx.font = '100px Burbank Big Condensed'
+                                ctx.font = '80px Burbank Big Condensed'
                                 ctx.fillText(day + " Days", (982 + x), (y + 987))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 947), 50, 50);
+                                ctx.drawImage(v, (25 + x), (y + 947), 70, 70);
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
                                 ctx.font = applyTextBundle(canvas, name);
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
-                                ctx.font = '100px Arabic'
+                                ctx.font = '80px Arabic'
                                 ctx.fillText(price, (84 + x), (y + 475))
                                 ctx.textAlign='right';
-                                ctx.font = '100px Arabic'
+                                ctx.font = '80px Arabic'
                                 ctx.fillText(day + " يوم", (470 + x), (y + 475))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
@@ -2449,24 +2449,24 @@ module.exports = {
                                 ctx.font = applyTextBundle(canvas, name);
                                 ctx.fillText(name, (512 + x), (y + 942))
                                 ctx.textAlign='left';
-                                ctx.font = '100px Burbank Big Condensed'
+                                ctx.font = '80px Burbank Big Condensed'
                                 ctx.fillText(price, (84 + x), (y + 987))
                                 ctx.textAlign='right';
-                                ctx.font = '100px Burbank Big Condensed'
+                                ctx.font = '80px Burbank Big Condensed'
                                 ctx.fillText(day + " Days", (982 + x), (y + 987))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 947), 50, 50);
+                                ctx.drawImage(v, (25 + x), (y + 947), 70, 70);
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
                                 ctx.font = applyTextBundle(canvas, name);
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
-                                ctx.font = '100px Arabic'
+                                ctx.font = '80px Arabic'
                                 ctx.fillText(price, (84 + x), (y + 475))
                                 ctx.textAlign='right';
-                                ctx.font = '100px Arabic'
+                                ctx.font = '80px Arabic'
                                 ctx.fillText(day + " يوم", (470 + x), (y + 475))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
@@ -2490,24 +2490,24 @@ module.exports = {
                                 ctx.font = applyTextBundle(canvas, name);
                                 ctx.fillText(name, (512 + x), (y + 942))
                                 ctx.textAlign='left';
-                                ctx.font = '100px Burbank Big Condensed'
+                                ctx.font = '80px Burbank Big Condensed'
                                 ctx.fillText(price, (84 + x), (y + 987))
                                 ctx.textAlign='right';
-                                ctx.font = '100px Burbank Big Condensed'
+                                ctx.font = '80px Burbank Big Condensed'
                                 ctx.fillText(day + " Days", (982 + x), (y + 987))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 947), 50, 50);
+                                ctx.drawImage(v, (25 + x), (y + 947), 70, 70);
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
                                 ctx.font = applyTextBundle(canvas, name);
                                 ctx.fillText(name, (256 + x), (y + 430))
                                 ctx.textAlign='left';
-                                ctx.font = '100px Arabic'
+                                ctx.font = '80px Arabic'
                                 ctx.fillText(price, (84 + x), (y + 475))
                                 ctx.textAlign='right';
-                                ctx.font = '100px Arabic'
+                                ctx.font = '80px Arabic'
                                 ctx.fillText(day + " يوم", (470 + x), (y + 475))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
@@ -2530,14 +2530,14 @@ module.exports = {
                                 ctx.font = applyTextBundle(canvas, name);
                                 ctx.fillText(name, (512 + x), (y + 942))
                                 ctx.textAlign='left';
-                                ctx.font = '100px Burbank Big Condensed'
+                                ctx.font = '80px Burbank Big Condensed'
                                 ctx.fillText(price, (84 + x), (y + 987))
                                 ctx.textAlign='right';
-                                ctx.font = '100px Burbank Big Condensed'
+                                ctx.font = '80px Burbank Big Condensed'
                                 ctx.fillText(day + " Days", (982 + x), (y + 987))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 947), 50, 50);
+                                ctx.drawImage(v, (25 + x), (y + 947), 70, 70);
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
@@ -2571,14 +2571,14 @@ module.exports = {
                                 ctx.font = applyTextBundle(canvas, name);
                                 ctx.fillText(name, (512 + x), (y + 942))
                                 ctx.textAlign='left';
-                                ctx.font = '100px Burbank Big Condensed'
+                                ctx.font = '80px Burbank Big Condensed'
                                 ctx.fillText(price, (84 + x), (y + 987))
                                 ctx.textAlign='right';
-                                ctx.font = '100px Burbank Big Condensed'
+                                ctx.font = '80px Burbank Big Condensed'
                                 ctx.fillText(day + " Days", (982 + x), (y + 987))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 947), 50, 50);
+                                ctx.drawImage(v, (25 + x), (y + 947), 70, 70);
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
@@ -2611,14 +2611,14 @@ module.exports = {
                                 ctx.font = applyTextBundle(canvas, name);
                                 ctx.fillText(name, (512 + x), (y + 942))
                                 ctx.textAlign='left';
-                                ctx.font = '100px Burbank Big Condensed'
+                                ctx.font = '80px Burbank Big Condensed'
                                 ctx.fillText(price, (84 + x), (y + 987))
                                 ctx.textAlign='right';
-                                ctx.font = '100px Burbank Big Condensed'
+                                ctx.font = '80px Burbank Big Condensed'
                                 ctx.fillText(day + " Days", (982 + x), (y + 987))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 947), 50, 50);
+                                ctx.drawImage(v, (25 + x), (y + 947), 70, 70);
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
@@ -2651,14 +2651,14 @@ module.exports = {
                                 ctx.font = applyTextBundle(canvas, name);
                                 ctx.fillText(name, (512 + x), (y + 942))
                                 ctx.textAlign='left';
-                                ctx.font = '100px Burbank Big Condensed'
+                                ctx.font = '80px Burbank Big Condensed'
                                 ctx.fillText(price, (84 + x), (y + 987))
                                 ctx.textAlign='right';
-                                ctx.font = '100px Burbank Big Condensed'
+                                ctx.font = '80px Burbank Big Condensed'
                                 ctx.fillText(day + " Days", (982 + x), (y + 987))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 947), 50, 50);
+                                ctx.drawImage(v, (25 + x), (y + 947), 70, 70);
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
@@ -2692,14 +2692,14 @@ module.exports = {
                                 ctx.font = applyTextBundle(canvas, name);
                                 ctx.fillText(name, (512 + x), (y + 942))
                                 ctx.textAlign='left';
-                                ctx.font = '100px Burbank Big Condensed'
+                                ctx.font = '80px Burbank Big Condensed'
                                 ctx.fillText(price, (84 + x), (y + 987))
                                 ctx.textAlign='right';
-                                ctx.font = '100px Burbank Big Condensed'
+                                ctx.font = '80px Burbank Big Condensed'
                                 ctx.fillText(day + " Days", (982 + x), (y + 987))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 947), 50, 50);
+                                ctx.drawImage(v, (25 + x), (y + 947), 70, 70);
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
@@ -2733,14 +2733,14 @@ module.exports = {
                                 ctx.font = applyTextBundle(canvas, name);
                                 ctx.fillText(name, (512 + x), (y + 942))
                                 ctx.textAlign='left';
-                                ctx.font = '100px Burbank Big Condensed'
+                                ctx.font = '80px Burbank Big Condensed'
                                 ctx.fillText(price, (84 + x), (y + 987))
                                 ctx.textAlign='right';
-                                ctx.font = '100px Burbank Big Condensed'
+                                ctx.font = '80px Burbank Big Condensed'
                                 ctx.fillText(day + " Days", (982 + x), (y + 987))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 947), 50, 50);
+                                ctx.drawImage(v, (25 + x), (y + 947), 70, 70);
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
@@ -2774,14 +2774,14 @@ module.exports = {
                                 ctx.font = applyTextBundle(canvas, name);
                                 ctx.fillText(name, (512 + x), (y + 942))
                                 ctx.textAlign='left';
-                                ctx.font = '100px Burbank Big Condensed'
+                                ctx.font = '80px Burbank Big Condensed'
                                 ctx.fillText(price, (84 + x), (y + 987))
                                 ctx.textAlign='right';
-                                ctx.font = '100px Burbank Big Condensed'
+                                ctx.font = '80px Burbank Big Condensed'
                                 ctx.fillText(day + " Days", (982 + x), (y + 987))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (25 + x), (y + 947), 50, 50);
+                                ctx.drawImage(v, (25 + x), (y + 947), 70, 70);
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';

@@ -2208,7 +2208,7 @@ module.exports = {
                                 ctx.fillText(name, (512 + x), (y + 942))
                                 ctx.textAlign='left';
                                 ctx.font = '80px Burbank Big Condensed'
-                                ctx.fillText(price, (103 + x), (y + 987))
+                                ctx.fillText(price, (105 + x), (y + 987))
                                 ctx.textAlign='right';
                                 ctx.font = '80px Burbank Big Condensed'
                                 ctx.fillText(day + " Days", (982 + x), (y + 987))
@@ -2219,19 +2219,19 @@ module.exports = {
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
                                 ctx.font = applyTextBundle(canvas, name);
-                                ctx.fillText(name, (512 + x), (y + 910))
+                                ctx.fillText(name, (512 + x), (y + 890))
                                 ctx.textAlign='left';
                                 ctx.font = '80px Arabic'
-                                ctx.fillText(price, (103 + x), (y + 987))
+                                ctx.fillText(price, (105 + x), (y + 987))
                                 ctx.textAlign='right';
                                 ctx.font = '80px Arabic'
-                                ctx.fillText(day + " يوم", (982 + x), (y + 987))
+                                ctx.fillText(day + " يوم", (982 + x), (y + 975))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
                                 ctx.drawImage(v, (25 + x), (y + 920), 80, 80);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                            ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                            ctx.drawImage(credit, (15 + x), (y + 15), 292, 80);
                             
                         }
                         if(rarity === 'epic'){
@@ -2249,7 +2249,7 @@ module.exports = {
                                 ctx.fillText(name, (512 + x), (y + 942))
                                 ctx.textAlign='left';
                                 ctx.font = '80px Burbank Big Condensed'
-                                ctx.fillText(price, (103 + x), (y + 987))
+                                ctx.fillText(price, (105 + x), (y + 987))
                                 ctx.textAlign='right';
                                 ctx.font = '80px Burbank Big Condensed'
                                 ctx.fillText(day + " Days", (982 + x), (y + 987))
@@ -2260,19 +2260,19 @@ module.exports = {
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
                                 ctx.font = applyTextBundle(canvas, name);
-                                ctx.fillText(name, (512 + x), (y + 910))
+                                ctx.fillText(name, (512 + x), (y + 890))
                                 ctx.textAlign='left';
                                 ctx.font = '80px Arabic'
-                                ctx.fillText(price, (103 + x), (y + 987))
+                                ctx.fillText(price, (105 + x), (y + 987))
                                 ctx.textAlign='right';
                                 ctx.font = '80px Arabic'
-                                ctx.fillText(day + " يوم", (982 + x), (y + 987))
+                                ctx.fillText(day + " يوم", (982 + x), (y + 975))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
                                 ctx.drawImage(v, (25 + x), (y + 920), 80, 80);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                            ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                            ctx.drawImage(credit, (15 + x), (y + 15), 292, 80);
                         }
                         if(rarity === 'rare'){
                             //creating image
@@ -2289,7 +2289,7 @@ module.exports = {
                                 ctx.fillText(name, (512 + x), (y + 880))
                                 ctx.textAlign='left';
                                 ctx.font = '80px Burbank Big Condensed'
-                                ctx.fillText(price, (103 + x), (y + 987))
+                                ctx.fillText(price, (105 + x), (y + 987))
                                 ctx.textAlign='right';
                                 ctx.font = '80px Burbank Big Condensed'
                                 ctx.fillText(day + " Days", (982 + x), (y + 987))
@@ -2300,19 +2300,19 @@ module.exports = {
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
                                 ctx.font = applyTextBundle(canvas, name);
-                                ctx.fillText(name, (512 + x), (y + 910))
+                                ctx.fillText(name, (512 + x), (y + 890))
                                 ctx.textAlign='left';
                                 ctx.font = '80px Arabic'
-                                ctx.fillText(price, (103 + x), (y + 987))
+                                ctx.fillText(price, (105 + x), (y + 987))
                                 ctx.textAlign='right';
                                 ctx.font = '80px Arabic'
-                                ctx.fillText(day + " يوم", (982 + x), (y + 987))
+                                ctx.fillText(day + " يوم", (982 + x), (y + 975))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
                                 ctx.drawImage(v, (25 + x), (y + 920), 80, 80);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                            ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                            ctx.drawImage(credit, (15 + x), (y + 15), 292, 80);
                         }
                         if(rarity === 'uncommon'){
                             //creating image
@@ -2329,7 +2329,7 @@ module.exports = {
                                 ctx.fillText(name, (512 + x), (y + 880))
                                 ctx.textAlign='left';
                                 ctx.font = '80px Burbank Big Condensed'
-                                ctx.fillText(price, (103 + x), (y + 987))
+                                ctx.fillText(price, (105 + x), (y + 987))
                                 ctx.textAlign='right';
                                 ctx.font = '80px Burbank Big Condensed'
                                 ctx.fillText(day + " Days", (982 + x), (y + 987))
@@ -2340,19 +2340,19 @@ module.exports = {
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
                                 ctx.font = applyTextBundle(canvas, name);
-                                ctx.fillText(name, (512 + x), (y + 910))
+                                ctx.fillText(name, (512 + x), (y + 890))
                                 ctx.textAlign='left';
                                 ctx.font = '80px Arabic'
-                                ctx.fillText(price, (103 + x), (y + 987))
+                                ctx.fillText(price, (105 + x), (y + 987))
                                 ctx.textAlign='right';
                                 ctx.font = '80px Arabic'
-                                ctx.fillText(day + " يوم", (982 + x), (y + 987))
+                                ctx.fillText(day + " يوم", (982 + x), (y + 975))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
                                 ctx.drawImage(v, (25 + x), (y + 920), 80, 80);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                            ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                            ctx.drawImage(credit, (15 + x), (y + 15), 292, 80);
                         }
                         if(rarity === 'common'){
                             //creating image
@@ -2369,7 +2369,7 @@ module.exports = {
                                 ctx.fillText(name, (512 + x), (y + 942))
                                 ctx.textAlign='left';
                                 ctx.font = '80px Burbank Big Condensed'
-                                ctx.fillText(price, (103 + x), (y + 987))
+                                ctx.fillText(price, (105 + x), (y + 987))
                                 ctx.textAlign='right';
                                 ctx.font = '80px Burbank Big Condensed'
                                 ctx.fillText(day + " Days", (982 + x), (y + 987))
@@ -2380,19 +2380,19 @@ module.exports = {
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
                                 ctx.font = applyTextBundle(canvas, name);
-                                ctx.fillText(name, (512 + x), (y + 910))
+                                ctx.fillText(name, (512 + x), (y + 890))
                                 ctx.textAlign='left';
                                 ctx.font = '80px Arabic'
-                                ctx.fillText(price, (103 + x), (y + 987))
+                                ctx.fillText(price, (105 + x), (y + 987))
                                 ctx.textAlign='right';
                                 ctx.font = '80px Arabic'
-                                ctx.fillText(day + " يوم", (982 + x), (y + 987))
+                                ctx.fillText(day + " يوم", (982 + x), (y + 975))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
                                 ctx.drawImage(v, (25 + x), (y + 920), 80, 80);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                            ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                            ctx.drawImage(credit, (15 + x), (y + 15), 292, 80);
                         }
                         if(rarity === 'marvel'){
                             //creating image
@@ -2409,7 +2409,7 @@ module.exports = {
                                 ctx.fillText(name, (512 + x), (y + 942))
                                 ctx.textAlign='left';
                                 ctx.font = '80px Burbank Big Condensed'
-                                ctx.fillText(price, (103 + x), (y + 987))
+                                ctx.fillText(price, (105 + x), (y + 987))
                                 ctx.textAlign='right';
                                 ctx.font = '80px Burbank Big Condensed'
                                 ctx.fillText(day + " Days", (982 + x), (y + 987))
@@ -2420,19 +2420,19 @@ module.exports = {
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
                                 ctx.font = applyTextBundle(canvas, name);
-                                ctx.fillText(name, (512 + x), (y + 910))
+                                ctx.fillText(name, (512 + x), (y + 890))
                                 ctx.textAlign='left';
                                 ctx.font = '80px Arabic'
-                                ctx.fillText(price, (103 + x), (y + 987))
+                                ctx.fillText(price, (105 + x), (y + 987))
                                 ctx.textAlign='right';
                                 ctx.font = '80px Arabic'
-                                ctx.fillText(day + " يوم", (982 + x), (y + 987))
+                                ctx.fillText(day + " يوم", (982 + x), (y + 975))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
                                 ctx.drawImage(v, (25 + x), (y + 920), 80, 80);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                            ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                            ctx.drawImage(credit, (15 + x), (y + 15), 292, 80);
                         }
                         if(rarity === 'dc'){
                             //creating image
@@ -2450,7 +2450,7 @@ module.exports = {
                                 ctx.fillText(name, (512 + x), (y + 942))
                                 ctx.textAlign='left';
                                 ctx.font = '80px Burbank Big Condensed'
-                                ctx.fillText(price, (103 + x), (y + 987))
+                                ctx.fillText(price, (105 + x), (y + 987))
                                 ctx.textAlign='right';
                                 ctx.font = '80px Burbank Big Condensed'
                                 ctx.fillText(day + " Days", (982 + x), (y + 987))
@@ -2461,19 +2461,19 @@ module.exports = {
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
                                 ctx.font = applyTextBundle(canvas, name);
-                                ctx.fillText(name, (512 + x), (y + 910))
+                                ctx.fillText(name, (512 + x), (y + 890))
                                 ctx.textAlign='left';
                                 ctx.font = '80px Arabic'
-                                ctx.fillText(price, (103 + x), (y + 987))
+                                ctx.fillText(price, (105 + x), (y + 987))
                                 ctx.textAlign='right';
                                 ctx.font = '80px Arabic'
-                                ctx.fillText(day + " يوم", (982 + x), (y + 987))
+                                ctx.fillText(day + " يوم", (982 + x), (y + 975))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
                                 ctx.drawImage(v, (25 + x), (y + 920), 80, 80);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                            ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                            ctx.drawImage(credit, (15 + x), (y + 15), 292, 80);
                         }
                         if(rarity === 'dark'){
                             //creating image
@@ -2491,7 +2491,7 @@ module.exports = {
                                 ctx.fillText(name, (512 + x), (y + 942))
                                 ctx.textAlign='left';
                                 ctx.font = '80px Burbank Big Condensed'
-                                ctx.fillText(price, (103 + x), (y + 987))
+                                ctx.fillText(price, (105 + x), (y + 987))
                                 ctx.textAlign='right';
                                 ctx.font = '80px Burbank Big Condensed'
                                 ctx.fillText(day + " Days", (982 + x), (y + 987))
@@ -2502,19 +2502,19 @@ module.exports = {
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
                                 ctx.font = applyTextBundle(canvas, name);
-                                ctx.fillText(name, (512 + x), (y + 910))
+                                ctx.fillText(name, (512 + x), (y + 890))
                                 ctx.textAlign='left';
                                 ctx.font = '80px Arabic'
-                                ctx.fillText(price, (103 + x), (y + 987))
+                                ctx.fillText(price, (105 + x), (y + 987))
                                 ctx.textAlign='right';
                                 ctx.font = '80px Arabic'
-                                ctx.fillText(day + " يوم", (982 + x), (y + 987))
+                                ctx.fillText(day + " يوم", (982 + x), (y + 975))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
                                 ctx.drawImage(v, (25 + x), (y + 920), 80, 80);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                            ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                            ctx.drawImage(credit, (15 + x), (y + 15), 292, 80);
                         }
                         if(rarity === 'icon series'){
                             //creating image
@@ -2531,7 +2531,7 @@ module.exports = {
                                 ctx.fillText(name, (512 + x), (y + 942))
                                 ctx.textAlign='left';
                                 ctx.font = '80px Burbank Big Condensed'
-                                ctx.fillText(price, (103 + x), (y + 987))
+                                ctx.fillText(price, (105 + x), (y + 987))
                                 ctx.textAlign='right';
                                 ctx.font = '80px Burbank Big Condensed'
                                 ctx.fillText(day + " Days", (982 + x), (y + 987))
@@ -2542,19 +2542,19 @@ module.exports = {
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
                                 ctx.font = applyTextBundle(canvas, name);
-                                ctx.fillText(name, (512 + x), (y + 910))
+                                ctx.fillText(name, (512 + x), (y + 890))
                                 ctx.textAlign='left';
                                 ctx.font = '80px Arabic'
-                                ctx.fillText(price, (103 + x), (y + 987))
+                                ctx.fillText(price, (105 + x), (y + 987))
                                 ctx.textAlign='right';
                                 ctx.font = '80px Arabic'
-                                ctx.fillText(day + " يوم", (982 + x), (y + 987))
+                                ctx.fillText(day + " يوم", (982 + x), (y + 975))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
                                 ctx.drawImage(v, (25 + x), (y + 920), 80, 80);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                            ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                            ctx.drawImage(credit, (15 + x), (y + 15), 292, 80);
                             
                         }
                         if(rarity === 'star wars series'){
@@ -2572,7 +2572,7 @@ module.exports = {
                                 ctx.fillText(name, (512 + x), (y + 942))
                                 ctx.textAlign='left';
                                 ctx.font = '80px Burbank Big Condensed'
-                                ctx.fillText(price, (103 + x), (y + 987))
+                                ctx.fillText(price, (105 + x), (y + 987))
                                 ctx.textAlign='right';
                                 ctx.font = '80px Burbank Big Condensed'
                                 ctx.fillText(day + " Days", (982 + x), (y + 987))
@@ -2583,19 +2583,19 @@ module.exports = {
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
                                 ctx.font = applyTextBundle(canvas, name);
-                                ctx.fillText(name, (512 + x), (y + 910))
+                                ctx.fillText(name, (512 + x), (y + 890))
                                 ctx.textAlign='left';
                                 ctx.font = '80px Arabic'
-                                ctx.fillText(price, (103 + x), (y + 987))
+                                ctx.fillText(price, (105 + x), (y + 987))
                                 ctx.textAlign='right';
                                 ctx.font = '80px Arabic'
-                                ctx.fillText(day + " يوم", (982 + x), (y + 987))
+                                ctx.fillText(day + " يوم", (982 + x), (y + 975))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
                                 ctx.drawImage(v, (25 + x), (y + 920), 80, 80);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                            ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                            ctx.drawImage(credit, (15 + x), (y + 15), 292, 80);
                         }
                         if(rarity === 'shadow series'){
                             //creating image
@@ -2612,7 +2612,7 @@ module.exports = {
                                 ctx.fillText(name, (512 + x), (y + 942))
                                 ctx.textAlign='left';
                                 ctx.font = '80px Burbank Big Condensed'
-                                ctx.fillText(price, (103 + x), (y + 987))
+                                ctx.fillText(price, (105 + x), (y + 987))
                                 ctx.textAlign='right';
                                 ctx.font = '80px Burbank Big Condensed'
                                 ctx.fillText(day + " Days", (982 + x), (y + 987))
@@ -2623,19 +2623,19 @@ module.exports = {
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
                                 ctx.font = applyTextBundle(canvas, name);
-                                ctx.fillText(name, (512 + x), (y + 910))
+                                ctx.fillText(name, (512 + x), (y + 890))
                                 ctx.textAlign='left';
                                 ctx.font = '80px Arabic'
-                                ctx.fillText(price, (103 + x), (y + 987))
+                                ctx.fillText(price, (105 + x), (y + 987))
                                 ctx.textAlign='right';
                                 ctx.font = '80px Arabic'
-                                ctx.fillText(day + " يوم", (982 + x), (y + 987))
+                                ctx.fillText(day + " يوم", (982 + x), (y + 975))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
                                 ctx.drawImage(v, (25 + x), (y + 920), 80, 80);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                            ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                            ctx.drawImage(credit, (15 + x), (y + 15), 292, 80);
                         }
                         if(rarity === 'slurp series'){
                             //creating image
@@ -2652,7 +2652,7 @@ module.exports = {
                                 ctx.fillText(name, (512 + x), (y + 942))
                                 ctx.textAlign='left';
                                 ctx.font = '80px Burbank Big Condensed'
-                                ctx.fillText(price, (103 + x), (y + 987))
+                                ctx.fillText(price, (105 + x), (y + 987))
                                 ctx.textAlign='right';
                                 ctx.font = '80px Burbank Big Condensed'
                                 ctx.fillText(day + " Days", (982 + x), (y + 987))
@@ -2663,19 +2663,19 @@ module.exports = {
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
                                 ctx.font = applyTextBundle(canvas, name);
-                                ctx.fillText(name, (512 + x), (y + 910))
+                                ctx.fillText(name, (512 + x), (y + 890))
                                 ctx.textAlign='left';
                                 ctx.font = '80px Arabic'
-                                ctx.fillText(price, (103 + x), (y + 987))
+                                ctx.fillText(price, (105 + x), (y + 987))
                                 ctx.textAlign='right';
                                 ctx.font = '80px Arabic'
-                                ctx.fillText(day + " يوم", (982 + x), (y + 987))
+                                ctx.fillText(day + " يوم", (982 + x), (y + 975))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
                                 ctx.drawImage(v, (25 + x), (y + 920), 80, 80);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                            ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                            ctx.drawImage(credit, (15 + x), (y + 15), 292, 80);
                             
                         }
                         if(rarity === 'frozen series'){
@@ -2693,7 +2693,7 @@ module.exports = {
                                 ctx.fillText(name, (512 + x), (y + 942))
                                 ctx.textAlign='left';
                                 ctx.font = '80px Burbank Big Condensed'
-                                ctx.fillText(price, (103 + x), (y + 987))
+                                ctx.fillText(price, (105 + x), (y + 987))
                                 ctx.textAlign='right';
                                 ctx.font = '80px Burbank Big Condensed'
                                 ctx.fillText(day + " Days", (982 + x), (y + 987))
@@ -2704,19 +2704,19 @@ module.exports = {
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
                                 ctx.font = applyTextBundle(canvas, name);
-                                ctx.fillText(name, (512 + x), (y + 910))
+                                ctx.fillText(name, (512 + x), (y + 890))
                                 ctx.textAlign='left';
                                 ctx.font = '80px Arabic'
-                                ctx.fillText(price, (103 + x), (y + 987))
+                                ctx.fillText(price, (105 + x), (y + 987))
                                 ctx.textAlign='right';
                                 ctx.font = '80px Arabic'
-                                ctx.fillText(day + " يوم", (982 + x), (y + 987))
+                                ctx.fillText(day + " يوم", (982 + x), (y + 975))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
                                 ctx.drawImage(v, (25 + x), (y + 920), 80, 80);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                            ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                            ctx.drawImage(credit, (15 + x), (y + 15), 292, 80);
                             
                         }
                         if(rarity === 'lava series'){
@@ -2734,7 +2734,7 @@ module.exports = {
                                 ctx.fillText(name, (512 + x), (y + 942))
                                 ctx.textAlign='left';
                                 ctx.font = '80px Burbank Big Condensed'
-                                ctx.fillText(price, (103 + x), (y + 987))
+                                ctx.fillText(price, (105 + x), (y + 987))
                                 ctx.textAlign='right';
                                 ctx.font = '80px Burbank Big Condensed'
                                 ctx.fillText(day + " Days", (982 + x), (y + 987))
@@ -2745,19 +2745,19 @@ module.exports = {
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
                                 ctx.font = applyTextBundle(canvas, name);
-                                ctx.fillText(name, (512 + x), (y + 910))
+                                ctx.fillText(name, (512 + x), (y + 890))
                                 ctx.textAlign='left';
                                 ctx.font = '80px Arabic'
-                                ctx.fillText(price, (103 + x), (y + 987))
+                                ctx.fillText(price, (105 + x), (y + 987))
                                 ctx.textAlign='right';
                                 ctx.font = '80px Arabic'
-                                ctx.fillText(day + " يوم", (982 + x), (y + 987))
+                                ctx.fillText(day + " يوم", (982 + x), (y + 975))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
                                 ctx.drawImage(v, (25 + x), (y + 920), 80, 80);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                            ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                            ctx.drawImage(credit, (15 + x), (y + 15), 292, 80);
                             
                         }
                         if(rarity === 'platform series'){
@@ -2775,7 +2775,7 @@ module.exports = {
                                 ctx.fillText(name, (512 + x), (y + 942))
                                 ctx.textAlign='left';
                                 ctx.font = '80px Burbank Big Condensed'
-                                ctx.fillText(price, (103 + x), (y + 987))
+                                ctx.fillText(price, (105 + x), (y + 987))
                                 ctx.textAlign='right';
                                 ctx.font = '80px Burbank Big Condensed'
                                 ctx.fillText(day + " Days", (982 + x), (y + 987))
@@ -2786,19 +2786,19 @@ module.exports = {
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
                                 ctx.font = applyTextBundle(canvas, name);
-                                ctx.fillText(name, (512 + x), (y + 910))
+                                ctx.fillText(name, (512 + x), (y + 890))
                                 ctx.textAlign='left';
                                 ctx.font = '80px Arabic'
-                                ctx.fillText(price, (103 + x), (y + 987))
+                                ctx.fillText(price, (105 + x), (y + 987))
                                 ctx.textAlign='right';
                                 ctx.font = '80px Arabic'
-                                ctx.fillText(day + " يوم", (982 + x), (y + 987))
+                                ctx.fillText(day + " يوم", (982 + x), (y + 975))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
                                 ctx.drawImage(v, (25 + x), (y + 920), 80, 80);
                             }
                             const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                            ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                            ctx.drawImage(credit, (15 + x), (y + 15), 292, 80);
                         }
 
                             // changing x and y

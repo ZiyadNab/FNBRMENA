@@ -2170,7 +2170,7 @@ module.exports = {
                         x = 200
                         y = yBundleEN
                     }else if(lang == "ar"){
-                        X = canvas.width - (250 + 1024 + 25 + 1024)
+                        X = canvas.width - (250 + 1024)
                         y = yBundleAR
                     }
 

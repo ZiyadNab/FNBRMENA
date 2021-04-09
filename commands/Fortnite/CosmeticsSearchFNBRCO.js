@@ -20,7 +20,7 @@ var skinDes;
 var history
 
 module.exports = {
-    commands: 'search',
+    commands: 'searchco',
     expectedArgs: '<Cosmetics Name>',
     minArgs: 1,
     maxArgs: null,

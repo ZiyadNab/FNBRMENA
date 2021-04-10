@@ -1,4 +1,5 @@
 const axios = require('axios');
+const moment = require('moment')
 const Canvas = require('canvas')
 var gonee;
 var lefttt;
@@ -13,7 +14,7 @@ module.exports = {
     maxArgs: 0,
     permissionError: 'Sorry you do not have acccess to this command',
     callback: (message, arguments, text, Discord, client, admin) => {
-        axios.get('https://api.peely.de/v1/br/progress/data')
+        axios.get('https://thomaskeig.co/api/progress/fortnite.json')
         .then(async (res) => {
             admin.database().ref("ERA's").child("Users").child(message.author.id).once('value', function (data) {
                 var lang = data.val().lang;
@@ -40,99 +41,115 @@ module.exports = {
                 message.channel.send(generating)
                 .then( async msg => {
 
-                var percentage = (res.data.data.DaysGone / res.data.data.SeasonLength);
-                var length = 817 * percentage
+                    //variables
+                    var starts = `${res.data.start_year}-0${res.data.start_month}-${res.data.start_day}`
+                    var ends = moment(`${res.data.end_year}-0${res.data.end_month}-${res.data.end_day}`)
 
-                //font
-                Canvas.registerFont('./assets/font/Lalezar-Regular.ttf', {family: 'Arabic',weight: "700",style: "bold"});
-                Canvas.registerFont('./assets/font/BurbankBigCondensed-Black.otf' ,{family: 'Burbank Big Condensed',weight: "700",style: "bold"})
-                
-                //canvas
-                const canvas = Canvas.createCanvas(1100, 300);
-                const ctx = canvas.getContext('2d'); 
+                    console.log(starts)
+                    console.log(ends)
 
-                //background
-                const background = await Canvas.loadImage('./assets/Bar/card.png')
-                ctx.drawImage(background, 0, 0, canvas.width, canvas.height)
-                ctx.fillStyle = '#ffffff';
-                ctx.textAlign='center';
-                if(lang === "en"){
-                    ctx.font = '25px Burbank Big Condensed'
-                }else if(lang === "ar"){
-                    ctx.font = '25px Arabic'
-                }
-                ctx.fillText(Slength+ res.data.data.SeasonLength +days, (1100 / 2), 288)
+                    //dates
+                    var now = moment()
+                    var gone = now.diff(starts, 'days') 
+                    var left = ends.diff(now, 'days') 
+                    var length = gone + left
+                    console.log(gone)
+                    console.log(left)
+                    console.log(length)
 
-                //bar
-                const bar = await Canvas.loadImage('./assets/Bar/Bar.png')
-                ctx.drawImage(bar, 165, 144, length, 33)
-                ctx.fillStyle = '#ffffff';
-                ctx.textAlign='center';
-                if(lang === "en"){
-                    ctx.font = '30px Burbank Big Condensed'
-                }else if(lang === "ar"){
-                    ctx.font = '30px Arabic'
-                }
-                if(length > (817 / 2)){
+                    var percent = (gone / length);
+                    var percentage = 817 * percent
+
+                    //font
+                    Canvas.registerFont('./assets/font/Lalezar-Regular.ttf', {family: 'Arabic',weight: "700",style: "bold"});
+                    Canvas.registerFont('./assets/font/BurbankBigCondensed-Black.otf' ,{family: 'Burbank Big Condensed',weight: "700",style: "bold"})
+                    
+                    //canvas
+                    const canvas = Canvas.createCanvas(1100, 300);
+                    const ctx = canvas.getContext('2d'); 
+
+                    //background
+                    const background = await Canvas.loadImage('./assets/Bar/card.png')
+                    ctx.drawImage(background, 0, 0, canvas.width, canvas.height)
                     ctx.fillStyle = '#ffffff';
-                    ctx.fillText(((percentage * 100) | 0) + "%", (length + 142), 170)
-                }else {
-                    ctx.fillStyle = '#000000';
-                    ctx.fillText(((percentage * 100) | 0) + "%", (length + 190), 170)
-                }
+                    ctx.textAlign='center';
+                    if(lang === "en"){
+                        ctx.font = '25px Burbank Big Condensed'
+                    }else if(lang === "ar"){
+                        ctx.font = '25px Arabic'
+                    }
+                    ctx.fillText(Slength + length + days, (1100 / 2), 288)
 
-                //gone
-                const gone = await Canvas.loadImage('./assets/Bar/green.png')
-                ctx.drawImage(gone, 165, 183, length,8)
-                ctx.fillStyle = '#ffffff';
-                ctx.textAlign='center';
-                if(lang === "en"){
-                    ctx.font = '30px Burbank Big Condensed'
-                }else if(lang === "ar"){
-                    ctx.font = '30px Arabic'
-                }
-                ctx.fillText(res.data.data.DaysGone+gonee, (length / 2) + 165, 220)
+                    //bar
+                    const bar = await Canvas.loadImage('./assets/Bar/Bar.png')
+                    ctx.drawImage(bar, 165, 144, percentage, 33)
+                    ctx.fillStyle = '#ffffff';
+                    ctx.textAlign='center';
+                    if(lang === "en"){
+                        ctx.font = '30px Burbank Big Condensed'
+                    }else if(lang === "ar"){
+                        ctx.font = '30px Arabic'
+                    }
+                    if(percentage > (817 / 2)){
+                        ctx.fillStyle = '#ffffff';
+                        ctx.fillText(((percent * 100) | 0) + "%", (percentage + 142), 170)
+                    }else {
+                        ctx.fillStyle = '#000000';
+                        ctx.fillText(((percent * 100) | 0) + "%", (percentage + 195), 170)
+                    }
 
-                //left
-                var leftlength = ((res.data.data.DaysLeft + 1) / res.data.data.SeasonLength)
-                var leftt = 817 * leftlength
-                const left = await Canvas.loadImage('./assets/Bar/BarWhite.png')
-                ctx.drawImage(left, (length + 165), 130, leftt, 8)
-                ctx.fillStyle = '#ffffff';
-                ctx.textAlign='center';
-                if(lang === "en"){
-                    ctx.font = '30px Burbank Big Condensed'
-                    ctx.fillText(res.data.data.DaysLeft+lefttt, (length + (leftt / 2) + 165), 118)
-                }else if(lang === "ar"){
-                    ctx.font = '30px Arabic'
-                    ctx.fillText(res.data.data.DaysLeft+lefttt, (length + (leftt / 2) + 165), 109)
-                }
-                
+                    //gone
+                    const gonePIC = await Canvas.loadImage('./assets/Bar/green.png')
+                    ctx.drawImage(gonePIC, 165, 183, percentage,8)
+                    ctx.fillStyle = '#ffffff';
+                    ctx.textAlign='center';
+                    if(lang === "en"){
+                        ctx.font = '30px Burbank Big Condensed'
+                    }else if(lang === "ar"){
+                        ctx.font = '30px Arabic'
+                    }
+                    ctx.fillText(gone+gonee, (percentage / 2) + 165, 220)
 
-                const att = new Discord.MessageAttachment(canvas.toBuffer(), "season5.png")
-                await message.channel.send(att)
+                    //left
+                    var leftlength = (left / length)
+                    leftLength = 817 * leftlength
+                    const leftPIC = await Canvas.loadImage('./assets/Bar/BarWhite.png')
+                    ctx.drawImage(leftPIC, (percentage + 165), 130, leftLength, 8)
+                    ctx.fillStyle = '#ffffff';
+                    ctx.textAlign='center';
+                    if(lang === "en"){
+                        ctx.font = '30px Burbank Big Condensed'
+                        ctx.fillText(left+lefttt, (percentage + (leftLength / 2) + 165), 118)
+                    }else if(lang === "ar"){
+                        ctx.font = '30px Arabic'
+                        ctx.fillText(left+lefttt, (percentage + (leftLength / 2) + 165), 109)
+                    }
+                    
 
-                const progress = new Discord.MessageEmbed()
-                progress.setColor('#BB00EE')
-                progress.setTitle('Progress Bar')
-                progress.setDescription('FNBR_MENA Bot has generated a season progress for you')
-                progress.addFields(
-                        {name: 'Days Left', value: res.data.data.DaysLeft, inline: true},
-                        {name: 'Days Gone', value: res.data.data.DaysGone, inline: true},
-                        {name: 'Season Length', value: res.data.data.SeasonLength, inline: true}
-                    )
-                    progress.setFooter('Generated By FNBR_MENA Bot')
-                    progress.setAuthor('FNBR_MENA Bot', 'https://i.imgur.com/LfotEkZ.jpg', 'https://twitter.com/FNBR_MENA')
-                    message.reply(progress);
-                    msg.delete()
+                    const att = new Discord.MessageAttachment(canvas.toBuffer(), "season6.png")
+                    await message.channel.send(att)
+
+                    const progress = new Discord.MessageEmbed()
+                    progress.setColor('#BB00EE')
+                    progress.setTitle('Progress Bar')
+                    progress.setDescription('FNBR_MENA Bot has generated a season progress for you')
+                    progress.addFields(
+                            {name: 'Days Left', value: left, inline: true},
+                            {name: 'Days Gone', value: gone, inline: true},
+                            {name: 'Season Length', value: length, inline: true}
+                        )
+                        progress.setFooter('Generated By FNBR_MENA Bot')
+                        progress.setAuthor('FNBR_MENA Bot', 'https://i.imgur.com/LfotEkZ.jpg', 'https://twitter.com/FNBR_MENA')
+                        message.reply(progress);
+                        msg.delete()
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    })
                 })
                 .catch((err) => {
                     console.log(err)
                 })
-            })
-            .catch((err) => {
-                console.log(err)
-            })
         })
     },
     

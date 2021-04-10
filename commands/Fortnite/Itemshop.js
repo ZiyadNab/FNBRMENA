@@ -112,7 +112,7 @@ module.exports = {
 
                 lines = 0;
                 if(res.offers.length !== 0){
-                    height += 1512
+                    height += 1224
                     for(let i = 0; i < res.offers.length; i++){
                         lines++;
                         if(3 === lines){
@@ -2177,7 +2177,7 @@ module.exports = {
                         newline = 0
                     }else if(lang == "ar"){
                         x = canvas.width - (250 + 1024 + 1024 + 25)
-                        y = yBundleAR +250
+                        y = yBundleAR
                         newline = 0
                     }
 

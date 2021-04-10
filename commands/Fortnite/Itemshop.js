@@ -112,7 +112,7 @@ module.exports = {
 
                 lines = 0;
                 if(res.offers.length !== 0){
-                    height += 1224
+                    height += 1500
                     for(let i = 0; i < res.offers.length; i++){
                         lines++;
                         if(3 === lines){
@@ -2173,11 +2173,19 @@ module.exports = {
                 if(res.offers.length !== 0){
                     if(lang === "en"){
                         x = 250
-                        y = yBundleEN
+                        if(res.featured.length % fe === 0){
+                            y = yBundleEN
+                        }else{
+                            y = yBundleEN + 250
+                        }
                         newline = 0
                     }else if(lang == "ar"){
                         x = canvas.width - (250 + 1024 + 1024 + 25)
-                        y = yBundleAR
+                        if(res.specialFeatured.length % sp === 0){
+                            y = yBundleAR
+                        }else{
+                            y = yBundleAR + 250
+                        }
                         newline = 0
                     }
 

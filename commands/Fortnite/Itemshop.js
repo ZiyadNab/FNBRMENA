@@ -2172,12 +2172,12 @@ module.exports = {
 
                 if(res.offers.length !== 0){
                     if(lang === "en"){
-                        x = 200
+                        x = 250
                         y = yBundleEN
                         newline = 0
                     }else if(lang == "ar"){
                         x = canvas.width - (250 + 1024 + 1024 + 25)
-                        y = yBundleAR
+                        y = yBundleAR +250
                         newline = 0
                     }
 
@@ -2819,9 +2819,15 @@ module.exports = {
                             // changing x and y
                             x = x + 25 + 1024; 
                             if (newline === 3){
-                                y = y + 25 + 1024;
-                                newline = 0
-                                x = 250
+                                if(lang === "en"){
+                                    y = y + 25 + 1024;
+                                    newline = 0
+                                    x = 250
+                                }else if(lang === "ar"){
+                                    y = y + 25 + 1024;
+                                    newline = 0
+                                    x = canvas.width -(250 + 1024 + 1024 + 25)
+                                }
                             }
                         }
                     }

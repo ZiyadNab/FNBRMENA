@@ -112,7 +112,7 @@ module.exports = {
 
                 lines = 0;
                 if(res.offers.length !== 0){
-                    height += 1224
+                    height += 1512
                     for(let i = 0; i < res.offers.length; i++){
                         lines++;
                         if(3 === lines){

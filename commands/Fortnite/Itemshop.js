@@ -112,15 +112,68 @@ module.exports = {
 
                 lines = 0;
                 if(res.offers.length !== 0){
-                    height += 1500
-                    for(let i = 0; i < res.offers.length; i++){
-                        lines++;
-                        if(3 === lines){
-                            height += 512 +50;
-                            lines = 0;
+                    if(lang === "en"){
+                        if(res.featured.length % fe === 0){
+                            height += 1274
+                            for(let i = 0; i < res.offers.length; i++){
+                                lines++;
+                                if(3 === lines){
+                                    height += 512 +50;
+                                    lines = 0;
+                                }
+                            }
+                        }else{
+                            height += 1524
+                            for(let i = 0; i < res.offers.length; i++){
+                                lines++;
+                                if(3 === lines){
+                                    height += 512 +50;
+                                    lines = 0;
+                                }
+                            }
                         }
                     }
-                }
+                }else if(lang === "ar"){
+                    if(res.specialFeatured.length !== 0){
+                        if(res.specialFeatured.length % sp === 0){
+                            height += 1274
+                            for(let i = 0; i < res.offers.length; i++){
+                                lines++;
+                                if(3 === lines){
+                                    height += 512 +50;
+                                    lines = 0;
+                                }
+                            }
+                        }else{
+                            height += 1524
+                            for(let i = 0; i < res.offers.length; i++){
+                                lines++;
+                                if(3 === lines){
+                                    height += 512 +50;
+                                    lines = 0;
+                                }
+                            }
+                        }
+                    }else if(res.daily.length % 3 === 0){
+                        height += 1274
+                            for(let i = 0; i < res.offers.length; i++){
+                                lines++;
+                                if(3 === lines){
+                                    height += 512 +50;
+                                    lines = 0;
+                                }
+                            }
+                        }else{
+                            height += 1524
+                            for(let i = 0; i < res.offers.length; i++){
+                                lines++;
+                                if(3 === lines){
+                                    height += 512 +50;
+                                    lines = 0;
+                                }
+                            }
+                        }
+                    }
 
                 height += 300;
 

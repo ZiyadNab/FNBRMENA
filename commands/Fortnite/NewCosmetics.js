@@ -144,8 +144,7 @@ module.exports = {
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
                                     ctx.font = '40px Arabic'
-                                    ctx.fillText(name, (256 + x), (y + 425))
-                                    
+                                    ctx.fillText(name, (256 + x), (y + 425))  
                                     ctx.font = applyText(canvas, description);
                                     ctx.textAlign='center';
                                     ctx.fillText(description, (256 + x), (y + 480))
@@ -235,8 +234,7 @@ module.exports = {
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
                                     ctx.font = '40px Arabic'
-                                    ctx.fillText(name, (256 + x), (y + 425))
-                                    
+                                    ctx.fillText(name, (256 + x), (y + 425)) 
                                     ctx.font = applyText(canvas, description);
                                     ctx.textAlign='center';
                                     ctx.fillText(description, (256 + x), (y + 480))
@@ -266,8 +264,7 @@ module.exports = {
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
                                     ctx.font = '40px Arabic'
-                                    ctx.fillText(name, (256 + x), (y + 425))
-                                    
+                                    ctx.fillText(name, (256 + x), (y + 425)) 
                                     ctx.font = applyText(canvas, description);
                                     ctx.textAlign='center';
                                     ctx.fillText(description, (256 + x), (y + 480))
@@ -297,8 +294,7 @@ module.exports = {
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
                                     ctx.font = '40px Arabic'
-                                    ctx.fillText(name, (256 + x), (y + 425))
-                                    
+                                    ctx.fillText(name, (256 + x), (y + 425))  
                                     ctx.font = applyText(canvas, description);
                                     ctx.textAlign='center';
                                     ctx.fillText(description, (256 + x), (y + 480))
@@ -328,8 +324,7 @@ module.exports = {
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
                                     ctx.font = '40px Arabic'
-                                    ctx.fillText(name, (256 + x), (y + 425))
-                                    
+                                    ctx.fillText(name, (256 + x), (y + 425)) 
                                     ctx.font = applyText(canvas, description);
                                     ctx.textAlign='center';
                                     ctx.fillText(description, (256 + x), (y + 480))
@@ -389,8 +384,7 @@ module.exports = {
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
                                     ctx.font = '40px Arabic'
-                                    ctx.fillText(name, (256 + x), (y + 425))
-                                    
+                                    ctx.fillText(name, (256 + x), (y + 425)) 
                                     ctx.font = applyText(canvas, description);
                                     ctx.textAlign='center';
                                     ctx.fillText(description, (256 + x), (y + 480))
@@ -420,8 +414,7 @@ module.exports = {
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
                                     ctx.font = '40px Arabic'
-                                    ctx.fillText(name, (256 + x), (y + 425))
-                                    
+                                    ctx.fillText(name, (256 + x), (y + 425))   
                                     ctx.font = applyText(canvas, description);
                                     ctx.textAlign='center';
                                     ctx.fillText(description, (256 + x), (y + 480))
@@ -451,8 +444,7 @@ module.exports = {
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
                                     ctx.font = '40px Arabic'
-                                    ctx.fillText(name, (256 + x), (y + 425))
-                                    
+                                    ctx.fillText(name, (256 + x), (y + 425)) 
                                     ctx.font = applyText(canvas, description);
                                     ctx.textAlign='center';
                                     ctx.fillText(description, (256 + x), (y + 480))
@@ -482,8 +474,7 @@ module.exports = {
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
                                     ctx.font = '40px Arabic'
-                                    ctx.fillText(name, (256 + x), (y + 425))
-                                    
+                                    ctx.fillText(name, (256 + x), (y + 425)) 
                                     ctx.font = applyText(canvas, description);
                                     ctx.textAlign='center';
                                     ctx.fillText(description, (256 + x), (y + 480))
@@ -514,7 +505,6 @@ module.exports = {
                                     ctx.textAlign='center';
                                     ctx.font = '40px Arabic'
                                     ctx.fillText(name, (256 + x), (y + 425))
-                                    
                                     ctx.font = applyText(canvas, description);
                                     ctx.textAlign='center';
                                     ctx.fillText(description, (256 + x), (y + 480))
@@ -544,8 +534,7 @@ module.exports = {
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
                                     ctx.font = '40px Arabic'
-                                    ctx.fillText(name, (256 + x), (y + 425))
-                                    
+                                    ctx.fillText(name, (256 + x), (y + 425)) 
                                     ctx.font = applyText(canvas, description);
                                     ctx.textAlign='center';
                                     ctx.fillText(description, (256 + x), (y + 480))
@@ -576,7 +565,6 @@ module.exports = {
                                     ctx.textAlign='center';
                                     ctx.font = '40px Arabic'
                                     ctx.fillText(name, (256 + x), (y + 425))
-                                    
                                     ctx.font = applyText(canvas, description);
                                     ctx.textAlign='center';
                                     ctx.fillText(description, (256 + x), (y + 480))

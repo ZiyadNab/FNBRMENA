@@ -2227,20 +2227,11 @@ module.exports = {
                 if(res.offers.length !== 0){
                     if(lang === "en"){
                         x = 250
-                        if(res.featured.length % fe === 0){
-                            y = yBundleEN
-                        }else{
-                            y = yBundleEN + 250
-                        }
+                        y = canvas.height - (300 + 300 + 1024)
                         newline = 0
                     }else if(lang == "ar"){
                         x = canvas.width - (250 + 1024 + 1024 + 25)
-                        y = canvas.height - (300 + 250 + 1024)
-                        // if(res.specialFeatured.length % sp === 0){
-                        //     y = yBundleAR
-                        // }else{
-                        //     y = yBundleAR + 250
-                        // }
+                        y = canvas.height - (300 + 300 + 1024)
                         newline = 0
                     }
 

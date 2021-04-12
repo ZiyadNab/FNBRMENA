@@ -135,7 +135,7 @@ module.exports = {
                     }
                 else if(lang === "ar"){
                     if(res.specialFeatured.length !== 0){
-                        if(res.specialFeatured.length % sp === 0){
+                        if(res.specialFeatured.length % sp !== 0){
                             height += 1274
                             for(let i = 0; i < res.offers.length; i++){
                                 lines++;

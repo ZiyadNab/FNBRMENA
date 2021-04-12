@@ -2235,7 +2235,7 @@ module.exports = {
                         newline = 0
                     }else if(lang == "ar"){
                         x = canvas.width - (250 + 1024 + 1024 + 25)
-                        y = canvas.height - (300 + 250)
+                        y = canvas.height - (300 + 250 + 1024 + 1024)
                         // if(res.specialFeatured.length % sp === 0){
                         //     y = yBundleAR
                         // }else{

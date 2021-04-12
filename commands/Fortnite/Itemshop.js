@@ -135,7 +135,7 @@ module.exports = {
                     }
                 else if(lang === "ar"){
                     if(res.specialFeatured.length !== 0){
-                        if(res.specialFeatured.length % sp !== 0){
+                        if(res.specialFeatured.length % sp === 0){
                             height += 1274
                             for(let i = 0; i < res.offers.length; i++){
                                 lines++;
@@ -2235,11 +2235,12 @@ module.exports = {
                         newline = 0
                     }else if(lang == "ar"){
                         x = canvas.width - (250 + 1024 + 1024 + 25)
-                        if(res.specialFeatured.length % sp === 0){
-                            y = yBundleAR
-                        }else{
-                            y = yBundleAR + 250
-                        }
+                        y = canvas.height - (300 + 250)
+                        // if(res.specialFeatured.length % sp === 0){
+                        //     y = yBundleAR
+                        // }else{
+                        //     y = yBundleAR + 250
+                        // }
                         newline = 0
                     }
 

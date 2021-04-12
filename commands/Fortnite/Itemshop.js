@@ -133,10 +133,9 @@ module.exports = {
                             }
                         }
                     }
-                }else if(lang === "ar"){
+                else if(lang === "ar"){
                     if(res.specialFeatured.length !== 0){
                         if(res.specialFeatured.length % sp === 0){
-                            console.log("in if")
                             height += 1274
                             for(let i = 0; i < res.offers.length; i++){
                                 lines++;
@@ -146,7 +145,6 @@ module.exports = {
                                 }
                             }
                         }else{
-                            console.log("in else")
                             height += 1524
                             for(let i = 0; i < res.offers.length; i++){
                                 lines++;
@@ -158,7 +156,6 @@ module.exports = {
                         }
                     }else if(res.daily.length % 3 === 0){
                         height += 1274
-                        console.log("in iffff")
                             for(let i = 0; i < res.offers.length; i++){
                                 lines++;
                                 if(3 === lines){
@@ -167,7 +164,6 @@ module.exports = {
                                 }
                             }
                         }else{
-                            console.log("in elseee")
                             height += 1524
                             for(let i = 0; i < res.offers.length; i++){
                                 lines++;
@@ -178,6 +174,7 @@ module.exports = {
                             }
                         }
                     }
+                }
 
                 height += 300;
 

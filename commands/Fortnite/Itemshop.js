@@ -85,7 +85,7 @@ module.exports = {
                         if(res.featured.length >= 1 && res.featured.length <= 12){
                             fe = 3;
                             sp = 1;
-                            width = (8*512) + (25 * 9) + 1000;
+                            width = (8*512) + (25 * 6) + 1000;
                             for(let i = 0; i<=f; i++){
                                 lines++;
                                 if(3 === lines){
@@ -96,7 +96,7 @@ module.exports = {
                         } else if(res.featured.length > 12){
                             fe = 5;
                             sp = 1;
-                            width = (8*512) + (25 * 12) + 500;
+                            width = (8*512) + (25 * 8) + 1000;
                             for(let i = 0; i<f; i++){
                                 lines++;
                                 if(5 === lines){
@@ -1547,7 +1547,7 @@ module.exports = {
                                 x = 2086;
                                 newline = 0;
                             }else if(fe === 5){
-                                x = 3160;
+                                x = 3185;
                                 newline = 0;
                             }
                         }

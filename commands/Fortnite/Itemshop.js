@@ -58,29 +58,56 @@ module.exports = {
                 var yBundleAR = 250
                 if(res.featured.length >= res.specialFeatured.length){
                     f = res.featured.length;
-                    if(res.featured.length >= 1 && res.featured.length <= 12){
-                        fe = 3;
-                        sp = 3;
-                        width = (9*512) + (25 * 9) + 1000;
-                        for(let i = 0; i<=f; i++){
-                            lines++;
-                            if(3 === lines){
-                                height += 512 +25;
-                                lines = 0;
+                    if(res.specialFeatured.length !== 0){
+                        if(res.featured.length >= 1 && res.featured.length <= 12){
+                            fe = 3;
+                            sp = 3;
+                            width = (9*512) + (25 * 9) + 1000;
+                            for(let i = 0; i<=f; i++){
+                                lines++;
+                                if(3 === lines){
+                                    height += 512 +25;
+                                    lines = 0;
+                                }
                             }
-                        }
-                    } else if(res.featured.length > 12){
-                        fe = 5;
-                        sp = 3;
-                        width = (12*512) + (25 * 12) + 500;
-                        for(let i = 0; i<f; i++){
-                            lines++;
-                            if(5 === lines){
-                                height += 512 +25;
-                                lines = 0;
+                        } else if(res.featured.length > 12){
+                            fe = 5;
+                            sp = 3;
+                            width = (12*512) + (25 * 12) + 500;
+                            for(let i = 0; i<f; i++){
+                                lines++;
+                                if(5 === lines){
+                                    height += 512 +25;
+                                    lines = 0;
+                                }
                             }
+                            height += 300
                         }
-                        height += 300
+                    }else{
+                        if(res.featured.length >= 1 && res.featured.length <= 12){
+                            fe = 3;
+                            sp = 1;
+                            width = (8*512) + (25 * 9) + 1000;
+                            for(let i = 0; i<=f; i++){
+                                lines++;
+                                if(3 === lines){
+                                    height += 512 +25;
+                                    lines = 0;
+                                }
+                            }
+                        } else if(res.featured.length > 12){
+                            fe = 5;
+                            sp = 1;
+                            width = (8*512) + (25 * 12) + 500;
+                            for(let i = 0; i<f; i++){
+                                lines++;
+                                if(5 === lines){
+                                    height += 512 +25;
+                                    lines = 0;
+                                }
+                            }
+                            height += 300
+                        }
                     }
                 }else if(res.featured.length <= res.specialFeatured.length){
                     f = res.specialFeatured.length;

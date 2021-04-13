@@ -85,7 +85,7 @@ module.exports = {
                         if(res.featured.length >= 1 && res.featured.length <= 12){
                             fe = 3;
                             sp = 1;
-                            width = (6*512) + (25 * 6) + 1000;
+                            width = (6*512) + (25 * 6) + 500;
                             for(let i = 0; i<=f; i++){
                                 lines++;
                                 if(3 === lines){

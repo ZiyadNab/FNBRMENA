@@ -9,6 +9,11 @@ module.exports = async (client, admin) => {
                 lang: "en"
             })
         }
-    })  
+    }) 
+    client.on('guildMemberRemove', member => {
+        if(member.user.bot === false){
+            admin.database().ref("ERA's").child("Users").child(member.id).remove()
+        }
+    }) 
 
 }

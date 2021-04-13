@@ -597,8 +597,8 @@ module.exports = {
                             {name: 'الندرة', value: displayRarity},
                             {name: 'تم عرضه في', value: res.data[num].introduction.text},
                             {name: 'عدد نزول العنصر', value: res.data[num].shopHistory.length + " مرة"},
-                            {name: 'اول ظهور', value: FirstSeenDays + " يوم في " + FirstSeenDate},
-                            {name: 'اخر ظهور', value: LastSeenDays + " يوم في " + LastSeenDate}
+                            {name: 'اول ظهور', value: FirstSeenDays + " يوم في الساعة " + FirstSeenDate},
+                            {name: 'اخر ظهور', value: LastSeenDays + " يوم في الساعة " + LastSeenDate}
                             )
                         } else {
                             itemInfo.addFields(

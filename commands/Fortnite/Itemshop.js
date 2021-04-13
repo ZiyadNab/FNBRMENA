@@ -54,8 +54,6 @@ module.exports = {
                 var x = 250;
                 var y = 250;
                 var newline = 0;
-                var yBundleEN = 250
-                var yBundleAR = 250
                 if(res.featured.length >= res.specialFeatured.length){
                     f = res.featured.length;
                     if(res.specialFeatured.length !== 0){
@@ -1575,7 +1573,7 @@ module.exports = {
                             y = 250;
                             newline = 0;
                         }else if (fe === 3){
-                            x = 3922;
+                            x = 3185;
                             y = 250;
                             newline = 0;
                         }

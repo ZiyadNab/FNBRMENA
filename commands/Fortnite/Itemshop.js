@@ -96,7 +96,7 @@ module.exports = {
                         } else if(res.featured.length > 12){
                             fe = 5;
                             sp = 1;
-                            width = (8*512) + (25 * 8) + 1000;
+                            width = (8*512) + (25 * 8) + 700;
                             for(let i = 0; i<f; i++){
                                 lines++;
                                 if(5 === lines){

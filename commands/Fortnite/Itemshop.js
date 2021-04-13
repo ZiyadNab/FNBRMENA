@@ -893,7 +893,7 @@ module.exports = {
                 y = 250;
                 newline = 0;
             }else if(fe === 5){
-                x = 3160;
+                x = 3185;
                 y = 250;
                 newline = 0;
             }
@@ -903,17 +903,10 @@ module.exports = {
                             ctx.font = '150px Burbank Big Condensed'
                             ctx.fillText("Daily", x, (y - 50))
                         }else if(lang === "ar"){
-                            if(fe === 3){
-                                ctx.fillStyle = '#ffffff';
-                                ctx.textAlign='right';
-                                ctx.font = '150px Arabic'
-                                ctx.fillText("يومي", x + 1586, (y - 60))
-                            }else if(fe === 5){
-                                ctx.fillStyle = '#ffffff';
-                                ctx.textAlign='right';
-                                ctx.font = '150px Arabic'
-                                ctx.fillText("يومي", x + 2660, (y - 60))
-                            }
+                            ctx.fillStyle = '#ffffff';
+                            ctx.textAlign='right';
+                            ctx.font = '150px Arabic'
+                            ctx.fillText("يومي", x + 1586, (y - 60))
                         }
 
                     //searching
@@ -2252,7 +2245,7 @@ module.exports = {
                 if(res.offers.length !== 0){
                     if(lang === "en"){
                         x = 250
-                        y = canvas.height - (300 + 300 + 1024)
+                        y = canvas.height - (300 + 250 + 1024)
                         newline = 0
                     }else if(lang == "ar"){
                         x = canvas.width - (250 + 1024 + 1024 + 25)

@@ -1,4 +1,4 @@
-const FortniteAPI = require("fortnite-api-io");
+const FortniteAPI = require("fortniteapi.io-api");
 const lang = require('../../Coinfigs/User.json')
 const moment = require('moment')
 const key = require('../../Coinfigs/config.json')

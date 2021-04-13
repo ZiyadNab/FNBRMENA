@@ -1,5 +1,5 @@
 const Canvas = require('canvas');
-const FortniteAPI = require("fortnite-api-io");
+const FortniteAPI = require("fortniteapi.io-api");
 const fortniteAPI = new FortniteAPI('d4ce1562-839ff66b-3946ccb6-438eb9cf');
 const fn = require("fortnite-api-com");
 const config = {

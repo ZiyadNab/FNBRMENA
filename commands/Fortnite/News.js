@@ -486,7 +486,7 @@ module.exports = {
                                                         x += layout
                                                         text += 2;
                                                     
-                                                }
+                                                
                                                 //lines
                                                 const t = wrap(res.data.motds[i].body, {width: 50})
                                                 const lines = (t.split(/\r\n|\r|\n/).length)

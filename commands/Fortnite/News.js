@@ -462,7 +462,7 @@ module.exports = {
                                                 let fontSize = 60;
                                                 do {
                                                     ctx.font = `${fontSize -= 1}px Arabic`;
-                                                } while (ctx.measureText(text).width > (layout));
+                                                } while (ctx.measureText(text).width > (layout - 100));
                                                 return ctx.font;
                                             };
     
@@ -471,36 +471,21 @@ module.exports = {
                                                 ctx.drawImage(photo,0,0,canvas.width,canvas.height)
                                                 var x = 0;
                                                 var text = 1
-                                                for(let j = 0; j < length; j++){
-                                                    if(i === j){
+                                                
                                                         const Used = await Canvas.loadImage('./assets/News/Used.png')
                                                         ctx.drawImage(Used,x,0,layout,100)
                                                         ctx.fillStyle = '#ffffff';
                                                         ctx.textAlign='center';
-                                                        if(res.data.motds[j].tabTitle !== null){
-                                                            ctx.font = applyText(canvas, res.data.motds[j].tabTitle);
-                                                            ctx.fillText(res.data.motds[j].tabTitle, ((layout * text) / 2), 66)
+                                                        if(res.data.motds[i].tabTitle !== null){
+                                                            ctx.font = applyText(canvas, res.data.motds[i].tabTitle);
+                                                            ctx.fillText(res.data.motds[i].tabTitle, ((layout * text) / 2), 66)
                                                     }else{
-                                                        ctx.font = applyText(canvas, res.data.motds[j].title);
-                                                        ctx.fillText(res.data.motds[j].title, ((layout * text) / 2), 66)
+                                                        ctx.font = applyText(canvas, res.data.motds[i].title);
+                                                        ctx.fillText(res.data.motds[i].title, ((layout * text) / 2), 66)
                                                     }
                                                         x += layout
                                                         text += 2;
-                                                    }else{
-                                                        const NotUsed = await Canvas.loadImage('./assets/News/NotUsed.png')
-                                                        ctx.drawImage(NotUsed,x,0,layout,100)
-                                                        ctx.fillStyle = '#ffffff';
-                                                        ctx.textAlign='center';
-                                                        if(res.data.motds[j].tabTitle !== null){
-                                                            ctx.font = applyText(canvas, res.data.motds[j].tabTitle);
-                                                            ctx.fillText(res.data.motds[j].tabTitle, ((layout * text) / 2), 66)
-                                                    }else{
-                                                        ctx.font = applyText(canvas, res.data.motds[j].title);
-                                                        ctx.fillText(res.data.motds[j].title, ((layout * text) / 2), 66)
-                                                    }
-                                                        x += layout
-                                                        text += 2;
-                                                    }
+                                                    
                                                 }
                                                 //lines
                                                 const t = wrap(res.data.motds[i].body, {width: 50})

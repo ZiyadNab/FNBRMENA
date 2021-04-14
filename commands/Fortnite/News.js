@@ -84,12 +84,13 @@ module.exports = {
                                                     ctx.drawImage(Used,x,0,layout,100)
                                                     ctx.fillStyle = '#ffffff';
                                                     ctx.textAlign='center';
-                                                    ctx.font = applyText(canvas, res.data.motds[j].tabTitle);
                                                     if(res.data.motds[j].tabTitle !== null){
+                                                        ctx.font = applyText(canvas, res.data.motds[j].tabTitle);
                                                         ctx.fillText(res.data.motds[j].tabTitle, ((layout * text) / 2), 66)
-                                                    }else{
-                                                        ctx.fillText(res.data.motds[j].title, ((layout * text) / 2), 66)
-                                                    }
+                                                }else{
+                                                    ctx.font = applyText(canvas, res.data.motds[j].title);
+                                                    ctx.fillText(res.data.motds[j].title, ((layout * text) / 2), 66)
+                                                }
                                                     x += layout
                                                     text += 2;
                                                 }else{
@@ -97,12 +98,13 @@ module.exports = {
                                                     ctx.drawImage(NotUsed,x,0,layout,100)
                                                     ctx.fillStyle = '#ffffff';
                                                     ctx.textAlign='center';
-                                                    ctx.font = applyText(canvas, res.data.motds[j].tabTitle);
                                                     if(res.data.motds[j].tabTitle !== null){
+                                                        ctx.font = applyText(canvas, res.data.motds[j].tabTitle);
                                                         ctx.fillText(res.data.motds[j].tabTitle, ((layout * text) / 2), 66)
-                                                    }else{
-                                                        ctx.fillText(res.data.motds[j].title, ((layout * text) / 2), 66)
-                                                    }
+                                                }else{
+                                                    ctx.font = applyText(canvas, res.data.motds[j].title);
+                                                    ctx.fillText(res.data.motds[j].title, ((layout * text) / 2), 66)
+                                                }
                                                     x += layout
                                                     text += 2;
                                                 }
@@ -207,8 +209,13 @@ module.exports = {
                                                     ctx.drawImage(Used,x,0,layout,100)
                                                     ctx.fillStyle = '#ffffff';
                                                     ctx.textAlign='center';
-                                                    ctx.font = applyText(canvas, res.data.messages[j].adspace);
-                                                    ctx.fillText(res.data.messages[j].adspace, ((layout * text) / 2), 66)
+                                                    if(res.data.messages[j].adspace !== ''){
+                                                        ctx.font = applyText(canvas, res.data.messages[j].adspace);
+                                                        ctx.fillText(res.data.messages[j].adspace, ((layout * text) / 2), 66)
+                                                    }else{
+                                                        ctx.font = applyText(canvas, res.data.messages[i].title);
+                                                        ctx.fillText(res.data.messages[j].title, ((layout * text) / 2), 66)
+                                                    }
                                                     x += layout
                                                     text += 2;
                                                 }else{
@@ -216,8 +223,13 @@ module.exports = {
                                                     ctx.drawImage(NotUsed,x,0,layout,100)
                                                     ctx.fillStyle = '#ffffff';
                                                     ctx.textAlign='center';
-                                                    ctx.font = applyText(canvas, res.data.messages[j].adspace);
-                                                    ctx.fillText(res.data.messages[j].adspace, ((layout * text) / 2), 66)
+                                                    if(res.data.messages[j].adspace !== ''){
+                                                        ctx.font = applyText(canvas, res.data.messages[j].adspace);
+                                                        ctx.fillText(res.data.messages[j].adspace, ((layout * text) / 2), 66)
+                                                    }else{
+                                                        ctx.font = applyText(canvas, res.data.messages[i].title);
+                                                        ctx.fillText(res.data.messages[j].title, ((layout * text) / 2), 66)
+                                                    }
                                                     x += layout
                                                     text += 2;
                                                 }
@@ -322,12 +334,13 @@ module.exports = {
                                                     ctx.drawImage(Used,x,0,layout,100)
                                                     ctx.fillStyle = '#ffffff';
                                                     ctx.textAlign='center';
-                                                    ctx.font = applyText(canvas, res.data.motds[j].tabTitle);
                                                     if(res.data.motds[j].tabTitle !== null){
+                                                        ctx.font = applyText(canvas, res.data.motds[j].tabTitle);
                                                         ctx.fillText(res.data.motds[j].tabTitle, ((layout * text) / 2), 66)
-                                                    }else{
-                                                        ctx.fillText(res.data.motds[j].title, ((layout * text) / 2), 66)
-                                                    }
+                                                }else{
+                                                    ctx.font = applyText(canvas, res.data.motds[j].title);
+                                                    ctx.fillText(res.data.motds[j].title, ((layout * text) / 2), 66)
+                                                }
                                                     x += layout
                                                     text += 2;
                                                 }else{
@@ -335,12 +348,13 @@ module.exports = {
                                                     ctx.drawImage(NotUsed,x,0,layout,100)
                                                     ctx.fillStyle = '#ffffff';
                                                     ctx.textAlign='center';
-                                                    ctx.font = applyText(canvas, res.data.motds[j].tabTitle);
                                                     if(res.data.motds[j].tabTitle !== null){
+                                                        ctx.font = applyText(canvas, res.data.motds[j].tabTitle);
                                                         ctx.fillText(res.data.motds[j].tabTitle, ((layout * text) / 2), 66)
-                                                    }else{
-                                                        ctx.fillText(res.data.motds[j].title, ((layout * text) / 2), 66)
-                                                    }
+                                                }else{
+                                                    ctx.font = applyText(canvas, res.data.motds[j].title);
+                                                    ctx.fillText(res.data.motds[j].title, ((layout * text) / 2), 66)
+                                                }
                                                     x += layout
                                                     text += 2;
                                                 }
@@ -457,7 +471,6 @@ module.exports = {
                                             const layout = 1920 / length
 
                                             const applyText = (canvas, text) => {
-                                                console.log("mesuraing", text)
                                                 const ctx = canvas.getContext('2d');
                                                 let fontSize = 60;
                                                 do {
@@ -471,22 +484,37 @@ module.exports = {
                                                 ctx.drawImage(photo,0,0,canvas.width,canvas.height)
                                                 var x = 0;
                                                 var text = 1
-                                                
+                                                for(let j = 0; j < length; j++){
+                                                    if(i === j){
                                                         const Used = await Canvas.loadImage('./assets/News/Used.png')
                                                         ctx.drawImage(Used,x,0,layout,100)
                                                         ctx.fillStyle = '#ffffff';
                                                         ctx.textAlign='center';
-                                                        if(res.data.motds[i].tabTitle !== null){
-                                                            ctx.font = applyText(canvas, res.data.motds[i].tabTitle);
-                                                            ctx.fillText(res.data.motds[i].tabTitle, ((layout * text) / 2), 66)
+                                                        if(res.data.motds[j].tabTitle !== null){
+                                                            ctx.font = applyText(canvas, res.data.motds[j].tabTitle);
+                                                            ctx.fillText(res.data.motds[j].tabTitle, ((layout * text) / 2), 66)
                                                     }else{
-                                                        ctx.font = applyText(canvas, res.data.motds[i].title);
-                                                        ctx.fillText(res.data.motds[i].title, ((layout * text) / 2), 66)
+                                                        ctx.font = applyText(canvas, res.data.motds[j].title);
+                                                        ctx.fillText(res.data.motds[j].title, ((layout * text) / 2), 66)
                                                     }
                                                         x += layout
                                                         text += 2;
-                                                    
-                                                
+                                                    }else{
+                                                        const NotUsed = await Canvas.loadImage('./assets/News/NotUsed.png')
+                                                        ctx.drawImage(NotUsed,x,0,layout,100)
+                                                        ctx.fillStyle = '#ffffff';
+                                                        ctx.textAlign='center';
+                                                        if(res.data.motds[j].tabTitle !== null){
+                                                            ctx.font = applyText(canvas, res.data.motds[j].tabTitle);
+                                                            ctx.fillText(res.data.motds[j].tabTitle, ((layout * text) / 2), 66)
+                                                    }else{
+                                                        ctx.font = applyText(canvas, res.data.motds[j].title);
+                                                        ctx.fillText(res.data.motds[j].title, ((layout * text) / 2), 66)
+                                                    }
+                                                        x += layout
+                                                        text += 2;
+                                                    }
+                                                }
                                                 //lines
                                                 const t = wrap(res.data.motds[i].body, {width: 50})
                                                 const lines = (t.split(/\r\n|\r|\n/).length)
@@ -586,8 +614,13 @@ module.exports = {
                                                         ctx.drawImage(Used,x,0,layout,100)
                                                         ctx.fillStyle = '#ffffff';
                                                         ctx.textAlign='center';
-                                                        ctx.font = applyText(canvas, res.data.messages[j].adspace);
-                                                        ctx.fillText(res.data.messages[j].adspace, ((layout * text) / 2), 66)
+                                                        if(res.data.messages[j].adspace !== ''){
+                                                            ctx.font = applyText(canvas, res.data.messages[j].adspace);
+                                                            ctx.fillText(res.data.messages[j].adspace, ((layout * text) / 2), 66)
+                                                        }else{
+                                                            ctx.font = applyText(canvas, res.data.messages[i].title);
+                                                            ctx.fillText(res.data.messages[j].title, ((layout * text) / 2), 66)
+                                                        }
                                                         x += layout
                                                         text += 2;
                                                     }else{
@@ -595,8 +628,13 @@ module.exports = {
                                                         ctx.drawImage(NotUsed,x,0,layout,100)
                                                         ctx.fillStyle = '#ffffff';
                                                         ctx.textAlign='center';
-                                                        ctx.font = applyText(canvas, res.data.messages[j].adspace);
-                                                        ctx.fillText(res.data.messages[j].adspace, ((layout * text) / 2), 66)
+                                                        if(res.data.messages[j].adspace !== ''){
+                                                            ctx.font = applyText(canvas, res.data.messages[j].adspace);
+                                                            ctx.fillText(res.data.messages[j].adspace, ((layout * text) / 2), 66)
+                                                        }else{
+                                                            ctx.font = applyText(canvas, res.data.messages[i].title);
+                                                            ctx.fillText(res.data.messages[j].title, ((layout * text) / 2), 66)
+                                                        }
                                                         x += layout
                                                         text += 2;
                                                     }
@@ -701,10 +739,11 @@ module.exports = {
                                                         ctx.drawImage(Used,x,0,layout,100)
                                                         ctx.fillStyle = '#ffffff';
                                                         ctx.textAlign='center';
-                                                        ctx.font = applyText(canvas, res.data.motds[j].tabTitle);
                                                         if(res.data.motds[j].tabTitle !== null){
-                                                        ctx.fillText(res.data.motds[j].tabTitle, ((layout * text) / 2), 66)
+                                                            ctx.font = applyText(canvas, res.data.motds[j].tabTitle);
+                                                            ctx.fillText(res.data.motds[j].tabTitle, ((layout * text) / 2), 66)
                                                     }else{
+                                                        ctx.font = applyText(canvas, res.data.motds[j].title);
                                                         ctx.fillText(res.data.motds[j].title, ((layout * text) / 2), 66)
                                                     }
                                                         x += layout
@@ -714,10 +753,11 @@ module.exports = {
                                                         ctx.drawImage(NotUsed,x,0,layout,100)
                                                         ctx.fillStyle = '#ffffff';
                                                         ctx.textAlign='center';
-                                                        ctx.font = applyText(canvas, res.data.motds[j].tabTitle);
                                                         if(res.data.motds[j].tabTitle !== null){
-                                                        ctx.fillText(res.data.motds[j].tabTitle, ((layout * text) / 2), 66)
+                                                            ctx.font = applyText(canvas, res.data.motds[j].tabTitle);
+                                                            ctx.fillText(res.data.motds[j].tabTitle, ((layout * text) / 2), 66)
                                                     }else{
+                                                        ctx.font = applyText(canvas, res.data.motds[j].title);
                                                         ctx.fillText(res.data.motds[j].title, ((layout * text) / 2), 66)
                                                     }
                                                         x += layout

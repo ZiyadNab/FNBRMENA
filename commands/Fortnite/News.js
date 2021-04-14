@@ -457,11 +457,12 @@ module.exports = {
                                             const layout = 1920 / length
 
                                             const applyText = (canvas, text) => {
+                                                console.log("mesuraing", text)
                                                 const ctx = canvas.getContext('2d');
                                                 let fontSize = 60;
                                                 do {
                                                     ctx.font = `${fontSize -= 1}px Arabic`;
-                                                } while (ctx.measureText(text).width > (layout - 100));
+                                                } while (ctx.measureText(text).width > (layout));
                                                 return ctx.font;
                                             };
     

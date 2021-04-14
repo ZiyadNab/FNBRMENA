@@ -477,9 +477,9 @@ module.exports = {
                                                         ctx.drawImage(Used,x,0,layout,100)
                                                         ctx.fillStyle = '#ffffff';
                                                         ctx.textAlign='center';
-                                                        ctx.font = applyText(canvas, res.data.motds[j].tabTitle);
                                                         if(res.data.motds[j].tabTitle !== null){
-                                                        ctx.fillText(res.data.motds[j].tabTitle, ((layout * text) / 2), 66)
+                                                            ctx.font = applyText(canvas, res.data.motds[j].tabTitle);
+                                                            ctx.fillText(res.data.motds[j].tabTitle, ((layout * text) / 2), 66)
                                                     }else{
                                                         ctx.fillText(res.data.motds[j].title, ((layout * text) / 2), 66)
                                                     }
@@ -490,8 +490,8 @@ module.exports = {
                                                         ctx.drawImage(NotUsed,x,0,layout,100)
                                                         ctx.fillStyle = '#ffffff';
                                                         ctx.textAlign='center';
-                                                        ctx.font = applyText(canvas, res.data.motds[j].tabTitle);
                                                         if(res.data.motds[j].tabTitle !== null){
+                                                            ctx.font = applyText(canvas, res.data.motds[j].tabTitle);
                                                         ctx.fillText(res.data.motds[j].tabTitle, ((layout * text) / 2), 66)
                                                     }else{
                                                         ctx.fillText(res.data.motds[j].title, ((layout * text) / 2), 66)

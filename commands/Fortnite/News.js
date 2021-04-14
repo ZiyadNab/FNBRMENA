@@ -481,6 +481,7 @@ module.exports = {
                                                             ctx.font = applyText(canvas, res.data.motds[j].tabTitle);
                                                             ctx.fillText(res.data.motds[j].tabTitle, ((layout * text) / 2), 66)
                                                     }else{
+                                                        ctx.font = applyText(canvas, res.data.motds[j].tabTitle);
                                                         ctx.fillText(res.data.motds[j].title, ((layout * text) / 2), 66)
                                                     }
                                                         x += layout
@@ -492,8 +493,9 @@ module.exports = {
                                                         ctx.textAlign='center';
                                                         if(res.data.motds[j].tabTitle !== null){
                                                             ctx.font = applyText(canvas, res.data.motds[j].tabTitle);
-                                                        ctx.fillText(res.data.motds[j].tabTitle, ((layout * text) / 2), 66)
+                                                            ctx.fillText(res.data.motds[j].tabTitle, ((layout * text) / 2), 66)
                                                     }else{
+                                                        ctx.font = applyText(canvas, res.data.motds[j].tabTitle);
                                                         ctx.fillText(res.data.motds[j].title, ((layout * text) / 2), 66)
                                                     }
                                                         x += layout

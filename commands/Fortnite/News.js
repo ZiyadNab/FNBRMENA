@@ -481,7 +481,7 @@ module.exports = {
                                                             ctx.font = applyText(canvas, res.data.motds[j].tabTitle);
                                                             ctx.fillText(res.data.motds[j].tabTitle, ((layout * text) / 2), 66)
                                                     }else{
-                                                        ctx.font = applyText(canvas, res.data.motds[j].tabTitle);
+                                                        ctx.font = applyText(canvas, res.data.motds[j].title);
                                                         ctx.fillText(res.data.motds[j].title, ((layout * text) / 2), 66)
                                                     }
                                                         x += layout
@@ -495,7 +495,7 @@ module.exports = {
                                                             ctx.font = applyText(canvas, res.data.motds[j].tabTitle);
                                                             ctx.fillText(res.data.motds[j].tabTitle, ((layout * text) / 2), 66)
                                                     }else{
-                                                        ctx.font = applyText(canvas, res.data.motds[j].tabTitle);
+                                                        ctx.font = applyText(canvas, res.data.motds[j].title);
                                                         ctx.fillText(res.data.motds[j].title, ((layout * text) / 2), 66)
                                                     }
                                                         x += layout

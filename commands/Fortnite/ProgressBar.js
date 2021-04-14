@@ -53,9 +53,6 @@ module.exports = {
                     var gone = now.diff(starts, 'days') 
                     var left = ends.diff(now, 'days') 
                     var length = gone + left
-                    console.log(gone)
-                    console.log(left)
-                    console.log(length)
 
                     var percent = (gone / length);
                     var percentage = 817 * percent

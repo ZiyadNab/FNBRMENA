@@ -31,7 +31,7 @@ module.exports = (client, commandOptions, admin) => {
         content.toLowerCase() === command
       ) {
 
-        admin.database().ref("ERA's").child("Users").child(message.member.user.id).once('value', function (data) {
+        admin.database().ref("ERA's").child("Users").child(message.author.id).once('value', function (data) {
           var lang = data.val().lang;
 
           if(message.author.id === "325507145871130624"){

@@ -15,7 +15,7 @@ module.exports = {
     maxArgs: 0,
     permissionError: 'Sorry you do not have acccess to this command',
     callback: (message, arguments, text, Discord, client, admin) => {
-        admin.database().ref("ERA's").child("Users").child(message.member.user.id).once('value', function (data) {
+        admin.database().ref("ERA's").child("Users").child(message.author.id).once('value', function (data) {
             var lang = data.val().lang;
 
             Fortnite.AES("en")

@@ -12,7 +12,7 @@ var send;
 var cosmetics;
 
 module.exports = {
-    commands: 'itemshopv1',
+    commands: 'itemshop',
     expectedArgs: '<itemshop>',
     minArgs: 0,
     maxArgs: 0,

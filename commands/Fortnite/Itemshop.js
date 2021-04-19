@@ -1560,15 +1560,7 @@ module.exports = {
                         x = 3747 + 250;
                         y = 250;
                         newline = 0;
-                        if(fe === 5){
-                            x = 5046;
-                            y = 250;
-                            newline = 0;
-                        }else if (fe === 3){
-                            x = 3922;
-                            y = 250;
-                            newline = 0;
-                        }
+                        
                     }else if (sp == 3){
                         if(fe === 5){
                             x = 5046;

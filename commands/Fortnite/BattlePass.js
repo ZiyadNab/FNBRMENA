@@ -2,9 +2,6 @@ const FortniteAPI = require("fortniteapi.io-api");
 const key = require('../../Coinfigs/config.json')
 const fortniteAPI = new FortniteAPI(key.apis.fortniteio);
 const Canvas = require('canvas');
-var language;
-var loading;
-var send;
 
 module.exports = {
     commands: 'battlepass',
@@ -16,6 +13,11 @@ module.exports = {
 
         admin.database().ref("ERA's").child("Users").child(message.author.id).once('value', function (data) {
             var lang = data.val().lang;
+
+            //var
+            var language;
+            var loading;
+            var send;
 
             if(lang === "en"){
                 language = "en"

@@ -7,8 +7,6 @@ const config = {
   language: "en",
   debug: true
 };
-var loading;
-var send;
 
 var Fortnite = new FortniteAPI(config);
 
@@ -28,6 +26,9 @@ module.exports = {
                 if(api === "Fortnite-API"){
                     Fortnite.CosmeticsNew(lang)
                     .then(async res => {
+
+                        var loading;
+                        var send;
 
                         if(lang === "en"){
                             language = "en"

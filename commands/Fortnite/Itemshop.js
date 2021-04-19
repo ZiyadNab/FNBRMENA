@@ -4,12 +4,6 @@ const moment = require('moment')
 const key = require('../../Coinfigs/config.json')
 const fortniteAPI = new FortniteAPI(key.apis.fortniteio);
 const Canvas = require('canvas');
-var sp;
-var fe;
-var language;
-var loading;
-var send;
-var cosmetics;
 
 module.exports = {
     commands: 'itemshop',
@@ -21,6 +15,13 @@ module.exports = {
 
         admin.database().ref("ERA's").child("Users").child(message.author.id).once('value', function (data) {
             var lang = data.val().lang;
+
+            var sp;
+            var fe;
+            var language;
+            var loading;
+            var send;
+            var cosmetics;
 
             if(lang === "en"){
                 language = "en"

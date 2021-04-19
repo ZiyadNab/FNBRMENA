@@ -7,9 +7,6 @@ const config = {
   language: "en",
   debug: true
 };
-var arrayBR = []
-var arrayCR = []
-var arraySTW = []
 
 var Fortnite = new FortniteAPI(config);
 
@@ -23,6 +20,10 @@ module.exports = {
 
         admin.database().ref("ERA's").child("Users").child(message.author.id).once('value', async function (data) {
             var lang = data.val().lang;
+
+            var arrayBR = []
+            var arrayCR = []
+            var arraySTW = []
 
             if(lang === "en"){
                 const mode = new Discord.MessageEmbed()

@@ -1,11 +1,6 @@
 const axios = require('axios');
 const moment = require('moment')
 const Canvas = require('canvas')
-var gonee;
-var lefttt;
-var Slength;
-var days;
-var gen;
 
 module.exports = {
     commands: 'progress',
@@ -18,6 +13,13 @@ module.exports = {
         .then(async (res) => {
             admin.database().ref("ERA's").child("Users").child(message.author.id).once('value', function (data) {
                 var lang = data.val().lang;
+
+                //var
+                var gonee;
+                var lefttt;
+                var Slength;
+                var days;
+                var gen;
 
                 if(lang === "en"){
                     gen = "Generating Season Info"

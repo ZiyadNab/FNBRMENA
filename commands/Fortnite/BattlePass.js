@@ -242,26 +242,27 @@ module.exports = {
 
                         const att = new Discord.MessageAttachment(canvas.toBuffer('image/jpeg', {quality: 0.5}))
                         await message.channel.send(att)
-                        // for(let i = 0; i < res.videos.length; i++){
-                        //     const BPVideo = new Discord.MessageAttachment(res.videos[i].url)
-                        //     const embed = new Discord.MessageEmbed()
-                        //     embed.setColor('#BB00EE')
-                        //     if(res.videos[i].type === "bp"){
-                        //         if(lang === "en"){
-                        //             embed.setTitle("Battlepass Trailer")
-                        //         }else if(lang === "ar"){
-                        //             embed.setTitle("عرض الباتل باس")
-                        //         }
-                        //     }else if(res.videos[i].type === "trailer"){
-                        //         if(lang === "en"){
-                        //             embed.setTitle("Season Trailer")
-                        //         }else if(lang === "ar"){
-                        //             embed.setTitle("عرض السيزون")
-                        //         }
-                        //     }
-                        //     embed.attachFiles(BPVideo)
-                        //     message.channel.send(embed)
-                        // }
+                        for(let i = 0; i < res.videos.length; i++){
+                            const embed = new Discord.MessageEmbed()
+                            embed.setColor('#BB00EE')
+                            if(res.videos[i].type === "bp"){
+                                if(lang === "en"){
+                                    embed.setTitle("Battlepass Trailer")
+                                }else if(lang === "ar"){
+                                    embed.setTitle("عرض الباتل باس")
+                                }
+                            }else if(res.videos[i].type === "trailer"){
+                                if(lang === "en"){
+                                    embed.setTitle("Season Trailer")
+                                }else if(lang === "ar"){
+                                    embed.setTitle("عرض السيزون")
+                                }
+                            }
+                            embed.setURL(res.videos[i].url)
+                            message.channel.send(embed)
+                        }
+
+                        msg.delete()
                                 
                     }).catch(err => {
                         console.log(err);

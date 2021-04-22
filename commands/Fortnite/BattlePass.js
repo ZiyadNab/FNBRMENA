@@ -17,7 +17,6 @@ module.exports = {
             //var
             var language;
             var loading;
-            var send;
 
             if(lang === "en"){
                 language = "en"
@@ -240,8 +239,21 @@ module.exports = {
                             }
                         }
 
+                        //send the pic
                         const att = new Discord.MessageAttachment(canvas.toBuffer('image/jpeg', {quality: 0.5}))
                         await message.channel.send(att)
+
+                        //battlepass info
+                        const info = new Discord.MessageEmbed()
+                        info.setColor('#BB00EE')
+                        if(lang === "en"){
+                            info.setTitle("Season "+ res.displayInfo.chapterSeason +"Battlepass Details")
+                            
+                        }else if(lang === "ar"){
+
+                        }
+
+                        //videos
                         for(let i = 0; i < res.videos.length; i++){
                             const embed = new Discord.MessageEmbed()
                             embed.setColor('#BB00EE')

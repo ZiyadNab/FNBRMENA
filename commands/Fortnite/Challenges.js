@@ -36,6 +36,7 @@ module.exports = {
                 var canvasM;
                 var ctxM;
                 var number = 2;
+                var found = 0
 
                 const generating = new Discord.MessageEmbed()
                 generating.setColor('#BB00EE')
@@ -57,6 +58,9 @@ module.exports = {
 
                         //searching if there is a challenges
                         if((res.bundles[i].id).includes(text)){
+                            //found
+                            found = 1
+
                             //an a challenge has been found creating the picture
                             if(lang === "en"){
                                 const got = new Discord.MessageEmbed()
@@ -310,6 +314,25 @@ module.exports = {
                                 }
                             }
                             
+                        }else{
+                            if((i + 1) === res.bundles.length){
+                                if(found !== 1){
+
+                                    if(lang === "en"){
+                                        const err = new Discord.MessageEmbed()
+                                        .setColor('#BB00EE')
+                                        .setTitle(`There is no challenges with that name :x:`)
+                                        msg.edit(got)
+                                    }else if(lang === "ar"){
+                                        const err = new Discord.MessageEmbed()
+                                        .setColor('#BB00EE')
+                                        .setTitle(`لا يوجد تحديات بهذا الأسم :x:`)
+                                        msg.edit(got)
+                                        
+                                    }
+
+                                }
+                            }
                         }
                     }
 

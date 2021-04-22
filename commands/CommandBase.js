@@ -34,7 +34,7 @@ module.exports = (client, commandOptions, admin) => {
         admin.database().ref("ERA's").child("Users").child(message.author.id).once('value', function (data) {
           var lang = data.val().lang;
 
-          if(message.author.id === "325507145871130624"){
+          if(message.author.id === "325507145871130624" || message.author.id === "756527533171671190"){
 
             // Split on any number of spaces
             const args = content.split(/[ ]+/)

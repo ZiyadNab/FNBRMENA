@@ -65,7 +65,7 @@ module.exports = {
                             if(lang === "en"){
                                 const got = new Discord.MessageEmbed()
                                 .setColor('#BB00EE')
-                                .setTitle(`Challenges has been found creating the images please wait ${emoji}`)
+                                .setTitle(`Challenges has been found please wait ${emoji}`)
                                 msg.edit(got)
                             }else if(lang === "ar"){
                                 const got = new Discord.MessageEmbed()
@@ -322,12 +322,12 @@ module.exports = {
                                         const err = new Discord.MessageEmbed()
                                         .setColor('#BB00EE')
                                         .setTitle(`There is no challenges with that name :x:`)
-                                        msg.edit(got)
+                                        msg.edit(err)
                                     }else if(lang === "ar"){
                                         const err = new Discord.MessageEmbed()
                                         .setColor('#BB00EE')
                                         .setTitle(`لا يوجد تحديات بهذا الأسم :x:`)
-                                        msg.edit(got)
+                                        msg.edit(err)
                                         
                                     }
 

@@ -244,14 +244,33 @@ module.exports = {
                         await message.channel.send(att)
 
                         //battlepass info
+                        var paid = 0
+                        var free = 0
+                        for(let i = 0; i < length; i++){
+                            if(res.rewards[i].battlepass === 'paid')
+                                paid += 1
+                            if(res.rewards[i].battlepass === 'free')
+                                free += 1
+                        }
                         const info = new Discord.MessageEmbed()
                         info.setColor('#BB00EE')
                         if(lang === "en"){
-                            info.setTitle("Season "+ res.displayInfo.chapterSeason +"Battlepass Details")
+                            info.setTitle("Season "+ res.displayInfo.chapterSeason +" Battlepass Details")
+                            info.addFields(
+                                {name: 'All Cosmetics:', value: length},
+                                {name: 'Paid Cosmetics:', value: paid},
+                                {name: 'Free Cosmetics:', value: free},
+                            )
                             
                         }else if(lang === "ar"){
-
+                            info.setTitle("سيزون "+ res.displayInfo.chapterSeason +" معلومات الباتل باس")
+                            info.addFields(
+                                {name: 'جميع العناصر:', value: length},
+                                {name: 'العناصر المدفوعة:', value: paid},
+                                {name: 'العناصر المجانية:', value: free},
+                            )
                         }
+                        message.channel.send(info)
 
                         //videos
                         for(let i = 0; i < res.videos.length; i++){
@@ -280,7 +299,19 @@ module.exports = {
                         console.log(err);
                     })
                 }).catch(err => {
-                    console.log(err);
+                    if(lang === "en"){
+                        msgReact.delete()
+                        const error = new Discord.MessageEmbed()
+                        .setColor('#BB00EE')
+                        .setTitle(":x: There is no battlepass with that number")
+                        message.reply(error)
+                    }else if(lang === "ar"){
+                        msgReact.delete()
+                        const error = new Discord.MessageEmbed()
+                        .setColor('#BB00EE')
+                        .setTitle(":x: لا يوجد باتل باس بهذا الرقم")
+                        message.reply(error)
+                    }
             })
         })
     },

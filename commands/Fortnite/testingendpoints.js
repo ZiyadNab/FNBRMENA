@@ -31,8 +31,9 @@ module.exports = {
     permissionError: 'Sorry you do not have acccess to this command',
     callback: async (message, args, text, Discord) => {
 
-      axios.get("https://fortnitecontent-website-prod07.ol.epicgames.com/content/api/pages/fortnite-game").then(res => {
-        console.log(res.data)
+      fortniteAPI.getBattlepassRewards()
+      .then(res => {
+        console.log(res)
       })
         
     },

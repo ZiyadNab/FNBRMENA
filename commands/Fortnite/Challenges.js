@@ -5,7 +5,7 @@ const Canvas = require('canvas');
 
 module.exports = {
     commands: 'quests',
-    expectedArgs: '[Name Of The Challenge Week_01]',
+    expectedArgs: '[Name of the challenge Week_01]',
     minArgs: 1,
     maxArgs: null,
     permissionError: 'Sorry you do not have acccess to this command',
@@ -167,8 +167,10 @@ module.exports = {
                                             //there is a location
                                             var xandy = res.bundles[i].quests[j].locations
                                             for(let p = 0; p < xandy.length; p++){
-                                                const num = await Canvas.loadImage('./assets/Challenges/number' + number +'.png')
-                                                ctxM.drawImage(num, xandy[p].location.x, xandy[p].location.y, 100, 100)
+                                                if(xandy[p].location !== null){
+                                                    const num = await Canvas.loadImage('./assets/Challenges/number' + number +'.png')
+                                                    ctxM.drawImage(num, xandy[p].location.x, xandy[p].location.y, 100, 100)
+                                                }
                                             }
                                         }
 
@@ -210,8 +212,10 @@ module.exports = {
                                             //there is a location
                                             var xandy = res.bundles[i].quests[j].locations
                                             for(let p = 0; p < xandy.length; p++){
-                                                const num = await Canvas.loadImage('./assets/Challenges/number' + number +'.png')
-                                                ctxM.drawImage(num, xandy[p].location.x, xandy[p].location.y, 100, 100)
+                                                if(xandy[p].location !== null){
+                                                    const num = await Canvas.loadImage('./assets/Challenges/number' + number +'.png')
+                                                    ctxM.drawImage(num, xandy[p].location.x, xandy[p].location.y, 100, 100)
+                                                }
                                             }
                                         }
 

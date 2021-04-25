@@ -673,7 +673,7 @@ module.exports = {
                         msgReact.delete()
                         const error = new Discord.MessageEmbed()
                         .setColor('#BB00EE')
-                        .setTitle(":x: تم ايقاف الامر بسبب عدم اختيارك طريقة")
+                        .setTitle(":x: تم ايقاف الامر بسبب عدم اختيارك لطريقة")
                         message.reply(error)
                     }
                 })

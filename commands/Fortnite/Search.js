@@ -11,8 +11,8 @@ const config = {
 var Fortnite = new FortniteAPI(config);
 
 module.exports = {
-    commands: 'Search',
-    expectedArgs: '<dlc>',
+    commands: 'search',
+    expectedArgs: '[The Name Of The Cosmetic]',
     minArgs: 1,
     maxArgs: null,
     permissionError: 'Sorry you do not have acccess to this command',

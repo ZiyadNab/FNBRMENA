@@ -4,55 +4,88 @@ module.exports = {
     minArgs: 1,
     maxArgs: 1,
     permissionError: 'Sorry you do not have acccess to this command',
-    callback: async (message, args, text, Discord, client, admin) => {
+    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji) => {
 
-        const lang = new Discord.MessageEmbed()
-        .setColor('#BB00EE')
-        .setTitle('Choose a method')
-        .addFields(
-            {name: 'Fortnite-API', value: 'React to :zero:'},
-            {name: 'BenBot', value: 'React to :one:'}
-        )
-        const msgReact = await message.channel.send(lang)
-        await msgReact.react('0️⃣')
-        msgReact.react('1️⃣')
-        const filter = (reaction, user) => {
-            return ['0️⃣', '1️⃣'].includes(reaction.emoji.name) && user.id === message.author.id;
-        };
-        await msgReact.awaitReactions(filter, { max: 1, time: 60000, errors: ['time'] })
-                    .then( async collected => {
-                        const reaction = collected.first();
-                        if(reaction.emoji.name === '0️⃣'){
-                            admin.database().ref("ERA's").child("Commands").child(args[0]).update({
-                                API: "Fortnite-API"
-                            })
+        admin.database().ref("ERA's").child("Users").child(message.author.id).once('value', function (data) {
+            var lang = data.val().lang;
 
-                            const Fortnite = new Discord.MessageEmbed()
-                            Fortnite.setColor('#BB00EE')
-                            Fortnite.setTitle("✅ Fortnite-API has been set")
-                            message.channel.send(Fortnite)
-                        }
-                        if(reaction.emoji.name === '1️⃣'){
-                            admin.database().ref("ERA's").child("Commands").child(args[0]).update({
-                                API: "BenBot"
-                            })
+            const method = new Discord.MessageEmbed()
+            method.setColor('#BB00EE')
+            if(lang === "en"){
+                method.setTitle('Choose a method')
+                method.addFields(
+                    {name: 'Fortnite-API', value: 'React to :zero:'},
+                    {name: 'BenBot', value: 'React to :one:'}
+                )
+            }else if(lang === "ar"){
+                if(lang === "en"){
+                    method.setTitle('اختر طريقة')
+                    method.addFields(
+                        {name: 'Fortnite-API', value: 'اختر العلامة :zero:'},
+                        {name: 'BenBot', value: 'اختر العلامة :one:'}
+                    )
+                }
+            }
+            const msgReact = await message.channel.send(method)
+            await msgReact.react('0️⃣')
+            msgReact.react('1️⃣')
+            const filter = (reaction, user) => {
+                return ['0️⃣', '1️⃣'].includes(reaction.emoji.name) && user.id === message.author.id;
+            };
+            await msgReact.awaitReactions(filter, { max: 1, time: 60000, errors: ['time'] })
+                        .then( async collected => {
+                            const reaction = collected.first();
+                            if(reaction.emoji.name === '0️⃣'){
+                                admin.database().ref("ERA's").child("Commands").child(args[0]).update({
+                                    API: "Fortnite-API"
+                                })
 
-                            const BenBotDone = new Discord.MessageEmbed()
-                            BenBotDone.setColor('#BB00EE')
-                            BenBotDone.setTitle("✅ BenBot API has been set")
-                            message.channel.send(BenBotDone)
-                        }
+                                const Fortnite = new Discord.MessageEmbed()
+                                if(lang === "en"){
+                                    BenBotDone.setColor('#BB00EE')
+                                    BenBotDone.setTitle(`Fortnite-API API has been set ${checkEmoji}`)
+                                    message.channel.send(BenBotDone)
+                                }else if(lang === "ar"){
+                                    BenBotDone.setColor('#BB00EE')
+                                    BenBotDone.setTitle(`تم تغير الـ API الى Fortnite-API ${checkEmoji}`)
+                                    message.channel.send(BenBotDone)
+                                }
+                            }
+                            if(reaction.emoji.name === '1️⃣'){
+                                admin.database().ref("ERA's").child("Commands").child(args[0]).update({
+                                    API: "BenBot"
+                                })
+
+                                const BenBotDone = new Discord.MessageEmbed()
+                                if(lang === "en"){
+                                    BenBotDone.setColor('#BB00EE')
+                                    BenBotDone.setTitle(`BenBot API has been set ${checkEmoji}`)
+                                    message.channel.send(BenBotDone)
+                                }else if(lang === "ar"){
+                                    BenBotDone.setColor('#BB00EE')
+                                    BenBotDone.setTitle(`تم تغير الـ API الى BenBot ${checkEmoji}`)
+                                    message.channel.send(BenBotDone)
+                                }
+                            }
 
 
-                        msgReact.delete()
+                            msgReact.delete()
 
-                    }).catch(err => {
-                        msgReact.delete()
-                        const error = new Discord.MessageEmbed()
-                        .setColor('#BB00EE')
-                        .setTitle(":regional_indicator_x: Sorry we canceled your process becuase no language has been selected")
-                        message.reply(error)
-                            })
+                        }).catch(err => {
+                            msgReact.delete()
+                            if(lang === "en"){
+                                const error = new Discord.MessageEmbed()
+                                .setColor('#BB00EE')
+                                .setTitle(`Sorry we canceled your process becuase no action has taken ${errorEmoji}`)
+                                message.reply(error)
+                            }else if(lang === "ar"){
+                                const error = new Discord.MessageEmbed()
+                                .setColor('#BB00EE')
+                                .setTitle(`لقد تم ايقاف الامر لعدم اختيار طريقة ${errorEmoji}`)
+                                message.reply(error)
+                            }
+                    })
+                })
 
     },
     requiredRoles: []

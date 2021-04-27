@@ -40,13 +40,13 @@ module.exports = {
 
                                 const Fortnite = new Discord.MessageEmbed()
                                 if(lang === "en"){
-                                    BenBotDone.setColor('#BB00EE')
-                                    BenBotDone.setTitle(`Fortnite-API API has been set ${checkEmoji}`)
-                                    message.channel.send(BenBotDone)
+                                    Fortnite.setColor('#BB00EE')
+                                    Fortnite.setTitle(`Fortnite-API API has been set ${checkEmoji}`)
+                                    message.channel.send(Fortnite)
                                 }else if(lang === "ar"){
-                                    BenBotDone.setColor('#BB00EE')
-                                    BenBotDone.setTitle(`تم تغير الـ API الى ${checkEmoji} Fortnite-API`)
-                                    message.channel.send(BenBotDone)
+                                    Fortnite.setColor('#BB00EE')
+                                    Fortnite.setTitle(`تم تغير الـ API الى ${checkEmoji} Fortnite-API`)
+                                    message.channel.send(Fortnite)
                                 }
                             }
                             if(reaction.emoji.name === '1️⃣'){

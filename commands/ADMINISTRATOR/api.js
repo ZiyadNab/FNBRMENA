@@ -18,13 +18,11 @@ module.exports = {
                     {name: 'BenBot', value: 'React to :one:'}
                 )
             }else if(lang === "ar"){
-                if(lang === "en"){
-                    method.setTitle('اختر طريقة')
-                    method.addFields(
-                        {name: 'Fortnite-API', value: 'اختر العلامة :zero:'},
-                        {name: 'BenBot', value: 'اختر العلامة :one:'}
-                    )
-                }
+                method.setTitle('اختر طريقة')
+                method.addFields(
+                    {name: 'Fortnite-API', value: 'اختر العلامة :zero:'},
+                    {name: 'BenBot', value: 'اختر العلامة :one:'}
+                )
             }
             const msgReact = await message.channel.send(method)
             await msgReact.react('0️⃣')
@@ -47,7 +45,7 @@ module.exports = {
                                     message.channel.send(BenBotDone)
                                 }else if(lang === "ar"){
                                     BenBotDone.setColor('#BB00EE')
-                                    BenBotDone.setTitle(`تم تغير الـ API الى Fortnite-API ${checkEmoji}`)
+                                    BenBotDone.setTitle(`تم تغير الـ API الى ${checkEmoji} Fortnite-API`)
                                     message.channel.send(BenBotDone)
                                 }
                             }
@@ -63,7 +61,7 @@ module.exports = {
                                     message.channel.send(BenBotDone)
                                 }else if(lang === "ar"){
                                     BenBotDone.setColor('#BB00EE')
-                                    BenBotDone.setTitle(`تم تغير الـ API الى BenBot ${checkEmoji}`)
+                                    BenBotDone.setTitle(`تم تغير الـ API الى ${checkEmoji} BenBot`)
                                     message.channel.send(BenBotDone)
                                 }
                             }

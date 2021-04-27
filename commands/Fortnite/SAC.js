@@ -1,3 +1,4 @@
+const error = require('../Errors')
 const FortniteAPI = require("fortnite-api-com");
 const config = {
   apikey: "a7eabb1fa5a6e59cbcda3a6885d42f02be0d76ea",
@@ -14,7 +15,7 @@ module.exports = {
     minArgs: 1,
     maxArgs: 1,
     permissionError: 'Sorry you do not have acccess to this command',
-    callback: (message, arguments, text, Discord, client) => {
+    callback: (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji) => {
 
         Fortnite.CreatorCodeSearch(arguments)
             .then( async res => {
@@ -102,7 +103,7 @@ module.exports = {
                             })
 
             }).catch(err => {
-                console.log(err);
+                error(err, message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji)
         });
     },
     

@@ -4,7 +4,7 @@ module.exports = {
     minArgs: 0,
     maxArgs: 0,
     permissionError: 'Sorry you do not have acccess to this command',
-    callback: async (message, arguments, text, Discord, client, admin) => {
+    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji) => {
 
         const lang = new Discord.MessageEmbed()
                 .setColor('#BB00EE')
@@ -30,7 +30,7 @@ module.exports = {
                     
                                     const change = new Discord.MessageEmbed()
                                     .setColor('#BB00EE')
-                                    .setTitle("Your language has been changed to English")
+                                    .setTitle(`Your language has been changed to English ${checkEmoji}`)
                                     message.channel.send(change)
                                 }
                                 if(reaction.emoji.name === '🇸🇦'){
@@ -41,18 +41,26 @@ module.exports = {
 
                                 const change = new Discord.MessageEmbed()
                                     .setColor('#BB00EE')
-                                    .setTitle("تم تغير اللغة الى العربية")
+                                    .setTitle(`تم تغير اللغة الى العربية ${checkEmoji}`)
                                     message.channel.send(change)
                             }
 
                             msgReact.delete()
 
                             }).catch(err => {
-                            msgReact.delete()
-                            const error = new Discord.MessageEmbed()
-                            .setColor('#BB00EE')
-                            .setTitle(":regional_indicator_x: Sorry we canceled your process becuase no language has been selected")
-                            message.reply(error)
+                                if(lang === "en"){
+                                    msgReact.delete()
+                                    const error = new Discord.MessageEmbed()
+                                    .setColor('#BB00EE')
+                                    .setTitle(":x: Sorry we canceled your process becuase no method has been selected")
+                                    message.reply(error)
+                                }else if(lang === "ar"){
+                                    msgReact.delete()
+                                    const error = new Discord.MessageEmbed()
+                                    .setColor('#BB00EE')
+                                    .setTitle(":x: تم ايقاف الامر بسبب عدم اختيارك لطريقة")
+                                    message.reply(error)
+                                }   
                         })
     }
 }

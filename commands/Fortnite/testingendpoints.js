@@ -1,4 +1,5 @@
 const Canvas = require('canvas');
+const error = require('../Errors')
 const fs = require('fs');
 const axios = require('axios')
 const fnbrjs = require('fnbr.js');
@@ -29,12 +30,15 @@ module.exports = {
     minArgs: 0,
     maxArgs: null,
     permissionError: 'Sorry you do not have acccess to this command',
-    callback: async (message, args, text, Discord) => {
+    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji) => {
 
       fortniteAPI.getBattlepassRewards()
       .then(res => {
-        console.log(res)
-      })
+        const name = res.data[0]
+        console.log(name)
+      }).catch(err =>{
+          error(err, message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji)
+    })
         
     },
     

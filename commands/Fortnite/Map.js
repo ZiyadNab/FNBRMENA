@@ -1,3 +1,4 @@
+const error = require('../Errors')
 const Canvas = require('canvas');
 const FortniteAPI = require("fortniteapi.io-api");
 const fortniteAPI = new FortniteAPI('d4ce1562-839ff66b-3946ccb6-438eb9cf');
@@ -16,7 +17,7 @@ module.exports = {
     minArgs: 0,
     maxArgs: 1,
     permissionError: 'Sorry you do not have acccess to this command',
-    callback: async (message, args, text, Discord, client, admin) => {
+    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji) => {
 
         admin.database().ref("ERA's").child("Users").child(message.author.id).once('value', function (data) {
             var lang = data.val().lang;
@@ -69,7 +70,7 @@ module.exports = {
                     }
                         
                     }).catch(err => {
-                        console.log(err);
+                        error(err, message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji)
                 });
             }else {
                     if(lang === 'en'){
@@ -103,7 +104,7 @@ module.exports = {
                                 console.log(err)
                             })
                         }).catch(err => {
-                            console.log(err)
+                            error(err, message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji)
                         })
                     }
                     if(lang === 'ar'){
@@ -137,7 +138,7 @@ module.exports = {
                                 console.log(err)
                             })
                         }).catch(err => {
-                            console.log(err)
+                            error(err, message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji)
                         })
                     }      
                 }

@@ -1,5 +1,6 @@
 const Canvas = require('canvas');
 const axios = require('axios');
+const error = require('../Errors')
 
 module.exports = {
     commands: 'pak',
@@ -7,7 +8,7 @@ module.exports = {
     minArgs: 1,
     maxArgs: 1,
     permissionError: 'Sorry you do not have acccess to this command',
-    callback: async (message, args, text, Discord, client, admin) => {
+    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji) => {
 
         admin.database().ref("ERA's").child("Users").child(message.author.id).once('value', function (data) {
             var lang = data.val().lang;
@@ -399,6 +400,7 @@ module.exports = {
                         console.log(err);
                     })
                 }).catch(err => {
+                    error(err, message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji)
                     const errorData = new Discord.MessageEmbed()
                     .setColor('#BB00EE')
                     .setTitle(':x: Pak file could not be found!')
@@ -791,6 +793,7 @@ module.exports = {
                             console.log(err);
                         })
                     }).catch(err => {
+                        error(err, message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji)
                         const errorData = new Discord.MessageEmbed()
                         .setColor('#BB00EE')
                         .setTitle(":x: عذرا لا يوجد ملف بالرمز هذا")

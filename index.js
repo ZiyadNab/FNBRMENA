@@ -18,6 +18,7 @@ client.on('ready', async () => {
   console.log('FNBR_MENA Bot is online!')
 
   const baseFile = 'CommandBase.js'
+  const Error = 'Errors.js'
   const commandBase = require(`./commands/${baseFile}`)
   const Array = []
 
@@ -27,7 +28,7 @@ client.on('ready', async () => {
       const stat = fs.lstatSync(path.join(__dirname, dir, file))
       if (stat.isDirectory()) {
         readCommands(path.join(dir, file))
-      } else if (file !== baseFile) {
+      } else if (file !== baseFile && file !== Error) {
         const option = require(path.join(__dirname, dir, file))
         Array.push(option.commands)
         commandBase(option)

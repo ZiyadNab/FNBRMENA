@@ -1,3 +1,4 @@
+const error = require('../Errors')
 const Canvas = require('canvas');
 const key = require('../../Coinfigs/config.json');
 const FortniteAPI = require("fortnite-api-com");
@@ -15,7 +16,7 @@ module.exports = {
     minArgs: 1,
     maxArgs: null,
     permissionError: 'Sorry you do not have acccess to this command',
-    callback: async (message, arguments, text, Discord, client, admin) => {
+    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji) => {
 
         admin.database().ref("ERA's").child("Users").child(message.author.id).once('value', async function (data) {
             var lang = data.val().lang;
@@ -606,6 +607,7 @@ module.exports = {
                     message.channel.send(embed)
 
                 }).catch(err =>{
+                    error(err, message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji)
                     if(lang === "en"){
                         const errorData = new Discord.MessageEmbed()
                         .setColor('#BB00EE')

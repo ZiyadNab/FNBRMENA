@@ -1,3 +1,4 @@
+const error = require('../Errors')
 const Canvas = require('canvas')
 var wrap = require('word-wrap');
 const Gif = require('make-a-gif')
@@ -16,7 +17,7 @@ module.exports = {
     minArgs: 0,
     maxArgs: 0,
     permissionError: 'Sorry you do not have acccess to this command',
-    callback: async (message, arguments, text, Discord, client, admin) => {
+    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji) => {
 
         admin.database().ref("ERA's").child("Users").child(message.author.id).once('value', async function (data) {
             var lang = data.val().lang;
@@ -174,6 +175,8 @@ module.exports = {
                                         const att = new Discord.MessageAttachment(gif, 'file.gif')
                                         await message.channel.send(att)
                                         msg.delete()
+                                    }).catch(err => {
+                                        error(err, message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji)
                                     })
                                     msgReact.delete()
                                 }
@@ -298,6 +301,8 @@ module.exports = {
                                         const att = new Discord.MessageAttachment(gif, 'file.gif')
                                         await message.channel.send(att)
                                         msg.delete()
+                                    }).catch(err => {
+                                        error(err, message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji)
                                     })
                                     msgReact.delete()
                                 }
@@ -423,11 +428,27 @@ module.exports = {
                                         const att = new Discord.MessageAttachment(gif, 'file.gif')
                                         await message.channel.send(att)
                                         msg.delete()
+                                    }).catch(err => {
+                                        error(err, message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji)
                                     })
                                     msgReact.delete()
                                 
                                 }
                             })
+                        }).catch(err =>{
+                            if(lang === "en"){
+                                msgReact.delete()
+                                const error = new Discord.MessageEmbed()
+                                .setColor('#BB00EE')
+                                .setTitle(":x: Sorry we canceled your process becuase no method has been selected")
+                                message.reply(error)
+                            }else if(lang === "ar"){
+                                msgReact.delete()
+                                const error = new Discord.MessageEmbed()
+                                .setColor('#BB00EE')
+                                .setTitle(":x: تم ايقاف الامر بسبب عدم اختيارك لطريقة")
+                                message.reply(error)
+                            }
                         })
                 }
                 if(lang === "ar"){
@@ -579,6 +600,8 @@ module.exports = {
                                             const att = new Discord.MessageAttachment(gif, 'file.gif')
                                             await message.channel.send(att)
                                             msg.delete()
+                                        }).catch(err => {
+                                            error(err, message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji)
                                         })
                                         msgReact.delete()
                                     }
@@ -703,6 +726,8 @@ module.exports = {
                                             const att = new Discord.MessageAttachment(gif, 'file.gif')
                                             await message.channel.send(att)
                                             msg.delete()
+                                        }).catch(err => {
+                                            error(err, message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji)
                                         })
                                         msgReact.delete()
                                     }
@@ -828,11 +853,27 @@ module.exports = {
                                             const att = new Discord.MessageAttachment(gif, 'file.gif')
                                             await message.channel.send(att)
                                             msg.delete()
+                                        }).catch(err => {
+                                            error(err, message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji)
                                         })
                                         msgReact.delete()
                                     
                                     }
                                 })
+                            }).catch(err =>{
+                                if(lang === "en"){
+                                    msgReact.delete()
+                                    const error = new Discord.MessageEmbed()
+                                    .setColor('#BB00EE')
+                                    .setTitle(":x: Sorry we canceled your process becuase no method has been selected")
+                                    message.reply(error)
+                                }else if(lang === "ar"){
+                                    msgReact.delete()
+                                    const error = new Discord.MessageEmbed()
+                                    .setColor('#BB00EE')
+                                    .setTitle(":x: تم ايقاف الامر بسبب عدم اختيارك لطريقة")
+                                    message.reply(error)
+                                }
                             })
                     }
 

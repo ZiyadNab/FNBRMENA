@@ -1,5 +1,6 @@
 const axios = require('axios');
 const moment = require('moment')
+const error = require('../Errors')
 const Canvas = require('canvas')
 
 module.exports = {
@@ -8,7 +9,7 @@ module.exports = {
     minArgs: 0,
     maxArgs: 0,
     permissionError: 'Sorry you do not have acccess to this command',
-    callback: (message, arguments, text, Discord, client, admin) => {
+    callback: (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji) => {
         axios.get('https://thomaskeig.co/api/progress/fortnite.json')
         .then(async (res) => {
             admin.database().ref("ERA's").child("Users").child(message.author.id).once('value', function (data) {
@@ -154,6 +155,8 @@ module.exports = {
                 .catch((err) => {
                     console.log(err)
                 })
+        }).catch(err => {
+            error(err, message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji)
         })
     },
     

@@ -1,10 +1,12 @@
+const error = require('../Errors')
+
 module.exports = {
     commands: 'help',
     expectedArgs: '<help>',
     minArgs: 0,
     maxArgs: 0,
     permissionError: 'Sorry you do not have acccess to this command',
-    callback: (message, arguments, text, Discord) => {
+    callback: (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji) => {
         const help = new Discord.MessageEmbed()
         .setColor('#BB00EE')
         .setTitle('Help Section')

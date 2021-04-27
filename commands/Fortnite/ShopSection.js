@@ -1,3 +1,4 @@
+const error = require('../Errors')
 const axios = require('axios');
 const Canvas = require('canvas')
 const moment = require('moment')
@@ -8,7 +9,7 @@ module.exports = {
     minArgs: 0,
     maxArgs: 0,
     permissionError: 'Sorry you do not have acccess to this command',
-    callback: (message, arguments, text, Discord, client) => {
+    callback: (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji) => {
         axios.get('https://fn-api.com/api/shop_categories')
         .then( async (res) => {
 
@@ -107,7 +108,7 @@ module.exports = {
 
         })
         .catch((err) => {
-            console.log(err)
+            error(err, message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji)
         })
     },
     

@@ -50,6 +50,8 @@ module.exports.listen = async (client, admin) => {
       } = command
 
       // a command has been ran
+      const errorEmoji = client.emojis.cache.get("836454225344856066")
+      const checkEmoji = client.emojis.cache.get("836454263260971018")
 
       admin.database().ref("ERA's").child("Users").child(message.author.id).once('value', function (data) {
         var lang = data.val().lang;
@@ -77,7 +79,7 @@ module.exports.listen = async (client, admin) => {
 
           // Handle the custom command code
       
-          callback(message, args, args.join(' '),Discord, client, admin)
+          callback(message, args, args.join(' '),Discord, client, admin, alias, errorEmoji, checkEmoji)
 
         }else{
           //checking if the bot on or off
@@ -87,7 +89,9 @@ module.exports.listen = async (client, admin) => {
         
             //checking if the command is active
             admin.database().ref("ERA's").child("Commands").child(alias).child("Active").once('value', async function (data) {
-              var access = data.val().ON;
+              var access = data.val().Status;
+              var ReasonEN = data.val().ReasonEN;
+              var ReasonAR = data.val().ReasonAR;
               if(access === "true"){
                 // A command has been ran
                 
@@ -158,17 +162,25 @@ module.exports.listen = async (client, admin) => {
 
                 // Handle the custom command code
             
-                callback(message, args, args.join(' '),Discord, client, admin)
+                callback(message, args, args.join(' '),Discord, client, admin, alias, errorEmoji, checkEmoji)
               } if(access === "false"){
                   if(lang === "en"){
                       const err = new Discord.MessageEmbed()
-                      .setColor('#BB00EE')
-                      .setTitle(":x: Sorry this command is offline at the moment, please try again later")
+                      err.setColor('#BB00EE')
+                      if(ReasonEN !== null){
+                        err.setTitle(ReasonEN)
+                      }else{
+                        err.setTitle(":x: Sorry this command is offline at the moment, please try again later")
+                      }
                       message.channel.send(err)
                   }else if(lang === "ar"){
                       const err = new Discord.MessageEmbed()
-                      .setColor('#BB00EE')
-                      .setTitle(":x: نأسف تم ايقاف الامر لمدة معينة نرجوا المحاولة لاحقا")
+                      err.setColor('#BB00EE')
+                      if(ReasonAR !== ''){
+                        err.setTitle(ReasonAR)
+                      }else{
+                        err.setTitle(":x: نأسف تم ايقاف الامر لمدة معينة نرجوا المحاولة لاحقا")
+                      }
                       message.channel.send(err)
                   }
                 }

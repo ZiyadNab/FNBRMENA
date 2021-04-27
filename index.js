@@ -16,7 +16,6 @@ admin.initializeApp({
 
 client.on('ready', async () => {
   console.log('FNBR_MENA Bot is online!')
-  client.setMaxListeners(0);
 
   const baseFile = 'CommandBase.js'
   const commandBase = require(`./commands/${baseFile}`)
@@ -31,12 +30,13 @@ client.on('ready', async () => {
       } else if (file !== baseFile) {
         const option = require(path.join(__dirname, dir, file))
         Array.push(option.commands)
-        commandBase(client, option, admin)
+        commandBase(option)
       }
     }
   }
 
   readCommands('commands')
+  commandBase.listen(client, admin)
   UserJoined(client, admin)
   Commands(client, admin, Array)
 })

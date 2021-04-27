@@ -541,6 +541,17 @@ module.exports = {
                 var LastSeenDays
                 var LastSeenDate
 
+                //introduction
+                var Introduction
+                if(lang === "en"){
+                    introduction = "no data"
+                }else if(lang === "ar"){
+                    introduction = "لا يوجد معلومات"
+                }
+                if(res.data[num].introduction !== null){
+                    introduction = res.data[num].introduction.text
+                }
+
                 //checking history
                 if (res.data[num].shopHistory !== null){
                     //setting the first seen date
@@ -566,7 +577,7 @@ module.exports = {
                         {name: 'Name', value: name},
                         {name: 'Description', value: description},
                         {name: 'Rarity', value: displayRarity},
-                        {name: 'Introduction', value: res.data[num].introduction.text},
+                        {name: 'Introduction', value: introduction},
                         {name: 'Occurrences', value: res.data[num].shopHistory.length},
                         {name: 'First Seen', value: FirstSeenDays + " days ago at " + FirstSeenDate},
                         {name: 'Last Seen', value: LastSeenDays + " days ago at " + LastSeenDate}
@@ -576,7 +587,7 @@ module.exports = {
                         {name: 'Name', value: name},
                         {name: 'Description', value: description},
                         {name: 'Rarity', value: displayRarity},
-                        {name: 'Introduction', value: res.data[num].introduction.text},
+                        {name: 'Introduction', value: introduction},
                         {name: 'Occurrences', value: "0"},
                         {name: 'First Seen', value: 'not out yet or the sorce is not an itemshop'},
                         {name: 'Last Seen', value: 'not out yet or the sorce is not an itemshop'}
@@ -595,7 +606,7 @@ module.exports = {
                             {name: 'الأسم', value: name},
                             {name: 'الوصف', value: description},
                             {name: 'الندرة', value: displayRarity},
-                            {name: 'تم عرضه في', value: res.data[num].introduction.text},
+                            {name: 'تم عرضه في', value: introduction},
                             {name: 'عدد نزول العنصر', value: res.data[num].shopHistory.length + " مرة"},
                             {name: 'اول ظهور', value: FirstSeenDays + " يوم في الساعة " + FirstSeenDate},
                             {name: 'اخر ظهور', value: LastSeenDays + " يوم في الساعة " + LastSeenDate}
@@ -605,7 +616,7 @@ module.exports = {
                             {name: 'الأسم', value: name},
                             {name: 'الوصف', value: description},
                             {name: 'الندرة', value: displayRarity},
-                            {name: 'تم عرضه في', value: res.data[num].introduction.text},
+                            {name: 'تم عرضه في', value: introduction},
                             {name: 'عدد نزول العنصر', value: "ولا مرة نزل"},
                             {name: 'اول ظهور', value: 'لم يتم نزول العنصر بعد او مصدر العنصر ليس من الايتم شوب'},
                             {name: 'اخر ظهور', value: 'لم يتم نزول العنصر بعد او مصدر العنصر ليس من الايتم شوب'}

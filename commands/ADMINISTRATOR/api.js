@@ -6,7 +6,7 @@ module.exports = {
     permissionError: 'Sorry you do not have acccess to this command',
     callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji) => {
 
-        admin.database().ref("ERA's").child("Users").child(message.author.id).once('value', function (data) {
+        admin.database().ref("ERA's").child("Users").child(message.author.id).once('value', async function (data) {
             var lang = data.val().lang;
 
             const method = new Discord.MessageEmbed()

@@ -50,8 +50,6 @@ module.exports.listen = async (client, admin) => {
       } = command
 
       // a command has been ran
-      const errorEmoji = client.emojis.cache.get("836454225344856066")
-      const checkEmoji = client.emojis.cache.get("836454263260971018")
 
       admin.database().ref("ERA's").child("Users").child(message.author.id).once('value', function (data) {
         var lang = data.val().lang;
@@ -79,7 +77,7 @@ module.exports.listen = async (client, admin) => {
 
           // Handle the custom command code
       
-          callback(message, args, args.join(' '),Discord, client, admin, alias, errorEmoji, checkEmoji)
+          callback(message, args, args.join(' '),Discord, client, admin, alias)
 
         }else{
           //checking if the bot on or off
@@ -162,7 +160,7 @@ module.exports.listen = async (client, admin) => {
 
                 // Handle the custom command code
             
-                callback(message, args, args.join(' '),Discord, client, admin, alias, errorEmoji, checkEmoji)
+                callback(message, args, args.join(' '),Discord, client, admin, alias)
               } if(access === "false"){
                   if(lang === "en"){
                       const err = new Discord.MessageEmbed()

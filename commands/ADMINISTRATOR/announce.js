@@ -2,7 +2,7 @@ const config = require('../../Coinfigs/config.json')
 
 module.exports = {
     commands: 'announce',
-    expectedArgs: '[ Announce Statment ]',
+    expectedArgs: '[ Announce statment ]',
     minArgs: 1,
     maxArgs: null,
     permissionError: 'Sorry you do not have acccess to this command',

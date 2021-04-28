@@ -2,7 +2,7 @@ const config = require('../../Coinfigs/config.json')
 
 module.exports = {
     commands: 'command',
-    expectedArgs: '',
+    expectedArgs: '[ Nmae of the command, True or False ]',
     minArgs: 2,
     maxArgs: null,
     permissionError: 'Sorry you do not have acccess to this command',

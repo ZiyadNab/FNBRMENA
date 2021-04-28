@@ -1,6 +1,6 @@
 module.exports = {
     commands: 'perms',
-    expectedArgs: '[ Name Of the Command ] [ The Permission ]',
+    expectedArgs: '[ Name Of the command, The permission ]',
     minArgs: 2,
     maxArgs: null,
     permissionError: 'Sorry you do not have acccess to this command',

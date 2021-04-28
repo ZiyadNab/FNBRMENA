@@ -13,7 +13,7 @@ var Fortnite = new fn(config);
 
 module.exports = {
     commands: 'map',
-    expectedArgs: '[Blank or season verion]',
+    expectedArgs: '[ Blank or season verion ]',
     minArgs: 0,
     maxArgs: 1,
     permissionError: 'Sorry you do not have acccess to this command',

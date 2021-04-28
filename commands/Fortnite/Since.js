@@ -12,7 +12,7 @@ var Fortnite = new FortniteAPI(config);
 
 module.exports = {
     commands: 'since',
-    expectedArgs: '[The Number Since The Cosmetics Last Released]',
+    expectedArgs: '[ Number since the cosmetics last released ]',
     minArgs: 1,
     maxArgs: null,
     permissionError: 'Sorry you do not have acccess to this command',

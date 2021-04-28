@@ -5,7 +5,7 @@ const Canvas = require('canvas')
 
 module.exports = {
     commands: 'progress',
-    expectedArgs: '<Progress>',
+    expectedArgs: '',
     minArgs: 0,
     maxArgs: 0,
     permissionError: 'Sorry you do not have acccess to this command',

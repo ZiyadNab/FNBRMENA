@@ -13,7 +13,7 @@ var Fortnite = new FortniteAPI(config);
 
 module.exports = {
     commands: 'new',
-    expectedArgs: '<newcosmetics>',
+    expectedArgs: '',
     minArgs: 0,
     maxArgs: 0,
     permissionError: 'Sorry you do not have acccess to this command',

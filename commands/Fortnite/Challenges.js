@@ -6,7 +6,7 @@ const Canvas = require('canvas');
 
 module.exports = {
     commands: 'quests',
-    expectedArgs: '[Name of the challenge Week_01]',
+    expectedArgs: '[ Name of the challenge Week_01 ]',
     minArgs: 1,
     maxArgs: null,
     permissionError: 'Sorry you do not have acccess to this command',

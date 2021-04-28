@@ -11,7 +11,7 @@ var Fortnite = new FortniteAPI(config);
 
 module.exports = {
     commands: 'sac',
-    expectedArgs: '<sac>',
+    expectedArgs: '[ Name of the SAC ]',
     minArgs: 1,
     maxArgs: 1,
     permissionError: 'Sorry you do not have acccess to this command',

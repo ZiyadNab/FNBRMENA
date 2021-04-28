@@ -66,12 +66,12 @@ module.exports.listen = async (client, admin) => {
             if(lang === "en"){
               const SyntaxError = new Discord.MessageEmbed()
               .setColor('#BB00EE')
-              .setTitle(`${errorEmoji} Incorrect syntax! Use ${prefix}${alias} ${expectedArgs}`)
+              .setTitle(`Incorrect syntax! Use ${prefix}${alias} ${expectedArgs} ${errorEmoji}`)
               message.channel.send(SyntaxError)
             }else if (lang === "ar"){
               const SyntaxError = new Discord.MessageEmbed()
               .setColor('#BB00EE')
-              .setTitle(`${errorEmoji} غلط في عملية كتابة الامر الرجاء كتابة الامر بالشكل الصحيح \n${prefix}${alias} ${expectedArgs}`)
+              .setTitle(`غلط في عملية كتابة الامر الرجاء كتابة الامر بالشكل الصحيح \n${prefix}${alias} ${expectedArgs} ${errorEmoji}`)
               message.channel.send(SyntaxError)
             }
             return
@@ -129,7 +129,7 @@ module.exports.listen = async (client, admin) => {
                     if(lang === "en"){
                       const RoleErr = new Discord.MessageEmbed()
                       .setColor('#BB00EE')
-                      .setTitle(`You must have the "${requiredRole}" role to use this command ${errorEmoji} `)
+                      .setTitle(`You must have the "${requiredRole}" role to use this command ${errorEmoji}`)
                       message.channel.send(RoleErr)
                     }else if(lang === "ar"){
                       const RoleErrAR = new Discord.MessageEmbed()
@@ -149,12 +149,12 @@ module.exports.listen = async (client, admin) => {
                   if(lang === "en"){
                     const SyntaxError = new Discord.MessageEmbed()
                     .setColor('#BB00EE')
-                    .setTitle(`${errorEmoji} Incorrect syntax! Use ${prefix}${alias} ${expectedArgs}`)
+                    .setTitle(`Incorrect syntax! Use ${prefix}${alias} ${expectedArgs} ${errorEmoji}`)
                     message.channel.send(SyntaxError)
                   }else if (lang === "ar"){
                     const SyntaxErrorAR = new Discord.MessageEmbed()
                     .setColor('#BB00EE')
-                    .setTitle(`${errorEmoji} غلط في عملية كتابة الامر الرجاء كتابة الامر بالشكل الصحيح \n${prefix}${alias} ${expectedArgs}`)
+                    .setTitle(`غلط في عملية كتابة الامر الرجاء كتابة الامر بالشكل الصحيح \n${prefix}${alias} ${expectedArgs} ${errorEmoji}`)
                     message.channel.send(SyntaxErrorAR)
                   }
                   return

@@ -12,7 +12,7 @@ var Fortnite = new FortniteAPI(config);
 
 module.exports = {
     commands: 'set',
-    expectedArgs: '[The Name Of The Set]',
+    expectedArgs: '[ Name of the set ]',
     minArgs: 1,
     maxArgs: null,
     permissionError: 'Sorry you do not have acccess to this command',

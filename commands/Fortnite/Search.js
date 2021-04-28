@@ -13,7 +13,7 @@ var Fortnite = new FortniteAPI(config);
 
 module.exports = {
     commands: 'search',
-    expectedArgs: '[The Name Of The Cosmetic]',
+    expectedArgs: '[ Name of the cosmetic ]',
     minArgs: 1,
     maxArgs: null,
     permissionError: 'Sorry you do not have acccess to this command',

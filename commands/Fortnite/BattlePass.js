@@ -6,7 +6,7 @@ const Canvas = require('canvas');
 
 module.exports = {
     commands: 'battlepass',
-    expectedArgs: '[Number of the season]',
+    expectedArgs: '[ Number of the season ]',
     minArgs: 1,
     maxArgs: 1,
     permissionError: 'Sorry you do not have acccess to this command',

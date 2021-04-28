@@ -326,12 +326,12 @@ module.exports = {
                                     if(lang === "en"){
                                         const err = new Discord.MessageEmbed()
                                         .setColor('#BB00EE')
-                                        .setTitle(`There is no challenges with that name :x:`)
+                                        .setTitle(`There is no challenges with that name ${errorEmoji}`)
                                         msg.edit(err)
                                     }else if(lang === "ar"){
                                         const err = new Discord.MessageEmbed()
                                         .setColor('#BB00EE')
-                                        .setTitle(`لا يوجد تحديات بهذا الأسم :x:`)
+                                        .setTitle(`لا يوجد تحديات بهذا الأسم ${errorEmoji}`)
                                         msg.edit(err)
                                         
                                     }
@@ -353,7 +353,7 @@ module.exports = {
                 })
 
             }).catch(err => {
-                error(err, message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji)
+
             })
 
         })

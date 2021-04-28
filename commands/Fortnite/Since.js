@@ -21,7 +21,8 @@ module.exports = {
         admin.database().ref("ERA's").child("Users").child(message.author.id).once('value', async function (data) {
             var lang = data.val().lang;
 
-            //setting quary
+            if(text >= 150){
+                //setting quary
             var query
 
             //voting
@@ -664,22 +665,36 @@ module.exports = {
                 })
 
                 }).catch(err =>{
-                    error(err, message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji)
                     if(lang === "en"){
                         msgReact.delete()
                         const error = new Discord.MessageEmbed()
                         .setColor('#BB00EE')
-                        .setTitle(":x: Sorry we canceled your process becuase no method has been selected")
+                        .setTitle(`Sorry we canceled your process becuase no method has been selected ${errorEmoji}`)
                         message.reply(error)
                     }else if(lang === "ar"){
                         msgReact.delete()
                         const error = new Discord.MessageEmbed()
                         .setColor('#BB00EE')
-                        .setTitle(":x: تم ايقاف الامر بسبب عدم اختيارك لطريقة")
+                        .setTitle(`تم ايقاف الامر بسبب عدم اختيارك لطريقة ${errorEmoji}`)
                         message.reply(error)
                     }
                 })
                 msgReact.delete()
+            }else{
+                if(lang === "en"){
+                    msgReact.delete()
+                    const error = new Discord.MessageEmbed()
+                    .setColor('#BB00EE')
+                    .setTitle(`There are too many items please enter a value greater than 150 ${errorEmoji}`)
+                    message.reply(error)
+                }else if(lang === "ar"){
+                    msgReact.delete()
+                    const error = new Discord.MessageEmbed()
+                    .setColor('#BB00EE')
+                    .setTitle(`يوجد عناصر كثيرة الرجاء اختيار رقم اعلى من 150 ${errorEmoji}`)
+                    message.reply(error)
+                }
+            }
 
         })
     },

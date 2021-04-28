@@ -66,12 +66,12 @@ module.exports.listen = async (client, admin) => {
             if(lang === "en"){
               const SyntaxError = new Discord.MessageEmbed()
               .setColor('#BB00EE')
-              .setTitle(`:x: Incorrect syntax! Use ${prefix}${alias} ${expectedArgs}`)
+              .setTitle(`${errorEmoji} Incorrect syntax! Use ${prefix}${alias} ${expectedArgs}`)
               message.channel.send(SyntaxError)
             }else if (lang === "ar"){
               const SyntaxError = new Discord.MessageEmbed()
               .setColor('#BB00EE')
-              .setTitle(`:x: غلط في عملية كتابة الامر الرجاء كتابة الامر بالشكل الصحيح \n${prefix}${alias} ${expectedArgs}`)
+              .setTitle(`${errorEmoji} غلط في عملية كتابة الامر الرجاء كتابة الامر بالشكل الصحيح \n${prefix}${alias} ${expectedArgs}`)
               message.channel.send(SyntaxError)
             }
             return
@@ -107,12 +107,12 @@ module.exports.listen = async (client, admin) => {
                     if(lang === "en"){
                       const PermErr = new Discord.MessageEmbed()
                       .setColor('#BB00EE')
-                      .setTitle(":x: "+permissionError)
+                      .setTitle(`${permissionError} ${errorEmoji} `)
                       message.channel.send(PermErr)
                     }else if(lang === "ar"){
                       const PermErr = new Discord.MessageEmbed()
                       .setColor('#BB00EE')
-                      .setTitle(":x: عذرا ليس لديك صلاحية لهذا الامر.")
+                      .setTitle(`عذرا ليس لديك صلاحية لهذا الامر ${errorEmoji}`)
                       message.channel.send(PermErr)
                     }
                     return
@@ -129,12 +129,12 @@ module.exports.listen = async (client, admin) => {
                     if(lang === "en"){
                       const RoleErr = new Discord.MessageEmbed()
                       .setColor('#BB00EE')
-                      .setTitle(`:x: You must have the "${requiredRole}" role to use this command.`)
+                      .setTitle(`You must have the "${requiredRole}" role to use this command ${errorEmoji} `)
                       message.channel.send(RoleErr)
                     }else if(lang === "ar"){
                       const RoleErrAR = new Discord.MessageEmbed()
                       .setColor('#BB00EE')
-                      .setTitle(`:x: هذا الامر فقط متوفر اذا كان لديك رول "${requiredRole}"`)
+                      .setTitle(`يجب عليك الحصول على روا "${requiredRole}" لأستخدام الامر ${errorEmoji}`)
                       message.channel.send(RoleErrAR)
                     }
                     return
@@ -149,12 +149,12 @@ module.exports.listen = async (client, admin) => {
                   if(lang === "en"){
                     const SyntaxError = new Discord.MessageEmbed()
                     .setColor('#BB00EE')
-                    .setTitle(`:x: Incorrect syntax! Use ${prefix}${alias} ${expectedArgs}`)
+                    .setTitle(`${errorEmoji} Incorrect syntax! Use ${prefix}${alias} ${expectedArgs}`)
                     message.channel.send(SyntaxError)
                   }else if (lang === "ar"){
                     const SyntaxErrorAR = new Discord.MessageEmbed()
                     .setColor('#BB00EE')
-                    .setTitle(`:x: غلط في عملية كتابة الامر الرجاء كتابة الامر بالشكل الصحيح \n${prefix}${alias} ${expectedArgs}`)
+                    .setTitle(`${errorEmoji} غلط في عملية كتابة الامر الرجاء كتابة الامر بالشكل الصحيح \n${prefix}${alias} ${expectedArgs}`)
                     message.channel.send(SyntaxErrorAR)
                   }
                   return
@@ -170,7 +170,7 @@ module.exports.listen = async (client, admin) => {
                       if(ReasonEN !== null){
                         err.setTitle(ReasonEN)
                       }else{
-                        err.setTitle(":x: Sorry this command is offline at the moment, please try again later")
+                        err.setTitle(`Sorry this command is offline at the moment, please try again later ${errorEmoji}`)
                       }
                       message.channel.send(err)
                   }else if(lang === "ar"){
@@ -179,7 +179,7 @@ module.exports.listen = async (client, admin) => {
                       if(ReasonAR !== ''){
                         err.setTitle(ReasonAR)
                       }else{
-                        err.setTitle(":x: نأسف تم ايقاف الامر لمدة معينة نرجوا المحاولة لاحقا")
+                        err.setTitle(`نأسف تم ايقاف الامر لمدة معينة نرجوا المحاولة لاحقا ${errorEmoji}`)
                       }
                       message.channel.send(err)
                   }
@@ -189,12 +189,12 @@ module.exports.listen = async (client, admin) => {
               if(lang === "en"){
                 const off = new Discord.MessageEmbed()
                 .setColor('#BB00EE')
-                .setTitle(":robot: Errr, Sorry the bot is off at the moment")
+                .setTitle(`Errr, Sorry the bot is off at the moment ${errorEmoji}`)
                 message.channel.send(off)
               }else if(lang === "ar"){
                 const offAR = new Discord.MessageEmbed()
                 .setColor('#BB00EE')
-                .setTitle(":robot: عذرا البوت مغلق بالوقت الحالي")
+                .setTitle(`عذرا البوت مغلق بالوقت الحالي ${errorEmoji}`)
                 message.channel.send(offAR)
               }
             }

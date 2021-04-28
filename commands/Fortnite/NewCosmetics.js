@@ -598,7 +598,7 @@ module.exports = {
                     })
                         
                     }).catch(err => {
-                        error(err, message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji)
+
                 });
                 }else if (api === "BenBot"){
                     axios.get('https://benbotfn.tk/api/v1/newCosmetics?lang='+lang)
@@ -1297,7 +1297,7 @@ module.exports = {
                     })
                         
                     }).catch(err => {
-                        error(err, message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji)
+                        
                 });
                 }
             })

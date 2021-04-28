@@ -67,10 +67,21 @@ module.exports = {
                                 console.log(err)
                             })
                         }
-                    }
-                        
+                    }   
                     }).catch(err => {
-                        error(err, message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji)
+                        if(lang === "en"){
+                            msgReact.delete()
+                            const error = new Discord.MessageEmbed()
+                            .setColor('#BB00EE')
+                            .setTitle(`There is no map with that number ${errorEmoji}`)
+                            message.reply(error)
+                        }else if(lang === "ar"){
+                            msgReact.delete()
+                            const error = new Discord.MessageEmbed()
+                            .setColor('#BB00EE')
+                            .setTitle(`لا يوجد ماب بهذا الرقم ${errorEmoji}`)
+                            message.reply(error)
+                        }
                 });
             }else {
                     if(lang === 'en'){
@@ -104,7 +115,7 @@ module.exports = {
                                 console.log(err)
                             })
                         }).catch(err => {
-                            error(err, message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji)
+
                         })
                     }
                     if(lang === 'ar'){
@@ -138,7 +149,7 @@ module.exports = {
                                 console.log(err)
                             })
                         }).catch(err => {
-                            error(err, message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji)
+
                         })
                     }      
                 }

@@ -57,19 +57,8 @@ module.exports = {
                 var num
 
                 //if there is no item with this name
-                if(res.data === undefined){
-                    if(lang === "en"){
-                        const Err = new Discord.MessageEmbed()
-                        .setColor('#BB00EE')
-                        .setTitle('Sorry :robot:, \nThere is no cosmetic with this name please check your speling and try again')
-                        message.reply(Err)
-                    }else if(lang === "ar"){
-                        const Err = new Discord.MessageEmbed()
-                        .setColor('#BB00EE')
-                        .setTitle('عذرا :robot:, \n لا يمكنني العثور على العنصر الرجاء التأكد من كتابة الاسم بشكل صحيح')
-                        message.reply(Err)
-                    }
-                }else if(res.data.length === 1){
+                
+                if(res.data.length === 1){
                     num = 0;
                 }
                 if(res.data.length > 1){
@@ -116,13 +105,13 @@ module.exports = {
                             msgReact.delete()
                             const error = new Discord.MessageEmbed()
                             .setColor('#BB00EE')
-                            .setTitle(":regional_indicator_x: Sorry we canceled your process becuase no option has been selected")
+                            .setTitle(`Sorry we canceled your process becuase no method has been selected ${errorEmoji}`)
                             message.reply(error)
                         }else if(lang === "ar"){
                             msgReact.delete()
                             const error = new Discord.MessageEmbed()
                             .setColor('#BB00EE')
-                            .setTitle(":regional_indicator_x: لقد لم ايقاف عمليتك بسبب عدم اختيارك للعنصر")
+                            .setTitle(`تم ايقاف الامر بسبب عدم اختيارك لطريقة ${errorEmoji}`)
                             message.reply(error)
                         }
                     })
@@ -638,7 +627,18 @@ module.exports = {
                     })
 
             }).catch(err => {
-                error(err, message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji)
+                    if(lang === "en"){
+                        const Err = new Discord.MessageEmbed()
+                        .setColor('#BB00EE')
+                        .setTitle(`No cosmetic has been found check your speling and try again ${errorEmoji}`)
+                        message.reply(Err)
+                    }else if(lang === "ar"){
+                        const Err = new Discord.MessageEmbed()
+                        .setColor('#BB00EE')
+                        .setTitle(`لا يمكنني العثور على العنصر الرجاء التأكد من كتابة الاسم بشكل صحيح ${errorEmoji}`)
+                        message.reply(Err)
+                    
+                }
             })
         })
 

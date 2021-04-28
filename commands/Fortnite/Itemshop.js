@@ -2917,7 +2917,7 @@ module.exports = {
             })
 
             }).catch(err => {
-                error(err, message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji)
+
         });
     })
     },

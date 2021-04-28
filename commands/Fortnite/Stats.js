@@ -103,16 +103,17 @@ module.exports = {
                             Squad = res.data.stats.touch.squad
                         }
                     }).catch(err => {
-                        msgReact.delete()
                         if(lang === "en"){
+                            msgReact.delete()
                             const error = new Discord.MessageEmbed()
                             .setColor('#BB00EE')
-                            .setTitle(":x: Sorry we canceled your process becuase no method has been selected")
+                            .setTitle(`Sorry we canceled your process becuase no method has been selected ${errorEmoji}`)
                             message.reply(error)
                         }else if(lang === "ar"){
+                            msgReact.delete()
                             const error = new Discord.MessageEmbed()
                             .setColor('#BB00EE')
-                            .setTitle(":x: تم ايقاف الامر بسبب عدم اختيارك لطريقة")
+                            .setTitle(`تم ايقاف الامر بسبب عدم اختيارك لطريقة ${errorEmoji}`)
                             message.reply(error)
                         }
                     })
@@ -342,17 +343,17 @@ module.exports = {
                     if(lang === "en"){
                         const error = new Discord.MessageEmbed()
                         .setColor('#BB00EE')
-                        .setTitle(':robot: make sure that you have entered an EPICGAMES username')
+                        .setTitle(`Make sure that you have entered an EPICGAMES username ${errorEmoji}`)
                         message.channel.send(error)
                     }else if(lang === "ar"){
                         const error = new Discord.MessageEmbed()
                         .setColor('#BB00EE')
-                        .setTitle(':robot: تأكد ان الاسم المكتوب هو اسم حساب من ايبك قيمز')
+                        .setTitle(`تأكد ان الاسم المكتوب هو اسم حساب من ايبك قيمز ${errorEmoji}`)
                         message.channel.send(error)
                     }
                 }
             }).catch(err => {
-                error(err, message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji)
+                
             })
         })
     },

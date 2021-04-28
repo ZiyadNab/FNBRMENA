@@ -304,15 +304,14 @@ module.exports = {
                         msgReact.delete()
                         const error = new Discord.MessageEmbed()
                         .setColor('#BB00EE')
-                        .setTitle(":x: There is no battlepass with that number")
+                        .setTitle(`There is no battlepass with that number ${errorEmoji}`)
                         message.reply(error)
                     }else if(lang === "ar"){
                         msgReact.delete()
                         const error = new Discord.MessageEmbed()
                         .setColor('#BB00EE')
-                        .setTitle(":x: لا يوجد باتل باس بهذا الرقم")
+                        .setTitle(`لا يوجد باتل باس بهذا الرقم ${errorEmoji}`)
                         message.reply(error)
-                        error(err, message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji)
                     }
             })
         })

@@ -21,13 +21,13 @@ module.exports = async (err, message, args, text, Discord, client, admin, alias,
       {name: "Discriminator", value: message.author.discriminator},
       {name: "Content" ,value: message.content},
       {name: "Status" ,value: "OFF"},
-      {name: "Reason" ,value: "An error has occurred in this command please try again when the comman i back to itd functionality :x:"},
+      {name: "Reason" ,value: "An error has occurred in this command please try again when the comman i back to its functionality :x:"},
       {name: "Error" ,value: "`"+err.stack+"`"},
      )
     mess.send(errorType)
     admin.database().ref("ERA's").child("Commands").child(alias).child("Active").update({
       Status: "false",
-      ReasonEN: "An error has occurred in this command please try again when the comman i back to itd functionality :x:",
+      ReasonEN: "An error has occurred in this command please try again when the comman i back to its functionality :x:",
       ReasonAR: "تم ايقاف امر " + alias +" بسبب مشكلة معينة الرجاء المحاولة اخرى بعد اصلاح الامر :x:"
       })
     })

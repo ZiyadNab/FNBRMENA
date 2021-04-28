@@ -52,15 +52,15 @@ module.exports = {
                                     msgReact.delete()
                                     const error = new Discord.MessageEmbed()
                                     .setColor('#BB00EE')
-                                    .setTitle(":x: Sorry we canceled your process becuase no method has been selected")
+                                    .setTitle(`Sorry we canceled your process becuase no method has been selected ${errorEmoji}`)
                                     message.reply(error)
                                 }else if(lang === "ar"){
                                     msgReact.delete()
                                     const error = new Discord.MessageEmbed()
                                     .setColor('#BB00EE')
-                                    .setTitle(":x: تم ايقاف الامر بسبب عدم اختيارك لطريقة")
+                                    .setTitle(`تم ايقاف الامر بسبب عدم اختيارك لطريقة ${errorEmoji}`)
                                     message.reply(error)
-                                }   
+                                }
                         })
     }
 }

@@ -400,10 +400,9 @@ module.exports = {
                         console.log(err);
                     })
                 }).catch(err => {
-                    error(err, message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji)
                     const errorData = new Discord.MessageEmbed()
                     .setColor('#BB00EE')
-                    .setTitle(':x: Pak file could not be found!')
+                    .setTitle(`Pak file could not be found! ${errorEmoji}`)
                     message.channel.send(errorData)
                 })
 
@@ -793,10 +792,9 @@ module.exports = {
                             console.log(err);
                         })
                     }).catch(err => {
-                        error(err, message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji)
                         const errorData = new Discord.MessageEmbed()
                         .setColor('#BB00EE')
-                        .setTitle(":x: عذرا لا يوجد ملف بالرمز هذا")
+                        .setTitle(`عذرا لا يوجد ملف بالرمز هذا ${errorEmoji}`)
                         message.channel.send(errorData)
                     })
                 }

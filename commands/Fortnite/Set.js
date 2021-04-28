@@ -607,17 +607,16 @@ module.exports = {
                     message.channel.send(embed)
 
                 }).catch(err =>{
-                    error(err, message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji)
                     if(lang === "en"){
                         const errorData = new Discord.MessageEmbed()
                         .setColor('#BB00EE')
-                        .setTitle("Sorry, No cosmetics has been found :x:")
+                        .setTitle(`Sorry, No cosmetics has been found ${errorEmoji}`)
                         msg.delete()
                         message.channel.send(errorData)
                     }else if(lang === "ar"){
                         const errorData = new Discord.MessageEmbed()
                         .setColor('#BB00EE')
-                        .setTitle(":x: عذرا لم يتم العثور على عناصر")
+                        .setTitle(`عذرا لم يتم العثور على عناصر ${errorEmoji}`)
                         msg.delete()
                         message.channel.send(errorData)
                     }

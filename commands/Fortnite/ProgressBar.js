@@ -156,7 +156,7 @@ module.exports = {
                     console.log(err)
                 })
         }).catch(err => {
-            error(err, message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji)
+
         })
     },
     

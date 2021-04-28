@@ -95,15 +95,23 @@ module.exports = {
                                         console.log(err);
                                 });
                             }).catch(err => {
-                                msgReact.delete()
-                                const error = new Discord.MessageEmbed()
-                                .setColor('#BB00EE')
-                                .setTitle(":regional_indicator_x: Sorry we canceled your process becuase no language has been selected")
-                                message.reply(error)
+                                if(lang === "en"){
+                                    msgReact.delete()
+                                    const error = new Discord.MessageEmbed()
+                                    .setColor('#BB00EE')
+                                    .setTitle(`Sorry we canceled your process becuase no method has been selected ${errorEmoji}`)
+                                    message.reply(error)
+                                }else if(lang === "ar"){
+                                    msgReact.delete()
+                                    const error = new Discord.MessageEmbed()
+                                    .setColor('#BB00EE')
+                                    .setTitle(`تم ايقاف الامر بسبب عدم اختيارك لطريقة ${errorEmoji}`)
+                                    message.reply(error)
+                                }
                             })
 
             }).catch(err => {
-                error(err, message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji)
+                console.log(err);
         });
     },
     

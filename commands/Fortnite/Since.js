@@ -682,13 +682,11 @@ module.exports = {
                 msgReact.delete()
             }else{
                 if(lang === "en"){
-                    msgReact.delete()
                     const error = new Discord.MessageEmbed()
                     .setColor('#BB00EE')
                     .setTitle(`There are too many items please enter a value greater than 150 ${errorEmoji}`)
                     message.reply(error)
                 }else if(lang === "ar"){
-                    msgReact.delete()
                     const error = new Discord.MessageEmbed()
                     .setColor('#BB00EE')
                     .setTitle(`يوجد عناصر كثيرة الرجاء اختيار رقم اعلى من 150 ${errorEmoji}`)

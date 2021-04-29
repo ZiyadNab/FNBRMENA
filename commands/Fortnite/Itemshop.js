@@ -55,16 +55,18 @@ module.exports = {
                 var x = 250;
                 var y = 250;
                 var newline = 0;
+                var division = 0
                 if(res.featured.length >= res.specialFeatured.length){
                     f = res.featured.length;
                     if(res.specialFeatured.length !== 0){
                         if(res.featured.length >= 1 && res.featured.length <= 12){
                             fe = 3;
                             sp = 3;
+                            division = 3
                             width = (9*512) + (25 * 9) + 1000;
                             for(let i = 0; i<=f; i++){
                                 lines++;
-                                if(3 === lines){
+                                if(division === lines){
                                     height += 512 +25;
                                     lines = 0;
                                 }
@@ -72,10 +74,17 @@ module.exports = {
                         } else if(res.featured.length > 12){
                             fe = 5;
                             sp = 3;
+
+                            if((res.featured.length / fe) > (res.specialFeatured.length / sp)){
+                                divisions = 5
+                            }else{
+                                division = 3
+                            }
+
                             width = (12*512) + (25 * 12) + 500;
                             for(let i = 0; i<f; i++){
                                 lines++;
-                                if(3 === lines){
+                                if(division === lines){
                                     height += 512 +25;
                                     lines = 0;
                                 }
@@ -113,10 +122,11 @@ module.exports = {
                     if(res.specialFeatured.length >= 1 && res.specialFeatured.length <= 12){
                         fe = 3;
                         sp = 3;
+                        division = 3
                         width = (9*512) + (25 * 9) + 1000;
                         for(let i = 0; i<f; i++){
                             lines++;
-                            if(3 === lines){
+                            if(division === lines){
                                 height += 512 +25;
                                 lines = 0;
                             }
@@ -124,6 +134,13 @@ module.exports = {
                     } else if(res.specialFeatured.length > 12){
                         fe = 3;
                         sp = 5;
+
+                        if((res.featured.length / fe) > (res.specialFeatured.length / sp)){
+                            divisions = 5
+                        }else{
+                            division = 3
+                        }
+
                         width = (12*512) + (25 * 12) + 500;
                         for(let i = 0; i<f; i++){
                             lines++;

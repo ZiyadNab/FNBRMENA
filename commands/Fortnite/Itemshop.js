@@ -85,8 +85,6 @@ module.exports = {
                             SpecialFeaturedIndex++
                         }
                     }
-
-                    console.log(LimitedTime[0])
                     
                     //canvas stuff
                     var FeaturedSection = 0
@@ -1174,6 +1172,7 @@ module.exports = {
 
                     const att = new Discord.MessageAttachment(canvas.toBuffer('image/jpeg', {quality: 0.5}))
                     await message.channel.send(att)
+                    msg.delete()
                 })
             })
         })

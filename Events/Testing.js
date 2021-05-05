@@ -14,8 +14,10 @@ var Fortnite = new FortniteAPI(config);
 module.exports = (client, admin) => {
     const message = client.channels.cache.find(channel => channel.id === c.channels.rules)
 
+    //arrays
     var data = []
     var arrayBR = []
+    
     const News = async () => {
         Fortnite.NewsBR("en")
         .then(async res => {

@@ -137,7 +137,6 @@ module.exports = (client, admin) => {
                 const gif = await PreGif.create()
                 const att = new Discord.MessageAttachment(gif, 'file.gif')
                 await message.channel.send(att)
-                msg.delete()
                                     
                 data = res
             }

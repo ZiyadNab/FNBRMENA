@@ -1,3 +1,4 @@
+const Discord = require('discord.js')
 const c = require('../Coinfigs/config.json')
 const Canvas = require('canvas')
 var wrap = require('word-wrap');
@@ -17,7 +18,7 @@ module.exports = (client, admin) => {
     //arrays
     var data = []
     var arrayBR = []
-    
+
     const News = async () => {
         Fortnite.NewsBR("en")
         .then(async res => {
@@ -145,5 +146,5 @@ module.exports = (client, admin) => {
             }
         })
     }
-    setInterval(News, 60 * 1000)
+    setInterval(News, 1 * 60000)
 }

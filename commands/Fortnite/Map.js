@@ -34,7 +34,6 @@ module.exports = {
                         
                         for (let i = 0; i < res.maps.length; i++){
                             if (res.maps[i].patchVersion === str){
-                            console.log(res);
 
                             const generating = new Discord.MessageEmbed()
                             generating.setColor('#BB00EE')
@@ -87,7 +86,6 @@ module.exports = {
                     if(lang === 'en'){
                         Fortnite.BRMap('en')
                         .then( async res => {
-                        console.log(res)
                         const generating = new Discord.MessageEmbed()
                         generating.setColor('#BB00EE')
                         const emoji = client.emojis.cache.get("805690920157970442")
@@ -121,7 +119,6 @@ module.exports = {
                     if(lang === 'ar'){
                         Fortnite.BRMap('ar')
                         .then( async res => {
-                        console.log(res)
                         const generating = new Discord.MessageEmbed()
                         generating.setColor('#BB00EE')
                         const emoji = client.emojis.cache.get("805690920157970442")

@@ -1,4 +1,4 @@
-const config = require('../../Coinfigs/config.json')
+const c = require('../Coinfigs/config.json')
 const Canvas = require('canvas')
 var wrap = require('word-wrap');
 const Gif = require('make-a-gif')
@@ -12,7 +12,7 @@ const config = {
 var Fortnite = new FortniteAPI(config);
 
 module.exports = (client, admin) => {
-    const message = client.channels.cache.find(channel => channel.id === config.channels.rules)
+    const message = client.channels.cache.find(channel => channel.id === c.channels.rules)
 
     var data = []
     const News = async () => {

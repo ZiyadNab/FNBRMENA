@@ -143,7 +143,6 @@ module.exports = {
                                         Lines = 0;
                                     }
                                 }
-                                height += 300
                             }
                         } else if(Featured.length <= SpecialFeatured.length){
                             LengthSection = SpecialFeatured.length
@@ -185,7 +184,6 @@ module.exports = {
                                         Lines = 0;
                                     }
                                 }
-                                height += 300
                             }
                         }
                     } else if(Featured.length >= 1 && Featured.length <= 12){
@@ -222,73 +220,74 @@ module.exports = {
                                 Lines = 0;
                             }
                         }
-                        height += 300
                     }
                     //changing the value of the lines to 0
                     Lines = 0;
-                    if(LimitedTime.length !== 0){
-                        if(lang === "en"){
-                            if(Featured.length % FeaturedSection === 0){
-                                height += 1274
-                                for(let i = 0; i < LimitedTime.length; i++){
-                                    Lines++;
-                                    if(3 === Lines){
-                                        height += 512 +50;
-                                        Lines = 0;
-                                    }
-                                }
-                            }else{
-                                height += 1400
-                                for(let i = 0; i < LimitedTime.length; i++){
-                                    Lines++;
-                                    if(3 === Lines){
-                                        height += 512 +50;
-                                        Lines = 0;
-                                    }
-                                }
-                            } 
-                        } else if(lang === "ar"){
-                            if(SpecialFeatured.length !== 0){
-                                if(SpecialFeatured.length % SpecialFeaturedSection === 0){
-                                    height += 1274
-                                    for(let i = 0; i < LimitedTime.length; i++){
-                                        Lines++;
-                                        if(3 === Lines){
-                                            height += 512 +50;
-                                            Lines = 0;
-                                        }
-                                    }
-                                }else{
-                                    height += 1524
-                                    for(let i = 0; i < LimitedTime.length; i++){
-                                        Lines++;
-                                        if(3 === Lines){
-                                            height += 512 +50;
-                                            Lines = 0;
-                                        }
-                                    }
-                                }
-                            } else if(res.daily.length % 3 === 0){
-                                height += 1274
-                                for(let i = 0; i < LimitedTime.length; i++){
-                                    Lines++;
-                                    if(3 === Lines){
-                                        height += 512 +50;
-                                        Lines = 0;
-                                    }
-                                }
-                            }else{
-                                height += 1524
-                                for(let i = 0; i < LimitedTime.length; i++){
-                                    Lines++;
-                                    if(3 === Lines){
-                                        height += 512 +50;
-                                        Lines = 0;
-                                    }
-                                }
-                            }
-                        }
-                    }
+                    // if(LimitedTime.length !== 0){
+                    //     if(lang === "en"){
+                    //         if(Featured.length % FeaturedSection === 0){
+                    //             height += 1274
+                    //             for(let i = 0; i < LimitedTime.length; i++){
+                    //                 Lines++;
+                    //                 if(3 === Lines){
+                    //                     height += 512 +50;
+                    //                     Lines = 0;
+                    //                 }
+                    //             }
+                    //         }else{
+                    //             height += 1400
+                    //             for(let i = 0; i < LimitedTime.length; i++){
+                    //                 Lines++;
+                    //                 if(3 === Lines){
+                    //                     height += 512 +50;
+                    //                     Lines = 0;
+                    //                 }
+                    //             }
+                    //         } 
+                    //     } else if(lang === "ar"){
+                    //         if(SpecialFeatured.length !== 0){
+                    //             if(SpecialFeatured.length % SpecialFeaturedSection === 0){
+                    //                 height += 1274
+                    //                 for(let i = 0; i < LimitedTime.length; i++){
+                    //                     Lines++;
+                    //                     if(3 === Lines){
+                    //                         height += 512 +50;
+                    //                         Lines = 0;
+                    //                     }
+                    //                 }
+                    //             }else{
+                    //                 height += 1524
+                    //                 for(let i = 0; i < LimitedTime.length; i++){
+                    //                     Lines++;
+                    //                     if(3 === Lines){
+                    //                         height += 512 +50;
+                    //                         Lines = 0;
+                    //                     }
+                    //                 }
+                    //             }
+                    //         } else if(res.daily.length % 3 === 0){
+                    //             height += 1274
+                    //             for(let i = 0; i < LimitedTime.length; i++){
+                    //                 Lines++;
+                    //                 if(3 === Lines){
+                    //                     height += 512 +50;
+                    //                     Lines = 0;
+                    //                 }
+                    //             }
+                    //         }else{
+                    //             height += 1524
+                    //             for(let i = 0; i < LimitedTime.length; i++){
+                    //                 Lines++;
+                    //                 if(3 === Lines){
+                    //                     height += 512 +50;
+                    //                     Lines = 0;
+                    //                 }
+                    //             }
+                    //         }
+                    //     }
+                    // }else{
+                    //     height += 600
+                    // }
                     height += 300
 
                     //applyText
@@ -333,7 +332,11 @@ module.exports = {
                         var name = type[i].displayName;
                         var price = type[i].price.regularPrice;
                         var image = type[i].displayAssets[0].url;
-                        var rarity = type[i].rarity.id;
+                        if(type[i].series === null){
+                            var rarity = type[i].rarity.id;
+                        }else{
+                            var rarity = type[i].series.id
+                        }
                         var vbucks = "https://media.fortniteapi.io/images/652b99f7863db4ba398c40c326ac15a9/transparent.png";
 
                         //moment
@@ -380,7 +383,7 @@ module.exports = {
                                 }
                                 const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                                 ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
-                        }
+                        }else
                         if(rarity === 'Epic'){
                             //creating image
                             const skinholder = await Canvas.loadImage('./assets/Rarities/standard/epic.png')
@@ -420,7 +423,7 @@ module.exports = {
                                 }
                                 const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                                 ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
-                        }
+                        }else
                         if(rarity === 'Rare'){
                             //creating image
                             const skinholder = await Canvas.loadImage('./assets/Rarities/standard/rare.png')
@@ -460,7 +463,7 @@ module.exports = {
                                 }
                                 const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                                 ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
-                        }
+                        }else
                         if(rarity === 'Uncommon'){
                             //creating image
                             const skinholder = await Canvas.loadImage('./assets/Rarities/standard/uncommon.png')
@@ -500,7 +503,7 @@ module.exports = {
                                 }
                                 const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                                 ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
-                        }
+                        }else
                         if(rarity === 'Common'){
                             //creating image
                             const skinholder = await Canvas.loadImage('./assets/Rarities/standard/common.png')
@@ -540,8 +543,8 @@ module.exports = {
                                 }
                                 const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                                 ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
-                        }
-                        if(rarity === 'Marvel'){
+                        }else
+                        if(rarity === 'MarvelSeries'){
                             //creating image
                             const skinholder = await Canvas.loadImage('./assets/Rarities/standard/marvel.png')
                             ctx.drawImage(skinholder, x, y, WidthC, HeightC)
@@ -578,8 +581,8 @@ module.exports = {
                                 const v = await Canvas.loadImage(vbucks);
                                 ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
                             }
-                        }
-                        if(rarity === 'Dc'){
+                        }else
+                        if(rarity === 'DCUSeries'){
                             //creating image
                             const skinholder = await Canvas.loadImage('./assets/Rarities/standard/dc.png')
                             ctx.drawImage(skinholder, x, y, WidthC, HeightC)
@@ -618,8 +621,8 @@ module.exports = {
                                 }
                                 const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                                 ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
-                        }
-                        if(rarity === 'Dark'){
+                        }else
+                        if(rarity === 'DarkSeries'){
                             //creating image
                             const skinholder = await Canvas.loadImage('./assets/Rarities/standard/dark.png')
                             ctx.drawImage(skinholder, x, y, WidthC, HeightC)
@@ -658,8 +661,8 @@ module.exports = {
                                 }
                                 const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                                 ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
-                        }
-                        if(rarity === 'Icon Series'){
+                        }else
+                        if(rarity === 'CreatorCollabSeries'){
                             //creating image
                             const skinholder = await Canvas.loadImage('./assets/Rarities/standard/icon.png')
                             ctx.drawImage(skinholder, x, y, WidthC, HeightC)
@@ -699,8 +702,8 @@ module.exports = {
                                 const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                                 ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                             
-                        }
-                        if(rarity === 'star wars series'){
+                        }else
+                        if(rarity === 'ColumbusSeries'){
                             //creating image
                             const skinholder = await Canvas.loadImage('./assets/Rarities/standard/starwars.png')
                             ctx.drawImage(skinholder, x, y, WidthC, HeightC)
@@ -739,8 +742,8 @@ module.exports = {
                                 }
                                 const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                                 ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
-                        }
-                        if(rarity === 'shadow series'){
+                        }else
+                        if(rarity === 'ShadowSeries'){
                             //creating image
                             const skinholder = await Canvas.loadImage('./assets/Rarities/standard/shadow.png')
                             ctx.drawImage(skinholder, x, y, WidthC, HeightC)
@@ -779,8 +782,8 @@ module.exports = {
                                 }
                                 const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                                 ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
-                        }
-                        if(rarity === 'slurp series'){
+                        }else
+                        if(rarity === 'SlurpSeries'){
                             //creating image
                             const skinholder = await Canvas.loadImage('./assets/Rarities/standard/slurp.png')
                             ctx.drawImage(skinholder, x, y, WidthC, HeightC)
@@ -820,8 +823,8 @@ module.exports = {
                                 const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                                 ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                             
-                        }
-                        if(rarity === 'frozen series'){
+                        }else
+                        if(rarity === 'fFrozenSeries'){
                             //creating image
                             const skinholder = await Canvas.loadImage('./assets/Rarities/standard/frozen.png')
                             ctx.drawImage(skinholder, x, y, WidthC, HeightC)
@@ -861,8 +864,8 @@ module.exports = {
                                 const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                                 ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                             
-                        }
-                        if(rarity === 'lava series'){
+                        }else
+                        if(rarity === 'LavaSeries'){
                             //creating image
                             const skinholder = await Canvas.loadImage('./assets/Rarities/standard/lava.png')
                             ctx.drawImage(skinholder, x, y, WidthC, HeightC)
@@ -902,14 +905,53 @@ module.exports = {
                                 const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                                 ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                             
-                        }
-                        if(rarity === 'platform series'){
+                        }else
+                        if(rarity === 'PlatformSeriess'){
                             //creating image
                             const skinholder = await Canvas.loadImage('./assets/Rarities/standard/gaming.png')
                             ctx.drawImage(skinholder, x, y, WidthC, HeightC)
                             const skin = await Canvas.loadImage(image);
                             ctx.drawImage(skin, x, y, WidthC, HeightC)
                             const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderGaming.png')
+                            ctx.drawImage(skinborder, x, y, WidthC, HeightC)
+                            if(lang === "en"){
+                                    ctx.fillStyle = '#ffffff';
+                                    ctx.textAlign='center';
+                                    ctx.font = applyText(canvas, name);
+                                    ctx.fillText(name, (NameX + x), (y + NameY))
+                                    ctx.textAlign='left';
+                                    ctx.font = '36px Burbank Big Condensed'
+                                    ctx.fillText(price, (75 + x), (y + 490))
+                                    ctx.textAlign='right';
+                                    ctx.font = '36px Burbank Big Condensed'
+                                    ctx.fillText(day + " Days", (487 + x), (y + 490))
+                                    ctx.textAlign='left';
+                                    const v = await Canvas.loadImage(vbucks);
+                                    ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
+                                }else if(lang === "ar"){
+                                    ctx.fillStyle = '#ffffff';
+                                    ctx.textAlign='center';
+                                    ctx.font = applyText(canvas, name);
+                                    ctx.fillText(name, (NameX + x), (y + NameY))
+                                    ctx.textAlign='left';
+                                    ctx.font = '36px Arabic'
+                                    ctx.fillText(price, (75 + x), (y + 490))
+                                    ctx.textAlign='right';
+                                    ctx.font = '36px Arabic'
+                                    ctx.fillText(day + " يوم", (487 + x), (y + 490))
+                                    ctx.textAlign='left';
+                                    const v = await Canvas.loadImage(vbucks);
+                                    ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
+                                }
+                                const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                                ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                        }else{
+                            //creating image
+                            const skinholder = await Canvas.loadImage('./assets/Rarities/standard/common.png')
+                            ctx.drawImage(skinholder, x, y, WidthC, HeightC)
+                            const skin = await Canvas.loadImage(image);
+                            ctx.drawImage(skin, x, y, WidthC, HeightC)
+                            const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderCommon.png')
                             ctx.drawImage(skinborder, x, y, WidthC, HeightC)
                             if(lang === "en"){
                                     ctx.fillStyle = '#ffffff';
@@ -1172,7 +1214,6 @@ module.exports = {
 
                     const att = new Discord.MessageAttachment(canvas.toBuffer('image/jpeg', {quality: 0.5}))
                     await message.channel.send(att)
-                    msg.delete()
                 })
             })
         })

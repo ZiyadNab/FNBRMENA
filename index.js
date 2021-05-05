@@ -5,10 +5,10 @@ const client = new Discord.Client()
 const config = require('./Coinfigs/config.json')
 const UserJoined = require('./Events/User.js')
 const Commands = require('./Events/Commands.js')
-const Testing = require('./Events/Testing.js')
 const firebase = require('firebase/app')
 const admin = require('firebase-admin')
 const serviceAccount = require('./Firebase/ServiceAccount.json')
+const BlogpostsEvents = require('./Events/BlogpostsEvents')
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
@@ -40,7 +40,7 @@ client.on('ready', async () => {
   readCommands('commands')
   commandBase.listen(client, admin)
   UserJoined(client, admin)
-  Testing(client, admin)
+  BlogpostsEvents(client, admin)
   Commands(client, admin, Array)
 })
 

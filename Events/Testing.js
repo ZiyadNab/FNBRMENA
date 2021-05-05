@@ -1,3 +1,4 @@
+const config = require('../../Coinfigs/config.json')
 const Canvas = require('canvas')
 var wrap = require('word-wrap');
 const Gif = require('make-a-gif')

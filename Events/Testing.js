@@ -140,7 +140,7 @@ module.exports = (client, admin) => {
                 PreGif.setDelay(3 * 1000)
                 const gif = await PreGif.create()
                 const att = new Discord.MessageAttachment(gif, 'file.gif')
-                await message.channel.send(att)
+                await message.send(att)
                                     
                 data = res
             }

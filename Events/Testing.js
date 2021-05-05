@@ -14,9 +14,9 @@ module.exports = (client, admin) => {
     const message = client.channels.cache.find(channel => channel.id === config.channels.rules)
 
     var data = []
-    const News = () => {
+    const News = async () => {
         Fortnite.NewsBR("en")
-        .then(res => {
+        .then(async res => {
             console.log(res, data)
             if(JSON.stringify(res) !== JSON.stringify(data)){
                 Canvas.registerFont('./assets/font/BurbankBigCondensed-Black.otf' ,{family: 'Burbank Big Condensed',weight: "700",style: "bold"})

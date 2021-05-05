@@ -70,7 +70,6 @@ module.exports = {
 
                         // creating width
                         var width = (colum * 512) + (5 * colum) + 5;
-                        console.log(colum)
                         
                         //creating height
                         for (let i = 0; i < (res.data.items.length - 1); i++){
@@ -643,8 +642,7 @@ module.exports = {
 
                         // creating width
                         var width = (colum * 512) + (5 * colum) + 5;
-                        console.log(colum)
-                        
+
                         //creating height
                         for (let i = 0; i < (res.data.items.length - 1); i++){
 

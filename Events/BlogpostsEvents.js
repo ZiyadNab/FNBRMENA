@@ -11,7 +11,6 @@ module.exports = (client, admin) => {
       axios.get('https://fn-api.com/api/blogposts')
       .then(async res => {
         if(JSON.stringify(res.data.blogposts[0]) !== JSON.stringify(data)){
-          console.log(res.data.blogposts[0])
           const posts = new Discord.MessageEmbed()
           posts.setColor('#BB00EE')
           posts.setTitle(res.data.blogposts[0].title)
@@ -23,5 +22,5 @@ module.exports = (client, admin) => {
         }
       })
     }
-    setInterval(Blogposts, 3 * 1000)
+    setInterval(Blogposts, 1 * 30000)
 }

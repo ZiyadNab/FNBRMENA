@@ -85,14 +85,10 @@ module.exports = {
                     ctx.drawImage(bar, 165, 144, percentage, 33)
                     ctx.fillStyle = '#ffffff';
                     ctx.textAlign='center';
-                    if(lang === "en"){
-                        ctx.font = '30px Burbank Big Condensed'
-                    }else if(lang === "ar"){
-                        ctx.font = '30px Arabic'
-                    }
+                    ctx.font = '30px Burbank Big Condensed'
                     if(percentage > (817 / 2)){
                         ctx.fillStyle = '#ffffff';
-                        ctx.fillText(((percent * 100) | 0) + "%", (percentage + 142), 170)
+                        ctx.fillText(((percent * 100) | 0) + "%", (percentage + 125), 170)
                     }else {
                         ctx.fillStyle = '#000000';
                         ctx.fillText(((percent * 100) | 0) + "%", (percentage + 195), 170)

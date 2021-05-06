@@ -220,84 +220,95 @@ module.exports = (client, admin) => {
                     }
                     //changing the value of the lines to 0
                     Lines = 0;
-                    // if(LimitedTime.length !== 0){
-                    //     if(lang === "en"){
-                    //         if(Featured.length % FeaturedSection === 0){
-                    //             height += 1274
-                    //             for(let i = 0; i < LimitedTime.length; i++){
-                    //                 Lines++;
-                    //                 if(3 === Lines){
-                    //                     height += 512 +50;
-                    //                     Lines = 0;
-                    //                 }
-                    //             }
-                    //         }else{
-                    //             height += 1400
-                    //             for(let i = 0; i < LimitedTime.length; i++){
-                    //                 Lines++;
-                    //                 if(3 === Lines){
-                    //                     height += 512 +50;
-                    //                     Lines = 0;
-                    //                 }
-                    //             }
-                    //         } 
-                    //     } else if(lang === "ar"){
-                    //         if(SpecialFeatured.length !== 0){
-                    //             if(SpecialFeatured.length % SpecialFeaturedSection === 0){
-                    //                 height += 1274
-                    //                 for(let i = 0; i < LimitedTime.length; i++){
-                    //                     Lines++;
-                    //                     if(3 === Lines){
-                    //                         height += 512 +50;
-                    //                         Lines = 0;
-                    //                     }
-                    //                 }
-                    //             }else{
-                    //                 height += 1524
-                    //                 for(let i = 0; i < LimitedTime.length; i++){
-                    //                     Lines++;
-                    //                     if(3 === Lines){
-                    //                         height += 512 +50;
-                    //                         Lines = 0;
-                    //                     }
-                    //                 }
-                    //             }
-                    //         } else if(res.daily.length % 3 === 0){
-                    //             height += 1274
-                    //             for(let i = 0; i < LimitedTime.length; i++){
-                    //                 Lines++;
-                    //                 if(3 === Lines){
-                    //                     height += 512 +50;
-                    //                     Lines = 0;
-                    //                 }
-                    //             }
-                    //         }else{
-                    //             height += 1524
-                    //             for(let i = 0; i < LimitedTime.length; i++){
-                    //                 Lines++;
-                    //                 if(3 === Lines){
-                    //                     height += 512 +50;
-                    //                     Lines = 0;
-                    //                 }
-                    //             }
-                    //         }
-                    //     }
-                    // }else{
-                    //     height += 600
-                    // }
-                    height += 300
+                    if(LimitedTime.length !== 0){
+                        if(lang === "en"){
+                            if(Featured.length % FeaturedSection === 0){
+                                height += 1274
+                                for(let i = 0; i < LimitedTime.length; i++){
+                                    Lines++;
+                                    if(3 === Lines){
+                                        height += 512 +50;
+                                        Lines = 0;
+                                    }
+                                }
+                            }else{
+                                height += 1400
+                                for(let i = 0; i < LimitedTime.length; i++){
+                                    Lines++;
+                                    if(3 === Lines){
+                                        height += 512 +50;
+                                        Lines = 0;
+                                    }
+                                }
+                            } 
+                        } else if(lang === "ar"){
+                            if(SpecialFeatured.length !== 0){
+                                if(SpecialFeatured.length % SpecialFeaturedSection === 0){
+                                    height += 1274
+                                    for(let i = 0; i < LimitedTime.length; i++){
+                                        Lines++;
+                                        if(3 === Lines){
+                                            height += 512 +50;
+                                            Lines = 0;
+                                        }
+                                    }
+                                }else{
+                                    height += 1524
+                                    for(let i = 0; i < LimitedTime.length; i++){
+                                        Lines++;
+                                        if(3 === Lines){
+                                            height += 512 +50;
+                                            Lines = 0;
+                                        }
+                                    }
+                                }
+                            } else if(res.daily.length % 3 === 0){
+                                height += 1274
+                                for(let i = 0; i < LimitedTime.length; i++){
+                                    Lines++;
+                                    if(3 === Lines){
+                                        height += 512 +50;
+                                        Lines = 0;
+                                    }
+                                }
+                            }else{
+                                height += 1524
+                                for(let i = 0; i < LimitedTime.length; i++){
+                                    Lines++;
+                                    if(3 === Lines){
+                                        height += 512 +50;
+                                        Lines = 0;
+                                    }
+                                }
+                            }
+                        }
+                    }else{
+                        height += 600
+                    }
+                    height += 600
 
                     //applyText
-                    const applyText = (canvas, text) => {
+                    const applyText = (canvas, text, type) => {
                         const ctx = canvas.getContext('2d');
-                        let fontSize = 60;
-                        do {
-                            if(lang === "en"){
-                                ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
-                            }else if(lang === "ar"){
-                                ctx.font = `${fontSize -= 1}px Arabic`;
-                            }
-                        } while (ctx.measureText(text).width > 420);
+                        if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
+                            let fontSize = 150;
+                            do {
+                                if(lang === "en"){
+                                    ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
+                                }else if(lang === "ar"){
+                                    ctx.font = `${fontSize -= 1}px Arabic`;
+                                }
+                            } while (ctx.measureText(text).width > 800);
+                        }else{
+                            let fontSize = 60;
+                            do {
+                                if(lang === "en"){
+                                    ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
+                                }else if(lang === "ar"){
+                                    ctx.font = `${fontSize -= 1}px Arabic`;
+                                }
+                            } while (ctx.measureText(text).width > 420);
+                        }
                         return ctx.font;
                     };
 
@@ -323,7 +334,8 @@ module.exports = (client, admin) => {
                     }
 
                     const DisplayShop = async (ctx, canvas, x, y, i, type, WidthC, HeightC
-                        ,NameX, NameY) => {
+                        ,NameX, NameY, PriceX, PriceY, DayX, DayY, vBucksX, vBucksY, vBucksW
+                        ,vBucksH, CreditX, CreditY, CreditW, CreditH, textSize) => {
 
                         //skin informations
                         var name = type[i].displayName;
@@ -338,7 +350,12 @@ module.exports = (client, admin) => {
 
                         //moment
                         var Now = moment();
-                        var last = moment(type[i].previousReleaseDate);
+                        var last
+                        if(type[i].previousReleaseDate !== null){
+                            last = moment(type[i].previousReleaseDate);
+                        }else{
+                            last = moment(type[i].firstReleaseDate)
+                        }
                         const day = Now.diff(last, 'days');
 
                         if(rarity === 'Legendary'){
@@ -352,34 +369,42 @@ module.exports = (client, admin) => {
                             if(lang === "en"){
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
-                                    ctx.font = applyText(canvas, name);
-                                    ctx.fillText(name, (NameX + x), (y + NameY))
+                                    ctx.font = applyText(canvas, name, type);
+                                    if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
+                                        ctx.fillText(name, (NameX + x), (y + NameY - 75))
+                                    }else{
+                                        ctx.fillText(name, (NameX + x), (y + NameY))
+                                    }
                                     ctx.textAlign='left';
-                                    ctx.font = '36px Burbank Big Condensed'
-                                    ctx.fillText(price, (75 + x), (y + 490))
+                                    ctx.font = `${textSize}px Burbank Big Condensed`
+                                    ctx.fillText(price, (PriceX + x), (y + PriceY))
                                     ctx.textAlign='right';
-                                    ctx.font = '36px Burbank Big Condensed'
-                                    ctx.fillText(day + " Days", (487 + x), (y + 490))
+                                    ctx.font = `${textSize}px Burbank Big Condensed`
+                                    ctx.fillText(day + " Days", (DayX + x), (y + DayY))
                                     ctx.textAlign='left';
                                     const v = await Canvas.loadImage(vbucks);
-                                    ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
+                                    ctx.drawImage(v, (vBucksX + x), (y + vBucksY), vBucksW, vBucksH);
                                 }else if(lang === "ar"){
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
-                                    ctx.font = applyText(canvas, name);
-                                    ctx.fillText(name, (NameX + x), (y + NameY))
+                                    ctx.font = applyText(canvas, name, type);
+                                    if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
+                                        ctx.fillText(name, (NameX + x), (y + NameY - 60))
+                                    }else{
+                                        ctx.fillText(name, (NameX + x), (y + NameY))
+                                    }
                                     ctx.textAlign='left';
-                                    ctx.font = '36px Arabic'
-                                    ctx.fillText(price, (75 + x), (y + 490))
+                                    ctx.font = `${textSize}px Arabic`
+                                    ctx.fillText(price, (PriceX + x), (y + PriceY))
                                     ctx.textAlign='right';
-                                    ctx.font = '36px Arabic'
-                                    ctx.fillText(day + " يوم", (487 + x), (y + 490))
+                                    ctx.font = `${textSize}px Arabic`
+                                    ctx.fillText(day + " يوم", (DayX + x), (y + DayY))
                                     ctx.textAlign='left';
                                     const v = await Canvas.loadImage(vbucks);
-                                    ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
+                                    ctx.drawImage(v, (vBucksX + x), (y + vBucksY), vBucksW, vBucksH);
                                 }
                                 const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                                ctx.drawImage(credit, (CreditX + x), (y + CreditY), CreditW, CreditH);
                         }else
                         if(rarity === 'Epic'){
                             //creating image
@@ -392,34 +417,42 @@ module.exports = (client, admin) => {
                             if(lang === "en"){
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
-                                    ctx.font = applyText(canvas, name);
-                                    ctx.fillText(name, (NameX + x), (y + NameY))
+                                    ctx.font = applyText(canvas, name, type);
+                                    if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
+                                        ctx.fillText(name, (NameX + x), (y + NameY - 75))
+                                    }else{
+                                        ctx.fillText(name, (NameX + x), (y + NameY))
+                                    }
                                     ctx.textAlign='left';
-                                    ctx.font = '36px Burbank Big Condensed'
-                                    ctx.fillText(price, (75 + x), (y + 490))
+                                    ctx.font = `${textSize}px Burbank Big Condensed`
+                                    ctx.fillText(price, (PriceX + x), (y + PriceY))
                                     ctx.textAlign='right';
-                                    ctx.font = '36px Burbank Big Condensed'
-                                    ctx.fillText(day + " Days", (487 + x), (y + 490))
+                                    ctx.font = `${textSize}px Burbank Big Condensed`
+                                    ctx.fillText(day + " Days", (DayX + x), (y + DayY))
                                     ctx.textAlign='left';
                                     const v = await Canvas.loadImage(vbucks);
-                                    ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
+                                    ctx.drawImage(v, (vBucksX + x), (y + vBucksY), vBucksW, vBucksH);
                                 }else if(lang === "ar"){
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
-                                    ctx.font = applyText(canvas, name);
-                                    ctx.fillText(name, (NameX + x), (y + NameY))
+                                    ctx.font = applyText(canvas, name, type);
+                                    if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
+                                        ctx.fillText(name, (NameX + x), (y + NameY - 60))
+                                    }else{
+                                        ctx.fillText(name, (NameX + x), (y + NameY))
+                                    }
                                     ctx.textAlign='left';
-                                    ctx.font = '36px Arabic'
-                                    ctx.fillText(price, (75 + x), (y + 490))
+                                    ctx.font = `${textSize}px Arabic`
+                                    ctx.fillText(price, (PriceX + x), (y + PriceY))
                                     ctx.textAlign='right';
-                                    ctx.font = '36px Arabic'
-                                    ctx.fillText(day + " يوم", (487 + x), (y + 490))
+                                    ctx.font = `${textSize}px Arabic`
+                                    ctx.fillText(day + " يوم", (DayX + x), (y + DayY))
                                     ctx.textAlign='left';
                                     const v = await Canvas.loadImage(vbucks);
-                                    ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
+                                    ctx.drawImage(v, (vBucksX + x), (y + vBucksY), vBucksW, vBucksH);
                                 }
                                 const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                                ctx.drawImage(credit, (CreditX + x), (y + CreditY), CreditW, CreditH);
                         }else
                         if(rarity === 'Rare'){
                             //creating image
@@ -432,34 +465,42 @@ module.exports = (client, admin) => {
                             if(lang === "en"){
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
-                                    ctx.font = applyText(canvas, name);
-                                    ctx.fillText(name, (NameX + x), (y + NameY))
+                                    ctx.font = applyText(canvas, name, type);
+                                    if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
+                                        ctx.fillText(name, (NameX + x), (y + NameY - 75))
+                                    }else{
+                                        ctx.fillText(name, (NameX + x), (y + NameY))
+                                    }
                                     ctx.textAlign='left';
-                                    ctx.font = '36px Burbank Big Condensed'
-                                    ctx.fillText(price, (75 + x), (y + 490))
+                                    ctx.font = `${textSize}px Burbank Big Condensed`
+                                    ctx.fillText(price, (PriceX + x), (y + PriceY))
                                     ctx.textAlign='right';
-                                    ctx.font = '36px Burbank Big Condensed'
-                                    ctx.fillText(day + " Days", (487 + x), (y + 490))
+                                    ctx.font = `${textSize}px Burbank Big Condensed`
+                                    ctx.fillText(day + " Days", (DayX + x), (y + DayY))
                                     ctx.textAlign='left';
                                     const v = await Canvas.loadImage(vbucks);
-                                    ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
+                                    ctx.drawImage(v, (vBucksX + x), (y + vBucksY), vBucksW, vBucksH);
                                 }else if(lang === "ar"){
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
-                                    ctx.font = applyText(canvas, name);
-                                    ctx.fillText(name, (NameX + x), (y + NameY))
+                                    ctx.font = applyText(canvas, name, type);
+                                    if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
+                                        ctx.fillText(name, (NameX + x), (y + NameY - 60))
+                                    }else{
+                                        ctx.fillText(name, (NameX + x), (y + NameY))
+                                    }
                                     ctx.textAlign='left';
-                                    ctx.font = '36px Arabic'
-                                    ctx.fillText(price, (75 + x), (y + 490))
+                                    ctx.font = `${textSize}px Arabic`
+                                    ctx.fillText(price, (PriceX + x), (y + PriceY))
                                     ctx.textAlign='right';
-                                    ctx.font = '36px Arabic'
-                                    ctx.fillText(day + " يوم", (487 + x), (y + 490))
+                                    ctx.font = `${textSize}px Arabic`
+                                    ctx.fillText(day + " يوم", (DayX + x), (y + DayY))
                                     ctx.textAlign='left';
                                     const v = await Canvas.loadImage(vbucks);
-                                    ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
+                                    ctx.drawImage(v, (vBucksX + x), (y + vBucksY), vBucksW, vBucksH);
                                 }
                                 const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                                ctx.drawImage(credit, (CreditX + x), (y + CreditY), CreditW, CreditH);
                         }else
                         if(rarity === 'Uncommon'){
                             //creating image
@@ -472,34 +513,42 @@ module.exports = (client, admin) => {
                             if(lang === "en"){
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
-                                    ctx.font = applyText(canvas, name);
-                                    ctx.fillText(name, (NameX + x), (y + NameY))
+                                    ctx.font = applyText(canvas, name, type);
+                                    if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
+                                        ctx.fillText(name, (NameX + x), (y + NameY - 75))
+                                    }else{
+                                        ctx.fillText(name, (NameX + x), (y + NameY))
+                                    }
                                     ctx.textAlign='left';
-                                    ctx.font = '36px Burbank Big Condensed'
-                                    ctx.fillText(price, (75 + x), (y + 490))
+                                    ctx.font = `${textSize}px Burbank Big Condensed`
+                                    ctx.fillText(price, (PriceX + x), (y + PriceY))
                                     ctx.textAlign='right';
-                                    ctx.font = '36px Burbank Big Condensed'
-                                    ctx.fillText(day + " Days", (487 + x), (y + 490))
+                                    ctx.font = `${textSize}px Burbank Big Condensed`
+                                    ctx.fillText(day + " Days", (DayX + x), (y + DayY))
                                     ctx.textAlign='left';
                                     const v = await Canvas.loadImage(vbucks);
-                                    ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
+                                    ctx.drawImage(v, (vBucksX + x), (y + vBucksY), vBucksW, vBucksH);
                                 }else if(lang === "ar"){
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
-                                    ctx.font = applyText(canvas, name);
-                                    ctx.fillText(name, (NameX + x), (y + NameY))
+                                    ctx.font = applyText(canvas, name, type);
+                                    if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
+                                        ctx.fillText(name, (NameX + x), (y + NameY - 60))
+                                    }else{
+                                        ctx.fillText(name, (NameX + x), (y + NameY))
+                                    }
                                     ctx.textAlign='left';
-                                    ctx.font = '36px Arabic'
-                                    ctx.fillText(price, (75 + x), (y + 490))
+                                    ctx.font = `${textSize}px Arabic`
+                                    ctx.fillText(price, (PriceX + x), (y + PriceY))
                                     ctx.textAlign='right';
-                                    ctx.font = '36px Arabic'
-                                    ctx.fillText(day + " يوم", (487 + x), (y + 490))
+                                    ctx.font = `${textSize}px Arabic`
+                                    ctx.fillText(day + " يوم", (DayX + x), (y + DayY))
                                     ctx.textAlign='left';
                                     const v = await Canvas.loadImage(vbucks);
-                                    ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
+                                    ctx.drawImage(v, (vBucksX + x), (y + vBucksY), vBucksW, vBucksH);
                                 }
                                 const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                                ctx.drawImage(credit, (CreditX + x), (y + CreditY), CreditW, CreditH);
                         }else
                         if(rarity === 'Common'){
                             //creating image
@@ -512,34 +561,42 @@ module.exports = (client, admin) => {
                             if(lang === "en"){
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
-                                    ctx.font = applyText(canvas, name);
-                                    ctx.fillText(name, (NameX + x), (y + NameY))
+                                    ctx.font = applyText(canvas, name, type);
+                                    if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
+                                        ctx.fillText(name, (NameX + x), (y + NameY - 75))
+                                    }else{
+                                        ctx.fillText(name, (NameX + x), (y + NameY))
+                                    }
                                     ctx.textAlign='left';
-                                    ctx.font = '36px Burbank Big Condensed'
-                                    ctx.fillText(price, (75 + x), (y + 490))
+                                    ctx.font = `${textSize}px Burbank Big Condensed`
+                                    ctx.fillText(price, (PriceX + x), (y + PriceY))
                                     ctx.textAlign='right';
-                                    ctx.font = '36px Burbank Big Condensed'
-                                    ctx.fillText(day + " Days", (487 + x), (y + 490))
+                                    ctx.font = `${textSize}px Burbank Big Condensed`
+                                    ctx.fillText(day + " Days", (DayX + x), (y + DayY))
                                     ctx.textAlign='left';
                                     const v = await Canvas.loadImage(vbucks);
-                                    ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
+                                    ctx.drawImage(v, (vBucksX + x), (y + vBucksY), vBucksW, vBucksH);
                                 }else if(lang === "ar"){
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
-                                    ctx.font = applyText(canvas, name);
-                                    ctx.fillText(name, (NameX + x), (y + NameY))
+                                    ctx.font = applyText(canvas, name, type);
+                                    if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
+                                        ctx.fillText(name, (NameX + x), (y + NameY - 60))
+                                    }else{
+                                        ctx.fillText(name, (NameX + x), (y + NameY))
+                                    }
                                     ctx.textAlign='left';
-                                    ctx.font = '36px Arabic'
-                                    ctx.fillText(price, (75 + x), (y + 490))
+                                    ctx.font = `${textSize}px Arabic`
+                                    ctx.fillText(price, (PriceX + x), (y + PriceY))
                                     ctx.textAlign='right';
-                                    ctx.font = '36px Arabic'
-                                    ctx.fillText(day + " يوم", (487 + x), (y + 490))
+                                    ctx.font = `${textSize}px Arabic`
+                                    ctx.fillText(day + " يوم", (DayX + x), (y + DayY))
                                     ctx.textAlign='left';
                                     const v = await Canvas.loadImage(vbucks);
-                                    ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
+                                    ctx.drawImage(v, (vBucksX + x), (y + vBucksY), vBucksW, vBucksH);
                                 }
                                 const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                                ctx.drawImage(credit, (CreditX + x), (y + CreditY), CreditW, CreditH);
                         }else
                         if(rarity === 'MarvelSeries'){
                             //creating image
@@ -552,31 +609,35 @@ module.exports = (client, admin) => {
                             if(lang === "en"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
-                                ctx.font = applyText(canvas, name);
+                                ctx.font = applyText(canvas, name, type);
                                 ctx.fillText(name, (NameX + x), (y + NameY))
                                 ctx.textAlign='left';
-                                ctx.font = '36px Burbank Big Condensed'
-                                ctx.fillText(price, (75 + x), (y + 490))
+                                ctx.font = `${textSize}px Burbank Big Condensed`
+                                ctx.fillText(price, (PriceX + x), (y + PriceY))
                                 ctx.textAlign='right';
-                                ctx.font = '36px Burbank Big Condensed'
-                                ctx.fillText(day + " Days", (487 + x), (y + 490))
+                                ctx.font = `${textSize}px Burbank Big Condensed`
+                                ctx.fillText(day + " Days", (DayX + x), (y + DayY))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
+                                ctx.drawImage(v, (vBucksX + x), (y + vBucksY), vBucksW, vBucksH);
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
-                                ctx.font = applyText(canvas, name);
-                                ctx.fillText(name, (NameX + x), (y + NameY))
+                                ctx.font = applyText(canvas, name, type);
+                                if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
+                                    ctx.fillText(name, (NameX + x), (y + NameY - 60))
+                                }else{
+                                    ctx.fillText(name, (NameX + x), (y + NameY))
+                                }
                                 ctx.textAlign='left';
-                                ctx.font = '36px Arabic'
-                                ctx.fillText(price, (75 + x), (y + 490))
+                                ctx.font = `${textSize}px Arabic`
+                                ctx.fillText(price, (PriceX + x), (y + PriceY))
                                 ctx.textAlign='right';
-                                ctx.font = '36px Arabic'
-                                ctx.fillText(day + " يوم", (487 + x), (y + 490))
+                                ctx.font = `${textSize}px Arabic`
+                                ctx.fillText(day + " يوم", (DayX + x), (y + DayY))
                                 ctx.textAlign='left';
                                 const v = await Canvas.loadImage(vbucks);
-                                ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
+                                ctx.drawImage(v, (vBucksX + x), (y + vBucksY), vBucksW, vBucksH);
                             }
                         }else
                         if(rarity === 'DCUSeries'){
@@ -590,34 +651,42 @@ module.exports = (client, admin) => {
                             if(lang === "en"){
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
-                                    ctx.font = applyText(canvas, name);
-                                    ctx.fillText(name, (NameX + x), (y + NameY))
+                                    ctx.font = applyText(canvas, name, type);
+                                    if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
+                                        ctx.fillText(name, (NameX + x), (y + NameY - 75))
+                                    }else{
+                                        ctx.fillText(name, (NameX + x), (y + NameY))
+                                    }
                                     ctx.textAlign='left';
-                                    ctx.font = '36px Burbank Big Condensed'
-                                    ctx.fillText(price, (75 + x), (y + 490))
+                                    ctx.font = `${textSize}px Burbank Big Condensed`
+                                    ctx.fillText(price, (PriceX + x), (y + PriceY))
                                     ctx.textAlign='right';
-                                    ctx.font = '36px Burbank Big Condensed'
-                                    ctx.fillText(day + " Days", (487 + x), (y + 490))
+                                    ctx.font = `${textSize}px Burbank Big Condensed`
+                                    ctx.fillText(day + " Days", (DayX + x), (y + DayY))
                                     ctx.textAlign='left';
                                     const v = await Canvas.loadImage(vbucks);
-                                    ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
+                                    ctx.drawImage(v, (vBucksX + x), (y + vBucksY), vBucksW, vBucksH);
                                 }else if(lang === "ar"){
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
-                                    ctx.font = applyText(canvas, name);
-                                    ctx.fillText(name, (NameX + x), (y + NameY))
+                                    ctx.font = applyText(canvas, name, type);
+                                    if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
+                                        ctx.fillText(name, (NameX + x), (y + NameY - 60))
+                                    }else{
+                                        ctx.fillText(name, (NameX + x), (y + NameY))
+                                    }
                                     ctx.textAlign='left';
-                                    ctx.font = '36px Arabic'
-                                    ctx.fillText(price, (75 + x), (y + 490))
+                                    ctx.font = `${textSize}px Arabic`
+                                    ctx.fillText(price, (PriceX + x), (y + PriceY))
                                     ctx.textAlign='right';
-                                    ctx.font = '36px Arabic'
-                                    ctx.fillText(day + " يوم", (487 + x), (y + 490))
+                                    ctx.font = `${textSize}px Arabic`
+                                    ctx.fillText(day + " يوم", (DayX + x), (y + DayY))
                                     ctx.textAlign='left';
                                     const v = await Canvas.loadImage(vbucks);
-                                    ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
+                                    ctx.drawImage(v, (vBucksX + x), (y + vBucksY), vBucksW, vBucksH);
                                 }
                                 const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                                ctx.drawImage(credit, (CreditX + x), (y + CreditY), CreditW, CreditH);
                         }else
                         if(rarity === 'DarkSeries'){
                             //creating image
@@ -630,34 +699,42 @@ module.exports = (client, admin) => {
                             if(lang === "en"){
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
-                                    ctx.font = applyText(canvas, name);
-                                    ctx.fillText(name, (NameX + x), (y + NameY))
+                                    ctx.font = applyText(canvas, name, type);
+                                    if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
+                                        ctx.fillText(name, (NameX + x), (y + NameY - 75))
+                                    }else{
+                                        ctx.fillText(name, (NameX + x), (y + NameY))
+                                    }
                                     ctx.textAlign='left';
-                                    ctx.font = '36px Burbank Big Condensed'
-                                    ctx.fillText(price, (75 + x), (y + 490))
+                                    ctx.font = `${textSize}px Burbank Big Condensed`
+                                    ctx.fillText(price, (PriceX + x), (y + PriceY))
                                     ctx.textAlign='right';
-                                    ctx.font = '36px Burbank Big Condensed'
-                                    ctx.fillText(day + " Days", (487 + x), (y + 490))
+                                    ctx.font = `${textSize}px Burbank Big Condensed`
+                                    ctx.fillText(day + " Days", (DayX + x), (y + DayY))
                                     ctx.textAlign='left';
                                     const v = await Canvas.loadImage(vbucks);
-                                    ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
+                                    ctx.drawImage(v, (vBucksX + x), (y + vBucksY), vBucksW, vBucksH);
                                 }else if(lang === "ar"){
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
-                                    ctx.font = applyText(canvas, name);
-                                    ctx.fillText(name, (NameX + x), (y + NameY))
+                                    ctx.font = applyText(canvas, name, type);
+                                    if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
+                                        ctx.fillText(name, (NameX + x), (y + NameY - 60))
+                                    }else{
+                                        ctx.fillText(name, (NameX + x), (y + NameY))
+                                    }
                                     ctx.textAlign='left';
-                                    ctx.font = '36px Arabic'
-                                    ctx.fillText(price, (75 + x), (y + 490))
+                                    ctx.font = `${textSize}px Arabic`
+                                    ctx.fillText(price, (PriceX + x), (y + PriceY))
                                     ctx.textAlign='right';
-                                    ctx.font = '36px Arabic'
-                                    ctx.fillText(day + " يوم", (487 + x), (y + 490))
+                                    ctx.font = `${textSize}px Arabic`
+                                    ctx.fillText(day + " يوم", (DayX + x), (y + DayY))
                                     ctx.textAlign='left';
                                     const v = await Canvas.loadImage(vbucks);
-                                    ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
+                                    ctx.drawImage(v, (vBucksX + x), (y + vBucksY), vBucksW, vBucksH);
                                 }
                                 const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                                ctx.drawImage(credit, (CreditX + x), (y + CreditY), CreditW, CreditH);
                         }else
                         if(rarity === 'CreatorCollabSeries'){
                             //creating image
@@ -670,34 +747,42 @@ module.exports = (client, admin) => {
                             if(lang === "en"){
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
-                                    ctx.font = applyText(canvas, name);
-                                    ctx.fillText(name, (NameX + x), (y + NameY))
+                                    ctx.font = applyText(canvas, name, type);
+                                    if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
+                                        ctx.fillText(name, (NameX + x), (y + NameY - 75))
+                                    }else{
+                                        ctx.fillText(name, (NameX + x), (y + NameY))
+                                    }
                                     ctx.textAlign='left';
-                                    ctx.font = '36px Burbank Big Condensed'
-                                    ctx.fillText(price, (75 + x), (y + 490))
+                                    ctx.font = `${textSize}px Burbank Big Condensed`
+                                    ctx.fillText(price, (PriceX + x), (y + PriceY))
                                     ctx.textAlign='right';
-                                    ctx.font = '36px Burbank Big Condensed'
-                                    ctx.fillText(day + " Days", (487 + x), (y + 490))
+                                    ctx.font = `${textSize}px Burbank Big Condensed`
+                                    ctx.fillText(day + " Days", (DayX + x), (y + DayY))
                                     ctx.textAlign='left';
                                     const v = await Canvas.loadImage(vbucks);
-                                    ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
+                                    ctx.drawImage(v, (vBucksX + x), (y + vBucksY), vBucksW, vBucksH);
                                 }else if(lang === "ar"){
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
-                                    ctx.font = applyText(canvas, name);
-                                    ctx.fillText(name, (NameX + x), (y + NameY))
+                                    ctx.font = applyText(canvas, name, type);
+                                    if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
+                                        ctx.fillText(name, (NameX + x), (y + NameY - 60))
+                                    }else{
+                                        ctx.fillText(name, (NameX + x), (y + NameY))
+                                    }
                                     ctx.textAlign='left';
-                                    ctx.font = '36px Arabic'
-                                    ctx.fillText(price, (75 + x), (y + 490))
+                                    ctx.font = `${textSize}px Arabic`
+                                    ctx.fillText(price, (PriceX + x), (y + PriceY))
                                     ctx.textAlign='right';
-                                    ctx.font = '36px Arabic'
-                                    ctx.fillText(day + " يوم", (487 + x), (y + 490))
+                                    ctx.font = `${textSize}px Arabic`
+                                    ctx.fillText(day + " يوم", (DayX + x), (y + DayY))
                                     ctx.textAlign='left';
                                     const v = await Canvas.loadImage(vbucks);
-                                    ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
+                                    ctx.drawImage(v, (vBucksX + x), (y + vBucksY), vBucksW, vBucksH);
                                 }
                                 const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                                ctx.drawImage(credit, (CreditX + x), (y + CreditY), CreditW, CreditH);
                             
                         }else
                         if(rarity === 'ColumbusSeries'){
@@ -711,34 +796,42 @@ module.exports = (client, admin) => {
                             if(lang === "en"){
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
-                                    ctx.font = applyText(canvas, name);
-                                    ctx.fillText(name, (NameX + x), (y + NameY))
+                                    ctx.font = applyText(canvas, name, type);
+                                    if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
+                                        ctx.fillText(name, (NameX + x), (y + NameY - 75))
+                                    }else{
+                                        ctx.fillText(name, (NameX + x), (y + NameY))
+                                    }
                                     ctx.textAlign='left';
-                                    ctx.font = '36px Burbank Big Condensed'
-                                    ctx.fillText(price, (75 + x), (y + 490))
+                                    ctx.font = `${textSize}px Burbank Big Condensed`
+                                    ctx.fillText(price, (PriceX + x), (y + PriceY))
                                     ctx.textAlign='right';
-                                    ctx.font = '36px Burbank Big Condensed'
-                                    ctx.fillText(day + " Days", (487 + x), (y + 490))
+                                    ctx.font = `${textSize}px Burbank Big Condensed`
+                                    ctx.fillText(day + " Days", (DayX + x), (y + DayY))
                                     ctx.textAlign='left';
                                     const v = await Canvas.loadImage(vbucks);
-                                    ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
+                                    ctx.drawImage(v, (vBucksX + x), (y + vBucksY), vBucksW, vBucksH);
                                 }else if(lang === "ar"){
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
-                                    ctx.font = applyText(canvas, name);
-                                    ctx.fillText(name, (NameX + x), (y + NameY))
+                                    ctx.font = applyText(canvas, name, type);
+                                    if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
+                                        ctx.fillText(name, (NameX + x), (y + NameY - 60))
+                                    }else{
+                                        ctx.fillText(name, (NameX + x), (y + NameY))
+                                    }
                                     ctx.textAlign='left';
-                                    ctx.font = '36px Arabic'
-                                    ctx.fillText(price, (75 + x), (y + 490))
+                                    ctx.font = `${textSize}px Arabic`
+                                    ctx.fillText(price, (PriceX + x), (y + PriceY))
                                     ctx.textAlign='right';
-                                    ctx.font = '36px Arabic'
-                                    ctx.fillText(day + " يوم", (487 + x), (y + 490))
+                                    ctx.font = `${textSize}px Arabic`
+                                    ctx.fillText(day + " يوم", (DayX + x), (y + DayY))
                                     ctx.textAlign='left';
                                     const v = await Canvas.loadImage(vbucks);
-                                    ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
+                                    ctx.drawImage(v, (vBucksX + x), (y + vBucksY), vBucksW, vBucksH);
                                 }
                                 const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                                ctx.drawImage(credit, (CreditX + x), (y + CreditY), CreditW, CreditH);
                         }else
                         if(rarity === 'ShadowSeries'){
                             //creating image
@@ -751,34 +844,42 @@ module.exports = (client, admin) => {
                             if(lang === "en"){
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
-                                    ctx.font = applyText(canvas, name);
-                                    ctx.fillText(name, (NameX + x), (y + NameY))
+                                    ctx.font = applyText(canvas, name, type);
+                                    if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
+                                        ctx.fillText(name, (NameX + x), (y + NameY - 75))
+                                    }else{
+                                        ctx.fillText(name, (NameX + x), (y + NameY))
+                                    }
                                     ctx.textAlign='left';
-                                    ctx.font = '36px Burbank Big Condensed'
-                                    ctx.fillText(price, (75 + x), (y + 490))
+                                    ctx.font = `${textSize}px Burbank Big Condensed`
+                                    ctx.fillText(price, (PriceX + x), (y + PriceY))
                                     ctx.textAlign='right';
-                                    ctx.font = '36px Burbank Big Condensed'
-                                    ctx.fillText(day + " Days", (487 + x), (y + 490))
+                                    ctx.font = `${textSize}px Burbank Big Condensed`
+                                    ctx.fillText(day + " Days", (DayX + x), (y + DayY))
                                     ctx.textAlign='left';
                                     const v = await Canvas.loadImage(vbucks);
-                                    ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
+                                    ctx.drawImage(v, (vBucksX + x), (y + vBucksY), vBucksW, vBucksH);
                                 }else if(lang === "ar"){
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
-                                    ctx.font = applyText(canvas, name);
-                                    ctx.fillText(name, (NameX + x), (y + NameY))
+                                    ctx.font = applyText(canvas, name, type);
+                                    if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
+                                        ctx.fillText(name, (NameX + x), (y + NameY - 60))
+                                    }else{
+                                        ctx.fillText(name, (NameX + x), (y + NameY))
+                                    }
                                     ctx.textAlign='left';
-                                    ctx.font = '36px Arabic'
-                                    ctx.fillText(price, (75 + x), (y + 490))
+                                    ctx.font = `${textSize}px Arabic`
+                                    ctx.fillText(price, (PriceX + x), (y + PriceY))
                                     ctx.textAlign='right';
-                                    ctx.font = '36px Arabic'
-                                    ctx.fillText(day + " يوم", (487 + x), (y + 490))
+                                    ctx.font = `${textSize}px Arabic`
+                                    ctx.fillText(day + " يوم", (DayX + x), (y + DayY))
                                     ctx.textAlign='left';
                                     const v = await Canvas.loadImage(vbucks);
-                                    ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
+                                    ctx.drawImage(v, (vBucksX + x), (y + vBucksY), vBucksW, vBucksH);
                                 }
                                 const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                                ctx.drawImage(credit, (CreditX + x), (y + CreditY), CreditW, CreditH);
                         }else
                         if(rarity === 'SlurpSeries'){
                             //creating image
@@ -791,37 +892,45 @@ module.exports = (client, admin) => {
                             if(lang === "en"){
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
-                                    ctx.font = applyText(canvas, name);
-                                    ctx.fillText(name, (NameX + x), (y + NameY))
+                                    ctx.font = applyText(canvas, name, type);
+                                    if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
+                                        ctx.fillText(name, (NameX + x), (y + NameY - 75))
+                                    }else{
+                                        ctx.fillText(name, (NameX + x), (y + NameY))
+                                    }
                                     ctx.textAlign='left';
-                                    ctx.font = '36px Burbank Big Condensed'
-                                    ctx.fillText(price, (75 + x), (y + 490))
+                                    ctx.font = `${textSize}px Burbank Big Condensed`
+                                    ctx.fillText(price, (PriceX + x), (y + PriceY))
                                     ctx.textAlign='right';
-                                    ctx.font = '36px Burbank Big Condensed'
-                                    ctx.fillText(day + " Days", (487 + x), (y + 490))
+                                    ctx.font = `${textSize}px Burbank Big Condensed`
+                                    ctx.fillText(day + " Days", (DayX + x), (y + DayY))
                                     ctx.textAlign='left';
                                     const v = await Canvas.loadImage(vbucks);
-                                    ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
+                                    ctx.drawImage(v, (vBucksX + x), (y + vBucksY), vBucksW, vBucksH);
                                 }else if(lang === "ar"){
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
-                                    ctx.font = applyText(canvas, name);
-                                    ctx.fillText(name, (NameX + x), (y + NameY))
+                                    ctx.font = applyText(canvas, name, type);
+                                    if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
+                                        ctx.fillText(name, (NameX + x), (y + NameY - 60))
+                                    }else{
+                                        ctx.fillText(name, (NameX + x), (y + NameY))
+                                    }
                                     ctx.textAlign='left';
-                                    ctx.font = '36px Arabic'
-                                    ctx.fillText(price, (75 + x), (y + 490))
+                                    ctx.font = `${textSize}px Arabic`
+                                    ctx.fillText(price, (PriceX + x), (y + PriceY))
                                     ctx.textAlign='right';
-                                    ctx.font = '36px Arabic'
-                                    ctx.fillText(day + " يوم", (487 + x), (y + 490))
+                                    ctx.font = `${textSize}px Arabic`
+                                    ctx.fillText(day + " يوم", (DayX + x), (y + DayY))
                                     ctx.textAlign='left';
                                     const v = await Canvas.loadImage(vbucks);
-                                    ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
+                                    ctx.drawImage(v, (vBucksX + x), (y + vBucksY), vBucksW, vBucksH);
                                 }
                                 const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                                ctx.drawImage(credit, (CreditX + x), (y + CreditY), CreditW, CreditH);
                             
                         }else
-                        if(rarity === 'fFrozenSeries'){
+                        if(rarity === 'FrozenSeries'){
                             //creating image
                             const skinholder = await Canvas.loadImage('./assets/Rarities/standard/frozen.png')
                             ctx.drawImage(skinholder, x, y, WidthC, HeightC)
@@ -832,34 +941,42 @@ module.exports = (client, admin) => {
                             if(lang === "en"){
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
-                                    ctx.font = applyText(canvas, name);
-                                    ctx.fillText(name, (NameX + x), (y + NameY))
+                                    ctx.font = applyText(canvas, name, type);
+                                    if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
+                                        ctx.fillText(name, (NameX + x), (y + NameY - 75))
+                                    }else{
+                                        ctx.fillText(name, (NameX + x), (y + NameY))
+                                    }
                                     ctx.textAlign='left';
-                                    ctx.font = '36px Burbank Big Condensed'
-                                    ctx.fillText(price, (75 + x), (y + 490))
+                                    ctx.font = `${textSize}px Burbank Big Condensed`
+                                    ctx.fillText(price, (PriceX + x), (y + PriceY))
                                     ctx.textAlign='right';
-                                    ctx.font = '36px Burbank Big Condensed'
-                                    ctx.fillText(day + " Days", (487 + x), (y + 490))
+                                    ctx.font = `${textSize}px Burbank Big Condensed`
+                                    ctx.fillText(day + " Days", (DayX + x), (y + DayY))
                                     ctx.textAlign='left';
                                     const v = await Canvas.loadImage(vbucks);
-                                    ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
+                                    ctx.drawImage(v, (vBucksX + x), (y + vBucksY), vBucksW, vBucksH);
                                 }else if(lang === "ar"){
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
-                                    ctx.font = applyText(canvas, name);
-                                    ctx.fillText(name, (NameX + x), (y + NameY))
+                                    ctx.font = applyText(canvas, name, type);
+                                    if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
+                                        ctx.fillText(name, (NameX + x), (y + NameY - 60))
+                                    }else{
+                                        ctx.fillText(name, (NameX + x), (y + NameY))
+                                    }
                                     ctx.textAlign='left';
-                                    ctx.font = '36px Arabic'
-                                    ctx.fillText(price, (75 + x), (y + 490))
+                                    ctx.font = `${textSize}px Arabic`
+                                    ctx.fillText(price, (PriceX + x), (y + PriceY))
                                     ctx.textAlign='right';
-                                    ctx.font = '36px Arabic'
-                                    ctx.fillText(day + " يوم", (487 + x), (y + 490))
+                                    ctx.font = `${textSize}px Arabic`
+                                    ctx.fillText(day + " يوم", (DayX + x), (y + DayY))
                                     ctx.textAlign='left';
                                     const v = await Canvas.loadImage(vbucks);
-                                    ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
+                                    ctx.drawImage(v, (vBucksX + x), (y + vBucksY), vBucksW, vBucksH);
                                 }
                                 const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                                ctx.drawImage(credit, (CreditX + x), (y + CreditY), CreditW, CreditH);
                             
                         }else
                         if(rarity === 'LavaSeries'){
@@ -873,34 +990,42 @@ module.exports = (client, admin) => {
                             if(lang === "en"){
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
-                                    ctx.font = applyText(canvas, name);
-                                    ctx.fillText(name, (NameX + x), (y + NameY))
+                                    ctx.font = applyText(canvas, name, type);
+                                    if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
+                                        ctx.fillText(name, (NameX + x), (y + NameY - 75))
+                                    }else{
+                                        ctx.fillText(name, (NameX + x), (y + NameY))
+                                    }
                                     ctx.textAlign='left';
-                                    ctx.font = '36px Burbank Big Condensed'
-                                    ctx.fillText(price, (75 + x), (y + 490))
+                                    ctx.font = `${textSize}px Burbank Big Condensed`
+                                    ctx.fillText(price, (PriceX + x), (y + PriceY))
                                     ctx.textAlign='right';
-                                    ctx.font = '36px Burbank Big Condensed'
-                                    ctx.fillText(day + " Days", (487 + x), (y + 490))
+                                    ctx.font = `${textSize}px Burbank Big Condensed`
+                                    ctx.fillText(day + " Days", (DayX + x), (y + DayY))
                                     ctx.textAlign='left';
                                     const v = await Canvas.loadImage(vbucks);
-                                    ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
+                                    ctx.drawImage(v, (vBucksX + x), (y + vBucksY), vBucksW, vBucksH);
                                 }else if(lang === "ar"){
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
-                                    ctx.font = applyText(canvas, name);
-                                    ctx.fillText(name, (NameX + x), (y + NameY))
+                                    ctx.font = applyText(canvas, name, type);
+                                    if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
+                                        ctx.fillText(name, (NameX + x), (y + NameY - 60))
+                                    }else{
+                                        ctx.fillText(name, (NameX + x), (y + NameY))
+                                    }
                                     ctx.textAlign='left';
-                                    ctx.font = '36px Arabic'
-                                    ctx.fillText(price, (75 + x), (y + 490))
+                                    ctx.font = `${textSize}px Arabic`
+                                    ctx.fillText(price, (PriceX + x), (y + PriceY))
                                     ctx.textAlign='right';
-                                    ctx.font = '36px Arabic'
-                                    ctx.fillText(day + " يوم", (487 + x), (y + 490))
+                                    ctx.font = `${textSize}px Arabic`
+                                    ctx.fillText(day + " يوم", (DayX + x), (y + DayY))
                                     ctx.textAlign='left';
                                     const v = await Canvas.loadImage(vbucks);
-                                    ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
+                                    ctx.drawImage(v, (vBucksX + x), (y + vBucksY), vBucksW, vBucksH);
                                 }
                                 const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                                ctx.drawImage(credit, (CreditX + x), (y + CreditY), CreditW, CreditH);
                             
                         }else
                         if(rarity === 'PlatformSeriess'){
@@ -914,34 +1039,42 @@ module.exports = (client, admin) => {
                             if(lang === "en"){
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
-                                    ctx.font = applyText(canvas, name);
-                                    ctx.fillText(name, (NameX + x), (y + NameY))
+                                    ctx.font = applyText(canvas, name, type);
+                                    if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
+                                        ctx.fillText(name, (NameX + x), (y + NameY - 75))
+                                    }else{
+                                        ctx.fillText(name, (NameX + x), (y + NameY))
+                                    }
                                     ctx.textAlign='left';
-                                    ctx.font = '36px Burbank Big Condensed'
-                                    ctx.fillText(price, (75 + x), (y + 490))
+                                    ctx.font = `${textSize}px Burbank Big Condensed`
+                                    ctx.fillText(price, (PriceX + x), (y + PriceY))
                                     ctx.textAlign='right';
-                                    ctx.font = '36px Burbank Big Condensed'
-                                    ctx.fillText(day + " Days", (487 + x), (y + 490))
+                                    ctx.font = `${textSize}px Burbank Big Condensed`
+                                    ctx.fillText(day + " Days", (DayX + x), (y + DayY))
                                     ctx.textAlign='left';
                                     const v = await Canvas.loadImage(vbucks);
-                                    ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
+                                    ctx.drawImage(v, (vBucksX + x), (y + vBucksY), vBucksW, vBucksH);
                                 }else if(lang === "ar"){
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
-                                    ctx.font = applyText(canvas, name);
-                                    ctx.fillText(name, (NameX + x), (y + NameY))
+                                    ctx.font = applyText(canvas, name, type);
+                                    if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
+                                        ctx.fillText(name, (NameX + x), (y + NameY - 60))
+                                    }else{
+                                        ctx.fillText(name, (NameX + x), (y + NameY))
+                                    }
                                     ctx.textAlign='left';
-                                    ctx.font = '36px Arabic'
-                                    ctx.fillText(price, (75 + x), (y + 490))
+                                    ctx.font = `${textSize}px Arabic`
+                                    ctx.fillText(price, (PriceX + x), (y + PriceY))
                                     ctx.textAlign='right';
-                                    ctx.font = '36px Arabic'
-                                    ctx.fillText(day + " يوم", (487 + x), (y + 490))
+                                    ctx.font = `${textSize}px Arabic`
+                                    ctx.fillText(day + " يوم", (DayX + x), (y + DayY))
                                     ctx.textAlign='left';
                                     const v = await Canvas.loadImage(vbucks);
-                                    ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
+                                    ctx.drawImage(v, (vBucksX + x), (y + vBucksY), vBucksW, vBucksH);
                                 }
                                 const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                                ctx.drawImage(credit, (CreditX + x), (y + CreditY), CreditW, CreditH);
                         }else{
                             //creating image
                             const skinholder = await Canvas.loadImage('./assets/Rarities/standard/common.png')
@@ -953,34 +1086,42 @@ module.exports = (client, admin) => {
                             if(lang === "en"){
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
-                                    ctx.font = applyText(canvas, name);
-                                    ctx.fillText(name, (NameX + x), (y + NameY))
+                                    ctx.font = applyText(canvas, name, type);
+                                    if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
+                                        ctx.fillText(name, (NameX + x), (y + NameY - 75))
+                                    }else{
+                                        ctx.fillText(name, (NameX + x), (y + NameY))
+                                    }
                                     ctx.textAlign='left';
-                                    ctx.font = '36px Burbank Big Condensed'
-                                    ctx.fillText(price, (75 + x), (y + 490))
+                                    ctx.font = `${textSize}px Burbank Big Condensed`
+                                    ctx.fillText(price, (PriceX + x), (y + PriceY))
                                     ctx.textAlign='right';
-                                    ctx.font = '36px Burbank Big Condensed'
-                                    ctx.fillText(day + " Days", (487 + x), (y + 490))
+                                    ctx.font = `${textSize}px Burbank Big Condensed`
+                                    ctx.fillText(day + " Days", (DayX + x), (y + DayY))
                                     ctx.textAlign='left';
                                     const v = await Canvas.loadImage(vbucks);
-                                    ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
+                                    ctx.drawImage(v, (vBucksX + x), (y + vBucksY), vBucksW, vBucksH);
                                 }else if(lang === "ar"){
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
-                                    ctx.font = applyText(canvas, name);
-                                    ctx.fillText(name, (NameX + x), (y + NameY))
+                                    ctx.font = applyText(canvas, name, type);
+                                    if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
+                                        ctx.fillText(name, (NameX + x), (y + NameY - 75))
+                                    }else{
+                                        ctx.fillText(name, (NameX + x), (y + NameY))
+                                    }
                                     ctx.textAlign='left';
-                                    ctx.font = '36px Arabic'
-                                    ctx.fillText(price, (75 + x), (y + 490))
+                                    ctx.font = `${textSize}px Arabic`
+                                    ctx.fillText(price, (PriceX + x), (y + PriceY))
                                     ctx.textAlign='right';
-                                    ctx.font = '36px Arabic'
-                                    ctx.fillText(day + " يوم", (487 + x), (y + 490))
+                                    ctx.font = `${textSize}px Arabic`
+                                    ctx.fillText(day + " يوم", (DayX + x), (y + DayY))
                                     ctx.textAlign='left';
                                     const v = await Canvas.loadImage(vbucks);
-                                    ctx.drawImage(v, (20 + x), (y + 450), 50, 50);
+                                    ctx.drawImage(v, (vBucksX + x), (y + vBucksY), vBucksW, vBucksH);
                                 }
                                 const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                                ctx.drawImage(credit, (CreditX + x), (y + CreditY), CreditW, CreditH);
                         }
                         return canvas, ctx
                     }
@@ -991,6 +1132,19 @@ module.exports = (client, admin) => {
                     var HeightC = 0
                     var NameX = 0
                     var NameY = 0
+                    var PriceX = 0
+                    var PriceY = 0
+                    var DayX = 0
+                    var DayY = 0
+                    var vBucksX = 0
+                    var vBucksY = 0
+                    var vBucksW = 0
+                    var vBucksH = 0
+                    var CreditX = 0
+                    var CreditY = 0
+                    var CreditW = 0
+                    var CreditH = 0
+                    var textSize = 0
 
                     //Featured
                     if(lang === "en"){
@@ -1021,10 +1175,24 @@ module.exports = (client, admin) => {
                         HeightC = 512
                         NameX = 256
                         NameY = 430
+                        PriceX = 75
+                        PriceY = 490
+                        DayX = 487
+                        DayY = 490
+                        vBucksX = 20
+                        vBucksY = 450
+                        vBucksW = 50
+                        vBucksH = 50
+                        CreditX = 15
+                        CreditY = 15
+                        CreditW = 146
+                        CreditH = 40
+                        textSize = 36
 
                         //calling the function
                         await DisplayShop(ctx, canvas, x, y, i, Featured, WidthC, HeightC
-                            ,NameX, NameY)
+                            ,NameX, NameY, PriceX, PriceY, DayX, DayY, vBucksX, vBucksY, vBucksW
+                            ,vBucksH, CreditX, CreditY, CreditW, CreditH, textSize)
 
                         // changing x and y
                         x = x + 25 + 512; 
@@ -1067,10 +1235,24 @@ module.exports = (client, admin) => {
                         HeightC = 512
                         NameX = 256
                         NameY = 430
+                        PriceX = 75
+                        PriceY = 490
+                        DayX = 487
+                        DayY = 490
+                        vBucksX = 20
+                        vBucksY = 450
+                        vBucksW = 50
+                        vBucksH = 50
+                        CreditX = 15
+                        CreditY = 15
+                        CreditW = 146
+                        CreditH = 40
+                        textSize = 36
 
                         //calling the function
                         await DisplayShop(ctx, canvas, x, y, i, Daily, WidthC, HeightC
-                            ,NameX, NameY)
+                            ,NameX, NameY, PriceX, PriceY, DayX, DayY, vBucksX, vBucksY, vBucksW
+                            ,vBucksH, CreditX, CreditY, CreditW, CreditH, textSize)
 
                         // changing x and y
                         x = x + 25 + 512; 
@@ -1129,10 +1311,24 @@ module.exports = (client, admin) => {
                         HeightC = 512
                         NameX = 256
                         NameY = 430
+                        PriceX = 75
+                        PriceY = 490
+                        DayX = 487
+                        DayY = 490
+                        vBucksX = 20
+                        vBucksY = 450
+                        vBucksW = 50
+                        vBucksH = 50
+                        CreditX = 15
+                        CreditY = 15
+                        CreditW = 146
+                        CreditH = 40
+                        textSize = 36
 
                         //calling the function
                         await DisplayShop(ctx, canvas, x, y, i, SpecialFeatured, WidthC, HeightC
-                            ,NameX, NameY)
+                            ,NameX, NameY, PriceX, PriceY, DayX, DayY, vBucksX, vBucksY, vBucksW
+                            ,vBucksH, CreditX, CreditY, CreditW, CreditH, textSize)
 
                         // changing x and y
                         x = x + 25 + 512; 
@@ -1151,57 +1347,70 @@ module.exports = (client, admin) => {
                         }
                     }
 
-                    // //Limited Time
-                    // if(lang === "en"){
-                    //     x = 250
-                    //     y = canvas.height - (300 + 150 + 1024)
-                    //     newline = 0
-                    // }else if(lang == "ar"){
-                    //     x = canvas.width - (250 + 1024 + 1024 + 25)
-                    //     y = canvas.height - (300 + 150 + 1024)
-                    //     newline = 0
-                    // }
+                    //Limited Time
+                    Lines = 0
+                    if(lang === "en"){
+                        x = 250
+                        y = canvas.height - (300 + 150 + 1024)
+                    }else if(lang == "ar"){
+                        x = canvas.width - (250 + 1024 + 25)
+                        y = canvas.height - (300 + 150 + 1024)
+                    }
 
-                    // if(lang === "en"){
-                    //     ctx.fillStyle = '#ffffff';
-                    //     ctx.font = '150px Burbank Big Condensed'
-                    //     ctx.fillText("Bundles", x, (y - 50))
-                    // }else if(lang === "ar"){
-                    //     ctx.fillStyle = '#ffffff';
-                    //     ctx.textAlign='right';
-                    //     ctx.font = '150px Arabic'
-                    //     ctx.fillText("الحزم", x + 2074, (y - 50))
-                    // }
+                    if(lang === "en"){
+                        ctx.fillStyle = '#ffffff';
+                        ctx.font = '150px Burbank Big Condensed'
+                        ctx.fillText("Bundles", x, (y - 55))
+                    }else if(lang === "ar"){
+                        ctx.fillStyle = '#ffffff';
+                        ctx.textAlign='right';
+                        ctx.font = '150px Arabic'
+                        ctx.fillText("الحزم", x + 1024, (y - 55))
+                    }
 
-                    // //Limited Time Loop
-                    // for(let i = 0; i < LimitedTime.length; i++){
-                    //     //changing the lines
-                    //     Lines++
+                    //Limited Time Loop
+                    for(let i = 0; i < LimitedTime.length; i++){
+                        //changing the lines
+                        Lines++
 
-                    //     //width and height
-                    //     WidthC = 1024
-                    //     HeightC = 1024
-                    //     NameX = 512
-                    //     NameY = 942
+                        //width and height
+                        WidthC = 1024
+                        HeightC = 1024
+                        NameX = 512
+                        NameY = 942
+                        PriceX = 105
+                        PriceY = 987
+                        DayX = 982
+                        DayY = 987
+                        vBucksX = 25
+                        vBucksY = 920
+                        vBucksW = 80
+                        vBucksH = 80
+                        CreditX = 30
+                        CreditY = 30
+                        CreditW = 292
+                        CreditH = 80
+                        textSize = 80
 
-                    //     //calling the function
-                    //     await DisplayShop(ctx, canvas, x, y, i, LimitedTime, WidthC, HeightC
-                    //         ,NameX, NameY)
+                        //calling the function
+                        await DisplayShop(ctx, canvas, x, y, i, LimitedTime, WidthC, HeightC
+                            ,NameX, NameY, PriceX, PriceY, DayX, DayY, vBucksX, vBucksY, vBucksW
+                            ,vBucksH, CreditX, CreditY, CreditW, CreditH, textSize)
 
-                    //     // changing x and y
-                    //     x = x + 25 + 1024; 
-                    //     if (newline === 3){
-                    //         if(lang === "en"){
-                    //             y = y + 25 + 1024;
-                    //             newline = 0
-                    //             x = 250
-                    //         }else if(lang === "ar"){
-                    //             y = y + 25 + 1024;
-                    //             newline = 0
-                    //             x = canvas.width - (250 + 1024 + 1024 + 25)
-                    //         }
-                    //     }
-                    // }
+                        // changing x and y
+                        x = x + 25 + 1024; 
+                        if (Lines === 3){
+                            if(lang === "en"){
+                                y = y + 25 + 1024;
+                                Lines = 0
+                                x = 250
+                            }else if(lang === "ar"){
+                                y = y + 25 + 1024;
+                                Lines = 0
+                                x = canvas.width - (250 + 1024 + 1024 + 25)
+                            }
+                        }
+                    }
 
                     //sending message
                     const sending = new Discord.MessageEmbed()

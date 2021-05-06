@@ -85,8 +85,6 @@ module.exports = {
                             SpecialFeaturedIndex++
                         }
                     }
-
-                    console.log(LimitedTime[0])
                     
                     //canvas stuff
                     var FeaturedSection = 0

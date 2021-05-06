@@ -375,7 +375,11 @@ module.exports = {
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
                                     ctx.font = applyText(canvas, name, type);
-                                    ctx.fillText(name, (NameX + x), (y + NameY))
+                                    if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
+                                        ctx.fillText(name, (NameX + x), (y + NameY - 75))
+                                    }else{
+                                        ctx.fillText(name, (NameX + x), (y + NameY))
+                                    }
                                     ctx.textAlign='left';
                                     ctx.font = `${textSize}px Burbank Big Condensed`
                                     ctx.fillText(price, (PriceX + x), (y + PriceY))
@@ -419,7 +423,11 @@ module.exports = {
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
                                     ctx.font = applyText(canvas, name, type);
-                                    ctx.fillText(name, (NameX + x), (y + NameY))
+                                    if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
+                                        ctx.fillText(name, (NameX + x), (y + NameY - 75))
+                                    }else{
+                                        ctx.fillText(name, (NameX + x), (y + NameY))
+                                    }
                                     ctx.textAlign='left';
                                     ctx.font = `${textSize}px Burbank Big Condensed`
                                     ctx.fillText(price, (PriceX + x), (y + PriceY))
@@ -463,7 +471,11 @@ module.exports = {
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
                                     ctx.font = applyText(canvas, name, type);
-                                    ctx.fillText(name, (NameX + x), (y + NameY))
+                                    if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
+                                        ctx.fillText(name, (NameX + x), (y + NameY - 75))
+                                    }else{
+                                        ctx.fillText(name, (NameX + x), (y + NameY))
+                                    }
                                     ctx.textAlign='left';
                                     ctx.font = `${textSize}px Burbank Big Condensed`
                                     ctx.fillText(price, (PriceX + x), (y + PriceY))
@@ -507,7 +519,11 @@ module.exports = {
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
                                     ctx.font = applyText(canvas, name, type);
-                                    ctx.fillText(name, (NameX + x), (y + NameY))
+                                    if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
+                                        ctx.fillText(name, (NameX + x), (y + NameY - 75))
+                                    }else{
+                                        ctx.fillText(name, (NameX + x), (y + NameY))
+                                    }
                                     ctx.textAlign='left';
                                     ctx.font = `${textSize}px Burbank Big Condensed`
                                     ctx.fillText(price, (PriceX + x), (y + PriceY))
@@ -551,7 +567,11 @@ module.exports = {
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
                                     ctx.font = applyText(canvas, name, type);
-                                    ctx.fillText(name, (NameX + x), (y + NameY))
+                                    if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
+                                        ctx.fillText(name, (NameX + x), (y + NameY - 75))
+                                    }else{
+                                        ctx.fillText(name, (NameX + x), (y + NameY))
+                                    }
                                     ctx.textAlign='left';
                                     ctx.font = `${textSize}px Burbank Big Condensed`
                                     ctx.fillText(price, (PriceX + x), (y + PriceY))
@@ -637,7 +657,11 @@ module.exports = {
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
                                     ctx.font = applyText(canvas, name, type);
-                                    ctx.fillText(name, (NameX + x), (y + NameY))
+                                    if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
+                                        ctx.fillText(name, (NameX + x), (y + NameY - 75))
+                                    }else{
+                                        ctx.fillText(name, (NameX + x), (y + NameY))
+                                    }
                                     ctx.textAlign='left';
                                     ctx.font = `${textSize}px Burbank Big Condensed`
                                     ctx.fillText(price, (PriceX + x), (y + PriceY))
@@ -681,7 +705,11 @@ module.exports = {
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
                                     ctx.font = applyText(canvas, name, type);
-                                    ctx.fillText(name, (NameX + x), (y + NameY))
+                                    if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
+                                        ctx.fillText(name, (NameX + x), (y + NameY - 75))
+                                    }else{
+                                        ctx.fillText(name, (NameX + x), (y + NameY))
+                                    }
                                     ctx.textAlign='left';
                                     ctx.font = `${textSize}px Burbank Big Condensed`
                                     ctx.fillText(price, (PriceX + x), (y + PriceY))
@@ -725,7 +753,11 @@ module.exports = {
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
                                     ctx.font = applyText(canvas, name, type);
-                                    ctx.fillText(name, (NameX + x), (y + NameY))
+                                    if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
+                                        ctx.fillText(name, (NameX + x), (y + NameY - 75))
+                                    }else{
+                                        ctx.fillText(name, (NameX + x), (y + NameY))
+                                    }
                                     ctx.textAlign='left';
                                     ctx.font = `${textSize}px Burbank Big Condensed`
                                     ctx.fillText(price, (PriceX + x), (y + PriceY))
@@ -770,7 +802,11 @@ module.exports = {
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
                                     ctx.font = applyText(canvas, name, type);
-                                    ctx.fillText(name, (NameX + x), (y + NameY))
+                                    if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
+                                        ctx.fillText(name, (NameX + x), (y + NameY - 75))
+                                    }else{
+                                        ctx.fillText(name, (NameX + x), (y + NameY))
+                                    }
                                     ctx.textAlign='left';
                                     ctx.font = `${textSize}px Burbank Big Condensed`
                                     ctx.fillText(price, (PriceX + x), (y + PriceY))
@@ -814,7 +850,11 @@ module.exports = {
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
                                     ctx.font = applyText(canvas, name, type);
-                                    ctx.fillText(name, (NameX + x), (y + NameY))
+                                    if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
+                                        ctx.fillText(name, (NameX + x), (y + NameY - 75))
+                                    }else{
+                                        ctx.fillText(name, (NameX + x), (y + NameY))
+                                    }
                                     ctx.textAlign='left';
                                     ctx.font = `${textSize}px Burbank Big Condensed`
                                     ctx.fillText(price, (PriceX + x), (y + PriceY))
@@ -858,7 +898,11 @@ module.exports = {
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
                                     ctx.font = applyText(canvas, name, type);
-                                    ctx.fillText(name, (NameX + x), (y + NameY))
+                                    if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
+                                        ctx.fillText(name, (NameX + x), (y + NameY - 75))
+                                    }else{
+                                        ctx.fillText(name, (NameX + x), (y + NameY))
+                                    }
                                     ctx.textAlign='left';
                                     ctx.font = `${textSize}px Burbank Big Condensed`
                                     ctx.fillText(price, (PriceX + x), (y + PriceY))
@@ -903,7 +947,11 @@ module.exports = {
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
                                     ctx.font = applyText(canvas, name, type);
-                                    ctx.fillText(name, (NameX + x), (y + NameY))
+                                    if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
+                                        ctx.fillText(name, (NameX + x), (y + NameY - 75))
+                                    }else{
+                                        ctx.fillText(name, (NameX + x), (y + NameY))
+                                    }
                                     ctx.textAlign='left';
                                     ctx.font = `${textSize}px Burbank Big Condensed`
                                     ctx.fillText(price, (PriceX + x), (y + PriceY))
@@ -948,7 +996,11 @@ module.exports = {
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
                                     ctx.font = applyText(canvas, name, type);
-                                    ctx.fillText(name, (NameX + x), (y + NameY))
+                                    if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
+                                        ctx.fillText(name, (NameX + x), (y + NameY - 75))
+                                    }else{
+                                        ctx.fillText(name, (NameX + x), (y + NameY))
+                                    }
                                     ctx.textAlign='left';
                                     ctx.font = `${textSize}px Burbank Big Condensed`
                                     ctx.fillText(price, (PriceX + x), (y + PriceY))
@@ -993,7 +1045,11 @@ module.exports = {
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
                                     ctx.font = applyText(canvas, name, type);
-                                    ctx.fillText(name, (NameX + x), (y + NameY))
+                                    if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
+                                        ctx.fillText(name, (NameX + x), (y + NameY - 75))
+                                    }else{
+                                        ctx.fillText(name, (NameX + x), (y + NameY))
+                                    }
                                     ctx.textAlign='left';
                                     ctx.font = `${textSize}px Burbank Big Condensed`
                                     ctx.fillText(price, (PriceX + x), (y + PriceY))
@@ -1036,7 +1092,11 @@ module.exports = {
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
                                     ctx.font = applyText(canvas, name, type);
-                                    ctx.fillText(name, (NameX + x), (y + NameY))
+                                    if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
+                                        ctx.fillText(name, (NameX + x), (y + NameY - 75))
+                                    }else{
+                                        ctx.fillText(name, (NameX + x), (y + NameY))
+                                    }
                                     ctx.textAlign='left';
                                     ctx.font = `${textSize}px Burbank Big Condensed`
                                     ctx.fillText(price, (PriceX + x), (y + PriceY))
@@ -1050,7 +1110,11 @@ module.exports = {
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
                                     ctx.font = applyText(canvas, name, type);
-                                    ctx.fillText(name, (NameX + x), (y + NameY))
+                                    if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
+                                        ctx.fillText(name, (NameX + x), (y + NameY - 75))
+                                    }else{
+                                        ctx.fillText(name, (NameX + x), (y + NameY))
+                                    }
                                     ctx.textAlign='left';
                                     ctx.font = `${textSize}px Arabic`
                                     ctx.fillText(price, (PriceX + x), (y + PriceY))

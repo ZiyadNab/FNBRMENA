@@ -343,7 +343,7 @@ module.exports = {
                         //skin informations
                         var name = type[i].displayName;
                         var price = type[i].price.regularPrice;
-                        var image = type[i].displayAssets.url;
+                        var image = type[i].displayAssets[0].url;
                         if(type[i].series === null){
                             var rarity = type[i].rarity.id;
                         }else{

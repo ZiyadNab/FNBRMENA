@@ -606,6 +606,9 @@ module.exports = (client, admin) => {
                                             info.setDescription(string)
                                             message.send(info)
                                         })
+                                    }).catch(err => {
+                                        pakGuildData[Counter] = ""
+                                        pakNumberData[Counter] = ""
                                     })
 
                                     pakGuildData[Counter] = pakGuild
@@ -1181,6 +1184,9 @@ module.exports = (client, admin) => {
                                         info.setDescription(string)
                                         message.send(info)
                                     })
+                                }).catch(err => {
+                                    pakGuildData[Counter] = ""
+                                    pakNumberData[Counter] = ""
                                 })
 
                                 pakGuildData[Counter] = pakGuild

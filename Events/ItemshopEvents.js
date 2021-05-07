@@ -14,7 +14,7 @@ module.exports = (client, admin) => {
     const Itemshop = async () => {
         fortniteAPI.getDailyShopV2(options = {lang: lang})
         .then(async res => {
-            if(JSON.stringify(res) !== JSON.stringify(data)){
+            if(JSON.stringify(res.shop) !== JSON.stringify(data)){
                 //variables
                 var language;
                 var loading;
@@ -1421,7 +1421,7 @@ module.exports = (client, admin) => {
                     const att = new Discord.MessageAttachment(canvas.toBuffer('image/jpeg', {quality: 0.5}))
                     await message.send(att)
                     msg.delete()
-                    data = res
+                    data = res.shop
                 })
             }
         })

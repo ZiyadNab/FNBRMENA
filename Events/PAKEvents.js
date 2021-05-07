@@ -581,7 +581,7 @@ module.exports = (client, admin) => {
                                             info.setColor('#BB00EE')
                                             var string = ""
                                             if(lang === "en"){
-                                                info.setTitle('All cosmetic names in pak ' + pakNumber)
+                                                info.setTitle('All cosmetic names in pak ' + res.data[0].dynamicPakId)
                                             for(let i = 0; i < length; i++){
                                                 var num = 1 + i
                                                 string += "\n• " + num +": " + res.data[i].name
@@ -592,7 +592,7 @@ module.exports = (client, admin) => {
                                                 string += "\n• " + res.data[0].set.text
                                             }
                                             }else if(lang === "ar"){
-                                                info.setTitle('جميع العناصر في باك ' + pakNumber)
+                                                info.setTitle('جميع العناصر في باك ' + res.data[0].dynamicPakId)
                                             for(let i = 0; i < length; i++){
                                                 var num = 1 + i
                                                 string += "\n• " + num +": " + res.data[i].name
@@ -1159,7 +1159,7 @@ module.exports = (client, admin) => {
                                         info.setColor('#BB00EE')
                                         var string = ""
                                         if(lang === "en"){
-                                            info.setTitle('All cosmetic names in pak ' + pakNumber)
+                                            info.setTitle('All cosmetic names in pak ' + res.data[0].dynamicPakId)
                                         for(let i = 0; i < length; i++){
                                             var num = 1 + i
                                             string += "\n• " + num +": " + res.data[i].name
@@ -1170,7 +1170,7 @@ module.exports = (client, admin) => {
                                             string += "\n• " + res.data[0].set.text
                                         }
                                         }else if(lang === "ar"){
-                                            info.setTitle('جميع العناصر في باك ' + pakNumber)
+                                            info.setTitle('جميع العناصر في باك ' + res.data[0].dynamicPakId)
                                         for(let i = 0; i < length; i++){
                                             var num = 1 + i
                                             string += "\n• " + num +": " + res.data[i].name

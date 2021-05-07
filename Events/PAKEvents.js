@@ -68,7 +68,7 @@ module.exports = (client, admin) => {
                                         generating.setColor('#BB00EE')
                                         const emoji = client.emojis.cache.get("805690920157970442")
                                         generating.setTitle(`${loading} ${length} ${emoji}`)
-                                        message.channel.send(generating)
+                                        message.send(generating)
                                         .then( async msg => {
 
                                             //variables
@@ -574,7 +574,7 @@ module.exports = (client, admin) => {
 
                                             //send the image to discord channel
                                             const att = new Discord.MessageAttachment(canvas.toBuffer(), text+'.jpg')
-                                            await message.channel.send(att)
+                                            await message.send(att)
                                             msg.delete()
 
                                             const info = new Discord.MessageEmbed()
@@ -604,7 +604,7 @@ module.exports = (client, admin) => {
                                             }
                                             }
                                             info.setDescription(string)
-                                            message.channel.send(info)
+                                            message.send(info)
                                         })
                                     })
 
@@ -643,7 +643,7 @@ module.exports = (client, admin) => {
                                     generating.setColor('#BB00EE')
                                     const emoji = client.emojis.cache.get("805690920157970442")
                                     generating.setTitle(`${loading} ${length} ${emoji}`)
-                                    message.channel.send(generating)
+                                    message.send(generating)
                                     .then( async msg => {
 
                                         //variables
@@ -1149,7 +1149,7 @@ module.exports = (client, admin) => {
 
                                         //send the image to discord channel
                                         const att = new Discord.MessageAttachment(canvas.toBuffer(), text+'.jpg')
-                                        await message.channel.send(att)
+                                        await message.send(att)
                                         msg.delete()
 
                                         const info = new Discord.MessageEmbed()
@@ -1179,7 +1179,7 @@ module.exports = (client, admin) => {
                                         }
                                         }
                                         info.setDescription(string)
-                                        message.channel.send(info)
+                                        message.send(info)
                                     })
                                 })
 

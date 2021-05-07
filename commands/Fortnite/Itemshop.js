@@ -1423,6 +1423,7 @@ module.exports = {
 
                     const att = new Discord.MessageAttachment(canvas.toBuffer('image/jpeg', {quality: 0.5}))
                     await message.channel.send(att)
+                    msg.delete()
                 })
             })
         })

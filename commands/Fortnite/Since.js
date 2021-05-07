@@ -206,7 +206,6 @@ module.exports = {
                                 ctx.drawImage(skin, x, y, 512, 512)
                                 const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderLegendary.png')
                                 ctx.drawImage(skinborder, x, y, 512, 512)
-                                ctx.drawImage(skinborder, x, y, 512, 512)
                                 if(lang === "en"){
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
@@ -236,7 +235,6 @@ module.exports = {
                                 const skin = await Canvas.loadImage(image);
                                 ctx.drawImage(skin, x, y, 512, 512)
                                 const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderEpic.png')
-                                ctx.drawImage(skinborder, x, y, 512, 512)
                                 ctx.drawImage(skinborder, x, y, 512, 512)
                                 if(lang === "en"){
                                     ctx.fillStyle = '#ffffff';
@@ -296,7 +294,6 @@ module.exports = {
                                 ctx.drawImage(skin, x, y, 512, 512)
                                 const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderUncommon.png')
                                 ctx.drawImage(skinborder, x, y, 512, 512)
-                                ctx.drawImage(skinborder, x, y, 512, 512)
                                 if(lang === "en"){
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
@@ -325,7 +322,6 @@ module.exports = {
                                 const skin = await Canvas.loadImage(image);
                                 ctx.drawImage(skin, x, y, 512, 512)
                                 const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderCommon.png')
-                                ctx.drawImage(skinborder, x, y, 512, 512)
                                 ctx.drawImage(skinborder, x, y, 512, 512)
                                 if(lang === "en"){
                                     ctx.fillStyle = '#ffffff';
@@ -356,7 +352,6 @@ module.exports = {
                                 ctx.drawImage(skin, x, y, 512, 512)
                                 const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderMarvel.png')
                                 ctx.drawImage(skinborder, x, y, 512, 512)
-                                ctx.drawImage(skinborder, x, y, 512, 512)
                                 if(lang === "en"){
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
@@ -385,7 +380,6 @@ module.exports = {
                                 const skin = await Canvas.loadImage(image);
                                 ctx.drawImage(skin, x, y, 512, 512)
                                 const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderDc.png')
-                                ctx.drawImage(skinborder, x, y, 512, 512)
                                 ctx.drawImage(skinborder, x, y, 512, 512)
                                 if(lang === "en"){
                                     ctx.fillStyle = '#ffffff';
@@ -416,7 +410,6 @@ module.exports = {
                                 ctx.drawImage(skin, x, y, 512, 512)
                                 const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderDark.png')
                                 ctx.drawImage(skinborder, x, y, 512, 512)
-                                ctx.drawImage(skinborder, x, y, 512, 512)
                                 if(lang === "en"){
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
@@ -445,7 +438,6 @@ module.exports = {
                                 const skin = await Canvas.loadImage(image);
                                 ctx.drawImage(skin, x, y, 512, 512)
                                 const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderIcon.png')
-                                ctx.drawImage(skinborder, x, y, 512, 512)
                                 ctx.drawImage(skinborder, x, y, 512, 512)
                                 if(lang === "en"){
                                     ctx.fillStyle = '#ffffff';
@@ -476,7 +468,6 @@ module.exports = {
                                 ctx.drawImage(skin, x, y, 512, 512)
                                 const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderStarwars.png')
                                 ctx.drawImage(skinborder, x, y, 512, 512)
-                                ctx.drawImage(skinborder, x, y, 512, 512)
                                 if(lang === "en"){
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
@@ -505,7 +496,6 @@ module.exports = {
                                 const skin = await Canvas.loadImage(image);
                                 ctx.drawImage(skin, x, y, 512, 512)
                                 const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderShadow.png')
-                                ctx.drawImage(skinborder, x, y, 512, 512)
                                 ctx.drawImage(skinborder, x, y, 512, 512)
                                 if(lang === "en"){
                                     ctx.fillStyle = '#ffffff';
@@ -536,7 +526,6 @@ module.exports = {
                                 ctx.drawImage(skin, x, y, 512, 512)
                                 const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderSlurp.png')
                                 ctx.drawImage(skinborder, x, y, 512, 512)
-                                ctx.drawImage(skinborder, x, y, 512, 512)
                                 if(lang === "en"){
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
@@ -565,7 +554,6 @@ module.exports = {
                                 const skin = await Canvas.loadImage(image);
                                 ctx.drawImage(skin, x, y, 512, 512)
                                 const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderFrozen.png')
-                                ctx.drawImage(skinborder, x, y, 512, 512)
                                 ctx.drawImage(skinborder, x, y, 512, 512)
                                 if(lang === "en"){
                                     ctx.fillStyle = '#ffffff';
@@ -596,7 +584,6 @@ module.exports = {
                                 ctx.drawImage(skin, x, y, 512, 512)
                                 const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderLava.png')
                                 ctx.drawImage(skinborder, x, y, 512, 512)
-                                ctx.drawImage(skinborder, x, y, 512, 512)
                                 if(lang === "en"){
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
@@ -625,7 +612,6 @@ module.exports = {
                                 const skin = await Canvas.loadImage(image);
                                 ctx.drawImage(skin, x, y, 512, 512)
                                 const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderGaming.png')
-                                ctx.drawImage(skinborder, x, y, 512, 512)
                                 ctx.drawImage(skinborder, x, y, 512, 512)
                                 if(lang === "en"){
                                     ctx.fillStyle = '#ffffff';
@@ -661,6 +647,19 @@ module.exports = {
                         await message.channel.send(att)
                         msg.delete()
 
+                    }).catch(err => {
+                        msg.delete()
+                        if(lang === "en"){
+                            const error = new Discord.MessageEmbed()
+                            .setColor('#BB00EE')
+                            .setTitle(`There are no items more than ${text} days ${errorEmoji}`)
+                            message.reply(error)
+                        }else if(lang === "ar"){
+                            const error = new Discord.MessageEmbed()
+                            .setColor('#BB00EE')
+                            .setTitle(`لا يوجد عناصر اعلى من ${text} يوم ${errorEmoji}`)
+                            message.reply(error)
+                        }
                     })
                 })
 
@@ -693,7 +692,6 @@ module.exports = {
                     message.reply(error)
                 }
             }
-
         })
     },
     requiredRoles: []

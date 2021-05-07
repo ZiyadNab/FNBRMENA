@@ -147,7 +147,17 @@ module.exports = {
                 const ctx = canvas.getContext('2d');
 
                 //initializing values
+                var set
                 var name = res.data[num].name;
+                if(res.data[num].set !== null){
+                    set = res.data[num].set.text
+                }else{
+                    if(lang === "en"){
+                        set = "There is no set to theis cosmetic"
+                    }else if(lang === "ar"){
+                        set = "لا يوجد مجموعة لهذا العنصر"
+                    }
+                }
                 var description = res.data[num].description
                 var image = res.data[num].images.icon
                 var rarity = res.data[num].rarity.value
@@ -503,15 +513,16 @@ module.exports = {
                     }
                 }else{
                     //creating image
-                    const skinholder = await Canvas.loadImage('./assets/Rarities/standard/gaming.png')
+                    const skinholder = await Canvas.loadImage('./assets/Rarities/standard/common.png')
                     ctx.drawImage(skinholder, 0, 0, 512, 512)
                     const skin = await Canvas.loadImage(image);
                     ctx.drawImage(skin, 0, 0, 512, 512)
-                    const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderGaming.png')
+                    const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderCommon.png')
                     ctx.drawImage(skinborder, 0, 0, 512, 512)
                     if(lang === "en"){
                         ctx.fillStyle = '#ffffff';
                         ctx.textAlign='center';
+                        ctx.font = '46px Burbank Big Condensed'
                         ctx.fillText(name, 256, 430)
                         ctx.font = applyText(canvas, description);
                         ctx.fillText(description, 256, 470)
@@ -567,6 +578,7 @@ module.exports = {
                         {name: 'Name', value: name},
                         {name: 'Description', value: description},
                         {name: 'Rarity', value: displayRarity},
+                        {name: 'Set:', value: set},
                         {name: 'Introduction', value: introduction},
                         {name: 'Occurrences', value: res.data[num].shopHistory.length},
                         {name: 'First Seen', value: FirstSeenDays + " days ago at " + FirstSeenDate},
@@ -577,6 +589,7 @@ module.exports = {
                         {name: 'Name', value: name},
                         {name: 'Description', value: description},
                         {name: 'Rarity', value: displayRarity},
+                        {name: 'Set:', value: set},
                         {name: 'Introduction', value: introduction},
                         {name: 'Occurrences', value: "0"},
                         {name: 'First Seen', value: 'not out yet or the sorce is not an itemshop'},
@@ -596,6 +609,7 @@ module.exports = {
                             {name: 'الأسم', value: name},
                             {name: 'الوصف', value: description},
                             {name: 'الندرة', value: displayRarity},
+                            {name: 'المجموعة:', value: set},
                             {name: 'تم عرضه في', value: introduction},
                             {name: 'عدد نزول العنصر', value: res.data[num].shopHistory.length + " مرة"},
                             {name: 'اول ظهور', value: FirstSeenDays + " يوم في الساعة " + FirstSeenDate},
@@ -606,6 +620,7 @@ module.exports = {
                             {name: 'الأسم', value: name},
                             {name: 'الوصف', value: description},
                             {name: 'الندرة', value: displayRarity},
+                            {name: 'المجموعة:', value: set},
                             {name: 'تم عرضه في', value: introduction},
                             {name: 'عدد نزول العنصر', value: "ولا مرة نزل"},
                             {name: 'اول ظهور', value: 'لم يتم نزول العنصر بعد او مصدر العنصر ليس من الايتم شوب'},
@@ -620,7 +635,7 @@ module.exports = {
                         const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                         ctx.drawImage(credit, 15, 15, 146, 40);
 
-                        const att = new Discord.MessageAttachment(canvas.toBuffer(), text+'.jpg')
+                        const att = new Discord.MessageAttachment(canvas.toBuffer(), text+'.png')
                         msg.delete()
                         await message.channel.send(att)
                         message.channel.send(itemInfo)

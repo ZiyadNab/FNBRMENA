@@ -1190,6 +1190,7 @@ module.exports = (client, admin) => {
                         }
                     }
                 }
+                data = res.data.dynamicKeys
             }
         })
     }

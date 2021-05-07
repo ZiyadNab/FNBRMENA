@@ -1200,5 +1200,5 @@ module.exports = (client, admin) => {
             }
         })
     }
-    setInterval(PAK, 10 * 1000)
+    setInterval(PAK, 1 * 6000)
 }

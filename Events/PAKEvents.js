@@ -39,7 +39,7 @@ module.exports = (client, admin) => {
                                     //run a command
                                     //settings
                                     var query = {
-                                        dynamicPakId: text,
+                                        dynamicPakId: pakNumber,
                                         language: lang
                                     };
 
@@ -614,7 +614,7 @@ module.exports = (client, admin) => {
                                 //run a command
                                 //settings
                                 var query = {
-                                    dynamicPakId: text,
+                                    dynamicPakId: pakNumber,
                                     language: lang
                                 };
 

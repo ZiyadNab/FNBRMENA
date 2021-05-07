@@ -573,7 +573,7 @@ module.exports = (client, admin) => {
                                             msg.edit(sending)
 
                                             //send the image to discord channel
-                                            const att = new Discord.MessageAttachment(canvas.toBuffer(), text+'.jpg')
+                                            const att = new Discord.MessageAttachment(canvas.toBuffer(), pakNumber+'.jpg')
                                             await message.send(att)
                                             msg.delete()
 
@@ -1148,7 +1148,7 @@ module.exports = (client, admin) => {
                                         msg.edit(sending)
 
                                         //send the image to discord channel
-                                        const att = new Discord.MessageAttachment(canvas.toBuffer(), text+'.jpg')
+                                        const att = new Discord.MessageAttachment(canvas.toBuffer(), pakNumber+'.jpg')
                                         await message.send(att)
                                         msg.delete()
 

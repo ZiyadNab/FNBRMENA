@@ -110,15 +110,12 @@ module.exports = {
 
             //forcing to be int
             if (length % 2 !== 0){
+                length += 1;
                 length = length | 0;
-                if(length === 0){
-                    length += 1;
-                }
             }
             
             //creating width
-            console.log(length)
-            if(length === 1){
+            if(list.length === 1){
                 width = 512
             }else{
                 width += (length * 512) + (length * 5) - 5

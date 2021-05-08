@@ -605,13 +605,10 @@ module.exports = (client, admin) => {
                                             }
                                             info.setDescription(string)
                                             message.send(info)
+                                            pakGuildData[Counter] = pakGuild
                                         })
                                     }).catch(err => {
-                                        pakGuildData[Counter] = ""
-                                        pakNumberData[Counter] = ""
                                     })
-
-                                    pakGuildData[Counter] = pakGuild
                                 }
                             }else{
                                 //run a command
@@ -1183,14 +1180,11 @@ module.exports = (client, admin) => {
                                         }
                                         info.setDescription(string)
                                         message.send(info)
+                                        pakGuildData[Counter] = pakGuild
+                                        pakNumberData[Counter] = pakNumber
                                     })
                                 }).catch(err => {
-                                    pakGuildData[Counter] = ""
-                                    pakNumberData[Counter] = ""
                                 })
-
-                                pakGuildData[Counter] = pakGuild
-                                pakNumberData[Counter] = pakNumber
                             }
                             Counter++
                         }

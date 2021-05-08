@@ -64,9 +64,12 @@ module.exports = {
                         length = res.data.length / 4
                     }
 
+                    //forcing to be int
                     if (length % 2 !== 0){
-                        length += 1;
                         length = length | 0;
+                        if(length === 0){
+                            length += 1;
+                        }
                     }
 
                     //creating width

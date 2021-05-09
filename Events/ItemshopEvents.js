@@ -1398,7 +1398,7 @@ module.exports = (client, admin) => {
                             ,vBucksH, CreditX, CreditY, CreditW, CreditH, textSize)
 
                         // changing x and y
-                        x = x + 25 + 1024; 
+                        x = x - (25 + 1024);
                         if (Lines === 3){
                             if(lang === "en"){
                                 y = y + 25 + 1024;

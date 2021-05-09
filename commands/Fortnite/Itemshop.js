@@ -1401,7 +1401,7 @@ module.exports = {
                             ,vBucksH, CreditX, CreditY, CreditW, CreditH, textSize)
 
                         // changing x and y
-                        x = x + 25 + 1024; 
+                        x = x - (25 + 1024); 
                         if (Lines === 3){
                             if(lang === "en"){
                                 y = y + 25 + 1024;
@@ -1410,7 +1410,7 @@ module.exports = {
                             }else if(lang === "ar"){
                                 y = y + 25 + 1024;
                                 Lines = 0
-                                x = canvas.width - (250 + 1024 + 1024 + 25)
+                                x = canvas.width - (250 + 1024 + 25)
                             }
                         }
                     }

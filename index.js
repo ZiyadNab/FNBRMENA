@@ -43,7 +43,7 @@ client.on('ready', async () => {
   UserJoined(client, admin)
   BlogpostsEvents(client, admin)
   ItemshopEvents(client, admin)
-  PAKEvents(client, admin)
+  //PAKEvents(client, admin)
   Commands(client, admin, Array)
 })
 

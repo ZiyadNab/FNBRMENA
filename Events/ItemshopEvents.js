@@ -10,10 +10,15 @@ module.exports = (client, admin) => {
     //result
     var data = []
     var lang = "ar"
+    var number = 0
 
     const Itemshop = async () => {
         fortniteAPI.getDailyShopV2(options = {lang: lang})
         .then(async res => {
+            if(number === 0){
+                data = res.shop
+                number++
+            }
             if(JSON.stringify(res.shop) !== JSON.stringify(data)){
                 //variables
                 var language;
@@ -1398,7 +1403,11 @@ module.exports = (client, admin) => {
                             ,vBucksH, CreditX, CreditY, CreditW, CreditH, textSize)
 
                         // changing x and y
-                        x = x - (25 + 1024);
+                        if(lang === "en"){
+                            x = x + 25 + 1024;
+                        }else if(lang === "ar"){
+                            x = x - (25 + 1024);
+                        }
                         if (Lines === 3){
                             if(lang === "en"){
                                 y = y + 25 + 1024;

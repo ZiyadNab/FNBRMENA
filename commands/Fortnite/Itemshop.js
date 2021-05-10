@@ -230,7 +230,7 @@ module.exports = {
                                 for(let i = 0; i < LimitedTime.length; i++){
                                     Lines++;
                                     if(3 === Lines){
-                                        height += 512 +50;
+                                        height += 1024 +50;
                                         Lines = 0;
                                     }
                                 }
@@ -239,7 +239,7 @@ module.exports = {
                                 for(let i = 0; i < LimitedTime.length; i++){
                                     Lines++;
                                     if(3 === Lines){
-                                        height += 512 +50;
+                                        height += 1024 +50;
                                         Lines = 0;
                                     }
                                 }
@@ -251,7 +251,7 @@ module.exports = {
                                     for(let i = 0; i < LimitedTime.length; i++){
                                         Lines++;
                                         if(3 === Lines){
-                                            height += 512 +50;
+                                            height += 1024 +50;
                                             Lines = 0;
                                         }
                                     }
@@ -260,7 +260,7 @@ module.exports = {
                                     for(let i = 0; i < LimitedTime.length; i++){
                                         Lines++;
                                         if(3 === Lines){
-                                            height += 512 +50;
+                                            height += 1024 +50;
                                             Lines = 0;
                                         }
                                     }
@@ -270,7 +270,7 @@ module.exports = {
                                 for(let i = 0; i < LimitedTime.length; i++){
                                     Lines++;
                                     if(3 === Lines){
-                                        height += 512 +50;
+                                        height += 1024 +50;
                                         Lines = 0;
                                     }
                                 }
@@ -279,14 +279,14 @@ module.exports = {
                                 for(let i = 0; i < LimitedTime.length; i++){
                                     Lines++;
                                     if(3 === Lines){
-                                        height += 512 +50;
+                                        height += 1024 +50;
                                         Lines = 0;
                                     }
                                 }
                             }
                         }
                     }else{
-                        height += 600
+                        height += 300
                     }
                     height += 600
 
@@ -1401,7 +1401,11 @@ module.exports = {
                             ,vBucksH, CreditX, CreditY, CreditW, CreditH, textSize)
 
                         // changing x and y
-                        x = x - (25 + 1024); 
+                        if(lang === "en"){
+                            x = x + 25 + 1024;
+                        }else if(lang === "ar"){
+                            x = x - (25 + 1024);
+                        }
                         if (Lines === 3){
                             if(lang === "en"){
                                 y = y + 25 + 1024;

@@ -6,10 +6,15 @@ module.exports = (client, admin) => {
     const message = client.channels.cache.find(channel => channel.id === config.events.Blogposts)
     //result
     var data = []
+    var number = 0
 
     const Blogposts = async () => {
       axios.get('https://fn-api.com/api/blogposts')
       .then(async res => {
+        if(number === 0){
+          data = res.data.blogposts[0]
+          number ++
+        }
         if(JSON.stringify(res.data.blogposts[0]) !== JSON.stringify(data)){
           const posts = new Discord.MessageEmbed()
           posts.setColor('#BB00EE')

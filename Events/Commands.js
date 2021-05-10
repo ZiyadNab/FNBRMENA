@@ -6,9 +6,9 @@ module.exports = (client, admin, Array) => {
                     Command: Command,
                     API: "null",
                     Active: {
-                        ON: "true",
-                        Reason: null,
-                        Status: "This command is fully functional"
+                        Status: "true",
+                        ReasonEN: null,
+                        ReasonAR: null,
                     },
                     Perms: [
                         

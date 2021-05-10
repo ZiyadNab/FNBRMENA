@@ -22,10 +22,15 @@ module.exports = (client, admin) => {
     var pakFile
     var pakGuild
     var lang = "ar"
+    var number = 0
 
     const PAK = async () => {
         Fortnite.AES()
         .then(async res => {
+            if(number === 0){
+                data = res.data.dynamicKeys
+                number++
+            }
             if(JSON.stringify(res.data.dynamicKeys) !== JSON.stringify(data)){
                 Counter = 0
                 for(let i = 0; i < res.data.dynamicKeys.length; i++){

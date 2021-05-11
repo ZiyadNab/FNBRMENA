@@ -592,24 +592,6 @@ module.exports = {
                     const att = new Discord.MessageAttachment(canvas.toBuffer('image/jpeg', {quality: 0.5}))
                     await message.channel.send(att)
                     msg.delete()
-                    const embed = new Discord.MessageEmbed()
-                    embed.setColor('BB00EE')
-                    var string = ""
-                    for(let i = 0; i < res.data.length; i++){
-                        var num = 1 + i
-                        string += "\n• " + num +": " + res.data[i].name
-                    }
-                    if(lang === "en"){
-                        string += "\n\n• All Cosmetic "+res.data.length
-                        embed.setTitle("All Cosmetics In Set " + res.data[0].set.value)
-                        
-                    }else if(lang === "ar"){
-                        string += "\n\n• المجموع " + res.data.length +" عناصر"
-                        embed.setTitle("جميع العناصر في مجموعة " + res.data[0].set.value)
-                        
-                    }
-                    embed.setDescription(string)
-                    message.channel.send(embed)
 
                 }).catch(err =>{
                     if(lang === "en"){

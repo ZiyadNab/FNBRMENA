@@ -230,20 +230,20 @@ module.exports = (client, admin) => {
                             if(Featured.length % FeaturedSection === 0){
                                 height += 1274
                                 for(let i = 0; i < LimitedTime.length; i++){
-                                    Lines++;
                                     if(3 === Lines){
-                                        height += 512 +50;
+                                        height += 1024 +50;
                                         Lines = 0;
                                     }
+                                    Lines++;
                                 }
                             }else{
                                 height += 1400
                                 for(let i = 0; i < LimitedTime.length; i++){
-                                    Lines++;
                                     if(3 === Lines){
-                                        height += 512 +50;
+                                        height += 1024 +50;
                                         Lines = 0;
                                     }
+                                    Lines++;
                                 }
                             } 
                         } else if(lang === "ar"){
@@ -251,44 +251,44 @@ module.exports = (client, admin) => {
                                 if(SpecialFeatured.length % SpecialFeaturedSection === 0){
                                     height += 1274
                                     for(let i = 0; i < LimitedTime.length; i++){
-                                        Lines++;
                                         if(3 === Lines){
-                                            height += 512 +50;
+                                            height += 1024 +50;
                                             Lines = 0;
                                         }
+                                        Lines++;
                                     }
                                 }else{
                                     height += 1524
                                     for(let i = 0; i < LimitedTime.length; i++){
-                                        Lines++;
                                         if(3 === Lines){
-                                            height += 512 +50;
+                                            height += 1024 +50;
                                             Lines = 0;
                                         }
+                                        Lines++;
                                     }
                                 }
                             } else if(res.daily.length % 3 === 0){
                                 height += 1274
                                 for(let i = 0; i < LimitedTime.length; i++){
-                                    Lines++;
                                     if(3 === Lines){
-                                        height += 512 +50;
+                                        height += 1024 +50;
                                         Lines = 0;
                                     }
+                                    Lines++;
                                 }
                             }else{
                                 height += 1524
                                 for(let i = 0; i < LimitedTime.length; i++){
-                                    Lines++;
                                     if(3 === Lines){
-                                        height += 512 +50;
+                                        height += 1024 +50;
                                         Lines = 0;
                                     }
+                                    Lines++;
                                 }
                             }
                         }
                     }else{
-                        height += 600
+                        height += 300
                     }
                     height += 600
 
@@ -1357,9 +1357,21 @@ module.exports = (client, admin) => {
                     if(lang === "en"){
                         x = 250
                         y = canvas.height - (300 + 150 + 1024)
+                        for(let i = 0; i< LimitedTime.length; i++){
+                            if(Lines === 3){
+                                y -= 1024 + 50
+                            }
+                            Lines++
+                        }
                     }else if(lang == "ar"){
                         x = canvas.width - (250 + 1024 + 25)
                         y = canvas.height - (300 + 150 + 1024)
+                        for(let i = 0; i< LimitedTime.length; i++){
+                            if(Lines === 3){
+                                y -= 1024 + 50
+                            }
+                            Lines++
+                        }
                     }
 
                     if(lang === "en"){
@@ -1374,6 +1386,7 @@ module.exports = (client, admin) => {
                     }
 
                     //Limited Time Loop
+                    Lines = 0
                     for(let i = 0; i < LimitedTime.length; i++){
                         //changing the lines
                         Lines++

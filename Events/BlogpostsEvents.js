@@ -12,18 +12,22 @@ module.exports = (client, admin) => {
       axios.get('https://fn-api.com/api/blogposts')
       .then(async res => {
         if(number === 0){
-          data = res.data.blogposts[0]
+          data = res.data.blogposts[0].title
           number ++
         }
-        if(JSON.stringify(res.data.blogposts[0]) !== JSON.stringify(data)){
+        if(JSON.stringify(res.data.blogposts[0].title) !== JSON.stringify(data)){
           const posts = new Discord.MessageEmbed()
           posts.setColor('#BB00EE')
           posts.setTitle(res.data.blogposts[0].title)
           posts.setURL(res.data.blogposts[0].url)
-          posts.setImage(res.data.blogposts[0].image)
+          if(res.data.blogposts[0].image !== undefined){
+            posts.setImage(res.data.blogposts[0].image)
+          }else if(res.data.blogposts[0].iconImage !== undefined){
+            posts.setImage(res.data.blogposts[0].iconImage)
+          }
           message.send(posts)
 
-          data = res.data.blogposts[0]
+          data = res.data.blogposts[0].title
         }
       })
     }

@@ -585,8 +585,13 @@ module.exports = {
                         }
                     }
 
-                    const att = new Discord.MessageAttachment(canvas.toBuffer(), text+'.png')
-                    await message.channel.send(att)
+                    if(res.data.length < 20){
+                        const att = new Discord.MessageAttachment(canvas.toBuffer(), text+'.png')
+                        await message.channel.send(att)
+                    }else{
+                        const att = new Discord.MessageAttachment(canvas.toBuffer('image/jpeg', {quality: 0.5}))
+                        await message.channel.send(att)
+                    }
                     msg.delete()
                     const embed = new Discord.MessageEmbed()
                     embed.setColor('BB00EE')

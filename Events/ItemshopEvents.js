@@ -16,10 +16,10 @@ module.exports = (client, admin) => {
         fortniteAPI.getDailyShopV2(options = {lang: lang})
         .then(async res => {
             if(number === 0){
-                data = res.shop
+                data = res.currentRotation
                 number++
             }
-            if(JSON.stringify(res.shop) !== JSON.stringify(data)){
+            if(JSON.stringify(res.currentRotation) !== JSON.stringify(data)){
                 //variables
                 var language;
                 var loading;
@@ -1443,7 +1443,7 @@ module.exports = (client, admin) => {
                     const att = new Discord.MessageAttachment(canvas.toBuffer('image/jpeg', {quality: 0.5}))
                     await message.send(att)
                     msg.delete()
-                    data = res.shop
+                    data = res.currentRotation
                 })
             }
         })

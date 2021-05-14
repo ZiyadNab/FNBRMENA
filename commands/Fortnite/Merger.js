@@ -725,7 +725,7 @@ module.exports = {
                     .setTitle(`${send} ${emoji}`)
                     await msg.edit(sending)
 
-                    if(res.data.length < 20){
+                    if(list.length < 20){
                         const att = new Discord.MessageAttachment(canvas.toBuffer(), 'merged.png')
                         await message.channel.send(att)
                     }else{

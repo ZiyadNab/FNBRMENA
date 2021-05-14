@@ -10,7 +10,7 @@ const admin = require('firebase-admin')
 const serviceAccount = require('./Firebase/ServiceAccount.json')
 const BlogpostsEvents = require('./Events/BlogpostsEvents')
 const PAKEvents = require('./Events/PAKEvents.js')
-const SetEvents = require('./Events/SetEvents.js')
+//const SetEvents = require('./Events/SetEvents.js')
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
@@ -43,8 +43,8 @@ client.on('ready', async () => {
   commandBase.listen(client, admin)
   UserJoined(client, admin)
   BlogpostsEvents(client, admin)
-  ItemshopEvents(client, admin)
-  PAKEvents(client, admin)
+  //ItemshopEvents(client, admin)
+  //PAKEvents(client, admin)
   //SetEvents(client, admin)
   Commands(client, admin, Array)
 })

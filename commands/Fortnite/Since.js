@@ -248,8 +248,8 @@ module.exports = {
                                         ctx.textAlign='center';
                                         ctx.fillText(description, (256 + x), (y + 480))
                                     }
-                                    const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                    ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                                    // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                                    // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                                     
                                 }
                                 if(rarity === 'epic'){
@@ -278,8 +278,8 @@ module.exports = {
                                         ctx.textAlign='center';
                                         ctx.fillText(description, (256 + x), (y + 480))
                                     }
-                                    const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                    ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                                    // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                                    // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                                 }
                                 if(rarity === 'rare'){
                                     //creating image
@@ -307,8 +307,8 @@ module.exports = {
                                         ctx.textAlign='center';
                                         ctx.fillText(description, (256 + x), (y + 480))
                                     }
-                                    const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                    ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                                    // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                                    // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                                 }
                                 if(rarity === 'uncommon'){
                                     //creating image
@@ -336,8 +336,8 @@ module.exports = {
                                         ctx.textAlign='center';
                                         ctx.fillText(description, (256 + x), (y + 480))
                                     }
-                                    const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                    ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                                    // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                                    // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                                 }
                                 if(rarity === 'common'){
                                     //creating image
@@ -365,8 +365,8 @@ module.exports = {
                                         ctx.textAlign='center';
                                         ctx.fillText(description, (256 + x), (y + 480))
                                     }
-                                    const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                    ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                                    // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                                    // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                                 }
                                 if(rarity === 'marvel'){
                                     //creating image
@@ -394,8 +394,8 @@ module.exports = {
                                         ctx.textAlign='center';
                                         ctx.fillText(description, (256 + x), (y + 480))
                                     }
-                                    const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                    ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                                    // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                                    // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                                 }
                                 if(rarity === 'dc'){
                                     //creating image
@@ -423,8 +423,8 @@ module.exports = {
                                         ctx.textAlign='center';
                                         ctx.fillText(description, (256 + x), (y + 480))
                                     }
-                                    const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                    ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                                    // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                                    // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                                 }
                                 if(rarity === 'dark'){
                                     //creating image
@@ -452,8 +452,8 @@ module.exports = {
                                         ctx.textAlign='center';
                                         ctx.fillText(description, (256 + x), (y + 480))
                                     }
-                                    const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                    ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                                    // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                                    // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                                 }
                                 if(rarity === 'icon'){
                                     //creating image
@@ -481,8 +481,8 @@ module.exports = {
                                         ctx.textAlign='center';
                                         ctx.fillText(description, (256 + x), (y + 480))
                                     }
-                                    const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                    ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                                    // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                                    // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                                 }
                                 if(rarity === 'starwars'){
                                     //creating image
@@ -510,8 +510,8 @@ module.exports = {
                                         ctx.textAlign='center';
                                         ctx.fillText(description, (256 + x), (y + 480))
                                     }
-                                    const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                    ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                                    // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                                    // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                                 }
                                 if(rarity === 'shadow'){
                                     //creating image
@@ -539,8 +539,8 @@ module.exports = {
                                         ctx.textAlign='center';
                                         ctx.fillText(description, (256 + x), (y + 480))
                                     }
-                                    const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                    ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                                    // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                                    // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                                 }
                                 if(rarity === 'slurp'){
                                     //creating image
@@ -568,8 +568,8 @@ module.exports = {
                                         ctx.textAlign='center';
                                         ctx.fillText(description, (256 + x), (y + 480))
                                     }
-                                    const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                    ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                                    // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                                    // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                                 }
                                 if(rarity === 'frozen'){
                                     //creating image
@@ -597,8 +597,8 @@ module.exports = {
                                         ctx.textAlign='center';
                                         ctx.fillText(description, (256 + x), (y + 480))
                                     }
-                                    const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                    ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                                    // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                                    // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                                 }
                                 if(rarity === 'lava'){
                                     //creating image
@@ -626,8 +626,8 @@ module.exports = {
                                         ctx.textAlign='center';
                                         ctx.fillText(description, (256 + x), (y + 480))
                                     }
-                                    const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                    ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                                    // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                                    // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                                 }
                                 if(rarity === 'gaminglegends'){
                                     //creating image
@@ -655,8 +655,8 @@ module.exports = {
                                         ctx.textAlign='center';
                                         ctx.fillText(description, (256 + x), (y + 480))
                                     }
-                                    const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                    ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                                    // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                                    // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                                 }
                                 // changing x and y
                                 x = x + 5 + 512; 
@@ -667,8 +667,13 @@ module.exports = {
                                 }
                             }
 
-                            const att = new Discord.MessageAttachment(canvas.toBuffer('image/jpeg', {quality: 0.5}))
-                            await message.channel.send(att)
+                            if(res.data.length < 20){
+                                const att = new Discord.MessageAttachment(canvas.toBuffer(), text+'.png')
+                                await message.channel.send(att)
+                            }else{
+                                const att = new Discord.MessageAttachment(canvas.toBuffer('image/jpeg', {quality: 0.5}))
+                                await message.channel.send(att)
+                            }
                             msg.delete()
 
                         }).catch(err => {

@@ -1,4 +1,3 @@
-const error = require('../Errors')
 const moment = require('moment');
 const Canvas = require('canvas');
 const key = require('../../Coinfigs/config.json');
@@ -631,9 +630,9 @@ module.exports = {
                         itemInfo.setAuthor('FNBR_MENA Bot', 'https://i.imgur.com/LfotEkZ.jpg', 'https://twitter.com/FNBR_MENA')
                         }
 
-                        //credits
-                        const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                        ctx.drawImage(credit, 15, 15, 146, 40);
+                        // credits
+                        // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                        // ctx.drawImage(credit, 15, 15, 146, 40);
 
                         const att = new Discord.MessageAttachment(canvas.toBuffer(), text+'.png')
                         msg.delete()

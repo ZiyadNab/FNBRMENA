@@ -1,4 +1,3 @@
-const error = require('../Errors')
 const axios = require('axios')
 const FortniteAPI = require("fortnite-api-com");
 const Canvas = require('canvas');
@@ -150,8 +149,8 @@ module.exports = {
                                     ctx.textAlign='center';
                                     ctx.fillText(description, (256 + x), (y + 480))
                                 }
-                                const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                                // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                                // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                                 
                             }
                             if(rarity === 'epic'){
@@ -181,8 +180,8 @@ module.exports = {
                                     ctx.textAlign='center';
                                     ctx.fillText(description, (256 + x), (y + 480))
                                 }
-                                const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                                // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                                // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                             }
                             if(rarity === 'rare'){
                                 //creating image
@@ -210,8 +209,8 @@ module.exports = {
                                     ctx.textAlign='center';
                                     ctx.fillText(description, (256 + x), (y + 480))
                                 }
-                                const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                                // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                                // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                             }
                             if(rarity === 'uncommon'){
                                 //creating image
@@ -240,8 +239,8 @@ module.exports = {
                                     ctx.textAlign='center';
                                     ctx.fillText(description, (256 + x), (y + 480))
                                 }
-                                const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                                // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                                // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                             }
                             if(rarity === 'common'){
                                 //creating image
@@ -270,8 +269,8 @@ module.exports = {
                                     ctx.textAlign='center';
                                     ctx.fillText(description, (256 + x), (y + 480))
                                 }
-                                const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                                // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                                // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                             }
                             if(rarity === 'marvel'){
                                 //creating image
@@ -300,8 +299,8 @@ module.exports = {
                                     ctx.textAlign='center';
                                     ctx.fillText(description, (256 + x), (y + 480))
                                 }
-                                const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                                // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                                // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                             }
                             if(rarity === 'dc'){
                                 //creating image
@@ -330,8 +329,8 @@ module.exports = {
                                     ctx.textAlign='center';
                                     ctx.fillText(description, (256 + x), (y + 480))
                                 }
-                                const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                                // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                                // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                             }
                             if(rarity === 'dark'){
                                 //creating image
@@ -360,8 +359,8 @@ module.exports = {
                                     ctx.textAlign='center';
                                     ctx.fillText(description, (256 + x), (y + 480))
                                 }
-                                const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                                // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                                // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                             }
                             if(rarity === 'icon'){
                                 //creating image
@@ -390,8 +389,8 @@ module.exports = {
                                     ctx.textAlign='center';
                                     ctx.fillText(description, (256 + x), (y + 480))
                                 }
-                                const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                                // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                                // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                             }
                             if(rarity === 'starwars'){
                                 //creating image
@@ -420,8 +419,8 @@ module.exports = {
                                     ctx.textAlign='center';
                                     ctx.fillText(description, (256 + x), (y + 480))
                                 }
-                                const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                                // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                                // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                             }
                             if(rarity === 'shadow'){
                                 //creating image
@@ -450,8 +449,8 @@ module.exports = {
                                     ctx.textAlign='center';
                                     ctx.fillText(description, (256 + x), (y + 480))
                                 }
-                                const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                                // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                                // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                             }
                             if(rarity === 'slurp'){
                                 //creating image
@@ -480,8 +479,8 @@ module.exports = {
                                     ctx.textAlign='center';
                                     ctx.fillText(description, (256 + x), (y + 480))
                                 }
-                                const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                                // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                                // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                             }
                             if(rarity === 'frozen'){
                                 //creating image
@@ -510,8 +509,8 @@ module.exports = {
                                     ctx.textAlign='center';
                                     ctx.fillText(description, (256 + x), (y + 480))
                                 }
-                                const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                                // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                                // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                             }
                             if(rarity === 'lava'){
                                 //creating image
@@ -540,8 +539,8 @@ module.exports = {
                                     ctx.textAlign='center';
                                     ctx.fillText(description, (256 + x), (y + 480))
                                 }
-                                const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                                // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                                // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                             }
                             if(rarity === 'gaminglegends'){
                                 //creating image
@@ -570,8 +569,8 @@ module.exports = {
                                     ctx.textAlign='center';
                                     ctx.fillText(description, (256 + x), (y + 480))
                                 }
-                                const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                                // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                                // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                             }
                             
                             
@@ -712,8 +711,8 @@ module.exports = {
                                 ctx.font = applyText(canvas, description);
                                 ctx.textAlign='center';
                                 ctx.fillText(description, (256 + x), (y + 480))
-                                const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                                // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                                // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                                 
                             }
                             if(rarity === 'Epic'){
@@ -732,8 +731,8 @@ module.exports = {
                                 ctx.font = applyText(canvas, description);
                                 ctx.textAlign='center';
                                 ctx.fillText(description, (256 + x), (y + 480))
-                                const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                                // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                                // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                             }
                             if(rarity === 'Rare'){
                                 //creating image
@@ -751,8 +750,8 @@ module.exports = {
                                 ctx.font = applyText(canvas, description);
                                 ctx.textAlign='center';
                                 ctx.fillText(description, (256 + x), (y + 480))
-                                const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                                // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                                // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                             }
                             if(rarity === 'Uncommon'){
                                 //creating image
@@ -770,8 +769,8 @@ module.exports = {
                                 ctx.font = applyText(canvas, description);
                                 ctx.textAlign='center';
                                 ctx.fillText(description, (256 + x), (y + 480))
-                                const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                                // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                                // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                             }
                             if(rarity === 'Common'){
                                 //creating image
@@ -789,8 +788,8 @@ module.exports = {
                                 ctx.font = applyText(canvas, description);
                                 ctx.textAlign='center';
                                 ctx.fillText(description, (256 + x), (y + 480))
-                                const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                                // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                                // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                             }
                             if(rarity === 'MARVEL SERIES'){
                                 //creating image
@@ -808,8 +807,8 @@ module.exports = {
                                 ctx.font = applyText(canvas, description);
                                 ctx.textAlign='center';
                                 ctx.fillText(description, (256 + x), (y + 480))
-                                const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                                // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                                // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                             }
                             if(rarity === 'DC SERIES'){
                                 //creating image
@@ -827,8 +826,8 @@ module.exports = {
                                 ctx.font = applyText(canvas, description);
                                 ctx.textAlign='center';
                                 ctx.fillText(description, (256 + x), (y + 480))
-                                const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                                // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                                // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                             }
                             if(rarity === 'DARK SERIES'){
                                 //creating image
@@ -846,8 +845,8 @@ module.exports = {
                                 ctx.font = applyText(canvas, description);
                                 ctx.textAlign='center';
                                 ctx.fillText(description, (256 + x), (y + 480))
-                                const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                                // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                                // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                             }
                             if(rarity === 'Icon Series'){
                                 //creating image
@@ -865,8 +864,8 @@ module.exports = {
                                 ctx.font = applyText(canvas, description);
                                 ctx.textAlign='center';
                                 ctx.fillText(description, (256 + x), (y + 480))
-                                const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                                // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                                // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                             }
                             if(rarity === 'Star Wars Series'){
                                 //creating image
@@ -884,8 +883,8 @@ module.exports = {
                                 ctx.font = applyText(canvas, description);
                                 ctx.textAlign='center';
                                 ctx.fillText(description, (256 + x), (y + 480))
-                                const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                                // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                                // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                             }
                             if(rarity === 'Shadow Series'){
                                 //creating image
@@ -903,8 +902,8 @@ module.exports = {
                                 ctx.font = applyText(canvas, description);
                                 ctx.textAlign='center';
                                 ctx.fillText(description, (256 + x), (y + 480))
-                                const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                                // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                                // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                             }
                             if(rarity === 'Slurp Series'){
                                 //creating image
@@ -922,8 +921,8 @@ module.exports = {
                                 ctx.font = applyText(canvas, description);
                                 ctx.textAlign='center';
                                 ctx.fillText(description, (256 + x), (y + 480))
-                                const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                                // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                                // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                             }
                             if(rarity === 'Frozen Series'){
                                 //creating image
@@ -941,8 +940,8 @@ module.exports = {
                                 ctx.font = applyText(canvas, description);
                                 ctx.textAlign='center';
                                 ctx.fillText(description, (256 + x), (y + 480))
-                                const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                                // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                                // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                             }
                             if(rarity === 'Lava Series'){
                                 //creating image
@@ -960,8 +959,8 @@ module.exports = {
                                 ctx.font = applyText(canvas, description);
                                 ctx.textAlign='center';
                                 ctx.fillText(description, (256 + x), (y + 480))
-                                const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                                // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                                // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                             }
                             if(rarity === 'Gaming Legends Series'){
                                 //creating image
@@ -979,8 +978,8 @@ module.exports = {
                                 ctx.font = applyText(canvas, description);
                                 ctx.textAlign='center';
                                 ctx.fillText(description, (256 + x), (y + 480))
-                                const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                                // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                                // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                             }
                             }else if(lang === "ar"){
                                 //searching
@@ -1000,8 +999,8 @@ module.exports = {
                                     ctx.font = applyText(canvas, description);
                                     ctx.textAlign='center';
                                     ctx.fillText(description, (256 + x), (y + 480))
-                                    const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                    ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                                    // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                                    // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                                     
                                 }
                                 if(rarity === 'ملحمي'){
@@ -1020,8 +1019,8 @@ module.exports = {
                                     ctx.font = applyText(canvas, description);
                                     ctx.textAlign='center';
                                     ctx.fillText(description, (256 + x), (y + 480))
-                                    const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                    ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                                    // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                                    // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                                 }
                                 if(rarity === 'نادر'){
                                     //creating image
@@ -1039,8 +1038,8 @@ module.exports = {
                                     ctx.font = applyText(canvas, description);
                                     ctx.textAlign='center';
                                     ctx.fillText(description, (256 + x), (y + 480))
-                                    const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                    ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                                    // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                                    // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                                 }
                                 if(rarity === 'غير شائع'){
                                     //creating image
@@ -1058,8 +1057,8 @@ module.exports = {
                                     ctx.font = applyText(canvas, description);
                                     ctx.textAlign='center';
                                     ctx.fillText(description, (256 + x), (y + 480))
-                                    const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                    ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                                    // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                                    // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                                 }
                                 if(rarity === 'شائع'){
                                     //creating image
@@ -1077,8 +1076,8 @@ module.exports = {
                                     ctx.font = applyText(canvas, description);
                                     ctx.textAlign='center';
                                     ctx.fillText(description, (256 + x), (y + 480))
-                                    const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                    ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                                    // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                                    // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                                 }
                                 if(rarity === 'سلسلة MARVEL'){
                                     //creating image
@@ -1096,8 +1095,8 @@ module.exports = {
                                     ctx.font = applyText(canvas, description);
                                     ctx.textAlign='center';
                                     ctx.fillText(description, (256 + x), (y + 480))
-                                    const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                    ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                                    // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                                    // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                                 }
                                 if(rarity === 'سلسلة DC'){
                                     //creating image
@@ -1115,8 +1114,8 @@ module.exports = {
                                     ctx.font = applyText(canvas, description);
                                     ctx.textAlign='center';
                                     ctx.fillText(description, (256 + x), (y + 480))
-                                    const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                    ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                                    // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                                    // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                                 }
                                 if(rarity === 'سلسلة DARK'){
                                     //creating image
@@ -1134,8 +1133,8 @@ module.exports = {
                                     ctx.font = applyText(canvas, description);
                                     ctx.textAlign='center';
                                     ctx.fillText(description, (256 + x), (y + 480))
-                                    const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                    ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                                    // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                                    // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                                 }
                                 if(rarity === 'سلسلة المشاهير'){
                                     //creating image
@@ -1153,8 +1152,8 @@ module.exports = {
                                     ctx.font = applyText(canvas, description);
                                     ctx.textAlign='center';
                                     ctx.fillText(description, (256 + x), (y + 480))
-                                    const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                    ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                                    // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                                    // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                                 }
                                 if(rarity === 'سلسلة Star Wars'){
                                     //creating image
@@ -1172,8 +1171,8 @@ module.exports = {
                                     ctx.font = applyText(canvas, description);
                                     ctx.textAlign='center';
                                     ctx.fillText(description, (256 + x), (y + 480))
-                                    const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                    ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                                    // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                                    // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                                 }
                                 if(rarity === 'Shadow Series'){
                                     //creating image
@@ -1191,8 +1190,8 @@ module.exports = {
                                     ctx.font = applyText(canvas, description);
                                     ctx.textAlign='center';
                                     ctx.fillText(description, (256 + x), (y + 480))
-                                    const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                    ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                                    // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                                    // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                                 }
                                 if(rarity === 'سلسلة الشراب Series'){
                                     //creating image
@@ -1210,8 +1209,8 @@ module.exports = {
                                     ctx.font = applyText(canvas, description);
                                     ctx.textAlign='center';
                                     ctx.fillText(description, (256 + x), (y + 480))
-                                    const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                    ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                                    // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                                    // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                                 }
                                 if(rarity === 'سلسلة التجمد'){
                                     //creating image
@@ -1229,8 +1228,8 @@ module.exports = {
                                     ctx.font = applyText(canvas, description);
                                     ctx.textAlign='center';
                                     ctx.fillText(description, (256 + x), (y + 480))
-                                    const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                    ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                                    // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                                    // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                                 }
                                 if(rarity === 'سلسلة الحمم'){
                                     //creating image
@@ -1248,8 +1247,8 @@ module.exports = {
                                     ctx.font = applyText(canvas, description);
                                     ctx.textAlign='center';
                                     ctx.fillText(description, (256 + x), (y + 480))
-                                    const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                    ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                                    // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                                    // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                                 }
                                 if(rarity === 'سلسلة أساطير الألعاب'){
                                     //creating image
@@ -1267,8 +1266,8 @@ module.exports = {
                                     ctx.font = applyText(canvas, description);
                                     ctx.textAlign='center';
                                     ctx.fillText(description, (256 + x), (y + 480))
-                                    const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                    ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
+                                    // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                                    // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                                 }
                             }
                             

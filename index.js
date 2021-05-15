@@ -43,7 +43,7 @@ client.on('ready', async () => {
   commandBase.listen(client, admin)
   UserJoined(client, admin)
   BlogpostsEvents(client, admin)
-  //ItemshopEvents(client, admin)
+  ItemshopEvents(client, admin)
   //PAKEvents(client, admin)
   //SetEvents(client, admin)
   Commands(client, admin, Array)

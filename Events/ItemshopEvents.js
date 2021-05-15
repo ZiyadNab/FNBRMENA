@@ -408,8 +408,8 @@ module.exports = (client, admin) => {
                                     const v = await Canvas.loadImage(vbucks);
                                     ctx.drawImage(v, (vBucksX + x), (y + vBucksY), vBucksW, vBucksH);
                                 }
-                                const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                ctx.drawImage(credit, (CreditX + x), (y + CreditY), CreditW, CreditH);
+                                // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                                // ctx.drawImage(credit, (CreditX + x), (y + CreditY), CreditW, CreditH);
                         }else
                         if(rarity === 'Epic'){
                             //creating image
@@ -456,8 +456,8 @@ module.exports = (client, admin) => {
                                     const v = await Canvas.loadImage(vbucks);
                                     ctx.drawImage(v, (vBucksX + x), (y + vBucksY), vBucksW, vBucksH);
                                 }
-                                const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                ctx.drawImage(credit, (CreditX + x), (y + CreditY), CreditW, CreditH);
+                                // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                                // ctx.drawImage(credit, (CreditX + x), (y + CreditY), CreditW, CreditH);
                         }else
                         if(rarity === 'Rare'){
                             //creating image
@@ -504,8 +504,8 @@ module.exports = (client, admin) => {
                                     const v = await Canvas.loadImage(vbucks);
                                     ctx.drawImage(v, (vBucksX + x), (y + vBucksY), vBucksW, vBucksH);
                                 }
-                                const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                ctx.drawImage(credit, (CreditX + x), (y + CreditY), CreditW, CreditH);
+                                // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                                // ctx.drawImage(credit, (CreditX + x), (y + CreditY), CreditW, CreditH);
                         }else
                         if(rarity === 'Uncommon'){
                             //creating image
@@ -552,8 +552,8 @@ module.exports = (client, admin) => {
                                     const v = await Canvas.loadImage(vbucks);
                                     ctx.drawImage(v, (vBucksX + x), (y + vBucksY), vBucksW, vBucksH);
                                 }
-                                const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                ctx.drawImage(credit, (CreditX + x), (y + CreditY), CreditW, CreditH);
+                                // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                                // ctx.drawImage(credit, (CreditX + x), (y + CreditY), CreditW, CreditH);
                         }else
                         if(rarity === 'Common'){
                             //creating image
@@ -600,8 +600,8 @@ module.exports = (client, admin) => {
                                     const v = await Canvas.loadImage(vbucks);
                                     ctx.drawImage(v, (vBucksX + x), (y + vBucksY), vBucksW, vBucksH);
                                 }
-                                const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                ctx.drawImage(credit, (CreditX + x), (y + CreditY), CreditW, CreditH);
+                                // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                                // ctx.drawImage(credit, (CreditX + x), (y + CreditY), CreditW, CreditH);
                         }else
                         if(rarity === 'MarvelSeries'){
                             //creating image
@@ -690,8 +690,8 @@ module.exports = (client, admin) => {
                                     const v = await Canvas.loadImage(vbucks);
                                     ctx.drawImage(v, (vBucksX + x), (y + vBucksY), vBucksW, vBucksH);
                                 }
-                                const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                ctx.drawImage(credit, (CreditX + x), (y + CreditY), CreditW, CreditH);
+                                // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                                // ctx.drawImage(credit, (CreditX + x), (y + CreditY), CreditW, CreditH);
                         }else
                         if(rarity === 'DarkSeries'){
                             //creating image
@@ -738,8 +738,8 @@ module.exports = (client, admin) => {
                                     const v = await Canvas.loadImage(vbucks);
                                     ctx.drawImage(v, (vBucksX + x), (y + vBucksY), vBucksW, vBucksH);
                                 }
-                                const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                ctx.drawImage(credit, (CreditX + x), (y + CreditY), CreditW, CreditH);
+                                // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                                // ctx.drawImage(credit, (CreditX + x), (y + CreditY), CreditW, CreditH);
                         }else
                         if(rarity === 'CreatorCollabSeries'){
                             //creating image
@@ -786,8 +786,8 @@ module.exports = (client, admin) => {
                                     const v = await Canvas.loadImage(vbucks);
                                     ctx.drawImage(v, (vBucksX + x), (y + vBucksY), vBucksW, vBucksH);
                                 }
-                                const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                ctx.drawImage(credit, (CreditX + x), (y + CreditY), CreditW, CreditH);
+                                // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                                // ctx.drawImage(credit, (CreditX + x), (y + CreditY), CreditW, CreditH);
                             
                         }else
                         if(rarity === 'ColumbusSeries'){
@@ -835,8 +835,8 @@ module.exports = (client, admin) => {
                                     const v = await Canvas.loadImage(vbucks);
                                     ctx.drawImage(v, (vBucksX + x), (y + vBucksY), vBucksW, vBucksH);
                                 }
-                                const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                ctx.drawImage(credit, (CreditX + x), (y + CreditY), CreditW, CreditH);
+                                // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                                // ctx.drawImage(credit, (CreditX + x), (y + CreditY), CreditW, CreditH);
                         }else
                         if(rarity === 'ShadowSeries'){
                             //creating image
@@ -883,8 +883,8 @@ module.exports = (client, admin) => {
                                     const v = await Canvas.loadImage(vbucks);
                                     ctx.drawImage(v, (vBucksX + x), (y + vBucksY), vBucksW, vBucksH);
                                 }
-                                const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                ctx.drawImage(credit, (CreditX + x), (y + CreditY), CreditW, CreditH);
+                                // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                                // ctx.drawImage(credit, (CreditX + x), (y + CreditY), CreditW, CreditH);
                         }else
                         if(rarity === 'SlurpSeries'){
                             //creating image
@@ -931,8 +931,8 @@ module.exports = (client, admin) => {
                                     const v = await Canvas.loadImage(vbucks);
                                     ctx.drawImage(v, (vBucksX + x), (y + vBucksY), vBucksW, vBucksH);
                                 }
-                                const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                ctx.drawImage(credit, (CreditX + x), (y + CreditY), CreditW, CreditH);
+                                // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                                // ctx.drawImage(credit, (CreditX + x), (y + CreditY), CreditW, CreditH);
                             
                         }else
                         if(rarity === 'FrozenSeries'){
@@ -980,8 +980,8 @@ module.exports = (client, admin) => {
                                     const v = await Canvas.loadImage(vbucks);
                                     ctx.drawImage(v, (vBucksX + x), (y + vBucksY), vBucksW, vBucksH);
                                 }
-                                const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                ctx.drawImage(credit, (CreditX + x), (y + CreditY), CreditW, CreditH);
+                                // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                                // ctx.drawImage(credit, (CreditX + x), (y + CreditY), CreditW, CreditH);
                             
                         }else
                         if(rarity === 'LavaSeries'){
@@ -1029,8 +1029,8 @@ module.exports = (client, admin) => {
                                     const v = await Canvas.loadImage(vbucks);
                                     ctx.drawImage(v, (vBucksX + x), (y + vBucksY), vBucksW, vBucksH);
                                 }
-                                const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                ctx.drawImage(credit, (CreditX + x), (y + CreditY), CreditW, CreditH);
+                                // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                                // ctx.drawImage(credit, (CreditX + x), (y + CreditY), CreditW, CreditH);
                             
                         }else
                         if(rarity === 'PlatformSeriess'){
@@ -1078,8 +1078,8 @@ module.exports = (client, admin) => {
                                     const v = await Canvas.loadImage(vbucks);
                                     ctx.drawImage(v, (vBucksX + x), (y + vBucksY), vBucksW, vBucksH);
                                 }
-                                const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                ctx.drawImage(credit, (CreditX + x), (y + CreditY), CreditW, CreditH);
+                                // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                                // ctx.drawImage(credit, (CreditX + x), (y + CreditY), CreditW, CreditH);
                         }else{
                             //creating image
                             const skinholder = await Canvas.loadImage('./assets/Rarities/standard/common.png')
@@ -1125,8 +1125,8 @@ module.exports = (client, admin) => {
                                     const v = await Canvas.loadImage(vbucks);
                                     ctx.drawImage(v, (vBucksX + x), (y + vBucksY), vBucksW, vBucksH);
                                 }
-                                const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                ctx.drawImage(credit, (CreditX + x), (y + CreditY), CreditW, CreditH);
+                                // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
+                                // ctx.drawImage(credit, (CreditX + x), (y + CreditY), CreditW, CreditH);
                         }
                         return canvas, ctx
                     }

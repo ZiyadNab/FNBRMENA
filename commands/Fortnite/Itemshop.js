@@ -85,6 +85,8 @@ module.exports = {
                             SpecialFeaturedIndex++
                         }
                     }
+
+                    console.log(Featured)
                     
                     //canvas stuff
                     var FeaturedSection = 0
@@ -691,7 +693,7 @@ module.exports = {
                                 // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                                 // ctx.drawImage(credit, (CreditX + x), (y + CreditY), CreditW, CreditH);
                         }else
-                        if(rarity === 'DarkSeries'){
+                        if(rarity === 'CUBESeries'){
                             //creating image
                             const skinholder = await Canvas.loadImage('./assets/Rarities/standard/dark.png')
                             ctx.drawImage(skinholder, x, y, WidthC, HeightC)

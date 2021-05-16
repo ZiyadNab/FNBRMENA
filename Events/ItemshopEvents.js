@@ -693,7 +693,7 @@ module.exports = (client, admin) => {
                                 // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                                 // ctx.drawImage(credit, (CreditX + x), (y + CreditY), CreditW, CreditH);
                         }else
-                        if(rarity === 'DarkSeries'){
+                        if(rarity === 'CUBESeries'){
                             //creating image
                             const skinholder = await Canvas.loadImage('./assets/Rarities/standard/dark.png')
                             ctx.drawImage(skinholder, x, y, WidthC, HeightC)

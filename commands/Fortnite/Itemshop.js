@@ -1519,7 +1519,7 @@ module.exports = {
                     if(lang === "en"){
 
                         if(FeaturedSection === 3){
-                            x = 1043
+                            x = canvas.width - 1043
                             y = canvas.height - 1800
                         }else if(FeaturedSection === 5){
                             x = canvas.width - 1580

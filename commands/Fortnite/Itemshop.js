@@ -86,7 +86,7 @@ module.exports = {
                         }
                     }
 
-                    console.log(Featured)
+                    console.log(SpecialFeatured)
                     
                     //canvas stuff
                     var FeaturedSection = 0
@@ -338,13 +338,32 @@ module.exports = {
                         ctx.drawImage(code, (canvas.width - 1100), (height - 300), 1000, 200)
                     }
 
+                    //date
+                    var date
+                    if(lang === "en"){
+                        moment.locale("en")
+                        date = moment(res.lastUpdate.date).format("dddd, MMMM Do of YYYY")
+                        ctx.fillStyle = '#ffffff';
+                        ctx.textAlign='center';
+                        ctx.font = `200px Burbank Big Condensed`
+                        ctx.fillText(date, (width / 2), (height - 100))
+                    }else if(lang === "ar"){
+                        moment.locale("ar")
+                        date = moment(res.lastUpdate.date).format("dddd, MMMM Do من YYYY")
+                        ctx.fillStyle = '#ffffff';
+                        ctx.textAlign='center';
+                        ctx.font = `200px Arabic`
+                        ctx.fillText(date, (width / 2), (height - 100))
+                    }
+
+                    //display items method
                     const DisplayShop = async (ctx, canvas, x, y, i, type, WidthC, HeightC
                         ,NameX, NameY, PriceX, PriceY, DayX, DayY, vBucksX, vBucksY, vBucksW
                         ,vBucksH, CreditX, CreditY, CreditW, CreditH, textSize) => {
 
                         //skin informations
                         var name = type[i].displayName;
-                        var price = type[i].price.regularPrice;
+                        var price = type[i].price.finalPrice;
                         var image = type[i].displayAssets[0].url;
                         if(type[i].series === null){
                             var rarity = type[i].rarity.id;
@@ -1432,6 +1451,288 @@ module.exports = {
                                 x = canvas.width - (250 + 1024 + 25)
                             }
                         }
+                    }
+
+                    //Shop Summary
+                    var rarestDay = 0
+                    var itemsLength = res.shop.length
+                    var rarestName
+                    var latestDay = 5000
+                    var latestName
+                    var totalPrice = 0
+                    var cheapestPrice = 5000
+                    var cheapestName
+                    var mostExpencivePrice = 0
+                    var mostExpenciveName
+                    var SkinsNumber = 0
+                    var PickaxeNumber = 0
+                    var GlidersNumber = 0
+                    var EmotesNumber = 0
+
+                    //inislizing data
+                    for(let i = 0; i < res.shop.length; i++){
+
+                        if(res.shop[i].section.id !== "LimitedTime" && res.shop[i].bundle !== "bundle"){
+                            //moment
+                            var Now = moment();
+                            var last
+                            if(res.shop[i].previousReleaseDate !== null){
+                                last = moment(res.shop[i].previousReleaseDate);
+                            }else{
+                                last = moment(res.shop[i].firstReleaseDate)
+                            }
+                            const day = Now.diff(last, 'days');
+
+                            if(day > rarestDay){
+                                rarestName = res.shop[i].displayName
+                                rarestDay = day
+                            }
+                            if(day < latestDay){
+                                latestName = res.shop[i].displayName
+                                latestDay = day
+                            }
+                            if(res.shop[i].price.finalPrice > mostExpencivePrice){
+                                mostExpenciveName = res.shop[i].displayName
+                                mostExpencivePrice = res.shop[i].price.finalPrice
+                            }
+                            if(res.shop[i].price.finalPrice < cheapestPrice){
+                                cheapestName = res.shop[i].displayName
+                                cheapestPrice = res.shop[i].price.finalPrice
+                            }
+                            if(res.shop[i].mainType === "outfit"){
+                                SkinsNumber++
+                            }
+                            if(res.shop[i].mainType === "pickaxe"){
+                                PickaxeNumber++
+                            }
+                            if(res.shop[i].mainType === "glider"){
+                                GlidersNumber++
+                            }
+                            if(res.shop[i].mainType === "emote"){
+                                EmotesNumber++
+                            }
+                        }
+
+                        totalPrice += res.shop[i].price.finalPrice
+                    }
+                    if(lang === "en"){
+
+                        if(FeaturedSection === 3){
+                            x = canvas.width - 1043
+                            y = canvas.height - 1800
+                        }else if(FeaturedSection === 5){
+                            x = canvas.width - 1580
+                            y = canvas.height - 1800
+                        }
+                        //text
+                        ctx.fillStyle = '#ffffff';
+                        ctx.textAlign='center';
+                        ctx.font = `150px Burbank Big Condensed`
+                        ctx.fillText("Itemshop Summary", x, y)
+
+                        //moving a new layer and start from the beinning
+                        y += 200
+                        x += 100
+
+                        //total vbucks
+                        ctx.fillStyle = '#ffffff';
+                        ctx.textAlign='left';
+                        ctx.font = `90px Burbank Big Condensed`
+                        ctx.fillText("All vBucks: " + totalPrice, x, y)
+
+                        //go to the end
+                        x -= 100
+
+                        //rarest item
+                        ctx.fillStyle = '#ffffff';
+                        ctx.textAlign='right';
+                        ctx.font = `90px Burbank Big Condensed`
+                        ctx.fillText("Cosmetics count: " + itemsLength + " عنصر", x, y)
+
+                        //moving a new layer and start from the beinning
+                        y += 100
+                        x += 100
+
+                        //rarest item
+                        ctx.fillStyle = '#ffffff';
+                        ctx.textAlign='left';
+                        ctx.font = `90px Burbank Big Condensed`
+                        ctx.fillText("Rarest item: " + rarestName + " " + rarestDay + " day", x, y)
+
+                        //go to the end
+                        x -= 100
+
+                        //latest item
+                        ctx.fillStyle = '#ffffff';
+                        ctx.textAlign='right';
+                        ctx.font = `90px Burbank Big Condensed`
+                        ctx.fillText("Latest item: " + latestName + " " + latestDay + " day", x, y)
+
+                        //moving a new layer and start from the beinning
+                        y += 100
+                        x += 100
+
+                        //expencive item
+                        ctx.fillStyle = '#ffffff';
+                        ctx.textAlign='left';
+                        ctx.font = `90px Burbank Big Condensed`
+                        ctx.fillText("Most Expencive: " + mostExpenciveName, x, y)
+
+                        //go to the end
+                        x -= 100
+
+                        //latest item
+                        ctx.fillStyle = '#ffffff';
+                        ctx.textAlign='right';
+                        ctx.font = `90px Burbank Big Condensed`
+                        ctx.fillText("Cheapest item: " + cheapestName, x, y)
+
+                        //moving a new layer and start from the beinning
+                        y += 100
+                        x += 100
+
+                        //expencive item
+                        ctx.fillStyle = '#ffffff';
+                        ctx.textAlign='left';
+                        ctx.font = `90px Burbank Big Condensed`
+                        ctx.fillText("Outfits: " + SkinsNumber, x, y)
+
+                        //go to the end
+                        x -= 100
+
+                        //cheap item
+                        ctx.fillStyle = '#ffffff';
+                        ctx.textAlign='right';
+                        ctx.font = `90px Burbank Big Condensed`
+                        ctx.fillText("Pickaxes: " + PickaxeNumber, x, y)
+
+                        //moving a new layer and start from the beinning
+                        y += 100
+                        x += 100
+
+                        //expencive item
+                        ctx.fillStyle = '#ffffff';
+                        ctx.textAlign='left';
+                        ctx.font = `90px Burbank Big Condensed`
+                        ctx.fillText("Gliders: " + GlidersNumber, x, y)
+
+                        //go to the end
+                        x -= 100
+
+                        //cheap item
+                        ctx.fillStyle = '#ffffff';
+                        ctx.textAlign='right';
+                        ctx.font = `90px Burbank Big Condensed`
+                        ctx.fillText("Emotes: " + EmotesNumber, x, y)
+
+                    }else if(lang === "ar"){
+                        if(FeaturedSection === 3){
+                            x = 1043
+                            y = canvas.height - 1800
+                        }else if(FeaturedSection === 5){
+                            x = 1580
+                            y = canvas.height - 1800
+                        }
+                        //text
+                        ctx.fillStyle = '#ffffff';
+                        ctx.textAlign='center';
+                        ctx.font = `150px Arabic`
+                        ctx.fillText("ملخص الايتم شوب", x, y)
+
+                        //moving a new layer and start from the beinning
+                        y += 200
+                        x += 100
+
+                        //total vbucks
+                        ctx.fillStyle = '#ffffff';
+                        ctx.textAlign='left';
+                        ctx.font = `90px Arabic`
+                        ctx.fillText("مجموع الفيبوكس: " + totalPrice, x, y)
+
+                        //go to the end
+                        x -= 100
+
+                        //rarest item
+                        ctx.fillStyle = '#ffffff';
+                        ctx.textAlign='right';
+                        ctx.font = `90px Arabic`
+                        ctx.fillText("عدد العناصر بالشوب: " + itemsLength + " عنصر", x, y)
+
+                        //moving a new layer and start from the beinning
+                        y += 100
+                        x += 100
+
+                        //rarest item
+                        ctx.fillStyle = '#ffffff';
+                        ctx.textAlign='left';
+                        ctx.font = `90px Arabic`
+                        ctx.fillText("اندر عنصر: " + rarestName + " " + rarestDay + " يوم", x, y)
+
+                        //go to the end
+                        x -= 100
+
+                        //latest item
+                        ctx.fillStyle = '#ffffff';
+                        ctx.textAlign='right';
+                        ctx.font = `90px Arabic`
+                        ctx.fillText("اجدد عنصر: " + latestName + " " + latestDay + " يوم", x, y)
+
+                        //moving a new layer and start from the beinning
+                        y += 100
+                        x += 100
+
+                        //expencive item
+                        ctx.fillStyle = '#ffffff';
+                        ctx.textAlign='left';
+                        ctx.font = `90px Arabic`
+                        ctx.fillText("اغلى عنصر: " + mostExpenciveName, x, y)
+
+                        //go to the end
+                        x -= 100
+
+                        //cheap item
+                        ctx.fillStyle = '#ffffff';
+                        ctx.textAlign='right';
+                        ctx.font = `90px Arabic`
+                        ctx.fillText("ارخص عنصر: " + cheapestName, x, y)
+
+                        //moving a new layer and start from the beinning
+                        y += 100
+                        x += 100
+
+                        //expencive item
+                        ctx.fillStyle = '#ffffff';
+                        ctx.textAlign='left';
+                        ctx.font = `90px Arabic`
+                        ctx.fillText("عدد السكنات: " + SkinsNumber, x, y)
+
+                        //go to the end
+                        x -= 100
+
+                        //cheap item
+                        ctx.fillStyle = '#ffffff';
+                        ctx.textAlign='right';
+                        ctx.font = `90px Arabic`
+                        ctx.fillText("عدد البيكاكسات: " + PickaxeNumber, x, y)
+
+                        //moving a new layer and start from the beinning
+                        y += 100
+                        x += 100
+
+                        //expencive item
+                        ctx.fillStyle = '#ffffff';
+                        ctx.textAlign='left';
+                        ctx.font = `90px Arabic`
+                        ctx.fillText("عدد المظلات: " + GlidersNumber, x, y)
+
+                        //go to the end
+                        x -= 100
+
+                        //cheap item
+                        ctx.fillStyle = '#ffffff';
+                        ctx.textAlign='right';
+                        ctx.font = `90px Arabic`
+                        ctx.fillText("عدد الرقصات: " + EmotesNumber, x, y)
                     }
 
                     //sending message

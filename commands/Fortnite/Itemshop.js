@@ -1173,8 +1173,9 @@ module.exports = {
                     //Featured
                     if(lang === "en"){
                         ctx.fillStyle = '#ffffff';
+                        ctx.textAlign='left';
                         ctx.font = '150px Burbank Big Condensed'
-                        ctx.fillText("Featured", 250, (y - 50))
+                        ctx.fillText("Featured", x, (y - 50))
                     }else if(lang === "ar"){
                         if(FeaturedSection === 3){
                             ctx.fillStyle = '#ffffff';
@@ -1518,17 +1519,17 @@ module.exports = {
                     if(lang === "en"){
 
                         if(FeaturedSection === 3){
-                            x = canvas.width - 1150
+                            x = 1043
                             y = canvas.height - 1800
                         }else if(FeaturedSection === 5){
-                            x = canvas.width - 1650
+                            x = canvas.width - 1580
                             y = canvas.height - 1800
                         }
                         //text
                         ctx.fillStyle = '#ffffff';
                         ctx.textAlign='center';
                         ctx.font = `150px Burbank Big Condensed`
-                        ctx.fillText("Itemshop Summary", x, y)
+                        ctx.fillText("ItemShop Summary", x, y)
 
                         //moving a new layer and start from the beinning
                         y += 200
@@ -1538,7 +1539,7 @@ module.exports = {
                         ctx.fillStyle = '#ffffff';
                         ctx.textAlign='left';
                         ctx.font = `80px Burbank Big Condensed`
-                        ctx.fillText("All vBucks: " + totalPrice, x, y)
+                        ctx.fillText("All shop costs: " + totalPrice, x, y)
 
                         //go to the end
                         x -= 100
@@ -1576,7 +1577,7 @@ module.exports = {
                         ctx.fillStyle = '#ffffff';
                         ctx.textAlign='left';
                         ctx.font = `80px Burbank Big Condensed`
-                        ctx.fillText("Most Expencive: " + mostExpenciveName, x, y)
+                        ctx.fillText("Most Expensive: " + mostExpenciveName, x, y)
 
                         //go to the end
                         x -= 100
@@ -1628,10 +1629,10 @@ module.exports = {
                     }else if(lang === "ar"){
                         if(FeaturedSection === 3){
                             x = 1043
-                            y = canvas.height - 1800
+                            y = canvas.height - 2000
                         }else if(FeaturedSection === 5){
                             x = 1580
-                            y = canvas.height - 1800
+                            y = canvas.height - 2000
                         }
                         //text
                         ctx.fillStyle = '#ffffff';

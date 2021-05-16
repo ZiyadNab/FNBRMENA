@@ -1174,7 +1174,7 @@ module.exports = {
                     if(lang === "en"){
                         ctx.fillStyle = '#ffffff';
                         ctx.font = '150px Burbank Big Condensed'
-                        ctx.fillText("Featured", x, (y - 50))
+                        ctx.fillText("Featured", 250, (y - 50))
                     }else if(lang === "ar"){
                         if(FeaturedSection === 3){
                             ctx.fillStyle = '#ffffff';
@@ -1472,7 +1472,7 @@ module.exports = {
                     //inislizing data
                     for(let i = 0; i < res.shop.length; i++){
 
-                        if(res.shop[i].section.id !== "LimitedTime" && res.shop[i].bundle !== "bundle"){
+                        if(res.shop[i].section.id !== "LimitedTime" && res.shop[i].mainType !== "bundle"){
                             //moment
                             var Now = moment();
                             var last
@@ -1518,10 +1518,10 @@ module.exports = {
                     if(lang === "en"){
 
                         if(FeaturedSection === 3){
-                            x = canvas.width - 1043
+                            x = canvas.width - 1150
                             y = canvas.height - 1800
                         }else if(FeaturedSection === 5){
-                            x = canvas.width - 1580
+                            x = canvas.width - 1650
                             y = canvas.height - 1800
                         }
                         //text
@@ -1537,7 +1537,7 @@ module.exports = {
                         //total vbucks
                         ctx.fillStyle = '#ffffff';
                         ctx.textAlign='left';
-                        ctx.font = `90px Burbank Big Condensed`
+                        ctx.font = `80px Burbank Big Condensed`
                         ctx.fillText("All vBucks: " + totalPrice, x, y)
 
                         //go to the end
@@ -1546,8 +1546,8 @@ module.exports = {
                         //rarest item
                         ctx.fillStyle = '#ffffff';
                         ctx.textAlign='right';
-                        ctx.font = `90px Burbank Big Condensed`
-                        ctx.fillText("Cosmetics count: " + itemsLength + " عنصر", x, y)
+                        ctx.font = `80px Burbank Big Condensed`
+                        ctx.fillText("Cosmetics count: " + itemsLength + " item", x, y)
 
                         //moving a new layer and start from the beinning
                         y += 100
@@ -1556,7 +1556,7 @@ module.exports = {
                         //rarest item
                         ctx.fillStyle = '#ffffff';
                         ctx.textAlign='left';
-                        ctx.font = `90px Burbank Big Condensed`
+                        ctx.font = `80px Burbank Big Condensed`
                         ctx.fillText("Rarest item: " + rarestName + " " + rarestDay + " day", x, y)
 
                         //go to the end
@@ -1565,7 +1565,7 @@ module.exports = {
                         //latest item
                         ctx.fillStyle = '#ffffff';
                         ctx.textAlign='right';
-                        ctx.font = `90px Burbank Big Condensed`
+                        ctx.font = `80px Burbank Big Condensed`
                         ctx.fillText("Latest item: " + latestName + " " + latestDay + " day", x, y)
 
                         //moving a new layer and start from the beinning
@@ -1575,7 +1575,7 @@ module.exports = {
                         //expencive item
                         ctx.fillStyle = '#ffffff';
                         ctx.textAlign='left';
-                        ctx.font = `90px Burbank Big Condensed`
+                        ctx.font = `80px Burbank Big Condensed`
                         ctx.fillText("Most Expencive: " + mostExpenciveName, x, y)
 
                         //go to the end
@@ -1584,7 +1584,7 @@ module.exports = {
                         //latest item
                         ctx.fillStyle = '#ffffff';
                         ctx.textAlign='right';
-                        ctx.font = `90px Burbank Big Condensed`
+                        ctx.font = `80px Burbank Big Condensed`
                         ctx.fillText("Cheapest item: " + cheapestName, x, y)
 
                         //moving a new layer and start from the beinning
@@ -1594,7 +1594,7 @@ module.exports = {
                         //expencive item
                         ctx.fillStyle = '#ffffff';
                         ctx.textAlign='left';
-                        ctx.font = `90px Burbank Big Condensed`
+                        ctx.font = `80px Burbank Big Condensed`
                         ctx.fillText("Outfits: " + SkinsNumber, x, y)
 
                         //go to the end
@@ -1603,7 +1603,7 @@ module.exports = {
                         //cheap item
                         ctx.fillStyle = '#ffffff';
                         ctx.textAlign='right';
-                        ctx.font = `90px Burbank Big Condensed`
+                        ctx.font = `80px Burbank Big Condensed`
                         ctx.fillText("Pickaxes: " + PickaxeNumber, x, y)
 
                         //moving a new layer and start from the beinning
@@ -1613,7 +1613,7 @@ module.exports = {
                         //expencive item
                         ctx.fillStyle = '#ffffff';
                         ctx.textAlign='left';
-                        ctx.font = `90px Burbank Big Condensed`
+                        ctx.font = `80px Burbank Big Condensed`
                         ctx.fillText("Gliders: " + GlidersNumber, x, y)
 
                         //go to the end
@@ -1622,7 +1622,7 @@ module.exports = {
                         //cheap item
                         ctx.fillStyle = '#ffffff';
                         ctx.textAlign='right';
-                        ctx.font = `90px Burbank Big Condensed`
+                        ctx.font = `80px Burbank Big Condensed`
                         ctx.fillText("Emotes: " + EmotesNumber, x, y)
 
                     }else if(lang === "ar"){

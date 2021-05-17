@@ -70,9 +70,23 @@ module.exports = {
                                             .then( async msg => {
 
                                                 //aplyText
-                                                const applyText = (canvas, text) => {
+                                                const applyTextDescription = (canvas, text) => {
                                                     const ctx = canvas.getContext('2d');
                                                     let fontSize = 36;
+                                                    do {
+                                                        if(lang === "en"){
+                                                            ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
+                                                        }else if(lang === "ar"){
+                                                            ctx.font = `${fontSize -= 1}px Arabic`;
+                                                        }
+                                                    } while (ctx.measureText(text).width > 420);
+                                                    return ctx.font;
+                                                };
+
+                                                //aplyText
+                                                const applyTextName = (canvas, text) => {
+                                                    const ctx = canvas.getContext('2d');
+                                                    let fontSize = 50;
                                                     do {
                                                         if(lang === "en"){
                                                             ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
@@ -112,9 +126,9 @@ module.exports = {
                                                     if(lang === "en"){
                                                         ctx.fillStyle = '#ffffff';
                                                         ctx.textAlign='center';
-                                                        ctx.font = '50px Burbank Big Condensed'
+                                                        ctx.font = applyTextName(canvas, name);
                                                         ctx.fillText(name, 256, 425)
-                                                        ctx.font = applyText(canvas, description);
+                                                        ctx.font = applyTextDescription(canvas, description);
                                                         ctx.textAlign='center';
                                                         ctx.fillText(description, 256, 480)
                                                         ctx.font = '30px Burbank Big Condensed'
@@ -125,9 +139,9 @@ module.exports = {
                                                     }else if(lang === "ar"){
                                                         ctx.fillStyle = '#ffffff';
                                                         ctx.textAlign='center';
-                                                        ctx.font = '40px Arabic'
+                                                        ctx.font = applyTextName(canvas, name);
                                                         ctx.fillText(name, 256, 425)   
-                                                        ctx.font = applyText(canvas, description);
+                                                        ctx.font = applyTextDescription(canvas, description);
                                                         ctx.textAlign='center';
                                                         ctx.fillText(description, 256, 480)
                                                         ctx.font = '30px Arabic'
@@ -148,9 +162,9 @@ module.exports = {
                                                     if(lang === "en"){
                                                         ctx.fillStyle = '#ffffff';
                                                         ctx.textAlign='center';
-                                                        ctx.font = '50px Burbank Big Condensed'
+                                                        ctx.font = applyTextName(canvas, name);
                                                         ctx.fillText(name, 256, 425)
-                                                        ctx.font = applyText(canvas, description);
+                                                        ctx.font = applyTextDescription(canvas, description);
                                                         ctx.textAlign='center';
                                                         ctx.fillText(description, 256, 480)
                                                         ctx.font = '30px Burbank Big Condensed'
@@ -161,9 +175,9 @@ module.exports = {
                                                     }else if(lang === "ar"){
                                                         ctx.fillStyle = '#ffffff';
                                                         ctx.textAlign='center';
-                                                        ctx.font = '40px Arabic'
+                                                        ctx.font = applyTextName(canvas, name);
                                                         ctx.fillText(name, 256, 425)   
-                                                        ctx.font = applyText(canvas, description);
+                                                        ctx.font = applyTextDescription(canvas, description);
                                                         ctx.textAlign='center';
                                                         ctx.fillText(description, 256, 480)
                                                         ctx.font = '30px Arabic'
@@ -184,9 +198,9 @@ module.exports = {
                                                     if(lang === "en"){
                                                         ctx.fillStyle = '#ffffff';
                                                         ctx.textAlign='center';
-                                                        ctx.font = '50px Burbank Big Condensed'
+                                                        ctx.font = applyTextName(canvas, name);
                                                         ctx.fillText(name, 256, 425)
-                                                        ctx.font = applyText(canvas, description);
+                                                        ctx.font = applyTextDescription(canvas, description);
                                                         ctx.textAlign='center';
                                                         ctx.fillText(description, 256, 480)
                                                         ctx.font = '30px Burbank Big Condensed'
@@ -197,9 +211,9 @@ module.exports = {
                                                     }else if(lang === "ar"){
                                                         ctx.fillStyle = '#ffffff';
                                                         ctx.textAlign='center';
-                                                        ctx.font = '40px Arabic'
+                                                        ctx.font = applyTextName(canvas, name);
                                                         ctx.fillText(name, 256, 425)   
-                                                        ctx.font = applyText(canvas, description);
+                                                        ctx.font = applyTextDescription(canvas, description);
                                                         ctx.textAlign='center';
                                                         ctx.fillText(description, 256, 480)
                                                         ctx.font = '30px Arabic'
@@ -220,9 +234,9 @@ module.exports = {
                                                     if(lang === "en"){
                                                         ctx.fillStyle = '#ffffff';
                                                         ctx.textAlign='center';
-                                                        ctx.font = '50px Burbank Big Condensed'
+                                                        ctx.font = applyTextName(canvas, name);
                                                         ctx.fillText(name, 256, 425)
-                                                        ctx.font = applyText(canvas, description);
+                                                        ctx.font = applyTextDescription(canvas, description);
                                                         ctx.textAlign='center';
                                                         ctx.fillText(description, 256, 480)
                                                         ctx.font = '30px Burbank Big Condensed'
@@ -233,9 +247,9 @@ module.exports = {
                                                     }else if(lang === "ar"){
                                                         ctx.fillStyle = '#ffffff';
                                                         ctx.textAlign='center';
-                                                        ctx.font = '40px Arabic'
+                                                        ctx.font = applyTextName(canvas, name);
                                                         ctx.fillText(name, 256, 425)   
-                                                        ctx.font = applyText(canvas, description);
+                                                        ctx.font = applyTextDescription(canvas, description);
                                                         ctx.textAlign='center';
                                                         ctx.fillText(description, 256, 480)
                                                         ctx.font = '30px Arabic'
@@ -256,9 +270,9 @@ module.exports = {
                                                     if(lang === "en"){
                                                         ctx.fillStyle = '#ffffff';
                                                         ctx.textAlign='center';
-                                                        ctx.font = '50px Burbank Big Condensed'
+                                                        ctx.font = applyTextName(canvas, name);
                                                         ctx.fillText(name, 256, 425)
-                                                        ctx.font = applyText(canvas, description);
+                                                        ctx.font = applyTextDescription(canvas, description);
                                                         ctx.textAlign='center';
                                                         ctx.fillText(description, 256, 480)
                                                         ctx.font = '30px Burbank Big Condensed'
@@ -269,9 +283,9 @@ module.exports = {
                                                     }else if(lang === "ar"){
                                                         ctx.fillStyle = '#ffffff';
                                                         ctx.textAlign='center';
-                                                        ctx.font = '40px Arabic'
+                                                        ctx.font = applyTextName(canvas, name);
                                                         ctx.fillText(name, 256, 425)   
-                                                        ctx.font = applyText(canvas, description);
+                                                        ctx.font = applyTextDescription(canvas, description);
                                                         ctx.textAlign='center';
                                                         ctx.fillText(description, 256, 480)
                                                         ctx.font = '30px Arabic'
@@ -292,9 +306,9 @@ module.exports = {
                                                     if(lang === "en"){
                                                         ctx.fillStyle = '#ffffff';
                                                         ctx.textAlign='center';
-                                                        ctx.font = '50px Burbank Big Condensed'
+                                                        ctx.font = applyTextName(canvas, name);
                                                         ctx.fillText(name, 256, 425)
-                                                        ctx.font = applyText(canvas, description);
+                                                        ctx.font = applyTextDescription(canvas, description);
                                                         ctx.textAlign='center';
                                                         ctx.fillText(description, 256, 480)
                                                         ctx.font = '30px Burbank Big Condensed'
@@ -305,9 +319,9 @@ module.exports = {
                                                     }else if(lang === "ar"){
                                                         ctx.fillStyle = '#ffffff';
                                                         ctx.textAlign='center';
-                                                        ctx.font = '40px Arabic'
+                                                        ctx.font = applyTextName(canvas, name);
                                                         ctx.fillText(name, 256, 425)   
-                                                        ctx.font = applyText(canvas, description);
+                                                        ctx.font = applyTextDescription(canvas, description);
                                                         ctx.textAlign='center';
                                                         ctx.fillText(description, 256, 480)
                                                         ctx.font = '30px Arabic'
@@ -328,9 +342,9 @@ module.exports = {
                                                     if(lang === "en"){
                                                         ctx.fillStyle = '#ffffff';
                                                         ctx.textAlign='center';
-                                                        ctx.font = '50px Burbank Big Condensed'
+                                                        ctx.font = applyTextName(canvas, name);
                                                         ctx.fillText(name, 256, 425)
-                                                        ctx.font = applyText(canvas, description);
+                                                        ctx.font = applyTextDescription(canvas, description);
                                                         ctx.textAlign='center';
                                                         ctx.fillText(description, 256, 480)
                                                         ctx.font = '30px Burbank Big Condensed'
@@ -341,9 +355,9 @@ module.exports = {
                                                     }else if(lang === "ar"){
                                                         ctx.fillStyle = '#ffffff';
                                                         ctx.textAlign='center';
-                                                        ctx.font = '40px Arabic'
+                                                        ctx.font = applyTextName(canvas, name);
                                                         ctx.fillText(name, 256, 425)   
-                                                        ctx.font = applyText(canvas, description);
+                                                        ctx.font = applyTextDescription(canvas, description);
                                                         ctx.textAlign='center';
                                                         ctx.fillText(description, 256, 480)
                                                         ctx.font = '30px Arabic'
@@ -393,6 +407,324 @@ module.exports = {
                                         message.reply(error)
                                     }
                                 })
+                            })
+                        })
+                    }else{
+                        fortniteAPI.lisloot(options = {lang: lang})
+                        .then(async res => {
+                            const weapon = await res.weapons.filter(function(value) {
+                                return value.id === WIDs[num].id
+                            })
+
+                            const generating = new Discord.MessageEmbed()
+                            generating.setColor('#BB00EE')
+                            const emoji = client.emojis.cache.get("805690920157970442")
+                            generating.setTitle(`Generating ${emoji}`)
+                            message.channel.send(generating)
+                            .then( async msg => {
+
+                                //aplyText
+                                const applyTextDescription = (canvas, text) => {
+                                    const ctx = canvas.getContext('2d');
+                                    let fontSize = 36;
+                                    do {
+                                        if(lang === "en"){
+                                            ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
+                                        }else if(lang === "ar"){
+                                            ctx.font = `${fontSize -= 1}px Arabic`;
+                                        }
+                                    } while (ctx.measureText(text).width > 420);
+                                    return ctx.font;
+                                };
+
+                                //aplyText
+                                const applyTextName = (canvas, text) => {
+                                    const ctx = canvas.getContext('2d');
+                                    let fontSize = 50;
+                                    do {
+                                        if(lang === "en"){
+                                            ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
+                                        }else if(lang === "ar"){
+                                            ctx.font = `${fontSize -= 1}px Arabic`;
+                                        }
+                                    } while (ctx.measureText(text).width > 420);
+                                    return ctx.font;
+                                };
+
+                                //registering fonts
+                                Canvas.registerFont('./assets/font/Lalezar-Regular.ttf', {family: 'Arabic',weight: "700",style: "bold"});
+                                Canvas.registerFont('./assets/font/BurbankBigCondensed-Black.otf' ,{family: 'Burbank Big Condensed',weight: "700",style: "bold"})
+
+                                //creating canvas
+                                const canvas = Canvas.createCanvas(512, 700);
+                                const ctx = canvas.getContext('2d');
+
+                                //initializing values
+                                var name = weapon[0].name;
+                                var description = weapon[0].description
+                                var image = weapon[0].images.icon
+                                var rarity = weapon[0].rarity
+                                var magezin = weapon[0].mainStats.ClipSize
+                                var reload = weapon[0].mainStats.ReloadTime
+                                var damage = weapon[0].mainStats.DmgPB
+                                var firerate = weapon[0].mainStats.FiringRate
+
+                                if(rarity === "mythic"){
+                                    //creating image
+                                    const skinholder = await Canvas.loadImage('./assets/Rarities/weapons/mythic.png')
+                                    ctx.drawImage(skinholder, 0, 0, 512, 700)
+                                    const skin = await Canvas.loadImage(image);
+                                    ctx.drawImage(skin, 0, 0, 512, 512)
+                                    const skinborder = await Canvas.loadImage('./assets/Rarities/weapons/borderMythic.png')
+                                    ctx.drawImage(skinborder, 0, 0, 512, 700)
+                                    if(lang === "en"){
+                                        ctx.fillStyle = '#ffffff';
+                                        ctx.textAlign='center';
+                                        ctx.font = applyTextName(canvas, name);
+                                        ctx.fillText(name, 256, 425)
+                                        ctx.font = applyTextDescription(canvas, description);
+                                        ctx.textAlign='center';
+                                        ctx.fillText(description, 256, 480)
+                                        ctx.font = '30px Burbank Big Condensed'
+                                        ctx.fillText("Fire Rate: " + firerate, 256, 540)
+                                        ctx.fillText("Reload Time: " + reload, 256, 586)
+                                        ctx.fillText("Magazine: " + magezin, 256, 633)
+                                        ctx.fillText("Damage: " + damage, 256, 683)
+                                    }else if(lang === "ar"){
+                                        ctx.fillStyle = '#ffffff';
+                                        ctx.textAlign='center';
+                                        ctx.font = applyTextName(canvas, name);
+                                        ctx.fillText(name, 256, 425)   
+                                        ctx.font = applyTextDescription(canvas, description);
+                                        ctx.textAlign='center';
+                                        ctx.fillText(description, 256, 480)
+                                        ctx.font = '30px Arabic'
+                                        ctx.fillText("معدل الطلقات: " + firerate, 256, 535)
+                                        ctx.fillText("وقت اعادة الطلقات: " + reload, 256, 585)
+                                        ctx.fillText("عدد الطلقات: " + magezin, 256, 633)
+                                        ctx.fillText("الضرر: " + damage, 256, 680)
+                                    }
+                                }else
+                                if(rarity === "legendary"){
+                                    //creating image
+                                    const skinholder = await Canvas.loadImage('./assets/Rarities/weapons/legendary.png')
+                                    ctx.drawImage(skinholder, 0, 0, 512, 700)
+                                    const skin = await Canvas.loadImage(image);
+                                    ctx.drawImage(skin, 0, 0, 512, 512)
+                                    const skinborder = await Canvas.loadImage('./assets/Rarities/weapons/borderLegendary.png')
+                                    ctx.drawImage(skinborder, 0, 0, 512, 700)
+                                    if(lang === "en"){
+                                        ctx.fillStyle = '#ffffff';
+                                        ctx.textAlign='center';
+                                        ctx.font = applyTextName(canvas, name);
+                                        ctx.fillText(name, 256, 425)
+                                        ctx.font = applyTextDescription(canvas, description);
+                                        ctx.textAlign='center';
+                                        ctx.fillText(description, 256, 480)
+                                        ctx.font = '30px Burbank Big Condensed'
+                                        ctx.fillText("Fire Rate: " + firerate, 256, 540)
+                                        ctx.fillText("Reload Time: " + reload, 256, 586)
+                                        ctx.fillText("Magazine: " + magezin, 256, 633)
+                                        ctx.fillText("Damage: " + damage, 256, 683)
+                                    }else if(lang === "ar"){
+                                        ctx.fillStyle = '#ffffff';
+                                        ctx.textAlign='center';
+                                        ctx.font = applyTextName(canvas, name);
+                                        ctx.fillText(name, 256, 425)   
+                                        ctx.font = applyTextDescription(canvas, description);
+                                        ctx.textAlign='center';
+                                        ctx.fillText(description, 256, 480)
+                                        ctx.font = '30px Arabic'
+                                        ctx.fillText("معدل الطلقات: " + firerate, 256, 535)
+                                        ctx.fillText("وقت اعادة الطلقات: " + reload, 256, 585)
+                                        ctx.fillText("عدد الطلقات: " + magezin, 256, 633)
+                                        ctx.fillText("الضرر: " + damage, 256, 680)
+                                    }
+                                }else
+                                if(rarity === "transcendent"){
+                                    //creating image
+                                    const skinholder = await Canvas.loadImage('./assets/Rarities/weapons/exotic.png')
+                                    ctx.drawImage(skinholder, 0, 0, 512, 700)
+                                    const skin = await Canvas.loadImage(image);
+                                    ctx.drawImage(skin, 0, 0, 512, 512)
+                                    const skinborder = await Canvas.loadImage('./assets/Rarities/weapons/borderExotic.png')
+                                    ctx.drawImage(skinborder, 0, 0, 512, 700)
+                                    if(lang === "en"){
+                                        ctx.fillStyle = '#ffffff';
+                                        ctx.textAlign='center';
+                                        ctx.font = applyTextName(canvas, name);
+                                        ctx.fillText(name, 256, 425)
+                                        ctx.font = applyTextDescription(canvas, description);
+                                        ctx.textAlign='center';
+                                        ctx.fillText(description, 256, 480)
+                                        ctx.font = '30px Burbank Big Condensed'
+                                        ctx.fillText("Fire Rate: " + firerate, 256, 540)
+                                        ctx.fillText("Reload Time: " + reload, 256, 586)
+                                        ctx.fillText("Magazine: " + magezin, 256, 633)
+                                        ctx.fillText("Damage: " + damage, 256, 683)
+                                    }else if(lang === "ar"){
+                                        ctx.fillStyle = '#ffffff';
+                                        ctx.textAlign='center';
+                                        ctx.font = applyTextName(canvas, name);
+                                        ctx.fillText(name, 256, 425)   
+                                        ctx.font = applyTextDescription(canvas, description);
+                                        ctx.textAlign='center';
+                                        ctx.fillText(description, 256, 480)
+                                        ctx.font = '30px Arabic'
+                                        ctx.fillText("معدل الطلقات: " + firerate, 256, 535)
+                                        ctx.fillText("وقت اعادة الطلقات: " + reload, 256, 585)
+                                        ctx.fillText("عدد الطلقات: " + magezin, 256, 633)
+                                        ctx.fillText("الضرر: " + damage, 256, 680)
+                                    }
+                                }else
+                                if(rarity === "epic"){
+                                    //creating image
+                                    const skinholder = await Canvas.loadImage('./assets/Rarities/weapons/epic.png')
+                                    ctx.drawImage(skinholder, 0, 0, 512, 700)
+                                    const skin = await Canvas.loadImage(image);
+                                    ctx.drawImage(skin, 0, 0, 512, 512)
+                                    const skinborder = await Canvas.loadImage('./assets/Rarities/weapons/borderEpic.png')
+                                    ctx.drawImage(skinborder, 0, 0, 512, 700)
+                                    if(lang === "en"){
+                                        ctx.fillStyle = '#ffffff';
+                                        ctx.textAlign='center';
+                                        ctx.font = applyTextName(canvas, name);
+                                        ctx.fillText(name, 256, 425)
+                                        ctx.font = applyTextDescription(canvas, description);
+                                        ctx.textAlign='center';
+                                        ctx.fillText(description, 256, 480)
+                                        ctx.font = '30px Burbank Big Condensed'
+                                        ctx.fillText("Fire Rate: " + firerate, 256, 540)
+                                        ctx.fillText("Reload Time: " + reload, 256, 586)
+                                        ctx.fillText("Magazine: " + magezin, 256, 633)
+                                        ctx.fillText("Damage: " + damage, 256, 683)
+                                    }else if(lang === "ar"){
+                                        ctx.fillStyle = '#ffffff';
+                                        ctx.textAlign='center';
+                                        ctx.font = applyTextName(canvas, name);
+                                        ctx.fillText(name, 256, 425)   
+                                        ctx.font = applyTextDescription(canvas, description);
+                                        ctx.textAlign='center';
+                                        ctx.fillText(description, 256, 480)
+                                        ctx.font = '30px Arabic'
+                                        ctx.fillText("معدل الطلقات: " + firerate, 256, 535)
+                                        ctx.fillText("وقت اعادة الطلقات: " + reload, 256, 585)
+                                        ctx.fillText("عدد الطلقات: " + magezin, 256, 633)
+                                        ctx.fillText("الضرر: " + damage, 256, 680)
+                                    }
+                                }else
+                                if(rarity === "rare"){
+                                    //creating image
+                                    const skinholder = await Canvas.loadImage('./assets/Rarities/weapons/rare.png')
+                                    ctx.drawImage(skinholder, 0, 0, 512, 700)
+                                    const skin = await Canvas.loadImage(image);
+                                    ctx.drawImage(skin, 0, 0, 512, 512)
+                                    const skinborder = await Canvas.loadImage('./assets/Rarities/weapons/borderRare.png')
+                                    ctx.drawImage(skinborder, 0, 0, 512, 700)
+                                    if(lang === "en"){
+                                        ctx.fillStyle = '#ffffff';
+                                        ctx.textAlign='center';
+                                        ctx.font = applyTextName(canvas, name);
+                                        ctx.fillText(name, 256, 425)
+                                        ctx.font = applyTextDescription(canvas, description);
+                                        ctx.textAlign='center';
+                                        ctx.fillText(description, 256, 480)
+                                        ctx.font = '30px Burbank Big Condensed'
+                                        ctx.fillText("Fire Rate: " + firerate, 256, 540)
+                                        ctx.fillText("Reload Time: " + reload, 256, 586)
+                                        ctx.fillText("Magazine: " + magezin, 256, 633)
+                                        ctx.fillText("Damage: " + damage, 256, 683)
+                                    }else if(lang === "ar"){
+                                        ctx.fillStyle = '#ffffff';
+                                        ctx.textAlign='center';
+                                        ctx.font = applyTextName(canvas, name);
+                                        ctx.fillText(name, 256, 425)   
+                                        ctx.font = applyTextDescription(canvas, description);
+                                        ctx.textAlign='center';
+                                        ctx.fillText(description, 256, 480)
+                                        ctx.font = '30px Arabic'
+                                        ctx.fillText("معدل الطلقات: " + firerate, 256, 535)
+                                        ctx.fillText("وقت اعادة الطلقات: " + reload, 256, 585)
+                                        ctx.fillText("عدد الطلقات: " + magezin, 256, 633)
+                                        ctx.fillText("الضرر: " + damage, 256, 680)
+                                    }
+                                }else
+                                if(rarity === "uncommon"){
+                                    //creating image
+                                    const skinholder = await Canvas.loadImage('./assets/Rarities/weapons/uncommon.png')
+                                    ctx.drawImage(skinholder, 0, 0, 512, 700)
+                                    const skin = await Canvas.loadImage(image);
+                                    ctx.drawImage(skin, 0, 0, 512, 512)
+                                    const skinborder = await Canvas.loadImage('./assets/Rarities/weapons/borderUncommon.png')
+                                    ctx.drawImage(skinborder, 0, 0, 512, 700)
+                                    if(lang === "en"){
+                                        ctx.fillStyle = '#ffffff';
+                                        ctx.textAlign='center';
+                                        ctx.font = applyTextName(canvas, name);
+                                        ctx.fillText(name, 256, 425)
+                                        ctx.font = applyTextDescription(canvas, description);
+                                        ctx.textAlign='center';
+                                        ctx.fillText(description, 256, 480)
+                                        ctx.font = '30px Burbank Big Condensed'
+                                        ctx.fillText("Fire Rate: " + firerate, 256, 540)
+                                        ctx.fillText("Reload Time: " + reload, 256, 586)
+                                        ctx.fillText("Magazine: " + magezin, 256, 633)
+                                        ctx.fillText("Damage: " + damage, 256, 683)
+                                    }else if(lang === "ar"){
+                                        ctx.fillStyle = '#ffffff';
+                                        ctx.textAlign='center';
+                                        ctx.font = applyTextName(canvas, name);
+                                        ctx.fillText(name, 256, 425)   
+                                        ctx.font = applyTextDescription(canvas, description);
+                                        ctx.textAlign='center';
+                                        ctx.fillText(description, 256, 480)
+                                        ctx.font = '30px Arabic'
+                                        ctx.fillText("معدل الطلقات: " + firerate, 256, 535)
+                                        ctx.fillText("وقت اعادة الطلقات: " + reload, 256, 585)
+                                        ctx.fillText("عدد الطلقات: " + magezin, 256, 633)
+                                        ctx.fillText("الضرر: " + damage, 256, 680)
+                                    }
+                                }else
+                                if(rarity === "common"){
+                                    //creating image
+                                    const skinholder = await Canvas.loadImage('./assets/Rarities/weapons/common.png')
+                                    ctx.drawImage(skinholder, 0, 0, 512, 700)
+                                    const skin = await Canvas.loadImage(image);
+                                    ctx.drawImage(skin, 0, 0, 512, 512)
+                                    const skinborder = await Canvas.loadImage('./assets/Rarities/weapons/borderCommon.png')
+                                    ctx.drawImage(skinborder, 0, 0, 512, 700)
+                                    if(lang === "en"){
+                                        ctx.fillStyle = '#ffffff';
+                                        ctx.textAlign='center';
+                                        ctx.font = applyTextName(canvas, name);
+                                        ctx.fillText(name, 256, 425)
+                                        ctx.font = applyTextDescription(canvas, description);
+                                        ctx.textAlign='center';
+                                        ctx.fillText(description, 256, 480)
+                                        ctx.font = '30px Burbank Big Condensed'
+                                        ctx.fillText("Fire Rate: " + firerate, 256, 540)
+                                        ctx.fillText("Reload Time: " + reload, 256, 586)
+                                        ctx.fillText("Magazine: " + magezin, 256, 633)
+                                        ctx.fillText("Damage: " + damage, 256, 683)
+                                    }else if(lang === "ar"){
+                                        ctx.fillStyle = '#ffffff';
+                                        ctx.textAlign='center';
+                                        ctx.font = applyTextName(canvas, name);
+                                        ctx.fillText(name, 256, 425)   
+                                        ctx.font = applyTextDescription(canvas, description);
+                                        ctx.textAlign='center';
+                                        ctx.fillText(description, 256, 480)
+                                        ctx.font = '30px Arabic'
+                                        ctx.fillText("معدل الطلقات: " + firerate, 256, 535)
+                                        ctx.fillText("وقت اعادة الطلقات: " + reload, 256, 585)
+                                        ctx.fillText("عدد الطلقات: " + magezin, 256, 633)
+                                        ctx.fillText("الضرر: " + damage, 256, 680)
+                                    }
+                                }
+
+                                const att = new Discord.MessageAttachment(canvas.toBuffer(), weapon[0].name+'.png')
+                                await message.channel.send(att)
+                                msg.delete()
                             })
                         })
                     }

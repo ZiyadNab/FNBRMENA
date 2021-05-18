@@ -48,9 +48,6 @@ module.exports = {
                     var starts = `${res.data.start_year}-0${res.data.start_month}-${res.data.start_day}`
                     var ends = moment(`${res.data.end_year}-0${res.data.end_month}-${res.data.end_day}`)
 
-                    console.log(starts)
-                    console.log(ends)
-
                     //dates
                     var now = moment()
                     var gone = now.diff(starts, 'days') 
@@ -155,6 +152,4 @@ module.exports = {
 
         })
     },
-    
-    requiredRoles: []
 }

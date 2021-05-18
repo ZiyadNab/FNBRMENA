@@ -1300,6 +1300,4 @@ module.exports = {
             })
         })
     },
-    
-    requiredRoles: []
 }

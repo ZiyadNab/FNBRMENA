@@ -158,7 +158,11 @@ module.exports = {
                     }
                 }
                 var description = res.data[num].description
-                var image = res.data[num].images.icon
+                if(res.data[num].images.featured !== null){
+                    var image = res.data[num].images.featured
+                }else{
+                    var image = res.data[num].images.icon
+                }
                 var rarity = res.data[num].rarity.value
                 if (res.data[num].shopHistory !== null){
                     var history = res.data[num].shopHistory
@@ -657,6 +661,4 @@ module.exports = {
         })
 
     },
-    
-    requiredRoles: []
 }

@@ -630,5 +630,4 @@ module.exports = {
             })
         })
     },
-    requiredRoles: []
 }

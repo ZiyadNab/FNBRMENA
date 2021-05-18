@@ -1,4 +1,3 @@
-const error = require('../Errors')
 const Canvas = require('canvas')
 var wrap = require('word-wrap');
 const Gif = require('make-a-gif')
@@ -867,6 +866,4 @@ module.exports = {
 
         })
     },
-    
-    requiredRoles: []
 }

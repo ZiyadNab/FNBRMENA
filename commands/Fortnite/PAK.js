@@ -602,6 +602,4 @@ module.exports = {
             })
         })
     },
-    
-    requiredRoles: []
 }

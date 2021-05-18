@@ -722,6 +722,5 @@ module.exports = {
             }
         })
     },
-    requiredRoles: []
 }
             

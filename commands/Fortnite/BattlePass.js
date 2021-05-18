@@ -104,8 +104,10 @@ module.exports = {
                             var image = res.rewards[i].item.images.icon
                             if(res.rewards[i].item.series === null){
                                 var rarity = res.rewards[i].item.rarity.id
+                                console.log(res.rewards[i].item.rarity.id)
                             }else{
                                 var rarity = res.rewards[i].item.series.id
+                                console.log(res.rewards[i].item.series.id)
                             }
 
                             //searching
@@ -386,6 +388,4 @@ module.exports = {
             })
         })
     },
-    
-    requiredRoles: []
 }

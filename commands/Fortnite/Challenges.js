@@ -1,4 +1,3 @@
-const error = require('../Errors')
 const FortniteAPI = require("fortniteapi.io-api");
 const key = require('../../Coinfigs/config.json')
 const fortniteAPI = new FortniteAPI(key.apis.fortniteio);
@@ -359,5 +358,4 @@ module.exports = {
         })
 
     },
-    requiredRoles: []
 }

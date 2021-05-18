@@ -80,7 +80,7 @@ module.exports.listen = async (client, admin) => {
           // Handle the custom command code
       
           callback(message, args, args.join(' '),Discord, client, admin, alias, errorEmoji, checkEmoji)
-
+        
         }else{
           //checking if the bot on or off
         admin.database().ref("ERA's").child("Server").child("Status").once('value', async function (data) {
@@ -119,8 +119,15 @@ module.exports.listen = async (client, admin) => {
                   }
                 }
 
+                var r = []
+                await admin.database().ref("ERA's").child("Commands").child(alias).child("Roles").child("0").once('value', async data => {
+                  if(data.val() !== null){
+                    r = data.val()
+                  }
+                })
+
                 // Ensure the user has the required roles
-                for (const requiredRole of requiredRoles) {
+                for (const requiredRole of r) {
                   const role = guild.roles.cache.find(
                     (role) => role.name === requiredRole
                   )
@@ -134,7 +141,7 @@ module.exports.listen = async (client, admin) => {
                     }else if(lang === "ar"){
                       const RoleErrAR = new Discord.MessageEmbed()
                       .setColor('#BB00EE')
-                      .setTitle(`يجب عليك الحصول على روا "${requiredRole}" لأستخدام الامر ${errorEmoji}`)
+                      .setTitle(`يجب عليك الحصول على رول "${requiredRole}" لأستخدام الامر ${errorEmoji}`)
                       message.channel.send(RoleErrAR)
                     }
                     return

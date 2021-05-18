@@ -22,10 +22,6 @@ module.exports = {
             .then( async msg => {
 
             var length = res.data.shopCategories.length;
-            console.log(length);
-
-            //time
-            var time = moment(res.data.timestamp).format("h:mm a");
 
             //x and y
             var x = 23;
@@ -33,9 +29,9 @@ module.exports = {
             //width
             var width = 900;
             //height
-            var height = 100;
+            var height = 230;
             for (let i = 0; i < length; i++){
-                height += 150;
+                height += 150 + 120;
             }
 
             height += 100
@@ -111,6 +107,4 @@ module.exports = {
             console.log(err)
         })
     },
-    
-    requiredRoles: []
 }

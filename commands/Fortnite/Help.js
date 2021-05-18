@@ -18,6 +18,4 @@ module.exports = {
         .setAuthor('FNBRMENA Bot', 'https://i.imgur.com/LfotEkZ.jpg', 'https://twitter.com/FNBRMENA')
         message.reply(help);
     },
-    
-    requiredRoles: []
 }

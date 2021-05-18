@@ -9,9 +9,12 @@ module.exports = {
             id: message.member.user.id,
             name: message.member.user.username,
             discriminator: message.member.user.discriminator,
-            lang: "en"
+            lang: "en",
+            banned: {
+                status: "false",
+                command: "",
+                reason: "",
+            }
         })
     },
-    
-    requiredRoles: []
 }

@@ -1601,5 +1601,4 @@ module.exports = {
             })
         })
     },
-    requiredRoles: []
 }

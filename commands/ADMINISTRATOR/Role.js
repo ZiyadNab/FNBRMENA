@@ -65,7 +65,7 @@ module.exports = {
             .then( async collected => {
                 const reaction = collected.first();
                 if(reaction.emoji.name === '✅'){
-                    admin.database().ref("ERA's").child("Commands").child(command).once('value', async data => {
+                    await admin.database().ref("ERA's").child("Commands").child(command).once('value', async data => {
                         if(data.exists()){
                             await admin.database().ref("ERA's").child("Commands").child(command).child("Roles").set([
                                 role

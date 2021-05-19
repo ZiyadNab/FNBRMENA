@@ -56,36 +56,37 @@ module.exports = {
                     //variables
                     var x = 0;
                     var y = 0;
-                    var colum = (length / 2);
+                    var width = 0
+                    var height = 512
                     var newline = 0;
-                    var heightline = 0;
 
-                    //checing the number of the images to set the first height
-                    if(colum === 1){
-                        var height = 512;
+                    if(length <= 2){
+                        length = res.data.length
+                    }else if(length > 2 && length <= 4){
+                        length = res.data.length / 2
+                    }else if(length > 4 && length <= 7){
+                        length = res.data.length / 3
                     }else{
-                        var height = 512 + 5;
-
+                        length = res.data.length / 4
                     }
 
-                    //forcing to be an int
-                    if(colum < 1){
-                        colum = 1
-                        height = 512
-                    }else if(colum % 2 !== 0){
-                        colum = colum | 0;
+                    //forcing to be int
+                    if (length % 2 !== 0){
+                        length += 1;
+                        length = length | 0;
                     }
 
-                    // creating width
-                    var width = (colum * 512) + (5 * colum) - 5;
-                    
+                    //creating width
+                    width += (length * 512) + (length * 5) - 5
+
                     //creating height
-                    for(let i = 1; i < length; i++){
-                        if (colum === heightline){
-                            heightline = 0;
-                            height += 512;
+                    for(let i = 0; i < res.data.length; i++){
+                        
+                        if(newline === length){
+                            height += 512 + 5
+                            newline = 0
                         }
-                        heightline += 1;
+                        newline++
                     }
 
                     const applyText = (canvas, text) => {
@@ -113,8 +114,11 @@ module.exports = {
                     const background = await Canvas.loadImage('./assets/backgroundwhite.jpg')
                     ctx.drawImage(background, 0, 0, canvas.width, canvas.height)
 
+                    //reseting newline
+                    newline = 0
+
                     //adding skins to canvas
-                    for (let i = 0; i < length; i++){
+                    for (let i = 0; i < res.data.length; i++){
     
                         //skin informations
                         var name = res.data[i].name;
@@ -543,7 +547,7 @@ module.exports = {
         
                         // changing x and y
                         x = x + 5 + 512; 
-                        if (colum === newline){
+                        if (length === newline){
                             y = y + 5 + 512;
                             x = 0;
                             newline = 0;
@@ -564,22 +568,22 @@ module.exports = {
                     var string = ""
                     if(lang === "en"){
                         info.setTitle('All cosmetic names in pak ' + text)
-                      for(let i = 0; i < length; i++){
+                      for(let i = 0; i < res.data.length; i++){
                           var num = 1 + i
                           string += "\n• " + num +": " + res.data[i].name
                       }
-                      string += "\n\n• " + length +" Cosmetic(s) in total "
+                      string += "\n\n• " + res.data.length +" Cosmetic(s) in total "
                       string += "\n• " + res.data[0].introduction.text
                       if(res.data[0].set !== null){
                         string += "\n• " + res.data[0].set.text
                       }
                     }else if(lang === "ar"){
                         info.setTitle('جميع العناصر في باك ' + text)
-                      for(let i = 0; i < length; i++){
+                      for(let i = 0; i < res.data.length; i++){
                           var num = 1 + i
                           string += "\n• " + num +": " + res.data[i].name
                       }
-                      string += "\n\n• المجموع " + length +" عناصر"
+                      string += "\n\n• المجموع " + res.data.length +" عناصر"
                       string += "\n• " + res.data[0].introduction.text
                       if(res.data[0].set !== null){
                         string += "\n• " + res.data[0].set.text

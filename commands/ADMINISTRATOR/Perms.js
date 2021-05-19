@@ -43,6 +43,8 @@ module.exports = {
                 'MANAGE_WEBHOOKS',
                 'MANAGE_EMOJIS',
             ]
+
+            var isExists = -1
             var shifted = args.shift();
             var valid = true
             for(const Perm of args){
@@ -78,36 +80,42 @@ module.exports = {
                     const reaction = collected.first();
                     if(reaction.emoji.name === '✅'){
 
-                        admin.database().ref("ERA's").child("Commands").child(shifted).once('value', async data => {
+                        await admin.database().ref("ERA's").child("Commands").child(shifted).once('value', async data => {
                             if(data.exists()){
-                                await admin.database().ref("ERA's").child("Commands").child(shifted).child("Perms").set([
-                                    args
-                                ])
-                                if(lang === "en"){
-                                    const done = new Discord.MessageEmbed()
-                                    done.setColor('#BB00EE')
-                                    done.setTitle(`The ${shifted} permission(s) has been addedd ${checkEmoji}`)
-                                    message.channel.send(done)
-                                }else if(lang === "ar"){
-                                    const done = new Discord.MessageEmbed()
-                                    done.setColor('#BB00EE')
-                                    done.setTitle(`تم اضافة الصلاحيات لأمر ${shifted} ${checkEmoji}`)
-                                    message.channel.send(done)
-                                }
+                                isExists = 1
                             }else{
-                                if(lang === "en"){
-                                    const errCommand = new Discord.MessageEmbed()
-                                    errCommand.setColor('#BB00EE')
-                                    errCommand.setTitle(`The ${shifted} is not a valid command ${errorEmoji}`)
-                                    message.channel.send(errCommand)
-                                }else if(lang === "ar"){
-                                    const errCommand = new Discord.MessageEmbed()
-                                    errCommand.setColor('#BB00EE')
-                                    errCommand.setTitle(`لا يوجد امر بهذا الاسم ${shifted} ${errorEmoji}`)
-                                    message.channel.send(errCommand)
-                                }
+                                isExists = 0
                             }
                         })
+                        console.log(isExists)
+                        if(isExists === 1){
+                            await admin.database().ref("ERA's").child("Commands").child(shifted).child("Perms").set([
+                                args
+                            ])
+                            if(lang === "en"){
+                                const done = new Discord.MessageEmbed()
+                                done.setColor('#BB00EE')
+                                done.setTitle(`The ${shifted} permission(s) has been addedd ${checkEmoji}`)
+                                message.channel.send(done)
+                            }else if(lang === "ar"){
+                                const done = new Discord.MessageEmbed()
+                                done.setColor('#BB00EE')
+                                done.setTitle(`تم اضافة الصلاحيات لأمر ${shifted} ${checkEmoji}`)
+                                message.channel.send(done)
+                            }
+                        }else if(isExists === 0){
+                            if(lang === "en"){
+                                const errCommand = new Discord.MessageEmbed()
+                                errCommand.setColor('#BB00EE')
+                                errCommand.setTitle(`The ${shifted} is not a valid command ${errorEmoji}`)
+                                message.channel.send(errCommand)
+                            }else if(lang === "ar"){
+                                const errCommand = new Discord.MessageEmbed()
+                                errCommand.setColor('#BB00EE')
+                                errCommand.setTitle(`لا يوجد امر بهذا الاسم ${shifted} ${errorEmoji}`)
+                                message.channel.send(errCommand)
+                            }
+                        }
                     }
                     if(reaction.emoji.name === '❎'){
                         admin.database().ref("ERA's").child("Commands").child(args[0]).child("Perms").once('value', async data => {

@@ -118,34 +118,39 @@ module.exports = {
                         }
                     }
                     if(reaction.emoji.name === '❎'){
-                        admin.database().ref("ERA's").child("Commands").child(args[0]).child("Perms").once('value', async data => {
+                        await admin.database().ref("ERA's").child("Commands").child(shifted).child("Perms").once('value', async data => {
                             if(data.exists()){
-                                admin.database().ref("ERA's").child("Commands").child(args[0]).child("Perms").remove()
-                                if(lang === "en"){
-                                    const secCommand = new Discord.MessageEmbed()
-                                    secCommand.setColor('#BB00EE')
-                                    secCommand.setTitle(`All the ${args[0]} perms has been removed ${errorEmoji}`)
-                                    message.channel.send(secCommand)
-                                }else if(lang === "ar"){
-                                    const secCommand = new Discord.MessageEmbed()
-                                    secCommand.setColor('#BB00EE')
-                                    secCommand.setTitle(`تم حذف جميع صلاحيات امر ${args[0]} ${checkEmoji}`)
-                                    message.channel.send(secCommand)
-                                }
+                                isExists = 1
                             }else{
-                                if(lang === "en"){
-                                    const errCommand = new Discord.MessageEmbed()
-                                    errCommand.setColor('#BB00EE')
-                                    errCommand.setTitle(`The ${args[0]} doesn't have perms ${errorEmoji}`)
-                                    message.channel.send(errCommand)
-                                }else if(lang === "ar"){
-                                    const errCommand = new Discord.MessageEmbed()
-                                    errCommand.setColor('#BB00EE')
-                                    errCommand.setTitle(`لا يوجد صلاحيات لأمر ${args[0]} ${errorEmoji}`)
-                                    message.channel.send(errCommand)
-                                }
+                                isExists = 0
                             }
                         })
+                        if(isExists === 1){
+                            admin.database().ref("ERA's").child("Commands").child(shifted).child("Perms").remove()
+                            if(lang === "en"){
+                                const secCommand = new Discord.MessageEmbed()
+                                secCommand.setColor('#BB00EE')
+                                secCommand.setTitle(`All the ${shifted} perms has been removed ${errorEmoji}`)
+                                message.channel.send(secCommand)
+                            }else if(lang === "ar"){
+                                const secCommand = new Discord.MessageEmbed()
+                                secCommand.setColor('#BB00EE')
+                                secCommand.setTitle(`تم حذف جميع صلاحيات امر ${shifted} ${checkEmoji}`)
+                                message.channel.send(secCommand)
+                            }
+                        }else if(isExists === 0){
+                            if(lang === "en"){
+                                const errCommand = new Discord.MessageEmbed()
+                                errCommand.setColor('#BB00EE')
+                                errCommand.setTitle(`The ${shifted} doesn't have perms ${errorEmoji}`)
+                                message.channel.send(errCommand)
+                            }else if(lang === "ar"){
+                                const errCommand = new Discord.MessageEmbed()
+                                errCommand.setColor('#BB00EE')
+                                errCommand.setTitle(`لا يوجد صلاحيات لأمر ${shifted} ${errorEmoji}`)
+                                message.channel.send(errCommand)
+                            }
+                        }
                     }
                         msgReact.delete()
                     }).catch(err => {

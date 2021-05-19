@@ -15,6 +15,7 @@ module.exports = {
 
             text = text.replace(command,'');
 
+            var isExist = -1
             var role = []
             var Counter = 0
             while(text.indexOf("+") !== -1){
@@ -67,34 +68,39 @@ module.exports = {
                 if(reaction.emoji.name === '✅'){
                     await admin.database().ref("ERA's").child("Commands").child(command).once('value', async data => {
                         if(data.exists()){
-                            await admin.database().ref("ERA's").child("Commands").child(command).child("Roles").set([
-                                role
-                            ])
-                            if(lang === "en"){
-                                const done = new Discord.MessageEmbed()
-                                done.setColor('#BB00EE')
-                                done.setTitle(`The ${command} role(s) has been addedd ${checkEmoji}`)
-                                message.channel.send(done)
-                            }else if(lang === "ar"){
-                                const done = new Discord.MessageEmbed()
-                                done.setColor('#BB00EE')
-                                done.setTitle(`تم اضافة الرول لأمر ${command} ${checkEmoji}`)
-                                message.channel.send(done)
-                            }
+                            isExist = 1
                         }else{
-                            if(lang === "en"){
-                                const errCommand = new Discord.MessageEmbed()
-                                errCommand.setColor('#BB00EE')
-                                errCommand.setTitle(`The ${command} is not a valid command ${errorEmoji}`)
-                                message.channel.send(errCommand)
-                            }else if(lang === "ar"){
-                                const errCommand = new Discord.MessageEmbed()
-                                errCommand.setColor('#BB00EE')
-                                errCommand.setTitle(`الامر ${command} ليس صحيح ${errorEmoji}`)
-                                message.channel.send(errCommand)
-                            }
+                            isExist = 0
                         }
                     })
+                    if(isExist === 1){
+                        await admin.database().ref("ERA's").child("Commands").child(command).child("Roles").set([
+                            role
+                        ])
+                        if(lang === "en"){
+                            const done = new Discord.MessageEmbed()
+                            done.setColor('#BB00EE')
+                            done.setTitle(`The ${command} role(s) has been addedd ${checkEmoji}`)
+                            message.channel.send(done)
+                        }else if(lang === "ar"){
+                            const done = new Discord.MessageEmbed()
+                            done.setColor('#BB00EE')
+                            done.setTitle(`تم اضافة الرول لأمر ${command} ${checkEmoji}`)
+                            message.channel.send(done)
+                        }
+                    }else if(isExist === 0){
+                        if(lang === "en"){
+                            const errCommand = new Discord.MessageEmbed()
+                            errCommand.setColor('#BB00EE')
+                            errCommand.setTitle(`The ${command} is not a valid command ${errorEmoji}`)
+                            message.channel.send(errCommand)
+                        }else if(lang === "ar"){
+                            const errCommand = new Discord.MessageEmbed()
+                            errCommand.setColor('#BB00EE')
+                            errCommand.setTitle(`الامر ${command} ليس صحيح ${errorEmoji}`)
+                            message.channel.send(errCommand)
+                        }
+                    }
                 }
                 if(reaction.emoji.name === '❎'){
                     admin.database().ref("ERA's").child("Commands").child(command).child("Roles").once('value', async data => {

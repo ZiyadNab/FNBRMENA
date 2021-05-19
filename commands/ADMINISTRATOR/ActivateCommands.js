@@ -18,13 +18,13 @@ module.exports = {
                         })
                         const done = new Discord.MessageEmbed()
                         done.setColor('#BB00EE')
-                        if(args[0] === "true"){
+                        if(args[1] === "true"){
                             if(lang === "en"){
                                 done.setTitle(`The ${args[0]} command is Enable ${checkEmoji}`)
                             }else if(lang === "ar"){
                                 done.setTitle(`تم تفعيل امر ${args[0]} بنجاح ${checkEmoji}`)
                             }
-                        } else if(args[0] === "false"){
+                        } else if(args[1] === "false"){
                             if(lang === "en"){
                                 done.setTitle(`The ${args[0]} command is Disable ${checkEmoji}`)
                             }else if(lang === "ar"){

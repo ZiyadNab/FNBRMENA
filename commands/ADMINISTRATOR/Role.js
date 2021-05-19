@@ -103,8 +103,8 @@ module.exports = {
                     }
                 }
                 if(reaction.emoji.name === '❎'){
-                    admin.database().ref("ERA's").child("Commands").child(command).child("Roles").once('value', async data => {
-                        if(data.exists()){
+                    await admin.database().ref("ERA's").child("Commands").child(command).child("Roles").once('value', async data => {
+                        if(await data.exists()){
                             admin.database().ref("ERA's").child("Commands").child(command).child("Roles").remove()
                             if(lang === "en"){
                                 const secCommand = new Discord.MessageEmbed()

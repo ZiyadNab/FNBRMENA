@@ -5,6 +5,7 @@ module.exports = {
     expectedArgs: '[ Announce statment ]',
     minArgs: 1,
     maxArgs: null,
+    cooldown: -1,
     permissionError: 'Sorry you do not have acccess to this command',
     callback: (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji) => {
         admin.database().ref("ERA's").child("Users").child(message.author.id).once('value', async function (data) {

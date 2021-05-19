@@ -5,6 +5,7 @@ module.exports = {
     expectedArgs: '[ Nmae of the command, True or False ]',
     minArgs: 2,
     maxArgs: null,
+    cooldown: -1,
     permissionError: 'Sorry you do not have acccess to this command',
     callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji) => {
         admin.database().ref("ERA's").child("Users").child(message.author.id).once('value', function (data) {
@@ -17,23 +18,20 @@ module.exports = {
                         })
                         const done = new Discord.MessageEmbed()
                         done.setColor('#BB00EE')
-                        admin.database().ref("ERA's").child("Commands").child(args[0]).child("Active").once('value', function (data) {
-                            var access = data.val().Status;
-                            if(access === "true"){
-                                if(lang === "en"){
-                                    done.setTitle(`The ${args[0]} command is Enable ${checkEmoji}`)
-                                }else if(lang === "ar"){
-                                    done.setTitle(`تم تفعيل امر ${args[0]} بنجاح ${checkEmoji}`)
-                                }
-                            } else if(access === "false"){
-                                if(lang === "en"){
-                                    done.setTitle(`The ${args[0]} command is Disable ${checkEmoji}`)
-                                }else if(lang === "ar"){
-                                    done.setTitle(`تم ايقاف امر ${args[0]} بنجاح ${checkEmoji}`)
-                                }
+                        if(args[0] === "true"){
+                            if(lang === "en"){
+                                done.setTitle(`The ${args[0]} command is Enable ${checkEmoji}`)
+                            }else if(lang === "ar"){
+                                done.setTitle(`تم تفعيل امر ${args[0]} بنجاح ${checkEmoji}`)
                             }
-                            message.channel.send(done)
-                        })
+                        } else if(args[0] === "false"){
+                            if(lang === "en"){
+                                done.setTitle(`The ${args[0]} command is Disable ${checkEmoji}`)
+                            }else if(lang === "ar"){
+                                done.setTitle(`تم ايقاف امر ${args[0]} بنجاح ${checkEmoji}`)
+                            }
+                        }
+                        message.channel.send(done)
                     }else{
                         const err = new Discord.MessageEmbed()
                         err.setColor('#BB00EE')

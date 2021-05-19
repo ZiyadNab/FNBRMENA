@@ -16,6 +16,7 @@ module.exports = {
     expectedArgs: '[ Blank or season verion ]',
     minArgs: 0,
     maxArgs: 1,
+    cooldown: -1,
     permissionError: 'Sorry you do not have acccess to this command',
     callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji) => {
 

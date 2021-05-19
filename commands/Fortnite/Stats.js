@@ -23,6 +23,7 @@ module.exports = {
     expectedArgs: '[ Name of the user in EPICGAMES ]',
     minArgs: 1,
     maxArgs: null,
+    cooldown: -1,
     permissionError: 'Sorry you do not have acccess to this command',
     callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji) => {
 

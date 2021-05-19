@@ -8,6 +8,7 @@ module.exports = {
     expectedArgs: '[ Weapon ID ]',
     minArgs: 1,
     maxArgs: null,
+    cooldown: 5,
     permissionError: 'Sorry you do not have acccess to this command',
     callback: (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji) => {
 

@@ -8,6 +8,7 @@ module.exports = {
     expectedArgs: '[ Name of the challenge Week_01 ]',
     minArgs: 1,
     maxArgs: null,
+    cooldown: 15,
     permissionError: 'Sorry you do not have acccess to this command',
     callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji) => {
 

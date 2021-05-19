@@ -15,6 +15,7 @@ module.exports = {
     expectedArgs: '[ Number since the cosmetics last released ]',
     minArgs: 1,
     maxArgs: null,
+    cooldown: 40,
     permissionError: 'Sorry you do not have acccess to this command',
     callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji) => {
 

@@ -1,6 +1,5 @@
 const axios = require('axios');
 const moment = require('moment')
-const error = require('../Errors')
 const Canvas = require('canvas')
 
 module.exports = {
@@ -8,6 +7,7 @@ module.exports = {
     expectedArgs: '',
     minArgs: 0,
     maxArgs: 0,
+    cooldown: 15,
     permissionError: 'Sorry you do not have acccess to this command',
     callback: (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji) => {
         axios.get('https://thomaskeig.co/api/progress/fortnite.json')

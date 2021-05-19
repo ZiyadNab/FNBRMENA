@@ -14,6 +14,7 @@ module.exports = {
     expectedArgs: '',
     minArgs: 0,
     maxArgs: 0,
+    cooldown: -1,
     permissionError: 'Sorry you do not have acccess to this command',
     callback: (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji) => {
         admin.database().ref("ERA's").child("Users").child(message.author.id).once('value', function (data) {

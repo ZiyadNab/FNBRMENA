@@ -3,6 +3,7 @@ module.exports = {
     expectedArgs: '[ Name Of the command ]',
     minArgs: 1,
     maxArgs: 1,
+    cooldown: -1,
     permissionError: 'Sorry you do not have acccess to this command',
     callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji) => {
 

@@ -14,6 +14,7 @@ module.exports = {
     expectedArgs: '[ Name of the SAC ]',
     minArgs: 1,
     maxArgs: 1,
+    cooldown: -1,
     permissionError: 'Sorry you do not have acccess to this command',
     callback: (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji) => {
 

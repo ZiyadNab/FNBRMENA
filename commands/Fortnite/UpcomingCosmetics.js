@@ -9,6 +9,7 @@ module.exports = {
     expectedArgs: '',
     minArgs: 0,
     maxArgs: 0,
+    cooldown: 10,
     permissionError: 'Sorry you do not have acccess to this command',
     callback: (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji) => {
 

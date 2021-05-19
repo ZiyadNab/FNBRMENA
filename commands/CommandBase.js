@@ -22,6 +22,9 @@ module.exports = async (commandOptions) => {
   }
 }
 
+//cooldowning
+let recentlyRan = []
+
 module.exports.listen = async (client, admin) => {
   // Listen for messages
   client.on('message', async (message) => {
@@ -44,8 +47,8 @@ module.exports.listen = async (client, admin) => {
         expectedArgs,
         minArgs = 0,
         maxArgs = null,
+        cooldown = -1,
         permissionError = "Sorry you do not have acccess to this command",
-        requiredRoles = [],
         callback,
       } = command
 
@@ -83,9 +86,9 @@ module.exports.listen = async (client, admin) => {
         
         }else{
           //checking if the bot on or off
-        admin.database().ref("ERA's").child("Server").child("Status").once('value', async function (data) {
-          var status = data.val().Bot;
-          if(status === "on"){
+          admin.database().ref("ERA's").child("Server").child("Status").once('value', async function (data) {
+            var status = data.val().Bot;
+            if(status === "on"){
         
             //checking if the command is active
             admin.database().ref("ERA's").child("Commands").child(alias).child("Active").once('value', async function (data) {
@@ -148,6 +151,23 @@ module.exports.listen = async (client, admin) => {
                   }
                 }
 
+                // Ensure the use has not ran the command too frequently
+                let cooldownString = `${guild.id}-${member.id}-${alias}`
+                if(cooldown > 0 && recentlyRan.includes(cooldownString)){
+                  if(lang === "en"){
+                    const RoleErr = new Discord.MessageEmbed()
+                    .setColor('#BB00EE')
+                    .setTitle(`You can't run this command too soon please wait ${cooldown} sec... ${errorEmoji}`)
+                    message.channel.send(RoleErr)
+                  }else if(lang === "ar"){
+                    const RoleErrAR = new Discord.MessageEmbed()
+                    .setColor('#BB00EE')
+                    .setTitle(`لا يمكنك استعمال الامر اكثر من مرا بنفس الوقت الرجاء انتظر ${cooldown} ثانية ${errorEmoji}`)
+                    message.channel.send(RoleErrAR)
+                  }
+                  return
+                }
+
                 // Ensure we have the correct number of args
                 if (
                   args.length < minArgs ||
@@ -167,28 +187,39 @@ module.exports.listen = async (client, admin) => {
                   return
                 }
 
-                // Handle the custom command code
-            
-                callback(message, args, args.join(' '),Discord, client, admin, alias, errorEmoji, checkEmoji)
-              } if(access === "false"){
-                  if(lang === "en"){
-                      const err = new Discord.MessageEmbed()
-                      err.setColor('#BB00EE')
-                      if(ReasonEN !== null){
-                        err.setTitle(ReasonEN)
-                      }else{
-                        err.setTitle(`Sorry this command is offline at the moment, please try again later ${errorEmoji}`)
-                      }
-                      message.channel.send(err)
-                  }else if(lang === "ar"){
-                      const err = new Discord.MessageEmbed()
-                      err.setColor('#BB00EE')
-                      if(ReasonAR !== ''){
-                        err.setTitle(ReasonAR)
-                      }else{
-                        err.setTitle(`نأسف تم ايقاف الامر لمدة معينة نرجوا المحاولة لاحقا ${errorEmoji}`)
-                      }
-                      message.channel.send(err)
+                //start the cooldown
+                if(cooldown > 0){
+                  recentlyRan.push(cooldownString)
+
+                  setTimeout( () => {
+                    recentlyRan = recentlyRan.filter((string) => {
+                      return string !== cooldownString
+                    })
+                  }, 1000 * cooldown)
+                }
+
+              // Handle the custom command code
+              callback(message, args, args.join(' '),Discord, client, admin, alias, errorEmoji, checkEmoji)
+
+              }if(access === "false"){
+                if(lang === "en"){
+                    const err = new Discord.MessageEmbed()
+                    err.setColor('#BB00EE')
+                    if(ReasonEN !== null){
+                      err.setTitle(ReasonEN)
+                    }else{
+                      err.setTitle(`Sorry this command is offline at the moment, please try again later ${errorEmoji}`)
+                    }
+                    message.channel.send(err)
+                }else if(lang === "ar"){
+                    const err = new Discord.MessageEmbed()
+                    err.setColor('#BB00EE')
+                    if(ReasonAR !== ''){
+                      err.setTitle(ReasonAR)
+                    }else{
+                      err.setTitle(`نأسف تم ايقاف الامر لمدة معينة نرجوا المحاولة لاحقا ${errorEmoji}`)
+                    }
+                    message.channel.send(err)
                   }
                 }
               })

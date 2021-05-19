@@ -5,6 +5,7 @@ module.exports = {
     expectedArgs: '<Social>',
     minArgs: 0,
     maxArgs: 0,
+    cooldown: -1,
     permissionError: 'Sorry you do not have acccess to this command',
     callback: (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji) => {
         const exampleEmbed = new Discord.MessageEmbed()

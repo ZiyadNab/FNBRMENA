@@ -24,8 +24,7 @@ module.exports = {
             CommandsEN = [
                 {name: '-Help', value: 'If you neeed help simply just ask'},
                 {name: '-Social', value: 'You can get all my Social Medial Accounts'},
-                {name: '-AES', value: 'Get the current AES of the update'},
-                {name: '-Server', value: 'Get the current status of the server'},
+                {name: '-AES', value: 'Get the current AES of the update'}, 
                 {name: '-Battlepass', value: 'Get the battlepass items as a picture'},
                 {name: '-Map', value: 'Generate a picture of the current map'},
                 {name: '-Section', value: 'You can see what are the itemshop sections'},
@@ -281,13 +280,13 @@ module.exports = {
                             forwardPage.setTitle(`Sorry, this is the last page ${errorEmoji}`)
                         }
                     }else if(lang === "ar"){
+
+                        //check for undefined commands
+                        while(newPage > CommandsEN.length){
+                            newPage--
+                        }
+
                         if(index < CommandsAR.length){
-
-                            //check for undefined commands
-                            while(newPage > CommandsEN.length){
-                                newPage--
-                            }
-
                             //add footer for page number
                             forwardPage.setFooter("( " + page + "/" + pagesLength + " )")
 

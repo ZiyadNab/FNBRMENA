@@ -170,9 +170,9 @@ module.exports = (client, admin) => {
                                 
                                 //see what the division will be
                                 if((Featured.length / FeaturedSection) > (SpecialFeatured.length / SpecialFeaturedSection)){
-                                    Division = 5
-                                }else{
                                     Division = 3
+                                }else{
+                                    Division = 5
                                 }
 
                                 //creating width

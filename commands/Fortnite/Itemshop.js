@@ -86,8 +86,6 @@ module.exports = {
                             SpecialFeaturedIndex++
                         }
                     }
-
-                    console.log(SpecialFeatured)
                     
                     //canvas stuff
                     var FeaturedSection = 0
@@ -171,16 +169,16 @@ module.exports = {
                                 
                                 //see what the division will be
                                 if((Featured.length / FeaturedSection) > (SpecialFeatured.length / SpecialFeaturedSection)){
-                                    Division = 5
-                                }else{
                                     Division = 3
+                                }else{
+                                    Division = 5
                                 }
 
                                 //creating width
                                 width = (12*512) + (25 * 12) + 500;
-
+                                
                                 //creating height
-                                for(let i = 0; i<LengthSection; i++){
+                                for(let i = 0; i < LengthSection; i++){
                                     Lines++;
                                     if(Division === Lines){
                                         height += 512 +25;

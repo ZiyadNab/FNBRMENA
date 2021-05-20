@@ -289,7 +289,7 @@ module.exports = {
                                 } else if(lang === "ar"){
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='right';
-                                    ctx.font = '200px Arabic'
+                                    ctx.font = '170px Arabic'
                                     ctx.fillText(res.bundles[i].quests[0].name, (canvas.width - 350), y + 180)
                                     var textWidth = ctx.measureText(res.bundles[i].quests[0].name).width
 

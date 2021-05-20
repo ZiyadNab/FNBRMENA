@@ -8,31 +8,57 @@ module.exports = {
     cooldown: -1,
     permissionError: 'Sorry you do not have acccess to this command',
     callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji) => {
+
+        //command
+        var command = args[0]
+        //removing the command from the agrs elements
+        args.shift()
+
+        //TRUE or FALSE
+        var boolean = args[0]
+        //removing the boolean from the agrs elements
+        args.shift()
+
+        //checking for user language
         admin.database().ref("ERA's").child("Users").child(message.author.id).once('value', function (data) {
+            //storing his language
             var lang = data.val().lang;
-            admin.database().ref("ERA's").child("Commands").child(args[0]).once('value', async data => {
-                if(data.exists()){
-                    if(args[1] === "true" || args[1] === "false"){
-                        await admin.database().ref("ERA's").child("Commands").child(args[0]).child("Active").update({
-                            Status: args[1]
+
+            //check if the command exists
+            admin.database().ref("ERA's").child("Commands").child(command).once('value', async data => {
+
+                //if statment
+                if(await data.exists()){
+
+                    //check if the user enterd a true or false 
+                    if(boolean === "true" || boolean === "false"){
+
+                        //changing the status of the command
+                        await admin.database().ref("ERA's").child("Commands").child(command).child("Active").update({
+                            Status: boolean
                         })
-                        const done = new Discord.MessageEmbed()
-                        done.setColor('#BB00EE')
-                        if(args[1] === "true"){
+
+                        //creating success embed
+                        const status = new Discord.MessageEmbed()
+                        status.setColor('#BB00EE')
+                        if(boolean === "true"){
                             if(lang === "en"){
-                                done.setTitle(`The ${args[0]} command is Enable ${checkEmoji}`)
+                                status.setTitle(`The ${command} command is Enabled ${checkEmoji}`)
                             }else if(lang === "ar"){
-                                done.setTitle(`تم تفعيل امر ${args[0]} بنجاح ${checkEmoji}`)
+                                status.setTitle(`تم تفعيل امر ${command} بنجاح ${checkEmoji}`)
                             }
-                        } else if(args[1] === "false"){
+                        } else if(boolean === "false"){
                             if(lang === "en"){
-                                done.setTitle(`The ${args[0]} command is Disable ${checkEmoji}`)
+                                status.setTitle(`The ${command} command is Disabled ${checkEmoji}`)
                             }else if(lang === "ar"){
-                                done.setTitle(`تم ايقاف امر ${args[0]} بنجاح ${checkEmoji}`)
+                                status.setTitle(`تم ايقاف امر ${command} بنجاح ${checkEmoji}`)
                             }
                         }
-                        message.channel.send(done)
+                        //sending the embed
+                        message.channel.send(status)
                     }else{
+
+                        //there is a typo in TRUE or FALSE
                         const err = new Discord.MessageEmbed()
                         err.setColor('#BB00EE')
                         if(lang === "en"){
@@ -43,6 +69,7 @@ module.exports = {
                         message.channel.send(err)
                     }
                 }else{
+                    //there is a typo in the command
                     const error = new Discord.MessageEmbed()
                     error.setColor('#BB00EE')
                     if(lang === "en"){

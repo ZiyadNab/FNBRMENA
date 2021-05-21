@@ -10,7 +10,7 @@ const admin = require('firebase-admin')
 const serviceAccount = require('./Firebase/ServiceAccount.json')
 const BlogpostsEvents = require('./Events/BlogpostsEvents')
 const PAKEvents = require('./Events/PAKEvents.js')
-//const SetEvents = require('./Events/SetEvents.js')
+const SetEvents = require('./Events/SetEvents.js')
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),

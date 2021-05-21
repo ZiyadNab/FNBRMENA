@@ -120,10 +120,17 @@ module.exports = {
                     })
                     msgReact.delete()
 
+                    var loading = ''
+                    if(lang === "en"){
+                        loading = "Getting Player Stats info ..."
+                    }else if(lang === "ar"){
+                        loading = "جاري تحميل بيانات اللاعب ..."
+                    }
+
                     const generating = new Discord.MessageEmbed()
                     generating.setColor('#BB00EE')
                     const emoji = client.emojis.cache.get("805690920157970442")
-                    generating.setTitle(`Getting Player Stats info ... ${emoji}`)
+                    generating.setTitle(`${loading} ${emoji}`)
                     message.channel.send(generating)
                     .then( async msg => {
 

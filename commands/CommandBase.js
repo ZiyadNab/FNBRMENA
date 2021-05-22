@@ -1,5 +1,6 @@
 const { prefix } = require('../Coinfigs/config.json')
 const Discord = require('discord.js')
+
 const allCommands = {}
 
 module.exports = async (commandOptions) => {
@@ -93,8 +94,6 @@ module.exports.listen = async (client, admin) => {
             //checking if the command is active
             admin.database().ref("ERA's").child("Commands").child(alias).child("Active").once('value', async function (data) {
               var access = data.val().Status;
-              var ReasonEN = data.val().ReasonEN;
-              var ReasonAR = data.val().ReasonAR;
               if(access === "true"){
                 // A command has been ran
                 
@@ -205,20 +204,12 @@ module.exports.listen = async (client, admin) => {
                 if(lang === "en"){
                     const err = new Discord.MessageEmbed()
                     err.setColor('#BB00EE')
-                    if(ReasonEN !== null){
-                      err.setTitle(ReasonEN)
-                    }else{
-                      err.setTitle(`Sorry this command is offline at the moment, please try again later ${errorEmoji}`)
-                    }
+                    err.setTitle(`Sorry this command is offline at the moment, please try again later ${errorEmoji}`)
                     message.channel.send(err)
                 }else if(lang === "ar"){
                     const err = new Discord.MessageEmbed()
                     err.setColor('#BB00EE')
-                    if(ReasonAR !== ''){
-                      err.setTitle(ReasonAR)
-                    }else{
-                      err.setTitle(`نأسف تم ايقاف الامر لمدة معينة نرجوا المحاولة لاحقا ${errorEmoji}`)
-                    }
+                    err.setTitle(`نأسف تم ايقاف الامر لمدة معينة نرجوا المحاولة لاحقا ${errorEmoji}`)
                     message.channel.send(err)
                   }
                 }

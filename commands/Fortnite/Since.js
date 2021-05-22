@@ -22,7 +22,7 @@ module.exports = {
         admin.database().ref("ERA's").child("Users").child(message.author.id).once('value', async function (data) {
             var lang = data.val().lang;
 
-            if(text >= 150){
+            if(text >= 200){
                 //setting quary
                 var query
                 var type

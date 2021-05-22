@@ -18,7 +18,7 @@ module.exports = (client, admin) => {
         .then(async res => {
             if(number === 0){
                 data = res.shop
-                lastUpdate = res.res.lastUpdate.date
+                lastUpdate = res.lastUpdate.date
                 number++
             }
             if(res.lastUpdate.date !== lastUpdate){

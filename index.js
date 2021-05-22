@@ -11,6 +11,7 @@ const serviceAccount = require('./Firebase/ServiceAccount.json')
 const BlogpostsEvents = require('./Events/BlogpostsEvents')
 const PAKEvents = require('./Events/PAKEvents.js')
 const SetEvents = require('./Events/SetEvents.js')
+const ShopSectionEvents = require('./Events/ShopSectionEvents.js')
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
@@ -18,7 +19,7 @@ admin.initializeApp({
 });
 
 client.on('ready', async () => {
-  console.log('FNBR_MENA Bot is online!')
+  console.log('FNBRMENA Bot is online!')
 
   const baseFile = 'CommandBase.js'
   const Error = 'Errors.js'
@@ -46,6 +47,7 @@ client.on('ready', async () => {
   ItemshopEvents(client, admin)
   PAKEvents(client, admin)
   SetEvents(client, admin)
+  ShopSectionEvents(client, admin)
   Commands(client, admin, Array)
 })
 

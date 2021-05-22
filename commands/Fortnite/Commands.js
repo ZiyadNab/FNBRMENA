@@ -22,46 +22,54 @@ module.exports = {
 
             //list of commands in english
             CommandsEN = [
-                {name: '-Help', value: 'If you neeed help simply just ask'},
-                {name: '-Social', value: 'You can get all my Social Medial Accounts'},
-                {name: '-AES', value: 'Get the current AES of the update'}, 
-                {name: '-Battlepass', value: 'Get the battlepass items as a picture'},
-                {name: '-Map', value: 'Generate a picture of the current map'},
-                {name: '-Section', value: 'You can see what are the itemshop sections'},
-                {name: '-Progress', value: 'You can see how many days left until this season ends'},
-                {name: '-Stats', value: 'Get any user info of all or any platform'},
-                {name: '-New', value: 'You can generate a leaked cosmetic list image'},
-                {name: '-Itemshop', value: 'You can generate a picture of the current itemshop'},
-                {name: '-SAC', value: 'Return a Support a Creator code informaitions'},
-                {name: '-Challenges', value: 'Get a list of a challenges for any week'},
+                {name: '-Lang', value: 'You can change your account language'},
                 {name: '-PAK', value: 'Get every cosmetic in a single pak file'},
                 {name: '-Search', value: 'You can search whatever cosmetic you want'},
                 {name: '-Set', value: 'Return a picture of the set cosmetics'},
                 {name: '-Since', value: 'You can get every item that has passed the number of days by your choice'},
                 {name: '-Upcoming', value: 'Return a picture of every unrealesed item'},
                 {name: '-News', value: 'You can see what news is active In-Game right now'},
+                {name: '-Help', value: 'If you neeed help simply just ask'},
+                {name: '-Social', value: 'You can get all my Social Medial Accounts'},
+                {name: '-Merge', value: 'You can merge any item in the game into one image'},
+                {name: '-AES', value: 'Get the current AES of the update'}, 
+                {name: '-Battlepass', value: 'Get the battlepass items as a picture'},
+                {name: '-Map', value: 'Generate a picture of the current map'},
+                {name: '-Weapon', value: 'Generate a picture of any weapon stats'},
+                {name: '-Section', value: 'You can see what are the itemshop sections'},
+                {name: '-Progress', value: 'You can see how many days left until this season ends'},
+                {name: '-Upcoming', value: 'Return every skin in the itemshop that hasnt been realesed yet'},
+                {name: '-Stats', value: 'Get any user info of all or any platform'},
+                {name: '-New', value: 'You can generate a leaked cosmetic list image'},
+                {name: '-Itemshop', value: 'You can generate a picture of the current itemshop'},
+                {name: '-SAC', value: 'Return a Support a Creator code informaitions'},
+                {name: '-Quests', value: 'Get a list of a challenges for any week'},
             ]
 
             //list of commands in arabic
             CommandsAR = [
-                {name: 'امر [ Help- ]:', value: 'اذا تحتاج مساعدة فقط اطلب من الدعم'},
-                {name: 'امر [ Social- ]:', value: 'تقدر تحصل على جميع روابط التواصل الاجتمعي حقتي'},
-                {name: 'امر [ AES- ]:', value: 'احصل على مفتاح الـ AES الخاص بالتحديث الحالي'},
-                {name: 'امر [ Battlepass- ]:', value: 'احصل على صورة الباتل باس كاملة'},
-                {name: 'امر [ Map- ]:', value: 'انشاء صورة للماب'},
-                {name: 'امر [ Section- ]:', value: 'احصل على عناصر الشوب'},
-                {name: 'امر [ Stats- ]:', value: 'احصل على جميع معلومات اي حساب في اي منصه'},
-                {name: 'امر [ Progress- ]:', value: 'احصل على معلومات السيزون'},
-                {name: 'امر [ New- ]:', value: 'احصل على جميل العناصر المسربة'},
-                {name: 'امر [ Itemshop- ]:', value: 'احصل على صورة الايتم شوب'},
-                {name: 'امر [ SAC- ]', value: 'استخرج معلومات اي كود ايتم شوب'},
-                {name: 'امر [ Challenges- ]:', value: 'استخرج صورة للتحديات لآي اسبوع'},
+                {name: 'امر [ Lang- ]', value: 'تغير اللغة'},
                 {name: 'امر [ PAK- ]', value: 'استخرج جميع العناصر في PAK معين'},
                 {name: 'امر [ Search- ]', value: 'ابحث عن اي عنصر باللعبة'},
                 {name: 'امر [ Set- ]:', value: 'احصل على صورة مكونه من مجموعة معينه'},
                 {name: 'امر [ Since- ]:', value: 'احصل على صورة بجميع العناصر الي تعددت الرقم المعين من الايام'},
                 {name: 'امر [ Upcoming- ]', value: 'يستخرج لك البوت صورة بجميع العناصر الي للان ما نزلت'},
                 {name: 'امر [ News- ]', value: 'تقدر تحصل على الاخبار المتاحه باللعبة الان'},
+                {name: 'امر [ Help- ]:', value: 'اذا تحتاج مساعدة فقط اطلب من الدعم'},
+                {name: 'امر [ Social- ]:', value: 'تقدر تحصل على جميع روابط التواصل الاجتمعي حقتي'},
+                {name: 'امر [ Merge- ]:', value: 'تقدر تدمج اي عنصر باللعبة الى صورة وحده'},
+                {name: 'امر [ AES- ]:', value: 'احصل على مفتاح الـ AES الخاص بالتحديث الحالي'},
+                {name: 'امر [ Battlepass- ]:', value: 'احصل على صورة الباتل باس كاملة'},
+                {name: 'امر [ Map- ]:', value: 'انشاء صورة للماب'},
+                {name: 'امر [ Weapon- ]:', value: 'انشاء صورة لاحصائيات اي سلاح باللعبة'},
+                {name: 'امر [ Section- ]:', value: 'احصل على عناصر الشوب'},
+                {name: 'امر [ Stats- ]:', value: 'احصل على جميع معلومات اي حساب في اي منصه'},
+                {name: 'امر [ Progress- ]:', value: 'احصل على معلومات السيزون'},
+                {name: 'امر [ Upcoming- ]:', value: 'احصل على جميع عناصر الشوب الي للان ما نزلت'},
+                {name: 'امر [ New- ]:', value: 'احصل على جميل العناصر المسربة'},
+                {name: 'امر [ Itemshop- ]:', value: 'احصل على صورة الايتم شوب'},
+                {name: 'امر [ SAC- ]', value: 'استخرج معلومات اي كود ايتم شوب'},
+                {name: 'امر [ Quests- ]:', value: 'استخرج صورة للتحديات لآي اسبوع'},
             ]
 
             //creating an embed
@@ -124,7 +132,7 @@ module.exports = {
             const filter = (reaction, user) => {
                 return ['⏮️','◀️', '▶️','⏭️','🛑'].includes(reaction.emoji.name) && user.id === message.author.id;
             };
-            const collected = await msgReact.createReactionCollector(filter, {time: 60000, errors: ['time']})
+            const collected = await msgReact.createReactionCollector(filter, {time: 3 * 60000, errors: ['time']})
             collected.on("collect", collect => {
 
                 const reaction = collect

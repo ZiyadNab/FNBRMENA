@@ -17,8 +17,8 @@ module.exports = (client, admin) => {
         fortniteAPI.getDailyShopV2(options = {lang: lang})
         .then(async res => {
             if(number === 0){
-                //data = res.shop
-                //lastUpdate = res.res.lastUpdate.date
+                data = res.shop
+                lastUpdate = res.res.lastUpdate.date
                 number++
             }
             if(res.lastUpdate.date !== lastUpdate){

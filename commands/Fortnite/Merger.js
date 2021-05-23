@@ -171,8 +171,6 @@ module.exports = {
 
                 while(i < list.length) {
 
-                    //console.log(list[i])
-
                     //setting up the quary
                     var query = {
                         matchMethod: "full",
@@ -704,6 +702,7 @@ module.exports = {
                             newline = 0;
                         }
                     }).catch(err => {
+                        console.log(err)
                         errors = 1
                         msg.delete()
                         if(lang === "en"){

@@ -199,15 +199,15 @@ module.exports = {
                                 if(lang === "en"){
                                     Choosing.addFields(
                                         {name: res.data[p].name + ' ' + res.data[p].type.displayValue, value: `react with number ${numbers[p]}`}
-                                        )
+                                    )
                                 }else if(lang === "ar"){
                                     Choosing.addFields(
                                         {name: res.data[p].name + ' ' + res.data[p].type.displayValue, value: `الرجاء الضغط على رقم ${numbers[p]}`}
-                                        )
+                                    )
                                 }
                             }
                             let msgID = await message.channel.send(Choosing)
-                            for (let j = 0; j < res.data.length; ij++){
+                            for (let j = 0; j < res.data.length; j++){
                                 await msgID.react(numbers[j])
                             }
         
@@ -244,10 +244,10 @@ module.exports = {
                         }
 
                         //skin informations
-                        var name = await res.data[num].name;
-                        var description = await res.data[num].description
-                        var image = await res.data[num].images.icon
-                        var rarity = await res.data[num].rarity.value
+                        var name = res.data[num].name;
+                        var description = res.data[num].description
+                        var image = res.data[num].images.icon
+                        var rarity = res.data[num].rarity.value
                         
                         newline = newline + 1;
 
@@ -689,6 +689,9 @@ module.exports = {
                             // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                         }
 
+                        //reseting num
+                        num = 0
+
                         // changing x and y
                         x = x + 5 + 512; 
                         if (length === newline){
@@ -696,6 +699,7 @@ module.exports = {
                             x = 0;
                             newline = 0;
                         }
+
                     }).catch(err => {
                         console.log(err)
                         errors = 1

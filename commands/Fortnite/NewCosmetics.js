@@ -64,7 +64,7 @@ module.exports = {
                     length = length / 2
                 }else if(length > 4 && length <= 7){
                     length = length / 3
-                }else if(length > 7 && length <= 50){
+                }else if(length > 7 && length <= 60){
                     length = length / 5
                 }else{
                     length = length / 10
@@ -76,7 +76,7 @@ module.exports = {
                 }
 
                 //creating width
-                width = (length * 512) + (length * 5) - 5
+                width = (length * 512) + (length * 5)
 
                 //creating height
                 for(let i = 0; i < res.data.items.length; i++){
@@ -114,6 +114,9 @@ module.exports = {
                 //creating the background
                 const background = await Canvas.loadImage('./assets/backgroundwhite.jpg')
                 ctx.drawImage(background, 0, 0, canvas.width, canvas.height)
+
+                //reseting newline
+                newline = 0
 
                 //loop throw every item
                 for(let i = 0; i < res.data.items.length; i++){

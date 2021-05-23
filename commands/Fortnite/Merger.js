@@ -56,7 +56,6 @@ module.exports = {
 
             //num for the specific item
             var num = 0
-            var i = 0
 
             //handling errors
             var errors = 0
@@ -169,7 +168,7 @@ module.exports = {
             message.channel.send(generating)
             .then( async msg => {
 
-                while(i < list.length) {
+                for(let i = 0; i < list.length; i++) {
 
                     //setting up the quary
                     var query = {
@@ -196,20 +195,20 @@ module.exports = {
                             }else if(lang === "ar"){
                                 Choosing.setTitle('يوجد ' + res.data.length + ' عنصر بنفس الأسم الرجاء الأختيار: ') 
                             }
-                            for (let i = 0; i < res.data.length; i++){
+                            for (let p = 0; p < res.data.length; p++){
                                 if(lang === "en"){
                                     Choosing.addFields(
-                                        {name: res.data[i].name + ' ' + res.data[i].type.displayValue, value: `react with number ${numbers[i]}`}
+                                        {name: res.data[p].name + ' ' + res.data[p].type.displayValue, value: `react with number ${numbers[p]}`}
                                         )
                                 }else if(lang === "ar"){
                                     Choosing.addFields(
-                                        {name: res.data[i].name + ' ' + res.data[i].type.displayValue, value: `الرجاء الضغط على رقم ${numbers[i]}`}
+                                        {name: res.data[p].name + ' ' + res.data[p].type.displayValue, value: `الرجاء الضغط على رقم ${numbers[p]}`}
                                         )
                                 }
                             }
                             let msgID = await message.channel.send(Choosing)
-                            for (let i = 0; i < res.data.length; i++){
-                                msgID.react(numbers[i])
+                            for (let j = 0; j < res.data.length; ij++){
+                                await msgID.react(numbers[j])
                             }
         
                             const filter = (reaction, user) => {
@@ -221,9 +220,9 @@ module.exports = {
                             await msgID.awaitReactions(filter, { max: 1, time: 60000, errors: ['time'] })
                                 .then( async collected => {
                                     const reaction = collected.first();
-                                    for (let i = 0; i < res.data.length; i++){
-                                    if (reaction.emoji.name === numbers[i]) {
-                                        num = i
+                                    for (let p = 0; p < res.data.length; p++){
+                                    if (reaction.emoji.name === numbers[p]) {
+                                        num = p
                                         msgID.delete()
                                     }
                                 }
@@ -245,10 +244,10 @@ module.exports = {
                         }
 
                         //skin informations
-                        var name = res.data[num].name;
-                        var description = res.data[num].description
-                        var image = res.data[num].images.icon
-                        var rarity = res.data[num].rarity.value
+                        var name = await res.data[num].name;
+                        var description = await res.data[num].description
+                        var image = await res.data[num].images.icon
+                        var rarity = await res.data[num].rarity.value
                         
                         newline = newline + 1;
 
@@ -689,8 +688,6 @@ module.exports = {
                             // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                             // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                         }
-                        //move to next item
-                        i++
 
                         // changing x and y
                         x = x + 5 + 512; 

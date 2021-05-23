@@ -56,6 +56,7 @@ module.exports = {
 
             //num for the specific item
             var num = 0
+            var i = 0
 
             //handling errors
             var errors = 0
@@ -63,7 +64,7 @@ module.exports = {
             //storing the items
             var list = []
             var Counter = 0
-            while(text.indexOf("+") !== -1){
+            while(await text.indexOf("+") !== -1){
 
                 //getting the index of the + in text string
                 var stringNumber = text.indexOf("+")
@@ -168,11 +169,9 @@ module.exports = {
             message.channel.send(generating)
             .then( async msg => {
 
-                for (let i = 0; i < list.length; i++){
+                while (await i < list.length) {
 
-                    //creating embed
-                    const Choosing = new Discord.MessageEmbed()
-                    Choosing.setColor('#BB00EE')
+                    //console.log(list[i])
 
                     //setting up the quary
                     var query = {
@@ -692,6 +691,9 @@ module.exports = {
                             // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                             // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                         }
+                        //move to next item
+                        i++
+                        
                         // changing x and y
                         x = x + 5 + 512; 
                         if (length === newline){

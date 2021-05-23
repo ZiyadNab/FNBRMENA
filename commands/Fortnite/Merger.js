@@ -178,8 +178,6 @@ module.exports = {
                         language: lang
                     };
 
-                    console.log(query)
-
                     //search in the api
                     await Fortnite.CosmeticsSearchAll(query)
                     .then(async res => {

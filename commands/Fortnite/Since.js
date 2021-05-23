@@ -25,7 +25,6 @@ module.exports = {
             if(text >= 250){
                 //setting quary
                 var query
-                var type
 
                 //voting
                 const p = new Discord.MessageEmbed()
@@ -158,6 +157,8 @@ module.exports = {
                                 length = res.data.length / 3
                             }else if(length > 7 && length <= 50){
                                 length = res.data.length / 5
+                            }else if(length > 50 && length < 70){
+                                length = length / 7
                             }else{
                                 length = res.data.length / 10
                             }

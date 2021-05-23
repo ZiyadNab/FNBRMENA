@@ -28,8 +28,8 @@ module.exports = {
             .then(async res => {
 
                 //variables
-                var x = 5
-                var y = 5
+                var x = 0
+                var y = 0
                 var width = 0
                 var height = 512
                 var newline = 0
@@ -64,8 +64,10 @@ module.exports = {
                     length = length / 2
                 }else if(length > 4 && length <= 7){
                     length = length / 3
-                }else if(length > 7 && length <= 60){
+                }else if(length > 7 && length <= 50){
                     length = length / 5
+                }else if(length > 50 && length < 70){
+                    length = length / 7
                 }else{
                     length = length / 10
                 }
@@ -76,7 +78,7 @@ module.exports = {
                 }
 
                 //creating width
-                width = (length * 512) + (length * 5)
+                width = (length * 512) + (length * 5) - 5
 
                 //creating height
                 for(let i = 0; i < res.data.items.length; i++){

@@ -169,7 +169,7 @@ module.exports = {
             message.channel.send(generating)
             .then( async msg => {
 
-                while (await i < list.length) {
+                while(i < list.length) {
 
                     //console.log(list[i])
 
@@ -180,9 +180,16 @@ module.exports = {
                         language: lang
                     };
 
+                    console.log(query)
+
                     //search in the api
                     await Fortnite.CosmeticsSearchAll(query)
                     .then(async res => {
+
+                        const wait = new Discord.MessageEmbed()
+                        .setColor('#BB00EE')
+                        .setTitle(`${embed} ${i + 1} ${of} ${list.length} ... ${emoji}`)
+                        await msg.edit(wait)
 
                         //if there is more than one cosmetic withe the same name
                         if(res.data.length > 1){
@@ -240,11 +247,6 @@ module.exports = {
                                 }
                             })
                         }
-
-                        const wait = new Discord.MessageEmbed()
-                        .setColor('#BB00EE')
-                        .setTitle(`${embed} ${i + 1} ${of} ${list.length} ... ${emoji}`)
-                        await msg.edit(wait)
 
                         //skin informations
                         var name = res.data[num].name;
@@ -693,7 +695,7 @@ module.exports = {
                         }
                         //move to next item
                         i++
-                        
+
                         // changing x and y
                         x = x + 5 + 512; 
                         if (length === newline){

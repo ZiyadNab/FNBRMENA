@@ -590,7 +590,7 @@ module.exports = {
                     x = x + 5 + 512; 
                     if (length === newline){
                         y = y + 5 + 512;
-                        x = 5;
+                        x = 0;
                         newline = 0;
                     }
                 }

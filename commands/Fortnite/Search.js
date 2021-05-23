@@ -1,14 +1,8 @@
 const moment = require('moment');
 const Canvas = require('canvas');
-const key = require('../../Coinfigs/config.json');
-const FortniteAPI = require("fortnite-api-com");
-const config = {
-    apikey: key.apis.fortniteapi,
-    language: "en",
-    debug: true
-};
-  
-var Fortnite = new FortniteAPI(config);
+const FortniteAPI = require("fortniteapi.io-api");
+const key = require('../../Coinfigs/config.json')
+const fortniteAPI = new FortniteAPI(key.apis.fortniteio);
 
 module.exports = {
     commands: 'search',
@@ -22,79 +16,78 @@ module.exports = {
         admin.database().ref("ERA's").child("Users").child(message.author.id).once('value', async function (data) {
             var lang = data.val().lang;
 
-            var query = {
-                matchMethod: "full",
-                name: text,
-                language: lang
-            };
+            //list of reactions
+            const numbers = {
+                0: '0️⃣',
+                1: '1️⃣',
+                2: '2️⃣',
+                3: '3️⃣',
+                4: '4️⃣',
+                5: '5️⃣',
+                6: '6️⃣',
+                7: '7️⃣',
+                8: '8️⃣',
+                9: '9️⃣',
+                10: '🔟',
+            }
+
+            //var num
+            var num = 0
             
-            Fortnite.CosmeticsSearchAll(query)
+            //get the item id
+            const id = await fortniteAPI.listItems()
             .then(async res => {
 
-                //generating msg
-                var mess
-                if(lang === "en"){
-                    mess = "Getting Cosmetic Info..."
-                }else if(lang === "ar"){
-                    mess = "جاري البحث عن معلومات العنصر..."
-                }
+                //filtering and return the cosmetic
+                const items = await res.items.filter(found => {
+                    return found.name.toLowerCase() === text.toLowerCase()
+                })
 
-                //list of reactions
-                const numbers = {
-                    0: '0️⃣',
-                    1: '1️⃣',
-                    2: '2️⃣',
-                    3: '3️⃣',
-                    4: '4️⃣',
-                    5: '5️⃣',
-                    6: '6️⃣',
-                    7: '7️⃣',
-                    8: '8️⃣',
-                    9: '9️⃣',
-                    10: '🔟',
-                }
-                //num for the specific item
-                var num
+                //if there is more than one item
+                if(items.length > 1){
 
-                //if there is no item with this name
-                
-                if(res.data.length === 1){
-                    num = 0;
-                }
-                if(res.data.length > 1){
+                    //creating embed
                     const Choosing = new Discord.MessageEmbed()
                     Choosing.setColor('#BB00EE')
+
+                    //set title
                     if(lang === "en"){
-                        Choosing.setTitle('There are ' + res.data.length + ' cosmetics please choose one of them: ') 
+                        Choosing.setTitle('There are ' + items.length + ' cosmetics please choose one of them: ') 
                     }else if(lang === "ar"){
-                        Choosing.setTitle('يوجد ' + res.data.length + ' عنصر بنفس الأسم الرجاء الأختيار: ') 
+                        Choosing.setTitle('يوجد ' + items.length + ' عنصر بنفس الأسم الرجاء الأختيار: ') 
                     }
-                    for (let i = 0; i < res.data.length; i++){
+
+                    //loop threw every matching item
+                    for (let i = 0; i < items.length; i++){
                         if(lang === "en"){
                             Choosing.addFields(
-                                {name: res.data[i].name + ' ' + res.data[i].type.displayValue, value: `react with number ${numbers[i]}`}
-                                )
+                                {name: items[i].name + ' ' + items[i].type.name, value: `react with number ${numbers[i]}`}
+                            )
                         }else if(lang === "ar"){
                             Choosing.addFields(
-                                {name: res.data[i].name + ' ' + res.data[i].type.displayValue, value: `الرجاء الضغط على رقم ${numbers[i]}`}
-                                )
+                                {name: items[i].name + ' ' + items[i].type.name, value: `الرجاء الضغط على رقم ${numbers[i]}`}
+                            )
                         }
                     }
+
+                    //add reaction
                     let msgID = await message.channel.send(Choosing)
-                    for (let i = 0; i < res.data.length; i++){
+                    for (let i = 0; i < items.length; i++){
                         msgID.react(numbers[i])
                     }
 
+                    //filter the user choice
                     const filter = (reaction, user) => {
                         return [numbers[0], numbers[1],numbers[3], numbers[4],numbers[5], 
                                 numbers[6],numbers[7], numbers[8],numbers[9], numbers[10]]
                                 .includes(reaction.emoji.name) && user.id === message.author.id;
                     };
 
+                    //based on user choice change the num value
                     await msgID.awaitReactions(filter, { max: 1, time: 60000, errors: ['time'] })
                         .then( async collected => {
                             const reaction = collected.first();
-                            for (let i = 0; i < res.data.length; i++){
+                            for (let i = 0; i < items.length; i++){
                             if (reaction.emoji.name === numbers[i]) {
                                 num = i
                                 msgID.delete()
@@ -115,6 +108,167 @@ module.exports = {
                             message.reply(error)
                         }
                     })
+                }
+
+                //return the item id
+                return items[num].id
+            })
+            
+            num = 0
+            fortniteAPI.getItemDetails(itemId = id, options = {lang: lang})
+            .then(async res => {
+
+                //variables
+                var set
+                var name
+                var rarity
+                var description
+                var image
+                var mess
+                var price
+                var FirstSeen
+                var FirstSeenDate
+                var LastSeenDays
+                var LastSeenDate
+                var First
+                var Last
+                var occurrences
+                var reactive
+                var copyrighted
+                var AddedDate
+                var AddedDay
+                var Type
+
+                //initializing values
+                moment.locale(lang)
+
+                //type
+                Type = res.item.type.name
+
+                //first reales
+                if(res.item.releaseDate !== null){
+                    const Now = moment();
+                    FirstSeenDays = Now.diff(res.item.releaseDate, 'days');
+                    FirstSeenDate = moment(res.item.releaseDate).format("ddd, hA")
+                    if(lang === "en"){
+                        First = FirstSeenDays + " days at " + FirstSeenDate
+                    }else if(lang === "ar"){
+                        First = FirstSeenDays + " يوم في " + FirstSeenDate
+                    }
+
+                    //last release
+                    if(res.item.lastAppearance !== null){
+                        const Now = moment();
+                        LastSeenDays = Now.diff(res.item.lastAppearance, 'days');
+                        LastSeenDate = moment(res.item.lastAppearance).format("ddd, hA")
+                        if(lang === "en"){
+                            Last = LastSeenDays + " days at " + LastSeenDate
+                        }else if(lang === "ar"){
+                            Last = LastSeenDays + " يوم في " + LastSeenDate
+                        }
+                    }
+
+                }else{
+                    if(lang === "en"){
+                        First = "not out yet or the sorce is not an itemshop"
+                        Last = "not out yet or the sorce is not an itemshop"
+                    }else if(lang === "ar"){
+                        First = "لم يتم نزول العنصر بعد او مصدر العنصر ليس من الايتم شوب"
+                        Last = "لم يتم نزول العنصر بعد او مصدر العنصر ليس من الايتم شوب"
+                    }
+                }
+
+                //added
+                if(res.item.added !== null){
+                    const Now = moment();
+                    AddedDay = Now.diff(res.item.added.date, 'days');
+                    AddedDate = moment(res.item.added.date).format("ddd, hA")
+                }
+
+                //occurrences
+                if(res.item.shopHistory !== null){
+                    occurrences = res.item.shopHistory.length
+                }else{
+                    occurrences = 0
+                }
+
+                //set
+                if(res.item.set !== null){
+                    set = res.item.set.partOf
+                }else{
+                    if(lang === "en"){
+                        set = "There is no set to theis cosmetic"
+                    }else if(lang === "ar"){
+                        set = "لا يوجد مجموعة لهذا العنصر"
+                    }
+                }
+
+                //price
+                if(res.item.battlepass !== null){
+                    if(lang === "en"){
+                        price = `Season: ${res.item.battlepass.season} Tier: ${res.item.battlepass.tier} Battlepass Name: ${res.item.battlepass.battlePassName}`
+                    }else if(lang === "ar"){
+                        price = `سيزون: ${res.item.battlepass.season} تاير: ${res.item.battlepass.tier} اسم الباتل باس: ${res.item.battlepass.battlePassName}`
+                    }
+                }else{
+                    price = res.item.price
+                }
+
+                //reactive
+                if(res.item.reactive !== false){
+                    if(lang === "en"){
+                        reactive = "Yes, it is"
+                    }else if(lang === "ar"){
+                        reactive = "نعم، عنصر متفاعل"
+                    }
+                }else{
+                    if(lang === "en"){
+                        reactive = "No, it is not"
+                    }else if(lang === "ar"){
+                        reactive = "لا, ليس عنصر متفاعل"
+                    }
+                }
+
+                //copyrightedAudio
+                if(res.item.copyrightedAudio !== false){
+                    if(lang === "en"){
+                        copyrighted = "Yes, it is"
+                    }else if(lang === "ar"){
+                        copyrighted = "نعم، يحتوي على حقوق الطبع و النشر"
+                    }
+                }else{
+                    if(lang === "en"){
+                        copyrighted = "No, it is not"
+                    }else if(lang === "ar"){
+                        copyrighted = "لا، لا يحتوي على حقوق الطبع و النشر"
+                    }
+                }
+
+                //name
+                name = res.item.name;
+
+                //description
+                description = res.item.description
+
+                //image
+                if(res.item.images.featured){
+                    image = res.item.images.featured
+                }else{
+                    image = res.item.images.icon
+                }
+
+                //rarity
+                if(res.item.series !== null){
+                    rarity = res.item.series.id
+                }else{
+                    rarity = res.item.rarity.id
+                }
+
+                //generating msg
+                if(lang === "en"){
+                    mess = "Getting Cosmetic Info..."
+                }else if(lang === "ar"){
+                    mess = "جاري البحث عن معلومات العنصر..."
                 }
 
                 const generating = new Discord.MessageEmbed()
@@ -146,31 +300,8 @@ module.exports = {
                 const canvas = Canvas.createCanvas(512, 512);
                 const ctx = canvas.getContext('2d');
 
-                //initializing values
-                var set
-                var name = res.data[num].name;
-                if(res.data[num].set !== null){
-                    set = res.data[num].set.text
-                }else{
-                    if(lang === "en"){
-                        set = "There is no set to theis cosmetic"
-                    }else if(lang === "ar"){
-                        set = "لا يوجد مجموعة لهذا العنصر"
-                    }
-                }
-                var description = res.data[num].description
-                if(res.data[num].images.featured !== null){
-                    var image = res.data[num].images.featured
-                }else{
-                    var image = res.data[num].images.icon
-                }
-                var rarity = res.data[num].rarity.value
-                if (res.data[num].shopHistory !== null){
-                    var history = res.data[num].shopHistory
-                }
-
                 //searching...
-                if(rarity === "legendary"){
+                if(rarity === "Legendary"){
                     //creating image
                     const skinholder = await Canvas.loadImage('./assets/Rarities/standard/legendary.png')
                     ctx.drawImage(skinholder, 0, 0, 512, 512)
@@ -193,7 +324,7 @@ module.exports = {
                         ctx.font = applyText(canvas, description);
                         ctx.fillText(description, 256, 470)
                     }
-                }else if(rarity === "epic"){
+                }else if(rarity === "Epic"){
                     //creating image
                     const skinholder = await Canvas.loadImage('./assets/Rarities/standard/epic.png')
                     ctx.drawImage(skinholder, 0, 0, 512, 512)
@@ -216,7 +347,7 @@ module.exports = {
                         ctx.font = applyText(canvas, description);
                         ctx.fillText(description, 256, 470)
                     }
-                }else if(rarity === "rare"){
+                }else if(rarity === "Rare"){
                     //creating image
                     const skinholder = await Canvas.loadImage('./assets/Rarities/standard/rare.png')
                     ctx.drawImage(skinholder, 0, 0, 512, 512)
@@ -239,7 +370,7 @@ module.exports = {
                         ctx.font = applyText(canvas, description);
                         ctx.fillText(description, 256, 470)
                     }
-                }else if(rarity === "uncommon"){
+                }else if(rarity === "Uncommon"){
                     //creating image
                     const skinholder = await Canvas.loadImage('./assets/Rarities/standard/uncommon.png')
                     ctx.drawImage(skinholder, 0, 0, 512, 512)
@@ -262,7 +393,7 @@ module.exports = {
                         ctx.font = applyText(canvas, description);
                         ctx.fillText(description, 256, 470)
                     }
-                }else if(rarity === "common"){
+                }else if(rarity === "Common"){
                     //creating image
                     const skinholder = await Canvas.loadImage('./assets/Rarities/standard/common.png')
                     ctx.drawImage(skinholder, 0, 0, 512, 512)
@@ -285,7 +416,7 @@ module.exports = {
                         ctx.font = applyText(canvas, description);
                         ctx.fillText(description, 256, 470)
                     }
-                }else if(rarity === "marvel"){
+                }else if(rarity === "MarvelSeries"){
                     //creating image
                     const skinholder = await Canvas.loadImage('./assets/Rarities/standard/marvel.png')
                     ctx.drawImage(skinholder, 0, 0, 512, 512)
@@ -308,7 +439,7 @@ module.exports = {
                         ctx.font = applyText(canvas, description);
                         ctx.fillText(description, 256, 470)
                     }
-                }else if(rarity === "dc"){
+                }else if(rarity === "DCUSeries"){
                     //creating image
                     const skinholder = await Canvas.loadImage('./assets/Rarities/standard/dc.png')
                     ctx.drawImage(skinholder, 0, 0, 512, 512)
@@ -331,7 +462,7 @@ module.exports = {
                         ctx.font = applyText(canvas, description);
                         ctx.fillText(description, 256, 470)
                     }
-                }else if(rarity === "dark"){
+                }else if(rarity === "DarkSeries"){
                     //creating image
                     const skinholder = await Canvas.loadImage('./assets/Rarities/standard/dark.png')
                     ctx.drawImage(skinholder, 0, 0, 512, 512)
@@ -354,7 +485,7 @@ module.exports = {
                         ctx.font = applyText(canvas, description);
                         ctx.fillText(description, 256, 470)
                     }
-                }else if(rarity === "icon"){
+                }else if(rarity === "CreatorCollabSeries"){
                     //creating image
                     const skinholder = await Canvas.loadImage('./assets/Rarities/standard/icon.png')
                     ctx.drawImage(skinholder, 0, 0, 512, 512)
@@ -377,7 +508,7 @@ module.exports = {
                         ctx.font = applyText(canvas, description);
                         ctx.fillText(description, 256, 470)
                     }
-                }else if(rarity === "starwars"){
+                }else if(rarity === "ColumbusSeries"){
                     //creating image
                     const skinholder = await Canvas.loadImage('./assets/Rarities/standard/starwars.png')
                     ctx.drawImage(skinholder, 0, 0, 512, 512)
@@ -400,7 +531,7 @@ module.exports = {
                         ctx.font = applyText(canvas, description);
                         ctx.fillText(description, 256, 470)
                     }
-                }else if(rarity === "shadow"){
+                }else if(rarity === "ShadowSeries"){
                     //creating image
                     const skinholder = await Canvas.loadImage('./assets/Rarities/standard/shadow.png')
                     ctx.drawImage(skinholder, 0, 0, 512, 512)
@@ -423,7 +554,7 @@ module.exports = {
                         ctx.font = applyText(canvas, description);
                         ctx.fillText(description, 256, 470)
                     }
-                }else if(rarity === "slurp"){
+                }else if(rarity === "SlurpSeries"){
                     //creating image
                     const skinholder = await Canvas.loadImage('./assets/Rarities/standard/slurp.png')
                     ctx.drawImage(skinholder, 0, 0, 512, 512)
@@ -446,7 +577,7 @@ module.exports = {
                         ctx.font = applyText(canvas, description);
                         ctx.fillText(description, 256, 470)
                     }
-                }else if(rarity === "frozen"){
+                }else if(rarity === "FrozenSeries"){
                     //creating image
                     const skinholder = await Canvas.loadImage('./assets/Rarities/standard/frozen.png')
                     ctx.drawImage(skinholder, 0, 0, 512, 512)
@@ -469,7 +600,7 @@ module.exports = {
                         ctx.font = applyText(canvas, description);
                         ctx.fillText(description, 256, 470)
                     }
-                }else if(rarity === "lava"){
+                }else if(rarity === "LavaSeries"){
                     //creating image
                     const skinholder = await Canvas.loadImage('./assets/Rarities/standard/lava.png')
                     ctx.drawImage(skinholder, 0, 0, 512, 512)
@@ -492,7 +623,7 @@ module.exports = {
                         ctx.font = applyText(canvas, description);
                         ctx.fillText(description, 256, 470)
                     }
-                }else if(rarity === "gaminglegends"){
+                }else if(rarity === "PlatformSeries"){
                     //creating image
                     const skinholder = await Canvas.loadImage('./assets/Rarities/standard/gaming.png')
                     ctx.drawImage(skinholder, 0, 0, 512, 512)
@@ -540,126 +671,78 @@ module.exports = {
                     }
                 }
 
-                //creating date variables
-                var FirstSeenDays
-                var FirstSeenDate
-                var LastSeenDays
-                var LastSeenDate
-
-                //introduction
-                var Introduction
+                const informations = new Discord.MessageEmbed()
+                informations.setColor('#BB00EE')
                 if(lang === "en"){
-                    introduction = "no data"
+                    informations.setTitle('Info about ' + name)
+                    informations.addFields(
+                        {name: "Name", value: name},
+                        {name: "Description", value: description},
+                        {name: "Type", value: Type},
+                        {name: "Rarity", value: rarity},
+                        {name: "Price", value: price},
+                        {name: "Set", value: set},
+                        {name: "Reactive ?", value: reactive},
+                        {name: "Copy Righted Music ?", value: copyrighted},
+                        {name: "Added", value: AddedDay + " days at " + AddedDate},
+                        {name: "Occurrences", value: occurrences},
+                        {name: "First Seen", value: First},
+                        {name: "Last Seen", value: Last},
+                    )
                 }else if(lang === "ar"){
-                    introduction = "لا يوجد معلومات"
+                    informations.setTitle('معلومات عن ' + name)
+                    informations.addFields(
+                        {name: "الاسم", value: name},
+                        {name: "الوصف", value: description},
+                        {name: "النوع", value: Type},
+                        {name: "الندرة", value: rarity},
+                        {name: "السعر", value: price},
+                        {name: "المجموعة", value: set},
+                        {name: "متفاعل ؟", value: reactive},
+                        {name: "حقوق الطبع و النشر ؟", value: copyrighted},
+                        {name: "تم اضافته", value: AddedDay + " يوم في " + AddedDate},
+                        {name: "عدد النزول", value: occurrences},
+                        {name: "اول ظهور", value: First},
+                        {name: "اخر ظهور", value: Last},
+                    )
                 }
-                if(res.data[num].introduction !== null){
-                    introduction = res.data[num].introduction.text
-                }
-
-                //checking history
-                if (res.data[num].shopHistory !== null){
-                    //setting the first seen date
-                    const Now = moment();
-                    FirstSeenDays = Now.diff(history[num], 'days');
-                    FirstSeenDate = moment(history[num]).format("ddd, hA")
-
-                    //setting the last seen date
-                    var length = history.length
-                    LastSeenDays = Now.diff(history[length - 1], 'days');
-                    LastSeenDate = moment(history[length - 1]).format("ddd, hA")
-                }
-                
-                const itemInfo = new Discord.MessageEmbed()
-                itemInfo.setColor('#BB00EE')
-                if(lang === "en"){
-                    var displayRarity = res.data[num].rarity.displayValue
-                    itemInfo.setTitle('Cosmetics By Search')
-                    itemInfo.setDescription('FNBRMENA Bot has found your cosmetic')
-                    
-                    if(res.data[num].shopHistory !== null){
-                        itemInfo.addFields(
-                        {name: 'Name', value: name},
-                        {name: 'Description', value: description},
-                        {name: 'Rarity', value: displayRarity},
-                        {name: 'Set:', value: set},
-                        {name: 'Introduction', value: introduction},
-                        {name: 'Occurrences', value: res.data[num].shopHistory.length},
-                        {name: 'First Seen', value: FirstSeenDays + " days ago at " + FirstSeenDate},
-                        {name: 'Last Seen', value: LastSeenDays + " days ago at " + LastSeenDate}
-                        )
-                    } else {
-                        itemInfo.addFields(
-                        {name: 'Name', value: name},
-                        {name: 'Description', value: description},
-                        {name: 'Rarity', value: displayRarity},
-                        {name: 'Set:', value: set},
-                        {name: 'Introduction', value: introduction},
-                        {name: 'Occurrences', value: "0"},
-                        {name: 'First Seen', value: 'not out yet or the sorce is not an itemshop'},
-                        {name: 'Last Seen', value: 'not out yet or the sorce is not an itemshop'}
-                        )
+                const videos = new Discord.MessageEmbed()
+                videos.setColor('#BB00EE')
+                if(res.item.video !== null){
+                    if(lang === "en"){
+                        videos.setTitle("Video for the "+Type)
+                        videos.setURL(res.item.video)
+                    }else if(lang === "ar"){
+                        videos.setTitle("مقطع الفيديو لل"+Type)
+                        videos.setURL(res.item.video)
                     }
-                    itemInfo.setFooter('Generated By FNBRMENA Bot')
-                    itemInfo.setAuthor('FNBRMENA Bot', 'https://i.imgur.com/LfotEkZ.jpg', 'https://twitter.com/FNBRMENA')
-
-                    } else if(lang === "ar"){
-                        var displayRarity = res.data[num].rarity.displayValue
-                        itemInfo.setTitle('البحث عن عناصر')
-                        itemInfo.setDescription('لقد تم البحث عن العنصر ...')
-                        
-                        if(res.data[num].shopHistory !== null){
-                            itemInfo.addFields(
-                            {name: 'الأسم', value: name},
-                            {name: 'الوصف', value: description},
-                            {name: 'الندرة', value: displayRarity},
-                            {name: 'المجموعة:', value: set},
-                            {name: 'تم عرضه في', value: introduction},
-                            {name: 'عدد نزول العنصر', value: res.data[num].shopHistory.length + " مرة"},
-                            {name: 'اول ظهور', value: FirstSeenDays + " يوم في الساعة " + FirstSeenDate},
-                            {name: 'اخر ظهور', value: LastSeenDays + " يوم في الساعة " + LastSeenDate}
-                            )
-                        } else {
-                            itemInfo.addFields(
-                            {name: 'الأسم', value: name},
-                            {name: 'الوصف', value: description},
-                            {name: 'الندرة', value: displayRarity},
-                            {name: 'المجموعة:', value: set},
-                            {name: 'تم عرضه في', value: introduction},
-                            {name: 'عدد نزول العنصر', value: "ولا مرة نزل"},
-                            {name: 'اول ظهور', value: 'لم يتم نزول العنصر بعد او مصدر العنصر ليس من الايتم شوب'},
-                            {name: 'اخر ظهور', value: 'لم يتم نزول العنصر بعد او مصدر العنصر ليس من الايتم شوب'}
-                            )
-                        }
-                        itemInfo.setFooter('تم ارسالها من FNBRMENA Bot')
-                        itemInfo.setAuthor('FNBRMENA Bot', 'https://i.imgur.com/LfotEkZ.jpg', 'https://twitter.com/FNBRMENA')
-                        }
-
-                        // credits
-                        // const credit = await Canvas.loadImage('assets/Credits/FNBRMENA.png');
-                        // ctx.drawImage(credit, 15, 15, 146, 40);
-
-                        const att = new Discord.MessageAttachment(canvas.toBuffer(), text+'.png')
-                        msg.delete()
-                        await message.channel.send(att)
-                        message.channel.send(itemInfo)
-                    })
+                    const att = new Discord.MessageAttachment(canvas.toBuffer(), text+'.png')
+                    msg.delete()
+                    await message.channel.send(att)
+                    await message.channel.send(informations)
+                    message.channel.send(videos)
+                }else{
+                    const att = new Discord.MessageAttachment(canvas.toBuffer(), text+'.png')
+                    msg.delete()
+                    await message.channel.send(att)
+                    message.channel.send(informations)
+                }
+            })
 
             }).catch(err => {
-                    if(lang === "en"){
-                        const Err = new Discord.MessageEmbed()
-                        .setColor('#BB00EE')
-                        .setTitle(`No cosmetic has been found check your speling and try again ${errorEmoji}`)
-                        message.reply(Err)
-                    }else if(lang === "ar"){
-                        const Err = new Discord.MessageEmbed()
-                        .setColor('#BB00EE')
-                        .setTitle(`لا يمكنني العثور على العنصر الرجاء التأكد من كتابة الاسم بشكل صحيح ${errorEmoji}`)
-                        message.reply(Err)
-                    
+                console.log(err)
+                if(lang === "en"){
+                    const Err = new Discord.MessageEmbed()
+                    .setColor('#BB00EE')
+                    .setTitle(`No cosmetic has been found check your speling and try again ${errorEmoji}`)
+                    message.reply(Err)
+                }else if(lang === "ar"){
+                    const Err = new Discord.MessageEmbed()
+                    .setColor('#BB00EE')
+                    .setTitle(`لا يمكنني العثور على العنصر الرجاء التأكد من كتابة الاسم بشكل صحيح ${errorEmoji}`)
+                    message.reply(Err)
                 }
             })
         })
-
     },
 }

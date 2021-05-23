@@ -109,9 +109,11 @@ module.exports = {
                         }
                     })
                 }
-
                 //return the item id
                 return items[num].id
+
+            }).catch(err => {
+                
             })
             
             num = 0
@@ -126,7 +128,6 @@ module.exports = {
                 var image
                 var mess
                 var price
-                var FirstSeen
                 var FirstSeenDate
                 var LastSeenDays
                 var LastSeenDate
@@ -730,7 +731,6 @@ module.exports = {
             })
 
             }).catch(err => {
-                console.log(err)
                 if(lang === "en"){
                     const Err = new Discord.MessageEmbed()
                     .setColor('#BB00EE')

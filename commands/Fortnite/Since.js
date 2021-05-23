@@ -15,14 +15,14 @@ module.exports = {
     expectedArgs: '[ Number since the cosmetics last released ]',
     minArgs: 1,
     maxArgs: null,
-    cooldown: 40,
+    cooldown: 120,
     permissionError: 'Sorry you do not have acccess to this command',
     callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji) => {
 
         admin.database().ref("ERA's").child("Users").child(message.author.id).once('value', async function (data) {
             var lang = data.val().lang;
 
-            if(text >= 200){
+            if(text >= 250){
                 //setting quary
                 var query
                 var type
@@ -712,12 +712,12 @@ module.exports = {
                 if(lang === "en"){
                     const error = new Discord.MessageEmbed()
                     .setColor('#BB00EE')
-                    .setTitle(`There are too many items please enter a value greater than 150 ${errorEmoji}`)
+                    .setTitle(`There are too many items please enter a value greater than 250 ${errorEmoji}`)
                     message.reply(error)
                 }else if(lang === "ar"){
                     const error = new Discord.MessageEmbed()
                     .setColor('#BB00EE')
-                    .setTitle(`يوجد عناصر كثيرة الرجاء اختيار رقم اعلى من 150 ${errorEmoji}`)
+                    .setTitle(`يوجد عناصر كثيرة الرجاء اختيار رقم اعلى من 250 ${errorEmoji}`)
                     message.reply(error)
                 }
             }

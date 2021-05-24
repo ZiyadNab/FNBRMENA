@@ -139,6 +139,7 @@ module.exports = {
                 var AddedDate
                 var AddedDay
                 var Type
+                var rarityName
 
                 //initializing values
                 moment.locale(lang)
@@ -146,7 +147,7 @@ module.exports = {
                 //type
                 Type = res.item.type.name
 
-                //first reales
+                //first release
                 if(res.item.releaseDate !== null){
                     const Now = moment();
                     FirstSeenDays = Now.diff(res.item.releaseDate, 'days');
@@ -253,7 +254,11 @@ module.exports = {
 
                 //image
                 if(res.item.images.featured){
-                    image = res.item.images.featured
+                    if(res.item.type.id !== "loadingscreen"){
+                        image = res.item.images.featured
+                    }else{
+                        image = res.item.images.icon
+                    }
                 }else{
                     image = res.item.images.icon
                 }
@@ -263,6 +268,13 @@ module.exports = {
                     rarity = res.item.series.id
                 }else{
                     rarity = res.item.rarity.id
+                }
+
+                //rarity but for info
+                if(res.item.series !== null){
+                    rarityName = res.item.series.name
+                }else{
+                    rarityName = res.item.rarity.name
                 }
 
                 //generating msg
@@ -680,7 +692,7 @@ module.exports = {
                         {name: "Name", value: name},
                         {name: "Description", value: description},
                         {name: "Type", value: Type},
-                        {name: "Rarity", value: rarity},
+                        {name: "Rarity", value: rarityName},
                         {name: "Price", value: price},
                         {name: "Set", value: set},
                         {name: "Reactive ?", value: reactive},
@@ -696,7 +708,7 @@ module.exports = {
                         {name: "الاسم", value: name},
                         {name: "الوصف", value: description},
                         {name: "النوع", value: Type},
-                        {name: "الندرة", value: rarity},
+                        {name: "الندرة", value: rarityName},
                         {name: "السعر", value: price},
                         {name: "المجموعة", value: set},
                         {name: "متفاعل ؟", value: reactive},
@@ -731,6 +743,7 @@ module.exports = {
             })
 
             }).catch(err => {
+                console.log(err)
                 if(lang === "en"){
                     const Err = new Discord.MessageEmbed()
                     .setColor('#BB00EE')

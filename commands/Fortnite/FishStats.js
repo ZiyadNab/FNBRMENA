@@ -34,8 +34,8 @@ module.exports = {
                         var newline = 0
 
                         //registering fonts
-                        Canvas.registerFont('./assets/font/Lalezar-Regular.ttf', {family: 'Arabic',weight: "700",style: "bold"});
-                        Canvas.registerFont('./assets/font/BurbankBigCondensed-Black.otf' ,{family: 'Burbank Big Condensed',weight: "700",style: "bold"})
+                        Canvas.registerFont('./assets/font/Lalezar-Regular.ttf', {family: 'Arabic',weight: "700"});
+                        Canvas.registerFont('./assets/font/BurbankBigCondensed-Black.otf' ,{family: 'Burbank Big Condensed',weight: "700"})
 
                         //canvas
                         const canvas = Canvas.createCanvas(1920, 1080);
@@ -84,23 +84,45 @@ module.exports = {
                                 const slot = await Canvas.loadImage('./assets/Fish/FishSlot.png')
                                 ctx.drawImage(slot, x, y, 100, 150)
 
+                                //change the opacity
+                                ctx.globalAlpha = 0.5
+
                                 //the number of the fish
                                 ctx.fillStyle = '#03d3fc';
                                 ctx.textAlign='right';
-                                ctx.font = '50px Burbank Big Condensed'
-                                ctx.fillText(j, x + 90, y + 40)
+                                ctx.font = 'italic 40px Burbank Big Condensed'
+                                ctx.fillText(j, x + 95, y + 30)
+
+                                //change the opacity
+                                ctx.globalAlpha = 1
 
                                 //the fish image
                                 const fish = await Canvas.loadImage(image)
                                 ctx.drawImage(fish, x, y + 30, 100, 100)
 
                             }else{
+
+                                var name = allFishs.fish[j].name
+                                var descriprion = allFishs.fish[j].description
+                                var image = allFishs.fish[j].image
+                                var length = allFishs.fish[j].length
+
                                 //change the opacity
                                 ctx.globalAlpha = 0.5
 
-                                //add the items
+                                //the slot
                                 const slot = await Canvas.loadImage('./assets/Fish/FishSlot.png')
                                 ctx.drawImage(slot, x, y, 100, 150)
+
+                                //the number of the fish
+                                ctx.fillStyle = '#03d3fc';
+                                ctx.textAlign='right';
+                                ctx.font = 'italic 40px Burbank Big Condensed'
+                                ctx.fillText(j, x + 95, y + 30)
+
+                                //the fish image
+                                const fish = await Canvas.loadImage(image)
+                                ctx.drawImage(fish, x, y + 30, 100, 100)
                             }
 
                             //changing x and y

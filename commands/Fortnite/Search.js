@@ -254,7 +254,7 @@ module.exports = {
 
                 //image
                 if(res.item.images.featured){
-                    if(res.item.type.id !== "loadingscreen"){
+                    if(res.item.type.id !== "loadingscreen" || res.item.type.id !== "glider"){
                         image = res.item.images.featured
                     }else{
                         image = res.item.images.icon

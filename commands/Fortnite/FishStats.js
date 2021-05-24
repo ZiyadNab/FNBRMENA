@@ -91,7 +91,7 @@ module.exports = {
                                 ctx.fillStyle = '#03d3fc';
                                 ctx.textAlign='right';
                                 ctx.font = 'italic 40px Burbank Big Condensed'
-                                ctx.fillText(j, x + 97, y + 35)
+                                ctx.fillText(j, x + 95, y + 35)
 
                                 //change the opacity
                                 ctx.globalAlpha = 1
@@ -118,7 +118,7 @@ module.exports = {
                                 ctx.fillStyle = '#03d3fc';
                                 ctx.textAlign='right';
                                 ctx.font = 'italic 40px Burbank Big Condensed'
-                                ctx.fillText(j, x + 97, y + 35)
+                                ctx.fillText(j, x + 95, y + 35)
 
                                 //the fish image
                                 const fish = await Canvas.loadImage(image)

@@ -42,7 +42,7 @@ module.exports = {
                         const ctx = canvas.getContext('2d');
 
                         //background
-                        const background = await Canvas.loadImage('./assets/itemshop/background.png')
+                        //const background = await Canvas.loadImage('./assets/itemshop/background.png')
                         //ctx.drawImage(background, 0, 0, canvas.width, canvas.height)
 
                         //Collection

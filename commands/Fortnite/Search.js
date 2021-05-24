@@ -463,7 +463,7 @@ module.exports = {
                         ctx.font = applyText(canvas, description);
                         ctx.fillText(description, 256, 470)
                     }
-                }else if(rarity === "DarkSeries"){
+                }else if(rarity === "CUBESeries"){
                     //creating image
                     const skinholder = await Canvas.loadImage('./assets/Rarities/standard/dark.png')
                     ctx.drawImage(skinholder, 0, 0, 512, 512)

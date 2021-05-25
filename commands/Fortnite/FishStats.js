@@ -280,6 +280,7 @@ module.exports = {
                             //send the fish stats picture
                             const att = new Discord.MessageAttachment(canvas.toBuffer(), text+'.png')
                             await message.channel.send(att)
+                            msg.delete()
 
                         })
                     })

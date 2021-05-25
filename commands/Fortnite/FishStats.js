@@ -31,242 +31,257 @@ module.exports = {
                 //if the user name is valid
                 if(name.result === true){
 
-                    query = {
-                        name: text,
-                        accountType:"epic",
-                        timeWindow: "lifetime"
-                    };
+                    var loading = ''
+                    if(lang === "en"){
+                        loading = "Getting Player fish info ..."
+                    }else if(lang === "ar"){
+                        loading = "جاري تحميل بيانات اللاعب ..."
+                    }
 
-                    //get player fish stats
-                    fortniteAPI.getPlayerFishStats(accountId = name.account_id, options = {lang: lang})
-                    .then(async res => {
+                    const generating = new Discord.MessageEmbed()
+                    generating.setColor('#BB00EE')
+                    const emoji = client.emojis.cache.get("805690920157970442")
+                    generating.setTitle(`${loading} ${emoji}`)
+                    message.channel.send(generating)
+                    .then( async msg => {
 
-                        //all fishes
-                        const allFishs = await fortniteAPI.listFish(options = {lang: lang})
+                        query = {
+                            name: text,
+                            accountType:"epic",
+                            timeWindow: "lifetime"
+                        };
 
-                        //account level
-                        const level = await Fortnite.BRStats(query)
+                        //get player fish stats
+                        fortniteAPI.getPlayerFishStats(accountId = name.account_id, options = {lang: lang})
+                        .then(async res => {
 
-                        //variables
-                        var x = 50
-                        var y = 300
-                        var newline = 0
+                            //all fishes
+                            const allFishs = await fortniteAPI.listFish(options = {lang: lang})
 
-                        //registering fonts
-                        Canvas.registerFont('./assets/font/Lalezar-Regular.ttf', {family: 'Arabic',weight: "700"});
-                        Canvas.registerFont('./assets/font/BurbankBigCondensed-Black.otf' ,{family: 'Burbank Big Condensed',weight: "700"})
+                            //account level
+                            const level = await Fortnite.BRStats(query)
 
-                        //canvas
-                        const canvas = Canvas.createCanvas(1920, 1080);
-                        const ctx = canvas.getContext('2d');
+                            //variables
+                            var x = 50
+                            var y = 300
+                            var newline = 0
 
-                        //creating an array on background images
-                        var imagesList = [
-                            './assets/Fish/backgrounds/1.png',
-                            './assets/Fish/backgrounds/2.jpg',
-                            './assets/Fish/backgrounds/3.jpg',
-                            './assets/Fish/backgrounds/4.jpg',
-                            './assets/Fish/backgrounds/5.jpg',
-                            './assets/Fish/backgrounds/6.jpg',
-                            './assets/Fish/backgrounds/7.jpg',
-                        ]
+                            //registering fonts
+                            Canvas.registerFont('./assets/font/Lalezar-Regular.ttf', {family: 'Arabic',weight: "700"});
+                            Canvas.registerFont('./assets/font/BurbankBigCondensed-Black.otf' ,{family: 'Burbank Big Condensed',weight: "700"})
 
-                        //get a random number
-                        var randomImage = Math.floor(Math.random() * imagesList.length)
+                            //canvas
+                            const canvas = Canvas.createCanvas(1920, 1080);
+                            const ctx = canvas.getContext('2d');
 
-                        //blur the image
-                        ctx.filter = "blur(50px)"
+                            //creating an array on background images
+                            var imagesList = [
+                                './assets/Fish/backgrounds/1.png',
+                                './assets/Fish/backgrounds/2.jpg',
+                                './assets/Fish/backgrounds/3.jpg',
+                                './assets/Fish/backgrounds/4.jpg',
+                                './assets/Fish/backgrounds/5.jpg',
+                                './assets/Fish/backgrounds/6.jpg',
+                                './assets/Fish/backgrounds/7.jpg',
+                            ]
 
-                        //background
-                        const background = await Canvas.loadImage(imagesList[randomImage])
-                        ctx.drawImage(background, 0, 0, canvas.width, canvas.height)
+                            //get a random number
+                            var randomImage = Math.floor(Math.random() * imagesList.length)
 
-                        //add blue fog
-                        const fog = await Canvas.loadImage('./assets/News/fog.png')
-                        ctx.drawImage(fog,0,0,1920,1080)
+                            //blur the image
+                            ctx.filter = "blur(50px)"
 
-                        //credits
-                        ctx.fillStyle = '#ffffff';
-                        ctx.textAlign='left';
-                        ctx.font = '50px Burbank Big Condensed'
-                        ctx.fillText("FNBRMENA", 15, 55)
+                            //background
+                            const background = await Canvas.loadImage(imagesList[randomImage])
+                            ctx.drawImage(background, 0, 0, canvas.width, canvas.height)
 
-                        //date
-                        var date
-                        if(lang === "en"){
-                            moment.locale("en")
-                            date = moment().format("dddd, MMMM Do of YYYY")
+                            //add blue fog
+                            const fog = await Canvas.loadImage('./assets/News/fog.png')
+                            ctx.drawImage(fog,0,0,1920,1080)
+
+                            //credits
                             ctx.fillStyle = '#ffffff';
-                            ctx.textAlign='center';
-                            ctx.font = `60px Burbank Big Condensed`
-                            ctx.fillText(date, (canvas.width / 2), (canvas.height - 35))
-                        }else if(lang === "ar"){
-                            moment.locale("ar")
-                            date = moment().format("dddd, MMMM Do من YYYY")
-                            ctx.fillStyle = '#ffffff';
-                            ctx.textAlign='center';
-                            ctx.font = `60px Arabic`
-                            ctx.fillText(date, (canvas.width / 2), (canvas.height - 35))
-                        }
+                            ctx.textAlign='left';
+                            ctx.font = '50px Burbank Big Condensed'
+                            ctx.fillText("FNBRMENA", 15, 55)
 
-                        //Collection
-                        if(lang === "en"){
-                            ctx.fillStyle = '#ffffff';
-                            ctx.textAlign='center';
-                            ctx.font = '200px Burbank Big Condensed'
-                            ctx.fillText("Fish Collection", canvas.width / 2, 180)
-                        }else if(lang === "ar"){
-                            ctx.fillStyle = '#ffffff';
-                            ctx.textAlign='center';
-                            ctx.font = '200px Arabic'
-                            ctx.fillText("احصائيات السمك", canvas.width / 2, 180)
-                        }
-                        
-                        //loop to every fish in game
-                        for(let j = 0; j < allFishs.fish.length; j++){
-
-                            //add new line
-                            newline++
-
-                            //defined catchedFish
-                            var catchedFish = []
-
-                            if(allFishs.season === res.stats[0].season){
-                                //loop throw evry fish that the user owns
-                                catchedFish = res.stats[0].fish.filter(found => {
-                                    return found.type.toLowerCase() === allFishs.fish[j].id.toLowerCase()
-                                })
+                            //date
+                            var date
+                            if(lang === "en"){
+                                moment.locale("en")
+                                date = moment().format("dddd, MMMM Do of YYYY")
+                                ctx.fillStyle = '#ffffff';
+                                ctx.textAlign='center';
+                                ctx.font = `60px Burbank Big Condensed`
+                                ctx.fillText(date, (canvas.width / 2), (canvas.height - 35))
+                            }else if(lang === "ar"){
+                                moment.locale("ar")
+                                date = moment().format("dddd, MMMM Do من YYYY")
+                                ctx.fillStyle = '#ffffff';
+                                ctx.textAlign='center';
+                                ctx.font = `60px Arabic`
+                                ctx.fillText(date, (canvas.width / 2), (canvas.height - 35))
                             }
 
-                            //defined a hit
-                            var counter = 0
+                            //Collection
+                            if(lang === "en"){
+                                ctx.fillStyle = '#ffffff';
+                                ctx.textAlign='center';
+                                ctx.font = '200px Burbank Big Condensed'
+                                ctx.fillText("Fish Collection", canvas.width / 2, 180)
+                            }else if(lang === "ar"){
+                                ctx.fillStyle = '#ffffff';
+                                ctx.textAlign='center';
+                                ctx.font = '200px Arabic'
+                                ctx.fillText("احصائيات السمك", canvas.width / 2, 180)
+                            }
+                            
+                            //loop to every fish in game
+                            for(let j = 0; j < allFishs.fish.length; j++){
 
-                            //if we found a hit
-                            if(catchedFish.length !== 0){
+                                //add new line
+                                newline++
 
-                                //counter
-                                counter++
+                                //defined catchedFish
+                                var catchedFish = []
 
-                                //change the opacity
-                                ctx.globalAlpha = 1
-
-                                var name = catchedFish[0].name
-                                var descriprion = catchedFish[0].description
-                                var image = catchedFish[0].image
-                                var length = (catchedFish[0].length / 100) * 90
-                                
-                                //the slot
-                                const slot = await Canvas.loadImage('./assets/Fish/FishSlot.png')
-                                ctx.drawImage(slot, x, y, 100, 150)
-
-                                //change the opacity
-                                ctx.globalAlpha = 0.5
-
-                                //length background
-                                const lengthBlue = await Canvas.loadImage('./assets/Fish/progressFishBule.png')
-                                ctx.drawImage(lengthBlue, x + 5, y + 135, 90, 7)
-
-                                //the number of the fish
-                                ctx.fillStyle = '#03d3fc';
-                                ctx.textAlign='right';
-                                ctx.font = 'italic 40px Burbank Big Condensed'
-                                ctx.fillText(j, x + 95, y + 35)
-
-                                //change the opacity
-                                ctx.globalAlpha = 1
-
-                                //check if length is more than 90
-                                if(length > 90){
-                                    length = 90
+                                if(allFishs.season === res.stats[0].season){
+                                    //loop throw evry fish that the user owns
+                                    catchedFish = res.stats[0].fish.filter(found => {
+                                        return found.type.toLowerCase() === allFishs.fish[j].id.toLowerCase()
+                                    })
                                 }
 
-                                //length
-                                const lengthYellow = await Canvas.loadImage('./assets/Fish/progressFishYellow.png')
-                                ctx.drawImage(lengthYellow, x + 5, y + 135, length, 7)
+                                //defined a hit
+                                var counter = 0
 
-                                //the fish image
-                                const fish = await Canvas.loadImage(image)
-                                ctx.drawImage(fish, x, y + 30, 100, 100)
+                                //if we found a hit
+                                if(catchedFish.length !== 0){
 
-                            }else{
+                                    //counter
+                                    counter++
 
-                                var name = allFishs.fish[j].name
-                                var descriprion = allFishs.fish[j].description
-                                var image = allFishs.fish[j].image
+                                    //change the opacity
+                                    ctx.globalAlpha = 1
 
-                                //change the opacity
-                                ctx.globalAlpha = 0.5
+                                    var name = catchedFish[0].name
+                                    var descriprion = catchedFish[0].description
+                                    var image = catchedFish[0].image
+                                    var length = (catchedFish[0].length / 100) * 90
+                                    
+                                    //the slot
+                                    const slot = await Canvas.loadImage('./assets/Fish/FishSlot.png')
+                                    ctx.drawImage(slot, x, y, 100, 150)
 
-                                //the slot
-                                const slot = await Canvas.loadImage('./assets/Fish/FishSlot.png')
-                                ctx.drawImage(slot, x, y, 100, 150)
+                                    //change the opacity
+                                    ctx.globalAlpha = 0.5
 
-                                //the number of the fish
-                                ctx.fillStyle = '#03d3fc';
+                                    //length background
+                                    const lengthBlue = await Canvas.loadImage('./assets/Fish/progressFishBule.png')
+                                    ctx.drawImage(lengthBlue, x + 5, y + 135, 90, 7)
+
+                                    //the number of the fish
+                                    ctx.fillStyle = '#03d3fc';
+                                    ctx.textAlign='right';
+                                    ctx.font = 'italic 40px Burbank Big Condensed'
+                                    ctx.fillText(j, x + 95, y + 35)
+
+                                    //change the opacity
+                                    ctx.globalAlpha = 1
+
+                                    //check if length is more than 90
+                                    if(length > 90){
+                                        length = 90
+                                    }
+
+                                    //length
+                                    const lengthYellow = await Canvas.loadImage('./assets/Fish/progressFishYellow.png')
+                                    ctx.drawImage(lengthYellow, x + 5, y + 135, length, 7)
+
+                                    //the fish image
+                                    const fish = await Canvas.loadImage(image)
+                                    ctx.drawImage(fish, x, y + 30, 100, 100)
+
+                                }else{
+
+                                    var name = allFishs.fish[j].name
+                                    var descriprion = allFishs.fish[j].description
+                                    var image = allFishs.fish[j].image
+
+                                    //change the opacity
+                                    ctx.globalAlpha = 0.5
+
+                                    //the slot
+                                    const slot = await Canvas.loadImage('./assets/Fish/FishSlot.png')
+                                    ctx.drawImage(slot, x, y, 100, 150)
+
+                                    //the number of the fish
+                                    ctx.fillStyle = '#03d3fc';
+                                    ctx.textAlign='right';
+                                    ctx.font = 'italic 40px Burbank Big Condensed'
+                                    ctx.fillText(j, x + 95, y + 35)
+
+                                    //the fish image
+                                    const fish = await Canvas.loadImage(image)
+                                    ctx.drawImage(fish, x, y + 30, 100, 100)
+                                }
+
+                                //changing x and y
+                                x += 25 + 100
+                                if(15 === newline){
+                                    y += 25 + 150
+                                    x = 50
+                                    newline = 0
+                                }
+                            }
+
+                            //change the opacity
+                            ctx.globalAlpha = 1
+
+                            //name of the epic games user account
+                            if(lang === "en"){
+                                ctx.fillStyle = '#ffffff';
+                                ctx.textAlign='left';
+                                ctx.font = '40px Burbank Big Condensed'
+                                ctx.fillText("Account Name: " + text, 50, canvas.height - 200)
+                            }else if(lang === "ar"){
+                                ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='right';
-                                ctx.font = 'italic 40px Burbank Big Condensed'
-                                ctx.fillText(j, x + 95, y + 35)
-
-                                //the fish image
-                                const fish = await Canvas.loadImage(image)
-                                ctx.drawImage(fish, x, y + 30, 100, 100)
+                                ctx.font = '40px Arabic'
+                                ctx.fillText("اسم الحساب: " + text, canvas.width - 50, canvas.height - 200)
                             }
 
-                            //changing x and y
-                            x += 25 + 100
-                            if(15 === newline){
-                                y += 25 + 150
-                                x = 50
-                                newline = 0
+                            //account level
+                            if(lang === "en"){
+                                ctx.fillStyle = '#ffffff';
+                                ctx.textAlign='left';
+                                ctx.font = '40px Burbank Big Condensed'
+                                ctx.fillText("Account Level: " + level.data.battlePass.level, 50, canvas.height - 150)
+                            }else if(lang === "ar"){
+                                ctx.fillStyle = '#ffffff';
+                                ctx.textAlign='right';
+                                ctx.font = '40px Arabic'
+                                ctx.fillText("لفل الحساب: " + level.data.battlePass.level, canvas.width - 50, canvas.height - 150)
                             }
-                        }
 
-                        //change the opacity
-                        ctx.globalAlpha = 1
+                            //counter
+                            if(lang === "en"){
+                                ctx.fillStyle = '#ffffff';
+                                ctx.textAlign='left';
+                                ctx.font = '40px Burbank Big Condensed'
+                                ctx.fillText("Fish Catched: " + counter + "/" + allFishs.fish.length, 50, canvas.height - 100)
+                            }else if(lang === "ar"){
+                                ctx.fillStyle = '#ffffff';
+                                ctx.textAlign='right';
+                                ctx.font = '40px Arabic'
+                                ctx.fillText("عدد السمك المصطاده: " + counter + "/" + allFishs.fish.length, canvas.width - 50, canvas.height - 100)
+                            }
 
-                        //name of the epic games user account
-                        if(lang === "en"){
-                            ctx.fillStyle = '#ffffff';
-                            ctx.textAlign='left';
-                            ctx.font = '40px Burbank Big Condensed'
-                            ctx.fillText("Account Name: " + text, 50, canvas.height - 200)
-                        }else if(lang === "ar"){
-                            ctx.fillStyle = '#ffffff';
-                            ctx.textAlign='right';
-                            ctx.font = '40px Arabic'
-                            ctx.fillText("اسم الحساب: " + text, canvas.width - 50, canvas.height - 200)
-                        }
+                            //send the fish stats picture
+                            const att = new Discord.MessageAttachment(canvas.toBuffer(), text+'.png')
+                            await message.channel.send(att)
 
-                        //account level
-                        if(lang === "en"){
-                            ctx.fillStyle = '#ffffff';
-                            ctx.textAlign='left';
-                            ctx.font = '40px Burbank Big Condensed'
-                            ctx.fillText("Account Level: " + level.data.battlePass.level, 50, canvas.height - 150)
-                        }else if(lang === "ar"){
-                            ctx.fillStyle = '#ffffff';
-                            ctx.textAlign='right';
-                            ctx.font = '40px Arabic'
-                            ctx.fillText("لفل الحساب: " + level.data.battlePass.level, canvas.width - 50, canvas.height - 150)
-                        }
-
-                        //counter
-                        if(lang === "en"){
-                            ctx.fillStyle = '#ffffff';
-                            ctx.textAlign='left';
-                            ctx.font = '40px Burbank Big Condensed'
-                            ctx.fillText("Fish Catched: " + counter + "/" + allFishs.fish.length,, 50, canvas.height - 100)
-                        }else if(lang === "ar"){
-                            ctx.fillStyle = '#ffffff';
-                            ctx.textAlign='right';
-                            ctx.font = '40px Arabic'
-                            ctx.fillText("عدد السمك المصطاده: " + counter + "/" + allFishs.fish.length, canvas.width - 50, canvas.height - 100)
-                        }
-
-                        //send the fish stats picture
-                        const att = new Discord.MessageAttachment(canvas.toBuffer(), text+'.png')
-                        await message.channel.send(att)
-
+                        })
                     })
                 }else{
                     if(lang === "en"){

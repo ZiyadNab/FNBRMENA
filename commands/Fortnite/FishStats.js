@@ -71,7 +71,7 @@ module.exports = {
                         ctx.fillStyle = '#ffffff';
                         ctx.textAlign='left';
                         ctx.font = '50px Burbank Big Condensed'
-                        ctx.fillText("FNBRMENA", 35, 35)
+                        ctx.fillText("FNBRMENA", 15, 55)
 
                         //date
                         var date

@@ -46,5 +46,5 @@ module.exports = (client, admin) => {
             }
         })
     }
-    setInterval(Set, 1 * 60000)
+    setInterval(Set, 5 * 60000)
 }

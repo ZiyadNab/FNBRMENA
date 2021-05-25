@@ -65,6 +65,9 @@ module.exports = {
                             var x = 50
                             var y = 300
                             var newline = 0
+                            
+                            //defined a hit
+                            var counter = 0
 
                             //registering fonts
                             Canvas.registerFont('./assets/font/Lalezar-Regular.ttf', {family: 'Arabic',weight: "700"});
@@ -151,9 +154,6 @@ module.exports = {
                                         return found.type.toLowerCase() === allFishs.fish[j].id.toLowerCase()
                                     })
                                 }
-
-                                //defined a hit
-                                var counter = 0
 
                                 //if we found a hit
                                 if(catchedFish.length !== 0){

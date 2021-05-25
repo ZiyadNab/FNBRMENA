@@ -1,3 +1,4 @@
+const moment = require('moment')
 const FortniteAPI = require("fortniteapi.io-api");
 const key = require('../../Coinfigs/config.json')
 const fortniteAPI = new FortniteAPI(key.apis.fortniteio);
@@ -5,7 +6,7 @@ const Canvas = require('canvas');
 
 module.exports = {
     commands: 'fish',
-    expectedArgs: '',
+    expectedArgs: '[ Name of the EPICGAMES player ]',
     minArgs: 1,
     maxArgs: null,
     cooldown: 10,
@@ -41,9 +42,54 @@ module.exports = {
                         const canvas = Canvas.createCanvas(1920, 1080);
                         const ctx = canvas.getContext('2d');
 
+                        //creating an array on background images
+                        var imagesList = [
+                            './assets/Fish/backgrounds/1.png',
+                            './assets/Fish/backgrounds/2.jpg',
+                            './assets/Fish/backgrounds/3.jpg',
+                            './assets/Fish/backgrounds/4.jpg',
+                            './assets/Fish/backgrounds/5.jpg',
+                            './assets/Fish/backgrounds/6.jpg',
+                            './assets/Fish/backgrounds/7.jpg',
+                        ]
+
+                        //get a random number
+                        var randomImage = Math.floor(Math.random() * imagesList.length)
+
+                        //blur the image
+                        ctx.filter = "blur(50px)"
+
                         //background
-                        //const background = await Canvas.loadImage('./assets/itemshop/background.png')
-                        //ctx.drawImage(background, 0, 0, canvas.width, canvas.height)
+                        const background = await Canvas.loadImage(imagesList[randomImage])
+                        ctx.drawImage(background, 0, 0, canvas.width, canvas.height)
+
+                        //add blue fog
+                        const fog = await Canvas.loadImage('./assets/News/fog.png')
+                        ctx.drawImage(fog,0,0,1920,1080)
+
+                        //credits
+                        ctx.fillStyle = '#ffffff';
+                        ctx.textAlign='left';
+                        ctx.font = '50px Burbank Big Condensed'
+                        ctx.fillText("FNBRMENA", 35, 35)
+
+                        //date
+                        var date
+                        if(lang === "en"){
+                            moment.locale("en")
+                            date = moment().format("dddd, MMMM Do of YYYY")
+                            ctx.fillStyle = '#ffffff';
+                            ctx.textAlign='center';
+                            ctx.font = `60px Burbank Big Condensed`
+                            ctx.fillText(date, (canvas.width / 2), (canvas.height - 35))
+                        }else if(lang === "ar"){
+                            moment.locale("ar")
+                            date = moment().format("dddd, MMMM Do من YYYY")
+                            ctx.fillStyle = '#ffffff';
+                            ctx.textAlign='center';
+                            ctx.font = `60px Arabic`
+                            ctx.fillText(date, (canvas.width / 2), (canvas.height - 35))
+                        }
 
                         //Collection
                         if(lang === "en"){
@@ -87,7 +133,7 @@ module.exports = {
                                 //change the opacity
                                 ctx.globalAlpha = 0.5
 
-                                //length backgroung
+                                //length background
                                 const lengthBlue = await Canvas.loadImage('./assets/Fish/progressFishBule.png')
                                 ctx.drawImage(lengthBlue, x + 5, y + 135, 90, 7)
 
@@ -99,6 +145,11 @@ module.exports = {
 
                                 //change the opacity
                                 ctx.globalAlpha = 1
+
+                                //check if length is more than 90
+                                if(length > 90){
+                                    length = 90
+                                }
 
                                 //length
                                 const lengthYellow = await Canvas.loadImage('./assets/Fish/progressFishYellow.png')

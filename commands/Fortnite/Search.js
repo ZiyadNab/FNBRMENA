@@ -199,7 +199,7 @@ module.exports = {
                     set = res.item.set.partOf
                 }else{
                     if(lang === "en"){
-                        set = "There is no set to theis cosmetic"
+                        set = "There is no set to this cosmetic"
                     }else if(lang === "ar"){
                         set = "لا يوجد مجموعة لهذا العنصر"
                     }
@@ -250,7 +250,15 @@ module.exports = {
                 name = res.item.name;
 
                 //description
-                description = res.item.description
+                if(res.item.description !== ""){
+                    description = res.item.description
+                }else{
+                    if(lang === "en"){
+                        description = "There is no description to this item"
+                    }else if(lang === "ar"){
+                        description = "لا يوجد وصل للعنصر هذا"
+                    }
+                }
 
                 //image
                 if(res.item.images.featured){
@@ -276,6 +284,20 @@ module.exports = {
                 }else{
                     rarityName = res.item.rarity.name
                 }
+
+                // console.log(rarityName)
+                // console.log(name)
+                // console.log(description)
+                // console.log(AddedDate)
+                // console.log(AddedDay)
+                // console.log(reactive)
+                // console.log(copyrighted)
+                // console.log(First)
+                // console.log(Last)
+                // console.log(price)
+                // console.log(occurrences)
+                // console.log(set)
+                // console.log(Type)
 
                 //generating msg
                 if(lang === "en"){

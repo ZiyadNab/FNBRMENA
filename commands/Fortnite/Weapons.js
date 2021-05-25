@@ -23,7 +23,7 @@ module.exports = {
             fortniteAPI.lisloot(options = {lang: "en"})
             .then(async res => {
                 const WIDs = await res.weapons.filter(function(value) {
-                    return value.name.includes(text)
+                    return value.name.toLowerCase().includes(text.toLowerCase())
                 })
                 if(WIDs.length !== 0){
                     //if there is more that a weapon

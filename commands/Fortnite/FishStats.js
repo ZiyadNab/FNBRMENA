@@ -78,7 +78,7 @@ module.exports = {
                                 var name = catchedFish[0].name
                                 var descriprion = catchedFish[0].description
                                 var image = catchedFish[0].image
-                                var length = catchedFish[0].length
+                                var length = (catchedFish[0].length / 100) * 90
                                 
                                 //the slot
                                 const slot = await Canvas.loadImage('./assets/Fish/FishSlot.png')
@@ -86,6 +86,10 @@ module.exports = {
 
                                 //change the opacity
                                 ctx.globalAlpha = 0.5
+
+                                //length backgroung
+                                const lengthBlue = await Canvas.loadImage('./assets/Fish/progressFishBule.png')
+                                ctx.drawImage(lengthBlue, x + 5, y + 135, 90, 7)
 
                                 //the number of the fish
                                 ctx.fillStyle = '#03d3fc';
@@ -96,6 +100,10 @@ module.exports = {
                                 //change the opacity
                                 ctx.globalAlpha = 1
 
+                                //length
+                                const lengthYellow = await Canvas.loadImage('./assets/Fish/progressFishYellow.png')
+                                ctx.drawImage(lengthYellow, x + 5, y + 135, length, 7)
+
                                 //the fish image
                                 const fish = await Canvas.loadImage(image)
                                 ctx.drawImage(fish, x, y + 30, 100, 100)
@@ -105,7 +113,6 @@ module.exports = {
                                 var name = allFishs.fish[j].name
                                 var descriprion = allFishs.fish[j].description
                                 var image = allFishs.fish[j].image
-                                var length = allFishs.fish[j].length
 
                                 //change the opacity
                                 ctx.globalAlpha = 0.5

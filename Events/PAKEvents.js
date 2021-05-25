@@ -15,6 +15,7 @@ module.exports = (client, admin) => {
     const message = client.channels.cache.find(channel => channel.id === config.events.PAK)
     //result
     var data = []
+    var aesData = []
     var pakNumberData = []
     var pakGuildData = []
     var Counter = 0
@@ -29,7 +30,16 @@ module.exports = (client, admin) => {
         .then(async res => {
             if(number === 0){
                 data = res.data.dynamicKeys
+                aesData = res.data.build
                 number++
+            }
+            if(res.data.build !== aesData){
+                const aes = new Discord.MessageEmbed()
+                aes.setColor('#BB00EE')
+                aes.setTitle("New Update Has Been Found!")
+                aes.setDescription(res.data.build)
+                message.send(aes)
+                aesData = res.data.build
             }
             if(JSON.stringify(res.data.dynamicKeys) !== JSON.stringify(data)){
                 Counter = 0

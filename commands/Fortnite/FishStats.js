@@ -2,7 +2,15 @@ const moment = require('moment')
 const FortniteAPI = require("fortniteapi.io-api");
 const key = require('../../Coinfigs/config.json')
 const fortniteAPI = new FortniteAPI(key.apis.fortniteio);
+const fort = require("fortnite-api-com");
 const Canvas = require('canvas');
+const config = {
+  apikey: key.apis.fortniteapi,
+  language: "en",
+  debug: true
+};
+
+var Fortnite = new fort(config);
 
 module.exports = {
     commands: 'fish',
@@ -23,12 +31,22 @@ module.exports = {
                 //if the user name is valid
                 if(name.result === true){
 
+                    query = {
+                        name: text,
+                        accountType:"epic",
+                        timeWindow: "lifetime"
+                    };
+
                     //get player fish stats
                     fortniteAPI.getPlayerFishStats(accountId = name.account_id, options = {lang: lang})
                     .then(async res => {
 
+                        //all fishes
                         const allFishs = await fortniteAPI.listFish(options = {lang: lang})
-                        
+
+                        //account level
+                        const level = await Fortnite.BRStats(query)
+
                         //variables
                         var x = 50
                         var y = 300
@@ -110,13 +128,24 @@ module.exports = {
                             //add new line
                             newline++
 
-                            //loop throw evry fish that the user owns
-                            const catchedFish = res.stats[0].fish.filter(found => {
-                                return found.type.toLowerCase() === allFishs.fish[j].id.toLowerCase()
-                            })
+                            //defined catchedFish
+                            var catchedFish = []
+
+                            if(allFishs.season === res.stats[0].season){
+                                //loop throw evry fish that the user owns
+                                catchedFish = res.stats[0].fish.filter(found => {
+                                    return found.type.toLowerCase() === allFishs.fish[j].id.toLowerCase()
+                                })
+                            }
+
+                            //defined a hit
+                            var counter = 0
 
                             //if we found a hit
                             if(catchedFish.length !== 0){
+
+                                //counter
+                                counter++
 
                                 //change the opacity
                                 ctx.globalAlpha = 1
@@ -190,6 +219,48 @@ module.exports = {
                                 x = 50
                                 newline = 0
                             }
+                        }
+
+                        //change the opacity
+                        ctx.globalAlpha = 1
+
+                        //name of the epic games user account
+                        if(lang === "en"){
+                            ctx.fillStyle = '#ffffff';
+                            ctx.textAlign='left';
+                            ctx.font = '40px Burbank Big Condensed'
+                            ctx.fillText("Account Name: " + text, 50, canvas.height - 200)
+                        }else if(lang === "ar"){
+                            ctx.fillStyle = '#ffffff';
+                            ctx.textAlign='right';
+                            ctx.font = '40px Arabic'
+                            ctx.fillText("اسم الحساب: " + text, canvas.width - 50, canvas.height - 200)
+                        }
+
+                        //account level
+                        if(lang === "en"){
+                            ctx.fillStyle = '#ffffff';
+                            ctx.textAlign='left';
+                            ctx.font = '40px Burbank Big Condensed'
+                            ctx.fillText("Account Level: " + level.data.battlePass.level, 50, canvas.height - 150)
+                        }else if(lang === "ar"){
+                            ctx.fillStyle = '#ffffff';
+                            ctx.textAlign='right';
+                            ctx.font = '40px Arabic'
+                            ctx.fillText("لفل الحساب: " + level.data.battlePass.level, canvas.width - 50, canvas.height - 150)
+                        }
+
+                        //counter
+                        if(lang === "en"){
+                            ctx.fillStyle = '#ffffff';
+                            ctx.textAlign='left';
+                            ctx.font = '40px Burbank Big Condensed'
+                            ctx.fillText("Fish Catched: " + text, 50, canvas.height - 100)
+                        }else if(lang === "ar"){
+                            ctx.fillStyle = '#ffffff';
+                            ctx.textAlign='right';
+                            ctx.font = '40px Arabic'
+                            ctx.fillText("عدد السمك المصطاده: " + counter + "/" + allFishs.fish.length, canvas.width - 50, canvas.height - 100)
                         }
 
                         //send the fish stats picture

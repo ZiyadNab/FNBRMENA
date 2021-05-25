@@ -13,7 +13,7 @@ module.exports = (client, admin) => {
       axios.get('https://www.epicgames.com/fortnite/competitive/api/blog/getPosts?category=&postsPerPage=0&offset=0&rootPageSlug=news&locale='+lang)
       .then(async res => {
         if(number === 0){
-          data = res.data.blogList[0].title
+          //data = res.data.blogList[0]
           number++
         }
         if(JSON.stringify(res.data.blogList[0].title) !== JSON.stringify(data)){
@@ -25,7 +25,7 @@ module.exports = (client, admin) => {
           }else{
             comp.setTitle(res.data.blogList[0].title)
           }
-          comp.setURL("https://www.epicgames.com/fortnite/competitive/" + lang + res.data.blogList[0].urlPattern)
+          comp.setURL("https://www.epicgames.com/fortnite/competitive" + res.data.blogList[0].urlPattern)
           if(res.data.blogList[0].trendingImage !== undefined){
             comp.setImage(res.data.blogList[0].trendingImage)
           }else if(res.data.blogList[0].image !== undefined){

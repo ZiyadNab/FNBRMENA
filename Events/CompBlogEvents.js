@@ -13,7 +13,7 @@ module.exports = (client, admin) => {
       axios.get('https://www.epicgames.com/fortnite/competitive/api/blog/getPosts?category=&postsPerPage=0&offset=0&rootPageSlug=news&locale='+lang)
       .then(async res => {
         if(number === 0){
-          //data = res.data.blogList[0]
+          data = res.data.blogList[0]
           number++
         }
         if(JSON.stringify(res.data.blogList[0].title) !== JSON.stringify(data)){

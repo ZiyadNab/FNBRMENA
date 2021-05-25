@@ -255,7 +255,7 @@ module.exports = {
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='left';
                             ctx.font = '40px Burbank Big Condensed'
-                            ctx.fillText("Fish Catched: " + text, 50, canvas.height - 100)
+                            ctx.fillText("Fish Catched: " + counter + "/" + allFishs.fish.length,, 50, canvas.height - 100)
                         }else if(lang === "ar"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='right';

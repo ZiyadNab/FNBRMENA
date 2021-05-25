@@ -7,29 +7,33 @@ module.exports = (client, admin) => {
     //result
     var data = []
     var number = 0
+    var lang = "ar"
 
     const Blogposts = async () => {
-      axios.get('https://fn-api.com/api/blogposts')
+      axios.get('https://www.epicgames.com/fortnite/api/blog/getPosts?category=&postsPerPage=0&offset=0&rootPageSlug=blog&locale='+lang)
       .then(async res => {
         if(number === 0){
-          data = res.data.blogposts[0].title
+          data = res.data.blogList[0]
           number ++
         }
-        if(JSON.stringify(res.data.blogposts[0].title) !== JSON.stringify(data)){
+        if(JSON.stringify(res.data.blogList[0].title) !== JSON.stringify(data)){
           const posts = new Discord.MessageEmbed()
           posts.setColor('#BB00EE')
-          posts.setTitle(res.data.blogposts[0].title)
-          posts.setURL(res.data.blogposts[0].url)
-          if(res.data.blogposts[0].image !== undefined){
-            posts.setImage(res.data.blogposts[0].image)
-          }else if(res.data.blogposts[0].iconImage !== undefined){
-            posts.setImage(res.data.blogposts[0].iconImage)
+          posts.setTitle(res.data.blogList[0].title)
+          posts.setURL("https://www.epicgames.com/fortnite" + res.data.blogList[0].urlPattern)
+          if(res.data.blogList[0].shareImage !== undefined){
+            posts.setImage(res.data.blogList[0].shareImage)
+          }else if(res.data.blogList[0].image !== undefined){
+            posts.setImage(res.data.blogList[0].image)
+          }else if(res.data.blogList[0].trendingImage !== undefined){
+            posts.setImage(res.data.blogList[0].trendingImage)
           }
+          posts.setFooter(res.data.blogList[0].author)
           message.send(posts)
 
-          data = res.data.blogposts[0].title
+          data = res.data.blogList[0].title
         }
       })
     }
-    setInterval(Blogposts, 1 * 30000)
+    setInterval(Blogposts, 1 * 3000)
 }

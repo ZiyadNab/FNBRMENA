@@ -13,23 +13,23 @@ module.exports = {
 
             const messageAnnounce = new Discord.MessageEmbed()
             messageAnnounce.setColor('#BB00EE')
-            messageAnnounce.setTitle(text)
+            messageAnnounce.setTitle(args.join(' '))
             const accounce = client.channels.cache.find(channel => channel.id === config.channels.announce)
-            if(accounce.send(messageAnnounce)){
+            if (accounce.send(messageAnnounce)) {
                 const messageAnnounceDone = new Discord.MessageEmbed()
                 messageAnnounceDone.setColor('#BB00EE')
-                if(lang === "en"){
+                if (lang === "en") {
                     messageAnnounceDone.setTitle(`The announcement has been published ${checkEmoji}`)
-                }else if(lang === "ar"){
+                } else if (lang === "ar") {
                     messageAnnounceDone.setTitle(`تم نشر الخبر ${checkEmoji}`)
                 }
                 message.channel.send(messageAnnounceDone)
-            }else{
+            } else {
                 const messageAnnounceNotDone = new Discord.MessageEmbed()
                 messageAnnounceNotDone.setColor('#BB00EE')
-                if(lang === "en"){
+                if (lang === "en") {
                     messageAnnounceNotDone.setTitle(`There was an error publishing this announcement ${errorEmoji}`)
-                }else if(lang === "ar"){
+                } else if (lang === "ar") {
                     messageAnnounceNotDone.setTitle(`يوجد مشكلة في عملية نشر الخبر ${errorEmoji}`)
                 }
                 message.channel.send(messageAnnounceNotDone)

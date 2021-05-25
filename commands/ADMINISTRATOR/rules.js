@@ -12,7 +12,7 @@ module.exports = {
             var lang = data.val().lang;
             const messageAnnounce = new Discord.MessageEmbed()
             messageAnnounce.setColor('#BB00EE')
-            messageAnnounce.setTitle(text)
+            messageAnnounce.setTitle(args.join(' '))
             const accounce = client.channels.cache.find(channel => channel.id === config.channels.rules)
             if(accounce.send(messageAnnounce)){
                 const messageAnnounceDone = new Discord.MessageEmbed()

@@ -181,7 +181,7 @@ module.exports = {
                 ctx.textAlign='left';
                 ctx.font = '150px Burbank Big Condensed'
                 ctx.fillText("Player Name: " + Access.displayName, 100, (canvas.height - 300))
-                ctx.fillText("Total Cosmetics: " + token, 100, (canvas.height - 300))
+                ctx.fillText("Total Cosmetics: " + Access.displayName, 100, (canvas.height - 300))
             }else if(lang === "ar"){
                 
             }

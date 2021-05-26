@@ -138,6 +138,15 @@ module.exports = {
                                 ctx.font = '200px Arabic'
                                 ctx.fillText("احصائيات السمك", canvas.width / 2, 180)
                             }
+
+                            //finding his last season stats
+                            var stat = 0
+                            for(let f = 0; f < res.stats.length; f++){
+                                if(await allFishs.season === res.stats[f].season){
+                                    stat = f
+                                    break
+                                }
+                            }
                             
                             //loop to every fish in game
                             for(let j = 0; j < allFishs.fish.length; j++){
@@ -148,9 +157,9 @@ module.exports = {
                                 //defined catchedFish
                                 var catchedFish = []
 
-                                if(allFishs.season === res.stats[0].season){
+                                if(allFishs.season === res.stats[stat].season){
                                     //loop throw evry fish that the user owns
-                                    catchedFish = res.stats[0].fish.filter(found => {
+                                    catchedFish = res.stats[stat].fish.filter(found => {
                                         return found.type.toLowerCase() === allFishs.fish[j].id.toLowerCase()
                                     })
                                 }

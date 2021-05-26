@@ -89,10 +89,10 @@ module.exports = {
 
             //variables
             var width = 0
-            var height = 900
+            var height = 1000
             var newline = 0
             var x = 0
-            var y = 0
+            var y = 300
 
             //creating length
             var length = 300
@@ -179,16 +179,26 @@ module.exports = {
             //reseting newline
             newline = 0
 
+            //credits
+            ctx.fillStyle = '#ffffff';
+            ctx.textAlign='center';
+            ctx.font = '110px Burbank Big Condensed'
+            ctx.fillText("FNBRMENA", (canvas.width / 2), 100)
+            
+
             //account name and skins
-            var string
             if(lang === "en"){
                 ctx.fillStyle = '#ffffff';
                 ctx.textAlign='left';
                 ctx.font = '80px Burbank Big Condensed'
                 ctx.fillText("Player Name: ", 100, (canvas.height - 300))
-                ctx.fillText("Total Cosmetics: ", 100, (canvas.height - 200))
+                ctx.fillText("Total Cosmetics: "  + ownedCosmetics.length, 100, (canvas.height - 200))
             }else if(lang === "ar"){
-                
+                ctx.fillStyle = '#ffffff';
+                ctx.textAlign='right';
+                ctx.font = '80px Arabic'
+                ctx.fillText("اسم اللاعب: ", (canvas.width - 100), (canvas.height - 300))
+                ctx.fillText("Total Cosmetics: " + ownedCosmetics.length, (canvas.width - 100), (canvas.height - 200))
             }
 
             //text lang
@@ -196,7 +206,7 @@ module.exports = {
             if(lang === "en"){
                 string = `Found ${ownedCosmetics.length} item`
             }else if(lang === "ar"){
-                string = `Found ${ownedCosmetics.length} item`
+                string = `لقت تم اكتشاف ${ownedCosmetics.length} عنصر`
             }
 
             //generating text
@@ -220,8 +230,12 @@ module.exports = {
                     newline = newline + 1;
 
                     const wait = new Discord.MessageEmbed()
-                    .setColor('#BB00EE')
-                    .setTitle(`Number ${i + 1} of ${ownedCosmetics.length} ... ${emoji}`)
+                    wait.setColor('#BB00EE')
+                    if(lang === "en"){
+                        wait.setTitle(`Skin Number ${i + 1} of ${ownedCosmetics.length} ... ${emoji}`)
+                    }else if(lang === "ar"){
+                        wait.setTitle(`سكن ${i + 1} من اصل ${ownedCosmetics.length} ... ${emoji}`)
+                    }
                     await msg.edit(wait)
 
                     //searching

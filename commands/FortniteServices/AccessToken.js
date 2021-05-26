@@ -9,8 +9,8 @@ const moment = require('moment')
 module.exports = {
     commands: 'token',
     expectedArgs: '[ Auth Code ]',
-    minArgs: 1,
-    maxArgs: 1,
+    minArgs: 0,
+    maxArgs: 0,
     cooldown: 40,
     permissionError: 'Sorry you do not have acccess to this command',
     callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji) => {
@@ -43,8 +43,7 @@ module.exports = {
                 return response
             }
 
-            const Access = await Token(text)
-            console.log(Access)
+            //const Access = await Token(text)
 
             const GetCosmetics = async (token, accountID, owned) => {
 
@@ -80,7 +79,13 @@ module.exports = {
                 return owned
             }
 
-            const ownedCosmetics = await GetCosmetics(Access.access_token, Access.in_app_id, owned)
+            //const ownedCosmetics = await GetCosmetics(Access.access_token, Access.in_app_id, owned)
+
+            //get every cosmetic in the game
+            const ownedCosmetics = await axios.get(`https://fortniteapi.io/items/list?lang=${lang}`, { headers: {'Content-Type': 'application/json','Authorization': key.apis.fortniteio,} })
+            .then((res) => {
+                return res.data.items.outfit;
+            })
 
             //variables
             var width = 0
@@ -90,23 +95,23 @@ module.exports = {
             var y = 0
 
             //creating length
-            var length = ownedCosmetics.length
+            var length = 380
             if(length <= 2){
-                length = ownedCosmetics.length
+                length = length
             }else if(length > 2 && length <= 4){
-                length = ownedCosmetics.length / 2
+                length = length / 2
             }else if(length > 4 && length <= 7){
-                length = ownedCosmetics.length / 3
+                length = length / 3
             }else if(length > 7 && length <= 50){
-                length = ownedCosmetics.length / 5
+                length = length / 5
             }else if(length > 50 && length <= 70){
-                length = ownedCosmetics.length / 7
+                length = length / 7
             }else if(length > 70 && length < 100){
-                length = ownedCosmetics.length / 10
+                length = length / 10
             }else if(length > 100 && length < 200){
-                length = ownedCosmetics.length / 13
+                length = length / 13
             }else{
-                length = ownedCosmetics.length / 20
+                length = length / 20
             }
 
             if (length % 2 !== 0){
@@ -118,7 +123,7 @@ module.exports = {
             width += (length * 256) + (length * 5) - 5
 
             //creating height
-            for(let i = 0; i < ownedCosmetics.length; i++){
+            for(let i = 0; i < length; i++){
                 
                 if(newline === length){
                     height += 256 + 5
@@ -160,15 +165,15 @@ module.exports = {
                 date = moment().format("dddd, MMMM Do of YYYY")
                 ctx.fillStyle = '#ffffff';
                 ctx.textAlign='center';
-                ctx.font = `200px Burbank Big Condensed`
-                ctx.fillText(date, (canvas.width / 2), (canvas.height - 300))
+                ctx.font = `100px Burbank Big Condensed`
+                ctx.fillText(date, (canvas.width / 2), (canvas.height - 100))
             }else if(lang === "ar"){
                 moment.locale("ar")
                 date = moment().format("dddd, MMMM Do من YYYY")
                 ctx.fillStyle = '#ffffff';
                 ctx.textAlign='center';
-                ctx.font = `200px Arabic`
-                ctx.fillText(date, (canvas.width / 2), (canvas.height - 300))
+                ctx.font = `100px Arabic`
+                ctx.fillText(date, (canvas.width / 2), (canvas.height - 100))
             }
 
             //reseting newline
@@ -179,9 +184,9 @@ module.exports = {
             if(lang === "en"){
                 ctx.fillStyle = '#ffffff';
                 ctx.textAlign='left';
-                ctx.font = '150px Burbank Big Condensed'
-                ctx.fillText("Player Name: " + Access.displayName, 100, (canvas.height - 300))
-                ctx.fillText("Total Cosmetics: " + Access.displayName, 100, (canvas.height - 300))
+                ctx.font = '60px Burbank Big Condensed'
+                ctx.fillText("Player Name: ", 100, (canvas.height - 300))
+                ctx.fillText("Total Cosmetics: ", 100, (canvas.height - 200))
             }else if(lang === "ar"){
                 
             }
@@ -202,7 +207,7 @@ module.exports = {
             message.channel.send(generating)
             .then( async msg => {
 
-                for(let i = 0; i < ownedCosmetics.length; i++){
+                for(let i = 0; i < 380; i++){
                     //skin informations
                     var name = ownedCosmetics[i].name;
                     var description = ownedCosmetics[i].description;

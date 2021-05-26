@@ -92,7 +92,7 @@ module.exports = {
             var height = 1000
             var newline = 0
             var x = 0
-            var y = 300
+            var y = 200
 
             //creating length
             var length = 300
@@ -182,8 +182,8 @@ module.exports = {
             //credits
             ctx.fillStyle = '#ffffff';
             ctx.textAlign='center';
-            ctx.font = '110px Burbank Big Condensed'
-            ctx.fillText("FNBRMENA", (canvas.width / 2), 100)
+            ctx.font = '150px Burbank Big Condensed'
+            ctx.fillText("FNBRMENA", (canvas.width / 2), 150)
             
 
             //account name and skins

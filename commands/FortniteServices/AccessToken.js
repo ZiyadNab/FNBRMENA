@@ -95,7 +95,7 @@ module.exports = {
             var y = 200
 
             //creating length
-            var length = 300
+            var length = 150
             if(length <= 2){
                 length = length
             }else if(length > 2 && length <= 4){
@@ -123,7 +123,7 @@ module.exports = {
             width += (length * 256) + (length * 5) - 5
 
             //creating height
-            for(let i = 0; i < 300; i++){
+            for(let i = 0; i < 150; i++){
                 
                 if(newline === length){
                     height += 256 + 5
@@ -198,7 +198,7 @@ module.exports = {
                 ctx.textAlign='right';
                 ctx.font = '80px Arabic'
                 ctx.fillText("اسم اللاعب: ", (canvas.width - 100), (canvas.height - 300))
-                ctx.fillText("Total Cosmetics: " + ownedCosmetics.length, (canvas.width - 100), (canvas.height - 200))
+                ctx.fillText("جميع السكنات: " + ownedCosmetics.length, (canvas.width - 100), (canvas.height - 200))
             }
 
             //text lang
@@ -217,7 +217,7 @@ module.exports = {
             message.channel.send(generating)
             .then( async msg => {
 
-                for(let i = 0; i < 300; i++){
+                for(let i = 0; i < 150; i++){
                     //skin informations
                     var name = ownedCosmetics[i].name;
                     var description = ownedCosmetics[i].description;

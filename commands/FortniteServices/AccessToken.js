@@ -4,7 +4,7 @@ const FortniteAPI = require("fortniteapi.io-api");
 const key = require('../../Coinfigs/config.json')
 const fortniteAPI = new FortniteAPI(key.apis.fortniteio);
 const Canvas = require('canvas');
-const { MIME_JGD } = require('jimp');
+const moment = require('moment')
 
 module.exports = {
     commands: 'token',
@@ -44,6 +44,7 @@ module.exports = {
             }
 
             const Access = await Token(text)
+            console.log(Access)
 
             const GetCosmetics = async (token, accountID, owned) => {
 
@@ -83,7 +84,7 @@ module.exports = {
 
             //variables
             var width = 0
-            var height = 256
+            var height = 600
             var newline = 0
             var x = 0
             var y = 0
@@ -105,7 +106,7 @@ module.exports = {
             }else if(length > 100 && length < 200){
                 length = ownedCosmetics.length / 13
             }else{
-                length = ownedCosmetics.length / 15
+                length = ownedCosmetics.length / 20
             }
 
             if (length % 2 !== 0){
@@ -149,11 +150,41 @@ module.exports = {
             const ctx = canvas.getContext('2d');
 
             //background
-            const background = await Canvas.loadImage('./assets/backgroundwhite.jpg')
+            const background = await Canvas.loadImage('./assets/backgroundgray.png')
             ctx.drawImage(background, 0, 0, canvas.width, canvas.height)
+
+            //date
+            var date
+            if(lang === "en"){
+                moment.locale("en")
+                date = moment().format("dddd, MMMM Do of YYYY")
+                ctx.fillStyle = '#ffffff';
+                ctx.textAlign='center';
+                ctx.font = `200px Burbank Big Condensed`
+                ctx.fillText(date, (canvas.width / 2), (canvas.height - 300))
+            }else if(lang === "ar"){
+                moment.locale("ar")
+                date = moment().format("dddd, MMMM Do من YYYY")
+                ctx.fillStyle = '#ffffff';
+                ctx.textAlign='center';
+                ctx.font = `200px Arabic`
+                ctx.fillText(date, (canvas.width / 2), (canvas.height - 300))
+            }
 
             //reseting newline
             newline = 0
+
+            //account name and skins
+            var string
+            if(lang === "en"){
+                ctx.fillStyle = '#ffffff';
+                ctx.textAlign='left';
+                ctx.font = '150px Burbank Big Condensed'
+                ctx.fillText("Player Name: " + token.displayName, 100, (canvas.height - 300))
+                ctx.fillText("Total Cosmetics: " + token, 100, (canvas.height - 300))
+            }else if(lang === "ar"){
+                
+            }
 
             //text lang
             var string
@@ -389,7 +420,7 @@ module.exports = {
                         // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                         // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                     }
-                    if(rarity === 'dark'){
+                    if(rarity === 'dark series'){
                         //creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/dark.png')
                         ctx.drawImage(skinholder, x, y, 256, 256)
@@ -418,7 +449,7 @@ module.exports = {
                         // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                         // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                     }
-                    if(rarity === 'icon'){
+                    if(rarity === 'icon series'){
                         //creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/icon.png')
                         ctx.drawImage(skinholder, x, y, 256, 256)
@@ -447,7 +478,7 @@ module.exports = {
                         // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                         // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                     }
-                    if(rarity === 'starwars'){
+                    if(rarity === 'starwars series'){
                         //creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/starwars.png')
                         ctx.drawImage(skinholder, x, y, 256, 256)
@@ -476,7 +507,7 @@ module.exports = {
                         // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                         // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                     }
-                    if(rarity === 'shadow'){
+                    if(rarity === 'shadow series'){
                         //creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/shadow.png')
                         ctx.drawImage(skinholder, x, y, 256, 256)
@@ -505,7 +536,7 @@ module.exports = {
                         // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                         // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                     }
-                    if(rarity === 'slurp'){
+                    if(rarity === 'slurp series'){
                         //creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/slurp.png')
                         ctx.drawImage(skinholder, x, y, 256, 256)
@@ -534,7 +565,7 @@ module.exports = {
                         // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                         // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                     }
-                    if(rarity === 'frozen'){
+                    if(rarity === 'frozen series'){
                         //creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/frozen.png')
                         ctx.drawImage(skinholder, x, y, 256, 256)
@@ -563,7 +594,7 @@ module.exports = {
                         // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                         // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                     }
-                    if(rarity === 'lava'){
+                    if(rarity === 'lava series'){
                         //creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/lava.png')
                         ctx.drawImage(skinholder, x, y, 256, 256)
@@ -629,7 +660,7 @@ module.exports = {
                         newline = 0;
                     }
                 }
-                const att = new Discord.MessageAttachment(canvas.toBuffer('image/jpeg', {quality: 0.5}))
+                const att = new Discord.MessageAttachment(canvas.toBuffer('image/jpeg'))
                 await message.channel.send(att)
                 msg.delete()
             })

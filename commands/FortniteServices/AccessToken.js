@@ -123,7 +123,7 @@ module.exports = {
             width += (length * 256) + (length * 5) - 5
 
             //creating height
-            for(let i = 0; i < length; i++){
+            for(let i = 0; i < 380; i++){
                 
                 if(newline === length){
                     height += 256 + 5

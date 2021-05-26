@@ -89,13 +89,13 @@ module.exports = {
 
             //variables
             var width = 0
-            var height = 600
+            var height = 900
             var newline = 0
             var x = 0
             var y = 0
 
             //creating length
-            var length = 380
+            var length = 300
             if(length <= 2){
                 length = length
             }else if(length > 2 && length <= 4){
@@ -123,7 +123,7 @@ module.exports = {
             width += (length * 256) + (length * 5) - 5
 
             //creating height
-            for(let i = 0; i < 380; i++){
+            for(let i = 0; i < 300; i++){
                 
                 if(newline === length){
                     height += 256 + 5
@@ -139,14 +139,14 @@ module.exports = {
             //applytext
             const applyText = (canvas, text) => {
                 const ctx = canvas.getContext('2d');
-                let fontSize = 40;
+                let fontSize = 20;
                 do {
                     if(lang === "en"){
                         ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
                     }else if(lang === "ar"){
                         ctx.font = `${fontSize -= 1}px Arabic`;
                     }
-                } while (ctx.measureText(text).width > 420);
+                } while (ctx.measureText(text).width > 230);
                 return ctx.font;
             }
 
@@ -155,7 +155,7 @@ module.exports = {
             const ctx = canvas.getContext('2d');
 
             //background
-            const background = await Canvas.loadImage('./assets/backgroundgray.png')
+            const background = await Canvas.loadImage('./assets/backdroung.jpg')
             ctx.drawImage(background, 0, 0, canvas.width, canvas.height)
 
             //date
@@ -207,7 +207,7 @@ module.exports = {
             message.channel.send(generating)
             .then( async msg => {
 
-                for(let i = 0; i < 380; i++){
+                for(let i = 0; i < 300; i++){
                     //skin informations
                     var name = ownedCosmetics[i].name;
                     var description = ownedCosmetics[i].description;
@@ -232,20 +232,19 @@ module.exports = {
                         if(lang === "en"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
-                            ctx.font = '40px Burbank Big Condensed'
-                            ctx.fillText(name, (256 + x), (y + 425))
-                            ctx.font = '30px Burbank Big Condensed'
+                            ctx.font = '20px Burbank Big Condensed'
+                            ctx.fillText(name, (128 + x), (y + 210))
                             ctx.font = applyText(canvas, description);
                             ctx.textAlign='center';
-                            ctx.fillText(description, (256 + x), (y + 480))
+                            ctx.fillText(description, (128 + x), (y + 240))
                         }else if(lang === "ar"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
-                            ctx.font = '40px Arabic'
-                            ctx.fillText(name, (256 + x), (y + 425))  
+                            ctx.font = '20px Arabic'
+                            ctx.fillText(name, (128 + x), (y + 210))  
                             ctx.font = applyText(canvas, description);
                             ctx.textAlign='center';
-                            ctx.fillText(description, (256 + x), (y + 480))
+                            ctx.fillText(description, (128 + x), (y + 240))
                         }
                         // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                         // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
@@ -262,20 +261,19 @@ module.exports = {
                         if(lang === "en"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
-                            ctx.font = '40px Burbank Big Condensed'
-                            ctx.fillText(name, (256 + x), (y + 425))
-                            ctx.font = '30px Burbank Big Condensed'
+                            ctx.font = '20px Burbank Big Condensed'
+                            ctx.fillText(name, (128 + x), (y + 210))
                             ctx.font = applyText(canvas, description);
                             ctx.textAlign='center';
-                            ctx.fillText(description, (256 + x), (y + 480))
+                            ctx.fillText(description, (128 + x), (y + 240))
                         }else if(lang === "ar"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
-                            ctx.font = '40px Arabic'
-                            ctx.fillText(name, (256 + x), (y + 425))
+                            ctx.font = '20px Arabic'
+                            ctx.fillText(name, (128 + x), (y + 210))
                             ctx.font = applyText(canvas, description);
                             ctx.textAlign='center';
-                            ctx.fillText(description, (256 + x), (y + 480))
+                            ctx.fillText(description, (128 + x), (y + 240))
                         }
                         // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                         // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
@@ -291,20 +289,19 @@ module.exports = {
                         if(lang === "en"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
-                            ctx.font = '40px Burbank Big Condensed'
-                            ctx.fillText(name, (256 + x), (y + 425))
-                            ctx.font = '30px Burbank Big Condensed'
+                            ctx.font = '20px Burbank Big Condensed'
+                            ctx.fillText(name, (128 + x), (y + 210))
                             ctx.font = applyText(canvas, description);
                             ctx.textAlign='center';
-                            ctx.fillText(description, (256 + x), (y + 480))
+                            ctx.fillText(description, (128 + x), (y + 240))
                         }else if(lang === "ar"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
-                            ctx.font = '40px Arabic'
-                            ctx.fillText(name, (256 + x), (y + 425))
+                            ctx.font = '20px Arabic'
+                            ctx.fillText(name, (128 + x), (y + 210))
                             ctx.font = applyText(canvas, description);
                             ctx.textAlign='center';
-                            ctx.fillText(description, (256 + x), (y + 480))
+                            ctx.fillText(description, (128 + x), (y + 240))
                         }
                         // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                         // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
@@ -320,20 +317,19 @@ module.exports = {
                         if(lang === "en"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
-                            ctx.font = '40px Burbank Big Condensed'
-                            ctx.fillText(name, (256 + x), (y + 425))
-                            ctx.font = '30px Burbank Big Condensed'
+                            ctx.font = '20px Burbank Big Condensed'
+                            ctx.fillText(name, (128 + x), (y + 210))
                             ctx.font = applyText(canvas, description);
                             ctx.textAlign='center';
-                            ctx.fillText(description, (256 + x), (y + 480))
+                            ctx.fillText(description, (128 + x), (y + 240))
                         }else if(lang === "ar"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
-                            ctx.font = '40px Arabic'
-                            ctx.fillText(name, (256 + x), (y + 425)) 
+                            ctx.font = '20px Arabic'
+                            ctx.fillText(name, (128 + x), (y + 210)) 
                             ctx.font = applyText(canvas, description);
                             ctx.textAlign='center';
-                            ctx.fillText(description, (256 + x), (y + 480))
+                            ctx.fillText(description, (128 + x), (y + 240))
                         }
                         // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                         // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
@@ -349,20 +345,19 @@ module.exports = {
                         if(lang === "en"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
-                            ctx.font = '40px Burbank Big Condensed'
-                            ctx.fillText(name, (256 + x), (y + 425))
-                            ctx.font = '30px Burbank Big Condensed'
+                            ctx.font = '20px Burbank Big Condensed'
+                            ctx.fillText(name, (128 + x), (y + 210))
                             ctx.font = applyText(canvas, description);
                             ctx.textAlign='center';
-                            ctx.fillText(description, (256 + x), (y + 480))
+                            ctx.fillText(description, (128 + x), (y + 240))
                         }else if(lang === "ar"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
-                            ctx.font = '40px Arabic'
-                            ctx.fillText(name, (256 + x), (y + 425)) 
+                            ctx.font = '20px Arabic'
+                            ctx.fillText(name, (128 + x), (y + 210)) 
                             ctx.font = applyText(canvas, description);
                             ctx.textAlign='center';
-                            ctx.fillText(description, (256 + x), (y + 480))
+                            ctx.fillText(description, (128 + x), (y + 240))
                         }
                         // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                         // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
@@ -378,20 +373,19 @@ module.exports = {
                         if(lang === "en"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
-                            ctx.font = '40px Burbank Big Condensed'
-                            ctx.fillText(name, (256 + x), (y + 425))
-                            ctx.font = '30px Burbank Big Condensed'
+                            ctx.font = '20px Burbank Big Condensed'
+                            ctx.fillText(name, (128 + x), (y + 210))
                             ctx.font = applyText(canvas, description);
                             ctx.textAlign='center';
-                            ctx.fillText(description, (256 + x), (y + 480))
+                            ctx.fillText(description, (128 + x), (y + 240))
                         }else if(lang === "ar"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
-                            ctx.font = '40px Arabic'
-                            ctx.fillText(name, (256 + x), (y + 425))  
+                            ctx.font = '20px Arabic'
+                            ctx.fillText(name, (128 + x), (y + 210))  
                             ctx.font = applyText(canvas, description);
                             ctx.textAlign='center';
-                            ctx.fillText(description, (256 + x), (y + 480))
+                            ctx.fillText(description, (128 + x), (y + 240))
                         }
                         // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                         // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
@@ -407,20 +401,19 @@ module.exports = {
                         if(lang === "en"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
-                            ctx.font = '40px Burbank Big Condensed'
-                            ctx.fillText(name, (256 + x), (y + 425))
-                            ctx.font = '30px Burbank Big Condensed'
+                            ctx.font = '20px Burbank Big Condensed'
+                            ctx.fillText(name, (128 + x), (y + 210))
                             ctx.font = applyText(canvas, description);
                             ctx.textAlign='center';
-                            ctx.fillText(description, (256 + x), (y + 480))
+                            ctx.fillText(description, (128 + x), (y + 240))
                         }else if(lang === "ar"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
-                            ctx.font = '40px Arabic'
-                            ctx.fillText(name, (256 + x), (y + 425)) 
+                            ctx.font = '20px Arabic'
+                            ctx.fillText(name, (128 + x), (y + 210)) 
                             ctx.font = applyText(canvas, description);
                             ctx.textAlign='center';
-                            ctx.fillText(description, (256 + x), (y + 480))
+                            ctx.fillText(description, (128 + x), (y + 240))
                         }
                         // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                         // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
@@ -436,20 +429,19 @@ module.exports = {
                         if(lang === "en"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
-                            ctx.font = '40px Burbank Big Condensed'
-                            ctx.fillText(name, (256 + x), (y + 425))
-                            ctx.font = '30px Burbank Big Condensed'
+                            ctx.font = '20px Burbank Big Condensed'
+                            ctx.fillText(name, (128 + x), (y + 210))
                             ctx.font = applyText(canvas, description);
                             ctx.textAlign='center';
-                            ctx.fillText(description, (256 + x), (y + 480))
+                            ctx.fillText(description, (128 + x), (y + 240))
                         }else if(lang === "ar"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
-                            ctx.font = '40px Arabic'
-                            ctx.fillText(name, (256 + x), (y + 425))
+                            ctx.font = '20px Arabic'
+                            ctx.fillText(name, (128 + x), (y + 210))
                             ctx.font = applyText(canvas, description);
                             ctx.textAlign='center';
-                            ctx.fillText(description, (256 + x), (y + 480))
+                            ctx.fillText(description, (128 + x), (y + 240))
                         }
                         // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                         // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
@@ -465,20 +457,19 @@ module.exports = {
                         if(lang === "en"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
-                            ctx.font = '40px Burbank Big Condensed'
-                            ctx.fillText(name, (256 + x), (y + 425))
-                            ctx.font = '30px Burbank Big Condensed'
+                            ctx.font = '20px Burbank Big Condensed'
+                            ctx.fillText(name, (128 + x), (y + 210))
                             ctx.font = applyText(canvas, description);
                             ctx.textAlign='center';
-                            ctx.fillText(description, (256 + x), (y + 480))
+                            ctx.fillText(description, (128 + x), (y + 240))
                         }else if(lang === "ar"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
-                            ctx.font = '40px Arabic'
-                            ctx.fillText(name, (256 + x), (y + 425)) 
+                            ctx.font = '20px Arabic'
+                            ctx.fillText(name, (128 + x), (y + 210)) 
                             ctx.font = applyText(canvas, description);
                             ctx.textAlign='center';
-                            ctx.fillText(description, (256 + x), (y + 480))
+                            ctx.fillText(description, (128 + x), (y + 240))
                         }
                         // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                         // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
@@ -494,20 +485,19 @@ module.exports = {
                         if(lang === "en"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
-                            ctx.font = '40px Burbank Big Condensed'
-                            ctx.fillText(name, (256 + x), (y + 425))
-                            ctx.font = '30px Burbank Big Condensed'
+                            ctx.font = '20px Burbank Big Condensed'
+                            ctx.fillText(name, (128 + x), (y + 210))
                             ctx.font = applyText(canvas, description);
                             ctx.textAlign='center';
-                            ctx.fillText(description, (256 + x), (y + 480))
+                            ctx.fillText(description, (128 + x), (y + 240))
                         }else if(lang === "ar"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
-                            ctx.font = '40px Arabic'
-                            ctx.fillText(name, (256 + x), (y + 425))   
+                            ctx.font = '20px Arabic'
+                            ctx.fillText(name, (128 + x), (y + 210))   
                             ctx.font = applyText(canvas, description);
                             ctx.textAlign='center';
-                            ctx.fillText(description, (256 + x), (y + 480))
+                            ctx.fillText(description, (128 + x), (y + 240))
                         }
                         // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                         // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
@@ -523,20 +513,19 @@ module.exports = {
                         if(lang === "en"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
-                            ctx.font = '40px Burbank Big Condensed'
-                            ctx.fillText(name, (256 + x), (y + 425))
-                            ctx.font = '30px Burbank Big Condensed'
+                            ctx.font = '20px Burbank Big Condensed'
+                            ctx.fillText(name, (128 + x), (y + 210))
                             ctx.font = applyText(canvas, description);
                             ctx.textAlign='center';
-                            ctx.fillText(description, (256 + x), (y + 480))
+                            ctx.fillText(description, (128 + x), (y + 240))
                         }else if(lang === "ar"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
-                            ctx.font = '40px Arabic'
-                            ctx.fillText(name, (256 + x), (y + 425)) 
+                            ctx.font = '20px Arabic'
+                            ctx.fillText(name, (128 + x), (y + 210)) 
                             ctx.font = applyText(canvas, description);
                             ctx.textAlign='center';
-                            ctx.fillText(description, (256 + x), (y + 480))
+                            ctx.fillText(description, (128 + x), (y + 240))
                         }
                         // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                         // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
@@ -552,20 +541,19 @@ module.exports = {
                         if(lang === "en"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
-                            ctx.font = '40px Burbank Big Condensed'
-                            ctx.fillText(name, (256 + x), (y + 425))
-                            ctx.font = '30px Burbank Big Condensed'
+                            ctx.font = '20px Burbank Big Condensed'
+                            ctx.fillText(name, (128 + x), (y + 210))
                             ctx.font = applyText(canvas, description);
                             ctx.textAlign='center';
-                            ctx.fillText(description, (256 + x), (y + 480))
+                            ctx.fillText(description, (128 + x), (y + 240))
                         }else if(lang === "ar"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
-                            ctx.font = '40px Arabic'
-                            ctx.fillText(name, (256 + x), (y + 425)) 
+                            ctx.font = '20px Arabic'
+                            ctx.fillText(name, (128 + x), (y + 210)) 
                             ctx.font = applyText(canvas, description);
                             ctx.textAlign='center';
-                            ctx.fillText(description, (256 + x), (y + 480))
+                            ctx.fillText(description, (128 + x), (y + 240))
                         }
                         // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                         // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
@@ -581,20 +569,19 @@ module.exports = {
                         if(lang === "en"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
-                            ctx.font = '40px Burbank Big Condensed'
-                            ctx.fillText(name, (256 + x), (y + 425))
-                            ctx.font = '30px Burbank Big Condensed'
+                            ctx.font = '20px Burbank Big Condensed'
+                            ctx.fillText(name, (128 + x), (y + 210))
                             ctx.font = applyText(canvas, description);
                             ctx.textAlign='center';
-                            ctx.fillText(description, (256 + x), (y + 480))
+                            ctx.fillText(description, (128 + x), (y + 240))
                         }else if(lang === "ar"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
-                            ctx.font = '40px Arabic'
-                            ctx.fillText(name, (256 + x), (y + 425))
+                            ctx.font = '20px Arabic'
+                            ctx.fillText(name, (128 + x), (y + 210))
                             ctx.font = applyText(canvas, description);
                             ctx.textAlign='center';
-                            ctx.fillText(description, (256 + x), (y + 480))
+                            ctx.fillText(description, (128 + x), (y + 240))
                         }
                         // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                         // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
@@ -610,20 +597,19 @@ module.exports = {
                         if(lang === "en"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
-                            ctx.font = '40px Burbank Big Condensed'
-                            ctx.fillText(name, (256 + x), (y + 425))
-                            ctx.font = '30px Burbank Big Condensed'
+                            ctx.font = '20px Burbank Big Condensed'
+                            ctx.fillText(name, (128 + x), (y + 210))
                             ctx.font = applyText(canvas, description);
                             ctx.textAlign='center';
-                            ctx.fillText(description, (256 + x), (y + 480))
+                            ctx.fillText(description, (128 + x), (y + 240))
                         }else if(lang === "ar"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
-                            ctx.font = '40px Arabic'
-                            ctx.fillText(name, (256 + x), (y + 425)) 
+                            ctx.font = '20px Arabic'
+                            ctx.fillText(name, (128 + x), (y + 210)) 
                             ctx.font = applyText(canvas, description);
                             ctx.textAlign='center';
-                            ctx.fillText(description, (256 + x), (y + 480))
+                            ctx.fillText(description, (128 + x), (y + 240))
                         }
                         // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                         // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
@@ -639,20 +625,19 @@ module.exports = {
                         if(lang === "en"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
-                            ctx.font = '40px Burbank Big Condensed'
-                            ctx.fillText(name, (256 + x), (y + 425))
-                            ctx.font = '30px Burbank Big Condensed'
+                            ctx.font = '20px Burbank Big Condensed'
+                            ctx.fillText(name, (128 + x), (y + 210))
                             ctx.font = applyText(canvas, description);
                             ctx.textAlign='center';
-                            ctx.fillText(description, (256 + x), (y + 480))
+                            ctx.fillText(description, (128 + x), (y + 240))
                         }else if(lang === "ar"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
-                            ctx.font = '40px Arabic'
-                            ctx.fillText(name, (256 + x), (y + 425))
+                            ctx.font = '20px Arabic'
+                            ctx.fillText(name, (128 + x), (y + 210))
                             ctx.font = applyText(canvas, description);
                             ctx.textAlign='center';
-                            ctx.fillText(description, (256 + x), (y + 480))
+                            ctx.fillText(description, (128 + x), (y + 240))
                         }
                         // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                         // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);

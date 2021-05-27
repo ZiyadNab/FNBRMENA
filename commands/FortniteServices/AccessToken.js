@@ -58,7 +58,7 @@ module.exports = {
                     //get every cosmetic in the game
                     const cosmetics = await axios.get(`https://fortniteapi.io/v2/items/list?lang=${lang}&type=outfit`, { headers: {'Content-Type': 'application/json','Authorization': key.apis.fortniteio,} })
                     .then((res) => {
-                        return res.data.items.outfit;
+                        return res.data.items;
                     })
 
                     //add the cosmetics to owned array using fortniteapi.io
@@ -83,37 +83,37 @@ module.exports = {
 
             var userSkins = []
 
-            ownedCosmetics.filter(item => {
+            await ownedCosmetics.filter(item => {
                 if(item.rarity.id === "Legendary" === true){
                     userSkins.push(item)
                 }
             })
 
-            ownedCosmetics.filter(item => {
+            await ownedCosmetics.filter(item => {
                 if(item.rarity.id === "Epic" === true){
                     userSkins.push(item)
                 }
             })
 
-            ownedCosmetics.filter(item => {
+            await ownedCosmetics.filter(item => {
                 if(item.rarity.id === "Rare" === true){
                     userSkins.push(item)
                 }
             })
 
-            ownedCosmetics.filter(item => {
+            await ownedCosmetics.filter(item => {
                 if(item.rarity.id === "Uncommon" === true){
                     userSkins.push(item)
                 }
             })
 
-            ownedCosmetics.filter(item => {
+            await ownedCosmetics.filter(item => {
                 if(item.rarity.id === "Common" === true){
                     userSkins.push(item)
                 }
             })
 
-            ownedCosmetics.filter(item => {
+            await ownedCosmetics.filter(item => {
                 if(item.series !== null){
                     if(item.series.id === "MarvelSeries" === true){
                         userSkins.push(item)
@@ -121,7 +121,7 @@ module.exports = {
                 }
             })
 
-            ownedCosmetics.filter(item => {
+            await ownedCosmetics.filter(item => {
                 if(item.series !== null){
                     if(item.series.id === "DCUSeries" === true){
                         userSkins.push(item)
@@ -129,7 +129,7 @@ module.exports = {
                 }
             })
 
-            ownedCosmetics.filter(item => {
+            await ownedCosmetics.filter(item => {
                 if(item.series !== null){
                     if(item.series.id === "CUBESeries" === true){
                         userSkins.push(item)
@@ -137,7 +137,7 @@ module.exports = {
                 }
             })
 
-            ownedCosmetics.filter(item => {
+            await ownedCosmetics.filter(item => {
                 if(item.series !== null){
                     if(item.series.id === "CreatorCollabSeries" === true){
                         userSkins.push(item)
@@ -145,7 +145,7 @@ module.exports = {
                 }
             })
 
-            ownedCosmetics.filter(item => {
+            await ownedCosmetics.filter(item => {
                 if(item.series !== null){
                     if(item.series.id === "ColumbusSeries" === true){
                         userSkins.push(item)
@@ -153,7 +153,7 @@ module.exports = {
                 }
             })
 
-            ownedCosmetics.filter(item => {
+            await ownedCosmetics.filter(item => {
                 if(item.series !== null){
                     if(item.series.id === "ShadowSeries" === true){
                         userSkins.push(item)
@@ -161,7 +161,7 @@ module.exports = {
                 }
             })
 
-            ownedCosmetics.filter(item => {
+            await ownedCosmetics.filter(item => {
                 if(item.series !== null){
                     if(item.series.id === "SlurpSeries" === true){
                         userSkins.push(item)
@@ -169,7 +169,7 @@ module.exports = {
                 }
             })
 
-            ownedCosmetics.filter(item => {
+            await ownedCosmetics.filter(item => {
                 if(item.series !== null){
                     if(item.series.id === "FrozenSeries" === true){
                         userSkins.push(item)
@@ -177,7 +177,7 @@ module.exports = {
                 }
             })
 
-            ownedCosmetics.filter(item => {
+            await ownedCosmetics.filter(item => {
                 if(item.series !== null){
                     if(item.series.id === "LavaSeries" === true){
                         userSkins.push(item)
@@ -185,13 +185,15 @@ module.exports = {
                 }
             })
 
-            ownedCosmetics.filter(item => {
+            await ownedCosmetics.filter(item => {
                 if(item.series !== null){
                     if(item.series.id === "PlatformSeries" === true){
                         userSkins.push(item)
                     }
                 }
             })
+
+            console.log(userSkins.length)
 
 
             //creating length

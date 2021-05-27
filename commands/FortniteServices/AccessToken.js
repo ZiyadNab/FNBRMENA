@@ -310,9 +310,9 @@ module.exports = {
             ctx.fillStyle = '#ffffff';
             ctx.textAlign='left';
             ctx.font = creditApplyText(canvas, "FNBRMENA")
-            ctx.fillText("FNBRMENA", 50, (ctx.font.substring(0,ctx.font.indexOf("p"))))
+            ctx.fillText("FNBRMENA", (ctx.font.substring(0,ctx.font.indexOf("p"))), (ctx.font.substring(0,ctx.font.indexOf("p"))))
             ctx.textAlign='right';
-            ctx.fillText(Access.displayName, 50, (ctx.font.substring(0,ctx.font.indexOf("p"))))
+            ctx.fillText(Access.displayName, canvas.width - (ctx.font.substring(0,ctx.font.indexOf("p"))), (ctx.font.substring(0,ctx.font.indexOf("p"))))
 
             //date
             var date   

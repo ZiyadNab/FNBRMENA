@@ -238,7 +238,7 @@ module.exports = {
             
             //variables
             var width = 0
-            var height = 256 + (length * 12)
+            var height = 256 + ((length * 12) * 2)
             var newline = 0
             var x = 0
             var y = length * 12
@@ -284,7 +284,7 @@ module.exports = {
                     }else if(lang === "ar"){
                         ctx.font = `${fontSize -= 1}px Arabic`;
                     }
-                } while (ctx.measureText(text).width > (canvas.width / 4));
+                } while (ctx.measureText(text).width > (canvas.width / 2));
                 return ctx.font;
             }
 
@@ -310,9 +310,9 @@ module.exports = {
             ctx.fillStyle = '#ffffff';
             ctx.textAlign='left';
             ctx.font = creditApplyText(canvas, "FNBRMENA")
-            ctx.fillText("FNBRMENA", (ctx.font.substring(0,ctx.font.indexOf("p"))), (ctx.font.substring(0,ctx.font.indexOf("p"))))
+            ctx.fillText("FNBRMENA", 10, (ctx.font.substring(0,ctx.font.indexOf("p"))))
             ctx.textAlign='right';
-            ctx.fillText(Access.displayName, canvas.width - (ctx.font.substring(0,ctx.font.indexOf("p"))), (ctx.font.substring(0,ctx.font.indexOf("p"))))
+            ctx.fillText("AntMan V2", (canvas.width - 10), (ctx.font.substring(0,ctx.font.indexOf("p"))))
 
             //date
             var date   
@@ -324,24 +324,17 @@ module.exports = {
                 date = moment().format("dddd, MMMM Do من YYYY")
             }
 
-            //account name and skins
-            if(lang === "en"){
-                data += ownedCosmetics.length + " Outfit"
-            }else if(lang === "ar"){
-                data += "عدد السكنات: " + ownedCosmetics.length +"\n"
-            }
-
             //print data
             if(lang === "en"){
                 ctx.fillStyle = '#ffffff';
                 ctx.textAlign='center';
-                ctx.font = dateApplyText(canvas, data)
-                ctx.fillText(ownedCosmetics.length + " Outfits | " + date, (canvas.width / 2), canvas.height - (50 + ctx.font.substring(0,ctx.font.indexOf("p"))))
+                ctx.font = dateApplyText(canvas, ownedCosmetics.length + " Outfits | " + date)
+                ctx.fillText(ownedCosmetics.length + " Outfits | " + date, (canvas.width / 2), (canvas.height - 10))
             }else if(lang === "ar"){
                 ctx.fillStyle = '#ffffff';
                 ctx.textAlign='center';
-                ctx.font = dateApplyText(canvas, data)
-                ctx.fillText(date + " | عدد السكنات: " + ownedCosmetics.length, (canvas.width / 2), canvas.height - (50 + ctx.font.substring(0,ctx.font.indexOf("p"))))
+                ctx.font = dateApplyText(canvas, date + " | عدد السكنات: " + ownedCosmetics.length)
+                ctx.fillText(date + " | عدد السكنات: " + ownedCosmetics.length, (canvas.width / 2), (canvas.height - 10))
             }
 
             //text lang

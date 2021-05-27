@@ -87,22 +87,11 @@ module.exports = {
                 return res.data.items;
             })
 
-            //variables
-            var width = 0
-            var height = 1000
-            var newline = 0
-            var x = 0
-            var y = 200
-
             //creating length
-            var length = 50
-            if(length <= 2){
+            var length = 300
+            if(length <= 10){
                 length = length
-            }else if(length > 2 && length <= 4){
-                length = length / 2
-            }else if(length > 4 && length <= 7){
-                length = length / 3
-            }else if(length > 7 && length <= 50){
+            }else if(length > 10 && length <= 50){
                 length = length / 5
             }else if(length > 50 && length <= 70){
                 length = length / 7
@@ -115,15 +104,21 @@ module.exports = {
             }
 
             if (length % 2 !== 0){
-                length += 1;
                 length = length | 0;
             }
+            
+            //variables
+            var width = 0
+            var height = 110 * length
+            var newline = 0
+            var x = 0
+            var y = length * 15
 
             //creating width
             width += (length * 256) + (length * 5) - 5
 
             //creating height
-            for(let i = 0; i < 50; i++){
+            for(let i = 0; i < 300; i++){
                 
                 if(newline === length){
                     height += 256 + 5
@@ -150,6 +145,30 @@ module.exports = {
                 return ctx.font;
             }
 
+            //dateApplytext
+            const dateApplyText = (canvas, text) => {
+                const ctx = canvas.getContext('2d');
+                let fontSize = 500;
+                do {
+                    if(lang === "en"){
+                        ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
+                    }else if(lang === "ar"){
+                        ctx.font = `${fontSize -= 1}px Arabic`;
+                    }
+                } while (ctx.measureText(text).width > (canvas.width / 4));
+                return ctx.font;
+            }
+
+            //dateApplytext
+            const creditApplyText = (canvas, text) => {
+                const ctx = canvas.getContext('2d');
+                let fontSize = 150;
+                do {
+                    ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;  
+                } while (ctx.measureText(text).width > (canvas.width / 4));
+                return ctx.font;
+            }
+
             //creating canvas
             const canvas = Canvas.createCanvas(width, height);
             const ctx = canvas.getContext('2d');
@@ -158,47 +177,42 @@ module.exports = {
             const background = await Canvas.loadImage('./assets/backdroung.jpg')
             ctx.drawImage(background, 0, 0, canvas.width, canvas.height)
 
-            //date
-            var date
-            if(lang === "en"){
-                moment.locale("en")
-                date = moment().format("dddd, MMMM Do of YYYY")
-                ctx.fillStyle = '#ffffff';
-                ctx.textAlign='center';
-                ctx.font = `100px Burbank Big Condensed`
-                ctx.fillText(date, (canvas.width / 2), (canvas.height - 100))
-            }else if(lang === "ar"){
-                moment.locale("ar")
-                date = moment().format("dddd, MMMM Do من YYYY")
-                ctx.fillStyle = '#ffffff';
-                ctx.textAlign='center';
-                ctx.font = `110px Arabic`
-                ctx.fillText(date, (canvas.width / 2), (canvas.height - 100))
-            }
-
-            //reseting newline
-            newline = 0
-
             //credits
             ctx.fillStyle = '#ffffff';
             ctx.textAlign='center';
-            ctx.font = '150px Burbank Big Condensed'
-            ctx.fillText("FNBRMENA", (canvas.width / 2), 150)
-            
+            ctx.font = creditApplyText(canvas, "FNBRMENA")
+            ctx.fillText("FNBRMENA", (canvas.width / 2), (ctx.font.substring(0,ctx.font.indexOf("p"))))
+            console.log(ctx.font.substring(0,ctx.font.indexOf("p")))
+
+            //date
+            var data = ""      
 
             //account name and skins
             if(lang === "en"){
-                ctx.fillStyle = '#ffffff';
-                ctx.textAlign='left';
-                ctx.font = '80px Burbank Big Condensed'
-                ctx.fillText("Player Name: ", 100, (canvas.height - 300))
-                ctx.fillText("Total Cosmetics: "  + ownedCosmetics.length, 100, (canvas.height - 200))
+                data += "Player Name: \n" 
+                data += ownedCosmetics.length + " Outfit\n"
+            }else if(lang === "ar"){
+                data += "اسم اللاعب: \n"
+                data += "عدد السكنات: " + ownedCosmetics.length +"\n"
+            }
+
+            //date
+            if(lang === "en"){
+                moment.locale("en")
+                data += moment().format("dddd, MMMM Do of YYYY")
+            }else if(lang === "ar"){
+                moment.locale("ar")
+                data += moment().format("dddd, MMMM Do من YYYY")
+            }
+
+            //print data
+            if(lang === "en"){
+
             }else if(lang === "ar"){
                 ctx.fillStyle = '#ffffff';
                 ctx.textAlign='right';
-                ctx.font = '80px Arabic'
-                ctx.fillText("اسم اللاعب: ", (canvas.width - 100), (canvas.height - 300))
-                ctx.fillText("جميع السكنات: " + ownedCosmetics.length, (canvas.width - 100), (canvas.height - 200))
+                ctx.font = dateApplyText(canvas, data)
+                ctx.fillText(data, (canvas.width - 50), canvas.height - (50 + (3 * ctx.font.substring(0,ctx.font.indexOf("p")))))
             }
 
             //text lang
@@ -209,6 +223,9 @@ module.exports = {
                 string = `لقت تم اكتشاف ${ownedCosmetics.length} عنصر`
             }
 
+            //reseting newline
+            newline = 0
+
             //generating text
             const generating = new Discord.MessageEmbed()
             generating.setColor('#BB00EE')
@@ -217,7 +234,7 @@ module.exports = {
             message.channel.send(generating)
             .then( async msg => {
 
-                for(let i = 0; i < 50; i++){
+                for(let i = 0; i < 300; i++){
                     //skin informations
                     var name = ownedCosmetics[i].name;
                     var description = ownedCosmetics[i].description;

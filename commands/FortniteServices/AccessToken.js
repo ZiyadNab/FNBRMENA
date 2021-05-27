@@ -328,12 +328,12 @@ module.exports = {
                 ctx.fillStyle = '#ffffff';
                 ctx.textAlign='left';
                 ctx.font = dateApplyText(canvas, data)
-                ctx.fillText(data, 50, canvas.height - (50 + (3 * ctx.font.substring(0,ctx.font.indexOf("p")))))
+                ctx.fillText(data, 50, canvas.height - (100 + (3 * ctx.font.substring(0,ctx.font.indexOf("p")))))
             }else if(lang === "ar"){
                 ctx.fillStyle = '#ffffff';
                 ctx.textAlign='right';
                 ctx.font = dateApplyText(canvas, data)
-                ctx.fillText(data, (canvas.width - 50), canvas.height - (50 + (3 * ctx.font.substring(0,ctx.font.indexOf("p")))))
+                ctx.fillText(data, (canvas.width - 50), canvas.height - (100 + (3 * ctx.font.substring(0,ctx.font.indexOf("p")))))
             }
 
             //text lang

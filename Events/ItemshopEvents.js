@@ -1165,7 +1165,7 @@ module.exports = (client, admin) => {
                                 // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                                 // ctx.drawImage(credit, (CreditX + x), (y + CreditY), CreditW, CreditH);                            
                             }else
-                            if(rarity === 'PlatformSeriess'){
+                            if(rarity === 'PlatformSeries'){
                                 //creating image
                                 const skinholder = await Canvas.loadImage('./assets/Rarities/standard/gaming.png')
                                 ctx.drawImage(skinholder, x, y, WidthC, HeightC)

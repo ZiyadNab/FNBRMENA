@@ -109,10 +109,11 @@ module.exports = {
             
             //variables
             var width = 0
-            var height = 110 * length
+            var height = (length * 50) + (256 + length * 15)
             var newline = 0
             var x = 0
             var y = length * 15
+            console.log(height)
 
             //creating width
             width += (length * 256) + (length * 5) - 5

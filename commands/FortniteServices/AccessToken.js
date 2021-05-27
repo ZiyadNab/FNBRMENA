@@ -228,10 +228,10 @@ module.exports = {
             
             //variables
             var width = 0
-            var height = (length * 50) + (256 + length * 14)
+            var height = (length * 50) + (256 + length * 12)
             var newline = 0
             var x = 0
-            var y = length * 14
+            var y = length * 12
 
             //creating width
             width += (length * 256) + (length * 5) - 5
@@ -339,9 +339,9 @@ module.exports = {
             //text lang
             var string
             if(lang === "en"){
-                string = `Found ${ownedCosmetics.length} item`
+                string = `Found ${userSkins.length} item`
             }else if(lang === "ar"){
-                string = `لقت تم اكتشاف ${ownedCosmetics.length} عنصر`
+                string = `لقت تم اكتشاف ${userSkins.length} عنصر`
             }
 
             //reseting newline
@@ -357,22 +357,22 @@ module.exports = {
 
                 for(let i = 0; i < userSkins.length; i++){
                     //skin informations
-                    var name = ownedCosmetics[i].name;
-                    var description = ownedCosmetics[i].description;
-                    var image = ownedCosmetics[i].images.icon;
-                    if(ownedCosmetics[i].series !== null){
-                        rarity = ownedCosmetics[i].series.id
+                    var name = userSkins[i].name;
+                    var description = userSkins[i].description;
+                    var image = userSkins[i].images.icon;
+                    if(userSkins[i].series !== null){
+                        rarity = userSkins[i].series.id
                     }else{
-                        rarity = ownedCosmetics[i].rarity.id
+                        rarity = userSkins[i].rarity.id
                     }
                     newline = newline + 1;
 
                     const wait = new Discord.MessageEmbed()
                     wait.setColor('#BB00EE')
                     if(lang === "en"){
-                        wait.setTitle(`Skin Number ${i + 1} of ${ownedCosmetics.length} ... ${emoji}`)
+                        wait.setTitle(`Skin Number ${i + 1} of ${userSkins.length} ... ${emoji}`)
                     }else if(lang === "ar"){
-                        wait.setTitle(`سكن ${i + 1} من اصل ${ownedCosmetics.length} ... ${emoji}`)
+                        wait.setTitle(`سكن ${i + 1} من اصل ${userSkins.length} ... ${emoji}`)
                     }
                     await msg.edit(wait)
 

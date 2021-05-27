@@ -43,7 +43,7 @@ module.exports = {
                 return response
             }
 
-            //const Access = await Token(text)
+            const Access = await Token(text)
 
             const GetCosmetics = async (token, accountID, owned) => {
 
@@ -79,17 +79,7 @@ module.exports = {
                 return owned
             }
 
-            //const ownedCosmetics = await GetCosmetics(Access.access_token, Access.in_app_id, owned)
-
-            const cosmetics = await axios.get(`https://fortniteapi.io/v2/items/list?lang=${lang}&type=outfit`, { headers: {'Content-Type': 'application/json','Authorization': key.apis.fortniteio,} })
-            .then((res) => {
-                return res.data.items;
-            })
-
-            var ownedCosmetics = []
-            for(let i = 0; i < 300; i++){
-                ownedCosmetics.push(cosmetics[i])
-            }
+            const ownedCosmetics = await GetCosmetics(Access.access_token, Access.in_app_id, owned)
 
             var userSkins = []
 
@@ -175,6 +165,14 @@ module.exports = {
 
             await ownedCosmetics.filter(item => {
                 if(item.series !== null){
+                    if(item.series.id === "FrozenSeries"){
+                        userSkins.push(item)
+                    }
+                }
+            })
+
+            await ownedCosmetics.filter(item => {
+                if(item.series !== null){
                     if(item.series.id === "ShadowSeries"){
                         userSkins.push(item)
                     }
@@ -184,14 +182,6 @@ module.exports = {
             await ownedCosmetics.filter(item => {
                 if(item.series !== null){
                     if(item.series.id === "SlurpSeries"){
-                        userSkins.push(item)
-                    }
-                }
-            })
-
-            await ownedCosmetics.filter(item => {
-                if(item.series !== null){
-                    if(item.series.id === "FrozenSeries"){
                         userSkins.push(item)
                     }
                 }
@@ -212,9 +202,6 @@ module.exports = {
                     }
                 }
             })
-
-            console.log(userSkins.length)
-
 
             //creating length
             var length = userSkins.length
@@ -238,10 +225,10 @@ module.exports = {
             
             //variables
             var width = 0
-            var height = 256 + ((length * 12) * 2)
+            var height = 256 + ((length * 13) * 2)
             var newline = 0
             var x = 0
-            var y = length * 12
+            var y = length * 13
 
             //creating width
             width += (length * 256) + (length * 5) - 5
@@ -312,7 +299,7 @@ module.exports = {
             ctx.font = creditApplyText(canvas, "FNBRMENA")
             ctx.fillText("FNBRMENA", (ctx.font.substring(0,ctx.font.indexOf("p")) - (7 * length)), (ctx.font.substring(0,ctx.font.indexOf("p"))))
             ctx.textAlign='right';
-            ctx.fillText("AntMan V2", (canvas.width - (ctx.font.substring(0,ctx.font.indexOf("p")) - (7 * length))), (ctx.font.substring(0,ctx.font.indexOf("p"))))
+            ctx.fillText(Access.displayName, (canvas.width - (ctx.font.substring(0,ctx.font.indexOf("p")) - (7 * length))), (ctx.font.substring(0,ctx.font.indexOf("p"))))
 
             //date
             var date   
@@ -329,12 +316,12 @@ module.exports = {
                 ctx.fillStyle = '#ffffff';
                 ctx.textAlign='center';
                 ctx.font = dateApplyText(canvas, ownedCosmetics.length + " Outfits | " + date)
-                ctx.fillText(ownedCosmetics.length + " Outfits | " + date, (canvas.width / 2), (canvas.height - (ctx.font.substring(0,ctx.font.indexOf("p"))) - (5 * length)))
+                ctx.fillText(ownedCosmetics.length + " Outfits | " + date, (canvas.width / 2), (canvas.height - (ctx.font.substring(0,ctx.font.indexOf("p"))) - (6 * length)))
             }else if(lang === "ar"){
                 ctx.fillStyle = '#ffffff';
                 ctx.textAlign='center';
                 ctx.font = dateApplyText(canvas, date + " | عدد السكنات: " + ownedCosmetics.length)
-                ctx.fillText(date + " | عدد السكنات: " + ownedCosmetics.length, (canvas.width / 2), (canvas.height - (ctx.font.substring(0,ctx.font.indexOf("p")) - (5 * length))))
+                ctx.fillText(date + " | عدد السكنات: " + ownedCosmetics.length, (canvas.width / 2), (canvas.height - (ctx.font.substring(0,ctx.font.indexOf("p")) - (6 * length))))
             }
 
             //text lang

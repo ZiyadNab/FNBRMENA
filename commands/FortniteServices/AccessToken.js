@@ -225,10 +225,10 @@ module.exports = {
             
             //variables
             var width = 0
-            var height = 256 + ((length * 13) * 2)
+            var height = 256 + ((length * 12) * 2)
             var newline = 0
             var x = 0
-            var y = length * 13
+            var y = length * 12
 
             //creating width
             width += (length * 256) + (length * 5) - 5
@@ -316,12 +316,12 @@ module.exports = {
                 ctx.fillStyle = '#ffffff';
                 ctx.textAlign='center';
                 ctx.font = dateApplyText(canvas, ownedCosmetics.length + " Outfits | " + date)
-                ctx.fillText(ownedCosmetics.length + " Outfits | " + date, (canvas.width / 2), (canvas.height - (ctx.font.substring(0,ctx.font.indexOf("p"))) - (6 * length)))
+                ctx.fillText(ownedCosmetics.length + " Outfits | " + date, (canvas.width / 2), (canvas.height - (ctx.font.substring(0,ctx.font.indexOf("p"))) - (5 * length)))
             }else if(lang === "ar"){
                 ctx.fillStyle = '#ffffff';
                 ctx.textAlign='center';
                 ctx.font = dateApplyText(canvas, date + " | عدد السكنات: " + ownedCosmetics.length)
-                ctx.fillText(date + " | عدد السكنات: " + ownedCosmetics.length, (canvas.width / 2), (canvas.height - (ctx.font.substring(0,ctx.font.indexOf("p")) - (6 * length))))
+                ctx.fillText(date + " | عدد السكنات: " + ownedCosmetics.length, (canvas.width / 2), (canvas.height - (ctx.font.substring(0,ctx.font.indexOf("p")) - (5 * length))))
             }
 
             //text lang

@@ -310,9 +310,9 @@ module.exports = {
             ctx.fillStyle = '#ffffff';
             ctx.textAlign='left';
             ctx.font = creditApplyText(canvas, "FNBRMENA")
-            ctx.fillText("FNBRMENA", (ctx.font.substring(0,ctx.font.indexOf("p"))), (ctx.font.substring(0,ctx.font.indexOf("p"))))
+            ctx.fillText("FNBRMENA", (ctx.font.substring(0,ctx.font.indexOf("p")) - (5 * length)) * length, (ctx.font.substring(0,ctx.font.indexOf("p"))))
             ctx.textAlign='right';
-            ctx.fillText("AntMan V2", (canvas.width - (ctx.font.substring(0,ctx.font.indexOf("p")))), (ctx.font.substring(0,ctx.font.indexOf("p"))))
+            ctx.fillText("AntMan V2", (canvas.width - (ctx.font.substring(0,ctx.font.indexOf("p")) - (5 * length))), (ctx.font.substring(0,ctx.font.indexOf("p"))))
 
             //date
             var date   
@@ -329,12 +329,12 @@ module.exports = {
                 ctx.fillStyle = '#ffffff';
                 ctx.textAlign='center';
                 ctx.font = dateApplyText(canvas, ownedCosmetics.length + " Outfits | " + date)
-                ctx.fillText(ownedCosmetics.length + " Outfits | " + date, (canvas.width / 2), (canvas.height - (ctx.font.substring(0,ctx.font.indexOf("p")))))
+                ctx.fillText(ownedCosmetics.length + " Outfits | " + date, (canvas.width / 2), (canvas.height - (ctx.font.substring(0,ctx.font.indexOf("p"))) - (5 * length)))
             }else if(lang === "ar"){
                 ctx.fillStyle = '#ffffff';
                 ctx.textAlign='center';
                 ctx.font = dateApplyText(canvas, date + " | عدد السكنات: " + ownedCosmetics.length)
-                ctx.fillText(date + " | عدد السكنات: " + ownedCosmetics.length, (canvas.width / 2), (canvas.height - (ctx.font.substring(0,ctx.font.indexOf("p")))))
+                ctx.fillText(date + " | عدد السكنات: " + ownedCosmetics.length, (canvas.width / 2), (canvas.height - (ctx.font.substring(0,ctx.font.indexOf("p")) - (5 * length))))
             }
 
             //text lang

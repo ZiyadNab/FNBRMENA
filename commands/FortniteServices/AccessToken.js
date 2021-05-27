@@ -84,38 +84,40 @@ module.exports = {
             var userSkins = []
 
             await ownedCosmetics.filter(item => {
-                if(item.rarity.id === "Legendary" === true){
-                    userSkins.push(item)
+                if(item.series === null){
+                    if(item.rarity.id === "Legendary"){
+                        userSkins.push(item)
+                    }
                 }
             })
 
             await ownedCosmetics.filter(item => {
-                if(item.rarity.id === "Epic" === true){
-                    userSkins.push(item)
+                if(item.series === null){
+                    if(item.rarity.id === "Epic"){
+                        userSkins.push(item)
+                    }
                 }
             })
 
             await ownedCosmetics.filter(item => {
-                if(item.rarity.id === "Rare" === true){
-                    userSkins.push(item)
+                if(item.series === null){
+                    if(item.rarity.id === "Rare"){
+                        userSkins.push(item)
+                    }
                 }
             })
 
             await ownedCosmetics.filter(item => {
-                if(item.rarity.id === "Uncommon" === true){
-                    userSkins.push(item)
+                if(item.series === null){
+                    if(item.rarity.id === "Uncommon"){
+                        userSkins.push(item)
+                    }
                 }
             })
 
             await ownedCosmetics.filter(item => {
-                if(item.rarity.id === "Common" === true){
-                    userSkins.push(item)
-                }
-            })
-
-            await ownedCosmetics.filter(item => {
-                if(item.series !== null){
-                    if(item.series.id === "MarvelSeries" === true){
+                if(item.series === null){
+                    if(item.rarity.id === "Common"){
                         userSkins.push(item)
                     }
                 }
@@ -123,7 +125,7 @@ module.exports = {
 
             await ownedCosmetics.filter(item => {
                 if(item.series !== null){
-                    if(item.series.id === "DCUSeries" === true){
+                    if(item.series.id === "MarvelSeries"){
                         userSkins.push(item)
                     }
                 }
@@ -131,7 +133,7 @@ module.exports = {
 
             await ownedCosmetics.filter(item => {
                 if(item.series !== null){
-                    if(item.series.id === "CUBESeries" === true){
+                    if(item.series.id === "DCUSeries"){
                         userSkins.push(item)
                     }
                 }
@@ -139,7 +141,7 @@ module.exports = {
 
             await ownedCosmetics.filter(item => {
                 if(item.series !== null){
-                    if(item.series.id === "CreatorCollabSeries" === true){
+                    if(item.series.id === "CUBESeries"){
                         userSkins.push(item)
                     }
                 }
@@ -147,7 +149,7 @@ module.exports = {
 
             await ownedCosmetics.filter(item => {
                 if(item.series !== null){
-                    if(item.series.id === "ColumbusSeries" === true){
+                    if(item.series.id === "CreatorCollabSeries"){
                         userSkins.push(item)
                     }
                 }
@@ -155,7 +157,7 @@ module.exports = {
 
             await ownedCosmetics.filter(item => {
                 if(item.series !== null){
-                    if(item.series.id === "ShadowSeries" === true){
+                    if(item.series.id === "ColumbusSeries"){
                         userSkins.push(item)
                     }
                 }
@@ -163,7 +165,7 @@ module.exports = {
 
             await ownedCosmetics.filter(item => {
                 if(item.series !== null){
-                    if(item.series.id === "SlurpSeries" === true){
+                    if(item.series.id === "ShadowSeries"){
                         userSkins.push(item)
                     }
                 }
@@ -171,7 +173,7 @@ module.exports = {
 
             await ownedCosmetics.filter(item => {
                 if(item.series !== null){
-                    if(item.series.id === "FrozenSeries" === true){
+                    if(item.series.id === "SlurpSeries"){
                         userSkins.push(item)
                     }
                 }
@@ -179,7 +181,7 @@ module.exports = {
 
             await ownedCosmetics.filter(item => {
                 if(item.series !== null){
-                    if(item.series.id === "LavaSeries" === true){
+                    if(item.series.id === "FrozenSeries"){
                         userSkins.push(item)
                     }
                 }
@@ -187,7 +189,15 @@ module.exports = {
 
             await ownedCosmetics.filter(item => {
                 if(item.series !== null){
-                    if(item.series.id === "PlatformSeries" === true){
+                    if(item.series.id === "LavaSeries"){
+                        userSkins.push(item)
+                    }
+                }
+            })
+
+            await ownedCosmetics.filter(item => {
+                if(item.series !== null){
+                    if(item.series.id === "PlatformSeries"){
                         userSkins.push(item)
                     }
                 }

@@ -9,8 +9,8 @@ const moment = require('moment')
 module.exports = {
     commands: 'token',
     expectedArgs: '[ Auth Code ]',
-    minArgs: 1,
-    maxArgs: 1,
+    minArgs: 0,
+    maxArgs: 0,
     cooldown: 40,
     permissionError: 'Sorry you do not have acccess to this command',
     callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji) => {
@@ -43,7 +43,7 @@ module.exports = {
                 return response
             }
 
-            const Access = await Token(text)
+            //const Access = await Token(text)
 
             const GetCosmetics = async (token, accountID, owned) => {
 
@@ -79,7 +79,17 @@ module.exports = {
                 return owned
             }
 
-            const ownedCosmetics = await GetCosmetics(Access.access_token, Access.in_app_id, owned)
+            //const ownedCosmetics = await GetCosmetics(Access.access_token, Access.in_app_id, owned)
+
+            const cosmetics = await axios.get(`https://fortniteapi.io/v2/items/list?lang=${lang}&type=outfit`, { headers: {'Content-Type': 'application/json','Authorization': key.apis.fortniteio,} })
+            .then((res) => {
+                return res.data.items;
+            })
+
+            var ownedCosmetics = []
+            for(let i = 0; i < 300; i++){
+                ownedCosmetics.push(cosmetics[i])
+            }
 
             var userSkins = []
 
@@ -228,7 +238,7 @@ module.exports = {
             
             //variables
             var width = 0
-            var height = (length * 50) + (256 + length * 12)
+            var height = 256 + (length * 12)
             var newline = 0
             var x = 0
             var y = length * 12
@@ -296,44 +306,42 @@ module.exports = {
             const background = await Canvas.loadImage('./assets/backdroung.jpg')
             ctx.drawImage(background, 0, 0, canvas.width, canvas.height)
 
-            //credits
+            //credits and player name
             ctx.fillStyle = '#ffffff';
-            ctx.textAlign='center';
+            ctx.textAlign='left';
             ctx.font = creditApplyText(canvas, "FNBRMENA")
-            ctx.fillText("FNBRMENA", (canvas.width / 2), (ctx.font.substring(0,ctx.font.indexOf("p"))))
+            ctx.fillText("FNBRMENA", 50, (ctx.font.substring(0,ctx.font.indexOf("p"))))
+            ctx.textAlign='right';
+            ctx.fillText(Access.displayName, 50, (ctx.font.substring(0,ctx.font.indexOf("p"))))
 
             //date
-            var data = ""      
+            var date   
+            if(lang === "en"){
+                moment.locale("en")
+                date = moment().format("dddd, MMMM Do of YYYY")
+            }else if(lang === "ar"){
+                moment.locale("ar")
+                date = moment().format("dddd, MMMM Do من YYYY")
+            }
 
             //account name and skins
             if(lang === "en"){
-                data += "Player Name: " + Access.displayName + "\n"
-                data += ownedCosmetics.length + " Outfit\n"
+                data += ownedCosmetics.length + " Outfit"
             }else if(lang === "ar"){
-                data += "اسم اللاعب: "  + Access.displayName + "\n"
                 data += "عدد السكنات: " + ownedCosmetics.length +"\n"
-            }
-
-            //date
-            if(lang === "en"){
-                moment.locale("en")
-                data += moment().format("dddd, MMMM Do of YYYY")
-            }else if(lang === "ar"){
-                moment.locale("ar")
-                data += moment().format("dddd, MMMM Do من YYYY")
             }
 
             //print data
             if(lang === "en"){
                 ctx.fillStyle = '#ffffff';
-                ctx.textAlign='left';
+                ctx.textAlign='center';
                 ctx.font = dateApplyText(canvas, data)
-                ctx.fillText(data, 50, canvas.height - (100 + (3 * ctx.font.substring(0,ctx.font.indexOf("p")))))
+                ctx.fillText(ownedCosmetics.length + " Outfits | " + date, (canvas.width / 2), canvas.height - (50 + ctx.font.substring(0,ctx.font.indexOf("p"))))
             }else if(lang === "ar"){
                 ctx.fillStyle = '#ffffff';
-                ctx.textAlign='right';
+                ctx.textAlign='center';
                 ctx.font = dateApplyText(canvas, data)
-                ctx.fillText(data, (canvas.width - 50), canvas.height - (100 + (3 * ctx.font.substring(0,ctx.font.indexOf("p")))))
+                ctx.fillText(date + " | عدد السكنات: " + ownedCosmetics.length, (canvas.width / 2), canvas.height - (50 + ctx.font.substring(0,ctx.font.indexOf("p"))))
             }
 
             //text lang

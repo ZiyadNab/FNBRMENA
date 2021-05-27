@@ -9,8 +9,8 @@ const moment = require('moment')
 module.exports = {
     commands: 'token',
     expectedArgs: '[ Auth Code ]',
-    minArgs: 0,
-    maxArgs: 0,
+    minArgs: 1,
+    maxArgs: 1,
     cooldown: 40,
     permissionError: 'Sorry you do not have acccess to this command',
     callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji) => {
@@ -43,7 +43,7 @@ module.exports = {
                 return response
             }
 
-            //const Access = await Token(text)
+            const Access = await Token(text)
 
             const GetCosmetics = async (token, accountID, owned) => {
 
@@ -79,16 +79,123 @@ module.exports = {
                 return owned
             }
 
-            //const ownedCosmetics = await GetCosmetics(Access.access_token, Access.in_app_id, owned)
+            const ownedCosmetics = await GetCosmetics(Access.access_token, Access.in_app_id, owned)
 
-            //get every cosmetic in the game
-            const ownedCosmetics = await axios.get(`https://fortniteapi.io/v2/items/list?lang=${lang}&type=outfit`, { headers: {'Content-Type': 'application/json','Authorization': key.apis.fortniteio,} })
-            .then((res) => {
-                return res.data.items;
+            var userSkins = []
+
+            ownedCosmetics.filter(item => {
+                if(item.rarity.id === "Legendary" === true){
+                    userSkins.push(item)
+                }
             })
 
+            ownedCosmetics.filter(item => {
+                if(item.rarity.id === "Epic" === true){
+                    userSkins.push(item)
+                }
+            })
+
+            ownedCosmetics.filter(item => {
+                if(item.rarity.id === "Rare" === true){
+                    userSkins.push(item)
+                }
+            })
+
+            ownedCosmetics.filter(item => {
+                if(item.rarity.id === "Uncommon" === true){
+                    userSkins.push(item)
+                }
+            })
+
+            ownedCosmetics.filter(item => {
+                if(item.rarity.id === "Common" === true){
+                    userSkins.push(item)
+                }
+            })
+
+            ownedCosmetics.filter(item => {
+                if(item.series !== null){
+                    if(item.series.id === "MarvelSeries" === true){
+                        userSkins.push(item)
+                    }
+                }
+            })
+
+            ownedCosmetics.filter(item => {
+                if(item.series !== null){
+                    if(item.series.id === "DCUSeries" === true){
+                        userSkins.push(item)
+                    }
+                }
+            })
+
+            ownedCosmetics.filter(item => {
+                if(item.series !== null){
+                    if(item.series.id === "CUBESeries" === true){
+                        userSkins.push(item)
+                    }
+                }
+            })
+
+            ownedCosmetics.filter(item => {
+                if(item.series !== null){
+                    if(item.series.id === "CreatorCollabSeries" === true){
+                        userSkins.push(item)
+                    }
+                }
+            })
+
+            ownedCosmetics.filter(item => {
+                if(item.series !== null){
+                    if(item.series.id === "ColumbusSeries" === true){
+                        userSkins.push(item)
+                    }
+                }
+            })
+
+            ownedCosmetics.filter(item => {
+                if(item.series !== null){
+                    if(item.series.id === "ShadowSeries" === true){
+                        userSkins.push(item)
+                    }
+                }
+            })
+
+            ownedCosmetics.filter(item => {
+                if(item.series !== null){
+                    if(item.series.id === "SlurpSeries" === true){
+                        userSkins.push(item)
+                    }
+                }
+            })
+
+            ownedCosmetics.filter(item => {
+                if(item.series !== null){
+                    if(item.series.id === "FrozenSeries" === true){
+                        userSkins.push(item)
+                    }
+                }
+            })
+
+            ownedCosmetics.filter(item => {
+                if(item.series !== null){
+                    if(item.series.id === "LavaSeries" === true){
+                        userSkins.push(item)
+                    }
+                }
+            })
+
+            ownedCosmetics.filter(item => {
+                if(item.series !== null){
+                    if(item.series.id === "PlatformSeries" === true){
+                        userSkins.push(item)
+                    }
+                }
+            })
+
+
             //creating length
-            var length = 300
+            var length = userSkins.length
             if(length <= 10){
                 length = length
             }else if(length > 10 && length <= 50){
@@ -109,17 +216,16 @@ module.exports = {
             
             //variables
             var width = 0
-            var height = (length * 50) + (256 + length * 15)
+            var height = (length * 50) + (256 + length * 14)
             var newline = 0
             var x = 0
-            var y = length * 15
-            console.log(height)
+            var y = length * 14
 
             //creating width
             width += (length * 256) + (length * 5) - 5
 
             //creating height
-            for(let i = 0; i < 300; i++){
+            for(let i = 0; i < userSkins.length; i++){
                 
                 if(newline === length){
                     height += 256 + 5
@@ -183,17 +289,16 @@ module.exports = {
             ctx.textAlign='center';
             ctx.font = creditApplyText(canvas, "FNBRMENA")
             ctx.fillText("FNBRMENA", (canvas.width / 2), (ctx.font.substring(0,ctx.font.indexOf("p"))))
-            console.log(ctx.font.substring(0,ctx.font.indexOf("p")))
 
             //date
             var data = ""      
 
             //account name and skins
             if(lang === "en"){
-                data += "Player Name: \n" 
+                data += "Player Name: " + Access.displayName + "\n"
                 data += ownedCosmetics.length + " Outfit\n"
             }else if(lang === "ar"){
-                data += "اسم اللاعب: \n"
+                data += "اسم اللاعب: "  + Access.displayName + "\n"
                 data += "عدد السكنات: " + ownedCosmetics.length +"\n"
             }
 
@@ -208,7 +313,10 @@ module.exports = {
 
             //print data
             if(lang === "en"){
-
+                ctx.fillStyle = '#ffffff';
+                ctx.textAlign='left';
+                ctx.font = dateApplyText(canvas, data)
+                ctx.fillText(data, 50, canvas.height - (50 + (3 * ctx.font.substring(0,ctx.font.indexOf("p")))))
             }else if(lang === "ar"){
                 ctx.fillStyle = '#ffffff';
                 ctx.textAlign='right';
@@ -235,7 +343,7 @@ module.exports = {
             message.channel.send(generating)
             .then( async msg => {
 
-                for(let i = 0; i < 300; i++){
+                for(let i = 0; i < userSkins.length; i++){
                     //skin informations
                     var name = ownedCosmetics[i].name;
                     var description = ownedCosmetics[i].description;

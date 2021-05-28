@@ -88,7 +88,7 @@ module.exports = {
             })
 
             var ownedCosmetics = []
-            for(let i  = 0; i < 300; i++){
+            for(let i  = 0; i < 123; i++){
                 ownedCosmetics.push(cosmetics[i])
             }
 

@@ -88,7 +88,7 @@ module.exports = {
             })
 
             var ownedCosmetics = []
-            for(let i  = 0; i < 187; i++){
+            for(let i  = 0; i < 300; i++){
                 ownedCosmetics.push(cosmetics[i])
             }
 
@@ -293,7 +293,7 @@ module.exports = {
                 do {
                     console.log(fontSize)
                     ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;  
-                } while (ctx.measureText(text).width > (canvas.width / 6));
+                } while (ctx.measureText(text).width > (canvas.width / 8));
                 return ctx.font;
             }
 

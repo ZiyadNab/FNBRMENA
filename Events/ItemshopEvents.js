@@ -10,22 +10,26 @@ module.exports = (client, admin) => {
 
     //result
     var data = []
+    var shop = []
     var lastUpdate = []
     var lang = "ar"
     var number = 0
-    message.send(lastUpdate)
 
     const Itemshop = async () => {
         fortniteAPI.getDailyShopV2(options = {lang: lang})
         .then(async res => {
             if(number === 0){
-                data = res.shop
+                for(let i = 0; i < res.shop.length; i++){
+                    data[i] = await res.shop[i].displayName
+                }
                 lastUpdate = res.lastUpdate
-                message.send(lastUpdate)
                 number++
             }
             if(res.lastUpdate !== lastUpdate){
-                if(JSON.stringify(res.shop) !== JSON.stringify(data)){
+                for(let i = 0; i < res.shop.length; i++){
+                    shop[i] = await res.shop[i].displayName
+                }
+                if(JSON.stringify(shop) !== JSON.stringify(data)){
                     //variables
                     var language;
                     var loading;
@@ -1603,7 +1607,9 @@ module.exports = (client, admin) => {
                         const att = new Discord.MessageAttachment(canvas.toBuffer('image/jpeg', {quality: 0.5}))
                         await message.send(att)
                         msg.delete()
-                        data = res.shop
+                        for(let i = 0; i < res.shop.length; i++){
+                            data[i] = await res.shop[i].displayName
+                        }
                         lastUpdate = res.lastUpdate
                     })
                 }

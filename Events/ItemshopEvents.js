@@ -7,18 +7,21 @@ const Canvas = require('canvas');
 
 module.exports = (client, admin) => {
     const message = client.channels.cache.find(channel => channel.id === key.events.itemshop)
+
     //result
     var data = []
-    var lastUpdate = 0
+    var lastUpdate = []
     var lang = "ar"
     var number = 0
+    message.send(lastUpdate)
 
     const Itemshop = async () => {
         fortniteAPI.getDailyShopV2(options = {lang: lang})
         .then(async res => {
             if(number === 0){
-                data = JSON.stringify(res.shop)
+                data = res.shop
                 lastUpdate = res.lastUpdate
+                message.send(lastUpdate)
                 number++
             }
             if(res.lastUpdate !== lastUpdate){
@@ -1600,9 +1603,7 @@ module.exports = (client, admin) => {
                         const att = new Discord.MessageAttachment(canvas.toBuffer('image/jpeg', {quality: 0.5}))
                         await message.send(att)
                         msg.delete()
-                        console.log(res.lastUpdate)
-                        console.log(lastUpdate)
-                        data = JSON.stringify(res.shop)
+                        data = res.shop
                         lastUpdate = res.lastUpdate
                     })
                 }

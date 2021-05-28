@@ -18,10 +18,10 @@ module.exports = (client, admin) => {
         .then(async res => {
             if(number === 0){
                 data = JSON.stringify(res.shop)
-                lastUpdate = JSON.stringify(res.lastUpdate)
+                lastUpdate = res.lastUpdate
                 number++
             }
-            if(JSON.stringify(res.lastUpdate) !== JSON.stringify(lastUpdate)){
+            if(res.lastUpdate !== lastUpdate){
                 if(JSON.stringify(res.shop) !== JSON.stringify(data)){
                     //variables
                     var language;
@@ -1603,7 +1603,7 @@ module.exports = (client, admin) => {
                         console.log(res.lastUpdate)
                         console.log(lastUpdate)
                         data = JSON.stringify(res.shop)
-                        lastUpdate = JSON.stringify(res.lastUpdate)
+                        lastUpdate = res.lastUpdate
                     })
                 }
             }

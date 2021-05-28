@@ -43,7 +43,7 @@ module.exports = {
                 return response
             }
 
-            //const Access = await Token(text)
+            const Access = await Token(text)
 
             const GetCosmetics = async (token, accountID, owned) => {
 
@@ -79,19 +79,7 @@ module.exports = {
                 return owned
             }
 
-            //const ownedCosmetics = await GetCosmetics(Access.access_token, Access.in_app_id, owned)
-
-            //get every cosmetic in the game
-            const cosmetics = await axios.get(`https://fortniteapi.io/v2/items/list?lang=${lang}&type=outfit`, { headers: {'Content-Type': 'application/json','Authorization': key.apis.fortniteio,} })
-            .then((res) => {
-                return res.data.items;
-            })
-
-            var ownedCosmetics = []
-            for(let i  = 0; i < 400; i++){
-                ownedCosmetics.push(cosmetics[i])
-            }
-
+            const ownedCosmetics = await GetCosmetics(Access.access_token, Access.in_app_id, owned)
             var userSkins = []
 
             await ownedCosmetics.filter(item => {
@@ -310,7 +298,7 @@ module.exports = {
             ctx.font = creditApplyText(canvas, "FNBRMENA")
             ctx.fillText("FNBRMENA", (ctx.font.substring(0,ctx.font.indexOf("p")) - (7 * length)), (ctx.font.substring(0,ctx.font.indexOf("p"))))
             ctx.textAlign='right';
-            ctx.fillText("AntMan V2", (canvas.width - (ctx.font.substring(0,ctx.font.indexOf("p")) - (7 * length))), (ctx.font.substring(0,ctx.font.indexOf("p"))))
+            ctx.fillText(Access.displayName, (canvas.width - (ctx.font.substring(0,ctx.font.indexOf("p")) - (7 * length))), (ctx.font.substring(0,ctx.font.indexOf("p"))))
 
             //date
             var date   

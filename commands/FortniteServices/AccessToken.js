@@ -43,7 +43,7 @@ module.exports = {
                 return response
             }
 
-            const Access = await Token(text)
+            //const Access = await Token(text)
 
             const GetCosmetics = async (token, accountID, owned) => {
 
@@ -79,7 +79,18 @@ module.exports = {
                 return owned
             }
 
-            const ownedCosmetics = await GetCosmetics(Access.access_token, Access.in_app_id, owned)
+            //const ownedCosmetics = await GetCosmetics(Access.access_token, Access.in_app_id, owned)
+
+            //get every cosmetic in the game
+            const cosmetics = await axios.get(`https://fortniteapi.io/v2/items/list?lang=${lang}&type=outfit`, { headers: {'Content-Type': 'application/json','Authorization': key.apis.fortniteio,} })
+            .then((res) => {
+                return res.data.items;
+            })
+
+            var ownedCosmetics = []
+            for(let i  = 0; i < 70; i++){
+                ownedCosmetics.push(cosmetics[i])
+            }
 
             var userSkins = []
 
@@ -278,7 +289,7 @@ module.exports = {
             //dateApplytext
             const creditApplyText = (canvas, text) => {
                 const ctx = canvas.getContext('2d');
-                let fontSize = 150;
+                let fontSize = 200;
                 do {
                     ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;  
                 } while (ctx.measureText(text).width > (canvas.width / 4));

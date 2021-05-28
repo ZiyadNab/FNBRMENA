@@ -1600,6 +1600,8 @@ module.exports = (client, admin) => {
                         const att = new Discord.MessageAttachment(canvas.toBuffer('image/jpeg', {quality: 0.5}))
                         await message.send(att)
                         msg.delete()
+                        console.log(res.lastUpdate)
+                        console.log(lastUpdate)
                         data = JSON.stringify(res.shop)
                         lastUpdate = JSON.stringify(res.lastUpdate)
                     })

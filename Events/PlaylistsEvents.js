@@ -10,7 +10,7 @@ module.exports = (client, admin) => {
     const message = client.channels.cache.find(channel => channel.id === config.events.Playlists)
 
     //result
-    var lang = "en"
+    var lang = "ar"
     var resonse = []
     var number = 0
 
@@ -98,5 +98,5 @@ module.exports = (client, admin) => {
             }
         })
     }
-    setInterval(Playlists, 1 * 10000)
+    //setInterval(Playlists, 1 * 10000)
 }

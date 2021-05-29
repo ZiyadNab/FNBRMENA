@@ -34,11 +34,10 @@ module.exports = (client, admin) => {
                     })
 
                     if(number === 0){
-                        //resonse = await Active
+                        resonse = await Active
                         number++
                     }
 
-                    console.log(!isEqual(Active, resonse))
                     //if the data was not the same
                     if(!isEqual(Active, resonse)){
 
@@ -95,7 +94,6 @@ module.exports = (client, admin) => {
 
                         //restore data
                         resonse = await Active
-                        console.log(resonse)
                     }
                 })
             }

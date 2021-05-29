@@ -34,7 +34,7 @@ module.exports = (client, admin) => {
                     })
 
                     if(number === 0){
-                        //resonse = await Active
+                        resonse = await Active
                         number++
                     }
 
@@ -99,5 +99,5 @@ module.exports = (client, admin) => {
             }
         })
     }
-    setInterval(Playlists, 2 * 60000)
+    setInterval(Playlists, 2.5 * 60000)
 }

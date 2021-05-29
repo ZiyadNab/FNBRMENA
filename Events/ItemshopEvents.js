@@ -2,7 +2,7 @@ const FortniteAPI = require("fortniteapi.io-api");
 const key = require('../Coinfigs/config.json')
 const fortniteAPI = new FortniteAPI(key.apis.fortniteio);
 const Canvas = require('canvas');
-var isEmpty = require('lodash.isempty');
+var isEqual = require('lodash.isequal');
 const Discord = require('discord.js')
 const moment = require('moment')
 
@@ -21,7 +21,7 @@ module.exports = (client, admin) => {
                 data = res.shop
                 number++
             }
-            if(_.isEqual(res.shop, data)){
+            if(isEqual(res.shop, data)){
                 //variables
                 var language;
                 var loading;

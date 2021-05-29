@@ -5,6 +5,7 @@ const key = require('../Coinfigs/config.json')
 const fortniteAPI = new FortniteAPI(key.apis.fortniteio);
 const Canvas = require('canvas');
 const config = require('../Coinfigs/config.json')
+const isEqual = require('lodash.isequal')
 
 module.exports = (client, admin) => {
     const message = client.channels.cache.find(channel => channel.id === config.events.Playlists)
@@ -37,8 +38,9 @@ module.exports = (client, admin) => {
                         number++
                     }
 
+                    console.log(!isEqual(Active, resonse))
                     //if the data was not the same
-                    if(JSON.stringify(Active) !== JSON.stringify(resonse)){
+                    if(!isEqual(Active, resonse)){
 
                         //date
                         moment.locale(lang)
@@ -93,10 +95,11 @@ module.exports = (client, admin) => {
 
                         //restore data
                         resonse = await Active
+                        console.log(resonse)
                     }
                 })
             }
         })
     }
-    //setInterval(Playlists, 1 * 10000)
+    setInterval(Playlists, 1 * 60000)
 }

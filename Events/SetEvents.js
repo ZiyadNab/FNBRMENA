@@ -8,7 +8,7 @@ const Canvas = require('canvas');
 module.exports = (client, admin) => {
     const message = client.channels.cache.find(channel => channel.id === key.events.Set)
     //result
-    var data = []
+    var response = []
     var lang = "en"
     var number = 0
     var sets = ''
@@ -23,12 +23,12 @@ module.exports = (client, admin) => {
                 fortniteAPI.listSets(options = {lang: lang})
                 .then(async res => {
                     if(number === 0){
-                        data = res.sets
+                        response = res.sets
                         number++
                     }
-                    if(JSON.stringify(res.sets) !== JSON.stringify(data)){
+                    if(JSON.stringify(res.sets) !== JSON.stringify(response)){
                         for(let i = 0; i < res.sets.length; i++){
-                            if(JSON.stringify(data[i]) !== JSON.stringify(res.sets[i])){
+                            if(JSON.stringify(response[i]) !== JSON.stringify(res.sets[i])){
                                 counter++
                                 sets += '\n• '+counter+': '+res.sets[i].name
                             }
@@ -47,7 +47,7 @@ module.exports = (client, admin) => {
                         }
                         setInfo.setDescription(sets)
                         message.send(setInfo)
-                        data = res.sets
+                        response = res.sets
                     }
                 })
             }

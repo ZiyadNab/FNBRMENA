@@ -9,7 +9,7 @@ module.exports = (client, admin) => {
     const message = client.channels.cache.find(channel => channel.id === key.events.itemshop)
 
     //result
-    var data = []
+    var response = []
     var shop = []
     var lastUpdate = []
     var lang = "ar"
@@ -25,7 +25,7 @@ module.exports = (client, admin) => {
                 .then(async res => {
                     if(number === 0){
                         for(let i = 0; i < res.shop.length; i++){
-                            data[i] = await res.shop[i].displayName
+                            response[i] = await res.shop[i].displayName
                         }
                         lastUpdate = await res.lastUpdate
                         number++
@@ -34,7 +34,7 @@ module.exports = (client, admin) => {
                         for(let i = 0; i < res.shop.length; i++){
                             shop[i] = await res.shop[i].displayName
                         }
-                        if(JSON.stringify(shop) !== JSON.stringify(data)){
+                        if(JSON.stringify(shop) !== JSON.stringify(response)){
                             //variables
                             var language;
                             var loading;
@@ -1613,7 +1613,7 @@ module.exports = (client, admin) => {
                                 await message.send(att)
                                 msg.delete()
                                 for(let i = 0; i < res.shop.length; i++){
-                                    data[i] = await res.shop[i].displayName
+                                    response[i] = await res.shop[i].displayName
                                 }
                                 lastUpdate = await res.lastUpdate
                             })

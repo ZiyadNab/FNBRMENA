@@ -14,7 +14,7 @@ var Fortnite = new fort(credintials);
 module.exports = (client, admin) => {
     const message = client.channels.cache.find(channel => channel.id === config.events.PAK)
     //result
-    var data = []
+    var response = []
     var aesData = []
     var pakNumberData = []
     var pakGuildData = []
@@ -33,7 +33,7 @@ module.exports = (client, admin) => {
                 Fortnite.AES()
                 .then(async res => {
                     if(number === 0){
-                        data = res.data.dynamicKeys
+                        response = res.data.dynamicKeys
                         aesData = res.data.build
                         number++
                     }
@@ -45,7 +45,7 @@ module.exports = (client, admin) => {
                         message.send(aes)
                         aesData = res.data.build
                     }
-                    if(JSON.stringify(res.data.dynamicKeys) !== JSON.stringify(data)){
+                    if(JSON.stringify(res.data.dynamicKeys) !== JSON.stringify(response)){
                         Counter = 0
                         for(let i = 0; i < res.data.dynamicKeys.length; i++){
                             pakFile = res.data.dynamicKeys[i].pakFilename
@@ -70,7 +70,7 @@ module.exports = (client, admin) => {
                                 }
                             }
                         }
-                        data = res.data.dynamicKeys
+                        response = res.data.dynamicKeys
                     }
                 })
             }

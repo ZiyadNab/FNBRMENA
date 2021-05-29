@@ -5,7 +5,7 @@ const config = require('../Coinfigs/config.json')
 module.exports = (client, admin) => {
     const message = client.channels.cache.find(channel => channel.id === config.events.Blogposts)
     //result
-    var data = []
+    var response = []
     var number = 0
     var lang = "ar"
 
@@ -18,10 +18,10 @@ module.exports = (client, admin) => {
           axios.get('https://www.epicgames.com/fortnite/api/blog/getPosts?category=&postsPerPage=0&offset=0&rootPageSlug=blog&locale='+lang)
           .then(async res => {
             if(number === 0){
-              data = res.data.blogList[0].title
+              response = res.data.blogList[0].title
               number ++
             }
-            if(JSON.stringify(res.data.blogList[0].title) !== JSON.stringify(data)){
+            if(JSON.stringify(res.data.blogList[0].title) !== JSON.stringify(response)){
               const posts = new Discord.MessageEmbed()
               posts.setColor('#BB00EE')
               posts.setTitle(res.data.blogList[0].title)
@@ -36,7 +36,7 @@ module.exports = (client, admin) => {
               posts.setFooter(res.data.blogList[0].author)
               message.send(posts)
 
-              data = res.data.blogList[0].title
+              response = res.data.blogList[0].title
             }
           })
         }

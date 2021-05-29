@@ -19,6 +19,7 @@
     "fortnite-api-com": "^2.2.1",
     "fortniteapi.io-api": "^1.0.3",
     "jimp": "^0.16.1",
+    "lodash.isempty": "^4.4.0",
     "make-a-gif": "^1.1.3",
     "moment": "^2.29.1",
     "word-wrap": "^1.2.3"

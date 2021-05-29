@@ -13,6 +13,7 @@ const CompBlogEvents = require('./Events/CompBlogEvents')
 const PAKEvents = require('./Events/PAKEvents.js')
 const SetEvents = require('./Events/SetEvents.js')
 const ShopSectionEvents = require('./Events/ShopSectionEvents.js')
+const PlaylistsEvents = require('./Events/PlaylistsEvents.js')
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
@@ -47,6 +48,7 @@ client.on('ready', async () => {
   BlogpostsEvents(client, admin)
   CompBlogEvents(client, admin)
   ItemshopEvents(client, admin)
+  PlaylistsEvents(client, admin)
   PAKEvents(client, admin)
   SetEvents(client, admin)
   ShopSectionEvents(client, admin)

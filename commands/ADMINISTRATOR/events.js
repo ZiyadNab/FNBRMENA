@@ -21,7 +21,8 @@ module.exports = {
                 "itemshop",
                 "section",
                 "set",
-                "pak"
+                "pak",
+                "playlists"
             ]
 
             //sent the embed to let the modes choose which to change status

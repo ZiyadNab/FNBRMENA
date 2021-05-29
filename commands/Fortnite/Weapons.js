@@ -42,7 +42,7 @@ module.exports = {
                             //filtering
                             const filter = m => m.author.id === message.author.id
                             if(lang === "en"){
-                                reply = ""
+                                reply = "please choose from above list the command will stop listen in 20 sec"
                             }else if(lang === "ar"){
                                 reply = "الرجاء الاختيار من القائمة بالاعلى، سوف ينتهي الامر خلال ٢٠ ثانية"
                             }

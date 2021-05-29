@@ -26,47 +26,53 @@ module.exports = (client, admin) => {
     var number = 0
 
     const PAK = async () => {
-        Fortnite.AES()
-        .then(async res => {
-            if(number === 0){
-                data = res.data.dynamicKeys
-                aesData = res.data.build
-                number++
-            }
-            if(res.data.build !== aesData){
-                const aes = new Discord.MessageEmbed()
-                aes.setColor('#BB00EE')
-                aes.setTitle("New Update Has Been Found!")
-                aes.setDescription(res.data.build)
-                message.send(aes)
-                aesData = res.data.build
-            }
-            if(JSON.stringify(res.data.dynamicKeys) !== JSON.stringify(data)){
-                Counter = 0
-                for(let i = 0; i < res.data.dynamicKeys.length; i++){
-                    pakFile = res.data.dynamicKeys[i].pakFilename
-                    if(pakFile.endsWith("pak")){
-                        if(pakFile.substring(12, 20) !== "optional"){
-                            pakNumber = pakFile.substring(8,12)
-                            pakGuild = res.data.dynamicKeys[i].pakGuid
-                            if(pakNumberData.includes(pakNumber)){
-                                if(!pakGuildData.includes(pakGuild)){
-                                    //run a command
-                                    message.send(pakNumber)
-                                    pakGuildData[Counter] = pakGuild
-                                }
-                                    
-                            }else{
-                                //run a command
-                                message.send(pakNumber)
-                                pakGuildData[Counter] = pakGuild
-                                pakNumberData[Counter] = pakNumber
-                            }
-                            Counter++
-                        }
+        //checking if the bot on or off
+        admin.database().ref("ERA's").child("Events").child("pak").once('value', async function (data) {
+            var status = data.val().Active;
+            if(status === "true"){
+                Fortnite.AES()
+                .then(async res => {
+                    if(number === 0){
+                        data = res.data.dynamicKeys
+                        aesData = res.data.build
+                        number++
                     }
-                }
-                data = res.data.dynamicKeys
+                    if(res.data.build !== aesData){
+                        const aes = new Discord.MessageEmbed()
+                        aes.setColor('#BB00EE')
+                        aes.setTitle("New Update Has Been Found!")
+                        aes.setDescription(res.data.build)
+                        message.send(aes)
+                        aesData = res.data.build
+                    }
+                    if(JSON.stringify(res.data.dynamicKeys) !== JSON.stringify(data)){
+                        Counter = 0
+                        for(let i = 0; i < res.data.dynamicKeys.length; i++){
+                            pakFile = res.data.dynamicKeys[i].pakFilename
+                            if(pakFile.endsWith("pak")){
+                                if(pakFile.substring(12, 20) !== "optional"){
+                                    pakNumber = pakFile.substring(8,12)
+                                    pakGuild = res.data.dynamicKeys[i].pakGuid
+                                    if(pakNumberData.includes(pakNumber)){
+                                        if(!pakGuildData.includes(pakGuild)){
+                                            //run a command
+                                            message.send(pakNumber)
+                                            pakGuildData[Counter] = pakGuild
+                                        }
+                                            
+                                    }else{
+                                        //run a command
+                                        message.send(pakNumber)
+                                        pakGuildData[Counter] = pakGuild
+                                        pakNumberData[Counter] = pakNumber
+                                    }
+                                    Counter++
+                                }
+                            }
+                        }
+                        data = res.data.dynamicKeys
+                    }
+                })
             }
         })
     }

@@ -21,6 +21,13 @@ module.exports = {
                 //creating variables
                 var str = ""
                 var reply = ""
+                var loading = ""
+
+                if(lang === "en"){
+                    loading = "Getting the image for "
+                }else if(lang === "ar"){
+                    loading = "جاري البحث عن صور"
+                }
 
                 //creating embed
                 const place = new Discord.MessageEmbed()
@@ -72,7 +79,7 @@ module.exports = {
                                 const generating = new Discord.MessageEmbed()
                                 generating.setColor('#BB00EE')
                                 const emoji = client.emojis.cache.get("805690920157970442")
-                                generating.setTitle(`${loading} ${length} ${emoji}`)
+                                generating.setTitle(`${loading} ${res.list[collected.first().content].name} ${emoji}`)
                                 message.channel.send(generating)
                                 .then( async msg => {
 

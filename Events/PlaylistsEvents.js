@@ -13,6 +13,7 @@ module.exports = (client, admin) => {
     //result
     var lang = "ar"
     var resonse = []
+    var modeName = []
     var number = 0
 
     const Playlists = async () => {
@@ -34,7 +35,10 @@ module.exports = (client, admin) => {
                     })
 
                     if(number === 0){
-                        resonse = await Active
+                        // resonse = await Active
+                        // for(let i = 0; i < Active.length; i++){
+                        //     modeName[i] = Active[i].name
+                        // }
                         number++
                     }
 
@@ -53,7 +57,7 @@ module.exports = (client, admin) => {
                         for(let i = 0; i < Active.length; i++){
 
                             //if the playlist isn't in the response array
-                            if(!resonse.includes(Active[i])){
+                            if(!modeName.includes(Active[i].name)){
 
                                 //create embed
                                 const ActivePlaylist = new Discord.MessageEmbed()
@@ -94,10 +98,13 @@ module.exports = (client, admin) => {
 
                         //restore data
                         resonse = await Active
+                        for(let i = 0; i < Active.length; i++){
+                            modeName[i] = Active[i].name
+                        }
                     }
                 })
             }
         })
     }
-    setInterval(Playlists, 2.5 * 60000)
+    setInterval(Playlists, 1 * 60000)
 }

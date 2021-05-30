@@ -135,7 +135,7 @@ module.exports = {
                         const filter = (button) => button.clicker.user.id === message.author.id;
 
                         //await click
-                        await pickedAgain.awaitButtons(filter, { max: 1, time: 30000 })
+                        await pickedAgain.awaitButtons(filter, { max: 1, time: 30000, errors: ['time'] })
                         .then(async collected => {
 
                             if(collected.first().id === "again"){
@@ -149,12 +149,14 @@ module.exports = {
                             if(collected.first().id === "stop"){
                                 //delete the start message
                                 pickedAgain.delete()
+                                return
                             }
 
                         }).catch(err => {
 
                             //if user took 1 minutes without pressing start
                             pickedAgain.delete()
+                            return
                         })
                     })
                 }
@@ -182,7 +184,7 @@ module.exports = {
                 const filter = (button) => button.clicker.user.id === message.author.id;
 
                 //await click
-                await clicked.awaitButtons(filter, { max: 1, time: 60000 })
+                await clicked.awaitButtons(filter, { max: 1, time: 60000, errors: ['time'] })
                 .then(async collected => {
 
                     //call the picker function
@@ -194,6 +196,7 @@ module.exports = {
                 }).catch(err => {
 
                     //if user took 1 minutes without pressing start
+                    clicked.delete()
                     if(lang === "en"){
                         const error = new Discord.MessageEmbed()
                         .setColor('#BB00EE')

@@ -106,7 +106,9 @@ module.exports = {
                             }
 
                             //tumbnail
-                            bundle.setThumbnail(found[0].displayAssets[0].url)
+                            if(found[0].displayAssets.length !== 0){
+                                bundle.setThumbnail(found[0].displayAssets[0].url)
+                            }
 
                             //set the image
                             bundle.setImage(found[0].thumbnail)

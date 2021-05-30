@@ -128,11 +128,14 @@ module.exports = {
                         .then(b => {
                             client.on('clickButton', async (button) => {
                                 //... my code
-                                if(button.id === "again"){
-                                    b.delete()
-                                }
-                                if(button.id === "stop"){
-                                    b.delete()
+
+                                if(button.clicker.user.id === message.author.id){
+                                    if(button.id === "again"){
+                                        b.delete()
+                                    }
+                                    if(button.id === "stop"){
+                                        b.delete()
+                                    }
                                 }
                             })
                         })
@@ -161,12 +164,14 @@ module.exports = {
                 .then(async clicked => {
                     client.on('clickButton', async (button) => {
                         //... my code
-                        if(button.id === "start"){
-                            await picker()
-                            clicked.delete()
-                        }
-                        if(button.id === "again"){
-                            await picker()
+                        if(button.clicker.user.id === message.author.id){
+                            if(button.id === "start"){
+                                await picker()
+                                clicked.delete()
+                            }
+                            if(button.id === "again"){
+                                await picker()
+                            }
                         }
                     })
                 })

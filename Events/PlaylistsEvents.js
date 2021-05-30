@@ -35,10 +35,10 @@ module.exports = (client, admin) => {
                     })
 
                     if(number === 0){
-                        // resonse = await Active
-                        // for(let i = 0; i < Active.length; i++){
-                        //     modeName[i] = Active[i].name
-                        // }
+                        resonse = await Active
+                        for(let i = 0; i < Active.length; i++){
+                            modeName[i] = Active[i].name
+                        }
                         number++
                     }
 
@@ -106,5 +106,5 @@ module.exports = (client, admin) => {
             }
         })
     }
-    setInterval(Playlists, 1 * 60000)
+    setInterval(Playlists, 2.5 * 60000)
 }

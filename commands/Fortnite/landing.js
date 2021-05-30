@@ -128,6 +128,9 @@ module.exports = {
                         //send the data
                         const pickedAgain = await message.channel.send("", {buttons: [again, stop], embed: picked})
 
+                        //delete generating msg
+                        msg.delete()
+
                         //filtering
                         const filter = (button) => button.clicker.user.id === message.author.id;
 
@@ -135,7 +138,7 @@ module.exports = {
                         await pickedAgain.awaitButtons(filter, { max: 1, time: 30000 })
                         .then(async collected => {
 
-                            if(collected.id === "again"){
+                            if(collected.first().id === "again"){
                                 //call the picker function
                                 await picker()
 
@@ -143,7 +146,7 @@ module.exports = {
                                 pickedAgain.delete()
                             }
 
-                            if(collected.id === "stop"){
+                            if(collected.first().id === "stop"){
                                 //delete the start message
                                 pickedAgain.delete()
                             }
@@ -153,7 +156,6 @@ module.exports = {
                             //if user took 1 minutes without pressing start
                             pickedAgain.delete()
                         })
-                        msg.delete()
                     })
                 }
 

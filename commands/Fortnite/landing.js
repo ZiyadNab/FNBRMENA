@@ -129,12 +129,15 @@ module.exports = {
                             client.on('clickButton', async (button) => {
                                 //... my code
 
-                                if(button.clicker.user.id === message.author.id){
-                                    if(button.id === "again"){
-                                        b.delete()
-                                    }
-                                    if(button.id === "stop"){
-                                        b.delete()
+                                if(button.message.id === b.id){
+                                    if(button.clicker.user.id === message.author.id){
+                                        if(button.id === "again"){
+                                            picker()
+                                            b.delete()
+                                        }
+                                        if(button.id === "stop"){
+                                            b.delete()
+                                        }
                                     }
                                 }
                             })
@@ -164,13 +167,13 @@ module.exports = {
                 .then(async clicked => {
                     client.on('clickButton', async (button) => {
                         //... my code
-                        if(button.clicker.user.id === message.author.id){
-                            if(button.id === "start"){
-                                await picker()
-                                clicked.delete()
-                            }
-                            if(button.id === "again"){
-                                await picker()
+
+                        if(button.message.id === clicked.id){
+                            if(button.clicker.user.id === message.author.id){
+                                if(button.id === "start"){
+                                    await picker()
+                                    clicked.delete()
+                                }
                             }
                         }
                     })

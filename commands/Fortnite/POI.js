@@ -64,36 +64,54 @@ module.exports = {
                             //listen for user input
                             if(collected.first().content >= 0 && collected.first().content < res.list.length){
 
+                                //delete messages
+                                msg.delete()
+                                notify.delete()
+
+                                //generating animation
+                                const generating = new Discord.MessageEmbed()
+                                generating.setColor('#BB00EE')
+                                const emoji = client.emojis.cache.get("805690920157970442")
+                                generating.setTitle(`${loading} ${length} ${emoji}`)
+                                message.channel.send(generating)
+                                .then( async msg => {
+
+                                //Registering fonts
+                                Canvas.registerFont('./assets/font/BurbankBigCondensed-Black.otf' ,{family: 'Burbank Big Condensed',weight: "700",style: "bold"})
+                                Canvas.registerFont('./assets/font/Lalezar-Regular.ttf', {family: 'Arabic',weight: "700",style: "bold"});
+
                                 //canvas
                                 const canvas = Canvas.createCanvas(1920, 1080);
                                 const ctx = canvas.getContext('2d');
-                                console.log("canvas has been created")
+
+                                const creating = new Discord.MessageEmbed()
+                                creating.setColor('#BB00EE')
+                                if(lang === "en"){
+                                    creating.setTitle("Creating image" + emoji)
+                                }else if(lang === "ar"){
+                                    creating.setTitle("جاري انشاء الصوره" + emoji)
+                                }
+                                msg.edit(creating)
 
                                 //background
                                 const background = await Canvas.loadImage(res.list[collected.first().content].images[0].url)
                                 ctx.drawImage(background, 0, 0, 1920, 1080)
-                                console.log("image loaded")
 
                                 //add blue fog
                                 const fog = await Canvas.loadImage('./assets/News/fog.png')
                                 ctx.drawImage(fog,0,0,1920,1080)
-                                console.log("fog loaded")
 
                                 //credits
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='left';
                                 ctx.font = '60px Burbank Big Condensed'
                                 ctx.fillText("FNBRMENA", 15, 55)
-                                console.log("credits loaded")
 
                                 //send the picture
                                 const att = new Discord.MessageAttachment(canvas.toBuffer(), res.list[collected.first().content].name+'.png')
                                 await message.channel.send(att)
-                                console.log("sent")
-
-                                //delete messages
                                 msg.delete()
-                                notify.delete()
+                                })
 
                             }else{
 
@@ -117,9 +135,17 @@ module.exports = {
                         }).catch(err => {
                             console.log(err)
                         })
+                    }).catch(err => {
+                        console.log(err)
                     })
+                }).catch(err => {
+                    console.log(err)
                 })
+            }).catch(err => {
+                console.log(err)
             })
+        }).catch(err => {
+            console.log(err)
         })
     }
 }    

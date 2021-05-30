@@ -33,6 +33,39 @@ module.exports = {
                 }
 
                 const picker = async () => {
+
+                    //creating button
+                    let again = new MessageButton()
+
+                    //button style
+                    again.setStyle('blurple')
+
+                    //button label
+                    if(lang === "en"){
+                        again.setLabel('Try Again!')
+                    }else if(lang === "ar"){
+                        again.setLabel('محاولة اخرى!')
+                    }
+
+                    //button id
+                    again.setID('again');
+
+                    //creating button
+                    let stop = new MessageButton()
+
+                    //button style
+                    stop.setStyle('red')
+
+                    //button label
+                    if(lang === "en"){
+                        stop.setLabel('Stop!')
+                    }else if(lang === "ar"){
+                        stop.setLabel('ايقاف!')
+                    }
+
+                    //button id
+                    stop.setID('stop');
+
                     //generating animation
                     const generating = new Discord.MessageEmbed()
                     generating.setColor('#BB00EE')
@@ -41,26 +74,26 @@ module.exports = {
                     message.channel.send(generating)
                     .then( async msg => {
                         //creating embed
-                        const pickedAgain = new Discord.MessageEmbed()
+                        const picked = new Discord.MessageEmbed()
 
                         //get a random number
                         var randomImage = Math.floor(Math.random() * res.list.length)
                         
                         //create the color
-                        await pickedAgain.setColor('#BB00EE')
+                        await picked.setColor('#BB00EE')
 
                         //set title
                         if(lang === "en"){
-                            await pickedAgain.setTitle("Landing Picker")
+                            await picked.setTitle("Landing Picker")
                         }else if(lang === "ar"){
-                            await pickedAgain.setTitle("النزول العشوائي")
+                            await picked.setTitle("النزول العشوائي")
                         }
 
                         //set description
                         if(lang === "en"){
-                            await pickedAgain.setDescription("you are gonna land at **" + res.list[randomImage].name + "**")
+                            await picked.setDescription("you are gonna land at **" + res.list[randomImage].name + "**")
                         }else if(lang === "ar"){
-                            await pickedAgain.setDescription("راح تنزل في منطقة **" + res.list[randomImage].name + "**")
+                            await picked.setDescription("راح تنزل في منطقة **" + res.list[randomImage].name + "**")
                         }
 
                         //Registering fonts
@@ -89,58 +122,36 @@ module.exports = {
                         const att = new Discord.MessageAttachment(canvas.toBuffer(), res.list[randomImage].name + '.png')
 
                         //set the image
-                        await pickedAgain.attachFiles([att])
-                        await pickedAgain.setImage('attachment://' + att);
+                        await picked.attachFiles([att])
+                        await picked.setImage('attachment://' + att);
 
-                        //creating button
-                        let again = new MessageButton()
+                        //send the data
+                        const pickedAgain = await message.channel.send("", {buttons: [again, stop], embed: picked})
 
-                        //button style
-                        again.setStyle('blurple')
+                        //filtering
+                        const filter = (button) => button.clicker.user.id === message.author.id;
 
-                        //button label
-                        if(lang === "en"){
-                            again.setLabel('Try Again!')
-                        }else if(lang === "ar"){
-                            again.setLabel('محاولة اخرى!')
-                        }
+                        //await click
+                        await pickedAgain.awaitButtons(filter, { max: 1, time: 30000 })
+                        .then(async collected => {
 
-                        //button id
-                        again.setID('again');
+                            if(collected.id === "again"){
+                                //call the picker function
+                                await picker()
 
-                        //creating button
-                        let stop = new MessageButton()
+                                //delete the start message
+                                pickedAgain.delete()
+                            }
 
-                        //button style
-                        stop.setStyle('red')
+                            if(collected.id === "stop"){
+                                //delete the start message
+                                pickedAgain.delete()
+                            }
 
-                        //button label
-                        if(lang === "en"){
-                            stop.setLabel('Stop!')
-                        }else if(lang === "ar"){
-                            stop.setLabel('ايقاف!')
-                        }
+                        }).catch(err => {
 
-                        //button id
-                        stop.setID('stop');
-
-                        await message.channel.send("", {buttons: [again, stop], embed: pickedAgain})
-                        .then(b => {
-                            client.on('clickButton', async (button) => {
-                                //... my code
-
-                                if(button.message.id === b.id){
-                                    if(button.clicker.user.id === message.author.id){
-                                        if(button.id === "again"){
-                                            picker()
-                                            b.delete()
-                                        }
-                                        if(button.id === "stop"){
-                                            b.delete()
-                                        }
-                                    }
-                                }
-                            })
+                            //if user took 1 minutes without pressing start
+                            pickedAgain.delete()
                         })
                         msg.delete()
                     })
@@ -163,20 +174,35 @@ module.exports = {
                 start.setID('start');
 
                 //send the button
-                await message.channel.send(reply, start)
-                .then(async clicked => {
-                    client.on('clickButton', async (button) => {
-                        //... my code
+                const clicked = await message.channel.send(reply, start)
 
-                        if(button.message.id === clicked.id){
-                            if(button.clicker.user.id === message.author.id){
-                                if(button.id === "start"){
-                                    await picker()
-                                    clicked.delete()
-                                }
-                            }
-                        }
-                    })
+                //filtering
+                const filter = (button) => button.clicker.user.id === message.author.id;
+
+                //await click
+                await clicked.awaitButtons(filter, { max: 1, time: 60000 })
+                .then(async collected => {
+
+                    //call the picker function
+                    await picker()
+
+                    //delete the start message
+                    clicked.delete()
+
+                }).catch(err => {
+
+                    //if user took 1 minutes without pressing start
+                    if(lang === "en"){
+                        const error = new Discord.MessageEmbed()
+                        .setColor('#BB00EE')
+                        .setTitle(`ْUntil when ill wait for u to start ? BTW i canceled your prosses if you are ready just type it again ${errorEmoji}`)
+                        message.reply(error)
+                    }else if(lang === "ar"){
+                        const error = new Discord.MessageEmbed()
+                        .setColor('#BB00EE')
+                        .setTitle(`الى متى انتظرك تبدا ؟ الزبده طفيت الامر اذا كنت جاهز اكتبه ثانية ${errorEmoji}`)
+                        message.reply(error)
+                    }
                 })
             })
         })

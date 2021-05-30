@@ -60,6 +60,7 @@ module.exports = {
                     var height = 512
                     var newline = 0;
 
+                    //creating length to calc the width and height
                     if(length <= 2){
                         length = res.data.length
                     }else if(length > 2 && length <= 4){
@@ -77,7 +78,11 @@ module.exports = {
                     }
 
                     //creating width
-                    width += (length * 512) + (length * 5) - 5
+                    if(res.data.length === 1){
+                        width = 512
+                    }else{
+                        width += (length * 512) + (length * 5) - 5
+                    }
 
                     //creating height
                     for(let i = 0; i < res.data.length; i++){

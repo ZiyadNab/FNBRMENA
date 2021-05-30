@@ -94,9 +94,9 @@ module.exports = {
                                 const creating = new Discord.MessageEmbed()
                                 creating.setColor('#BB00EE')
                                 if(lang === "en"){
-                                    creating.setTitle("Creating image" + emoji)
+                                    creating.setTitle(`Creating image ${emoji}`)
                                 }else if(lang === "ar"){
-                                    creating.setTitle("جاري انشاء الصوره" + emoji)
+                                    creating.setTitle(`جاري انشاء الصوره ${emoji}`)
                                 }
                                 msg.edit(creating)
 

@@ -33,7 +33,7 @@ module.exports = {
                 const place = new Discord.MessageEmbed()
 
                 //set the embed color
-                place.setColor()
+                place.setColor('#BB00EE')
 
                 //set the title
                 if(lang === "en"){

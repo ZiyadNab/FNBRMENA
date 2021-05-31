@@ -77,7 +77,7 @@ module.exports = {
                             if (!doc.exists){
 
                                 //store the data
-                                //await db.collection("Reminders").doc(`${i}`).set(reminder)
+                                await db.collection("Reminders").doc(`${i}`).set(reminder)
                                 break
                             }
                         }

@@ -1,4 +1,5 @@
-const config = require('../../Coinfigs/config.json')
+const Data = require('../../FNBRMENA')
+const FNBRMENA = new Data()
 
 module.exports = {
     commands: 'command',
@@ -19,67 +20,64 @@ module.exports = {
         //removing the boolean from the agrs elements
         args.shift()
 
-        //checking for user language
-        admin.database().ref("ERA's").child("Users").child(message.author.id).once('value', function (data) {
-            //storing his language
-            var lang = data.val().lang;
+        //get the user language from the database
+        const lang = await FNBRMENA.Admin(admin, message, "", "Lang")
 
-            //check if the command exists
-            admin.database().ref("ERA's").child("Commands").child(command).once('value', async data => {
+        //check if the command exists
+        admin.database().ref("ERA's").child("Commands").child(command).once('value', async data => {
 
-                //if statment
-                if(await data.exists()){
+            //if statment
+            if (await data.exists()) {
 
-                    //check if the user enterd a true or false 
-                    if(boolean === "true" || boolean === "false"){
+                //check if the user enterd a true or false 
+                if (boolean === "true" || boolean === "false") {
 
-                        //changing the status of the command
-                        await admin.database().ref("ERA's").child("Commands").child(command).child("Active").update({
-                            Status: boolean
-                        })
+                    //changing the status of the command
+                    await admin.database().ref("ERA's").child("Commands").child(command).child("Active").update({
+                        Status: boolean
+                    })
 
-                        //creating success embed
-                        const status = new Discord.MessageEmbed()
-                        status.setColor('#BB00EE')
-                        if(boolean === "true"){
-                            if(lang === "en"){
-                                status.setTitle(`The ${command} command is Enabled ${checkEmoji}`)
-                            }else if(lang === "ar"){
-                                status.setTitle(`تم تفعيل امر ${command} بنجاح ${checkEmoji}`)
-                            }
-                        } else if(boolean === "false"){
-                            if(lang === "en"){
-                                status.setTitle(`The ${command} command is Disabled ${checkEmoji}`)
-                            }else if(lang === "ar"){
-                                status.setTitle(`تم ايقاف امر ${command} بنجاح ${checkEmoji}`)
-                            }
+                    //creating success embed
+                    const status = new Discord.MessageEmbed()
+                    status.setColor('#BB00EE')
+                    if (boolean === "true") {
+                        if (lang === "en") {
+                            status.setTitle(`The ${command} command is Enabled ${checkEmoji}`)
+                        } else if (lang === "ar") {
+                            status.setTitle(`تم تفعيل امر ${command} بنجاح ${checkEmoji}`)
                         }
-                        //sending the embed
-                        message.channel.send(status)
-                    }else{
-
-                        //there is a typo in TRUE or FALSE
-                        const err = new Discord.MessageEmbed()
-                        err.setColor('#BB00EE')
-                        if(lang === "en"){
-                            err.setTitle(`Make sure that you enter TRUE to enable the command or FALSE to disable it etherwise it will throw an error ${errorEmoji}`)
-                        }else if(lang === "ar"){
-                            err.setTitle(`الرجاء التأكد من كتابة TRUE ام FALSE بشكل صحيح ${errorEmoji}`)
+                    } else if (boolean === "false") {
+                        if (lang === "en") {
+                            status.setTitle(`The ${command} command is Disabled ${checkEmoji}`)
+                        } else if (lang === "ar") {
+                            status.setTitle(`تم ايقاف امر ${command} بنجاح ${checkEmoji}`)
                         }
-                        message.channel.send(err)
                     }
-                }else{
-                    //there is a typo in the command
-                    const error = new Discord.MessageEmbed()
-                    error.setColor('#BB00EE')
-                    if(lang === "en"){
-                        error.setTitle(`Make sure that you have entered a valid command ${errorEmoji}`)
-                    }else if(lang === "ar"){
-                        error.setTitle(`الرجاء التأكد من كتابة الامر بشكل صحيح ${errorEmoji}`)
+                    //sending the embed
+                    message.channel.send(status)
+                } else {
+
+                    //there is a typo in TRUE or FALSE
+                    const err = new Discord.MessageEmbed()
+                    err.setColor('#BB00EE')
+                    if (lang === "en") {
+                        err.setTitle(`Make sure that you enter TRUE to enable the command or FALSE to disable it etherwise it will throw an error ${errorEmoji}`)
+                    } else if (lang === "ar") {
+                        err.setTitle(`الرجاء التأكد من كتابة TRUE ام FALSE بشكل صحيح ${errorEmoji}`)
                     }
-                        message.channel.send(error)
+                    message.channel.send(err)
                 }
-            })
+            } else {
+                //there is a typo in the command
+                const error = new Discord.MessageEmbed()
+                error.setColor('#BB00EE')
+                if (lang === "en") {
+                    error.setTitle(`Make sure that you have entered a valid command ${errorEmoji}`)
+                } else if (lang === "ar") {
+                    error.setTitle(`الرجاء التأكد من كتابة الامر بشكل صحيح ${errorEmoji}`)
+                }
+                message.channel.send(error)
+            }
         })
     },
 }

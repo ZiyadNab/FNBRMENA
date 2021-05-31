@@ -1,4 +1,5 @@
-const { prefix } = require('../Coinfigs/config.json')
+const Data = require('../FNBRMENA')
+const FNBRMENA = new Data()
 const Discord = require('discord.js')
 
 const allCommands = {}
@@ -27,9 +28,13 @@ module.exports = async (commandOptions) => {
 let recentlyRan = []
 
 module.exports.listen = async (client, admin) => {
+
   // Listen for messages
   client.on('message', async (message) => {
     const { member, content, guild } = message
+
+    //get the prefix from database
+    const prefix = await FNBRMENA.Admin(admin, message, "", "Prefix")
 
     // Split on any number of spaces
     const args = content.split(/[ ]+/)
@@ -57,179 +62,166 @@ module.exports.listen = async (client, admin) => {
       const errorEmoji = client.emojis.cache.get("836454225344856066")
       const checkEmoji = client.emojis.cache.get("836454263260971018")
 
-      admin.database().ref("ERA's").child("Users").child(message.author.id).once('value', function (data) {
-        var lang = data.val().lang;
+      //get the user language from the database
+      const lang = await FNBRMENA.Admin(admin, message, "", "Lang")
 
-        if(message.author.id === "325507145871130624"){
+      if(message.author.id === "325507145871130624"){
 
-          // Ensure we have the correct number of args
-          if (
-            args.length < minArgs ||
-            (maxArgs !== null && args.length > maxArgs)
-          ) {
-            if(lang === "en"){
-              const SyntaxError = new Discord.MessageEmbed()
-              .setColor('#BB00EE')
-              .setTitle(`Incorrect syntax! Use ${prefix}${alias} ${expectedArgs} ${errorEmoji}`)
-              message.channel.send(SyntaxError)
-            }else if (lang === "ar"){
-              const SyntaxError = new Discord.MessageEmbed()
-              .setColor('#BB00EE')
-              .setTitle(`غلط في عملية كتابة الامر الرجاء كتابة الامر بالشكل الصحيح \n${prefix}${alias} ${expectedArgs} ${errorEmoji}`)
-              message.channel.send(SyntaxError)
-            }
-            return
+        // Ensure we have the correct number of args
+        if (
+          args.length < minArgs ||
+          (maxArgs !== null && args.length > maxArgs)
+        ) {
+          if(lang === "en"){
+            const SyntaxError = new Discord.MessageEmbed()
+            .setColor('#BB00EE')
+            .setTitle(`Incorrect syntax! Use ${prefix}${alias} ${expectedArgs} ${errorEmoji}`)
+            message.channel.send(SyntaxError)
+          }else if (lang === "ar"){
+            const SyntaxError = new Discord.MessageEmbed()
+            .setColor('#BB00EE')
+            .setTitle(`غلط في عملية كتابة الامر الرجاء كتابة الامر بالشكل الصحيح \n${prefix}${alias} ${expectedArgs} ${errorEmoji}`)
+            message.channel.send(SyntaxError)
           }
+          return
+        }
 
-          // Handle the custom command code
+        // Handle the custom command code
+    
+        callback(message, args, args.join(' '),Discord, client, admin, alias, errorEmoji, checkEmoji)
       
-          callback(message, args, args.join(' '),Discord, client, admin, alias, errorEmoji, checkEmoji)
-        
-        }else{
-          //checking if the bot on or off
-          admin.database().ref("ERA's").child("Server").child("Status").once('value', async function (data) {
-            var status = data.val().Bot;
-            if(status === "on"){
-        
-            //checking if the command is active
-            admin.database().ref("ERA's").child("Commands").child(alias).child("Active").once('value', async function (data) {
-              var access = data.val().Status;
-              if(access === "true"){
-                // A command has been ran
-                
-                // Ensure the user has the required permissions
-                var p = []
-                await admin.database().ref("ERA's").child("Commands").child(alias).child("Perms").child("0").once('value', async data => {
-                  if(data.val() !== null){
-                    p = data.val()
-                  }
-                })
-                for (const permission of p) {
-                  if (!member.hasPermission(permission)) {
-                    if(lang === "en"){
-                      const PermErr = new Discord.MessageEmbed()
-                      .setColor('#BB00EE')
-                      .setTitle(`${permissionError} ${errorEmoji} `)
-                      message.channel.send(PermErr)
-                    }else if(lang === "ar"){
-                      const PermErr = new Discord.MessageEmbed()
-                      .setColor('#BB00EE')
-                      .setTitle(`عذرا ليس لديك صلاحية لهذا الامر ${errorEmoji}`)
-                      message.channel.send(PermErr)
-                    }
-                    return
-                  }
-                }
+      }else{
+        //checking if the bot on or off
+        const status = await FNBRMENA.Admin(admin, message, "", "Status")
+        if(status === "on"){
+      
+          //checking if the command is active
+          const access = await FNBRMENA.Admin(admin, message, alias, "Command")
+          if(access === "true"){
+            // A command has been ran
+            
+            // Ensure the user has the required permissions
+            const perms = await FNBRMENA.Admin(admin, message, alias, "Perms")
 
-                var r = []
-                await admin.database().ref("ERA's").child("Commands").child(alias).child("Roles").child("0").once('value', async data => {
-                  if(data.val() !== null){
-                    r = data.val()
-                  }
-                })
-
-                // Ensure the user has the required roles
-                for (const requiredRole of r) {
-                  const role = guild.roles.cache.find(
-                    (role) => role.name === requiredRole
-                  )
-
-                  if (!role || !member.roles.cache.has(role.id)) {
-                    if(lang === "en"){
-                      const RoleErr = new Discord.MessageEmbed()
-                      .setColor('#BB00EE')
-                      .setTitle(`You must have the "${requiredRole}" role to use this command ${errorEmoji}`)
-                      message.channel.send(RoleErr)
-                    }else if(lang === "ar"){
-                      const RoleErrAR = new Discord.MessageEmbed()
-                      .setColor('#BB00EE')
-                      .setTitle(`يجب عليك الحصول على رول "${requiredRole}" لأستخدام الامر ${errorEmoji}`)
-                      message.channel.send(RoleErrAR)
-                    }
-                    return
-                  }
-                }
-
-                // Ensure the use has not ran the command too frequently
-                let cooldownString = `${guild.id}-${member.id}-${alias}`
-                if(cooldown > 0 && recentlyRan.includes(cooldownString)){
-                  if(lang === "en"){
-                    const RoleErr = new Discord.MessageEmbed()
-                    .setColor('#BB00EE')
-                    .setTitle(`You can't run this command too soon please wait ${cooldown} sec... ${errorEmoji}`)
-                    message.channel.send(RoleErr)
-                  }else if(lang === "ar"){
-                    const RoleErrAR = new Discord.MessageEmbed()
-                    .setColor('#BB00EE')
-                    .setTitle(`لا يمكنك استعمال الامر اكثر من مرا بنفس الوقت الرجاء انتظر ${cooldown} ثانية ${errorEmoji}`)
-                    message.channel.send(RoleErrAR)
-                  }
-                  return
-                }
-
-                // Ensure we have the correct number of args
-                if (
-                  args.length < minArgs ||
-                  (maxArgs !== null && args.length > maxArgs)
-                ) {
-                  if(lang === "en"){
-                    const SyntaxError = new Discord.MessageEmbed()
-                    .setColor('#BB00EE')
-                    .setTitle(`Incorrect syntax! Use ${prefix}${alias} ${expectedArgs} ${errorEmoji}`)
-                    message.channel.send(SyntaxError)
-                  }else if (lang === "ar"){
-                    const SyntaxErrorAR = new Discord.MessageEmbed()
-                    .setColor('#BB00EE')
-                    .setTitle(`غلط في عملية كتابة الامر الرجاء كتابة الامر بالشكل الصحيح \n${prefix}${alias} ${expectedArgs} ${errorEmoji}`)
-                    message.channel.send(SyntaxErrorAR)
-                  }
-                  return
-                }
-
-                //start the cooldown
-                if(cooldown > 0){
-                  recentlyRan.push(cooldownString)
-
-                  setTimeout( () => {
-                    recentlyRan = recentlyRan.filter((string) => {
-                      return string !== cooldownString
-                    })
-                  }, 1000 * cooldown)
-                }
-
-              // Handle the custom command code
-              callback(message, args, args.join(' '),Discord, client, admin, alias, errorEmoji, checkEmoji)
-
-              }if(access === "false"){
+            for (const permission of perms) {
+              if (!member.hasPermission(permission)) {
                 if(lang === "en"){
-                    const err = new Discord.MessageEmbed()
-                    err.setColor('#BB00EE')
-                    err.setTitle(`Sorry this command is offline at the moment, please try again later ${errorEmoji}`)
-                    message.channel.send(err)
+                  const PermErr = new Discord.MessageEmbed()
+                  .setColor('#BB00EE')
+                  .setTitle(`${permissionError} ${errorEmoji} `)
+                  message.channel.send(PermErr)
                 }else if(lang === "ar"){
-                    const err = new Discord.MessageEmbed()
-                    err.setColor('#BB00EE')
-                    err.setTitle(`نأسف تم ايقاف الامر لمدة معينة نرجوا المحاولة لاحقا ${errorEmoji}`)
-                    message.channel.send(err)
-                  }
+                  const PermErr = new Discord.MessageEmbed()
+                  .setColor('#BB00EE')
+                  .setTitle(`عذرا ليس لديك صلاحية لهذا الامر ${errorEmoji}`)
+                  message.channel.send(PermErr)
                 }
-              })
-            }else{
-              if(lang === "en"){
-                const off = new Discord.MessageEmbed()
-                .setColor('#BB00EE')
-                .setTitle(`Errr, Sorry the bot is off at the moment ${errorEmoji}`)
-                message.channel.send(off)
-              }else if(lang === "ar"){
-                const offAR = new Discord.MessageEmbed()
-                .setColor('#BB00EE')
-                .setTitle(`عذرا البوت مغلق بالوقت الحالي ${errorEmoji}`)
-                message.channel.send(offAR)
+                return
               }
             }
-          })
+
+            //get the command roles from the database
+            const roles = await FNBRMENA.Admin(admin, message, alias, "Roles")
+
+            // Ensure the user has the required roles
+            for (const requiredRole of roles) {
+              const role = guild.roles.cache.find(
+                (role) => role.name === requiredRole
+              )
+
+              if (!role || !member.roles.cache.has(role.id)) {
+                if(lang === "en"){
+                  const RoleErr = new Discord.MessageEmbed()
+                  .setColor('#BB00EE')
+                  .setTitle(`You must have the "${requiredRole}" role to use this command ${errorEmoji}`)
+                  message.channel.send(RoleErr)
+                }else if(lang === "ar"){
+                  const RoleErrAR = new Discord.MessageEmbed()
+                  .setColor('#BB00EE')
+                  .setTitle(`يجب عليك الحصول على رول "${requiredRole}" لأستخدام الامر ${errorEmoji}`)
+                  message.channel.send(RoleErrAR)
+                }
+                return
+              }
+            }
+
+            // Ensure the use has not ran the command too frequently
+            let cooldownString = `${guild.id}-${member.id}-${alias}`
+            if(cooldown > 0 && recentlyRan.includes(cooldownString)){
+              if(lang === "en"){
+                const RoleErr = new Discord.MessageEmbed()
+                .setColor('#BB00EE')
+                .setTitle(`You can't run this command too soon please wait ${cooldown} sec... ${errorEmoji}`)
+                message.channel.send(RoleErr)
+              }else if(lang === "ar"){
+                const RoleErrAR = new Discord.MessageEmbed()
+                .setColor('#BB00EE')
+                .setTitle(`لا يمكنك استعمال الامر اكثر من مرا بنفس الوقت الرجاء انتظر ${cooldown} ثانية ${errorEmoji}`)
+                message.channel.send(RoleErrAR)
+              }
+              return
+            }
+
+            // Ensure we have the correct number of args
+            if (
+              args.length < minArgs ||
+              (maxArgs !== null && args.length > maxArgs)
+            ) {
+              if(lang === "en"){
+                const SyntaxError = new Discord.MessageEmbed()
+                .setColor('#BB00EE')
+                .setTitle(`Incorrect syntax! Use ${prefix}${alias} ${expectedArgs} ${errorEmoji}`)
+                message.channel.send(SyntaxError)
+              }else if (lang === "ar"){
+                const SyntaxErrorAR = new Discord.MessageEmbed()
+                .setColor('#BB00EE')
+                .setTitle(`غلط في عملية كتابة الامر الرجاء كتابة الامر بالشكل الصحيح \n${prefix}${alias} ${expectedArgs} ${errorEmoji}`)
+                message.channel.send(SyntaxErrorAR)
+              }
+              return
+            }
+
+            //start the cooldown
+            if(cooldown > 0){
+              recentlyRan.push(cooldownString)
+
+              setTimeout( () => {
+                recentlyRan = recentlyRan.filter((string) => {
+                  return string !== cooldownString
+                })
+              }, 1000 * cooldown)
+            }
+
+          // Handle the custom command code
+          callback(message, args, args.join(' '),Discord, client, admin, alias, errorEmoji, checkEmoji)
+
+          }if(access === "false"){
+            if(lang === "en"){
+                const err = new Discord.MessageEmbed()
+                err.setColor('#BB00EE')
+                err.setTitle(`Sorry this command is offline at the moment, please try again later ${errorEmoji}`)
+                message.channel.send(err)
+            }else if(lang === "ar"){
+                const err = new Discord.MessageEmbed()
+                err.setColor('#BB00EE')
+                err.setTitle(`نأسف تم ايقاف الامر لمدة معينة نرجوا المحاولة لاحقا ${errorEmoji}`)
+                message.channel.send(err)
+              }
+            }
+        }else{
+          if(lang === "en"){
+            const off = new Discord.MessageEmbed()
+            .setColor('#BB00EE')
+            .setTitle(`Errr, Sorry the bot is off at the moment ${errorEmoji}`)
+            message.channel.send(off)
+          }else if(lang === "ar"){
+            const offAR = new Discord.MessageEmbed()
+            .setColor('#BB00EE')
+            .setTitle(`عذرا البوت مغلق بالوقت الحالي ${errorEmoji}`)
+            message.channel.send(offAR)
+          }
         }
-      })
+      }
     }
   })
 }

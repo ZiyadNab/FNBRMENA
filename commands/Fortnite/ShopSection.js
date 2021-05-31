@@ -1,3 +1,5 @@
+const Data = require('../../FNBRMENA')
+const FNBRMENA = new Data()
 const axios = require('axios');
 const Canvas = require('canvas')
 
@@ -9,6 +11,10 @@ module.exports = {
     cooldown: -1,
     permissionError: 'Sorry you do not have acccess to this command',
     callback: (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji) => {
+
+        //get the user language from the database
+        const lang = await FNBRMENA.Admin(admin, message, "", "Lang")
+        
         axios.get('https://fn-api.com/api/shop_categories')
         .then(async (res) => {
             const Sections = new Discord.MessageEmbed()

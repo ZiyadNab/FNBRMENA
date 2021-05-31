@@ -1,4 +1,5 @@
-const error = require('../Errors')
+const Data = require('../../FNBRMENA')
+const FNBRMENA = new Data()
 
 module.exports = {
     commands: 'help',

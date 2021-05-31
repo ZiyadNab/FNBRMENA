@@ -1,41 +1,38 @@
-const path = require('path')
-const fs = require('fs')
+const serviceAccount = require('./Firebase/ServiceAccount.json')
+const config = require('./Coinfigs/config.json')
+const Events = require('./Events/Events.js')
+const admin = require('firebase-admin')
 const Discord = require('discord.js')
 const client = new Discord.Client()
 require('discord-buttons')(client)
-const config = require('./Coinfigs/config.json')
-const UserJoined = require('./Events/User.js')
-const Commands = require('./Events/Commands.js')
-const ItemshopEvents = require('./Events/ItemshopEvents')
-const admin = require('firebase-admin')
-const serviceAccount = require('./Firebase/ServiceAccount.json')
-const BlogpostsEvents = require('./Events/BlogpostsEvents')
-const CompBlogEvents = require('./Events/CompBlogEvents')
-const PAKEvents = require('./Events/PAKEvents.js')
-const SetEvents = require('./Events/SetEvents.js')
-const ShopSectionEvents = require('./Events/ShopSectionEvents.js')
-const PlaylistsEvents = require('./Events/PlaylistsEvents.js')
+const Data = require('./FNBRMENA')
+const path = require('path')
+const FNBRMENA = new Data()
+const fs = require('fs')
 
+
+//Get access to the database
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
   databaseURL: "https://fnbrmena-1-default-rtdb.firebaseio.com"
 });
 
+//client event listner
 client.on('ready', async () => {
   console.log('FNBRMENA Bot is online!')
 
   const baseFile = 'CommandBase.js'
-  const Error = 'Errors.js'
   const commandBase = require(`./commands/${baseFile}`)
   const Array = []
 
+  //read all commands
   const readCommands = (dir) => {
     const files = fs.readdirSync(path.join(__dirname, dir))
     for (const file of files) {
       const stat = fs.lstatSync(path.join(__dirname, dir, file))
       if (stat.isDirectory()) {
         readCommands(path.join(dir, file))
-      } else if (file !== baseFile && file !== Error) {
+      } else if (file !== baseFile) {
         const option = require(path.join(__dirname, dir, file))
         Array.push(option.commands)
         commandBase(option)
@@ -43,17 +40,11 @@ client.on('ready', async () => {
     }
   }
 
+  //excute
   readCommands('commands')
   commandBase.listen(client, admin)
-  UserJoined(client, admin)
-  BlogpostsEvents(client, admin)
-  CompBlogEvents(client, admin)
-  ItemshopEvents(client, admin)
-  PlaylistsEvents(client, admin)
-  PAKEvents(client, admin)
-  SetEvents(client, admin)
-  ShopSectionEvents(client, admin)
-  Commands(client, admin, Array)
+  Events(client, admin, Array)
+  
 })
 
-client.login(config.apis.token);
+client.login(FNBRMENA.APIKeys("DiscordBotToken"));

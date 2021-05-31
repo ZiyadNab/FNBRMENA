@@ -1,3 +1,6 @@
+const Data = require('../../FNBRMENA')
+const FNBRMENA = new Data()
+
 module.exports = {
     commands: 'addjsonuser',
     expectedArgs: '',

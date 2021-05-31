@@ -1,9 +1,7 @@
 const FortniteAPI = require("fortniteapi.io-api");
 const Discord = require('discord.js')
-const moment = require('moment')
 const key = require('../Coinfigs/config.json')
 const fortniteAPI = new FortniteAPI(key.apis.fortniteio);
-const Canvas = require('canvas');
 
 module.exports = (client, admin) => {
     const message = client.channels.cache.find(channel => channel.id === key.events.Set)

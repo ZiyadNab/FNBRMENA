@@ -1,4 +1,6 @@
 const config = require('../../Coinfigs/config.json')
+const Data = require('../../FNBRMENA')
+const FNBRMENA = new Data()
 
 module.exports = {
     commands: 'rules',

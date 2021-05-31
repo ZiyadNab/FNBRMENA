@@ -509,7 +509,7 @@ module.exports = {
                         const itemInfo = new Discord.MessageEmbed()
 
                         //set color
-                        itemInfo.setColor()
+                        itemInfo.setColor('#BB00EE')
 
                         //set titles and fields
                         if(lang == "en"){
@@ -533,7 +533,7 @@ module.exports = {
                         const att = new Discord.MessageAttachment(canvas.toBuffer(), text+'.png')
                         await message.channel.send(att)
                         await message.channel.send(itemInfo)
-                        msg.delet()
+                        msg.delete()
                     })
                 }else{
                     if(lang === "en"){

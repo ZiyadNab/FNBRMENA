@@ -1612,6 +1612,30 @@ module.exports = (client, admin) => {
                                 const att = new Discord.MessageAttachment(canvas.toBuffer('image/jpeg', {quality: 0.5}))
                                 await message.send(att)
                                 msg.delete()
+
+                                //seeting up the db firestore
+                                var db = admin.firestore()
+
+                                //get the collection from the database
+                                const snapshot = await db.collection("Reminders").get()
+                                .then(doc => {
+                                    return doc.size
+                                })
+
+                                for(let i = 1; i < snapshot; i++){
+                                    const data = db.collection("Reminders").doc(`${i}`);
+                                    const doc = await data.get();
+                                    if(doc.exists){
+                                        for(let j = 0; j < shop.length; j++){
+                                            if(shop[j] === doc.data().itemName){
+                                                //the item has been released
+
+                                                message.send(`<@${doc.data().id}>`)
+                                            }
+                                        }
+                                    }
+                                }
+
                                 for(let i = 0; i < res.shop.length; i++){
                                     response[i] = await res.shop[i].displayName
                                 }

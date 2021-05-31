@@ -24,134 +24,216 @@ module.exports = {
         //get the user language from the database
         const lang = await FNBRMENA.Admin(admin, message, "", "Lang")
 
-        var str = args[0];
-            for (let i = 1; i < args.length; i++){
-                str = str +' '+ args[i];
-            }
+        //inisilizing loading and reply
+        if(lang === "en"){
+            var loading = "Loading..."
+        }else if(lang === "ar"){
+            var loading = "جاري التحميل"
+        }
 
-            if (args > 0){
+        // if the use did not add any season number
+        if(text === ''){
 
-                fortniteAPI.listPreviousMaps()
-                    .then ( async (res) => {
-                        
-                        for (let i = 0; i < res.maps.length; i++){
-                            if (res.maps[i].patchVersion === str){
-                            console.log(res);
+            //generating animation
+            const generating = new Discord.MessageEmbed()
+            generating.setColor('#BB00EE')
+            const emoji = client.emojis.cache.get("805690920157970442")
+            generating.setTitle(`${loading} ${emoji}`)
+            message.channel.send(generating)
+            .then( async gen => {
 
-                            const generating = new Discord.MessageEmbed()
-                            generating.setColor('#BB00EE')
-                            const emoji = client.emojis.cache.get("805690920157970442")
-                            generating.setTitle(`Generating ... ${emoji}`)
-                            message.channel.send(generating)
-                            .then( async msg => {
-                                if (res.maps[i].urlPOI !== null){
-                                    const canvas = Canvas.createCanvas(2048, 2048);
-                                    const ctx = canvas.getContext('2d');
-                                    const background = await Canvas.loadImage(res.maps[i].urlPOI);
-                                    const border = await Canvas.loadImage('./assets/Credits/FNBR_MENA.png');
-                                    ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
-                                    ctx.drawImage(border, 50, 1850, 550, 150);
-                                    const att = new Discord.MessageAttachment(canvas.toBuffer('image/jpeg', {quality: 0.5}))
-                                    await message.channel.send(att)
-                                    msg.delete()
-                                }else{
-                                    const canvas = Canvas.createCanvas(2048, 2048);
-                                    const ctx = canvas.getContext('2d');
-                                    const background = await Canvas.loadImage(res.maps[i].url);
-                                    const border = await Canvas.loadImage('./assets/Credits/FNBR_MENA.png');
-                                    ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
-                                    ctx.drawImage(border, 50, 1850, 550, 150);
-                                    const att = new Discord.MessageAttachment(canvas.toBuffer('image/jpeg', {quality: 0.5}))
-                                    await message.channel.send(att)
-                                    msg.delete()
-                                }
-                            }).catch(err => {
-                                console.log(err)
-                            })
-                        }
-                    }   
-                    }).catch(err => {
-                        if(lang === "en"){
-                            msgReact.delete()
-                            const error = new Discord.MessageEmbed()
-                            .setColor('#BB00EE')
-                            .setTitle(`There is no map with that number ${errorEmoji}`)
-                            message.reply(error)
-                        }else if(lang === "ar"){
-                            msgReact.delete()
-                            const error = new Discord.MessageEmbed()
-                            .setColor('#BB00EE')
-                            .setTitle(`لا يوجد ماب بهذا الرقم ${errorEmoji}`)
-                            message.reply(error)
-                        }
-                    })
-                }else{
-                    if(lang === 'en'){
-                        Fortnite.BRMap('en')
-                        .then( async res => {
-                        const generating = new Discord.MessageEmbed()
-                        generating.setColor('#BB00EE')
-                        const emoji = client.emojis.cache.get("805690920157970442")
-                        generating.setTitle(`Generating ... ${emoji}`)
-                        message.channel.send(generating)
-                        .then( async msg => {
-                            const imagePOI = new Discord.MessageEmbed()
-                            imagePOI.setColor('#BB00EE')
-                            imagePOI.setTitle('BR Map')
-                            imagePOI.setDescription('This is the current BR map')
-                            const canvas = Canvas.createCanvas(2048, 2048);
-                            const ctx = canvas.getContext('2d');
-                            const background = await Canvas.loadImage(res.data.images.pois);
-                            const border = await Canvas.loadImage('./assets/Credits/FNBR_MENA.png');
-                            ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
-                            ctx.drawImage(border, 50, 1850, 550, 150);
-                            const att = new Discord.MessageAttachment(canvas.toBuffer('image/jpeg', {quality: 0.5}))
-                            imagePOI.setFooter('Generated By FNBRMENA Bot')
-                            imagePOI.setAuthor('FNBRMENA Bot', 'https://i.imgur.com/LfotEkZ.jpg', 'https://twitter.com/FNBRMENA')
-                            await message.channel.send(att)
-                            msg.delete()
-                            message.channel.send(imagePOI)
+                //request data
+                Fortnite.BRMap(lang)
+                .then(async res => {
 
-                        }).catch(err => {
-                            console.log(err)
-                        })
-                    }).catch(err => {
+                    //get the image data
+                    if(res.data.images.pois === null){
+                        var image = res.data.images.blank
+                    }else{
+                        var image = res.data.images.pois
+                    }
 
-                    })
-                }
-                if(lang === 'ar'){
-                    Fortnite.BRMap('ar')
-                    .then( async res => {
-                    const generating = new Discord.MessageEmbed()
-                    generating.setColor('#BB00EE')
-                    const emoji = client.emojis.cache.get("805690920157970442")
-                    generating.setTitle(`جاري التحميل ... ${emoji}`)
-                    message.channel.send(generating)
-                    .then( async msg => {
-                        const imagePOI = new Discord.MessageEmbed()
-                        imagePOI.setColor('#BB00EE')
-                        imagePOI.setTitle('ماب الباتل رويال')
-                        imagePOI.setDescription('هذا هو ماب الباتل رويال الحالي')
-                        const canvas = Canvas.createCanvas(2048, 2048);
-                        const ctx = canvas.getContext('2d');
-                        const background = await Canvas.loadImage(res.data.images.pois);
-                        const border = await Canvas.loadImage('./assets/Credits/FNBR_MENA.png');
-                        ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
-                        ctx.drawImage(border, 50, 1850, 550, 150);
-                        const att = new Discord.MessageAttachment(canvas.toBuffer('image/jpeg', {quality: 0.5}))
-                        imagePOI.setFooter('Generated By FNBRMENA Bot')
-                        imagePOI.setAuthor('FNBRMENA Bot', 'https://i.imgur.com/LfotEkZ.jpg', 'https://twitter.com/FNBRMENA')
-                        await message.channel.send(att)
-                        msg.delete()
-                        message.channel.send(imagePOI)
+                    //registering font
+                    Canvas.registerFont('./assets/font/BurbankBigCondensed-Black.otf' ,{family: 'Burbank Big Condensed',weight: "700",style: "bold"})
+                    
+                    //creating canvas
+                    const canvas = Canvas.createCanvas(2048, 2048);
+                    const ctx = canvas.getContext('2d');
 
-                    }).catch(err => {
-                        console.log(err)
-                    })
-                }).catch(err => {
+                    //map image
+                    const map = await Canvas.loadImage(image)
+                    ctx.drawImage(map, 0, 0, canvas.width, canvas.height)
+
+                    //credits
+                    const credit = await Canvas.loadImage('./assets/Credits/FNBR_MENA.png');
+                    ctx.drawImage(credit, 50, 1850, 550, 150);
+
+                    //send the fish stats picture
+                    const att = new Discord.MessageAttachment(canvas.toBuffer(), 'map.png')
+                    await message.channel.send(att)
+                    gen.delete()
 
                 })
-            }      
+            })
+                
+        }else{
+
+            //request data
+            fortniteAPI.listPreviousMaps()
+            .then(async res => {
+
+                //check if user entered a valid season that has images
+                var season = []
+                var counter = 0
+
+                //loop throw every map abaliable
+                for(let i = 0; i < res.maps.length; i++){
+
+                    //if the season still didn't exists in the season array
+                    if(!season.includes(res.maps[i].patchVersion.substring(0, res.maps[i].patchVersion.indexOf(".")))){
+
+                        //store the season in the array
+                        season[counter] = await res.maps[i].patchVersion.substring(0, res.maps[i].patchVersion.indexOf("."))
+
+                        //change the index
+                        counter++
+                    }
+                }
+
+                // if the user entered a valid season number
+                if(season.includes(text)){
+
+                    //create listing embed
+                    const list = new Discord.MessageEmbed()
+
+                    //create the color
+                    list.setColor('#BB00EE')
+
+                    //create the title
+                    if(lang === "en"){
+                        list.setTitle(`Please choose a map verion from the list below ${errorEmoji}`)
+                    }else if(lang === "ar"){
+                        list.setTitle(`الرجاء اختيار تحديث من القائمة بالاسفل ${errorEmoji}`)
+                    }
+
+                    //inisilizing the str to collect all map patches also reseting counter & season
+                    season = []
+                    var str = ""
+                    counter = 0
+
+                    //loop throw every patch
+                    for(let i = 0; i < res.maps.length; i++){
+
+                        //if the patch matches the season
+                        if(res.maps[i].patchVersion.startsWith(text)){
+                            var patch = await res.maps[i].patchVersion.substring(0, res.maps[i].patchVersion.indexOf("."))
+                            if(text.length === patch.length){
+                                str += "• " + counter + ": " + res.maps[i].patchVersion + "\n"
+                                season[counter] = res.maps[i]
+                                counter++
+                            }
+                        }
+                    }
+
+                    //add description
+                    list.setDescription(str)
+
+                    //send the message
+                    await message.channel.send(list)
+                    .then( async msg => {
+
+                        //filtering
+                        const filter = m => m.author.id === message.author.id
+                        if(lang === "en"){
+                            var reply = "please choose from above list the command will stop listen in 20 sec"
+                        }else if(lang === "ar"){
+                            var reply = "الرجاء الاختيار من القائمة بالاعلى، سوف ينتهي الامر خلال ٢٠ ثانية"
+                        }
+                        message.reply(reply)
+                            .then( async notify => {
+                                await message.channel.awaitMessages(filter, {max: 1, time: 20000})
+                                .then( async collected => {
+
+                                if(collected.first().content >= 0 && collected.first().content < counter){
+
+                                    //generating animation
+                                    const generating = new Discord.MessageEmbed()
+                                    generating.setColor('#BB00EE')
+                                    const emoji = client.emojis.cache.get("805690920157970442")
+                                    generating.setTitle(`${loading} ${emoji}`)
+                                    message.channel.send(generating)
+                                    .then( async gen => {
+
+                                        //delete the list
+                                        msg.delete()
+                                        notify.delete()
+                                        
+                                        //get the image data
+                                        if(season[collected.first().content].urlPOI === null){
+                                            var image = season[collected.first().content].url
+                                        }else{
+                                            var image = season[collected.first().content].urlPOI
+                                        }
+
+                                        //registering font
+                                        Canvas.registerFont('./assets/font/BurbankBigCondensed-Black.otf' ,{family: 'Burbank Big Condensed',weight: "700",style: "bold"})
+                                        
+                                        //creating canvas
+                                        const canvas = Canvas.createCanvas(2048, 2048);
+                                        const ctx = canvas.getContext('2d');
+
+                                        //map image
+                                        const map = await Canvas.loadImage(image)
+                                        ctx.drawImage(map, 0, 0, canvas.width, canvas.height)
+
+                                        //credits
+                                        const credit = await Canvas.loadImage('./assets/Credits/FNBR_MENA.png');
+                                        ctx.drawImage(credit, 50, 1850, 550, 150);
+
+                                        //send the fish stats picture
+                                        const att = new Discord.MessageAttachment(canvas.toBuffer(), res.maps[collected.first().content].patchVersion + '.png')
+                                        await message.channel.send(att)
+                                        gen.delete()
+                                    })
+
+                                }
+                            }).catch(err => {
+
+                                //console log the error
+                                console.log(err)
+                                msg.delete()
+                                notify.delete()
+
+                                //send the time error
+                                const error = new Discord.MessageEmbed()
+                                error.setColor('#BB00EE')
+                                error.setTitle(`${FNBRMENA.Errors("Time", lang)} ${errorEmoji}`)
+                                message.reply(error)
+
+                            })
+                        })
+                    })
+
+                }else{
+
+                    //create embed handleing the season error
+                    const err = new Discord.MessageEmbed()
+
+                    //set the color
+                    err.setColor('#BB00EE')
+
+                    //add title
+                    if(lang === "en"){
+                        err.setTitle(`Sorry there is no season with that number ${errorEmoji}`)
+                    }else if(lang === "ar"){
+                        err.setTitle(`عذرا لا يوجد موسم بنفس هذا الرقم ${errorEmoji}`)
+                    }
+
+                    //send the error embed
+                    message.channel.send(err)
+
+                }
+            })
         }
     }
 }

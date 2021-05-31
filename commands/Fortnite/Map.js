@@ -111,9 +111,9 @@ module.exports = {
 
                     //create the title
                     if(lang === "en"){
-                        list.setTitle(`Please choose a map verion from the list below ${errorEmoji}`)
+                        list.setTitle(`Please choose a map verion from the list below`)
                     }else if(lang === "ar"){
-                        list.setTitle(`الرجاء اختيار تحديث من القائمة بالاسفل ${errorEmoji}`)
+                        list.setTitle(`الرجاء اختيار تحديث من القائمة بالاسفل`)
                     }
 
                     //inisilizing the str to collect all map patches also reseting counter & season

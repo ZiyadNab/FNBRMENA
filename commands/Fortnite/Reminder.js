@@ -23,9 +23,9 @@ module.exports = {
         var mess = ""
 
         if(lang === "en"){
-            mess = "Getting database ready"
+            mess = "Getting info about the item"
         }else if(lang === "ar"){
-            mess = "جاري اعداد قاعدة البينات"
+            mess = "جاري البحث عن معلومات العنصر" 
         }
 
         //maneging the time
@@ -51,7 +51,7 @@ module.exports = {
                         //json data 
                         const reminder = {
                             id: message.author.id,
-                            itemName: res.name,
+                            itemName: res.items[num].name,
                             date: time,
                             lang: lang
                         }

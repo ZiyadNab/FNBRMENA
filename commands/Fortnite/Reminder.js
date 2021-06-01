@@ -29,7 +29,7 @@ module.exports = {
         }
 
         //maneging the time
-        var time = moment(message.createdAt).format()
+        var time = moment(message.createdAt)
 
         //checking if the item is valid
         fortniteAPI.listItemsByName(itemName = text, options = {lang: lang})
@@ -51,7 +51,7 @@ module.exports = {
                         //json data 
                         const reminder = {
                             id: message.author.id,
-                            itemName: res.items[num].name,
+                            mainId: res.items[num].id,
                             date: time,
                             lang: lang
                         }

@@ -7,10 +7,12 @@ const Canvas = require('canvas');
 
 module.exports = (client, admin) => {
     const message = client.channels.cache.find(channel => channel.id === key.events.itemshop)
+    const reminderMessage = client.channels.cache.find(channel => channel.id === key.events.Reminder)
 
     //result
     var response = []
     var shop = []
+    var mainId = []
     var lastUpdate = []
     var lang = "ar"
     var number = 0
@@ -1626,11 +1628,66 @@ module.exports = (client, admin) => {
                                     const data = db.collection("Reminders").doc(`${i}`);
                                     const doc = await data.get();
                                     if(doc.exists){
-                                        for(let j = 0; j < shop.length; j++){
-                                            if(shop[j] === doc.data().itemName){
+                                        for(let j = 0; j < mainId.length; j++){
+                                            if(mainId[j] === doc.data().mainId){
                                                 //the item has been released
 
-                                                message.send(`<@${doc.data().id}>`)
+                                                fortniteAPI.getItemDetails(itemId = mainId[j], options = {lang: doc.data().lang})
+                                                .then( async res => {
+
+                                                    //item details
+                                                    var name = res.item.name
+                                                    var description = res.item.description
+                                                    var price = res.item.price
+                                                    if(res.item.series === null){
+                                                        var rarity = res.item.rarity.name
+                                                    }else{
+                                                        var rarity = res.item.series.name
+                                                    }
+                                                    if(res.item.shopHistory !== null){
+                                                        var Occourance = res.item.shopHistory.length
+                                                    }else{
+                                                        var Occourance = "0"
+                                                    }
+                                                    var Now = moment()
+                                                    var long = moment(doc.data().date)
+                                                    const day = Now.diff(long, 'days')
+
+                                                    //createing the embed
+                                                    const remind = new Discord.MessageEmbed()
+
+                                                    //set the color
+                                                    remind.setColor('#BB00EE')
+
+                                                    //add image
+                                                    remind.setImage(res.item.displayAssets[0].background)
+
+                                                    //set title
+                                                    if(doc.data().lang === "en"){
+                                                        remind.setTitle("Ay congrats your item is in the shop right now")
+                                                        remind.addFields(
+                                                            {name: "Name:" ,value: name},
+                                                            {name: "Description:" ,value: description},
+                                                            {name: "Price:" ,value: price},
+                                                            {name: "Rarity:" ,value: rarity},
+                                                            {name: "Occourance:" ,value: Occourance},
+                                                            {name: "How long have you been waiting?:" ,value: day + "day(s)"},
+                                                        )
+                                                    }else if(doc.data().lang === "ar"){
+                                                        remind.setTitle("مبروك السكن الي تنتظره الان موجود بالشوب")
+                                                        remind.addFields(
+                                                            {name: "الاسم:" ,value: name},
+                                                            {name: "الوصف:" ,value: description},
+                                                            {name: "السعر:" ,value: price},
+                                                            {name: "الندرة:" ,value: rarity},
+                                                            {name: "عدد النزول:" ,value: Occourance},
+                                                            {name: "كم لك يوم تنتظر العنصر؟:" ,value: day + " يوم"},
+                                                        )
+                                                    }
+
+                                                    await reminderMessage.send(`<@${doc.data().id}>`, remind)
+                                                    data.delete()
+                                                })
                                             }
                                         }
                                     }

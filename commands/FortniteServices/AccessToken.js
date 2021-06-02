@@ -244,19 +244,19 @@ module.exports = {
             
             //variables
             var width = 0
-            var height = 256 + ((length * 12) * 2)
+            var height = 128 + ((length * 12) * 2)
             var newline = 0
             var x = 0
             var y = length * 12
 
             //creating width
-            width += (length * 256) + (length * 5) - 5
+            width += (length * 128) + (length * 5) - 5
 
             //creating height
             for(let i = 0; i < userItems.length; i++){
                 
                 if(newline === length){
-                    height += 256 + 5
+                    height += 128 + 5
                     newline = 0
                 }
                 newline++
@@ -834,9 +834,9 @@ module.exports = {
                         // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                     }
                     // changing x and y
-                    x = x + 5 + 256; 
+                    x = x + 5 + 128; 
                     if (length === newline){
-                        y = y + 5 + 256;
+                        y = y + 5 + 128;
                         x = 0;
                         newline = 0;
                     }

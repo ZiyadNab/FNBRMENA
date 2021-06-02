@@ -847,15 +847,8 @@ module.exports = {
                 return true
             })
         }
-        var count = true
-        var counter = 0
-        while(count === true){
-            if(counter < ownedCosmetics.length){
-                count = await createImage(ownedCosmetics, counter)
-                counter++
-            }else{
-                count = false
-            }
+        for(let i = 0; i < ownedCosmetics.length; i++){
+            var count = await createImage(ownedCosmetics, i)
         }
     }
 }

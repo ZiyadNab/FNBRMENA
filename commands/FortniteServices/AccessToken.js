@@ -43,7 +43,7 @@ module.exports = {
             return response
         }
 
-        //const Access = await Token(text)
+        const Access = await Token(text)
 
         const GetCosmetics = async (token, accountID) => {
 
@@ -55,7 +55,7 @@ module.exports = {
             var counterContrails = 0
             var counterEmotes = 0
             var counterWraps = 0
-            var counterMusicPack = 0
+            var counterMusicPacks = 0
 
             //cosmetics the user owns
             var ownedSkins = [];
@@ -65,7 +65,7 @@ module.exports = {
             var ownedContrails = []
             var ownedEmotes = []
             var ownedWraps = []
-            var ownedMusicPack = 0
+            var ownedMusicPacks = []
 
             //request the cosmetics list from epic games using account id and token
             await axios.post(`https://fortnite-public-service-prod11.ol.epicgames.com/fortnite/api/game/v2/profile/${accountID}/client/QueryProfile?profileId=athena`,{},
@@ -83,7 +83,7 @@ module.exports = {
                 for(let i = 0; i < items.length; i++){
                     var item00 = await data.data.profileChanges[0].profile.items[items[i]];
 
-                    //AthenaCharacter || AthenaPickaxe || AthenaItemWrap || AthenaBackpack || AthenaLoadingScreen || AthenaSkyDiveContrail || AthenaDance || AthenaGlider || AthenaMusicPack
+                    AthenaCharacter || AthenaPickaxe || AthenaItemWrap || AthenaBackpack || AthenaLoadingScreen || AthenaSkyDiveContrail || AthenaDance || AthenaGlider || AthenaMusicPack
                     if(await item00.templateId.includes('AthenaCharacter')) {
                         const AthenaCharacterID = await item00.templateId.split(':')[1];
                         const Skins = await cosmetics.find(it => it.id.toLowerCase() === AthenaCharacterID);
@@ -122,8 +122,8 @@ module.exports = {
                     }else if(await item00.templateId.includes('AthenaMusicPack')) {
                         const AthenaMusicPackID = await item00.templateId.split(':')[1];
                         const MusicPack = await cosmetics.find(it => it.id.toLowerCase() === AthenaMusicPackID);
-                        ownedMusicPack[counterMusicPack] = await MusicPack;
-                        counterMusicPack++
+                        ownedMusicPacks[counterMusicPacks] = await MusicPack
+                        counterMusicPacks++
                     }
                 }
 
@@ -132,20 +132,20 @@ module.exports = {
             })
 
             const owned = [
-                ownedSkins,
-                ownedBackblings,
-                ownedPickaxes,
-                ownedGliders,
-                ownedContrails,
-                ownedEmotes,
-                ownedWraps,
-                ownedMusicPack,
+                // ownedSkins,
+                // ownedBackblings,
+                // ownedPickaxes,
+                // ownedGliders,
+                // ownedContrails,
+                // ownedEmotes,
+                // ownedWraps,
+                ownedMusicPacks,
             ]
 
             return owned
         }
 
-        const ownedCosmetics = await GetCosmetics("5ef45d2f9d1849c987789c6864e77aba", "c1466883a19246e4a5e86bbc43087504")
+        const ownedCosmetics = await GetCosmetics(Access.access_token, Access.in_app_id)
 
         const createImage = async (ownedCosmetics, p) => {
             var userItems = []
@@ -366,7 +366,7 @@ module.exports = {
             ctx.font = creditApplyText(canvas, "FNBRMENA")
             ctx.fillText("FNBRMENA", (ctx.font.substring(0,ctx.font.indexOf("p")) - (7 * length)), (ctx.font.substring(0,ctx.font.indexOf("p"))))
             ctx.textAlign='right';
-            ctx.fillText("AntMan V2", (canvas.width - (ctx.font.substring(0,ctx.font.indexOf("p")) - (7 * length))), (ctx.font.substring(0,ctx.font.indexOf("p"))))
+            ctx.fillText(Access.displayName, (canvas.width - (ctx.font.substring(0,ctx.font.indexOf("p")) - (7 * length))), (ctx.font.substring(0,ctx.font.indexOf("p"))))
 
             //date
             var date   
@@ -894,6 +894,7 @@ module.exports = {
                 await msg.delete()
             })
         }
+        console.log(ownedCosmetics[0])
         for(let i = 0; i < ownedCosmetics.length; i++){
             await createImage(ownedCosmetics, i)
         }

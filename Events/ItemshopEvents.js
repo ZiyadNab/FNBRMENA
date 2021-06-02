@@ -26,18 +26,18 @@ module.exports = (client, admin) => {
                 fortniteAPI.getDailyShopV2(options = {lang: lang})
                 .then(async res => {
                     if(number === 0){
-                        // for(let i = 0; i < res.shop.length; i++){
-                        //     response[i] = await res.shop[i].displayName
-                        // }
-                        // lastUpdate = await res.lastUpdate
-                        // number++
+                        for(let i = 0; i < res.shop.length; i++){
+                            response[i] = await res.shop[i].displayName
+                        }
+                        lastUpdate = await res.lastUpdate
+                        number++
                     }
                     if(JSON.stringify(res.lastUpdate) !== JSON.stringify(lastUpdate)){
                         for(let i = 0; i < res.shop.length; i++){
                             shop[i] = await res.shop[i].displayName
                         }
                         if(JSON.stringify(shop) !== JSON.stringify(response)){
-                            
+
                             //variables
                             var language;
                             var loading;
@@ -1621,7 +1621,6 @@ module.exports = (client, admin) => {
                                     mainId[i] = await res.shop[i].mainId
                                 }
 
-                                console.log(mainId)
                                 //seeting up the db firestore
                                 var db = admin.firestore()
 

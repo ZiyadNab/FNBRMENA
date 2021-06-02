@@ -69,7 +69,6 @@ module.exports = {
                 var items = Object.keys(data.data.profileChanges[0].profile.items)
                 for(let i = 0; i < items.length; i++){
                     var item00 = await data.data.profileChanges[0].profile.items[items[i]];
-                    console.log(item00.templateId)
 
                     //AthenaCharacter || AthenaPickaxe || AthenaItemWrap || AthenaBackpack || AthenaLoadingScreen || AthenaSkyDiveContrail || AthenaDance || AthenaGlider || AthenaMusicPack
                     if(await item00.templateId.includes('AthenaCharacter')) {

@@ -90,7 +90,7 @@ module.exports = {
 
             const owned = [
                 ownedSkins,
-                ownedBackBling,
+                ownedBackblings,
             ]
 
             return owned

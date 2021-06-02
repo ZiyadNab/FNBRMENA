@@ -83,7 +83,7 @@ module.exports = {
                 for(let i = 0; i < items.length; i++){
                     var item00 = await data.data.profileChanges[0].profile.items[items[i]];
 
-                    AthenaCharacter || AthenaPickaxe || AthenaItemWrap || AthenaBackpack || AthenaLoadingScreen || AthenaSkyDiveContrail || AthenaDance || AthenaGlider || AthenaMusicPack
+                    //AthenaCharacter || AthenaPickaxe || AthenaItemWrap || AthenaBackpack || AthenaLoadingScreen || AthenaSkyDiveContrail || AthenaDance || AthenaGlider || AthenaMusicPack
                     if(await item00.templateId.includes('AthenaCharacter')) {
                         const AthenaCharacterID = await item00.templateId.split(':')[1];
                         const Skins = await cosmetics.find(it => it.id.toLowerCase() === AthenaCharacterID);
@@ -894,7 +894,7 @@ module.exports = {
                 await msg.delete()
             })
         }
-        console.log(ownedCosmetics[0])
+        console.log(ownedCosmetics)
         for(let i = 0; i < ownedCosmetics.length; i++){
             await createImage(ownedCosmetics, i)
         }

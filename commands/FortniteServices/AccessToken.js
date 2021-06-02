@@ -6,7 +6,8 @@ const FortniteAPI = require("fortniteapi.io-api");
 const key = require('../../Coinfigs/config.json')
 const fortniteAPI = new FortniteAPI(FNBRMENA.APIKeys("FortniteAPI.io"));
 const Canvas = require('canvas');
-const moment = require('moment')
+const moment = require('moment');
+const { SSL_OP_SSLEAY_080_CLIENT_DH_BUG } = require('constants');
 
 module.exports = {
     commands: 'token',
@@ -90,7 +91,7 @@ module.exports = {
 
             const owned = [
                 ownedSkins,
-                ownedBackblings,
+                ownedBackblings
             ]
 
             return owned
@@ -98,7 +99,7 @@ module.exports = {
 
         const ownedCosmetics = await GetCosmetics("5ef45d2f9d1849c987789c6864e77aba", "c1466883a19246e4a5e86bbc43087504")
 
-        const listItems = async (ownedCosmetics, p) => {
+        const createImage = async (ownedCosmetics, p) => {
             var userItems = []
 
             await ownedCosmetics[p].filter(item => {
@@ -387,27 +388,27 @@ module.exports = {
                     if(await rarity === 'Legendary'){
                         //creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/legendary.png')
-                        ctx.drawImage(skinholder, x, y, 256, 256)
+                        ctx.drawImage(skinholder, x, y, 128, 128)
                         const skin = await Canvas.loadImage(image);
-                        ctx.drawImage(skin, x, y, 256, 256)
+                        ctx.drawImage(skin, x, y, 128, 128)
                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderLegendary.png')
-                        ctx.drawImage(skinborder, x, y, 256, 256)
+                        ctx.drawImage(skinborder, x, y, 128, 128)
                         if(lang === "en"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '20px Burbank Big Condensed'
-                            ctx.fillText(name, (128 + x), (y + 210))
+                            ctx.fillText(name, (64 + x), (y + 105))
                             ctx.font = applyText(canvas, description);
                             ctx.textAlign='center';
-                            ctx.fillText(description, (128 + x), (y + 240))
+                            ctx.fillText(description, (64+ x), (y + 120))
                         }else if(lang === "ar"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '20px Arabic'
-                            ctx.fillText(name, (128 + x), (y + 210))  
+                            ctx.fillText(name, (64 + x), (y + 105))  
                             ctx.font = applyText(canvas, description);
                             ctx.textAlign='center';
-                            ctx.fillText(description, (128 + x), (y + 240))
+                            ctx.fillText(description, (64+ x), (y + 120))
                         }
                         // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                         // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
@@ -416,27 +417,27 @@ module.exports = {
                     if(await rarity === 'Epic'){
                         //creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/epic.png')
-                        ctx.drawImage(skinholder, x, y, 256, 256)
+                        ctx.drawImage(skinholder, x, y, 128, 128)
                         const skin = await Canvas.loadImage(image);
-                        ctx.drawImage(skin, x, y, 256, 256)
+                        ctx.drawImage(skin, x, y, 128, 128)
                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderEpic.png')
-                        ctx.drawImage(skinborder, x, y, 256, 256)
+                        ctx.drawImage(skinborder, x, y, 128, 128)
                         if(lang === "en"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '20px Burbank Big Condensed'
-                            ctx.fillText(name, (128 + x), (y + 210))
+                            ctx.fillText(name, (64 + x), (y + 105))
                             ctx.font = applyText(canvas, description);
                             ctx.textAlign='center';
-                            ctx.fillText(description, (128 + x), (y + 240))
+                            ctx.fillText(description, (64+ x), (y + 120))
                         }else if(lang === "ar"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '20px Arabic'
-                            ctx.fillText(name, (128 + x), (y + 210))
+                            ctx.fillText(name, (64 + x), (y + 105))
                             ctx.font = applyText(canvas, description);
                             ctx.textAlign='center';
-                            ctx.fillText(description, (128 + x), (y + 240))
+                            ctx.fillText(description, (64+ x), (y + 120))
                         }
                         // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                         // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
@@ -444,27 +445,27 @@ module.exports = {
                     if(await rarity === 'Rare'){
                         //creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/rare.png')
-                        ctx.drawImage(skinholder, x, y, 256, 256)
+                        ctx.drawImage(skinholder, x, y, 128, 128)
                         const skin = await Canvas.loadImage(image);
-                        ctx.drawImage(skin, x, y, 256, 256)
+                        ctx.drawImage(skin, x, y, 128, 128)
                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderRare.png')
-                        ctx.drawImage(skinborder, x, y, 256, 256)
+                        ctx.drawImage(skinborder, x, y, 128, 128)
                         if(lang === "en"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '20px Burbank Big Condensed'
-                            ctx.fillText(name, (128 + x), (y + 210))
+                            ctx.fillText(name, (64 + x), (y + 105))
                             ctx.font = applyText(canvas, description);
                             ctx.textAlign='center';
-                            ctx.fillText(description, (128 + x), (y + 240))
+                            ctx.fillText(description, (64+ x), (y + 120))
                         }else if(lang === "ar"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '20px Arabic'
-                            ctx.fillText(name, (128 + x), (y + 210))
+                            ctx.fillText(name, (64 + x), (y + 105))
                             ctx.font = applyText(canvas, description);
                             ctx.textAlign='center';
-                            ctx.fillText(description, (128 + x), (y + 240))
+                            ctx.fillText(description, (64+ x), (y + 120))
                         }
                         // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                         // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
@@ -472,27 +473,27 @@ module.exports = {
                     if(await rarity === 'Uncommon'){
                         //creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/uncommon.png')
-                        ctx.drawImage(skinholder, x, y, 256, 256)
+                        ctx.drawImage(skinholder, x, y, 128, 128)
                         const skin = await Canvas.loadImage(image);
-                        ctx.drawImage(skin, x, y, 256, 256)
+                        ctx.drawImage(skin, x, y, 128, 128)
                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderUncommon.png')
-                        ctx.drawImage(skinborder, x, y, 256, 256)
+                        ctx.drawImage(skinborder, x, y, 128, 128)
                         if(lang === "en"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '20px Burbank Big Condensed'
-                            ctx.fillText(name, (128 + x), (y + 210))
+                            ctx.fillText(name, (64 + x), (y + 105))
                             ctx.font = applyText(canvas, description);
                             ctx.textAlign='center';
-                            ctx.fillText(description, (128 + x), (y + 240))
+                            ctx.fillText(description, (64+ x), (y + 120))
                         }else if(lang === "ar"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '20px Arabic'
-                            ctx.fillText(name, (128 + x), (y + 210)) 
+                            ctx.fillText(name, (64 + x), (y + 105)) 
                             ctx.font = applyText(canvas, description);
                             ctx.textAlign='center';
-                            ctx.fillText(description, (128 + x), (y + 240))
+                            ctx.fillText(description, (64+ x), (y + 120))
                         }
                         // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                         // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
@@ -500,27 +501,27 @@ module.exports = {
                     if(await rarity === 'Common'){
                         //creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/common.png')
-                        ctx.drawImage(skinholder, x, y, 256, 256)
+                        ctx.drawImage(skinholder, x, y, 128, 128)
                         const skin = await Canvas.loadImage(image);
-                        ctx.drawImage(skin, x, y, 256, 256)
+                        ctx.drawImage(skin, x, y, 128, 128)
                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderCommon.png')
-                        ctx.drawImage(skinborder, x, y, 256, 256)
+                        ctx.drawImage(skinborder, x, y, 128, 128)
                         if(lang === "en"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '20px Burbank Big Condensed'
-                            ctx.fillText(name, (128 + x), (y + 210))
+                            ctx.fillText(name, (64 + x), (y + 105))
                             ctx.font = applyText(canvas, description);
                             ctx.textAlign='center';
-                            ctx.fillText(description, (128 + x), (y + 240))
+                            ctx.fillText(description, (64+ x), (y + 120))
                         }else if(lang === "ar"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '20px Arabic'
-                            ctx.fillText(name, (128 + x), (y + 210)) 
+                            ctx.fillText(name, (64 + x), (y + 105)) 
                             ctx.font = applyText(canvas, description);
                             ctx.textAlign='center';
-                            ctx.fillText(description, (128 + x), (y + 240))
+                            ctx.fillText(description, (64+ x), (y + 120))
                         }
                         // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                         // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
@@ -528,27 +529,27 @@ module.exports = {
                     if(await rarity === 'MarvelSeries'){
                         //creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/marvel.png')
-                        ctx.drawImage(skinholder, x, y, 256, 256)
+                        ctx.drawImage(skinholder, x, y, 128, 128)
                         const skin = await Canvas.loadImage(image);
-                        ctx.drawImage(skin, x, y, 256, 256)
+                        ctx.drawImage(skin, x, y, 128, 128)
                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderMarvel.png')
-                        ctx.drawImage(skinborder, x, y, 256, 256)
+                        ctx.drawImage(skinborder, x, y, 128, 128)
                         if(lang === "en"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '20px Burbank Big Condensed'
-                            ctx.fillText(name, (128 + x), (y + 210))
+                            ctx.fillText(name, (64 + x), (y + 105))
                             ctx.font = applyText(canvas, description);
                             ctx.textAlign='center';
-                            ctx.fillText(description, (128 + x), (y + 240))
+                            ctx.fillText(description, (64+ x), (y + 120))
                         }else if(lang === "ar"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '20px Arabic'
-                            ctx.fillText(name, (128 + x), (y + 210))  
+                            ctx.fillText(name, (64 + x), (y + 105))  
                             ctx.font = applyText(canvas, description);
                             ctx.textAlign='center';
-                            ctx.fillText(description, (128 + x), (y + 240))
+                            ctx.fillText(description, (64+ x), (y + 120))
                         }
                         // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                         // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
@@ -556,27 +557,27 @@ module.exports = {
                     if(await rarity === 'DCUSeries'){
                         //creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/dc.png')
-                        ctx.drawImage(skinholder, x, y, 256, 256)
+                        ctx.drawImage(skinholder, x, y, 128, 128)
                         const skin = await Canvas.loadImage(image);
-                        ctx.drawImage(skin, x, y, 256, 256)
+                        ctx.drawImage(skin, x, y, 128, 128)
                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderDc.png')
-                        ctx.drawImage(skinborder, x, y, 256, 256)
+                        ctx.drawImage(skinborder, x, y, 128, 128)
                         if(lang === "en"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '20px Burbank Big Condensed'
-                            ctx.fillText(name, (128 + x), (y + 210))
+                            ctx.fillText(name, (64 + x), (y + 105))
                             ctx.font = applyText(canvas, description);
                             ctx.textAlign='center';
-                            ctx.fillText(description, (128 + x), (y + 240))
+                            ctx.fillText(description, (64+ x), (y + 120))
                         }else if(lang === "ar"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '20px Arabic'
-                            ctx.fillText(name, (128 + x), (y + 210)) 
+                            ctx.fillText(name, (64 + x), (y + 105)) 
                             ctx.font = applyText(canvas, description);
                             ctx.textAlign='center';
-                            ctx.fillText(description, (128 + x), (y + 240))
+                            ctx.fillText(description, (64+ x), (y + 120))
                         }
                         // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                         // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
@@ -584,27 +585,27 @@ module.exports = {
                     if(await rarity === 'CUBESeries'){
                         //creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/dark.png')
-                        ctx.drawImage(skinholder, x, y, 256, 256)
+                        ctx.drawImage(skinholder, x, y, 128, 128)
                         const skin = await Canvas.loadImage(image);
-                        ctx.drawImage(skin, x, y, 256, 256)
+                        ctx.drawImage(skin, x, y, 128, 128)
                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderDark.png')
-                        ctx.drawImage(skinborder, x, y, 256, 256)
+                        ctx.drawImage(skinborder, x, y, 128, 128)
                         if(lang === "en"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '20px Burbank Big Condensed'
-                            ctx.fillText(name, (128 + x), (y + 210))
+                            ctx.fillText(name, (64 + x), (y + 105))
                             ctx.font = applyText(canvas, description);
                             ctx.textAlign='center';
-                            ctx.fillText(description, (128 + x), (y + 240))
+                            ctx.fillText(description, (64+ x), (y + 120))
                         }else if(lang === "ar"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '20px Arabic'
-                            ctx.fillText(name, (128 + x), (y + 210))
+                            ctx.fillText(name, (64 + x), (y + 105))
                             ctx.font = applyText(canvas, description);
                             ctx.textAlign='center';
-                            ctx.fillText(description, (128 + x), (y + 240))
+                            ctx.fillText(description, (64+ x), (y + 120))
                         }
                         // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                         // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
@@ -612,27 +613,27 @@ module.exports = {
                     if(await rarity === 'CreatorCollabSeries'){
                         //creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/icon.png')
-                        ctx.drawImage(skinholder, x, y, 256, 256)
+                        ctx.drawImage(skinholder, x, y, 128, 128)
                         const skin = await Canvas.loadImage(image);
-                        ctx.drawImage(skin, x, y, 256, 256)
+                        ctx.drawImage(skin, x, y, 128, 128)
                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderIcon.png')
-                        ctx.drawImage(skinborder, x, y, 256, 256)
+                        ctx.drawImage(skinborder, x, y, 128, 128)
                         if(lang === "en"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '20px Burbank Big Condensed'
-                            ctx.fillText(name, (128 + x), (y + 210))
+                            ctx.fillText(name, (64 + x), (y + 105))
                             ctx.font = applyText(canvas, description);
                             ctx.textAlign='center';
-                            ctx.fillText(description, (128 + x), (y + 240))
+                            ctx.fillText(description, (64+ x), (y + 120))
                         }else if(lang === "ar"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '20px Arabic'
-                            ctx.fillText(name, (128 + x), (y + 210)) 
+                            ctx.fillText(name, (64 + x), (y + 105)) 
                             ctx.font = applyText(canvas, description);
                             ctx.textAlign='center';
-                            ctx.fillText(description, (128 + x), (y + 240))
+                            ctx.fillText(description, (64+ x), (y + 120))
                         }
                         // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                         // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
@@ -640,27 +641,27 @@ module.exports = {
                     if(await rarity === 'ColumbusSeries'){
                         //creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/starwars.png')
-                        ctx.drawImage(skinholder, x, y, 256, 256)
+                        ctx.drawImage(skinholder, x, y, 128, 128)
                         const skin = await Canvas.loadImage(image);
-                        ctx.drawImage(skin, x, y, 256, 256)
+                        ctx.drawImage(skin, x, y, 128, 128)
                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderStarwars.png')
-                        ctx.drawImage(skinborder, x, y, 256, 256)
+                        ctx.drawImage(skinborder, x, y, 128, 128)
                         if(lang === "en"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '20px Burbank Big Condensed'
-                            ctx.fillText(name, (128 + x), (y + 210))
+                            ctx.fillText(name, (64 + x), (y + 105))
                             ctx.font = applyText(canvas, description);
                             ctx.textAlign='center';
-                            ctx.fillText(description, (128 + x), (y + 240))
+                            ctx.fillText(description, (64+ x), (y + 120))
                         }else if(lang === "ar"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '20px Arabic'
-                            ctx.fillText(name, (128 + x), (y + 210))   
+                            ctx.fillText(name, (64 + x), (y + 105))   
                             ctx.font = applyText(canvas, description);
                             ctx.textAlign='center';
-                            ctx.fillText(description, (128 + x), (y + 240))
+                            ctx.fillText(description, (64+ x), (y + 120))
                         }
                         // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                         // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
@@ -668,27 +669,27 @@ module.exports = {
                     if(await rarity === 'ShadowSeries'){
                         //creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/shadow.png')
-                        ctx.drawImage(skinholder, x, y, 256, 256)
+                        ctx.drawImage(skinholder, x, y, 128, 128)
                         const skin = await Canvas.loadImage(image);
-                        ctx.drawImage(skin, x, y, 256, 256)
+                        ctx.drawImage(skin, x, y, 128, 128)
                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderShadow.png')
-                        ctx.drawImage(skinborder, x, y, 256, 256)
+                        ctx.drawImage(skinborder, x, y, 128, 128)
                         if(lang === "en"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '20px Burbank Big Condensed'
-                            ctx.fillText(name, (128 + x), (y + 210))
+                            ctx.fillText(name, (64 + x), (y + 105))
                             ctx.font = applyText(canvas, description);
                             ctx.textAlign='center';
-                            ctx.fillText(description, (128 + x), (y + 240))
+                            ctx.fillText(description, (64+ x), (y + 120))
                         }else if(lang === "ar"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '20px Arabic'
-                            ctx.fillText(name, (128 + x), (y + 210)) 
+                            ctx.fillText(name, (64 + x), (y + 105)) 
                             ctx.font = applyText(canvas, description);
                             ctx.textAlign='center';
-                            ctx.fillText(description, (128 + x), (y + 240))
+                            ctx.fillText(description, (64+ x), (y + 120))
                         }
                         // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                         // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
@@ -696,27 +697,27 @@ module.exports = {
                     if(await rarity === 'SlurpSeries'){
                         //creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/slurp.png')
-                        ctx.drawImage(skinholder, x, y, 256, 256)
+                        ctx.drawImage(skinholder, x, y, 128, 128)
                         const skin = await Canvas.loadImage(image);
-                        ctx.drawImage(skin, x, y, 256, 256)
+                        ctx.drawImage(skin, x, y, 128, 128)
                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderSlurp.png')
-                        ctx.drawImage(skinborder, x, y, 256, 256)
+                        ctx.drawImage(skinborder, x, y, 128, 128)
                         if(lang === "en"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '20px Burbank Big Condensed'
-                            ctx.fillText(name, (128 + x), (y + 210))
+                            ctx.fillText(name, (64 + x), (y + 105))
                             ctx.font = applyText(canvas, description);
                             ctx.textAlign='center';
-                            ctx.fillText(description, (128 + x), (y + 240))
+                            ctx.fillText(description, (64+ x), (y + 120))
                         }else if(lang === "ar"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '20px Arabic'
-                            ctx.fillText(name, (128 + x), (y + 210)) 
+                            ctx.fillText(name, (64 + x), (y + 105)) 
                             ctx.font = applyText(canvas, description);
                             ctx.textAlign='center';
-                            ctx.fillText(description, (128 + x), (y + 240))
+                            ctx.fillText(description, (64+ x), (y + 120))
                         }
                         // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                         // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
@@ -724,27 +725,27 @@ module.exports = {
                     if(await rarity === 'FrozenSeries'){
                         //creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/frozen.png')
-                        ctx.drawImage(skinholder, x, y, 256, 256)
+                        ctx.drawImage(skinholder, x, y, 128, 128)
                         const skin = await Canvas.loadImage(image);
-                        ctx.drawImage(skin, x, y, 256, 256)
+                        ctx.drawImage(skin, x, y, 128, 128)
                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderFrozen.png')
-                        ctx.drawImage(skinborder, x, y, 256, 256)
+                        ctx.drawImage(skinborder, x, y, 128, 128)
                         if(lang === "en"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '20px Burbank Big Condensed'
-                            ctx.fillText(name, (128 + x), (y + 210))
+                            ctx.fillText(name, (64 + x), (y + 105))
                             ctx.font = applyText(canvas, description);
                             ctx.textAlign='center';
-                            ctx.fillText(description, (128 + x), (y + 240))
+                            ctx.fillText(description, (64+ x), (y + 120))
                         }else if(lang === "ar"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '20px Arabic'
-                            ctx.fillText(name, (128 + x), (y + 210))
+                            ctx.fillText(name, (64 + x), (y + 105))
                             ctx.font = applyText(canvas, description);
                             ctx.textAlign='center';
-                            ctx.fillText(description, (128 + x), (y + 240))
+                            ctx.fillText(description, (64+ x), (y + 120))
                         }
                         // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                         // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
@@ -752,27 +753,27 @@ module.exports = {
                     if(await rarity === 'LavaSeries'){
                         //creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/lava.png')
-                        ctx.drawImage(skinholder, x, y, 256, 256)
+                        ctx.drawImage(skinholder, x, y, 128, 128)
                         const skin = await Canvas.loadImage(image);
-                        ctx.drawImage(skin, x, y, 256, 256)
+                        ctx.drawImage(skin, x, y, 128, 128)
                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderLava.png')
-                        ctx.drawImage(skinborder, x, y, 256, 256)
+                        ctx.drawImage(skinborder, x, y, 128, 128)
                         if(lang === "en"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '20px Burbank Big Condensed'
-                            ctx.fillText(name, (128 + x), (y + 210))
+                            ctx.fillText(name, (64 + x), (y + 105))
                             ctx.font = applyText(canvas, description);
                             ctx.textAlign='center';
-                            ctx.fillText(description, (128 + x), (y + 240))
+                            ctx.fillText(description, (64+ x), (y + 120))
                         }else if(lang === "ar"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '20px Arabic'
-                            ctx.fillText(name, (128 + x), (y + 210)) 
+                            ctx.fillText(name, (64 + x), (y + 105)) 
                             ctx.font = applyText(canvas, description);
                             ctx.textAlign='center';
-                            ctx.fillText(description, (128 + x), (y + 240))
+                            ctx.fillText(description, (64+ x), (y + 120))
                         }
                         // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                         // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
@@ -780,54 +781,54 @@ module.exports = {
                     if(await rarity === 'PlatformSeries'){
                         //creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/gaming.png')
-                        ctx.drawImage(skinholder, x, y, 256, 256)
+                        ctx.drawImage(skinholder, x, y, 128, 128)
                         const skin = await Canvas.loadImage(image);
-                        ctx.drawImage(skin, x, y, 256, 256)
+                        ctx.drawImage(skin, x, y, 128, 128)
                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderGaming.png')
-                        ctx.drawImage(skinborder, x, y, 256, 256)
+                        ctx.drawImage(skinborder, x, y, 128, 128)
                         if(lang === "en"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '20px Burbank Big Condensed'
-                            ctx.fillText(name, (128 + x), (y + 210))
+                            ctx.fillText(name, (64 + x), (y + 105))
                             ctx.font = applyText(canvas, description);
                             ctx.textAlign='center';
-                            ctx.fillText(description, (128 + x), (y + 240))
+                            ctx.fillText(description, (64+ x), (y + 120))
                         }else if(lang === "ar"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '20px Arabic'
-                            ctx.fillText(name, (128 + x), (y + 210))
+                            ctx.fillText(name, (64 + x), (y + 105))
                             ctx.font = applyText(canvas, description);
                             ctx.textAlign='center';
-                            ctx.fillText(description, (128 + x), (y + 240))
+                            ctx.fillText(description, (64 + x), (y + 120))
                         }
                         // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                         // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                     }else{
                         //creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/common.png')
-                        ctx.drawImage(skinholder, x, y, 256, 256)
+                        ctx.drawImage(skinholder, x, y, 128, 128)
                         const skin = await Canvas.loadImage(image);
-                        ctx.drawImage(skin, x, y, 256, 256)
+                        ctx.drawImage(skin, x, y, 128, 128)
                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderCommon.png')
-                        ctx.drawImage(skinborder, x, y, 256, 256)
+                        ctx.drawImage(skinborder, x, y, 128, 128)
                         if(lang === "en"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '20px Burbank Big Condensed'
-                            ctx.fillText(name, (128 + x), (y + 210))
+                            ctx.fillText(name, (64 + x), (y + 105))
                             ctx.font = applyText(canvas, description);
                             ctx.textAlign='center';
-                            ctx.fillText(description, (128 + x), (y + 240))
+                            ctx.fillText(description, (64+ x), (y + 120))
                         }else if(lang === "ar"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '20px Arabic'
-                            ctx.fillText(name, (128 + x), (y + 210)) 
+                            ctx.fillText(name, (64 + x), (y + 105)) 
                             ctx.font = applyText(canvas, description);
                             ctx.textAlign='center';
-                            ctx.fillText(description, (128 + x), (y + 240))
+                            ctx.fillText(description, (64 + x), (y + 120))
                         }
                         // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                         // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
@@ -846,10 +847,14 @@ module.exports = {
                 return true
             })
         }
-
-        const S = await listItems(ownedCosmetics, 0)
-        if(S === true){
-            const B = await listItems(ownedCosmetics, 1)
+        var count = true
+        var counter = 0
+        while(count === true){
+            if(counter < ownedCosmetics.length){
+                count = await createImage(ownedCosmetics, counter)
+            }else{
+                count = false
+            }
         }
     }
 }

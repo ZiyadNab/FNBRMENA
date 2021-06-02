@@ -50,10 +50,22 @@ module.exports = {
             //counter
             var counterSkins = 0
             var counterBackbling = 0
+            var counterPickaxes = 0
+            var counterGliders = 0
+            var counterContrails = 0
+            var counterEmotes = 0
+            var counterWraps = 0
+            var counterMusicPack = 0
 
             //cosmetics the user owns
             var ownedSkins = [];
             var ownedBackblings = []
+            var ownedPickaxes = []
+            var ownedGliders = []
+            var ownedContrails = []
+            var ownedEmotes = []
+            var ownedWraps = []
+            var ownedMusicPack = 0
 
             //request the cosmetics list from epic games using account id and token
             await axios.post(`https://fortnite-public-service-prod11.ol.epicgames.com/fortnite/api/game/v2/profile/${accountID}/client/QueryProfile?profileId=athena`,{},
@@ -82,6 +94,36 @@ module.exports = {
                         const Backblings = await cosmetics.find(it => it.id.toLowerCase() === AthenaBackpackID);
                         ownedBackblings[counterBackbling] = await Backblings;
                         counterBackbling++
+                    }else if(await item00.templateId.includes('AthenaPickaxe')) {
+                        const AthenaPickaxeID = await item00.templateId.split(':')[1];
+                        const Pickaxes = await cosmetics.find(it => it.id.toLowerCase() === AthenaPickaxeID);
+                        ownedPickaxes[counterPickaxes] = await Pickaxes;
+                        counterPickaxes++
+                    }else if(await item00.templateId.includes('AthenaGlider')) {
+                        const AthenaGliderID = await item00.templateId.split(':')[1];
+                        const Gliders = await cosmetics.find(it => it.id.toLowerCase() === AthenaGliderID);
+                        ownedGliders[counterGliders] = await Gliders;
+                        counterGliders++
+                    }else if(await item00.templateId.includes('AthenaSkyDiveContrail')) {
+                        const AthenaSkyDiveContrailID = await item00.templateId.split(':')[1];
+                        const Gliders = await cosmetics.find(it => it.id.toLowerCase() === AthenaSkyDiveContrailID);
+                        ownedContrails[counterContrails] = await Gliders;
+                        counterContrails++
+                    }else if(await item00.templateId.includes('AthenaDance')) {
+                        const AthenaDanceID = await item00.templateId.split(':')[1];
+                        const Emotes = await cosmetics.find(it => it.id.toLowerCase() === AthenaDanceID);
+                        ownedEmotes[counterEmotes] = await Emotes;
+                        counterEmotes++
+                    }else if(await item00.templateId.includes('AthenaItemWrap')) {
+                        const AthenaItemWrapID = await item00.templateId.split(':')[1];
+                        const Wraps = await cosmetics.find(it => it.id.toLowerCase() === AthenaItemWrapID);
+                        ownedWraps[counterWraps] = await Wraps;
+                        counterWraps++
+                    }else if(await item00.templateId.includes('AthenaMusicPack')) {
+                        const AthenaMusicPackID = await item00.templateId.split(':')[1];
+                        const MusicPack = await cosmetics.find(it => it.id.toLowerCase() === AthenaMusicPackID);
+                        ownedMusicPack[counterMusicPack] = await MusicPack;
+                        counterMusicPack++
                     }
                 }
 
@@ -91,7 +133,13 @@ module.exports = {
 
             const owned = [
                 ownedSkins,
-                ownedBackblings
+                ownedBackblings,
+                ownedPickaxes,
+                ownedGliders,
+                ownedContrails,
+                ownedEmotes,
+                ownedWraps,
+                ownedMusicPack,
             ]
 
             return owned
@@ -844,11 +892,10 @@ module.exports = {
                 const att = await new Discord.MessageAttachment(canvas.toBuffer('image/jpeg'))
                 await message.channel.send(att)
                 await msg.delete()
-                return true
             })
         }
         for(let i = 0; i < ownedCosmetics.length; i++){
-            var count = await createImage(ownedCosmetics, i)
+            await createImage(ownedCosmetics, i)
         }
     }
 }

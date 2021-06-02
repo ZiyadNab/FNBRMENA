@@ -132,13 +132,13 @@ module.exports = {
             })
 
             const owned = [
-                // ownedSkins,
-                // ownedBackblings,
-                // ownedPickaxes,
-                // ownedGliders,
-                // ownedContrails,
-                // ownedEmotes,
-                // ownedWraps,
+                ownedSkins,
+                ownedBackblings,
+                ownedPickaxes,
+                ownedGliders,
+                ownedContrails,
+                ownedEmotes,
+                ownedWraps,
                 ownedMusicPacks,
             ]
 

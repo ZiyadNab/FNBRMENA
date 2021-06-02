@@ -852,6 +852,7 @@ module.exports = {
         while(count === true){
             if(counter < ownedCosmetics.length){
                 count = await createImage(ownedCosmetics, counter)
+                counter++
             }else{
                 count = false
             }

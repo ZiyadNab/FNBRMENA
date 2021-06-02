@@ -98,8 +98,7 @@ module.exports = {
 
         const ownedCosmetics = await GetCosmetics("5ef45d2f9d1849c987789c6864e77aba", "c1466883a19246e4a5e86bbc43087504")
 
-        for(let p = 0; p < ownedCosmetics.length; p++){
-
+        const listItems = async (ownedCosmetics, p) => {
             var userItems = []
 
             await ownedCosmetics[p].filter(item => {
@@ -363,14 +362,15 @@ module.exports = {
             .then( async msg => {
 
                 for(let i = 0; i < userItems.length; i++){
+
                     //skin informations
-                    var name = userItems[i].name;
-                    var description = userItems[i].description;
-                    var image = userItems[i].images.icon;
+                    var name = await userItems[i].name;
+                    var description = await userItems[i].description;
+                    var image = await userItems[i].images.icon;
                     if(userItems[i].series !== null){
-                        rarity = userItems[i].series.id
+                        rarity = await userItems[i].series.id
                     }else{
-                        rarity = userItems[i].rarity.id
+                        rarity = await userItems[i].rarity.id
                     }
                     newline = newline + 1;
 
@@ -384,7 +384,7 @@ module.exports = {
                     await msg.edit(wait)
 
                     //searching
-                    if(rarity === 'Legendary'){
+                    if(await rarity === 'Legendary'){
                         //creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/legendary.png')
                         ctx.drawImage(skinholder, x, y, 256, 256)
@@ -413,7 +413,7 @@ module.exports = {
                         // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                         
                     }else
-                    if(rarity === 'Epic'){
+                    if(await rarity === 'Epic'){
                         //creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/epic.png')
                         ctx.drawImage(skinholder, x, y, 256, 256)
@@ -441,7 +441,7 @@ module.exports = {
                         // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                         // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                     }else
-                    if(rarity === 'Rare'){
+                    if(await rarity === 'Rare'){
                         //creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/rare.png')
                         ctx.drawImage(skinholder, x, y, 256, 256)
@@ -469,7 +469,7 @@ module.exports = {
                         // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                         // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                     }else
-                    if(rarity === 'Uncommon'){
+                    if(await rarity === 'Uncommon'){
                         //creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/uncommon.png')
                         ctx.drawImage(skinholder, x, y, 256, 256)
@@ -497,7 +497,7 @@ module.exports = {
                         // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                         // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                     }else
-                    if(rarity === 'Common'){
+                    if(await rarity === 'Common'){
                         //creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/common.png')
                         ctx.drawImage(skinholder, x, y, 256, 256)
@@ -525,7 +525,7 @@ module.exports = {
                         // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                         // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                     }else
-                    if(rarity === 'MarvelSeries'){
+                    if(await rarity === 'MarvelSeries'){
                         //creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/marvel.png')
                         ctx.drawImage(skinholder, x, y, 256, 256)
@@ -553,7 +553,7 @@ module.exports = {
                         // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                         // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                     }else
-                    if(rarity === 'DCUSeries'){
+                    if(await rarity === 'DCUSeries'){
                         //creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/dc.png')
                         ctx.drawImage(skinholder, x, y, 256, 256)
@@ -581,7 +581,7 @@ module.exports = {
                         // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                         // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                     }else
-                    if(rarity === 'CUBESeries'){
+                    if(await rarity === 'CUBESeries'){
                         //creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/dark.png')
                         ctx.drawImage(skinholder, x, y, 256, 256)
@@ -609,7 +609,7 @@ module.exports = {
                         // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                         // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                     }else
-                    if(rarity === 'CreatorCollabSeries'){
+                    if(await rarity === 'CreatorCollabSeries'){
                         //creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/icon.png')
                         ctx.drawImage(skinholder, x, y, 256, 256)
@@ -637,7 +637,7 @@ module.exports = {
                         // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                         // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                     }else
-                    if(rarity === 'ColumbusSeries'){
+                    if(await rarity === 'ColumbusSeries'){
                         //creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/starwars.png')
                         ctx.drawImage(skinholder, x, y, 256, 256)
@@ -665,7 +665,7 @@ module.exports = {
                         // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                         // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                     }else
-                    if(rarity === 'ShadowSeries'){
+                    if(await rarity === 'ShadowSeries'){
                         //creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/shadow.png')
                         ctx.drawImage(skinholder, x, y, 256, 256)
@@ -693,7 +693,7 @@ module.exports = {
                         // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                         // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                     }else
-                    if(rarity === 'SlurpSeries'){
+                    if(await rarity === 'SlurpSeries'){
                         //creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/slurp.png')
                         ctx.drawImage(skinholder, x, y, 256, 256)
@@ -721,7 +721,7 @@ module.exports = {
                         // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                         // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                     }else
-                    if(rarity === 'FrozenSeries'){
+                    if(await rarity === 'FrozenSeries'){
                         //creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/frozen.png')
                         ctx.drawImage(skinholder, x, y, 256, 256)
@@ -749,7 +749,7 @@ module.exports = {
                         // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                         // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                     }else
-                    if(rarity === 'LavaSeries'){
+                    if(await rarity === 'LavaSeries'){
                         //creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/lava.png')
                         ctx.drawImage(skinholder, x, y, 256, 256)
@@ -777,7 +777,7 @@ module.exports = {
                         // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                         // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                     }else
-                    if(rarity === 'PlatformSeries'){
+                    if(await rarity === 'PlatformSeries'){
                         //creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/gaming.png')
                         ctx.drawImage(skinholder, x, y, 256, 256)
@@ -840,10 +840,16 @@ module.exports = {
                         newline = 0;
                     }
                 }
-                const att = new Discord.MessageAttachment(canvas.toBuffer('image/jpeg'))
+                const att = await new Discord.MessageAttachment(canvas.toBuffer('image/jpeg'))
                 await message.channel.send(att)
-                msg.delete()
+                await msg.delete()
+                return true
             })
+        }
+
+        const S = await listItems(ownedCosmetics, 0)
+        if(S === true){
+            const B = await listItems(ownedCosmetics, 1)
         }
     }
 }

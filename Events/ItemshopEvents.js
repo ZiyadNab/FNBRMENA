@@ -1546,15 +1546,17 @@ module.exports = (client, admin) => {
                                     }
                                 }
 
-                                if(lang === "en"){
-                                    ctx.fillStyle = '#ffffff';
-                                    ctx.font = '150px Burbank Big Condensed'
-                                    ctx.fillText("Bundles", x, (y - 55))
-                                }else if(lang === "ar"){
-                                    ctx.fillStyle = '#ffffff';
-                                    ctx.textAlign='right';
-                                    ctx.font = '150px Arabic'
-                                    ctx.fillText("الحزم", x + 1024, (y - 55))
+                                if(LimitedTime.length !== 0){
+                                    if(lang === "en"){
+                                        ctx.fillStyle = '#ffffff';
+                                        ctx.font = '150px Burbank Big Condensed'
+                                        ctx.fillText("Bundles", x, (y - 55))
+                                    }else if(lang === "ar"){
+                                        ctx.fillStyle = '#ffffff';
+                                        ctx.textAlign='right';
+                                        ctx.font = '150px Arabic'
+                                        ctx.fillText("الحزم", x + 1024, (y - 55))
+                                    }
                                 }
 
                                 //Limited Time Loop

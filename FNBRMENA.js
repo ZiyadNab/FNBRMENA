@@ -6,6 +6,7 @@ const ShopSectionEvents = require('./Events/ShopSectionEvents.js')
 const PlaylistsEvents = require('./Events/PlaylistsEvents.js')
 //const BundleEvents = require('./Events/BundleEvents.js')
 const UserJoined = require('./Events/User.js')
+const Crew = require('./Events/CrewEvents.js')
 const Commands = require('./Events/Commands.js')
 const ItemshopEvents = require('./Events/ItemshopEvents')
 const axios = require('axios')
@@ -75,6 +76,11 @@ class FNBRMENA {
         //return ShopSection access
         if(Type === "ShopSection"){
             ShopSectionEvents(Client, Admin)
+        }
+
+        //return ShopSection access
+        if(Type === "Crew"){
+            Crew(Client, Admin)
         }
 
         //return UserJoined access

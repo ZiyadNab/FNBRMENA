@@ -11,6 +11,7 @@ module.exports = async (client, admin, array) => {
     FNBRMENA.Events(client, admin, array, "Pak")
     FNBRMENA.Events(client, admin, array, "Set")
     FNBRMENA.Events(client, admin, array, "ShopSection")
+    FNBRMENA.Events(client, admin, array, "Crew")
     FNBRMENA.Events(client, admin, array, "UserJoined")
     FNBRMENA.Events(client, admin, array, "Commands")
 

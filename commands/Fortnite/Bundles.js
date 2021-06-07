@@ -59,7 +59,7 @@ module.exports = {
                         const bundle = new Discord.MessageEmbed()
 
                         //add color
-                        bundle.setColor()
+                        bundle.setColor('#BB00EE')
 
                         //add title
                         bundle.setTitle(found[0].name)
@@ -86,13 +86,13 @@ module.exports = {
                         }else if(lang === "ar"){
                             if(found[0].available === true){
                                 bundle.addFields(
-                                    {name: "متاحة للشراء", value: "لا"},
+                                    {name: "متاحة للشراء", value: "نعم"},
                                     {name: "متاحة منذ", value: moment(found[0].viewableDate).format("dddd, MMMM Do من YYYY")},
                                     {name: "سوف تغادر في", value: moment(found[0].expiryDate).format("dddd, MMMM Do من YYYY")}
                                 )
                             }else{
                                 bundle.addFields(
-                                    {name: "متاحة للشراء", value: "نعم",},
+                                    {name: "متاحة للشراء", value: "لا",},
                                     {name: "متاحة منذ", value: moment(found[0].viewableDate).format("dddd, MMMM Do من YYYY")},
                                     {name: "غادرت منذ", value: moment(found[0].expiryDate).format("dddd, MMMM Do من YYYY")}
                                 )

@@ -43,9 +43,9 @@ class FNBRMENA {
         }
 
         //return Bundle access
-        if(Type === "Bundle"){
-            BundleEvents(Client, Admin)
-        }
+        // if(Type === "Bundle"){
+        //     BundleEvents(Client, Admin)
+        // }
 
         //return Comp access
         if(Type === "Comp"){

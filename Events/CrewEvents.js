@@ -133,6 +133,10 @@ module.exports = (client, admin) => {
                             const canvas = Canvas.createCanvas(width, height);
                             const ctx = canvas.getContext('2d');
 
+                            //background
+                            const background = await Canvas.loadImage('./assets/backgroundwhite.jpg')
+                            ctx.drawImage(background, 0, 0, canvas.width, canvas.height)
+
                             //reset newline
                             newline = 0
 

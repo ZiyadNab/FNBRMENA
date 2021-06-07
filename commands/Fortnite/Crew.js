@@ -38,9 +38,7 @@ module.exports = {
             if((text - 1) < res.length){
 
                 //filter
-                const crew = res.filter(catched => {
-                    return catched[(text - 1)]
-                })
+                const crew = res[res.length - text]
 
                 //send the generating message
                 const generating = new Discord.MessageEmbed()
@@ -50,9 +48,9 @@ module.exports = {
                 message.channel.send(generating)
                 .then( async msg => {
 
-                    var year = crew[0].date.substring(0, 4)
-                    var month = crew[0].date.substring(5, 7)
-                    var day = crew[0].date.substring(8, 10)
+                    var year = crew.date.substring(0, 4)
+                    var month = crew.date.substring(5, 7)
+                    var day = crew.date.substring(8, 10)
 
                     //the crew data has been found lets cread an embed
                     const crewData = new Discord.MessageEmbed()
@@ -68,13 +66,13 @@ module.exports = {
                     }
 
                     //add image
-                    crewData.setImage(crew[0].images.apiRender)
+                    crewData.setImage(crew.images.apiRender)
 
                     //add url
-                    crewData.setURL(crew[0].video)
+                    crewData.setURL(crew.video)
 
                     //creating length
-                    var length = crew[0].rewards.length
+                    var length = crew.rewards.length
                     if(length <= 2){
                         length = length
                     }else if(length > 2 && length <= 4){
@@ -98,7 +96,7 @@ module.exports = {
                     width += (length * 512) + (length * 5) - 5
 
                     //creating height
-                    for(let i = 0; i < crew[0].rewards.length; i++){
+                    for(let i = 0; i < crew.rewards.length; i++){
                         
                         if(newline === length){
                             height += 512 + 5
@@ -129,23 +127,27 @@ module.exports = {
                     const canvas = Canvas.createCanvas(width, height);
                     const ctx = canvas.getContext('2d');
 
+                    //background
+                    const background = await Canvas.loadImage('./assets/backgroundwhite.jpg')
+                    ctx.drawImage(background, 0, 0, canvas.width, canvas.height)
+
                     //reset newline
                     newline = 0
 
                     //items
-                    for(let i = 0; i < crew[0].rewards.length; i++){
+                    for(let i = 0; i < crew.rewards.length; i++){
 
-                        var name = crew[0].rewards[i].item.name
-                        var description = crew[0].rewards[i].item.description
-                        if(crew[0].rewards[i].item.series !== null){
-                            var rarity = crew[0].rewards[i].item.series.id
+                        var name = crew.rewards[i].item.name
+                        var description = crew.rewards[i].item.description
+                        if(crew.rewards[i].item.series !== null){
+                            var rarity = crew.rewards[i].item.series.id
                         }else{
-                            var rarity = crew[0].rewards[i].item.rarity.id
+                            var rarity = crew.rewards[i].item.rarity.id
                         }
-                        if(crew[0].rewards[i].item.images.featured !== null && crew[0].rewards[i].item.type.id !== "loadingscreen"){
-                            var image = crew[0].rewards[i].item.images.featured
+                        if(crew.rewards[i].item.images.featured !== null && crew.rewards[i].item.type.id !== "loadingscreen"){
+                            var image = crew.rewards[i].item.images.featured
                         }else{
-                            var image = crew[0].rewards[i].item.images.icon
+                            var image = crew.rewards[i].item.images.icon
                         }
 
                         newline++

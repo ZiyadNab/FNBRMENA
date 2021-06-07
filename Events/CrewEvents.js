@@ -539,7 +539,7 @@ module.exports = (client, admin) => {
                             message.send(crewData)
                             msg.delete()
 
-                            data = res.data
+                            data = response.data
                         })
                     }
                 })

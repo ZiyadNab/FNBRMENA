@@ -35,12 +35,12 @@ module.exports = {
             //res
             const res = response.data
 
-            //filter
-            const crew = res.filter(catched => {
-                return catched.date.includes(text)
-            })
+            if((text - 1) < res.length){
 
-            if(crew.length !== 0){
+                //filter
+                const crew = res.filter(catched => {
+                    return catched[(text - 1)]
+                })
 
                 //send the generating message
                 const generating = new Discord.MessageEmbed()

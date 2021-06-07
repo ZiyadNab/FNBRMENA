@@ -13,13 +13,13 @@ module.exports = (client, admin) => {
     const Crew = () => {
 
         //checking if the bot on or off
-        admin.database().ref("ERA's").child("Events").child("crew").once('value', async function (data) {
-            var status = data.val().Active;
+        admin.database().ref("ERA's").child("Events").child("crew").once('value', async function (server) {
+            var status = server.val().Active;
             if(status === "true"){
                 axios.get(`https://fortniteapi.io/v2/game/crew?lang=${lang}`, { headers: {'Content-Type': 'application/json','Authorization': "d4ce1562-839ff66b-3946ccb6-438eb9cf",} })
                 .then(async response => {
                     if(number === 0){
-                        //data = response.data
+                        data = response.data
                         number++
                     }
                     if(JSON.stringify(response.data) !== JSON.stringify(data)){

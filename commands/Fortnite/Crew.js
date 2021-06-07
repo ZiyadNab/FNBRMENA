@@ -112,14 +112,14 @@ module.exports = {
                 //applytext
                 const applyText = (canvas, text) => {
                     const ctx = canvas.getContext('2d');
-                    let fontSize = 40;
+                    let fontSize = 36;
                     do {
                         if(lang === "en"){
                             ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
                         }else if(lang === "ar"){
                             ctx.font = `${fontSize -= 1}px Arabic`;
                         }
-                    } while (ctx.measureText(text).width > 230);
+                    } while (ctx.measureText(text).width > 420);
                     return ctx.font;
                 }
 
@@ -140,7 +140,7 @@ module.exports = {
                     }else{
                         var rarity = crew[0].rewards[i].item.rarity.id
                     }
-                    if(crew[0].rewards[i].item.images.featured !== null){
+                    if(crew[0].rewards[i].item.images.featured !== null && crew[0].rewards[i].item.type.id !== "loadingscreen"){
                         var image = crew[0].rewards[i].item.images.featured
                     }else{
                         var image = crew[0].rewards[i].item.images.icon
@@ -161,16 +161,16 @@ module.exports = {
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '46px Burbank Big Condensed'
-                            ctx.fillText(name, 256, 430)
+                            ctx.fillText(name, x + 256, y + 430)
                             ctx.font = applyText(canvas, description);
-                            ctx.fillText(description, 256, 470)
+                            ctx.fillText(description, x + 256, y + 470)
                         }else if(lang === "ar"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '46px Arabic'
-                            ctx.fillText(name, 256, 430)
+                            ctx.fillText(name, x + 256, y + 430)
                             ctx.font = applyText(canvas, description);
-                            ctx.fillText(description, 256, 470)
+                            ctx.fillText(description, x + 256, y + 470)
                         }
                     }else if(rarity === "Epic"){
                         //creating image
@@ -184,16 +184,16 @@ module.exports = {
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '46px Burbank Big Condensed'
-                            ctx.fillText(name, 256, 430)
+                            ctx.fillText(name, x + 256, y + 430)
                             ctx.font = applyText(canvas, description);
-                            ctx.fillText(description, 256, 470)
+                            ctx.fillText(description, x + 256, y + 470)
                         }else if(lang === "ar"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '46px Arabic'
-                            ctx.fillText(name, 256, 430)
+                            ctx.fillText(name, x + 256, y + 430)
                             ctx.font = applyText(canvas, description);
-                            ctx.fillText(description, 256, 470)
+                            ctx.fillText(description, x + 256, y + 470)
                         }
                     }else if(rarity === "Rare"){
                         //creating image
@@ -207,16 +207,16 @@ module.exports = {
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '46px Burbank Big Condensed'
-                            ctx.fillText(name, 256, 430)
+                            ctx.fillText(name, x + 256, y + 430)
                             ctx.font = applyText(canvas, description);
-                            ctx.fillText(description, 256, 470)
+                            ctx.fillText(description, x + 256, y + 470)
                         }else if(lang === "ar"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '46px Arabic'
-                            ctx.fillText(name, 256, 430)
+                            ctx.fillText(name, x + 256, y + 430)
                             ctx.font = applyText(canvas, description);
-                            ctx.fillText(description, 256, 470)
+                            ctx.fillText(description, x + 256, y + 470)
                         }
                     }else if(rarity === "Uncommon"){
                         //creating image
@@ -230,16 +230,16 @@ module.exports = {
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '46px Burbank Big Condensed'
-                            ctx.fillText(name, 256, 430)
+                            ctx.fillText(name, x + 256, y + 430)
                             ctx.font = applyText(canvas, description);
-                            ctx.fillText(description, 256, 470)
+                            ctx.fillText(description, x + 256, y + 470)
                         }else if(lang === "ar"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '46px Arabic'
-                            ctx.fillText(name, 256, 430)
+                            ctx.fillText(name, x + 256, y + 430)
                             ctx.font = applyText(canvas, description);
-                            ctx.fillText(description, 256, 470)
+                            ctx.fillText(description, x + 256, y + 470)
                         }
                     }else if(rarity === "Common"){
                         //creating image
@@ -253,16 +253,16 @@ module.exports = {
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '46px Burbank Big Condensed'
-                            ctx.fillText(name, 256, 430)
+                            ctx.fillText(name, x + 256, y + 430)
                             ctx.font = applyText(canvas, description);
-                            ctx.fillText(description, 256, 470)
+                            ctx.fillText(description, x + 256, y + 470)
                         }else if(lang === "ar"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '46px Arabic'
-                            ctx.fillText(name, 256, 430)
+                            ctx.fillText(name, x + 256, y + 430)
                             ctx.font = applyText(canvas, description);
-                            ctx.fillText(description, 256, 470)
+                            ctx.fillText(description, x + 256, y + 470)
                         }
                     }else if(rarity === "MarvelSeries"){
                         //creating image
@@ -276,16 +276,16 @@ module.exports = {
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '46px Burbank Big Condensed'
-                            ctx.fillText(name, 256, 430)
+                            ctx.fillText(name, x + 256, y + 430)
                             ctx.font = applyText(canvas, description);
-                            ctx.fillText(description, 256, 470)
+                            ctx.fillText(description, x + 256, y + 470)
                         }else if(lang === "ar"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '46px Arabic'
-                            ctx.fillText(name, 256, 430)
+                            ctx.fillText(name, x + 256, y + 430)
                             ctx.font = applyText(canvas, description);
-                            ctx.fillText(description, 256, 470)
+                            ctx.fillText(description, x + 256, y + 470)
                         }
                     }else if(rarity === "DCUSeries"){
                         //creating image
@@ -299,16 +299,16 @@ module.exports = {
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '46px Burbank Big Condensed'
-                            ctx.fillText(name, 256, 430)
+                            ctx.fillText(name, x + 256, y + 430)
                             ctx.font = applyText(canvas, description);
-                            ctx.fillText(description, 256, 470)
+                            ctx.fillText(description, x + 256, y + 470)
                         }else if(lang === "ar"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '46px Arabic'
-                            ctx.fillText(name, 256, 430)
+                            ctx.fillText(name, x + 256, y + 430)
                             ctx.font = applyText(canvas, description);
-                            ctx.fillText(description, 256, 470)
+                            ctx.fillText(description, x + 256, y + 470)
                         }
                     }else if(rarity === "CUBESeries"){
                         //creating image
@@ -322,16 +322,16 @@ module.exports = {
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '46px Burbank Big Condensed'
-                            ctx.fillText(name, 256, 430)
+                            ctx.fillText(name, x + 256, y + 430)
                             ctx.font = applyText(canvas, description);
-                            ctx.fillText(description, 256, 470)
+                            ctx.fillText(description, x + 256, y + 470)
                         }else if(lang === "ar"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '46px Arabic'
-                            ctx.fillText(name, 256, 430)
+                            ctx.fillText(name, x + 256, y + 430)
                             ctx.font = applyText(canvas, description);
-                            ctx.fillText(description, 256, 470)
+                            ctx.fillText(description, x + 256, y + 470)
                         }
                     }else if(rarity === "CreatorCollabSeries"){
                         //creating image
@@ -345,16 +345,16 @@ module.exports = {
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '46px Burbank Big Condensed'
-                            ctx.fillText(name, 256, 430)
+                            ctx.fillText(name, x + 256, y + 430)
                             ctx.font = applyText(canvas, description);
-                            ctx.fillText(description, 256, 470)
+                            ctx.fillText(description, x + 256, y + 470)
                         }else if(lang === "ar"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '46px Arabic'
-                            ctx.fillText(name, 256, 430)
+                            ctx.fillText(name, x + 256, y + 430)
                             ctx.font = applyText(canvas, description);
-                            ctx.fillText(description, 256, 470)
+                            ctx.fillText(description, x + 256, y + 470)
                         }
                     }else if(rarity === "ColumbusSeries"){
                         //creating image
@@ -368,16 +368,16 @@ module.exports = {
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '46px Burbank Big Condensed'
-                            ctx.fillText(name, 256, 430)
+                            ctx.fillText(name, x + 256, y + 430)
                             ctx.font = applyText(canvas, description);
-                            ctx.fillText(description, 256, 470)
+                            ctx.fillText(description, x + 256, y + 470)
                         }else if(lang === "ar"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '46px Arabic'
-                            ctx.fillText(name, 256, 430)
+                            ctx.fillText(name, x + 256, y + 430)
                             ctx.font = applyText(canvas, description);
-                            ctx.fillText(description, 256, 470)
+                            ctx.fillText(description, x + 256, y + 470)
                         }
                     }else if(rarity === "ShadowSeries"){
                         //creating image
@@ -391,16 +391,16 @@ module.exports = {
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '46px Burbank Big Condensed'
-                            ctx.fillText(name, 256, 430)
+                            ctx.fillText(name, x + 256, y + 430)
                             ctx.font = applyText(canvas, description);
-                            ctx.fillText(description, 256, 470)
+                            ctx.fillText(description, x + 256, y + 470)
                         }else if(lang === "ar"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '46px Arabic'
-                            ctx.fillText(name, 256, 430)
+                            ctx.fillText(name, x + 256, y + 430)
                             ctx.font = applyText(canvas, description);
-                            ctx.fillText(description, 256, 470)
+                            ctx.fillText(description, x + 256, y + 470)
                         }
                     }else if(rarity === "SlurpSeries"){
                         //creating image
@@ -414,16 +414,16 @@ module.exports = {
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '46px Burbank Big Condensed'
-                            ctx.fillText(name, 256, 430)
+                            ctx.fillText(name, x + 256, y + 430)
                             ctx.font = applyText(canvas, description);
-                            ctx.fillText(description, 256, 470)
+                            ctx.fillText(description, x + 256, y + 470)
                         }else if(lang === "ar"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '46px Arabic'
-                            ctx.fillText(name, 256, 430)
+                            ctx.fillText(name, x + 256, y + 430)
                             ctx.font = applyText(canvas, description);
-                            ctx.fillText(description, 256, 470)
+                            ctx.fillText(description, x + 256, y + 470)
                         }
                     }else if(rarity === "FrozenSeries"){
                         //creating image
@@ -437,16 +437,16 @@ module.exports = {
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '46px Burbank Big Condensed'
-                            ctx.fillText(name, 256, 430)
+                            ctx.fillText(name, x + 256, y + 430)
                             ctx.font = applyText(canvas, description);
-                            ctx.fillText(description, 256, 470)
+                            ctx.fillText(description, x + 256, y + 470)
                         }else if(lang === "ar"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '46px Arabic'
-                            ctx.fillText(name, 256, 430)
+                            ctx.fillText(name, x + 256, y + 430)
                             ctx.font = applyText(canvas, description);
-                            ctx.fillText(description, 256, 470)
+                            ctx.fillText(description, x + 256, y + 470)
                         }
                     }else if(rarity === "LavaSeries"){
                         //creating image
@@ -460,16 +460,16 @@ module.exports = {
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '46px Burbank Big Condensed'
-                            ctx.fillText(name, 256, 430)
+                            ctx.fillText(name, x + 256, y + 430)
                             ctx.font = applyText(canvas, description);
-                            ctx.fillText(description, 256, 470)
+                            ctx.fillText(description, x + 256, y + 470)
                         }else if(lang === "ar"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '46px Arabic'
-                            ctx.fillText(name, 256, 430)
+                            ctx.fillText(name, x + 256, y + 430)
                             ctx.font = applyText(canvas, description);
-                            ctx.fillText(description, 256, 470)
+                            ctx.fillText(description, x + 256, y + 470)
                         }
                     }else if(rarity === "PlatformSeries"){
                         //creating image
@@ -483,16 +483,16 @@ module.exports = {
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '46px Burbank Big Condensed'
-                            ctx.fillText(name, 256, 430)
+                            ctx.fillText(name, x + 256, y + 430)
                             ctx.font = applyText(canvas, description);
-                            ctx.fillText(description, 256, 470)
+                            ctx.fillText(description, x + 256, y + 470)
                         }else if(lang === "ar"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '46px Arabic'
-                            ctx.fillText(name, 256, 430)
+                            ctx.fillText(name, x + 256, y + 430)
                             ctx.font = applyText(canvas, description);
-                            ctx.fillText(description, 256, 470)
+                            ctx.fillText(description, x + 256, y + 470)
                         }
                     }else{
                         //creating image
@@ -506,16 +506,16 @@ module.exports = {
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '46px Burbank Big Condensed'
-                            ctx.fillText(name, 256, 430)
+                            ctx.fillText(name, x + 256, y + 430)
                             ctx.font = applyText(canvas, description);
-                            ctx.fillText(description, 256, 470)
+                            ctx.fillText(description, x + 256, y + 470)
                         }else if(lang === "ar"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '46px Arabic'
-                            ctx.fillText(name, 256, 430)
+                            ctx.fillText(name, x + 256, y + 430)
                             ctx.font = applyText(canvas, description);
-                            ctx.fillText(description, 256, 470)
+                            ctx.fillText(description, x + 256, y + 470)
                         }
                     }
                     // changing x and y

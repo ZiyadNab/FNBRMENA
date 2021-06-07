@@ -4,15 +4,26 @@ const PAKEvents = require('./Events/PAKEvents.js')
 const SetEvents = require('./Events/SetEvents.js')
 const ShopSectionEvents = require('./Events/ShopSectionEvents.js')
 const PlaylistsEvents = require('./Events/PlaylistsEvents.js')
-//const BundleEvents = require('./Events/BundleEvents.js')
+const BundleEvents = require('./Events/BundleEvents.js')
 const UserJoined = require('./Events/User.js')
 const Commands = require('./Events/Commands.js')
 const ItemshopEvents = require('./Events/ItemshopEvents')
+const axios = require('axios')
 
 class FNBRMENA {
 
     constructor(){
 
+    }
+
+    /**
+     * Return data about the crew
+     * 
+     * @param {String} Lang
+     * 
+     */
+    async Crew(Lang){
+        return await axios.get(`https://fortniteapi.io/v2/game/crew?lang=${Lang}`, { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
     }
 
     /** 
@@ -112,7 +123,7 @@ class FNBRMENA {
         }
 
         if(Type === "DiscordBotToken"){
-            return 'Nzk5OTkxNDQ2MDY0MDcwNjU4.YALoFw.9Y3FeQRPrkWTMPzWE1oCSs88O-g'
+            return 'ODEzNzQ2OTE4Nzg5MjE4Mzg2.YDTy4A.f3-p1rLNr3V199oOps1wWk5cIS8'
         }
 
         if(Type === "FNBRJS"){

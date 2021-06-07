@@ -182,15 +182,6 @@ module.exports = {
                 message.channel.send(generating)
                 .then( async msg => {
 
-                    const wait = new Discord.MessageEmbed()
-                    wait.setColor('#BB00EE')
-                    if(lang === "en"){
-                        wait.setTitle(`Generating iamges this might take longer than usual ... ${emoji}`)
-                    }else if(lang === "ar"){
-                        wait.setTitle(`جاري تحميل الصور ممكن تستغرق العملية اكثر من المعتاد ... ${emoji}`)
-                    }
-                    await msg.edit(wait)
-
                     for(let i = 0; i < res.data.length; i++){
 
                         //skin informations

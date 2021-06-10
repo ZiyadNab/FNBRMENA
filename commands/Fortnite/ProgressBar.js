@@ -145,8 +145,8 @@ module.exports = {
                 var Ends = moment(Now.format("YYYY") + "-" + `0${Number(Now.format("MM")) + 1}` + "-01")
             }
             const Starts = moment(Now.format("YYYY") + "-" + Now.format("MM") + "-01")
-            const Gone = Now.diff(Starts, "days")
-            const Left = Ends.diff(Now, "days")
+            var Gone = Now.diff(Starts, "days")
+            var Left = Ends.diff(Now, "days")
             const Length = Left + Gone
             var crewPercent = (Gone / Length) * 3000
 

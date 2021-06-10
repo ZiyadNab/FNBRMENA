@@ -46,7 +46,7 @@ module.exports = {
             Canvas.registerFont('./assets/font/BurbankBigCondensed-Black.otf' ,{family: 'Burbank Big Condensed',weight: "700",style: "bold"})
 
             //creating canvas
-            const canvas = Canvas.createCanvas(4000, 3000);
+            const canvas = Canvas.createCanvas(4000, 3100);
             const ctx = canvas.getContext('2d');
 
             //create background grediant
@@ -177,8 +177,8 @@ module.exports = {
                 ctx.fillRect(x, y, 3000, 150)
 
                 //birthday data
-                var Ends = moment("2021-09-26")
-                var Starts = moment("2020-09-26")
+                var Ends = moment("2021-07-25")
+                var Starts = moment("2020-07-25")
                 var Gone = Now.diff(Starts, "days")
                 var Left = Ends.diff(Now, "days")
                 const Length = Left + Gone
@@ -457,7 +457,6 @@ module.exports = {
                 const Gone = Days[0]
                 const Left = Days[1]
                 const Length = Gone + Left
-                console.log(Left, Gone)
                 const weekPercent = (Gone / Length) * 3000
 
                 //background grediant colors
@@ -629,11 +628,11 @@ module.exports = {
             await BirthdaySTW(grd)
 
             y += 420
-            var grd = ctx.createLinearGradient(x, 1500, x + 1500, 3000)
+            grd = ctx.createLinearGradient(x, 1500, x + 1500, 3000)
             await BirthdayBR(grd)
         
             y += 420
-            var grd = ctx.createLinearGradient(x, 1500, x + 1500, 3000)
+            grd = ctx.createLinearGradient(x, 1500, x + 1500, 3000)
             await Season(grd)
             
             y += 420

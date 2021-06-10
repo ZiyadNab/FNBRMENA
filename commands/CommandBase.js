@@ -65,7 +65,7 @@ module.exports.listen = async (client, admin) => {
       //get the user language from the database
       const lang = await FNBRMENA.Admin(admin, message, "", "Lang")
 
-      if(message.author.id === "325507145871130624"){
+      if(message.author.id === "325507145871130624" || message.author.id === "756527533171671190"){
 
         // Ensure we have the correct number of args
         if (

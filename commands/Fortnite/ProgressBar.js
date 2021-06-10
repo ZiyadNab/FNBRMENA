@@ -204,7 +204,6 @@ module.exports = {
                 //gone text
                 ctx.fillStyle = '#ffffff';
                 ctx.textAlign='center';
-                ctx.font = '60px Burbank Big Condensed'
                 ctx.fillText(Gone + DaysGone, x + (crewPercent / 2), y + 270)
 
                 if(Left !== 0){

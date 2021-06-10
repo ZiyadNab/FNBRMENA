@@ -39,7 +39,7 @@ module.exports = {
         .then( async msg => {
 
             //setting up moment js
-            const Now = moment().add(2, "days")
+            const Now = moment()
 
             //registering fonts
             Canvas.registerFont('./assets/font/Lalezar-Regular.ttf', {family: 'Arabic',weight: "700",style: "bold"});
@@ -250,6 +250,126 @@ module.exports = {
 
             }
 
+            const Challenges = async (grd) => {
+
+                //text
+                if(lang === "en"){
+                    ctx.font = '60px Burbank Big Condensed'
+                }else if(lang === "ar"){
+                    ctx.font = '60px Arabic'
+                }
+
+                //battlepass icon
+                const bp = await Canvas.loadImage('./assets/Bar/bp.png')
+                ctx.drawImage(bp, x - 220, y - 20, 200, 200)
+
+                //add the next week challenges line
+                ctx.fillRect(x, y, 3000, 150)
+
+                //next challenges
+                const D = async () => {
+
+                    //Friday
+                    if(Now.format("dddd") === "Friday"){
+                        return [1, 6]
+                    }
+                    //Saturday
+                    if(Now.format("dddd") === "Saturday"){
+                        return [2, 5]
+                    }
+                    //Sunday
+                    if(Now.format("dddd") === "Sunday"){
+                        return [3, 4]
+                    }
+                    //Monday
+                    if(Now.format("dddd") === "Monday"){
+                        return [4, 3]
+                    }
+                    //Tuesday
+                    if(Now.format("dddd") === "Tuesday"){
+                        return [5, 2]
+                    }
+                    //Wednesday
+                    if(Now.format("dddd") === "Wednesday"){
+                        return [6, 1]
+                    }
+                    //Thursday
+                    if(Now.format("dddd") === "Thursday"){
+                        return [7, 0]
+                    }
+                }
+                const Days = await D()
+                const Gone = Days[0]
+                const Left = Days[1]
+                const Length = Gone + Left
+                console.log(Left, Gone)
+                const weekPercent = (Gone / Length) * 3000
+
+                //background grediant colors
+                grd.addColorStop(0, "#FF8700")
+                grd.addColorStop(1, "#FFD500")
+
+                //add the line color to ctx
+                ctx.fillStyle = grd
+
+                //add the progress
+                ctx.fillRect(x, y, weekPercent, 150)
+
+                //return the white color
+                ctx.fillStyle = "white"
+
+                //gone
+                ctx.fillRect(x, y + 180, weekPercent, 25)
+
+                //gone text
+                ctx.fillStyle = '#ffffff';
+                ctx.textAlign='center';
+                ctx.fillText(Gone + DaysGone, x + (weekPercent / 2), y + 270)
+
+                if(Left !== 0){
+                    //left
+                    ctx.fillRect(x + weekPercent, y - 50, 3000 - weekPercent, 25)
+
+                    //left text
+                    ctx.fillStyle = '#ffffff';
+                    ctx.textAlign='center';
+                    ctx.fillText(Left + DaysLeft, x + weekPercent + ((3000 - weekPercent) / 2), y - 80)
+                }else{
+                    //left
+                    ctx.fillRect(x + 2990, y - 50, 10, 25)
+
+                    //left text
+                    ctx.fillStyle = '#ffffff';
+                    ctx.textAlign='center';
+                    ctx.fillText(Left + DaysLeft, x + 2999, y - 80)
+
+                    //activates when?
+                    ctx.fillStyle = '#ffffff';
+                    ctx.textAlign='center';
+                    ctx.fillText(weekText, x + (3000 / 2), y + 95)
+                }
+
+                //percent
+                if((Gone / Length) * 100 > 50){
+
+                    //percent
+                    ctx.fillStyle = '#ffffff';
+                    ctx.textAlign='right';
+                    ctx.font = '100px Burbank Big Condensed'
+                    ctx.fillText(((Gone / Length) * 100 | 0) + "%", (x + weekPercent) - 30, y + 110)
+
+                }else{
+
+                    //percent
+                    ctx.fillStyle = '#000000';
+                    ctx.textAlign='left';
+                    ctx.font = '100px Burbank Big Condensed'
+                    ctx.fillText(((Gone / Length) * 100 | 0) + "%", (x + weekPercent) + 30, y + 110)
+
+                }
+
+            }
+
             const Superman = async (grd) => {
 
                 //text
@@ -343,95 +463,6 @@ module.exports = {
                 }
 
             }
-
-            const Challenges = async (grd) => {
-
-                //text
-                if(lang === "en"){
-                    ctx.font = '60px Burbank Big Condensed'
-                }else if(lang === "ar"){
-                    ctx.font = '60px Arabic'
-                }
-
-                //battlepass icon
-                const bp = await Canvas.loadImage('./assets/Bar/bp.png')
-                ctx.drawImage(bp, x - 220, y - 20, 200, 200)
-
-                //add the next week challenges line
-                ctx.fillRect(x, y, 3000, 150)
-
-                //next challenges
-                const Ends = moment().day(4)
-                const Starts = moment().day(-4)
-                const Gone = Now.diff(Starts, "days")
-                const Left = Ends.diff(Now, "days")
-                const Length = Gone + Left
-                const weekPercent = (Gone / Length) * 3000
-
-                //background grediant colors
-                grd.addColorStop(0, "#FF8700")
-                grd.addColorStop(1, "#FFD500")
-
-                //add the line color to ctx
-                ctx.fillStyle = grd
-
-                //add the progress
-                ctx.fillRect(x, y, weekPercent, 150)
-
-                //return the white color
-                ctx.fillStyle = "white"
-
-                //gone
-                ctx.fillRect(x, y + 180, weekPercent, 25)
-
-                //gone text
-                ctx.fillStyle = '#ffffff';
-                ctx.textAlign='center';
-                ctx.fillText(Gone + DaysGone, x + (weekPercent / 2), y + 270)
-
-                if(Left !== 0){
-                    //left
-                    ctx.fillRect(x + weekPercent, y - 50, 3000 - weekPercent, 25)
-
-                    //left text
-                    ctx.fillStyle = '#ffffff';
-                    ctx.textAlign='center';
-                    ctx.fillText(Left + DaysLeft, x + weekPercent + ((3000 - weekPercent) / 2), y - 80)
-                }else{
-                    //left
-                    ctx.fillRect(x + 2990, y - 50, 10, 25)
-
-                    //left text
-                    ctx.fillStyle = '#ffffff';
-                    ctx.textAlign='center';
-                    ctx.fillText(Left + DaysLeft, x + 2999, y - 80)
-
-                    //activates when?
-                    ctx.fillStyle = '#ffffff';
-                    ctx.textAlign='center';
-                    ctx.fillText(weekText, x + (3000 / 2), y + 95)
-                }
-
-                //percent
-                if((Gone / Length) * 100 > 50){
-
-                    //percent
-                    ctx.fillStyle = '#ffffff';
-                    ctx.textAlign='right';
-                    ctx.font = '100px Burbank Big Condensed'
-                    ctx.fillText(((Gone / Length) * 100 | 0) + "%", (x + weekPercent) - 30, y + 110)
-
-                }else{
-
-                    //percent
-                    ctx.fillStyle = '#000000';
-                    ctx.textAlign='left';
-                    ctx.font = '100px Burbank Big Condensed'
-                    ctx.fillText(((Gone / Length) * 100 | 0) + "%", (x + weekPercent) + 30, y + 110)
-
-                }
-
-            }
         
             var grd = ctx.createLinearGradient(x, 1500, x + 1500, 3000)
             await Season(grd)
@@ -442,11 +473,11 @@ module.exports = {
 
             y += 420
             grd = ctx.createLinearGradient(x, 1500, x + 1500, 3000)
-            await Superman(grd)
+            await Challenges(grd)
 
             y += 420
             grd = ctx.createLinearGradient(x, 1500, x + 1500, 3000)
-            await Challenges(grd)
+            await Superman(grd)
 
             const att = new Discord.MessageAttachment(canvas.toBuffer(), 'progress.png')
             await message.channel.send(att)

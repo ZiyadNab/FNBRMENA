@@ -4,6 +4,14 @@ const moment = require('moment')
 const FortniteAPI = require("fortniteapi.io-api");
 const fortniteAPI = new FortniteAPI(FNBRMENA.APIKeys("FortniteAPI.io"));
 const Canvas = require('canvas');
+const fort = require("fortnite-api-com");
+const config = {
+    apikey: FNBRMENA.APIKeys("FortniteAPI.com"),
+    language: "en",
+    debug: true
+};
+  
+var Fortnite = new fort(config);
 
 module.exports = {
     commands: 'fish',

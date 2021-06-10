@@ -97,14 +97,32 @@ module.exports = {
             ctx.fillText(Left + " Days Left", x + seasonPercent + ((3000 - seasonPercent) / 2), y - 80)
 
             //season progress grediant colors
-            grd.addColorStop(0, "#3A00FF")
-            grd.addColorStop(1, "#7400FF")
+            grd.addColorStop(0, "#F000FF")
+            grd.addColorStop(1, "#001BFF")
 
             //add the season progress grediant to ctx
             ctx.fillStyle = grd
 
             //add the progress line
             ctx.fillRect(x, y, seasonPercent, 150)
+
+            if((Gone / Length) * 100 > 50){
+
+                //percent
+                ctx.fillStyle = '#ffffff';
+                ctx.textAlign='right';
+                ctx.font = '100px Burbank Big Condensed'
+                ctx.fillText(((Gone / Length) * 100 | 0) + "%", (x + seasonPercent) - 30, y + 110)
+
+            }else{
+
+                //percent
+                ctx.fillStyle = '#000000';
+                ctx.textAlign='left';
+                ctx.font = '100px Burbank Big Condensed'
+                ctx.fillText(((Gone / Length) * 100 | 0) + "%", (x + seasonPercent) + 30, y + 110)
+
+            }
 
             //return the white color
             ctx.fillStyle = "white"
@@ -127,8 +145,8 @@ module.exports = {
                 var Ends = moment(Now.format("YYYY") + "-" + `0${Number(Now.format("MM")) + 1}` + "-01")
             }
             const Starts = moment(Now.format("YYYY") + "-" + Now.format("MM") + "-01")
-            var Gone = Now.diff(Starts, "days")
-            var Left = Ends.diff(Now, "days")
+            const Gone = Now.diff(Starts, "days")
+            const Left = Ends.diff(Now, "days")
             const Length = Left + Gone
             var crewPercent = (Gone / Length) * 3000
 
@@ -179,6 +197,26 @@ module.exports = {
                 ctx.font = '60px Burbank Big Condensed'
                 ctx.fillText("Will be granted next shop reset", x + (3000 / 2), y + 95)
             }
+
+            //percent
+            if((Gone / Length) * 100 > 50){
+
+                //percent
+                ctx.fillStyle = '#ffffff';
+                ctx.textAlign='right';
+                ctx.font = '100px Burbank Big Condensed'
+                ctx.fillText(((Gone / Length) * 100 | 0) + "%", (x + crewPercent) - 30, y + 110)
+
+            }else{
+
+                //percent
+                ctx.fillStyle = '#000000';
+                ctx.textAlign='left';
+                ctx.font = '100px Burbank Big Condensed'
+                ctx.fillText(((Gone / Length) * 100 | 0) + "%", (x + crewPercent) + 30, y + 110)
+
+            }
+
         }
 
         const Challenges = async (grd) => {
@@ -193,8 +231,8 @@ module.exports = {
             //next challenges
             const Ends = moment().day(0 + 4)
             const Starts = moment().day(0 - 4)
-            var Gone = Now.diff(Starts, "days")
-            var Left = Ends.diff(Now, "days")
+            const Gone = Now.diff(Starts, "days")
+            const Left = Ends.diff(Now, "days")
             const Length = Gone + Left
             const weekPercent = (Gone / Length) * 3000
 
@@ -244,6 +282,25 @@ module.exports = {
                 ctx.textAlign='center';
                 ctx.font = '60px Burbank Big Condensed'
                 ctx.fillText("Activates at 5pm in Saudi Arabia time", x + (3000 / 2), y + 95)
+            }
+
+            //percent
+            if((Gone / Length) * 100 > 50){
+
+                //percent
+                ctx.fillStyle = '#ffffff';
+                ctx.textAlign='right';
+                ctx.font = '100px Burbank Big Condensed'
+                ctx.fillText(((Gone / Length) * 100 | 0) + "%", (x + weekPercent) - 30, y + 110)
+
+            }else{
+
+                //percent
+                ctx.fillStyle = '#000000';
+                ctx.textAlign='left';
+                ctx.font = '100px Burbank Big Condensed'
+                ctx.fillText(((Gone / Length) * 100 | 0) + "%", (x + weekPercent) + 30, y + 110)
+
             }
 
         }
@@ -313,15 +370,26 @@ module.exports = {
                 ctx.fillText("Activates at 5pm in Saudi Arabia time", x + (3000 / 2), y + 95)
             }
 
+            //percent
+            if((Gone / Length) * 100 > 50){
+
+                //percent
+                ctx.fillStyle = '#ffffff';
+                ctx.textAlign='right';
+                ctx.font = '100px Burbank Big Condensed'
+                ctx.fillText(((Gone / Length) * 100 | 0) + "%", (x + secretSkinPercent) - 30, y + 110)
+
+            }else{
+
+                //percent
+                ctx.fillStyle = '#000000';
+                ctx.textAlign='left';
+                ctx.font = '100px Burbank Big Condensed'
+                ctx.fillText(((Gone / Length) * 100 | 0) + "%", (x + secretSkinPercent) + 30, y + 110)
+
+            }
+
         }
-
-        //add the battlepass next opens line
-        // y += 350
-        // ctx.fillRect(x, y, 3000, 150)
-
-        // //add the next crew line
-        // y += 350
-        // ctx.fillRect(x, y, 3000, 150)
     
         var grd = ctx.createLinearGradient(x, 1500, x + 1500, 3000)
         await Season(grd)

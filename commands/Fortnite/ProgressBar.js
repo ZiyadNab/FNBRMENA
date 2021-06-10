@@ -39,7 +39,7 @@ module.exports = {
         .then( async msg => {
 
             //setting up moment js
-            const Now = moment().add(3, "days")
+            const Now = moment()
 
             //registering fonts
             Canvas.registerFont('./assets/font/Lalezar-Regular.ttf', {family: 'Arabic',weight: "700",style: "bold"});
@@ -248,6 +248,9 @@ module.exports = {
 
                 }
 
+                //return the white color
+                ctx.fillStyle = "white"
+
             }
 
             const Challenges = async (grd) => {
@@ -368,6 +371,9 @@ module.exports = {
 
                 }
 
+                //return the white color
+                ctx.fillStyle = "white"
+
             }
 
             const Superman = async (grd) => {
@@ -461,6 +467,9 @@ module.exports = {
                     ctx.fillText(((Gone / Length) * 100 | 0) + "%", (x + secretSkinPercent) + 30, y + 110)
 
                 }
+
+                //return the white color
+                ctx.fillStyle = "white"
 
             }
         

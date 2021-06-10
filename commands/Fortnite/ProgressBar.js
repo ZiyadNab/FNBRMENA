@@ -39,7 +39,7 @@ module.exports = {
         .then( async msg => {
 
             //setting up moment js
-            const Now = moment()
+            const Now = moment().add(3, "days")
 
             //registering fonts
             Canvas.registerFont('./assets/font/Lalezar-Regular.ttf', {family: 'Arabic',weight: "700",style: "bold"});
@@ -267,7 +267,7 @@ module.exports = {
                 ctx.fillRect(x, y, 3000, 150)
 
                 //next challenges
-                const D = async () => {
+                const Day = async () => {
 
                     //Friday
                     if(Now.format("dddd") === "Friday"){
@@ -298,7 +298,7 @@ module.exports = {
                         return [7, 0]
                     }
                 }
-                const Days = await D()
+                const Days = await Day()
                 const Gone = Days[0]
                 const Left = Days[1]
                 const Length = Gone + Left

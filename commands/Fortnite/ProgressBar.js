@@ -53,7 +53,7 @@ module.exports = {
             const grediant = ctx.createLinearGradient(0, 3500, 3900, 0)
 
             //background grediant colors
-            grediant.addColorStop(0, "#00FF7C")
+            grediant.addColorStop(0, "#1CA700")
             grediant.addColorStop(1, "#00FFF7")
 
             //add the background color to ctx
@@ -81,6 +81,82 @@ module.exports = {
             var x = 500
             var y = 450
 
+            const Christmas = async (grd) => {
+
+                //text
+                if(lang === "en"){
+                    ctx.font = '60px Burbank Big Condensed'
+                }else if(lang === "ar"){
+                    ctx.font = '60px Arabic'
+                }
+
+                //Christmas icon
+                const season = await Canvas.loadImage('./assets/Bar/Christmas.png')
+                ctx.drawImage(season, x - 220, y - 20, 210, 210)
+
+                //add the line color to ctx
+                ctx.fillStyle = "white"
+
+                //add the christmasPercent line
+                ctx.fillRect(x, y, 3000, 150)
+
+                //christmasPercent data
+                var Ends = moment("2021-12-18")
+                var Starts = moment("2020-12-18")
+                var Gone = Now.diff(Starts, "days")
+                var Left = Ends.diff(Now, "days")
+                const Length = Left + Gone
+                var christmasPercent = (Gone / Length) * 3000
+
+                //gone
+                ctx.fillRect(x, y + 180, christmasPercent, 25)
+
+                //gone text
+                ctx.fillStyle = '#ffffff';
+                ctx.textAlign='center';
+                ctx.fillText(Gone + DaysGone, x + (christmasPercent / 2), y + 270)
+
+                //left
+                ctx.fillRect(x + christmasPercent, y - 50, 3000 - christmasPercent, 25)
+
+                //left text
+                ctx.fillStyle = '#ffffff';
+                ctx.textAlign='center';
+                ctx.fillText(Left + DaysLeft, x + christmasPercent + ((3000 - christmasPercent) / 2), y - 80)
+
+                //christmasPercent progress grediant colors
+                grd.addColorStop(0, "#00FFF0")
+                grd.addColorStop(1, "#FFFFFF")
+
+                //add the christmasPercent progress grediant to ctx
+                ctx.fillStyle = grd
+
+                //add the progress line
+                ctx.fillRect(x, y, christmasPercent, 150)
+
+                if((Gone / Length) * 100 > 50){
+
+                    //percent
+                    ctx.fillStyle = '#ffffff';
+                    ctx.textAlign='right';
+                    ctx.font = '100px Burbank Big Condensed'
+                    ctx.fillText(((Gone / Length) * 100 | 0) + "%", (x + christmasPercent) - 30, y + 110)
+
+                }else{
+
+                    //percent
+                    ctx.fillStyle = '#000000';
+                    ctx.textAlign='left';
+                    ctx.font = '100px Burbank Big Condensed'
+                    ctx.fillText(((Gone / Length) * 100 | 0) + "%", (x + christmasPercent) + 30, y + 110)
+
+                }
+
+                //return the white color
+                ctx.fillStyle = "white"
+
+            }
+
             const BirthdaySTW = async (grd) => {
 
                 //text
@@ -101,8 +177,8 @@ module.exports = {
                 ctx.fillRect(x, y, 3000, 150)
 
                 //birthday data
-                var Ends = moment("2021-09-26")
-                var Starts = moment("2020-09-26")
+                var Ends = moment("2021-07-25")
+                var Starts = moment("2020-07-25")
                 var Gone = Now.diff(Starts, "days")
                 var Left = Ends.diff(Now, "days")
                 const Length = Left + Gone
@@ -177,8 +253,8 @@ module.exports = {
                 ctx.fillRect(x, y, 3000, 150)
 
                 //birthday data
-                var Ends = moment("2021-07-25")
-                var Starts = moment("2020-07-25")
+                var Ends = moment("2021-09-26")
+                var Starts = moment("2020-09-26")
                 var Gone = Now.diff(Starts, "days")
                 var Left = Ends.diff(Now, "days")
                 const Length = Left + Gone
@@ -624,6 +700,10 @@ module.exports = {
 
             }
 
+            var grd = ctx.createLinearGradient(x, 1500, x + 1500, 3000)
+            await Christmas(grd)
+
+            y += 420
             var grd = ctx.createLinearGradient(x, 1500, x + 1500, 3000)
             await BirthdaySTW(grd)
 

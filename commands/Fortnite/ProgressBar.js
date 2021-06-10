@@ -177,8 +177,8 @@ module.exports = {
                 ctx.fillRect(x, y, 3000, 150)
 
                 //halloweenPercent data
-                var Ends = moment("2021-12-18")
-                var Starts = moment("2020-12-18")
+                var Ends = moment("2021-10-29")
+                var Starts = moment("2020-10-29")
                 var Gone = Now.diff(Starts, "days")
                 var Left = Ends.diff(Now, "days")
                 const Length = Left + Gone

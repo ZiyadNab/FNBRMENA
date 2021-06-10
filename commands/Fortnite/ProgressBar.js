@@ -46,7 +46,7 @@ module.exports = {
             Canvas.registerFont('./assets/font/BurbankBigCondensed-Black.otf' ,{family: 'Burbank Big Condensed',weight: "700",style: "bold"})
 
             //creating canvas
-            const canvas = Canvas.createCanvas(4000, 2800);
+            const canvas = Canvas.createCanvas(4000, 3000);
             const ctx = canvas.getContext('2d');
 
             //create background grediant
@@ -79,7 +79,83 @@ module.exports = {
 
             //starting to work tn the lines and progress inisilizing values
             var x = 500
-            var y = 600
+            var y = 500
+
+            const BirthdaySTW = async (grd) => {
+
+                //text
+                if(lang === "en"){
+                    ctx.font = '60px Burbank Big Condensed'
+                }else if(lang === "ar"){
+                    ctx.font = '60px Arabic'
+                }
+
+                //birthday icon
+                const season = await Canvas.loadImage('./assets/Bar/HBDSTW.png')
+                ctx.drawImage(season, x - 220, y - 20, 210, 210)
+
+                //add the line color to ctx
+                ctx.fillStyle = "white"
+
+                //add the birthday line
+                ctx.fillRect(x, y, 3000, 150)
+
+                //birthday data
+                var Ends = moment("2021-09-26")
+                var Starts = moment("2020-09-26")
+                var Gone = Now.diff(Starts, "days")
+                var Left = Ends.diff(Now, "days")
+                const Length = Left + Gone
+                var birthdayPercent = (Gone / Length) * 3000
+
+                //gone
+                ctx.fillRect(x, y + 180, birthdayPercent, 25)
+
+                //gone text
+                ctx.fillStyle = '#ffffff';
+                ctx.textAlign='center';
+                ctx.fillText(Gone + DaysGone, x + (birthdayPercent / 2), y + 270)
+
+                //left
+                ctx.fillRect(x + birthdayPercent, y - 50, 3000 - birthdayPercent, 25)
+
+                //left text
+                ctx.fillStyle = '#ffffff';
+                ctx.textAlign='center';
+                ctx.fillText(Left + DaysLeft, x + birthdayPercent + ((3000 - birthdayPercent) / 2), y - 80)
+
+                //season progress grediant colors
+                grd.addColorStop(0, "#000000")
+                grd.addColorStop(1, "#F000FF")
+
+                //add the season progress grediant to ctx
+                ctx.fillStyle = grd
+
+                //add the progress line
+                ctx.fillRect(x, y, birthdayPercent, 150)
+
+                if((Gone / Length) * 100 > 50){
+
+                    //percent
+                    ctx.fillStyle = '#ffffff';
+                    ctx.textAlign='right';
+                    ctx.font = '100px Burbank Big Condensed'
+                    ctx.fillText(((Gone / Length) * 100 | 0) + "%", (x + birthdayPercent) - 30, y + 110)
+
+                }else{
+
+                    //percent
+                    ctx.fillStyle = '#000000';
+                    ctx.textAlign='left';
+                    ctx.font = '100px Burbank Big Condensed'
+                    ctx.fillText(((Gone / Length) * 100 | 0) + "%", (x + birthdayPercent) + 30, y + 110)
+
+                }
+
+                //return the white color
+                ctx.fillStyle = "white"
+
+            }
 
             const BirthdayBR = async (grd) => {
 
@@ -92,7 +168,7 @@ module.exports = {
 
                 //birthday icon
                 const season = await Canvas.loadImage('./assets/Bar/HBD.png')
-                ctx.drawImage(season, x - 220, y - 20, 200, 200)
+                ctx.drawImage(season, x - 220, y - 20, 220, 220)
 
                 //add the line color to ctx
                 ctx.fillStyle = "white"
@@ -201,8 +277,8 @@ module.exports = {
                 ctx.fillText(Left + DaysLeft, x + seasonPercent + ((3000 - seasonPercent) / 2), y - 80)
 
                 //season progress grediant colors
-                grd.addColorStop(0, "#F000FF")
-                grd.addColorStop(1, "#001BFF")
+                grd.addColorStop(0, "#0097FF")
+                grd.addColorStop(1, "#AA00FF")
 
                 //add the season progress grediant to ctx
                 ctx.fillStyle = grd
@@ -549,6 +625,10 @@ module.exports = {
 
             }
 
+            var grd = ctx.createLinearGradient(x, 1500, x + 1500, 3000)
+            await BirthdaySTW(grd)
+
+            y += 420
             var grd = ctx.createLinearGradient(x, 1500, x + 1500, 3000)
             await BirthdayBR(grd)
         

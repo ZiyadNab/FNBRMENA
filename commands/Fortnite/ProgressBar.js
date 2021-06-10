@@ -66,7 +66,7 @@ module.exports = {
             ctx.globalAlpha = 0.5
 
             const battlebus = await Canvas.loadImage('./assets/Bar/battlebus.png')
-            ctx.drawImage(battlebus, 2000, 300, 900, 1200)
+            ctx.drawImage(battlebus, 1500, 300, 1550, 2000)
 
             //change the opacity back
             ctx.globalAlpha = 1
@@ -79,7 +79,7 @@ module.exports = {
 
             //starting to work tn the lines and progress inisilizing values
             var x = 500
-            var y = 500
+            var y = 450
 
             const BirthdaySTW = async (grd) => {
 

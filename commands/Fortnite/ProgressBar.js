@@ -46,7 +46,7 @@ module.exports = {
             Canvas.registerFont('./assets/font/BurbankBigCondensed-Black.otf' ,{family: 'Burbank Big Condensed',weight: "700",style: "bold"})
 
             //creating canvas
-            const canvas = Canvas.createCanvas(4000, 3100);
+            const canvas = Canvas.createCanvas(4000, 4000);
             const ctx = canvas.getContext('2d');
 
             //create background grediant
@@ -125,8 +125,8 @@ module.exports = {
                 ctx.fillText(Left + DaysLeft, x + christmasPercent + ((3000 - christmasPercent) / 2), y - 80)
 
                 //christmasPercent progress grediant colors
-                grd.addColorStop(0, "#00FFF0")
-                grd.addColorStop(1, "#FFFFFF")
+                grd.addColorStop(0, "#89FDFF")
+                grd.addColorStop(1, "#00F3FF")
 
                 //add the christmasPercent progress grediant to ctx
                 ctx.fillStyle = grd
@@ -149,6 +149,82 @@ module.exports = {
                     ctx.textAlign='left';
                     ctx.font = '100px Burbank Big Condensed'
                     ctx.fillText(((Gone / Length) * 100 | 0) + "%", (x + christmasPercent) + 30, y + 110)
+
+                }
+
+                //return the white color
+                ctx.fillStyle = "white"
+
+            }
+
+            const Halloween = async (grd) => {
+
+                //text
+                if(lang === "en"){
+                    ctx.font = '60px Burbank Big Condensed'
+                }else if(lang === "ar"){
+                    ctx.font = '60px Arabic'
+                }
+
+                //Halloween icon
+                const season = await Canvas.loadImage('./assets/Bar/Halloween.png')
+                ctx.drawImage(season, x - 220, y - 20, 190, 210)
+
+                //add the line color to ctx
+                ctx.fillStyle = "white"
+
+                //add the Halloween line
+                ctx.fillRect(x, y, 3000, 150)
+
+                //halloweenPercent data
+                var Ends = moment("2021-12-18")
+                var Starts = moment("2020-12-18")
+                var Gone = Now.diff(Starts, "days")
+                var Left = Ends.diff(Now, "days")
+                const Length = Left + Gone
+                var halloweenPercent = (Gone / Length) * 3000
+
+                //gone
+                ctx.fillRect(x, y + 180, halloweenPercent, 25)
+
+                //gone text
+                ctx.fillStyle = '#ffffff';
+                ctx.textAlign='center';
+                ctx.fillText(Gone + DaysGone, x + (halloweenPercent / 2), y + 270)
+
+                //left
+                ctx.fillRect(x + halloweenPercent, y - 50, 3000 - halloweenPercent, 25)
+
+                //left text
+                ctx.fillStyle = '#ffffff';
+                ctx.textAlign='center';
+                ctx.fillText(Left + DaysLeft, x + halloweenPercent + ((3000 - halloweenPercent) / 2), y - 80)
+
+                //halloweenPercent progress grediant colors
+                grd.addColorStop(0, "#5500FF")
+                grd.addColorStop(1, "#FF00B9")
+
+                //add the halloweenPercent progress grediant to ctx
+                ctx.fillStyle = grd
+
+                //add the progress line
+                ctx.fillRect(x, y, halloweenPercent, 150)
+
+                if((Gone / Length) * 100 > 50){
+
+                    //percent
+                    ctx.fillStyle = '#ffffff';
+                    ctx.textAlign='right';
+                    ctx.font = '100px Burbank Big Condensed'
+                    ctx.fillText(((Gone / Length) * 100 | 0) + "%", (x + halloweenPercent) - 30, y + 110)
+
+                }else{
+
+                    //percent
+                    ctx.fillStyle = '#000000';
+                    ctx.textAlign='left';
+                    ctx.font = '100px Burbank Big Condensed'
+                    ctx.fillText(((Gone / Length) * 100 | 0) + "%", (x + halloweenPercent) + 30, y + 110)
 
                 }
 
@@ -701,15 +777,19 @@ module.exports = {
             }
 
             var grd = ctx.createLinearGradient(x, 1500, x + 1500, 3000)
-            await Christmas(grd)
-
-            y += 420
-            var grd = ctx.createLinearGradient(x, 1500, x + 1500, 3000)
             await BirthdaySTW(grd)
 
             y += 420
             grd = ctx.createLinearGradient(x, 1500, x + 1500, 3000)
             await BirthdayBR(grd)
+
+            y += 420
+            var grd = ctx.createLinearGradient(x, 1500, x + 1500, 3000)
+            await Christmas(grd)
+
+            y += 420
+            var grd = ctx.createLinearGradient(x, 1500, x + 1500, 3000)
+            await Halloween(grd)
         
             y += 420
             grd = ctx.createLinearGradient(x, 1500, x + 1500, 3000)

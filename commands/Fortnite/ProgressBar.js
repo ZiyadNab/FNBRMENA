@@ -221,7 +221,7 @@ module.exports = {
                     //left text
                     ctx.fillStyle = '#ffffff';
                     ctx.textAlign='center';
-                    ctx.fillText(Left + DaysLeft, x + (3000 / 2), y - 80)
+                    ctx.fillText(Left + DaysLeft, x + 2999, y - 80)
 
                     //activates when?
                     ctx.fillStyle = '#ffffff';
@@ -272,6 +272,7 @@ module.exports = {
                 const Gone = Now.diff(Starts, "days")
                 const Left = Ends.diff(Now, "days")
                 const Length = Gone + Left
+                console.log(Left, Gone)
                 const weekPercent = (Gone / Length) * 3000
 
                 //background grediant colors
@@ -358,8 +359,13 @@ module.exports = {
                 //next challenges
                 const Ends = moment("2021-08-13")
                 const Starts = moment("2021-06-07")
-                var Gone = Now.diff(Starts, "days")
-                var Left = Ends.diff(Now, "days")
+                if(Number(Now.format("MM")) <= Number(Ends.format("MM"))){
+                    var Gone = Now.diff(Starts, "days")
+                    var Left = Ends.diff(Now, "days")
+                }else{
+                    var Gone = 65
+                    var Left = 0
+                }
                 const Length = Gone + Left
                 const secretSkinPercent = (Gone / Length) * 3000
 
@@ -399,7 +405,7 @@ module.exports = {
                     //left text
                     ctx.fillStyle = '#ffffff';
                     ctx.textAlign='center';
-                    ctx.fillText(Left + DaysLeft, x + (3000 / 2), y - 80)
+                    ctx.fillText(Left + DaysLeft, x + 2999, y - 80)
 
                     //activates when?
                     ctx.fillStyle = '#ffffff';

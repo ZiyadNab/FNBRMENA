@@ -364,7 +364,7 @@ module.exports = {
                     //skin informations
                     var name = type[i].displayName;
                     var price = type[i].price.finalPrice;
-                    if(type[i].displayAssets !== 0){
+                    if(type[i].displayAssets.length !== 0){
                         var image = type[i].displayAssets[0].url;
                     }else{
                         var image = type[i].granted[0].images.icon

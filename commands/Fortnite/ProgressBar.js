@@ -606,6 +606,7 @@ module.exports = {
                     }
                 }
                 const Days = await Day()
+                console.log(Days)
                 const Gone = Days[0]
                 const Left = Days[1]
                 const Length = Gone + Left

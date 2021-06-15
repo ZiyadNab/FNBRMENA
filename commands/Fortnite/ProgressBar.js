@@ -608,11 +608,12 @@ module.exports = {
                     }
                 }
                 const Days = await Day()
-                moment.locale(lang)
                 const Gone = Days[0]
                 const Left = Days[1]
                 const Length = Gone + Left
                 const weekPercent = (Gone / Length) * 3000
+                
+                moment.locale(lang)
 
                 //background grediant colors
                 grd.addColorStop(0, "#FF8700")

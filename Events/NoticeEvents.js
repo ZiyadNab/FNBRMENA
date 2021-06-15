@@ -52,7 +52,11 @@ module.exports = (client, admin) => {
                                 const playlist = await axios.get(`https://fortnite-api.com/v1/playlists/${res.data.data[i].playlists[j]}?lang=${lang}`)
                                 
                                 //add the playlist name
-                                playlists += "` " + playlist.data.data.name + " ` "
+                                if(playlist.data.data.subName === null){
+                                    playlists += "` " + playlist.data.data.name + " ` "
+                                }else{
+                                    playlists += "` " + playlist.data.data.name + " - " + playlist.data.data.subName + " ` "
+                                }
                             }
                             
                             //add gamemodes

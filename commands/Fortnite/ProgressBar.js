@@ -580,31 +580,31 @@ module.exports = {
 
                     //Friday
                     if(Now.format("dddd") === "Friday"){
-                        return [2, 5]
+                        return [3, 4]
                     }
                     //Saturday
                     if(Now.format("dddd") === "Saturday"){
-                        return [3, 4]
+                        return [4, 3]
                     }
                     //Sunday
                     if(Now.format("dddd") === "Sunday"){
-                        return [4, 3]
+                        return [5, 2]
                     }
                     //Monday
                     if(Now.format("dddd") === "Monday"){
-                        return [5, 2]
+                        return [6, 1]
                     }
                     //Tuesday
                     if(Now.format("dddd") === "Tuesday"){
-                        return [6, 1]
+                        return [7, 0]
                     }
                     //Wednesday
                     if(Now.format("dddd") === "Wednesday"){
-                        return [7, 0]
+                        return [1, 6]
                     }
                     //Thursday
                     if(Now.format("dddd") === "Thursday"){
-                        return [1, 6]
+                        return [2, 5]
                     }
                 }
                 const Days = await Day()

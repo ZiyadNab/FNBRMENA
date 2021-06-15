@@ -145,6 +145,11 @@ module.exports = {
                                 }
 
                             }else{
+
+                                msg.delete()
+                                notify.delete()
+                                m.delete()
+                                
                                 if(lang === "en"){
                                     const error = new Discord.MessageEmbed()
                                     .setColor('#BB00EE')

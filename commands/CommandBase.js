@@ -27,7 +27,7 @@ module.exports = async (commandOptions) => {
 //cooldowning
 let recentlyRan = []
 
-module.exports.listen = async (client, admin) => {
+module.exports.listen = async (client, admin, distube) => {
 
   // Listen for messages
   client.on('message', async (message) => {
@@ -65,7 +65,7 @@ module.exports.listen = async (client, admin) => {
       //get the user language from the database
       const lang = await FNBRMENA.Admin(admin, message, "", "Lang")
 
-      if(message.author.id === "325507145871130624" || message.author.id === "756527533171671190"){
+      if(message.author.id === "325507145871130624"){
 
         // Ensure we have the correct number of args
         if (
@@ -88,7 +88,7 @@ module.exports.listen = async (client, admin) => {
 
         // Handle the custom command code
     
-        callback(message, args, args.join(' '),Discord, client, admin, alias, errorEmoji, checkEmoji)
+        callback(message, args, args.join(' '),Discord, client, admin, alias, errorEmoji, checkEmoji, distube)
       
       }else{
         //checking if the bot on or off
@@ -193,7 +193,7 @@ module.exports.listen = async (client, admin) => {
             }
 
           // Handle the custom command code
-          callback(message, args, args.join(' '),Discord, client, admin, alias, errorEmoji, checkEmoji)
+          callback(message, args, args.join(' '),Discord, client, admin, alias, errorEmoji, checkEmoji, distube)
 
           }if(access === "false"){
             if(lang === "en"){

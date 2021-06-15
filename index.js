@@ -48,6 +48,9 @@ disTube
         message.channel.send(addSong)
 
     })
+    .on('error', async (err) => {
+      console.log(err)
+    })
 
 //client event listner
 client.on('ready', async () => {

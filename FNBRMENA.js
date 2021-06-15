@@ -4,7 +4,7 @@ const PAKEvents = require('./Events/PAKEvents.js')
 const SetEvents = require('./Events/SetEvents.js')
 const ShopSectionEvents = require('./Events/ShopSectionEvents.js')
 const PlaylistsEvents = require('./Events/PlaylistsEvents.js')
-//const BundleEvents = require('./Events/BundleEvents.js')
+const NoticeEvents = require('./Events/NoticeEvents.js')
 const UserJoined = require('./Events/User.js')
 const Crew = require('./Events/CrewEvents.js')
 const Commands = require('./Events/Commands.js')
@@ -43,11 +43,6 @@ class FNBRMENA {
             BlogpostsEvents(Client, Admin)
         }
 
-        //return Bundle access
-        // if(Type === "Bundle"){
-        //     BundleEvents(Client, Admin)
-        // }
-
         //return Comp access
         if(Type === "Comp"){
             CompBlogEvents(Client, Admin)
@@ -81,6 +76,11 @@ class FNBRMENA {
         //return ShopSection access
         if(Type === "Crew"){
             Crew(Client, Admin)
+        }
+
+        //return Notice access
+        if(Type === "Notice"){
+            NoticeEvents(Client, Admin)
         }
 
         //return UserJoined access

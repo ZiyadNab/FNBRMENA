@@ -698,6 +698,8 @@ module.exports = {
                 //add the next week challenges line
                 ctx.fillRect(x, y, 3000, 150)
 
+                moment.locale("en")
+
                 //next challenges
                 const Ends = moment("2021-08-13")
                 const Starts = moment("2021-06-07")
@@ -710,6 +712,8 @@ module.exports = {
                 }
                 const Length = Gone + Left
                 const secretSkinPercent = (Gone / Length) * 3000
+
+                moment.locale(lang)
 
                 //background grediant colors
                 grd.addColorStop(0, "#0042FF")

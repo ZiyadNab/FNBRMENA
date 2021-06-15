@@ -576,37 +576,39 @@ module.exports = {
                 //next challenges
                 const Day = async () => {
 
+                    moment.locale("en")
+
                     //Friday
                     if(Now.format("dddd") === "Friday"){
-                        return [1, 6]
+                        return [2, 5]
                     }
                     //Saturday
                     if(Now.format("dddd") === "Saturday"){
-                        return [2, 5]
+                        return [3, 4]
                     }
                     //Sunday
                     if(Now.format("dddd") === "Sunday"){
-                        return [3, 4]
+                        return [4, 3]
                     }
                     //Monday
                     if(Now.format("dddd") === "Monday"){
-                        return [4, 3]
+                        return [5, 2]
                     }
                     //Tuesday
                     if(Now.format("dddd") === "Tuesday"){
-                        return [5, 2]
+                        return [6, 1]
                     }
                     //Wednesday
                     if(Now.format("dddd") === "Wednesday"){
-                        return [6, 1]
+                        return [7, 0]
                     }
                     //Thursday
                     if(Now.format("dddd") === "Thursday"){
-                        return [7, 0]
+                        return [1, 6]
                     }
                 }
                 const Days = await Day()
-                console.log(Days)
+                moment.locale(lang)
                 const Gone = Days[0]
                 const Left = Days[1]
                 const Length = Gone + Left

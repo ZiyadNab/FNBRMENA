@@ -9,10 +9,13 @@
   "author": "FNBR_MENA",
   "license": "ISC",
   "dependencies": {
+    "@discordjs/opus": "^0.5.3",
     "axios": "^0.21.1",
     "canvas": "^2.7.0",
     "discord-buttons": "^2.4.1",
     "discord.js": "^12.5.1",
+    "distube": "^2.8.15",
+    "ffmpeg-static": "^4.3.0",
     "firebase": "^8.2.10",
     "firebase-admin": "^9.5.0",
     "fnbr.js": "^1.0.1",

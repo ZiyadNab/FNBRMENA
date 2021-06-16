@@ -23,7 +23,7 @@ module.exports = (client, admin) => {
 
                     //store the data if the bot got restarted
                     if (number === 0) {
-                        //response = res.data.data
+                        response = res.data.data
                         number++
                     }
 

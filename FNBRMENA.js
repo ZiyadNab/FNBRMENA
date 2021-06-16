@@ -27,6 +27,20 @@ class FNBRMENA {
         return await axios.get(`https://fortniteapi.io/v2/game/crew?lang=${Lang}`, { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
     }
 
+    async Sections(Lang, Active){
+
+        //if i want a full list or just the active once
+        if(Active === "Yes"){
+
+            //return active section
+            return await axios.get(`https://fn-api.com/api/shop/sections?lang=${Lang}`, { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
+        }else if(Active === "No"){
+
+            //return all the sections
+            return await axios.get(`https://fortniteapi.io/v2/shop/sections/list?lang=${Lang}`, { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
+        }
+    }
+
     /** 
      * Return access to every event
      * 

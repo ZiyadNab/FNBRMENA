@@ -22,14 +22,14 @@ module.exports = {
 
             //inisilizing values
             var width = 2000
-            var height = 400
+            var height = 1200
             var x = 250
             var y = 450
             var string = ""
 
             //creating height
             for(let i = 0; i < res.data.data.sections.length; i++){
-                height += 500
+                height += 300
             }
 
             //registering fonts
@@ -70,8 +70,8 @@ module.exports = {
             //add FNBRMENA credit
             ctx.fillStyle = '#ffffff';
             ctx.textAlign='left';
-            ctx.font = '100px Burbank Big Condensed'
-            ctx.fillText("FNBRMENA", 25, 100)
+            ctx.font = '200px Burbank Big Condensed'
+            ctx.fillText("FNBRMENA", 50, 200)
 
             //add the date
             if(lang === "en"){

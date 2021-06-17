@@ -58,7 +58,6 @@ module.exports = {
             }
 
             // generating animation
-            var length = res.rewards.length;
             const generating = new Discord.MessageEmbed()
             generating.setColor('#BB00EE')
             const emoji = client.emojis.cache.get("805690920157970442")

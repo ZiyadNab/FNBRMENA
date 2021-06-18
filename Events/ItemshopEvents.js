@@ -36,6 +36,13 @@ module.exports = (client, admin) => {
                         lastUpdate = await res.lastUpdate
                         number++
                     }
+
+                    //if the client wants to pust data
+                    if(push === "true"){
+                        response = []
+                        lastUpdate = []
+                    }
+
                     if(JSON.stringify(res.lastUpdate) !== JSON.stringify(lastUpdate)){
                         for(let i = 0; i < res.shop.length; i++){
                             shop[i] = await res.shop[i].displayName
@@ -1713,6 +1720,12 @@ module.exports = (client, admin) => {
                                     response[i] = await res.shop[i].displayName
                                 }
                                 lastUpdate = await res.lastUpdate
+
+                                //trun off push if enabled
+                                admin.database().ref("ERA's").child("Events").child("itemshop").update({
+                                    Push: "false"
+                                })
+
                             })
                         }
                     }

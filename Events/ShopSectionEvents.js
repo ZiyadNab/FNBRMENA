@@ -35,6 +35,11 @@ module.exports = (client, admin) => {
                         number++
                     }
 
+                    //if the client wants to pust data
+                    if(push === "true"){
+                        response = []
+                    }
+
                     //checking for deff
                     if (JSON.stringify(res.data.data.hash) !== JSON.stringify(response)) {
 
@@ -323,6 +328,11 @@ module.exports = (client, admin) => {
                             await message.send(Sections)
                             msg.delete()
                             response = res.data.data.hash
+
+                            //trun off push if enabled
+                            admin.database().ref("ERA's").child("Events").child("section").update({
+                                Push: "false"
+                            })
                         })
                         
                     }

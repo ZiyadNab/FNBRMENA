@@ -67,6 +67,10 @@ module.exports = (client, admin) => {
                                 //add description
                                 bundle.setDescription(available[i].description)
 
+                                //moment language
+                                moment.locale(lang)
+
+                                //add the dates
                                 if(lang === "en"){
                                     if(available[i].available === true){
                                         bundle.addFields(
@@ -100,7 +104,7 @@ module.exports = (client, admin) => {
                                 //prices
                                 for(let p = 0; p < available[i].prices.length; p++){
                                     bundle.addFields(
-                                        {name: available[i].prices[i].paymentCurrencyCode, value: available[i].prices[i].paymentCurrencyAmountNatural + available[i].prices[i].paymentCurrencySymbol, inline: true}
+                                        {name: available[i].prices[p].paymentCurrencyCode, value: available[i].prices[i].paymentCurrencyAmountNatural + available[i].prices[i].paymentCurrencySymbol, inline: true}
                                     )
                                 }
 

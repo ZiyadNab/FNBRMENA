@@ -29,6 +29,12 @@ module.exports = (client, admin) => {
                         data = response.data
                         number++
                     }
+
+                    //if the client wants to pust data
+                    if(push === "true"){
+                        data = []
+                    }
+
                     if(JSON.stringify(response.data) !== JSON.stringify(data)){
 
                         //variables
@@ -551,6 +557,11 @@ module.exports = (client, admin) => {
                             msg.delete()
 
                             data = response.data
+
+                            //trun off push if enabled
+                            admin.database().ref("ERA's").child("Events").child("crew").update({
+                                Push: "false"
+                            })
                         })
                     }
                 }).catch(err => {

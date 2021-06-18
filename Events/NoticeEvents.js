@@ -30,6 +30,11 @@ module.exports = (client, admin) => {
                         number++
                     }
 
+                    //if the client wants to pust data
+                    if(push === "true"){
+                        response = []
+                    }
+
                     //checking for deff
                     if (JSON.stringify(res.data.data) !== JSON.stringify(response)) {
 
@@ -110,6 +115,11 @@ module.exports = (client, admin) => {
                         Notice.setAuthor('FNBRMENA Bot', 'https://i.imgur.com/LfotEkZ.jpg', 'https://twitter.com/FNBRMENA')
                         message.send(Notice);
                         response = res.data.data
+
+                        //trun off push if enabled
+                        admin.database().ref("ERA's").child("notice").child("bundles").update({
+                            Push: "false"
+                        })
                     }
                 }).catch(err => {
                     console.log("The issue is in Notice Events ", err)

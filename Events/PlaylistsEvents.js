@@ -44,6 +44,12 @@ module.exports = (client, admin) => {
                         number++
                     }
 
+                    //if the client wants to pust data
+                    if(push === "true"){
+                        response = []
+                        modeName = []
+                    }
+
                     //if the data was not the same
                     if(!isEqual(Active, resonse)){
 
@@ -103,6 +109,11 @@ module.exports = (client, admin) => {
                         for(let i = 0; i < Active.length; i++){
                             modeName[i] = Active[i].name
                         }
+
+                        //trun off push if enabled
+                        admin.database().ref("ERA's").child("Events").child("playlists").update({
+                            Push: "false"
+                        })
                     }
                 }).catch(err => {
                     console.log("The issue is in Playlists Events ", err)

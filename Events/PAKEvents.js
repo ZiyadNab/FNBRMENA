@@ -22,14 +22,18 @@ module.exports = (client, admin) => {
     var pakNumber
     var pakFile
     var pakGuild
-    var lang = "ar"
     var number = 0
 
     const PAK = async () => {
         //checking if the bot on or off
         admin.database().ref("ERA's").child("Events").child("pak").once('value', async function (data) {
             var status = data.val().Active;
+            var lang = data.val().Lang;
+            var push = data.val().Push
+
+            //if the event is set to be true [ON]
             if(status === "true"){
+                
                 Fortnite.AES()
                 .then(async res => {
                     if(number === 0){
@@ -72,6 +76,8 @@ module.exports = (client, admin) => {
                         }
                         response = res.data.dynamicKeys
                     }
+                }).catch(err => {
+                    console.log("The issue is in Pak Events ", err)
                 })
             }
         })

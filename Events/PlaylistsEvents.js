@@ -11,7 +11,6 @@ module.exports = (client, admin) => {
     const message = client.channels.cache.find(channel => channel.id === config.events.Playlists)
 
     //result
-    var lang = "ar"
     var resonse = []
     var modeName = []
     var number = 0
@@ -21,6 +20,8 @@ module.exports = (client, admin) => {
         //checking if the bot on or off
         admin.database().ref("ERA's").child("Events").child("playlists").once('value', async function (data) {
             var status = data.val().Active;
+            var lang = data.val().Lang;
+            var push = data.val().Push
 
             //if the event is set to be true [ON]
             if(status === "true"){
@@ -34,6 +35,7 @@ module.exports = (client, admin) => {
                         return avaliable.enabled === true
                     })
 
+                    //check for a change
                     if(number === 0){
                         resonse = await Active
                         for(let i = 0; i < Active.length; i++){
@@ -102,6 +104,8 @@ module.exports = (client, admin) => {
                             modeName[i] = Active[i].name
                         }
                     }
+                }).catch(err => {
+                    console.log("The issue is in Playlists Events ", err)
                 })
             }
         })

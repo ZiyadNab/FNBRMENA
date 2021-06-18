@@ -7,15 +7,22 @@ module.exports = (client, admin) => {
     const message = client.channels.cache.find(channel => channel.id === config.events.Crew)
 
     var data = []
-    var lang = "ar"
     var number = 0
 
     const Crew = () => {
 
         //checking if the bot on or off
         admin.database().ref("ERA's").child("Events").child("crew").once('value', async function (server) {
+
+            //store access
             var status = server.val().Active;
+            var lang = data.val().Lang;
+            var push = data.val().Push
+
+            //if the event is set to be true [ON]
             if(status === "true"){
+
+                //request data
                 axios.get(`https://fortniteapi.io/v2/game/crew?lang=${lang}`, { headers: {'Content-Type': 'application/json','Authorization': "d4ce1562-839ff66b-3946ccb6-438eb9cf",} })
                 .then(async response => {
                     if(number === 0){
@@ -546,6 +553,8 @@ module.exports = (client, admin) => {
                             data = response.data
                         })
                     }
+                }).catch(err => {
+                    console.log("The issue is in Crew Events ", err)
                 })
             }
         })

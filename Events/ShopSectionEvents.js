@@ -11,7 +11,6 @@ module.exports = (client, admin) => {
     //result
     var response = ""
     var number = 0
-    var lang = "ar"
 
     const Section = async () => {
 
@@ -20,6 +19,10 @@ module.exports = (client, admin) => {
 
             //store access
             var status = data.val().Active;
+            var lang = data.val().Lang;
+            var push = data.val().Push
+
+            //if the event is set to be true [ON]
             if(status === "true"){
 
                 //request data

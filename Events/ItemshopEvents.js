@@ -14,7 +14,6 @@ module.exports = (client, admin) => {
     var shop = []
     var mainId = []
     var lastUpdate = []
-    var lang = "ar"
     var number = 0
 
     const Itemshop = async () => {
@@ -22,7 +21,12 @@ module.exports = (client, admin) => {
         //checking if the bot on or off
         admin.database().ref("ERA's").child("Events").child("itemshop").once('value', async function (data) {
             var status = data.val().Active;
+            var lang = data.val().Lang;
+            var push = data.val().Push
+
+            //if the event is set to be true [ON]
             if(status === "true"){
+                
                 fortniteAPI.getDailyShopV2(options = {lang: lang})
                 .then(async res => {
                     if(number === 0){
@@ -1712,6 +1716,8 @@ module.exports = (client, admin) => {
                             })
                         }
                     }
+                }).catch(err => {
+                    console.log("The issue is in Itemshop Events ", err)
                 })
             }
         })

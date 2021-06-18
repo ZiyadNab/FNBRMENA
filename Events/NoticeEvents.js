@@ -8,13 +8,16 @@ module.exports = (client, admin) => {
     //result
     var response = []
     var number = 0
-    var lang = "ar"
 
     const Section = async () => {
 
         //checking if the bot on or off
         admin.database().ref("ERA's").child("Events").child("notice").once('value', async function (data) {
             var status = data.val().Active;
+            var lang = data.val().Lang;
+            var push = data.val().Push
+
+            //if the event is set to be true [ON]
             if(status === "true"){
 
                 //request data

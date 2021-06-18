@@ -7,7 +7,6 @@ module.exports = (client, admin) => {
     const message = client.channels.cache.find(channel => channel.id === key.events.Set)
     //result
     var response = []
-    var lang = "en"
     var number = 0
     var sets = ''
     var counter = 0
@@ -17,6 +16,10 @@ module.exports = (client, admin) => {
         //checking if the bot on or off
         admin.database().ref("ERA's").child("Events").child("set").once('value', async function (data) {
             var status = data.val().Active;
+            var lang = data.val().Lang;
+            var push = data.val().Push
+
+            //if the event is set to be true [ON]
             if(status === "true"){
                 fortniteAPI.listSets(options = {lang: lang})
                 .then(async res => {
@@ -47,6 +50,8 @@ module.exports = (client, admin) => {
                         message.send(setInfo)
                         response = res.sets
                     }
+                }).catch(err => {
+                    console.log("The issue is in Set Events ", err)
                 })
             }
         })

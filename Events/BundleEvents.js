@@ -7,7 +7,6 @@ module.exports = (client, admin) => {
     const message = client.channels.cache.find(channel => channel.id === config.events.Bundles)
 
     //result
-    var lang = "en"
     var response = []
     var available = []
     var number = 0
@@ -15,8 +14,10 @@ module.exports = (client, admin) => {
     const Bundle = async () => {
 
         //checking if the bot on or off
-        admin.database().ref("ERA's").child("Events").child("playlists").once('value', async function (data) {
+        admin.database().ref("ERA's").child("Events").child("bundles").once('value', async function (data) {
             var status = data.val().Active;
+            var lang = data.val().Lang;
+            var push = data.val().Push
 
             //if the event is set to be true [ON]
             if(status === "true"){
@@ -28,11 +29,16 @@ module.exports = (client, admin) => {
                     if(number === 0){
 
                         //filter and store only available bundles
-                        // response = await res.data.bundles.filter(bundle => {
-                        //     return bundle.available
-                        // })
+                        response = await res.data.bundles.filter(bundle => {
+                            return bundle.available
+                        })
 
                         number++
+                    }
+
+                    //if the client wants to pust data
+                    if(push === "true"){
+                        response = []
                     }
 
                     //get the avaliable bundles att
@@ -111,10 +117,15 @@ module.exports = (client, admin) => {
                             }
                         }
                         response = await available
+
+                        //trun off push if enabled
+                        admin.database().ref("ERA's").child("Events").child("bundles").update({
+                            Push: "false"
+                        })
                     }
                 })
             }
         })
     }
-    setInterval(Bundle, 2.5 * 60000)
+    setInterval(Bundle, 1 * 1000)
 }

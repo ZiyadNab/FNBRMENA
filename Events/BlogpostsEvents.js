@@ -9,7 +9,6 @@ module.exports = (client, admin) => {
     var response = []
     var number = 0
     var num = 1
-    var lang = "ar"
 
     const Blogposts = async () => {
 
@@ -18,6 +17,10 @@ module.exports = (client, admin) => {
 
         //store aceess
         var status = data.val().Active;
+        var lang = data.val().Lang;
+        var push = data.val().Push
+
+        //if the event is set to be true [ON]
         if(status === "true"){
 
           //request data

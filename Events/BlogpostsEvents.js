@@ -5,6 +5,7 @@ const config = require('../Coinfigs/config.json')
 
 module.exports = (client, admin) => {
     const message = client.channels.cache.find(channel => channel.id === config.events.Blogposts)
+
     //result
     var response = []
     var number = 0
@@ -24,101 +25,52 @@ module.exports = (client, admin) => {
         if(status === "true"){
 
           //request data
-          axios.get('https://www.epicgames.com/fortnite/api/blog/getPosts?category=&postsPerPage=0&offset=0&rootPageSlug=blog&locale='+lang)
+          axios.get('https://fn-api.com/api/blogposts?lang='+lang)
           .then(async res => {
 
             //store the first time when the bot turns on
             if(number === 0){
-              for(let i = 0; i < res.data.blogList.length; i++){
-                response[i] = res.data.blogList[i]
-              }
+              //response = res.data.data[num]
               number++
             }
 
             //compare diff
-            if(JSON.stringify(res.data.blogList) !== JSON.stringify(response)){
+            if(JSON.stringify(res.data.data[num]) !== JSON.stringify(response)){
 
-              for(let i = 0; i < res.data.blogList.length; i++){
-                
-                //finding the new blog
-                if(!response.includes(res.data.blogList[i])){
+              //create embed
+              const posts = new Discord.MessageEmbed()
 
-                  //create embed
-                  const posts = new Discord.MessageEmbed()
+              //set color
+              posts.setColor('#BB00EE')
 
-                  //set color
-                  posts.setColor('#BB00EE')
+              //set title
+              posts.setTitle(res.data.data[num].title)
 
-                  //set title
-                  posts.setTitle(res.data.blogList[i].title.replace("\">",''))
-
-                  //description custom
-                  if(res.data.blogList[i].shareDescription === ""){
-
-                    //add description via metaTags
-                    var description = res.data.blogList[i]._metaTags
-
-                    //cut the string
-                    description = description.substring(description.indexOf("content=\""), description.indexOf("\">"))
-
-                    //remone content="
-                    description = description.replace('content="', '')
-
-                    //spliting to remove html things
-                    var array = description.split(" ")
-                    for(let i = 0; i < array.length; i++){
-                      if(await array[i].includes("&nbsp;")){
-                        description = description.replace("&nbsp;", ' ')
-                      }
-                    }
-
-                  }else{
-
-                    //add description via shareDescription
-                    var description = res.data.blogList[i].shareDescription
-                  }
-
-                  //check the language
-                  if(lang === "en"){
-
-                    //add fields
-                    posts.addFields(
-                      {name: "Description", value: description},
-                      {name: "Link", value: "https://www.epicgames.com/fortnite" + res.data.blogList[i].urlPattern}
-                    )
-                  }else if(lang === "ar"){
-
-                    //add fields in ar
-                    posts.addFields(
-                      {name: "**الوصف**", value: description},
-                      {name: "**الرابط**", value: "https://www.epicgames.com/fortnite" + res.data.blogList[i].urlPattern}
-                    )
-                  }
-                  
-
-                  //add the image
-                  if(res.data.blogList[i].shareImage !== undefined){
-                    posts.setImage(res.data.blogList[i].shareImage)
-                  }else if(res.data.blogList[i].trendingImage !== undefined){
-                    posts.setImage(res.data.blogList[i].trendingImage)
-                  }else if(res.data.blogList[i].image !== undefined){
-                    posts.setImage(res.data.blogList[i].image)
-                  }
-
-                  //add the thumbnail
-                  posts.setThumbnail(res.data.blogList[i].image)
-
-                  //set footer
-                  posts.setFooter(res.data.blogList[i].author)
-
-                  //send
-                  message.send(posts)
-                  
-                }
-
-                //storing
-                response[i] = res.data.blogList[i]
+              //set author
+              if(lang === "en"){
+                posts.setAuthor("Click Here",res.data.data[num].iconImage ,res.data.data[num].url)
+              }else if(lang === "ar"){
+                posts.setAuthor("اضغط هنا",res.data.data[num].iconImage ,res.data.data[num].url)
               }
+
+              //add the image
+              if(res.data.data[num].image !== undefined){
+                posts.setImage(res.data.data[num].image)
+
+              }else if(res.data.data[num].trendingImage !== undefined){
+                posts.setImage(res.data.data[num].trendingImage)
+
+              }else{
+                posts.setImage(res.data.data[num].iconImage)
+              }
+
+              //set footer
+              posts.setFooter("Fortnite")
+
+              //send
+              message.send(posts)
+              response = await res.data.data[num]
+
             }
           }).catch(err => {
             console.log("The issue is in Blogposts Events ", err)
@@ -126,5 +78,5 @@ module.exports = (client, admin) => {
         }
       })
     }
-    setInterval(Blogposts, 1 * 3000)
+    setInterval(Blogposts, 1 * 60000)
 }

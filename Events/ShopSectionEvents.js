@@ -1,6 +1,9 @@
 const axios = require('axios')
 const Discord = require('discord.js')
 const config = require('../Coinfigs/config.json')
+const moment = require('moment')
+const Canvas = require('canvas')
+
 
 module.exports = (client, admin) => {
     const message = client.channels.cache.find(channel => channel.id === config.events.Section)

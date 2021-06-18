@@ -37,7 +37,7 @@ module.exports = (client, admin) => {
 
                     //if the client wants to pust data
                     if(push === "true"){
-                        response = []
+                        response = ""
                     }
 
                     //checking for deff

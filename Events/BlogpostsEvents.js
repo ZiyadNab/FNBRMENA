@@ -1,5 +1,6 @@
 const axios = require('axios')
 const Discord = require('discord.js')
+const moment = require('moment')
 const config = require('../Coinfigs/config.json')
 
 module.exports = (client, admin) => {
@@ -7,38 +8,118 @@ module.exports = (client, admin) => {
     //result
     var response = []
     var number = 0
+    var num = 1
     var lang = "ar"
 
     const Blogposts = async () => {
 
       //checking if the bot on or off
       admin.database().ref("ERA's").child("Events").child("blogposts").once('value', async function (data) {
+
+        //store aceess
         var status = data.val().Active;
         if(status === "true"){
+
+          //request data
           axios.get('https://www.epicgames.com/fortnite/api/blog/getPosts?category=&postsPerPage=0&offset=0&rootPageSlug=blog&locale='+lang)
           .then(async res => {
-            if(number === 0){
-              response = res.data.blogList[0].title
-              number ++
-            }
-            if(JSON.stringify(res.data.blogList[0].title) !== JSON.stringify(response)){
-              const posts = new Discord.MessageEmbed()
-              posts.setColor('#BB00EE')
-              posts.setTitle(res.data.blogList[0].title)
-              posts.setURL("https://www.epicgames.com/fortnite" + res.data.blogList[0].urlPattern)
-              if(res.data.blogList[0].shareImage !== undefined){
-                posts.setImage(res.data.blogList[0].shareImage)
-              }else if(res.data.blogList[0].image !== undefined){
-                posts.setImage(res.data.blogList[0].image)
-              }else if(res.data.blogList[0].trendingImage !== undefined){
-                posts.setImage(res.data.blogList[0].trendingImage)
-              }
-              posts.setFooter(res.data.blogList[0].author)
-              message.send(posts)
 
-              response = res.data.blogList[0].title
+            //store the first time when the bot turns on
+            if(number === 0){
+              for(let i = 0; i < res.data.blogList.length; i++){
+                response[i] = res.data.blogList[i]
+              }
+              number++
             }
-          })
+
+            //compare diff
+            if(JSON.stringify(res.data.blogList) !== JSON.stringify(response)){
+
+              for(let i = 0; i < res.data.blogList.length; i++){
+                
+                //finding the new blog
+                if(!response.includes(res.data.blogList[i])){
+
+                  //create embed
+                  const posts = new Discord.MessageEmbed()
+
+                  //set color
+                  posts.setColor('#BB00EE')
+
+                  //set title
+                  posts.setTitle(res.data.blogList[i].title.replace("\">",''))
+
+                  //description custom
+                  if(res.data.blogList[i].shareDescription === ""){
+
+                    //add description via metaTags
+                    var description = res.data.blogList[i]._metaTags
+
+                    //cut the string
+                    description = description.substring(description.indexOf("content=\""), description.indexOf("\">"))
+
+                    //remone content="
+                    description = description.replace('content="', '')
+
+                    //spliting to remove html things
+                    var array = description.split(" ")
+                    for(let i = 0; i < array.length; i++){
+                      if(await array[i].includes("&nbsp;")){
+                        description = description.replace("&nbsp;", ' ')
+                      }
+                    }
+
+                  }else{
+
+                    //add description via shareDescription
+                    var description = res.data.blogList[i].shareDescription
+                  }
+
+                  //check the language
+                  if(lang === "en"){
+
+                    //add fields
+                    posts.addFields(
+                      {name: "Description", value: description},
+                      {name: "Link", value: "https://www.epicgames.com/fortnite" + res.data.blogList[i].urlPattern}
+                    )
+                  }else if(lang === "ar"){
+
+                    //add fields in ar
+                    posts.addFields(
+                      {name: "**الوصف**", value: description},
+                      {name: "**الرابط**", value: "https://www.epicgames.com/fortnite" + res.data.blogList[i].urlPattern}
+                    )
+                  }
+                  
+
+                  //add the image
+                  if(res.data.blogList[i].shareImage !== undefined){
+                    posts.setImage(res.data.blogList[i].shareImage)
+                  }else if(res.data.blogList[i].trendingImage !== undefined){
+                    posts.setImage(res.data.blogList[i].trendingImage)
+                  }else if(res.data.blogList[i].image !== undefined){
+                    posts.setImage(res.data.blogList[i].image)
+                  }
+
+                  //add the thumbnail
+                  posts.setThumbnail(res.data.blogList[i].image)
+
+                  //set footer
+                  posts.setFooter(res.data.blogList[i].author)
+
+                  //send
+                  message.send(posts)
+                  
+                }
+
+                //storing
+                response[i] = res.data.blogList[i]
+              }
+            }
+          }).catch(err => {
+            console.log("The issue is in Blogposts Events ", err)
+        })
         }
       })
     }

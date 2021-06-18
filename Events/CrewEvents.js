@@ -16,8 +16,8 @@ module.exports = (client, admin) => {
 
             //store access
             var status = server.val().Active;
-            var lang = data.val().Lang;
-            var push = data.val().Push
+            var lang = server.val().Lang;
+            var push = server.val().Push
 
             //if the event is set to be true [ON]
             if(status === "true"){

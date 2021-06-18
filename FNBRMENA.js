@@ -7,6 +7,7 @@ const PlaylistsEvents = require('./Events/PlaylistsEvents.js')
 const NoticeEvents = require('./Events/NoticeEvents.js')
 const UserJoined = require('./Events/User.js')
 const Crew = require('./Events/CrewEvents.js')
+const BundlesEvents = require('./Events/BundleEvents')
 const Commands = require('./Events/Commands.js')
 const ItemshopEvents = require('./Events/ItemshopEvents')
 const axios = require('axios')
@@ -95,6 +96,11 @@ class FNBRMENA {
         //return Notice access
         if(Type === "Notice"){
             NoticeEvents(Client, Admin)
+        }
+
+        //return Bundles access
+        if(Type === "Bundles"){
+            BundlesEvents(Client, Admin)
         }
 
         //return UserJoined access

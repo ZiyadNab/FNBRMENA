@@ -11,7 +11,7 @@ module.exports = (client, admin) => {
     const message = client.channels.cache.find(channel => channel.id === config.events.Playlists)
 
     //result
-    var resonse = []
+    var response = []
     var modeName = []
     var number = 0
 
@@ -37,7 +37,7 @@ module.exports = (client, admin) => {
 
                     //check for a change
                     if(number === 0){
-                        resonse = await Active
+                        response = await Active
                         for(let i = 0; i < Active.length; i++){
                             modeName[i] = Active[i].name
                         }
@@ -51,7 +51,7 @@ module.exports = (client, admin) => {
                     }
 
                     //if the data was not the same
-                    if(!isEqual(Active, resonse)){
+                    if(!isEqual(Active, response)){
 
                         //date
                         moment.locale(lang)
@@ -105,7 +105,7 @@ module.exports = (client, admin) => {
                         }
 
                         //restore data
-                        resonse = await Active
+                        response = await Active
                         for(let i = 0; i < Active.length; i++){
                             modeName[i] = Active[i].name
                         }

@@ -222,6 +222,19 @@ class FNBRMENA {
             })
             return roles
         }
+
+        //get the events status
+        if(Type === "Events"){
+            var events = await Admin.database().ref("ERA's").child("Events").once('value')
+            .then(async data => {
+                if(data.val() !== null){
+                    return events = data.val()
+                }else{
+                    return []
+                }
+            })
+            return events
+        }
     }
 }
 

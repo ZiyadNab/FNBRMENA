@@ -82,7 +82,11 @@ module.exports = {
                             }
 
                             //lang
-                            str += `Lang: ${res[Object.keys(res)[i]].Lang}`
+                            if(res[Object.keys(res)[i]].Lang === "en"){
+                                str += `Lang: :flag_us:`
+                            }else if(res[Object.keys(res)[i]].Lang === "ar"){
+                                str += `Lang: :flag_sa:`
+                            }
 
                             //event field
                             view.addFields(
@@ -93,16 +97,16 @@ module.exports = {
 
                             //active ?
                             if(res[Object.keys(res)[i]].Active === "true"){
-                                str += `Active: ${green} \n`
+                                str += `الحالة: ${green} \n`
                             }else{
-                                str += `Active: ${red} \n`
+                                str += `الحالة: ${red} \n`
                             }
 
                             //lang
                             if(res[Object.keys(res)[i]].Lang === "en"){
-                                str += `Lang: :flag_us:`
+                                str += `اللغة: :flag_us:`
                             }else if(res[Object.keys(res)[i]].Lang === "ar"){
-                                str += `Lang: :flag_sa:`
+                                str += `اللغة: :flag_sa:`
                             }
 
                             //event field

@@ -105,24 +105,46 @@ module.exports = {
                     //delete messages
                     await notify.delete()
 
-                    if(collected.first().content.toLowerCase() !== "non" || collected.first().content.toLowerCase() !== "مابي"){
+                    if(lang === "en"){
+                        if(collected.first().content.toLowerCase() !== "non"){
 
-                        var query = {
-                            matchMethod: "full",
-                            name: collected.first().content,
-                            displayType: "Back Bling",
+                            var query = {
+                                matchMethod: "full",
+                                name: collected.first().content,
+                                displayType: "Back Bling",
+                            }
+
+                            await Fortnite.CosmeticsSearch(query)
+                            .then(async res => {
+
+                                //add the backpack
+                                const pickaxe = await Canvas.loadImage(res.data.images.icon);
+                                ctx.drawImage(pickaxe, 25, 535, 200, 200)
+
+                            }).catch(err => {
+                                error = 1
+                            })
                         }
+                    }else if(lang === "ar"){
+                        if(collected.first().content !== "مابي"){
 
-                        await Fortnite.CosmeticsSearch(query)
-                        .then(async res => {
+                            var query = {
+                                matchMethod: "full",
+                                name: collected.first().content,
+                                displayType: "Back Bling",
+                            }
 
-                            //add the backpack
-                            const pickaxe = await Canvas.loadImage(res.data.images.icon);
-                            ctx.drawImage(pickaxe, 25, 535, 200, 200)
+                            await Fortnite.CosmeticsSearch(query)
+                            .then(async res => {
 
-                        }).catch(err => {
-                            error = 1
-                        })
+                                //add the backpack
+                                const pickaxe = await Canvas.loadImage(res.data.images.icon);
+                                ctx.drawImage(pickaxe, 25, 535, 200, 200)
+
+                            }).catch(err => {
+                                error = 1
+                            })
+                        }
                     }
                 })
             })
@@ -158,24 +180,47 @@ module.exports = {
                         //delete messages
                         await notify.delete()
 
-                        if(collected.first().content.toLowerCase() !== "non" || collected.first().content.toLowerCase() !== "مابي"){
+                        if(lang === "en"){
+                            if(collected.first().content.toLowerCase() !== "non"){
 
-                            var query = {
-                                matchMethod: "full",
-                                name: collected.first().content,
-                                displayType: "Harvesting Tool",
+                                var query = {
+                                    matchMethod: "full",
+                                    name: collected.first().content,
+                                    displayType: "Harvesting Tool",
+                                }
+
+                                await Fortnite.CosmeticsSearch(query)
+                                .then(async res => {
+
+                                    //add the pickaxe
+                                    const glider = await Canvas.loadImage(res.data.images.icon);
+                                    ctx.drawImage(glider, 290, 535, 200, 200)
+
+                                }).catch(err => {
+                                    error = 1
+                                })
                             }
+                        }else if(lang === "ar"){
+                            if(collected.first().content !== "مابي"){
 
-                            await Fortnite.CosmeticsSearch(query)
-                            .then(async res => {
+                                var query = {
+                                    matchMethod: "full",
+                                    name: collected.first().content,
+                                    displayType: "Harvesting Tool",
+                                }
 
-                                //add the pickaxe
-                                const glider = await Canvas.loadImage(res.data.images.icon);
-                                ctx.drawImage(glider, 290, 535, 200, 200)
+                                await Fortnite.CosmeticsSearch(query)
+                                .then(async res => {
 
-                            }).catch(err => {
-                                error = 1
-                            })
+                                    //add the pickaxe
+                                    const glider = await Canvas.loadImage(res.data.images.icon);
+                                    ctx.drawImage(glider, 290, 535, 200, 200)
+
+                                }).catch(err => {
+                                    error = 1
+                                })
+
+                            }
                         }
                     })
                 })
@@ -210,25 +255,48 @@ module.exports = {
 
                             //delete messages
                             await notify.delete()
+                            if(lang === "en"){
+                                if(collected.first().content.toLowerCase() !== "non"){
 
-                            if(collected.first().content.toLowerCase() !== "non" || collected.first().content.toLowerCase() !== "مابي"){
+                                    var query = {
+                                        matchMethod: "full",
+                                        name: collected.first().content,
+                                        isplayType: "Glider",
+                                    }
 
-                                var query = {
-                                    matchMethod: "full",
-                                    name: collected.first().content,
-                                    isplayType: "Glider",
+                                    await Fortnite.CosmeticsSearch(query)
+                                    .then(async res => {
+
+                                        //add the glider
+                                        const glider = await Canvas.loadImage(res.data.images.icon);
+                                        ctx.drawImage(glider, 25, 800, 200, 200)
+
+                                    }).catch(err => {
+                                        error = 1
+                                    })
+
                                 }
+                            }else if(lang === "ar"){
+                                if(collected.first().content !== "مابي"){
 
-                                await Fortnite.CosmeticsSearch(query)
-                                .then(async res => {
+                                    var query = {
+                                        matchMethod: "full",
+                                        name: collected.first().content,
+                                        isplayType: "Glider",
+                                    }
 
-                                    //add the glider
-                                    const glider = await Canvas.loadImage(res.data.images.icon);
-                                    ctx.drawImage(glider, 25, 800, 200, 200)
+                                    await Fortnite.CosmeticsSearch(query)
+                                    .then(async res => {
 
-                                }).catch(err => {
-                                    error = 1
-                                })
+                                        //add the glider
+                                        const glider = await Canvas.loadImage(res.data.images.icon);
+                                        ctx.drawImage(glider, 25, 800, 200, 200)
+
+                                    }).catch(err => {
+                                        error = 1
+                                    })
+
+                                }
                             }
                         })
                     })
@@ -264,24 +332,48 @@ module.exports = {
                                 //delete messages
                                 await notify.delete()
 
-                                if(collected.first().content.toLowerCase() !== "non" || collected.first().content.toLowerCase() !== "مابي"){
+                                if(lang === "en"){
+                                    if(collected.first().content.toLowerCase() !== "non"){
 
-                                    var query = {
-                                        matchMethod: "full",
-                                        name: collected.first().content,
-                                        displayType: "Emote",
+                                        var query = {
+                                            matchMethod: "full",
+                                            name: collected.first().content,
+                                            displayType: "Emote",
+                                        }
+
+                                        await Fortnite.CosmeticsSearch(query)
+                                        .then(async res => {
+
+                                            //add the emote
+                                            const emote = await Canvas.loadImage(res.data.images.icon);
+                                            ctx.drawImage(emote, 290, 800, 200, 200)
+
+                                        }).catch(err => {
+                                            error = 1
+                                        })
+
                                     }
+                                }else if(lang === "ar"){
+                                    if(collected.first().content !== "مابي"){
 
-                                    await Fortnite.CosmeticsSearch(query)
-                                    .then(async res => {
+                                        var query = {
+                                            matchMethod: "full",
+                                            name: collected.first().content,
+                                            displayType: "Emote",
+                                        }
 
-                                        //add the emote
-                                        const emote = await Canvas.loadImage(res.data.images.icon);
-                                        ctx.drawImage(emote, 290, 800, 200, 200)
+                                        await Fortnite.CosmeticsSearch(query)
+                                        .then(async res => {
 
-                                    }).catch(err => {
-                                        error = 1
-                                    })
+                                            //add the emote
+                                            const emote = await Canvas.loadImage(res.data.images.icon);
+                                            ctx.drawImage(emote, 290, 800, 200, 200)
+
+                                        }).catch(err => {
+                                            error = 1
+                                        })
+                                        
+                                    }
                                 }
                             })
                         })

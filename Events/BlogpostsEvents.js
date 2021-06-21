@@ -9,7 +9,7 @@ module.exports = (client, admin) => {
     //result
     var response = []
     var number = 0
-    var num = 1
+    var num = 0
 
     const Blogposts = async () => {
 
@@ -30,7 +30,7 @@ module.exports = (client, admin) => {
 
             //store the first time when the bot turns on
             if(number === 0){
-              //response = res.data.data[num]
+              response = res.data.data[num]
               number++
             }
 

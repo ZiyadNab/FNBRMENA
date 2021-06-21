@@ -56,6 +56,39 @@ disTube
 client.on('ready', async () => {
   console.log('FNBRMENA Bot is online!')
 
+  //get the prefix from database
+  const prefix = await FNBRMENA.Admin(admin, "", "", "Prefix")
+
+  //list of status
+  const status = [
+    `FNBRMENA | ${prefix}Commands to start`,
+    `FNBRMEN | Read Rules First`,
+    `FNBRMEN | Twitter: FNBRMENA`,
+    `FNBRMEN | Tiktok: FNBRMENA`,
+  ]
+
+  //status index
+  var index = 0
+
+  //set interval to change the status
+  setInterval(() => {
+    client.user.setPresence({ 
+      activity: { 
+        name: status[index],
+        type: 'PLAYING'
+      },
+      status: 'idle'
+  
+      }).catch(console.error)
+
+      //change the index status
+      if(index < status.length){
+        index++
+      }else{
+        index = 0
+      }
+  }, 30000)
+
   const baseFile = 'CommandBase.js'
   const commandBase = require(`./commands/${baseFile}`)
   const Array = []

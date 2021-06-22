@@ -131,7 +131,7 @@ module.exports = (client, admin) => {
                         }
 
                         //trun off push if enabled
-                        admin.database().ref("ERA's").child("notice").child("notice").update({
+                        admin.database().ref("ERA's").child("Events").child("notice").update({
                             Push: "false"
                         })
                     }

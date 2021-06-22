@@ -62,9 +62,9 @@ client.on('ready', async () => {
   //list of status
   const status = [
     `FNBRMENA | ${prefix}Commands to start`,
-    `FNBRMEN | Read Rules First`,
-    `FNBRMEN | Twitter: FNBRMENA`,
-    `FNBRMEN | Tiktok: FNBRMENA`,
+    `FNBRMENA | Read Rules First`,
+    `FNBRMENA | Twitter: FNBRMENA`,
+    `FNBRMENA | Tiktok: FNBRMENA`,
   ]
 
   //status index

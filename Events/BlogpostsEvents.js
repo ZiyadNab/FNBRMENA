@@ -9,7 +9,7 @@ module.exports = (client, admin) => {
     //result
     var response = []
     var number = 0
-    var num = 0
+    var num = 2
 
     const Blogposts = async () => {
 

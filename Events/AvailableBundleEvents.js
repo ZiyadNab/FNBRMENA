@@ -30,7 +30,7 @@ module.exports = (client, admin) => {
 
                         //filter and store only available bundles
                         response = await res.data.bundles.filter(bundle => {
-                            return bundle.available
+                            return bundle.available === true
                         })
 
                         number++
@@ -43,7 +43,7 @@ module.exports = (client, admin) => {
 
                     //get the avaliable bundles att
                     available = await res.data.bundles.filter(bundle => {
-                        return bundle.available
+                        return bundle.available === true
                     })
 
                     //compare diff
@@ -72,7 +72,7 @@ module.exports = (client, admin) => {
 
                                 //add the dates
                                 if(lang === "en"){
-                                    if(available[i].available === true){
+                                    if(available[i].expiryDate === null){
                                         bundle.addFields(
                                             {name: "Available", value: "Yes!"},
                                             {name: "Available Since", value: moment(available[i].viewableDate).format("dddd, MMMM Do of YYYY")},
@@ -80,13 +80,13 @@ module.exports = (client, admin) => {
                                         )
                                     }else{
                                         bundle.addFields(
-                                            {name: "Available", value: "No!"},
-                                            {name: "Available since", value: moment(available[i].viewableDate).format("dddd, MMMM Do of YYYY")},
-                                            {name: "Gone since", value: moment(available[i].expiryDate).format("dddd, MMMM Do of YYYY")}
+                                            {name: "Available", value: "Yes!"},
+                                            {name: "Available Since", value: moment(available[i].viewableDate).format("dddd, MMMM Do of YYYY")},
+                                            {name: "Will be gone at", value: "No yet known"}
                                         )
                                     }
                                 }else if(lang === "ar"){
-                                    if(available[i].available === true){
+                                    if(available[i].expiryDate === null){
                                         bundle.addFields(
                                             {name: "متاحة للشراء", value: "نعم"},
                                             {name: "متاحة منذ", value: moment(available[i].viewableDate).format("dddd, MMMM Do من YYYY")},
@@ -94,9 +94,9 @@ module.exports = (client, admin) => {
                                         )
                                     }else{
                                         bundle.addFields(
-                                            {name: "متاحة للشراء", value: "لا",},
+                                            {name: "متاحة للشراء", value: "نعم"},
                                             {name: "متاحة منذ", value: moment(available[i].viewableDate).format("dddd, MMMM Do من YYYY")},
-                                            {name: "غادرت منذ", value: moment(available[i].expiryDate).format("dddd, MMMM Do من YYYY")}
+                                            {name: "سوف تغادر في", value: "لا يوجد تاريخ معلوم حتى الان"}
                                         )
                                     }
                                 }
@@ -108,13 +108,25 @@ module.exports = (client, admin) => {
                                     )
                                 }
 
-                                //tumbnail
+                                //tumbnail and image
                                 if(available[i].displayAssets.length !== 0){
-                                    bundle.setThumbnail(available[i].displayAssets[0].url)
-                                }
 
-                                //set the image
-                                bundle.setImage(available[i].thumbnail)
+                                    //add thumbnail
+                                    bundle.setThumbnail(available[i].displayAssets[0].url)
+
+                                    //add the image
+                                    if(available[i].thumbnail !== null){
+                                        undle.setImage(available[i].thumbnail)
+                                    }else{
+                                        available[i].displayAssets[0].background
+                                    }
+                                }else{
+
+                                    //add the image
+                                    if(available[i].thumbnail !== null){
+                                        undle.setImage(available[i].thumbnail)
+                                    }
+                                }
 
                                 await message.send(bundle)
                             

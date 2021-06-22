@@ -26,7 +26,9 @@ module.exports = (client, admin) => {
 
                     //store the data if the bot got restarted
                     if (number === 0) {
-                        response = res.data.data
+                        for(let i = 0; i < res.data.data.length; i++){
+                            response[i] = await res.data.data[i]
+                        }
                         number++
                     }
 
@@ -36,7 +38,7 @@ module.exports = (client, admin) => {
                     }
 
                     //checking for deff
-                    if (JSON.stringify(res.data.data) !== JSON.stringify(response)) {
+                    if (JSON.stringify(res.data.data) !== JSON.stringify(response) && res.data.data.length !== 0) {
 
                         //create embed
                         const Notice = new Discord.MessageEmbed()
@@ -46,78 +48,90 @@ module.exports = (client, admin) => {
                         
                         for (let i = 0; i < res.data.data.length; i++) {
 
-                            //add title
-                            Notice.setTitle(res.data.data[i].title)
+                            //if the notice not stored in response
+                            if(!response.includes(res.data.data[i])){
 
-                            //add description
-                            Notice.setDescription(res.data.data[i].body)
+                                //add title
+                                Notice.setTitle(res.data.data[i].title)
 
-                            //playlists
-                            var playlists = ""
-                            for(let j = 0; j < res.data.data[i].playlists.length; j++){
+                                //add description
+                                Notice.setDescription(res.data.data[i].body)
 
-                                //get data
-                                const playlist = await axios.get(`https://fortnite-api.com/v1/playlists/${res.data.data[i].playlists[j]}?lang=${lang}`)
+                                //playlists
+                                if(res.data.data[i].playlists !== undefined){
+                                    var playlists = ""
+                                    for(let j = 0; j < res.data.data[i].playlists.length; j++){
+
+                                        //get data
+                                        const playlist = await axios.get(`https://fortnite-api.com/v1/playlists/${res.data.data[i].playlists[j]}?lang=${lang}`)
+                                        
+                                        //add the playlist name
+                                        if(playlist.data.data.subName === null){
+                                            playlists += "` " + playlist.data.data.name + " ` "
+                                        }else{
+                                            playlists += "` " + playlist.data.data.name + " - " + playlist.data.data.subName + " ` "
+                                        }
+                                    }
+                                }
                                 
-                                //add the playlist name
-                                if(playlist.data.data.subName === null){
-                                    playlists += "` " + playlist.data.data.name + " ` "
-                                }else{
-                                    playlists += "` " + playlist.data.data.name + " - " + playlist.data.data.subName + " ` "
+                                //add gamemodes
+                                if(res.data.data.gamemodes !== undefined){
+                                    var gamemodes = ""
+                                    for(let j = 0; j < res.data.data[i].gamemodes.length; j++){
+
+                                        //add gamemodes
+                                        gamemodes += "` " + res.data.data[i].gamemodes[j] + " ` "
+
+                                    }
+                                }
+
+                                //add platforms
+                                if(res.data.data.platforms !== undefined){
+                                    var string = ""
+                                    for(let j = 0; j < res.data.data[i].platforms.length; j++){
+
+                                        //add strings
+                                        string += "` " + res.data.data[i].platforms[j] + " ` "
+                                    }
+
+                                    //add platform feild
+                                    if(lang === "en"){
+                                        Notice.addFields({
+                                            name: "Platforms",
+                                            value: string
+                                        },{
+                                            name: "Game Modes",
+                                            value: gamemodes,
+                                        },{
+                                            name: "Playlists",
+                                            value: playlists,
+                                        })
+                                    }else if(lang === "ar"){
+                                        Notice.addFields({
+                                            name: "المنصات",
+                                            value: string
+                                        },{
+                                            name: "طور اللعب",
+                                            value: gamemodes,
+                                        },{
+                                            name: "الاطوار",
+                                            value: playlists,
+                                        })
+                                    }
                                 }
                             }
-                            
-                            //add gamemodes
-                            var gamemodes = ""
-                            for(let j = 0; j < res.data.data[i].gamemodes.length; j++){
-
-                                //add gamemodes
-                                gamemodes += "` " + res.data.data[i].gamemodes[j] + " ` "
-
-                            }
-
-                            //add platforms
-                            var string = ""
-                            for(let j = 0; j < res.data.data[i].platforms.length; j++){
-
-                                //add strings
-                                string += "` " + res.data.data[i].platforms[j] + " ` "
-
-                            }
-
-                            //add platform feild
-                            if(lang === "en"){
-                                Notice.addFields({
-                                    name: "Platforms",
-                                    value: string
-                                },{
-                                    name: "Game Modes",
-                                    value: gamemodes,
-                                },{
-                                    name: "Playlists",
-                                    value: playlists,
-                                })
-                            }else if(lang === "ar"){
-                                Notice.addFields({
-                                    name: "المنصات",
-                                    value: string
-                                },{
-                                    name: "طور اللعب",
-                                    value: gamemodes,
-                                },{
-                                    name: "الاطوار",
-                                    value: playlists,
-                                })
-                            }
-
                         }
                         Notice.setFooter('Generated By FNBRMENA Bot')
                         Notice.setAuthor('FNBRMENA Bot', 'https://i.imgur.com/LfotEkZ.jpg', 'https://twitter.com/FNBRMENA')
                         message.send(Notice);
-                        response = res.data.data
+
+                        //store data
+                        for(let i = 0; i < res.data.data.length; i++){
+                            response[i] = await res.data.data[i]
+                        }
 
                         //trun off push if enabled
-                        admin.database().ref("ERA's").child("notice").child("bundles").update({
+                        admin.database().ref("ERA's").child("notice").child("notice").update({
                             Push: "false"
                         })
                     }

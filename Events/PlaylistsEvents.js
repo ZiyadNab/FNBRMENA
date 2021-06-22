@@ -31,7 +31,9 @@ module.exports = (client, admin) => {
                     if(number === 0){
 
                         //store data
-                        //response = await res.data.modes
+                        for(let i = 0; i < res.data.modes.length; i++){
+                            response[i] = await res.data.modes[i]
+                        }
 
                         number++
                     }
@@ -105,7 +107,9 @@ module.exports = (client, admin) => {
                         })
 
                         //restore data
-                        response = await res.data.modes
+                        for(let i = 0; i < res.data.modes.length; i++){
+                            response[i] = await res.data.modes[i]
+                        }
 
                     }
                 }).catch(err => {

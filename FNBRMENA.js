@@ -5,6 +5,7 @@ const ShopSectionEvents = require('./Events/ShopSectionEvents.js')
 const PlaylistsEvents = require('./Events/PlaylistsEvents.js')
 const NoticeEvents = require('./Events/NoticeEvents.js')
 const UserJoined = require('./Events/User.js')
+const ServersEvents = require('./Events/ServersEvents.js')
 const Crew = require('./Events/CrewEvents.js')
 const AvailableBundle = require('./Events/AvailableBundleEvents.js')
 const Commands = require('./Events/Commands.js')
@@ -95,6 +96,11 @@ class FNBRMENA {
         //return Bundles access
         if(Type === "AvailableBundle"){
             AvailableBundle(Client, Admin)
+        }
+
+        //return Bundles access
+        if(Type === "Servers"){
+            ServersEvents(Client, Admin)
         }
 
         //return UserJoined access

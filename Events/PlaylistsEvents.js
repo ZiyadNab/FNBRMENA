@@ -45,7 +45,7 @@ module.exports = (client, admin) => {
                         response = []
                     }
 
-                    //if the data was not the same
+                    //enter only if the data was not the same
                     if(JSON.stringify(res.data.modes) !== JSON.stringify(response)){
 
                         //date

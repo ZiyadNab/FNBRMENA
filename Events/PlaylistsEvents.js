@@ -49,7 +49,7 @@ module.exports = (client, admin) => {
                         //date
                         moment.locale(lang)
                         if(lang === "en"){
-                            var date = moment().format("dddd, MMMM Do from YYYY")
+                            var date = moment().format("dddd, MMMM Do of YYYY")
                         }else if(lang === "ar"){
                             var date = moment().format("dddd, MMMM Do من YYYY")
                         }
@@ -69,7 +69,7 @@ module.exports = (client, admin) => {
                                 if(lang === "en"){
 
                                     //add title and fields [EN]
-                                    ActivePlaylist.setTitle("A new active playlist " + res.data.modes[i])
+                                    ActivePlaylist.setTitle("A new active playlist " + res.data.modes[i].name)
                                     ActivePlaylist.addFields(
                                         {name: "Max Team Size:", value: res.data.modes[i].maxTeamSize},
                                         {name: "Date:", value: date},

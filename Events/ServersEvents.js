@@ -3,7 +3,7 @@ const axios = require('axios')
 const key = require('../Coinfigs/config.json')
 
 module.exports = (client, admin) => {
-    const message = client.channels.cache.find(channel => channel.id === key.events.Set)
+    const message = client.channels.cache.find(channel => channel.id === key.events.Servers)
 
     //result
     var response = []
@@ -29,7 +29,7 @@ module.exports = (client, admin) => {
                     if(number === 0){
 
                         //store data
-                        //response = await res.data.data.status
+                        response = await res.data.data.status
 
                         //add sets names
                         number++

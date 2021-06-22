@@ -34,6 +34,10 @@ module.exports = (client, admin) => {
               number++
             }
 
+            if(push === "true"){
+              response = []
+            }
+
             //compare diff
             if(JSON.stringify(res.data.data[num]) !== JSON.stringify(response)){
 
@@ -70,6 +74,11 @@ module.exports = (client, admin) => {
               //send
               message.send(posts)
               response = await res.data.data[num]
+
+              //trun off push if enabled
+              admin.database().ref("ERA's").child("Events").child("blogposts").update({
+                Push: "false"
+            })
 
             }
           }).catch(err => {

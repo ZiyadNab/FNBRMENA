@@ -23,9 +23,6 @@ const disTube = new DisTube(client, {
   emitNewSongOnly: true
 })
 
-//status
-const status = queue => `Volume: \`${queue.volume}%\` | Filter: \`${queue.filter || 'Off'}\` | Loop: \`${queue.repeatMode ? queue.repeatMode === 2 ? 'All Queue' : 'This Song' : 'Off'}\` | Autoplay: \`${queue.autoplay ? 'On' : 'Off'}\``
-
 // DisTube event listeners, more in the documentation page
 disTube
     .on('playSong', async (message, queue, song) => {
@@ -71,18 +68,18 @@ client.on('ready', async () => {
   var index = 0
 
   //set interval to change the status
-  setInterval(() => {
-    client.user.setPresence({ 
+  setInterval(async () => {
+    await client.user.setPresence({ 
       activity: { 
         name: status[index],
         type: 'PLAYING'
       },
-      status: 'idle'
+      status: 'online'
   
-      }).catch(console.error)
+      })
 
       //change the index status
-      if(index < status.length){
+      if(index < (status.length - 1)){
         index++
       }else{
         index = 0

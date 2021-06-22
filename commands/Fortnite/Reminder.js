@@ -17,6 +17,21 @@ module.exports = {
         //get the user language from the database
         const lang = await FNBRMENA.Admin(admin, message, "", "Lang")
 
+        //list of reactions
+        const numbers = {
+            0: '0️⃣',
+            1: '1️⃣',
+            2: '2️⃣',
+            3: '3️⃣',
+            4: '4️⃣',
+            5: '5️⃣',
+            6: '6️⃣',
+            7: '7️⃣',
+            8: '8️⃣',
+            9: '9️⃣',
+            10: '🔟',
+        }
+
         //inizilizing variables
         var num = 0
         var Last = ""
@@ -35,8 +50,75 @@ module.exports = {
         fortniteAPI.listItemsByName(itemName = text, options = {lang: lang})
         .then( async res => {
 
+            //if there is more than one item
+            if(await res.items.length > 1){
+
+                //creating embed
+                const Choosing = new Discord.MessageEmbed()
+                Choosing.setColor('#BB00EE')
+
+                //set title
+                if(lang === "en"){
+                    Choosing.setTitle('There are ' + res.items.length + ' cosmetics please choose one of them: ') 
+                }else if(lang === "ar"){
+                    Choosing.setTitle('يوجد ' + res.items.length + ' عنصر بنفس الأسم الرجاء الأختيار: ') 
+                }
+
+                //loop threw every matching item
+                for (let i = 0; i < res.items.length; i++){
+                    if(lang === "en"){
+                        Choosing.addFields(
+                            {name: res.items[i].name + ' ' + res.items[i].type.name, value: `react with number ${numbers[i]}`}
+                        )
+                    }else if(lang === "ar"){
+                        Choosing.addFields(
+                            {name: res.items[i].name + ' ' + res.items[i].type.name, value: `الرجاء الضغط على رقم ${numbers[i]}`}
+                        )
+                    }
+                }
+
+                //add reaction
+                let msgID = await message.channel.send(Choosing)
+                for (let i = 0; i < res.items.length; i++){
+                    msgID.react(numbers[i])
+                }
+
+                //filter the user choice
+                const filter = (reaction, user) => {
+                    return [numbers[0], numbers[1],numbers[3], numbers[4],numbers[5], 
+                            numbers[6],numbers[7], numbers[8],numbers[9], numbers[10]]
+                            .includes(reaction.emoji.name) && user.id === message.author.id;
+                };
+
+                //based on user choice change the num value
+                await msgID.awaitReactions(filter, { max: 1, time: 60000, errors: ['time'] })
+                    .then( async collected => {
+                        const reaction = collected.first();
+                        for (let i = 0; i < res.items.length; i++){
+                        if (reaction.emoji.name === numbers[i]) {
+                            num = i
+                            msgID.delete()
+                        }
+                    }
+                }).catch(err => {
+                    if(lang === "en"){
+                        msgReact.delete()
+                        const error = new Discord.MessageEmbed()
+                        .setColor('#BB00EE')
+                        .setTitle(`Sorry we canceled your process becuase no method has been selected ${errorEmoji}`)
+                        message.reply(error)
+                    }else if(lang === "ar"){
+                        msgReact.delete()
+                        const error = new Discord.MessageEmbed()
+                        .setColor('#BB00EE')
+                        .setTitle(`تم ايقاف الامر بسبب عدم اختيارك لطريقة ${errorEmoji}`)
+                        message.reply(error)
+                    }
+                })
+            }
+
             //if the item is correct
-            if(res.items.length > 0){
+            if(res.items.length !== 0){
 
                 //if the item is from the shop
                 if(res.items[num].gameplayTags.includes("Cosmetics.Source.ItemShop")){

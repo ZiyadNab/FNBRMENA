@@ -36,6 +36,8 @@ module.exports = (client, admin) => {
                         number++
                     }
 
+                    console.log(response)
+
                     //if the client wants to pust data
                     if(push === "true"){
                         response = []
@@ -72,7 +74,7 @@ module.exports = (client, admin) => {
 
                                 //add the dates
                                 if(lang === "en"){
-                                    if(available[i].expiryDate === null){
+                                    if(available[i].expiryDate !== null){
                                         bundle.addFields(
                                             {name: "Available", value: "Yes!"},
                                             {name: "Available Since", value: moment(available[i].viewableDate).format("dddd, MMMM Do of YYYY")},
@@ -86,7 +88,7 @@ module.exports = (client, admin) => {
                                         )
                                     }
                                 }else if(lang === "ar"){
-                                    if(available[i].expiryDate === null){
+                                    if(available[i].expiryDate !== null){
                                         bundle.addFields(
                                             {name: "متاحة للشراء", value: "نعم"},
                                             {name: "متاحة منذ", value: moment(available[i].viewableDate).format("dddd, MMMM Do من YYYY")},
@@ -116,7 +118,7 @@ module.exports = (client, admin) => {
 
                                     //add the image
                                     if(available[i].thumbnail !== null){
-                                        undle.setImage(available[i].thumbnail)
+                                        bundle.setImage(available[i].thumbnail)
                                     }else{
                                         available[i].displayAssets[0].background
                                     }
@@ -124,7 +126,7 @@ module.exports = (client, admin) => {
 
                                     //add the image
                                     if(available[i].thumbnail !== null){
-                                        undle.setImage(available[i].thumbnail)
+                                        bundle.setImage(available[i].thumbnail)
                                     }
                                 }
 
@@ -143,5 +145,5 @@ module.exports = (client, admin) => {
             }
         })
     }
-    setInterval(Bundle, 2.5 * 60000)
+    setInterval(Bundle, 0.5 * 60000)
 }

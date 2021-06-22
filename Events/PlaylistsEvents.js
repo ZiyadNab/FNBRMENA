@@ -11,6 +11,7 @@ module.exports = (client, admin) => {
 
     //result
     var response = []
+    var names = []
     var number = 0
 
     const Playlists = async () => {
@@ -33,6 +34,7 @@ module.exports = (client, admin) => {
                         //store data
                         for(let i = 0; i < res.data.modes.length; i++){
                             response[i] = await res.data.modes[i]
+                            names[i] = await res.data.modes[i].name
                         }
 
                         number++
@@ -58,7 +60,7 @@ module.exports = (client, admin) => {
                         for(let i = 0; i < res.data.modes.length; i++){
 
                             //if the playlist isn't in the response array
-                            if(!response.includes(res.data.modes[i])){
+                            if(!names.includes(res.data.modes[i].name)){
 
                                 //create embed
                                 const ActivePlaylist = new Discord.MessageEmbed()
@@ -109,6 +111,7 @@ module.exports = (client, admin) => {
                         //restore data
                         for(let i = 0; i < res.data.modes.length; i++){
                             response[i] = await res.data.modes[i]
+                            names[i] = await res.data.modes[i].name
                         }
 
                     }

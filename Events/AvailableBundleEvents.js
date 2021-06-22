@@ -36,8 +36,6 @@ module.exports = (client, admin) => {
                         number++
                     }
 
-                    console.log(response)
-
                     //if the client wants to pust data
                     if(push === "true"){
                         response = []

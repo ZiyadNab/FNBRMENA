@@ -3,14 +3,14 @@ const Discord = require('discord.js')
 const moment = require('moment')
 const key = require('../Coinfigs/config.json')
 const fortniteAPI = new FortniteAPI(key.apis.fortniteio);
-const config = require('../Coinfigs/config.json')
+const config = require('../Coinfigs/config.json');
+const { default: axios } = require("axios");
 
 module.exports = (client, admin) => {
     const message = client.channels.cache.find(channel => channel.id === config.events.Playlists)
 
     //result
     var response = []
-    var modeName = []
     var number = 0
 
     const Playlists = async () => {
@@ -25,45 +25,38 @@ module.exports = (client, admin) => {
             if(status === "true"){
                 
                 //get the current game modes
-                fortniteAPI.listCurrentGameModes(options = {lang: lang})
+                axios.get('https://fortniteapi.io/v1/game/modes?enabled=true&lang=' + lang , { headers: {'Content-Type': 'application/json','Authorization': "d4ce1562-839ff66b-3946ccb6-438eb9cf",} })
                 .then(async res => {
 
-                    //filter only enabled modes
-                    const Active = await res.modes.filter(avaliable => {
-                        return avaliable.enabled === true
-                    })
-
-                    //check for a change
                     if(number === 0){
-                        response = await Active
-                        for(let i = 0; i < Active.length; i++){
-                            modeName[i] = Active[i].name
-                        }
+
+                        //store data
+                        //response = await res.data.modes
+
                         number++
                     }
 
-                    //if the client wants to pust data
-                    if(push === "true"){
+                    //push modes
+                    if(push === "ture"){
                         response = []
-                        modeName = []
                     }
 
                     //if the data was not the same
-                    if(JSON.stringify(Active) !== JSON.stringify(response)){
+                    if(JSON.stringify(res.data.modes) !== JSON.stringify(response)){
 
                         //date
                         moment.locale(lang)
                         if(lang === "en"){
-                            var date = date = moment().format("dddd, MMMM Do from YYYY")
+                            var date = moment().format("dddd, MMMM Do from YYYY")
                         }else if(lang === "ar"){
-                            var date = date = moment().format("dddd, MMMM Do من YYYY")
+                            var date = moment().format("dddd, MMMM Do من YYYY")
                         }
 
                         //loop throw every active playlists
-                        for(let i = 0; i < Active.length; i++){
+                        for(let i = 0; i < res.data.modes.length; i++){
 
                             //if the playlist isn't in the response array
-                            if(!modeName.includes(Active[i].name)){
+                            if(!response.includes(res.data.modes[i])){
 
                                 //create embed
                                 const ActivePlaylist = new Discord.MessageEmbed()
@@ -74,27 +67,27 @@ module.exports = (client, admin) => {
                                 if(lang === "en"){
 
                                     //add title and fields [EN]
-                                    ActivePlaylist.setTitle("A new active playlist " + Active[i].name)
+                                    ActivePlaylist.setTitle("A new active playlist " + res.data.modes[i])
                                     ActivePlaylist.addFields(
-                                        {name: "Max Team Size:", value: Active[i].maxTeamSize},
+                                        {name: "Max Team Size:", value: res.data.modes[i].maxTeamSize},
                                         {name: "Date:", value: date},
                                     )
                                 }else if(lang === "ar"){
 
                                     //add title and fields [AR]
-                                    ActivePlaylist.setTitle("تم تفعيل طور جديد " + Active[i].name)
+                                    ActivePlaylist.setTitle("تم تفعيل طور جديد " + res.data.modes[i].name)
                                     ActivePlaylist.addFields(
-                                        {name: "عدد التيم:", value: Active[i].maxTeamSize},
+                                        {name: "عدد التيم:", value: res.data.modes[i].maxTeamSize},
                                         {name: "التاريخ:", value: date},
                                     )
                                 }
 
                                 //description
-                                ActivePlaylist.setDescription(Active[i].description)
+                                ActivePlaylist.setDescription(res.data.modes[i].description)
 
                                 //add emage and credits stuff
-                                if(Active[i].image.includes("https://")){
-                                    ActivePlaylist.setImage(Active[i].image)
+                                if(res.data.modes[i].image.includes("https://")){
+                                    ActivePlaylist.setImage(res.data.modes[i].image)
                                 }else{
                                     ActivePlaylist.setImage("https://i.imgur.com/RBFGS9F.jpeg")
                                 }
@@ -112,10 +105,7 @@ module.exports = (client, admin) => {
                         })
 
                         //restore data
-                        response = await Active
-                        for(let i = 0; i < Active.length; i++){
-                            modeName[i] = Active[i].name
-                        }
+                        response = await res.data.modes
 
                     }
                 }).catch(err => {
@@ -124,5 +114,5 @@ module.exports = (client, admin) => {
             }
         })
     }
-    setInterval(Playlists, 2.5 * 60000)
+    setInterval(Playlists, 2 * 60000)
 }

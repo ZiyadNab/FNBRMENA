@@ -46,15 +46,15 @@ module.exports = {
             Canvas.registerFont('./assets/font/BurbankBigCondensed-Black.otf' ,{family: 'Burbank Big Condensed',weight: "700",style: "bold"})
 
             //creating canvas
-            const canvas = Canvas.createCanvas(4000, 4000);
+            const canvas = Canvas.createCanvas(4000, 3600);
             const ctx = canvas.getContext('2d');
 
             //create background grediant
-            const grediant = ctx.createLinearGradient(0, 3500, 3900, 0)
+            const grediant = ctx.createLinearGradient(0, canvas.height, canvas.width, 0)
 
             //background grediant colors
-            grediant.addColorStop(0, "#1CA700")
-            grediant.addColorStop(1, "#00FFF7")
+            grediant.addColorStop(0, "#001C86")
+            grediant.addColorStop(1, "#13FF00")
 
             //add the background color to ctx
             ctx.fillStyle = grediant
@@ -807,9 +807,9 @@ module.exports = {
             grd = ctx.createLinearGradient(x, 1500, x + 1500, 3000)
             await Crew(grd)
 
-            y += 420
-            grd = ctx.createLinearGradient(x, 1500, x + 1500, 3000)
-            await Challenges(grd)
+            // y += 420
+            // grd = ctx.createLinearGradient(x, 1500, x + 1500, 3000)
+            // await Challenges(grd)
 
             y += 420
             grd = ctx.createLinearGradient(x, 1500, x + 1500, 3000)

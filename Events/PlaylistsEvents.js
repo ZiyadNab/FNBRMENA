@@ -40,9 +40,10 @@ module.exports = (client, admin) => {
                     }
 
                     //push modes
-                    if(push === "ture"){
+                    if(push === "true"){
                         response = []
                     }
+                    console.log(push)
 
                     //add all the enabled bundles
                     for(let i = 0; i < res.data.modes.length; i++){
@@ -130,5 +131,5 @@ module.exports = (client, admin) => {
             }
         })
     }
-    setInterval(Playlists, 2 * 60000)
+    setInterval(Playlists, 1 * 2000)
 }

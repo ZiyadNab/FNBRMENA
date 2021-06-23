@@ -44,8 +44,6 @@ module.exports = (client, admin) => {
                         response = []
                     }
 
-                    response[2] = []
-
                     //add all the enabled bundles
                     for(let i = 0; i < res.data.modes.length; i++){
                         enabled[i] = await res.data.modes[i].id

@@ -26,7 +26,7 @@ module.exports = {
         }
 
         //play the music
-        await disTube.play(message, args.join(' '))
+        await disTube.play(message, text)
 
     }
 }

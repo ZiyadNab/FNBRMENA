@@ -17,7 +17,7 @@ module.exports = {
         const lang = await FNBRMENA.Admin(admin, message, "", "Lang")
 
         //inisilizing number
-        var num = 0
+        var num = null
 
         const offerID = await fortniteAPI.getBundles()
         .then(async res => {
@@ -39,7 +39,7 @@ module.exports = {
                 //create and fill a string of names
                 var str = ""
                 for(let i = 0; i < id.length; i++){
-                    str += '• ' + (i + 1) + ': ' + id[i].name + '\n'
+                    str += '• ' + i + ': ' + id[i].name + '\n'
                 }
 
                 //add description
@@ -110,12 +110,14 @@ module.exports = {
                         })
                     })
                 })
-                return id[num].offerId
+                if(num !== null){
+                    return id[num].offerId
+                }
             }
 
             //there is onle one bundle
             if(id.length === 1){
-                return id[num].offerId
+                return id[0].offerId
             }
             
             //no bundle has been found

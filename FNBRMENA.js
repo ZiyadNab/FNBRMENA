@@ -42,6 +42,19 @@ class FNBRMENA {
         }
     }
 
+    /**
+     * 
+     * @param {String} Lang 
+     * @param {String} Name 
+     * @param {String} Type 
+     */
+     async SearchByType(Lang, Name, Type){
+
+        //return active section
+        return await axios.get(`ttps://fortniteapi.io/v2/items/list?lang=${Lang}&type=${Type}&name=${Name}`, { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
+        
+    }
+
     /** 
      * Return access to every event
      * 

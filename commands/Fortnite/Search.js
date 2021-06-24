@@ -749,7 +749,11 @@ module.exports = {
                     videos.setTitle("Video for the "+Type)
                     videos.setURL(res.item.video)
                 }else if(lang === "ar"){
-                    videos.setTitle("مقطع الفيديو لل"+Type)
+                    if(res.item.type.id === 'music'){
+                        videos.setTitle("مقطع فيديو "+Type)
+                    }else{
+                        videos.setTitle("مقطع فيديو لل "+Type)
+                    }
                     videos.setURL(res.item.video)
                 }
                 const att = new Discord.MessageAttachment(canvas.toBuffer(), text+'.png')

@@ -273,7 +273,7 @@ module.exports = {
                         )
 
                         //prices
-                        for(let i = 0; i < found[0].prices.length; i++){
+                        for(let i = 0; i < found[0].prices.length - 1; i++){
                             bundle.addFields(
                                 {name: found[0].prices[i].paymentCurrencyCode, value: found[0].prices[i].paymentCurrencyAmountNatural + found[0].prices[i].paymentCurrencySymbol, inline: true}
                             )

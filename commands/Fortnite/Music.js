@@ -16,19 +16,19 @@ module.exports = {
         const lang = await FNBRMENA.Admin(admin, message, "", "Lang")
 
         //request the emote video
-        fortniteAPI.listItemsByName(itemName = text, options = {lang: lang})
+        FNBRMENA.SearchByType(lang, text, 'music')
         .then(async res => {
 
             //check if the user entered a valid emote name
-            if(res.items.length > 0){
+            if(res.data.items.length > 0){
                 
-                if(res.items[0].type.id === 'music'){
+                if(res.data.items[0].type.id === 'music'){
 
                     //check if the emote has a video
-                    if(res.items[0].audio !== null){
+                    if(res.data.items[0].audio !== null){
 
                         //send attatchment
-                        const att = new Discord.MessageAttachment(res.items[0].audio)
+                        const att = new Discord.MessageAttachment(res.data.items[0].audio)
 
                         //send the emote video
                         message.channel.send(att)

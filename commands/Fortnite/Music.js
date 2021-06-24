@@ -4,8 +4,8 @@ const FortniteAPI = require("fortniteapi.io-api");
 const fortniteAPI = new FortniteAPI(FNBRMENA.APIKeys("FortniteAPI.io"));
 
 module.exports = {
-    commands: 'emote',
-    expectedArgs: '[ Name of the emote ]',
+    commands: 'music',
+    expectedArgs: '[ Name of the music pack ]',
     minArgs: 1,
     maxArgs: null,
     cooldown: -1,
@@ -22,31 +22,46 @@ module.exports = {
             //check if the user entered a valid emote name
             if(res.items.length > 0){
                 
-                //check if the emote has a video
-                if(res.items[0].video !== null){
+                if(res.items[0].type.id === 'music'){
 
-                    //send attatchment
-                    const att = new Discord.MessageAttachment(res.items[0].video)
+                    //check if the emote has a video
+                    if(res.items[0].audio !== null){
 
-                    //send the emote video
-                    message.channel.send(att)
-                }else{
+                        //send attatchment
+                        const att = new Discord.MessageAttachment(res.items[0].audio)
 
-                    //create embed
-                    const err = new Discord.MessageEmbed()
+                        //send the emote video
+                        message.channel.send(att)
+                    }else{
 
-                    //add the color
-                    err.setColor('#BB00EE')
+                        //create embed
+                        const err = new Discord.MessageEmbed()
 
-                    //set the title
-                    if(lang === "en"){
-                        err.setTitle(`There is no video for this emote yet ${errorEmoji}`)
-                    }else if(lang === "ar"){
-                        err.setTitle(`لا يوجد فيديو للرقصة حاليا ${errorEmoji}`)
+                        //add the color
+                        err.setColor('#BB00EE')
+
+                        //set the title
+                        if(lang === "en"){
+                            err.setTitle(`There is no mp3 file for this music pack yet ${errorEmoji}`)
+                        }else if(lang === "ar"){
+                            err.setTitle(`لا يوجد ملف صوت ${errorEmoji}`)
+                        }
+
+                        //send the error message
+                        message.channel.send(err)
                     }
-
-                    //send the error message
-                    message.channel.send(err)
+                }else{
+                    if(lang === "en"){
+                        const Err = new Discord.MessageEmbed()
+                        .setColor('#BB00EE')
+                        .setTitle(`The type of the item is not a music pack ${errorEmoji}`)
+                        message.reply(Err)
+                    }else if(lang === "ar"){
+                        const Err = new Discord.MessageEmbed()
+                        .setColor('#BB00EE')
+                        .setTitle(`يجب عليك البحث عن ميوزك باك ${errorEmoji}`)
+                        message.reply(Err)
+                    }
                 }
             }else{
                 if(lang === "en"){

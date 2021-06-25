@@ -115,7 +115,7 @@ module.exports = {
                     ctx.fillStyle = '#ffffff';
                     ctx.textAlign='center';
                     ctx.font = '150px Arabic'
-                    ctx.fillText("عناصر الشوب", canvas.width / 2, y)
+                    ctx.fillText("أقسام الشوب", canvas.width / 2, y)
                 }
 
                 //y addition
@@ -139,6 +139,12 @@ module.exports = {
                         //dc grediant colors
                         grd.addColorStop(0, "#004F99")
                         grd.addColorStop(1, "#0084FF")
+
+                    }else if(await res.data.data.sections[i].id.toLowerCase().includes("CosmicSummer")){
+
+                        //marvel grediant colors
+                        grd.addColorStop(0, "#00E4FF")
+                        grd.addColorStop(1, "#00FFFF")
 
                     }else if(await res.data.data.sections[i].id.toLowerCase().includes("marvel")){
 

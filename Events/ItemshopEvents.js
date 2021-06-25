@@ -355,7 +355,8 @@ module.exports = (client, admin) => {
                                 const ctx = canvas.getContext('2d');
 
                                 //background
-                                const background = await Canvas.loadImage('./assets/Itemshop/background.png')
+                                //const background = await Canvas.loadImage('./assets/Itemshop/background.png')
+                                const background = await Canvas.loadImage('https://cdn2.unrealengine.com/water-texture-2048x1024-8531891f2d38.jpg')
                                 ctx.drawImage(background, 0, 0, canvas.width, canvas.height)
 
                                 //code

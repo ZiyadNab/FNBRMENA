@@ -163,6 +163,12 @@ module.exports = (client, admin) => {
                                     grd.addColorStop(0, "#004F99")
                                     grd.addColorStop(1, "#0084FF")
 
+                                }else if(await res.data.data.sections[i].id.toLowerCase().includes("cosmicsummer")){
+
+                                    //marvel grediant colors
+                                    grd.addColorStop(0, "#00E4FF")
+                                    grd.addColorStop(1, "#00FFFF")
+            
                                 }else if(await res.data.data.sections[i].id.toLowerCase().includes("marvel")){
 
                                     //marvel grediant colors

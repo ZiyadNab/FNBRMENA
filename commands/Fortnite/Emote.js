@@ -15,6 +15,13 @@ module.exports = {
         //get the user language from the database
         const lang = await FNBRMENA.Admin(admin, message, "", "Lang")
 
+        //inisilizing data
+        if(lang === "en"){
+            var loading = "Loading the emote information"
+        }else if(lang === "ar"){
+            var loading = "جاري تحميل بيانات الرقصة"
+        }
+
         //request the emote video
         FNBRMENA.SearchByType(lang, text, 'emote')
         .then(async res => {
@@ -25,11 +32,21 @@ module.exports = {
                 //check if the emote has a video
                 if(res.data.items[0].video !== null){
 
-                    //send attatchment
-                    const att = new Discord.MessageAttachment(res.data.items[0].video)
+                    //send the generating message
+                    const generating = new Discord.MessageEmbed()
+                    generating.setColor('#BB00EE')
+                    const emoji = client.emojis.cache.get("805690920157970442")
+                    generating.setTitle(`${loading} ${emoji}`)
+                    message.channel.send(generating)
+                    .then( async msg => {
 
-                    //send the emote video
-                    message.channel.send(att)
+                        //send attatchment
+                        const att = await new Discord.MessageAttachment(res.data.items[0].video)
+
+                        //send the emote video
+                        await message.channel.send(att)
+                        msg.delete()
+                    })
                 }else{
 
                     //create embed

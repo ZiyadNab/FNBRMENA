@@ -32,13 +32,14 @@ module.exports = {
             //if the user name is valid
             if(name.result === true){
 
-                var loading = ''
+                //the message data
                 if(lang === "en"){
-                    loading = "Getting Player fish info ..."
+                    var loading = "Getting Player fish info ..."
                 }else if(lang === "ar"){
-                    loading = "جاري تحميل بيانات اللاعب ..."
+                    var loading = "جاري تحميل بيانات اللاعب ..."
                 }
-
+            
+                //loading message
                 const generating = new Discord.MessageEmbed()
                 generating.setColor('#BB00EE')
                 const emoji = client.emojis.cache.get("805690920157970442")
@@ -46,11 +47,12 @@ module.exports = {
                 message.channel.send(generating)
                 .then( async msg => {
 
+                    //query data to get the user xp
                     query = {
                         name: text,
                         accountType:"epic",
                         timeWindow: "lifetime"
-                    };
+                    }
 
                     //get player fish stats
                     fortniteAPI.getPlayerFishStats(accountId = name.account_id, options = {lang: lang})
@@ -92,9 +94,6 @@ module.exports = {
                         //get a random number
                         var randomImage = Math.floor(Math.random() * imagesList.length)
 
-                        //blur the image
-                        ctx.filter = "blur(50px)"
-
                         //background
                         const background = await Canvas.loadImage(imagesList[randomImage])
                         ctx.drawImage(background, 0, 0, canvas.width, canvas.height)
@@ -110,24 +109,23 @@ module.exports = {
                         ctx.fillText("FNBRMENA", 15, 55)
 
                         //date
-                        var date
                         if(lang === "en"){
                             moment.locale("en")
-                            date = moment().format("dddd, MMMM Do of YYYY")
+                            var date = moment().format("dddd, MMMM Do of YYYY")
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = `60px Burbank Big Condensed`
                             ctx.fillText(date, (canvas.width / 2), (canvas.height - 35))
                         }else if(lang === "ar"){
                             moment.locale("ar")
-                            date = moment().format("dddd, MMMM Do من YYYY")
+                            var date = moment().format("dddd, MMMM Do من YYYY")
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = `60px Arabic`
                             ctx.fillText(date, (canvas.width / 2), (canvas.height - 35))
                         }
 
-                        //Collection
+                        //collection
                         if(lang === "en"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
@@ -294,6 +292,7 @@ module.exports = {
 
                     })
                 })
+                
             }else{
                 if(lang === "en"){
                     const Err = new Discord.MessageEmbed()

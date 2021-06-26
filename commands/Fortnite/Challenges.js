@@ -178,7 +178,7 @@ module.exports = {
             ctx.drawImage(background, 0, 0, canvas.width, canvas.height)
 
             //upper whare storing the credits and the challenges name
-            const upper = await Canvas.loadImage('./assets/Challenges/epic.png')
+            const upper = await Canvas.loadImage('./assets/Challenges/upper.png')
             ctx.drawImage(upper, 0, 0, canvas.width, 300)
 
             //adding credits
@@ -209,7 +209,7 @@ module.exports = {
             }
 
             //send the challenges sheet
-            const att = new Discord.MessageAttachment(canvas.toBuffer(), found.name + '.png')
+            const att = new Discord.MessageAttachment(canvas.toBuffer('image/jpeg'))
             await message.channel.send(att)
         }
     }

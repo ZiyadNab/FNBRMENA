@@ -249,6 +249,12 @@ module.exports = {
                     const progress = await Canvas.loadImage('./assets/Challenges/layer.png')
                     ctx.drawImage(progress, x + 180, y + 350, 3000, 50)
 
+                    //add progress bar text
+                    ctx.fillStyle = '#ffffff';
+                    ctx.textAlign='left';
+                    ctx.font = '100px Burbank Big Condensed'
+                    ctx.fillText(found.quests[i].progressTotal + "/0", x + (ctx.measureText(found.quests[i].progressTotal + "/0").width + 3075), y + 400)
+
                 }else if(lang === "ar"){
 
                     //add the challange quest
@@ -260,7 +266,13 @@ module.exports = {
 
                     //add progress bar
                     const progress = await Canvas.loadImage('./assets/Challenges/layer.png')
-                    ctx.drawImage(progress, x + 2420, y + 400, 3000, 50)
+                    ctx.drawImage(progress, x + 2420, y + 375, 3000, 50)
+
+                    //add progress bar text
+                    ctx.fillStyle = '#ffffff';
+                    ctx.textAlign='left';
+                    ctx.font = '100px Burbank Big Condensed'
+                    ctx.fillText(found.quests[i].progressTotal + "/0", (x + 2420) - (ctx.measureText(found.quests[i].progressTotal + "/0").width + 50), y + 425)
 
                 }
 

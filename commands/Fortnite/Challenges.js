@@ -242,7 +242,7 @@ module.exports = {
                     ctx.fillStyle = '#ffffff';
                     ctx.textAlign='left';
                     if(found.quests[i].reward.items.length !== 0) ctx.font = applyTextRewards(canvas, found.quests[i].name)
-                    else if(found.quests[i].bundleRewards.length === 0) ctx.font = applyText(canvas, found.quests[i].name)
+                    else if(found.quests[i].reward.items.length === 0) ctx.font = applyText(canvas, found.quests[i].name)
                     ctx.fillText(found.quests[i].name, x + 75, y + 230)
 
                     //add progress bar
@@ -255,7 +255,7 @@ module.exports = {
                     ctx.fillStyle = '#ffffff';
                     ctx.textAlign='right';
                     if(found.quests[i].reward.items.length !== 0) ctx.font = applyTextRewards(canvas, found.quests[i].name)
-                    else if(found.quests[i].bundleRewards.length === 0) ctx.font = applyText(canvas, found.quests[i].name)
+                    else if(found.quests[i].reward.items.length === 0) ctx.font = applyText(canvas, found.quests[i].name)
                     ctx.fillText(found.quests[i].name, x + 7525, y + 230)
 
                     //add progress bar

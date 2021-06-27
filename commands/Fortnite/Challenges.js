@@ -317,7 +317,7 @@ module.exports = {
             }
 
             //send the challenges sheet
-            const att = new Discord.MessageAttachment(canvas.toBuffer('image/jpeg'))
+            const att = new Discord.MessageAttachment(canvas.toBuffer(), quest + '.png')
             await message.channel.send(att)
         }
     }

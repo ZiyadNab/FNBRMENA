@@ -256,11 +256,11 @@ module.exports = {
                     ctx.textAlign='right';
                     if(found.quests[i].reward.items.length !== 0) ctx.font = applyTextRewards(canvas, found.quests[i].name)
                     else if(found.quests[i].reward.items.length === 0) ctx.font = applyText(canvas, found.quests[i].name)
-                    ctx.fillText(found.quests[i].name, x + 5575, y + 230)
+                    ctx.fillText(found.quests[i].name, x + 5525, y + 230)
 
                     //add progress bar
                     const progress = await Canvas.loadImage('./assets/Challenges/layer.png')
-                    ctx.drawImage(progress, x + 2500, y + 350, 3000, 50)
+                    ctx.drawImage(progress, x + 2420, y + 400, 3000, 50)
 
                 }
 

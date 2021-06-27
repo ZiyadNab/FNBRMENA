@@ -228,7 +228,7 @@ module.exports = {
                     ctx.fillStyle = '#ffffff';
                     ctx.textAlign='left';
                     ctx.font = applyText(canvas, found.quests[i].name)
-                    ctx.fillText(found.quests[i].name, x + 75, y + 250)
+                    ctx.fillText(found.quests[i].name, x + 75, y + 230)
 
                 }
 
@@ -237,8 +237,13 @@ module.exports = {
             }
 
             //send the challenges sheet
-            const att = new Discord.MessageAttachment(canvas.toBuffer('image/jpeg'))
-            await message.channel.send(att)
+            if(height < 10000){
+                const att = new Discord.MessageAttachment(canvas.toBuffer('image/jpeg'))
+                await message.channel.send(att)
+            }else{
+                const att = new Discord.MessageAttachment(canvas.toBuffer('image/jpeg', {quality: 0.5}))
+                await message.channel.send(att)
+            }
         }
     }
 }

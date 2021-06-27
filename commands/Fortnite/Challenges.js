@@ -162,12 +162,26 @@ module.exports = {
 
             //customize the height
             for(let i = 0; i < found.quests.length; i++){
-                height += 1000
+                height += 900
             }
 
             //registering fonts
             Canvas.registerFont('./assets/font/Lalezar-Regular.ttf', {family: 'Arabic',weight: "700"});
             Canvas.registerFont('./assets/font/BurbankBigCondensed-Black.otf' ,{family: 'Burbank Big Condensed',weight: "700"})
+
+            //applytext
+            const applyText = (canvas, text) => {
+                const ctx = canvas.getContext('2d');
+                let fontSize = 200;
+                do {
+                    if(lang === "en"){
+                        ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
+                    }else if(lang === "ar"){
+                        ctx.font = `${fontSize -= 1}px Arabic`;
+                    }
+                } while (ctx.measureText(text).width > width - 400);
+                return ctx.font;
+            }
 
             //create canvas
             const canvas = Canvas.createCanvas(width, height);
@@ -197,15 +211,29 @@ module.exports = {
             //get access to the y by just changing the value
             var y = 500
             var x = 200
+            var w = (canvas.width - (x * 2))
+            var h = 800
 
             //challenges cards
             for(let i = 0; i < found.quests.length; i++){
 
                 //add the card of the challenge
                 const card = await Canvas.loadImage('./assets/Challenges/epic.png')
-                ctx.drawImage(card, x, y, (canvas.width - (x * 2)), 800)
+                ctx.drawImage(card, x, y, w, h)
 
-                y += 1000
+                //english sheet
+                if(lang === "en"){
+
+                    //add the challange quest
+                    ctx.fillStyle = '#ffffff';
+                    ctx.textAlign='left';
+                    ctx.font = applyText(canvas, found.quests[i].name)
+                    ctx.fillText(found.quests[i].name, x + 75, y + 250)
+
+                }
+
+                //add the xp
+                y += 900
             }
 
             //send the challenges sheet

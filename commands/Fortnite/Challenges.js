@@ -193,7 +193,7 @@ module.exports = {
                     }else if(lang === "ar"){
                         ctx.font = `${fontSize -= 1}px Arabic`;
                     }
-                } while (ctx.measureText(text).width > width - 1600);
+                } while (ctx.measureText(text).width > width - 2000);
                 return ctx.font;
             }
 
@@ -227,6 +227,8 @@ module.exports = {
             var x = 200
             var w = (canvas.width - (x * 2))
             var h = 800
+            var tagsX = 0
+            var tagsY = 0
 
             //challenges cards
             for(let i = 0; i < found.quests.length; i++){
@@ -254,6 +256,38 @@ module.exports = {
                     ctx.textAlign='left';
                     ctx.font = '100px Burbank Big Condensed'
                     ctx.fillText(found.quests[i].progressTotal + "/0", x + (ctx.measureText(found.quests[i].progressTotal + "/0").width + 3075), y + 400)
+
+                    //add xp tags
+                    if(found.quests[i].tags.includes('ChallengeCategory.XP')){
+
+                        //changing tags coordinates
+                        tagsX += 275
+                        tagsY = y + 350
+
+                        //print the party assist
+                        const xp = await Canvas.loadImage('./assets/Tags/partyAssists.png')
+                        ctx.drawImage(xp, tagsX, tagsY, 800, 600)
+
+                        //changing tags coordinates
+                        tagsX += 600
+
+                    }
+
+                    //add party assists tags
+                    if(found.quests[i].tags.includes('Quest.Metadata.PartyAssist')){
+
+                        //changing tags coordinates
+                        tagsX += 275
+                        tagsY = y + 350
+
+                        //print the party assist
+                        const partyAssists = await Canvas.loadImage('./assets/Tags/partyAssists.png')
+                        ctx.drawImage(partyAssists, tagsX, tagsY, 800, 600)
+
+                        //changing tags coordinates
+                        tagsX += 550
+
+                    }
 
                 }else if(lang === "ar"){
 

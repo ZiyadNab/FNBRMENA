@@ -279,7 +279,7 @@ module.exports = {
                     if(found.quests[i].tags.includes('Quest.Metadata.PartyAssist')){
 
                         //changing tags coordinates
-                        tagsX += 275
+                        tagsX += 250
                         tagsY = y + 350
 
                         //print the party assist
@@ -287,7 +287,7 @@ module.exports = {
                         ctx.drawImage(partyAssists, tagsX, tagsY, 800, 600)
 
                         //changing tags coordinates
-                        tagsX += 550
+                        tagsX += 600
 
                     }
 
@@ -309,6 +309,38 @@ module.exports = {
                     ctx.textAlign='left';
                     ctx.font = '100px Burbank Big Condensed'
                     ctx.fillText(found.quests[i].progressTotal + "/0", (x + 2420) - (ctx.measureText(found.quests[i].progressTotal + "/0").width + 50), y + 425)
+
+                    //add xp tags
+                    if(found.quests[i].tags.includes('ChallengeCategory.XP')){
+
+                        //changing tags coordinates
+                        tagsX += 4900
+                        tagsY = y + 350
+
+                        //print the party assist
+                        const xp = await Canvas.loadImage('./assets/Tags/xpAr.png')
+                        ctx.drawImage(xp, tagsX, tagsY, 800, 550)
+
+                        //changing tags coordinates
+                        tagsX -= 600
+
+                    }
+
+                    //add party assists tags
+                    if(found.quests[i].tags.includes('Quest.Metadata.PartyAssist')){
+
+                        //changing tags coordinates
+                        tagsX -= 250
+                        tagsY = y + 350
+
+                        //print the party assist
+                        const partyAssists = await Canvas.loadImage('./assets/Tags/partyAssistsAR.png')
+                        ctx.drawImage(partyAssists, tagsX, tagsY, 800, 550)
+
+                        //changing tags coordinates
+                        tagsX += 550
+
+                    }
 
                 }
 

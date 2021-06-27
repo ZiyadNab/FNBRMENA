@@ -231,16 +231,16 @@ module.exports = {
             //challenges cards
             for(let i = 0; i < found.quests.length; i++){
 
-                //add tags coordinates
-                var tagsX = 0
-                var tagsY = 0
-
                 //add the card of the challenge
                 const card = await Canvas.loadImage('./assets/Challenges/epic.png')
                 ctx.drawImage(card, x, y, w, h)
 
                 //english sheet
                 if(lang === "en"){
+
+                    //add tags coordinates
+                    var tagsX = 0
+                    var tagsY = 0
 
                     //add the challange quest
                     ctx.fillStyle = '#ffffff';
@@ -291,7 +291,27 @@ module.exports = {
 
                     }
 
+                    //add party assists tags
+                    if(found.quests[i].reward.items.length > 0){
+
+                        //changing tags coordinates
+                        tagsX += 250
+                        tagsY = y + 350
+
+                        //print the party assist
+                        const partyAssists = await Canvas.loadImage('./assets/Tags/rewards.png')
+                        ctx.drawImage(partyAssists, tagsX, tagsY, 800, 600)
+
+                        //changing tags coordinates
+                        tagsX += 600
+
+                    }
+
                 }else if(lang === "ar"){
+
+                    //add tags coordinates
+                    var tagsX = 4750
+                    var tagsY = 0
 
                     //add the challange quest
                     ctx.fillStyle = '#ffffff';
@@ -314,7 +334,7 @@ module.exports = {
                     if(found.quests[i].tags.includes('ChallengeCategory.XP')){
 
                         //changing tags coordinates
-                        tagsX += 4900
+                        tagsX += 250
                         tagsY = y + 350
 
                         //print the party assist
@@ -335,6 +355,22 @@ module.exports = {
 
                         //print the party assist
                         const partyAssists = await Canvas.loadImage('./assets/Tags/partyAssistsAR.png')
+                        ctx.drawImage(partyAssists, tagsX, tagsY, 800, 550)
+
+                        //changing tags coordinates
+                        tagsX += 550
+
+                    }
+
+                    //add party assists tags
+                    if(found.quests[i].reward.items.length > 0){
+
+                        //changing tags coordinates
+                        tagsX -= 250
+                        tagsY = y + 350
+
+                        //print the party assist
+                        const partyAssists = await Canvas.loadImage('./assets/Tags/rewardsAr.png')
                         ctx.drawImage(partyAssists, tagsX, tagsY, 800, 550)
 
                         //changing tags coordinates

@@ -227,11 +227,13 @@ module.exports = {
             var x = 200
             var w = (canvas.width - (x * 2))
             var h = 800
-            var tagsX = 0
-            var tagsY = 0
 
             //challenges cards
             for(let i = 0; i < found.quests.length; i++){
+
+                //add tags coordinates
+                var tagsX = 0
+                var tagsY = 0
 
                 //add the card of the challenge
                 const card = await Canvas.loadImage('./assets/Challenges/epic.png')
@@ -265,7 +267,7 @@ module.exports = {
                         tagsY = y + 350
 
                         //print the party assist
-                        const xp = await Canvas.loadImage('./assets/Tags/partyAssists.png')
+                        const xp = await Canvas.loadImage('./assets/Tags/xp.png')
                         ctx.drawImage(xp, tagsX, tagsY, 800, 600)
 
                         //changing tags coordinates

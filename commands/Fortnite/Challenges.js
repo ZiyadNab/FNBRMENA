@@ -247,7 +247,7 @@ module.exports = {
 
                     //add progress bar
                     const progress = await Canvas.loadImage('./assets/Challenges/layer.png')
-                    ctx.drawImage(progress, x + 140, y + 300, 2500, 50)
+                    ctx.drawImage(progress, x + 180, y + 325, 3000, 50)
 
                 }else if(lang === "ar"){
 
@@ -256,11 +256,11 @@ module.exports = {
                     ctx.textAlign='right';
                     if(found.quests[i].reward.items.length !== 0) ctx.font = applyTextRewards(canvas, found.quests[i].name)
                     else if(found.quests[i].reward.items.length === 0) ctx.font = applyText(canvas, found.quests[i].name)
-                    ctx.fillText(found.quests[i].name, x + 7525, y + 230)
+                    ctx.fillText(found.quests[i].name, x + 5725, y + 230)
 
                     //add progress bar
                     const progress = await Canvas.loadImage('./assets/Challenges/layer.png')
-                    ctx.drawImage(progress, x + 140, y + 300, 2500, 50)
+                    ctx.drawImage(progress, x + 2700, y + 350, 3000, 50)
 
                 }
 

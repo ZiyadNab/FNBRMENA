@@ -310,7 +310,7 @@ module.exports = {
                 }else if(lang === "ar"){
 
                     //add tags coordinates
-                    var tagsX = 4750
+                    var tagsX = 4900
                     var tagsY = 0
 
                     //add the challange quest
@@ -334,7 +334,7 @@ module.exports = {
                     if(found.quests[i].tags.includes('ChallengeCategory.XP')){
 
                         //changing tags coordinates
-                        tagsX += 250
+                        tagsX -= 250
                         tagsY = y + 350
 
                         //print the party assist
@@ -342,7 +342,7 @@ module.exports = {
                         ctx.drawImage(xp, tagsX, tagsY, 800, 550)
 
                         //changing tags coordinates
-                        tagsX -= 600
+                        tagsX -= 550
 
                     }
 
@@ -358,7 +358,7 @@ module.exports = {
                         ctx.drawImage(partyAssists, tagsX, tagsY, 800, 550)
 
                         //changing tags coordinates
-                        tagsX += 550
+                        tagsX -= 550
 
                     }
 
@@ -374,7 +374,7 @@ module.exports = {
                         ctx.drawImage(partyAssists, tagsX, tagsY, 800, 550)
 
                         //changing tags coordinates
-                        tagsX += 550
+                        tagsX -= 550
 
                     }
 

@@ -240,14 +240,19 @@ module.exports = {
                 //english sheet
                 if(lang === "en"){
 
+                    //if there is an image for the quest
                     if(Object.entries(found.quests[i].tandemCharacter).length !== 0){
 
-                        //add the card of the challenge
-                        const questManegar = await Canvas.loadImage(found.quests[i].tandemCharacter.images.sidePanel)
-                        ctx.drawImage(questManegar, x - 250, y - 100, 900, 900)
+                        //if the image is not an npc defualt
+                        if(!found.quests[i].tandemCharacter.images.sidePanel.includes('T_NPC_Default.T_NPC_Default')){
 
-                        //change the x value
-                        x = 700
+                            //add the card of the challenge
+                            const questManegar = await Canvas.loadImage(found.quests[i].tandemCharacter.images.sidePanel)
+                            ctx.drawImage(questManegar, x - 250, y - 100, 900, 900)
+
+                            //change the x value
+                            x = 700
+                        }
                     }
                         
 
@@ -318,14 +323,19 @@ module.exports = {
                     //add tags coordinates
                     x = 6750
 
+                    //if there is an image for the quest
                     if(Object.entries(found.quests[i].tandemCharacter).length !== 0){
 
-                        //add the card of the challenge
-                        const questManegar = await Canvas.loadImage(found.quests[i].tandemCharacter.images.sidePanel)
-                        ctx.drawImage(questManegar, x - 600, y - 100, 900, 900)
+                        //if the image is not an npc defualt
+                        if(!found.quests[i].tandemCharacter.images.sidePanel.includes('T_NPC_Default.T_NPC_Default')){
 
-                        //change the x value
-                        x -= 500
+                            //add the card of the challenge
+                            const questManegar = await Canvas.loadImage(found.quests[i].tandemCharacter.images.sidePanel)
+                            ctx.drawImage(questManegar, x - 600, y - 100, 900, 900)
+
+                            //change the x value
+                            x -= 500
+                        }
                     }
 
                     //add the challange quest
@@ -343,7 +353,7 @@ module.exports = {
                     ctx.fillStyle = '#ffffff';
                     ctx.textAlign='right';
                     ctx.font = '100px Burbank Big Condensed'
-                    ctx.fillText(found.quests[i].progressTotal + "/0", (x - 3300), y + 425)
+                    ctx.fillText(found.quests[i].progressTotal + "/0", (x - 3200), y + 425)
 
                     //add xp tags
                     if(found.quests[i].tags.includes('ChallengeCategory.XP')){

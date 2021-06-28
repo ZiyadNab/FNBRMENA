@@ -157,7 +157,7 @@ module.exports = {
             //got the quest data now work with it
 
             //setup variables
-            var width = 6000
+            var width = 7000
             var height = 600
 
             //customize the height
@@ -310,25 +310,27 @@ module.exports = {
                 }else if(lang === "ar"){
 
                     //add tags coordinates
-                    var tagsX = 5150
+                    var tagsX = 6150
                     var tagsY = 0
+                    var rewardsX = x
+                    var rewardsY = y
 
                     //add the challange quest
                     ctx.fillStyle = '#ffffff';
                     ctx.textAlign='right';
                     if(found.quests[i].reward.items.length !== 0) ctx.font = applyTextRewards(canvas, found.quests[i].name)
                     else if(found.quests[i].reward.items.length === 0) ctx.font = applyText(canvas, found.quests[i].name)
-                    ctx.fillText(found.quests[i].name, x + 5525, y + 230)
+                    ctx.fillText(found.quests[i].name, x + 6525, y + 230)
 
                     //add progress bar
                     const progress = await Canvas.loadImage('./assets/Challenges/layer.png')
-                    ctx.drawImage(progress, x + 2420, y + 375, 3000, 50)
+                    ctx.drawImage(progress, x + 3420, y + 375, 3000, 50)
 
                     //add progress bar text
                     ctx.fillStyle = '#ffffff';
                     ctx.textAlign='left';
                     ctx.font = '100px Burbank Big Condensed'
-                    ctx.fillText(found.quests[i].progressTotal + "/0", (x + 2420) - (ctx.measureText(found.quests[i].progressTotal + "/0").width + 50), y + 425)
+                    ctx.fillText(found.quests[i].progressTotal + "/0", (x + 3420) - (ctx.measureText(found.quests[i].progressTotal + "/0").width + 50), y + 425)
 
                     //add xp tags
                     if(found.quests[i].tags.includes('ChallengeCategory.XP')){
@@ -379,8 +381,24 @@ module.exports = {
                     }
 
                     //add the xp reward
-                    const xpReward = await Canvas.loadImage('./assets/Challenges/xp.png')
-                    ctx.drawImage(xpReward, x + 50, y + 50, 700, 700)
+                    if(found.quests[i].reward.xp === 0){
+
+                        //changing rewards coordinates
+                        rewardsX += 50
+                        rewardsY = y + 50
+
+                        const xpReward = await Canvas.loadImage('./assets/Challenges/xp.png')
+                        //ctx.drawImage(xpReward, rewardsX, rewardsY, 700, 700)
+
+                        //add xp text
+                        ctx.fillStyle = '#ffffff';
+                        ctx.textAlign='left';
+                        ctx.font = '250px Burbank Big Condensed'
+                        //ctx.fillText(found.quests[i].reward.xp, rewardsX + 50, rewardsY + 50)
+
+                        //changing rewards coordinates
+                        rewardsX += 700
+                    }
 
                 }
 

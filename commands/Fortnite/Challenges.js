@@ -273,6 +273,12 @@ module.exports = {
                     ctx.font = '100px Burbank Big Condensed'
                     ctx.fillText(found.quests[i].progressTotal + "/0", x + 3200, y + 400)
 
+                    //add the xp text
+                    ctx.fillStyle = '#ffffff';
+                    ctx.textAlign='right';
+                    ctx.font = '500px Burbank Big Condensed'
+                    ctx.fillText(found.quests[i].reward.xp + 'XP', ((canvas.width - 100) - x), y + 550)
+
                     //add xp tags
                     if(found.quests[i].tags.includes('ChallengeCategory.XP')){
 
@@ -354,6 +360,16 @@ module.exports = {
                     ctx.textAlign='right';
                     ctx.font = '100px Burbank Big Condensed'
                     ctx.fillText(found.quests[i].progressTotal + "/0", (x - 3200), y + 425)
+
+                    //adding xp (changing later)
+                    //const xpImg = await Canvas.loadImage('./assets/Challenges/xpImg.png')
+                    //ctx.drawImage(xpImg, 7000 - x, y + 150, 500, 500)
+
+                    //add the xp text
+                    ctx.fillStyle = '#ffffff';
+                    ctx.textAlign='left';
+                    ctx.font = '500px Burbank Big Condensed'
+                    ctx.fillText(found.quests[i].reward.xp + 'XP', ((canvas.width + 100) - x), y + 550)
 
                     //add xp tags
                     if(found.quests[i].tags.includes('ChallengeCategory.XP')){

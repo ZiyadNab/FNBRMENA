@@ -224,6 +224,8 @@ module.exports = {
 
             //get access to the y by just changing the value
             var y = 500
+
+            //inisilizing x, w and h
             var x = 200
             var w = (canvas.width - (x * 2))
             var h = 800
@@ -238,9 +240,13 @@ module.exports = {
                 //english sheet
                 if(lang === "en"){
 
-                    //add tags coordinates
-                    var tagsX = 0
-                    var tagsY = 0
+                    //add the card of the challenge
+                    const questManegar = await Canvas.loadImage(found.quests[i].tandemCharacter.images.sidePanel)
+                    ctx.drawImage(questManegar, x, y, 900, 900)
+
+                    //change the x value
+                    x = 1000
+                        
 
                     //add the challange quest
                     ctx.fillStyle = '#ffffff';
@@ -263,15 +269,14 @@ module.exports = {
                     if(found.quests[i].tags.includes('ChallengeCategory.XP')){
 
                         //changing tags coordinates
-                        tagsX += 275
-                        tagsY = y + 350
+                        x += 75
 
                         //print the party assist
                         const xp = await Canvas.loadImage('./assets/Tags/xp.png')
-                        ctx.drawImage(xp, tagsX, tagsY, 800, 600)
+                        ctx.drawImage(xp, x, y + 350, 900, 600)
 
                         //changing tags coordinates
-                        tagsX += 600
+                        x += 900
 
                     }
 
@@ -279,15 +284,14 @@ module.exports = {
                     if(found.quests[i].tags.includes('Quest.Metadata.PartyAssist')){
 
                         //changing tags coordinates
-                        tagsX += 250
-                        tagsY = y + 350
+                        x += 50
 
                         //print the party assist
                         const partyAssists = await Canvas.loadImage('./assets/Tags/partyAssists.png')
-                        ctx.drawImage(partyAssists, tagsX, tagsY, 800, 600)
+                        ctx.drawImage(partyAssists, x, y + 350, 900, 600)
 
                         //changing tags coordinates
-                        tagsX += 600
+                        x += 900
 
                     }
 
@@ -295,56 +299,51 @@ module.exports = {
                     if(found.quests[i].reward.items.length > 0){
 
                         //changing tags coordinates
-                        tagsX += 250
-                        tagsY = y + 350
+                        x += 50
 
                         //print the party assist
-                        const partyAssists = await Canvas.loadImage('./assets/Tags/rewards.png')
-                        ctx.drawImage(partyAssists, tagsX, tagsY, 800, 600)
+                        const rewards = await Canvas.loadImage('./assets/Tags/rewards.png')
+                        ctx.drawImage(rewards, x, y + 350, 900, 600)
 
                         //changing tags coordinates
-                        tagsX += 600
+                        x += 900
 
                     }
 
                 }else if(lang === "ar"){
 
                     //add tags coordinates
-                    var tagsX = 6150
-                    var tagsY = 0
-                    var rewardsX = x
-                    var rewardsY = y
+                    var x = 6750
 
                     //add the challange quest
                     ctx.fillStyle = '#ffffff';
                     ctx.textAlign='right';
                     if(found.quests[i].reward.items.length !== 0) ctx.font = applyTextRewards(canvas, found.quests[i].name)
                     else if(found.quests[i].reward.items.length === 0) ctx.font = applyText(canvas, found.quests[i].name)
-                    ctx.fillText(found.quests[i].name, x + 6525, y + 230)
+                    ctx.fillText(found.quests[i].name, x - 50, y + 230)
 
                     //add progress bar
                     const progress = await Canvas.loadImage('./assets/Challenges/layer.png')
-                    ctx.drawImage(progress, x + 3420, y + 375, 3000, 50)
+                    ctx.drawImage(progress, x - 3155, y + 375, 3000, 50)
 
                     //add progress bar text
                     ctx.fillStyle = '#ffffff';
                     ctx.textAlign='left';
                     ctx.font = '100px Burbank Big Condensed'
-                    ctx.fillText(found.quests[i].progressTotal + "/0", (x + 3420) - (ctx.measureText(found.quests[i].progressTotal + "/0").width + 50), y + 425)
+                    ctx.fillText(found.quests[i].progressTotal + "/0", (x - 3155) - (ctx.measureText(found.quests[i].progressTotal + "/0").width + 50), y + 425)
 
                     //add xp tags
                     if(found.quests[i].tags.includes('ChallengeCategory.XP')){
 
                         //changing tags coordinates
-                        tagsX -= 250
-                        tagsY = y + 350
+                        x -= 900
 
                         //print the party assist
                         const xp = await Canvas.loadImage('./assets/Tags/xpAr.png')
-                        ctx.drawImage(xp, tagsX, tagsY, 800, 550)
+                        ctx.drawImage(xp, x, y + 350, 900, 600)
 
                         //changing tags coordinates
-                        tagsX -= 600
+                        x -= 50
 
                     }
 
@@ -352,15 +351,14 @@ module.exports = {
                     if(found.quests[i].tags.includes('Quest.Metadata.PartyAssist')){
 
                         //changing tags coordinates
-                        tagsX -= 250
-                        tagsY = y + 350
+                        x -= 900
 
                         //print the party assist
                         const partyAssists = await Canvas.loadImage('./assets/Tags/partyAssistsAR.png')
-                        ctx.drawImage(partyAssists, tagsX, tagsY, 800, 550)
+                        ctx.drawImage(partyAssists, x, y + 350, 900, 600)
 
                         //changing tags coordinates
-                        tagsX -= 600
+                        x -= 50
 
                     }
 
@@ -368,42 +366,22 @@ module.exports = {
                     if(found.quests[i].reward.items.length > 0){
 
                         //changing tags coordinates
-                        tagsX -= 250
-                        tagsY = y + 350
+                        x -= 900
 
                         //print the party assist
-                        const partyAssists = await Canvas.loadImage('./assets/Tags/rewardsAr.png')
-                        ctx.drawImage(partyAssists, tagsX, tagsY, 800, 550)
+                        const rewards = await Canvas.loadImage('./assets/Tags/rewardsAr.png')
+                        ctx.drawImage(rewards, x, y + 350, 900, 600)
 
                         //changing tags coordinates
-                        tagsX -= 600
+                        x -= 50
 
-                    }
-
-                    //add the xp reward
-                    if(found.quests[i].reward.xp === 0){
-
-                        //changing rewards coordinates
-                        rewardsX += 50
-                        rewardsY = y + 50
-
-                        const xpReward = await Canvas.loadImage('./assets/Challenges/xp.png')
-                        //ctx.drawImage(xpReward, rewardsX, rewardsY, 700, 700)
-
-                        //add xp text
-                        ctx.fillStyle = '#ffffff';
-                        ctx.textAlign='left';
-                        ctx.font = '250px Burbank Big Condensed'
-                        //ctx.fillText(found.quests[i].reward.xp, rewardsX + 50, rewardsY + 50)
-
-                        //changing rewards coordinates
-                        rewardsX += 700
                     }
 
                 }
 
                 //add the xp
                 y += 900
+                x = 200
             }
 
             //send the challenges sheet

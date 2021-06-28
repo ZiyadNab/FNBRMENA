@@ -291,7 +291,7 @@ module.exports = {
 
                     }
 
-                    //add party assists tags
+                    //add reward tags
                     if(found.quests[i].reward.items.length > 0){
 
                         //changing tags coordinates
@@ -362,7 +362,7 @@ module.exports = {
 
                     }
 
-                    //add party assists tags
+                    //add rewards tags
                     if(found.quests[i].reward.items.length > 0){
 
                         //changing tags coordinates
@@ -377,6 +377,10 @@ module.exports = {
                         tagsX -= 600
 
                     }
+
+                    //add the xp reward
+                    const xpReward = await Canvas.loadImage('./assets/Challenges/xp.png')
+                    ctx.drawImage(xpReward, x + 50, y + 50, 700, 700)
 
                 }
 

@@ -35,6 +35,7 @@ module.exports = {
 
         fortniteAPI.getBattlepassRewards(season = args, options = {lang: language})
             .then(async res => {
+                
                 // generating animation
                 var length = res.rewards.length;
                 const generating = new Discord.MessageEmbed()
@@ -371,14 +372,13 @@ module.exports = {
                     console.log(err);
                 })
             }).catch(err => {
+                console.log(err);
                 if(lang === "en"){
-                    msgReact.delete()
                     const error = new Discord.MessageEmbed()
                     .setColor('#BB00EE')
                     .setTitle(`There is no battlepass with that number ${errorEmoji}`)
                     message.reply(error)
                 }else if(lang === "ar"){
-                    msgReact.delete()
                     const error = new Discord.MessageEmbed()
                     .setColor('#BB00EE')
                     .setTitle(`لا يوجد باتل باس بهذا الرقم ${errorEmoji}`)

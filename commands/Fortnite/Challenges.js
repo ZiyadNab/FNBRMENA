@@ -277,7 +277,7 @@ module.exports = {
                     ctx.fillStyle = '#ffffff';
                     ctx.textAlign='right';
                     ctx.font = '500px Burbank Big Condensed'
-                    ctx.fillText(found.quests[i].reward.xp + 'XP', ((canvas.width - 100) - x), y + 550)
+                    ctx.fillText(found.quests[i].reward.xp + 'XP', ((canvas.width - ctx.measureText(found.quests[i].reward.xp).width) - x), y + 550)
 
                     //add xp tags
                     if(found.quests[i].tags.includes('ChallengeCategory.XP')){

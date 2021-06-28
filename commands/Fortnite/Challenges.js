@@ -240,6 +240,15 @@ module.exports = {
                 //english sheet
                 if(lang === "en"){
 
+                    //if there is xp for the quest
+                    if(found.quests[i].reward.xp !== 0){
+                        //add the xp text
+                        ctx.fillStyle = '#ffffff';
+                        ctx.textAlign='right';
+                        ctx.font = '500px Burbank Big Condensed'
+                        ctx.fillText(found.quests[i].reward.xp + 'XP', ((canvas.width - 50) - x), y + 550)
+                    }
+
                     //if there is an image for the quest
                     if(Object.entries(found.quests[i].tandemCharacter).length !== 0){
 
@@ -272,12 +281,6 @@ module.exports = {
                     ctx.textAlign='left';
                     ctx.font = '100px Burbank Big Condensed'
                     ctx.fillText(found.quests[i].progressTotal + "/0", x + 3200, y + 400)
-
-                    //add the xp text
-                    ctx.fillStyle = '#ffffff';
-                    ctx.textAlign='right';
-                    ctx.font = '500px Burbank Big Condensed'
-                    ctx.fillText(found.quests[i].reward.xp + 'XP', ((canvas.width - ctx.measureText(found.quests[i].reward.xp).width) - x), y + 550)
 
                     //add xp tags
                     if(found.quests[i].tags.includes('ChallengeCategory.XP')){
@@ -326,6 +329,19 @@ module.exports = {
 
                 }else if(lang === "ar"){
 
+                    //adding xp (changing later)
+                    //const xpImg = await Canvas.loadImage('./assets/Challenges/xpImg.png')
+                    //ctx.drawImage(xpImg, 7000 - x, y + 150, 500, 500)
+
+                    //if there is xp for the quest
+                    if(found.quests[i].reward.xp !== 0){
+                        //add the xp text
+                        ctx.fillStyle = '#ffffff';
+                        ctx.textAlign='left';
+                        ctx.font = '500px Burbank Big Condensed'
+                        ctx.fillText(found.quests[i].reward.xp + 'XP', ((canvas.width + 100) - x), y + 550)
+                    }
+
                     //add tags coordinates
                     x = 6750
 
@@ -360,16 +376,6 @@ module.exports = {
                     ctx.textAlign='right';
                     ctx.font = '100px Burbank Big Condensed'
                     ctx.fillText(found.quests[i].progressTotal + "/0", (x - 3200), y + 425)
-
-                    //adding xp (changing later)
-                    //const xpImg = await Canvas.loadImage('./assets/Challenges/xpImg.png')
-                    //ctx.drawImage(xpImg, 7000 - x, y + 150, 500, 500)
-
-                    //add the xp text
-                    ctx.fillStyle = '#ffffff';
-                    ctx.textAlign='left';
-                    ctx.font = '500px Burbank Big Condensed'
-                    ctx.fillText(found.quests[i].reward.xp + 'XP', ((canvas.width + 100) - x), y + 550)
 
                     //add xp tags
                     if(found.quests[i].tags.includes('ChallengeCategory.XP')){

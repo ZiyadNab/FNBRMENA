@@ -322,10 +322,10 @@ module.exports = {
 
                         //add the card of the challenge
                         const questManegar = await Canvas.loadImage(found.quests[i].tandemCharacter.images.sidePanel)
-                        ctx.drawImage(questManegar, x - 900, y - 100, 900, 900)
+                        ctx.drawImage(questManegar, x - 600, y - 100, 900, 900)
 
                         //change the x value
-                        x -= 600
+                        x -= 500
                     }
 
                     //add the challange quest
@@ -341,7 +341,7 @@ module.exports = {
 
                     //add progress bar text
                     ctx.fillStyle = '#ffffff';
-                    ctx.textAlign='left';
+                    ctx.textAlign='right';
                     ctx.font = '100px Burbank Big Condensed'
                     ctx.fillText(found.quests[i].progressTotal + "/0", (x - 3300), y + 425)
 

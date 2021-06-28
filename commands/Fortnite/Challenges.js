@@ -242,10 +242,10 @@ module.exports = {
 
                     //add the card of the challenge
                     const questManegar = await Canvas.loadImage(found.quests[i].tandemCharacter.images.sidePanel)
-                    ctx.drawImage(questManegar, x - 100, y - 100, 900, 900)
+                    ctx.drawImage(questManegar, x - 250, y - 100, 900, 900)
 
                     //change the x value
-                    x = 1000
+                    x = 700
                         
 
                     //add the challange quest

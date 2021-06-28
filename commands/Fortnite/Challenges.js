@@ -266,7 +266,7 @@ module.exports = {
                     ctx.fillStyle = '#ffffff';
                     ctx.textAlign='left';
                     ctx.font = '100px Burbank Big Condensed'
-                    ctx.fillText(found.quests[i].progressTotal + "/0", x + 3100, y + 400)
+                    ctx.fillText(found.quests[i].progressTotal + "/0", x + 3200, y + 400)
 
                     //add xp tags
                     if(found.quests[i].tags.includes('ChallengeCategory.XP')){
@@ -322,10 +322,10 @@ module.exports = {
 
                         //add the card of the challenge
                         const questManegar = await Canvas.loadImage(found.quests[i].tandemCharacter.images.sidePanel)
-                        ctx.drawImage(questManegar, x - 250, y - 100, 900, 900)
+                        ctx.drawImage(questManegar, x - 50, y - 100, 900, 900)
 
                         //change the x value
-                        x -= 700
+                        x -= 600
                     }
 
                     //add the challange quest
@@ -343,7 +343,7 @@ module.exports = {
                     ctx.fillStyle = '#ffffff';
                     ctx.textAlign='left';
                     ctx.font = '100px Burbank Big Condensed'
-                    ctx.fillText(found.quests[i].progressTotal + "/0", (x - 3200), y + 425)
+                    ctx.fillText(found.quests[i].progressTotal + "/0", (x - 3400), y + 425)
 
                     //add xp tags
                     if(found.quests[i].tags.includes('ChallengeCategory.XP')){

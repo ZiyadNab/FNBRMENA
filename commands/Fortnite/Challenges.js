@@ -251,7 +251,7 @@ module.exports = {
                             ctx.fillText(found.quests[i].reward.xp.toString().substring(0, 3) + 'K', ((canvas.width - 100) - x), y + 700)
                         }
                         
-                        if(found.quests[i].reward.xp >= 10000 || found.quests[i].reward.xp <= 99999){
+                        if(found.quests[i].reward.xp >= 10000 && found.quests[i].reward.xp <= 99999){
                             //add the xp text
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='right';
@@ -259,7 +259,7 @@ module.exports = {
                             ctx.fillText(found.quests[i].reward.xp.toString().substring(0, 2) + 'K', ((canvas.width - 100) - x), y + 700)
                         }
 
-                        if(found.quests[i].reward.xp >= 1000 || found.quests[i].reward.xp <= 9999){
+                        if(found.quests[i].reward.xp >= 1000 && found.quests[i].reward.xp <= 9999){
                             //add the xp text
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='right';
@@ -267,7 +267,7 @@ module.exports = {
                             ctx.fillText(found.quests[i].reward.xp.toString().substring(0, 1) + 'K', ((canvas.width - 100) - x), y + 700)
                         }
 
-                        if(found.quests[i].reward.xp >= 100 || found.quests[i].reward.xp <= 999){
+                        if(found.quests[i].reward.xp >= 100 && found.quests[i].reward.xp <= 999){
                             //add the xp text
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='right';
@@ -374,41 +374,41 @@ module.exports = {
                         if(found.quests[i].reward.xp >= 100000){
                             //add the xp text
                             ctx.fillStyle = '#ffffff';
-                            ctx.textAlign='right';
+                            ctx.textAlign='left';
                             ctx.font = '400px Burbank Big Condensed'
-                            ctx.fillText(found.quests[i].reward.xp.toString().substring(0, 3) + 'K', ((canvas.width - 100) - x), y + 700)
+                            ctx.fillText(found.quests[i].reward.xp.toString().substring(0, 3) + 'K', ((canvas.width + 50) - x), y + 700)
                         }
                         
-                        if(found.quests[i].reward.xp >= 10000 || found.quests[i].reward.xp <= 99999){
+                        if(found.quests[i].reward.xp >= 10000 && found.quests[i].reward.xp <= 99999){
                             //add the xp text
                             ctx.fillStyle = '#ffffff';
-                            ctx.textAlign='right';
+                            ctx.textAlign='left';
                             ctx.font = '400px Burbank Big Condensed'
-                            ctx.fillText(found.quests[i].reward.xp.toString().substring(0, 2) + 'K', ((canvas.width - 100) - x), y + 700)
+                            ctx.fillText(found.quests[i].reward.xp.toString().substring(0, 2) + 'K', ((canvas.width + 50) - x), y + 700)
                         }
 
-                        if(found.quests[i].reward.xp >= 1000 || found.quests[i].reward.xp <= 9999){
+                        if(found.quests[i].reward.xp >= 1000 && found.quests[i].reward.xp <= 9999){
                             //add the xp text
                             ctx.fillStyle = '#ffffff';
-                            ctx.textAlign='right';
+                            ctx.textAlign='left';
                             ctx.font = '400px Burbank Big Condensed'
-                            ctx.fillText(found.quests[i].reward.xp.toString().substring(0, 1) + 'K', ((canvas.width - 100) - x), y + 700)
+                            ctx.fillText(found.quests[i].reward.xp.toString().substring(0, 1) + 'K', ((canvas.width + 50) - x), y + 700)
                         }
 
-                        if(found.quests[i].reward.xp >= 100 || found.quests[i].reward.xp <= 999){
+                        if(found.quests[i].reward.xp >= 100 && found.quests[i].reward.xp <= 999){
                             //add the xp text
                             ctx.fillStyle = '#ffffff';
-                            ctx.textAlign='right';
+                            ctx.textAlign='left';
                             ctx.font = '400px Burbank Big Condensed'
-                            ctx.fillText(found.quests[i].reward.xp + 'H', ((canvas.width - 100) - x), y + 700)
+                            ctx.fillText(found.quests[i].reward.xp + 'H', ((canvas.width + 50) - x), y + 700)
                         }
 
                         if(found.quests[i].reward.xp <= 99){
-                            //add the xp text
+                            //add the xp textctx.fillText
                             ctx.fillStyle = '#ffffff';
-                            ctx.textAlign='right';
+                            ctx.textAlign='left';
                             ctx.font = '400px Burbank Big Condensed'
-                            ctx.fillText(found.quests[i].reward.xp + 'XP', ((canvas.width - 100) - x), y + 700)
+                            ctx.fillText(found.quests[i].reward.xp + 'XP', ((canvas.width + 50) - x), y + 700)
                         }
 
                     }

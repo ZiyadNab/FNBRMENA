@@ -383,7 +383,7 @@ module.exports = {
 
                             //add the reward left right
                             const rewardsLeftCorner = await Canvas.loadImage('./assets/Challenges/leftReward.png')
-                            ctx.drawImage(rewardsLeftCorner, (50 + rewardsWidth), y + 355, 160, 400)
+                            ctx.drawImage(rewardsLeftCorner, (50 + rewardsWidth), y + 177, 80, 200)
 
                         }
 
@@ -667,7 +667,7 @@ module.exports = {
 
                             //add the reward left right
                             const rewardsLeftCorner = await Canvas.loadImage('./assets/Challenges/leftReward.png')
-                            ctx.drawImage(rewardsLeftCorner, (50 + rewardsWidth), y + 355, 160, 400)
+                            ctx.drawImage(rewardsLeftCorner, (50 + rewardsWidth), y + 177, 80, 200)
 
                         }
 

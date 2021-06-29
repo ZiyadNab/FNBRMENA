@@ -338,25 +338,103 @@ module.exports = {
                         }
 
                         //if there is a reward
-                        if(found.quests[i].reward.items.length !== 0){
+                        if(found.quests[i].reward.items.length !== 0 || found.bundleRewards.length !== 0){
+
+                            //inisilize the rewards width
+                            var rewardsWidth = ((canvas.width - (410 + xpWidth)) - x) - 100
 
                             //add the reward top right
-                            const topRightCorner = await Canvas.loadImage('./assets/Challenges/rightXP.png')
-                            //ctx.drawImage(topRightCorner, (((canvas.width - xpWidth)) - x) - 100, y + 357, 400, 400)
+                            const rewardsRightCorner = await Canvas.loadImage('./assets/Challenges/rightReward.png')
+                            ctx.drawImage(rewardsRightCorner, (50 + rewardsWidth), y + 355, 160, 400)
 
-                            //add the reward
-                            for(let x = 0; x < found.quests[i].reward.items.length; x++){
+                            //if there is a reward for the quest its self
+                            if(found.quests[i].reward.items.length !== 0){
+                                //add the reward
+                                for(let x = 0; x < found.quests[i].reward.items.length; x++){
 
-                                
+                                    rewardsWidth -= 300
+
+                                    //reward x
+                                    const reward = await Canvas.loadImage(found.quest[i].reward.items[x].images.icon)
+                                    ctx.drawImage(reward, (90 + rewardsWidth), y + 420, 300, 300)
+
+                                    rewardsWidth -= 50
+                                    
+                                }
                             }
+
+                            //if there is a reward for the challenge its self
+                            if(found.bundleRewards.length !== 0){
+
+                                //add the reward
+                                for(let x = 0; x < found.bundleRewards.length; x++){
+
+                                    rewardsWidth -= 300
+
+                                    //reward x
+                                    const reward = await Canvas.loadImage(found.bundleRewards[x].images.icon)
+                                    ctx.drawImage(reward, (90 + rewardsWidth), y + 420, 300, 300)
+
+                                    rewardsWidth -= 50
+                                    
+                                }
+                            }
+
+                            //add the reward left right
+                            const rewardsLeftCorner = await Canvas.loadImage('./assets/Challenges/leftReward.png')
+                            ctx.drawImage(rewardsLeftCorner, (50 + rewardsWidth), y + 355, 160, 400)
+
                         }
 
                     }else{
 
                         //if there is a reward
-                        if(found.quests[i].reward.items.length !== 0){
+                        if(found.quests[i].reward.items.length !== 0 || found.bundleRewards.length !== 0){
 
-                            //add the reward
+                            //inisilize the rewards width
+                            var rewardsWidth = ((canvas.width - 100) - x) - 150
+
+                            //add the reward top right
+                            const rewardsRightCorner = await Canvas.loadImage('./assets/Challenges/rightReward.png')
+                            ctx.drawImage(rewardsRightCorner, (50 + rewardsWidth), y + 355, 160, 400)
+
+                            //if there is a reward for the quest its self
+                            if(found.quests[i].reward.items.length !== 0){
+                                //add the reward
+                                for(let x = 0; x < found.quests[i].reward.items.length; x++){
+
+                                    rewardsWidth -= 300
+
+                                    //reward x
+                                    const reward = await Canvas.loadImage(found.quest[i].reward.items[x].images.icon)
+                                    ctx.drawImage(reward, (90 + rewardsWidth), y + 420, 300, 300)
+
+                                    rewardsWidth -= 50
+                                    
+                                }
+                            }
+
+                            //if there is a reward for the challenge its self
+                            if(found.bundleRewards.length !== 0){
+
+                                //add the reward
+                                for(let x = 0; x < found.bundleRewards.length; x++){
+
+                                    rewardsWidth -= 300
+
+                                    //reward x
+                                    const reward = await Canvas.loadImage(found.bundleRewards[x].images.icon)
+                                    ctx.drawImage(reward, (90 + rewardsWidth), y + 420, 300, 300)
+
+                                    rewardsWidth -= 50
+                                    
+                                }
+                            }
+
+                            //add the reward left right
+                            const rewardsLeftCorner = await Canvas.loadImage('./assets/Challenges/leftReward.png')
+                            ctx.drawImage(rewardsLeftCorner, (50 + rewardsWidth), y + 355, 160, 400)
+
                         }
                     }
 
@@ -424,7 +502,7 @@ module.exports = {
                     }
 
                     //add reward tags
-                    if(found.quests[i].reward.items.length > 0){
+                    if(found.quests[i].reward.items.length !== 0 || found.bundleRewards.length !== 0){
 
                         //changing tags coordinates
                         x += 50

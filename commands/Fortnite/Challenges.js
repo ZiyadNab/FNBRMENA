@@ -264,6 +264,23 @@ module.exports = {
                             }
                         }
 
+                        //add the reward picture
+                        if(found.quests[i].reward.items.length !== 0){
+
+                            //lopp throw every reward
+                            for(let x = 0; x < found.quests[i].reward.items.length; x++){
+
+                                //change the xp position
+                                r += 475
+
+                                //add the image of the reward
+                                const reward = await Canvas.loadImage(found.quests[i].reward.items[x].images.icon)
+                                ctx.drawImage(reward, xReward, y, h, h)
+
+                                xReward += h + 50
+                            }
+                        }
+
                     }else{
                         var r = 75
                     }
@@ -478,12 +495,29 @@ module.exports = {
                             }
                         }
 
+                        //add the reward picture
+                        if(found.quests[i].reward.items.length !== 0){
+
+                            //lopp throw every reward
+                            for(let x = 0; x < found.quests[i].reward.items.length; x++){
+
+                                //change the xp position
+                                r += 400
+
+                                //add the image of the reward
+                                const reward = await Canvas.loadImage(found.quests[i].reward.items[x].images.icon)
+                                ctx.drawImage(reward, xReward, y, h, h)
+
+                                xReward += h + 50
+                            }
+                        }
+
                     }else{
                         var r = 75
                     }
 
                     //if there is xp for the quest
-                    if(found.quests[i].reward.xp === 0){
+                    if(found.quests[i].reward.xp !== 0){
 
                         if(found.quests[i].reward.xp >= 100000){
 

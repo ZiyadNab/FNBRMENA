@@ -179,7 +179,7 @@ module.exports = {
                     }else if(lang === "ar"){
                         ctx.font = `${fontSize -= 1}px Arabic`;
                     }
-                } while (ctx.measureText(text).width > width - 1000);
+                } while (ctx.measureText(text).width > width - 450);
                 return ctx.font;
             }
 
@@ -193,7 +193,7 @@ module.exports = {
                     }else if(lang === "ar"){
                         ctx.font = `${fontSize -= 1}px Arabic`;
                     }
-                } while (ctx.measureText(text).width > width - 2000);
+                } while (ctx.measureText(text).width > width - 3400);
                 return ctx.font;
             }
 

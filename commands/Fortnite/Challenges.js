@@ -513,7 +513,7 @@ module.exports = {
                         }
 
                     }else{
-                        var r = 75
+                        var r = 0
                     }
 
                     //if there is xp for the quest

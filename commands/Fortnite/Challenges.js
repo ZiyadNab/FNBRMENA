@@ -241,7 +241,7 @@ module.exports = {
                 if(lang === "en"){
 
                     //if there is xp for the quest
-                    if(found.quests[i].reward.xp === 0){
+                    if(found.quests[i].reward.xp !== 0){
 
                         if(found.quests[i].reward.xp >= 100000){
 
@@ -338,7 +338,7 @@ module.exports = {
                         }
 
                         //if there is a reward
-                        if(found.quests[i].reward.items.length === 0){
+                        if(found.quests[i].reward.items.length !== 0){
 
                             //add the reward top right
                             const topRightCorner = await Canvas.loadImage('./assets/Challenges/rightXP.png')

@@ -241,12 +241,12 @@ module.exports = {
                 if(lang === "en"){
 
                     //if there is xp for the quest
-                    if(found.quests[i].reward.xp !== 0){
+                    if(found.quests[i].reward.xp === 0){
                         //add the xp text
                         ctx.fillStyle = '#ffffff';
                         ctx.textAlign='right';
-                        ctx.font = '500px Burbank Big Condensed'
-                        ctx.fillText(found.quests[i].reward.xp + 'XP', ((canvas.width - 50) - x), y + 560)
+                        ctx.font = '400px Burbank Big Condensed'
+                        ctx.fillText(found.quests[i].reward.xp + 'XP', ((canvas.width - 100) - x), y + 700)
                     }
 
                     //if there is an image for the quest
@@ -333,12 +333,12 @@ module.exports = {
                     x = 6750
 
                     //if there is xp for the quest
-                    if(found.quests[i].reward.xp !== 0){
+                    if(found.quests[i].reward.xp === 0){
                         //add the xp text
                         ctx.fillStyle = '#ffffff';
                         ctx.textAlign='left';
-                        ctx.font = '500px Burbank Big Condensed'
-                        ctx.fillText(found.quests[i].reward.xp + 'XP', ((canvas.width + 100) - x), y + 560)
+                        ctx.font = '400px Burbank Big Condensed'
+                        ctx.fillText(found.quests[i].reward.xp + 'XP', ((canvas.width + 50) - x), y + 700)
                     }
 
                     //if there is an image for the quest

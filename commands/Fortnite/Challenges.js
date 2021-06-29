@@ -241,7 +241,7 @@ module.exports = {
                 if(lang === "en"){
 
                     //if there is xp for the quest
-                    if(found.quests[i].reward.xp === 0){
+                    if(found.quests[i].reward.xp !== 0){
                         //add the xp text
                         ctx.fillStyle = '#ffffff';
                         ctx.textAlign='right';
@@ -333,7 +333,7 @@ module.exports = {
                     x = 6750
 
                     //if there is xp for the quest
-                    if(found.quests[i].reward.xp === 0){
+                    if(found.quests[i].reward.xp !== 0){
                         //add the xp text
                         ctx.fillStyle = '#ffffff';
                         ctx.textAlign='left';

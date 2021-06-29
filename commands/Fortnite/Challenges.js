@@ -407,7 +407,7 @@ module.exports = {
                                     rewardsWidth -= 300
 
                                     //reward x
-                                    const reward = await Canvas.loadImage(found.quest[i].reward.items[x].images.icon)
+                                    const reward = await Canvas.loadImage(found.quests[i].reward.items[x].images.icon)
                                     ctx.drawImage(reward, (90 + rewardsWidth), y + 420, 300, 300)
 
                                     rewardsWidth -= 50
@@ -523,24 +523,24 @@ module.exports = {
                     x = 6750
 
                     //if there is xp for the quest
-                    if(found.quests[i].reward.xp === 0){
+                    if(found.quests[i].reward.xp !== 0){
 
                         if(found.quests[i].reward.xp >= 100000){
 
                             //add the xp right border
                             const xpRightCorner = await Canvas.loadImage('./assets/Challenges/leftXP.png')
-                            ctx.drawImage(xpRightCorner, ((canvas.width + 100) - x), y + 355, 160, 400)
+                            ctx.drawImage(xpRightCorner, (canvas.width - x), y + 355, 160, 400)
 
                             //add the xp text
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='left';
                             ctx.font = '400px Burbank Big Condensed'
                             var xpWidth = ctx.measureText(found.quests[i].reward.xp.toString().substring(0, 3) + 'K').width
-                            ctx.fillText(found.quests[i].reward.xp.toString().substring(0, 3) + 'K', ((canvas.width + 150) - x), y + 700)
+                            ctx.fillText(found.quests[i].reward.xp.toString().substring(0, 3) + 'K', ((canvas.width + 100) - x), y + 700)
 
                             //add the xp left border
                             const xpLeftCorner = await Canvas.loadImage('./assets/Challenges/rightXP.png')
-                            ctx.drawImage(xpLeftCorner, ((canvas.width - (150 + xpWidth)) - x), y + 355, 160, 400)
+                            ctx.drawImage(xpLeftCorner, (canvas.width - (x - (50 + xpWidth))), y + 355, 160, 400)
 
                         }
                         
@@ -548,18 +548,18 @@ module.exports = {
 
                             //add the xp right border
                             const xpRightCorner = await Canvas.loadImage('./assets/Challenges/leftXP.png')
-                            ctx.drawImage(xpRightCorner, ((canvas.width + 100) - x), y + 355, 160, 400)
+                            ctx.drawImage(xpRightCorner, (canvas.width - x), y + 355, 160, 400)
 
                             //add the xp text
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='left';
                             ctx.font = '400px Burbank Big Condensed'
                             var xpWidth = ctx.measureText(found.quests[i].reward.xp.toString().substring(0, 2) + 'K').width
-                            ctx.fillText(found.quests[i].reward.xp.toString().substring(0, 2) + 'K', ((canvas.width + 150) - x), y + 700)
+                            ctx.fillText(found.quests[i].reward.xp.toString().substring(0, 2) + 'K', ((canvas.width + 100) - x), y + 700)
 
                             //add the xp left border
                             const xpLeftCorner = await Canvas.loadImage('./assets/Challenges/rightXP.png')
-                            ctx.drawImage(xpLeftCorner, ((canvas.width - (150 + xpWidth)) - x), y + 355, 160, 400)
+                            ctx.drawImage(xpLeftCorner, (canvas.width - (x - (50 + xpWidth))), y + 355, 160, 400)
 
                         }
 
@@ -567,18 +567,18 @@ module.exports = {
 
                             //add the xp right border
                             const xpRightCorner = await Canvas.loadImage('./assets/Challenges/leftXP.png')
-                            ctx.drawImage(xpRightCorner, ((canvas.width + 100) - x), y + 355, 160, 400)
+                            ctx.drawImage(xpRightCorner, (canvas.width - x), y + 355, 160, 400)
 
                             //add the xp text
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='left';
                             ctx.font = '400px Burbank Big Condensed'
                             var xpWidth = ctx.measureText(found.quests[i].reward.xp.toString().substring(0, 1) + 'K').width
-                            ctx.fillText(found.quests[i].reward.xp.toString().substring(0, 1) + 'K', ((canvas.width + 150) - x), y + 700)
+                            ctx.fillText(found.quests[i].reward.xp.toString().substring(0, 1) + 'K', ((canvas.width + 100) - x), y + 700)
 
                             //add the xp left border
                             const xpLeftCorner = await Canvas.loadImage('./assets/Challenges/rightXP.png')
-                            ctx.drawImage(xpLeftCorner, ((canvas.width - (150 + xpWidth)) - x), y + 355, 160, 400)
+                            ctx.drawImage(xpLeftCorner, (canvas.width - (x - (50 + xpWidth))), y + 355, 160, 400)
 
                         }
 
@@ -586,18 +586,18 @@ module.exports = {
 
                             //add the xp right border
                             const xpRightCorner = await Canvas.loadImage('./assets/Challenges/leftXP.png')
-                            ctx.drawImage(xpRightCorner, ((canvas.width + 100) - x), y + 355, 160, 400)
+                            ctx.drawImage(xpRightCorner, (canvas.width - x), y + 355, 160, 400)
 
                             //add the xp text
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='left';
                             ctx.font = '400px Burbank Big Condensed'
                             var xpWidth = ctx.measureText(found.quests[i].reward.xp + 'H').width
-                            ctx.fillText(found.quests[i].reward.xp + 'H', ((canvas.width + 150) - x), y + 700)
+                            ctx.fillText(found.quests[i].reward.xp + 'H', ((canvas.width + 100) - x), y + 700)
 
                             //add the xp left border
                             const xpLeftCorner = await Canvas.loadImage('./assets/Challenges/rightXP.png')
-                            ctx.drawImage(xpLeftCorner, ((canvas.width - (150 + xpWidth)) - x), y + 355, 160, 400)
+                            ctx.drawImage(xpLeftCorner, (canvas.width - (x - (50 + xpWidth))), y + 355, 160, 400)
 
                         }
 
@@ -605,18 +605,18 @@ module.exports = {
 
                             //add the xp right border
                             const xpRightCorner = await Canvas.loadImage('./assets/Challenges/leftXP.png')
-                            ctx.drawImage(xpRightCorner, ((canvas.width + 100) - x), y + 355, 160, 400)
+                            ctx.drawImage(xpRightCorner, (canvas.width - x), y + 355, 160, 400)
 
                             //add the xp textctx.fillText
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='left';
                             ctx.font = '400px Burbank Big Condensed'
                             var xpWidth = ctx.measureText(found.quests[i].reward.xp + 'XP').width
-                            ctx.fillText(found.quests[i].reward.xp + 'XP', ((canvas.width + 150) - x), y + 700)
+                            ctx.fillText(found.quests[i].reward.xp + 'XP', ((canvas.width + 100) - x), y + 700)
 
                             //add the xp left border
                             const xpLeftCorner = await Canvas.loadImage('./assets/Challenges/rightXP.png')
-                            ctx.drawImage(xpLeftCorner, ((canvas.width - (150 + xpWidth)) - x), y + 355, 160, 400)
+                            ctx.drawImage(xpLeftCorner, (canvas.width - (x - (50 + xpWidth))), y + 355, 160, 400)
 
                         }
 

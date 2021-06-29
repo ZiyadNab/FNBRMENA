@@ -271,7 +271,7 @@ module.exports = {
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='right';
                             ctx.font = '400px Burbank Big Condensed'
-                            var xpWidth = ctx.measureText(found.quests[i].reward.xp.toString().substring(0, 3) + 'K').width
+                            var xpWidth = ctx.measureText(found.quests[i].reward.xp.toString().substring(0, 2) + 'K').width
                             ctx.fillText(found.quests[i].reward.xp.toString().substring(0, 2) + 'K', ((canvas.width - 150) - x), y + 700)
 
                             //add the xp left border
@@ -290,7 +290,7 @@ module.exports = {
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='right';
                             ctx.font = '400px Burbank Big Condensed'
-                            var xpWidth = ctx.measureText(found.quests[i].reward.xp.toString().substring(0, 3) + 'K').width
+                            var xpWidth = ctx.measureText(found.quests[i].reward.xp.toString().substring(0, 1) + 'K').width
                             ctx.fillText(found.quests[i].reward.xp.toString().substring(0, 1) + 'K', ((canvas.width - 150) - x), y + 700)
 
                             //add the xp left border

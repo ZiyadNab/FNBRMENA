@@ -113,6 +113,16 @@ module.exports = (client, admin) => {
                             }
                         }
 
+                        //loop throw every disabled playlists
+                        for(let i = 0; i < response.length; i++){
+
+                            //if the playlist isn't in the response array
+                            if(!enabled.includes(response[i])){
+
+                                await message.send(response[i] + 'disabled')
+                            }
+                        }
+
                         //trun off push if enabled
                         admin.database().ref("ERA's").child("Events").child("playlists").update({
                             Push: "false"

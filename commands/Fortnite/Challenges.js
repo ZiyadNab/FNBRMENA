@@ -246,7 +246,7 @@ module.exports = {
                         ctx.fillStyle = '#ffffff';
                         ctx.textAlign='right';
                         ctx.font = '500px Burbank Big Condensed'
-                        ctx.fillText(found.quests[i].reward.xp + 'XP', ((canvas.width - 50) - x), y + 550)
+                        ctx.fillText(found.quests[i].reward.xp + 'XP', ((canvas.width - 50) - x), y + 560)
                     }
 
                     //if there is an image for the quest
@@ -329,9 +329,8 @@ module.exports = {
 
                 }else if(lang === "ar"){
 
-                    //adding xp (changing later)
-                    //const xpImg = await Canvas.loadImage('./assets/Challenges/xpImg.png')
-                    //ctx.drawImage(xpImg, 7000 - x, y + 150, 500, 500)
+                    //add tags coordinates
+                    x = 6750
 
                     //if there is xp for the quest
                     if(found.quests[i].reward.xp !== 0){
@@ -339,11 +338,8 @@ module.exports = {
                         ctx.fillStyle = '#ffffff';
                         ctx.textAlign='left';
                         ctx.font = '500px Burbank Big Condensed'
-                        ctx.fillText(found.quests[i].reward.xp + 'XP', ((canvas.width + 100) - x), y + 550)
+                        ctx.fillText(found.quests[i].reward.xp + 'XP', ((canvas.width + 100) - x), y + 560)
                     }
-
-                    //add tags coordinates
-                    x = 6750
 
                     //if there is an image for the quest
                     if(Object.entries(found.quests[i].tandemCharacter).length !== 0){

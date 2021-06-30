@@ -653,7 +653,7 @@ module.exports = {
                     ctx.fillText(found.quests[i].progressTotal + "/0", (x - 1600), y + 212)
 
                     //add xp tags
-                    if(found.quests[i].tags.includes('ChallengeCategory.XP')){
+                    if(found.quests[i].tags.includes('ChallengeCategory.XP') || found.tags.includes('ChallengeCategory.XP')){
 
                         //changing tags coordinates
                         x -= 450

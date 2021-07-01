@@ -55,6 +55,63 @@ class FNBRMENA {
         
     }
 
+    /**
+     * 
+     * @param {String} Lang 
+     * @param {String} Name 
+     * @param {String} Type 
+     */
+     async Query(Lang, Query, listQuery, Rarity, Type, Series){
+
+        //store query string
+        var string = ""
+
+        for(let i = 0; i < listQuery.length; i ++){
+
+            //if there is a query to add
+            if(Query[i] !== "*"){
+
+                if(!isNaN(Query[i]) && listQuery[i] === 'series'){
+
+                    //add the query
+                    string += "&" + listQuery[i] + "=" + Series[Query[i]]
+                }else if(!isNaN(Query[i]) && listQuery[i] === 'rarity'){
+
+                    //add the query
+                    string += "&" + listQuery[i] + "=" + Rarity[Query[i]]
+                }else if(!isNaN(Query[i]) && listQuery[i] === 'type'){
+
+                    //add the query
+                    string += "&" + listQuery[i] + "=" + Type[Query[i]]
+                }else if(!isNaN(Query[i]) && listQuery[i] === 'set'){
+
+                    //add the query
+                    string += "&" + listQuery[i] + ".name=" + Query[i]
+                }else if(!isNaN(Query[i]) && listQuery[i] === 'introductionSeason'){
+
+                    //add the query
+                    string += "&introduction.season=Season " + Query[i]
+                }else if(!isNaN(Query[i]) && listQuery[i] === 'introductionChapter'){
+
+                    //add the query
+                    string += "&introduction.chapter=Chapter " + Query[i]
+                }else if(Query[i].toLowerCase() === "true" && listQuery[i] === 'gameplayTagsStyles'){
+
+                    //add the query
+                    string += "&gameplayTags=Cosmetics.UserFacingFlags.HasVariants"
+                }else{
+
+                    //add the query
+                    string += "&" + listQuery[i] + "=" + Query[i]
+                }
+            }
+        }
+        
+        //return the possiable items
+        return await axios.get(`https://fortniteapi.io/v2/items/list?fields=name,gameplayTags,battlepass${string}&lang=${Lang}`, { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
+        
+    }
+
     /** 
      * Return access to every event
      * 

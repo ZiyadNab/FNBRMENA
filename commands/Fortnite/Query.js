@@ -550,17 +550,6 @@ module.exports = {
                                     //add the items to the string variable
                                     string += "•" + (i + 1) + ": " + res.data.items[i].name + " " + match + "\n"
                                 }
-                            }else{
-
-                                //if the name includes the words that the use added
-                                if(res.data.items[i].name.includes(remember[0])){
-
-                                    //add the items to the string variable
-                                    string += "•" + (i + 1) + ": " + res.data.items[i].name + " " + match + "\n"
-                                }else{
-                                    //add the items to the string variable
-                                    string += "•" + (i + 1) + ": " + res.data.items[i].name + "\n"
-                                }
                             }
 
                         }else{
@@ -583,17 +572,6 @@ module.exports = {
                                 }else{
                                     //add the items to the string variable
                                     string += "•" + (i + 1) + ": " + res.data.items[i].name + " " + match + "\n"
-                                }
-                            }else{
-                                
-                                //if the name includes the words that the use added
-                                if(res.data.items[i].name.includes(remember[0])){
-
-                                    //add the items to the string variable
-                                    string += "•" + (i + 1) + ": " + res.data.items[i].name + " " + match + "\n"
-                                }else{
-                                    //add the items to the string variable
-                                    string += "•" + (i + 1) + ": " + res.data.items[i].name + "\n"
                                 }
                             }
                         }else{

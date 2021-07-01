@@ -31,6 +31,7 @@ module.exports = {
             'contrail',
             'emote',
             'spray',
+            'wrap',
             'music',
             'loadingscreen'
         ]
@@ -114,7 +115,7 @@ module.exports = {
 
                             //add title
                             if(lang === "en") err.setTitle(`Out of range number, please try again and enter a number from the list above ${errorEmoji}`)
-                            else if(lang === "en") err.setTitle(`لقد قمت بكتابة رقم ليس موجود بالقائمة الرجاء محاولة مرا اخرى ${errorEmoji}`)
+                            else if(lang === "ar") err.setTitle(`لقد قمت بكتابة رقم ليس موجود بالقائمة الرجاء محاولة مرا اخرى ${errorEmoji}`)
 
                             await message.channel.send(err)
 
@@ -123,11 +124,15 @@ module.exports = {
                     }else{
                         Query[Index] = await collected.first().content
                     }
-                })
-            })
+                }).catch(err => console.log(err))
+            }).catch(err => console.log(err))
 
             //++
             Index++
+
+            if(Query.includes("User Error")){
+                return Query = ['User Error']
+            }
 
             //filter user input
             const filterName = async m => await m.author.id === message.author.id
@@ -157,6 +162,10 @@ module.exports = {
                 })
             })
 
+            if(Query.includes("User Error")){
+                return Query = ['User Error']
+            }
+
             //filter user input
             const filterBattlepass = async m => await m.author.id === message.author.id
 
@@ -184,6 +193,10 @@ module.exports = {
                     }
                 })
             })
+
+            if(Query.includes("User Error")){
+                return Query = ['User Error']
+            }
 
             //if the item is from the battlepass
             if(remember[1] === "false"){
@@ -218,6 +231,10 @@ module.exports = {
 
             }else{
                 remember[2] = "false"
+            }
+
+            if(Query.includes("User Error")){
+                return Query = ['User Error']
             }
 
             //filter user input
@@ -258,7 +275,7 @@ module.exports = {
 
                             //add title
                             if(lang === "en") err.setTitle(`The value you added is not a number ${errorEmoji}`)
-                            else if(lang === "en") err.setTitle(`لقت قمت بكابة رقم غلط ${errorEmoji}`)
+                            else if(lang === "ar") err.setTitle(`لقت قمت بكابة رقم غلط ${errorEmoji}`)
 
                             await message.channel.send(err)
                         }
@@ -268,6 +285,10 @@ module.exports = {
                     }
                 })
             })
+
+            if(Query.includes("User Error")){
+                return Query = ['User Error']
+            }
 
             //++
             Index++
@@ -310,7 +331,7 @@ module.exports = {
 
                             //add title
                             if(lang === "en") err.setTitle(`Please make sure to type TRUE or FALSE correctly ${errorEmoji}`)
-                            else if(lang === "en") err.setTitle(`الرجائ كتابة TRUE او FALSE بشكل صحيح ${errorEmoji}`)
+                            else if(lang === "ar") err.setTitle(`الرجائ كتابة TRUE او FALSE بشكل صحيح ${errorEmoji}`)
 
                             await message.channel.send(err)
 
@@ -321,6 +342,10 @@ module.exports = {
                     }
                 })
             })
+
+            if(Query.includes("User Error")){
+                return Query = ['User Error']
+            }
 
             //++
             Index++
@@ -354,6 +379,10 @@ module.exports = {
                 })
             })
 
+            if(Query.includes("User Error")){
+                return Query = ['User Error']
+            }
+
             //++
             Index++
 
@@ -386,6 +415,10 @@ module.exports = {
                 })
             })
 
+            if(Query.includes("User Error")){
+                return Query = ['User Error']
+            }
+
             //++
             Index++
 
@@ -417,6 +450,10 @@ module.exports = {
                     }
                 })
             })
+
+            if(Query.includes("User Error")){
+                return Query = ['User Error']
+            }
 
             //++
             Index++
@@ -457,7 +494,7 @@ module.exports = {
 
                             //add title
                             if(lang === "en") err.setTitle(`Out of range number, please try again and enter a number from the list above ${errorEmoji}`)
-                            else if(lang === "en") err.setTitle(`لقد قمت بكتابة رقم ليس موجود بالقائمة الرجاء محاولة مرا اخرى ${errorEmoji}`)
+                            else if(lang === "ar") err.setTitle(`لقد قمت بكتابة رقم ليس موجود بالقائمة الرجاء محاولة مرا اخرى ${errorEmoji}`)
 
                             await message.channel.send(err)
 
@@ -468,6 +505,10 @@ module.exports = {
                     }
                 })
             })
+
+            if(Query.includes("User Error")){
+                return Query = ['User Error']
+            }
 
             //++
             Index++
@@ -508,7 +549,7 @@ module.exports = {
 
                             //add title
                             if(lang === "en") err.setTitle(`Out of range number, please try again and enter a number from the list above ${errorEmoji}`)
-                            else if(lang === "en") err.setTitle(`لقد قمت بكتابة رقم ليس موجود بالقائمة الرجاء محاولة مرا اخرى ${errorEmoji}`)
+                            else if(lang === "ar") err.setTitle(`لقد قمت بكتابة رقم ليس موجود بالقائمة الرجاء محاولة مرا اخرى ${errorEmoji}`)
 
                             await message.channel.send(err)
 
@@ -519,6 +560,10 @@ module.exports = {
                     }
                 })
             })
+
+            if(Query.includes("User Error")){
+                return Query = ['User Error']
+            }
 
             //++
             Index++
@@ -579,7 +624,7 @@ module.exports = {
 
                                 //add title
                                 if(lang === "en") err.setTitle(`Please make sure to type TRUE or FALSE correctly ${errorEmoji}`)
-                                else if(lang === "en") err.setTitle(`الرجائ كتابة TRUE او FALSE بشكل صحيح ${errorEmoji}`)
+                                else if(lang === "ar") err.setTitle(`الرجائ كتابة TRUE او FALSE بشكل صحيح ${errorEmoji}`)
 
                                 await message.channel.send(err)
 
@@ -590,6 +635,10 @@ module.exports = {
                         }
                     })
                 })
+
+                if(Query.includes("User Error")){
+                    return Query = ['User Error']
+                }
 
                 //filter user input
                 const filterTraversal = async m => await m.author.id === message.author.id
@@ -618,6 +667,10 @@ module.exports = {
                         }
                     })
                 })
+
+                if(Query.includes("User Error")){
+                    return Query = ['User Error']
+                }
 
                 //++
                 Index++
@@ -677,6 +730,10 @@ module.exports = {
                 })
             })
 
+            if(Query.includes("User Error")){
+                return Query = ['User Error']
+            }
+
             //++
             Index++
 
@@ -718,7 +775,7 @@ module.exports = {
 
                             //add title
                             if(lang === "en") err.setTitle(`Please make sure to type TRUE or FALSE correctly ${errorEmoji}`)
-                            else if(lang === "en") err.setTitle(`الرجائ كتابة TRUE او FALSE بشكل صحيح ${errorEmoji}`)
+                            else if(lang === "ar") err.setTitle(`الرجائ كتابة TRUE او FALSE بشكل صحيح ${errorEmoji}`)
 
                             await message.channel.send(err)
 
@@ -729,6 +786,10 @@ module.exports = {
                     }
                 })
             })
+
+            if(Query.includes("User Error")){
+                return Query = ['User Error']
+            }
 
             return await Query
         }
@@ -782,9 +843,6 @@ module.exports = {
                 message.reply(error)
             }
         })
-
-        console.log(Query)
-        console.log(queryList)
         
         //if all questions has been answered without any issues
         if(!Query.includes('User Error')){

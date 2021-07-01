@@ -19,6 +19,9 @@ module.exports = {
         //adding user query to search
         var Query = []
 
+        //inisilize index
+        var Index = 0
+
         //add every type in-game
         var types = [
             'outfit',
@@ -60,36 +63,71 @@ module.exports = {
 
         //list every possible query
         var queryList = [
+            'type',
             'price',
             'gameplayTagsStyles',
             'set',
             'introductionChapter',
             'introductionSeason',
-            'type',
             'rarity',
             'series',
-            'copyrightedAudio',
             'upcoming',
             'reactive',
         ]
 
-        //list of questions
-        var ENQuestions = [
-            "what is the price of the item ?, if u don't know type *",
-            "does the item has styles ?, if u don't know type *\nTrue = Yes\nFalse = No",
-            "what is the set of the item ?, if u don't know type *",
-            "what is the chapter the item added to ?, if u don't know type *",
-            "what is the season the item added to ?, if u don't know type *",
-            "what is the type of the item ?, if u don't know type *\n0: Outfit\n1: Backbling\n2: Pickaxe\n3: Glider\n4: Contrail\n5: Emote\n6: Spray\n7: Wrap\n8: Music Pack\n9: Loading Screen",
-            "what is the rarity of the item ?, if u don't know type *\n0: Legendary\n1: Epic\n2: Rare\n3: Uncommon\n4: Common",
-            "what is the series of the item ?, if u don't know type *\n0: Marvel\n1: DC\n2: StarWars\n3: Dark\n4: Icon\n5: Shadow\n6: Slurp\n7: Frozen\n8: Lava\n9: Gaming",
-            "Does the item contains copyrighted audio ?, if u don't know type *\nTrue = Yes\nFalse = No",
-            "Does the item set to be an upcoming item ?, if u don't know type *\nTrue = Yes\nFalse = No",
-            "Does the item is reactive ?, if u don't know type *\nTrue = Yes\nFalse = No",
-        ]
-
         //setting up the questions
         const Questions = async (Query) => {
+
+            //filter user input
+            const filterType = async m => await m.author.id === message.author.id
+
+            //add the text for the questions
+            if(lang === "en") var reply = "what is the type of the item ?, if u don't know type *\n0: Outfit\n1: Backbling\n2: Pickaxe\n3: Glider\n4: Contrail\n5: Emote\n6: Spray\n7: Wrap\n8: Music Pack\n9: Loading Screen"
+            else if(lang === "ar") var reply = "ايش نوع العنصر ؟ اذا ما تعرف اكتب *\n0: سكن\n1: شنطة\n2: بيكاكس\n3: مظلة\n4: نزلة\n5: رقصة\n6: بخاخ\n7: لون سلاح\n8: ميوزك لوبي\n9: شاشة تحميل"
+
+            await message.reply(reply)
+            .then( async notify => {
+
+                //listen for user input
+                await message.channel.awaitMessages(filterType, {max: 1, time: 60000})
+                .then( async collected => {
+
+                    //delete the message
+                    notify.delete()
+
+                    //if the user knows the anser of the question
+                    if(collected.first().content !== "*"){
+
+                        //if the user enterd out of ragnge
+                        if(collected.first().content < types.length){
+                            Query[Index] = collected.first().content
+                        }else{
+
+                            //add user error
+                            Query[Index] = 'User Error'
+
+                            //create an error
+                            const err = await new Discord.MessageEmbed()
+
+                            //add color
+                            await err.setColor('#BB00EE')
+
+                            //add title
+                            if(lang === "en") err.setTitle(`Out of range number, please try again and enter a number from the list above ${errorEmoji}`)
+                            else if(lang === "en") err.setTitle(`لقد قمت بكتابة رقم ليس موجود بالقائمة الرجاء محاولة مرا اخرى ${errorEmoji}`)
+
+                            await message.channel.send(err)
+
+                        }
+
+                    }else{
+                        Query[Index] = await collected.first().content
+                    }
+                })
+            })
+
+            //++
+            Index++
 
             //filter user input
             const filterName = async m => await m.author.id === message.author.id
@@ -113,6 +151,8 @@ module.exports = {
                         
                         //add the name
                         remember[0] = await collected.first().content
+                    }else{
+                        remember[0] = "*"
                     }
                 })
             })
@@ -139,22 +179,59 @@ module.exports = {
                         
                         //add the name
                         remember[1] = await collected.first().content
+                    }else{
+                        remember[1] = "*"
                     }
                 })
             })
 
+            //if the item is from the battlepass
+            if(remember[1] === "false"){
+
+                //filter user input
+                const filterItemshop = async m => await m.author.id === message.author.id
+
+                //add the text for the questions
+                if(lang === "en") var reply = "does the item from the itemshop ?, if u don't know type *\nTrue = Yes\nFalse = No"
+                else if(lang === "ar") var reply = "هل العنصر من الايتم شوب ؟، اذا ما تعرف اكتب *\nنعم = True\nلا = False"
+
+                await message.reply(reply)
+                .then( async notify => {
+
+                    //listen for user input
+                    await message.channel.awaitMessages(filterItemshop, {max: 1, time: 60000})
+                    .then( async collected => {
+
+                        //delete the message
+                        notify.delete()
+
+                        //if the user knows the anser of the question
+                        if(collected.first().content !== "*"){
+                            
+                            //add the name
+                            remember[2] = await collected.first().content
+                        }else{
+                            remember[2] = "*"
+                        }
+                    })
+                })
+
+            }else{
+                remember[2] = "false"
+            }
+
             //filter user input
-            const filterItemshop = async m => await m.author.id === message.author.id
+            const filterPrice = async m => await m.author.id === message.author.id
 
             //add the text for the questions
-            if(lang === "en") var reply = "does the item from the itemshop ?, if u don't know type *\nTrue = Yes\nFalse = No"
-            else if(lang === "ar") var reply = "هل العنصر من الايتم شوب ؟، اذا ما تعرف اكتب *"
+            if(lang === "en") var reply = "what is the price of the item ?, if u don't know type *"
+            else if(lang === "ar") var reply = "كم سعر العنصر ؟ اذا ما تعرف اكتب *"
 
             await message.reply(reply)
             .then( async notify => {
 
                 //listen for user input
-                await message.channel.awaitMessages(filterItemshop, {max: 1, time: 60000})
+                await message.channel.awaitMessages(filterPrice, {max: 1, time: 60000})
                 .then( async collected => {
 
                     //delete the message
@@ -162,32 +239,320 @@ module.exports = {
 
                     //if the user knows the anser of the question
                     if(collected.first().content !== "*"){
-                        
-                        //add the name
-                        remember[2] = await collected.first().content
+
+                        //if the user added a value not NUMBER
+                        if(!isNaN(collected.first().content)){
+
+                            //store the price to the array
+                            Query[Index] = await collected.first().content
+                        }else{
+
+                            //add user error
+                            Query[Index] = 'User Error'
+
+                            //create an error
+                            const err = await new Discord.MessageEmbed()
+
+                            //add color
+                            await err.setColor('#BB00EE')
+
+                            //add title
+                            if(lang === "en") err.setTitle(`The value you added is not a number ${errorEmoji}`)
+                            else if(lang === "en") err.setTitle(`لقت قمت بكابة رقم غلط ${errorEmoji}`)
+
+                            await message.channel.send(err)
+                        }
+
+                    }else{
+                        Query[Index] = await collected.first().content
                     }
                 })
             })
 
-            //loop throw every query possiable
-            for(let i = 0; i < queryList.length; i++){
+            //++
+            Index++
 
-                if(Query.includes('User Error')){
-                    break
-                }
+            //filter user input
+            const filterStyles = async m => await m.author.id === message.author.id
+
+            //add the text for the questions
+            if(lang === "en") var reply = "does the item has styles ?, if u don't know type *\nTrue = Yes\nFalse = No"
+            else if(lang === "ar") var reply = "هل العنصر يحتوي على ستايلات ؟ اذا ما تعرف اكتب *\nنعم = True\nلا = False"
+
+            await message.reply(reply)
+            .then( async notify => {
+
+                //listen for user input
+                await message.channel.awaitMessages(filterStyles, {max: 1, time: 60000})
+                .then( async collected => {
+
+                    //delete the message
+                    notify.delete()
+
+                    //if the user knows the anser of the question
+                    if(collected.first().content !== "*"){
+
+                        //if the user entered wrong value
+                        if(collected.first().content.toLowerCase() === "true" || collected.first().content.toLowerCase() === "false"){
+
+                            //store user input
+                            Query[Index] = collected.first().content.toLowerCase()
+                        }else{
+
+                            //add user error
+                            Query[Index] = 'User Error'
+
+                            //create an error
+                            const err = await new Discord.MessageEmbed()
+
+                            //add color
+                            await err.setColor('#BB00EE')
+
+                            //add title
+                            if(lang === "en") err.setTitle(`Please make sure to type TRUE or FALSE correctly ${errorEmoji}`)
+                            else if(lang === "en") err.setTitle(`الرجائ كتابة TRUE او FALSE بشكل صحيح ${errorEmoji}`)
+
+                            await message.channel.send(err)
+
+                        }
+
+                    }else{
+                        Query[Index] = await collected.first().content
+                    }
+                })
+            })
+
+            //++
+            Index++
+
+            //filter user input
+            const filterSets = async m => await m.author.id === message.author.id
+
+            //add the text for the questions
+            if(lang === "en") var reply = "what is the set of the item ?, if u don't know type *"
+            else if(lang === "ar") var reply = "ايش المجموعة حقت العنصر ؟ اذا ما تعرف اكتب *"
+
+            await message.reply(reply)
+            .then( async notify => {
+
+                //listen for user input
+                await message.channel.awaitMessages(filterSets, {max: 1, time: 60000})
+                .then( async collected => {
+
+                    //delete the message
+                    notify.delete()
+
+                    //if the user knows the anser of the question
+                    if(collected.first().content !== "*"){
+
+                        //add the set
+                        Query[Index] = await collected.first().content
+
+                    }else{
+                        Query[Index] = await collected.first().content
+                    }
+                })
+            })
+
+            //++
+            Index++
+
+            //filter user input
+            const filterChapter = async m => await m.author.id === message.author.id
+
+            //add the text for the questions
+            if(lang === "en") var reply = "what is the chapter the item added to ?, if u don't know type *"
+            else if(lang === "ar") var reply = "ايش الشابتر الي نزل فيه العنصر ؟ اذا ما تعرف اكتب *"
+
+            await message.reply(reply)
+            .then( async notify => {
+
+                //listen for user input
+                await message.channel.awaitMessages(filterChapter, {max: 1, time: 60000})
+                .then( async collected => {
+
+                    //delete the message
+                    notify.delete()
+
+                    //if the user knows the anser of the question
+                    if(collected.first().content !== "*"){
+
+                        //add the set
+                        Query[Index] = await collected.first().content
+
+                    }else{
+                        Query[Index] = await collected.first().content
+                    }
+                })
+            })
+
+            //++
+            Index++
+
+            //filter user input
+            const filterSeason = async m => await m.author.id === message.author.id
+
+            //add the text for the questions
+            if(lang === "en") var reply = "what is the season the item added to ?, if u don't know type *"
+            else if(lang === "ar") var reply = "ايش الموسم الي نزل فيه العنصر ؟ اذا ما تعرف اكتب *"
+
+            await message.reply(reply)
+            .then( async notify => {
+
+                //listen for user input
+                await message.channel.awaitMessages(filterSeason, {max: 1, time: 60000})
+                .then( async collected => {
+
+                    //delete the message
+                    notify.delete()
+
+                    //if the user knows the anser of the question
+                    if(collected.first().content !== "*"){
+
+                        //add the set
+                        Query[Index] = await collected.first().content
+
+                    }else{
+                        Query[Index] = await collected.first().content
+                    }
+                })
+            })
+
+            //++
+            Index++
+
+            //filter user input
+            const filterRarity = async m => await m.author.id === message.author.id
+
+            //add the text for the questions
+            if(lang === "en") var reply = "what is the rarity of the item ?, if u don't know type *\n0: Legendary\n1: Epic\n2: Rare\n3: Uncommon\n4: Common"
+            else if(lang === "ar") var reply = "ايش ندرة العنصر ؟ اذا ما تعرف اكتب *\n0: برتقالي\n1: بنفسجي\n2: ازرق\n3: اخضر\n4: ابيض\n"
+
+            await message.reply(reply)
+            .then( async notify => {
+
+                //listen for user input
+                await message.channel.awaitMessages(filterRarity, {max: 1, time: 60000})
+                .then( async collected => {
+
+                    //delete the message
+                    notify.delete()
+
+                    //if the user knows the anser of the question
+                    if(collected.first().content !== "*"){
+
+                        //if the user enterd out of ragnge
+                        if(collected.first().content < rarities.length){
+                            Query[Index] = collected.first().content
+                        }else{
+
+                            //add user error
+                            Query[Index] = 'User Error'
+
+                            //create an error
+                            const err = await new Discord.MessageEmbed()
+
+                            //add color
+                            await err.setColor('#BB00EE')
+
+                            //add title
+                            if(lang === "en") err.setTitle(`Out of range number, please try again and enter a number from the list above ${errorEmoji}`)
+                            else if(lang === "en") err.setTitle(`لقد قمت بكتابة رقم ليس موجود بالقائمة الرجاء محاولة مرا اخرى ${errorEmoji}`)
+
+                            await message.channel.send(err)
+
+                        }
+
+                    }else{
+                        Query[Index] = await collected.first().content
+                    }
+                })
+            })
+
+            //++
+            Index++
+
+            //filter user input
+            const filterSeries = async m => await m.author.id === message.author.id
+
+            //add the text for the questions
+            if(lang === "en") var reply = "what is the series of the item ?, if u don't know type *\n0: Marvel\n1: DC\n2: StarWars\n3: Dark\n4: Icon\n5: Shadow\n6: Slurp\n7: Frozen\n8: Lava\n9: Gaming"
+            else if(lang === "ar") var reply = "ايش سلسلة العنصر ؟ اذا ما تعرف اكتب *\n0: مارفل\n1: دي سي\n2: ستار وارز\n3: المكعب\n4: المشاهير\n5: الظلام\n6: السلرب\n7: الثلج\n8: اللافا\n9: الالعاب"
+
+            await message.reply(reply)
+            .then( async notify => {
+
+                //listen for user input
+                await message.channel.awaitMessages(filterSeries, {max: 1, time: 60000})
+                .then( async collected => {
+
+                    //delete the message
+                    notify.delete()
+
+                    //if the user knows the anser of the question
+                    if(collected.first().content !== "*"){
+
+                        //if the user enterd out of ragnge
+                        if(collected.first().content < series.length){
+                            Query[Index] = collected.first().content
+                        }else{
+
+                            //add user error
+                            Query[Index] = 'User Error'
+
+                            //create an error
+                            const err = await new Discord.MessageEmbed()
+
+                            //add color
+                            await err.setColor('#BB00EE')
+
+                            //add title
+                            if(lang === "en") err.setTitle(`Out of range number, please try again and enter a number from the list above ${errorEmoji}`)
+                            else if(lang === "en") err.setTitle(`لقد قمت بكتابة رقم ليس موجود بالقائمة الرجاء محاولة مرا اخرى ${errorEmoji}`)
+
+                            await message.channel.send(err)
+
+                        }
+
+                    }else{
+                        Query[Index] = await collected.first().content
+                    }
+                })
+            })
+
+            //++
+            Index++
+
+            //if the type is emote
+            if(types[Query[0]] === "emote"){
+
+                //list every possible query
+                queryList = [
+                    'type',
+                    'price',
+                    'gameplayTagsStyles',
+                    'set',
+                    'introductionChapter',
+                    'introductionSeason',
+                    'rarity',
+                    'series',
+                    'copyrightedAudio',
+                    'upcoming',
+                    'reactive',
+                ]
 
                 //filter user input
-                const filter = async m => await m.author.id === message.author.id
+                const filterCopyrighted = async m => await m.author.id === message.author.id
 
                 //add the text for the questions
-                if(lang === "en") var reply = ENQuestions[i]
-                else if(lang === "ar") var reply = ENQuestions[i]
+                if(lang === "en") var reply = "Does the item contains copyrighted audio ?, if u don't know type *\nTrue = Yes\nFalse = No"
+                else if(lang === "ar") var reply = "هل تحتوي الرقصه على حقوق الطبع و النشر ؟ اذا ما تعرف اكتب *\nنعم = True\nلا = False"
 
                 await message.reply(reply)
                 .then( async notify => {
 
                     //listen for user input
-                    await message.channel.awaitMessages(filter, {max: 1, time: 60000})
+                    await message.channel.awaitMessages(filterCopyrighted, {max: 1, time: 60000})
                     .then( async collected => {
 
                         //delete the message
@@ -196,261 +561,175 @@ module.exports = {
                         //if the user knows the anser of the question
                         if(collected.first().content !== "*"){
 
-                            //if the question name related
-                            if(queryList[i] === 'name'){
+                            //if the user entered wrong value
+                            if(collected.first().content.toLowerCase() === "true" || collected.first().content.toLowerCase() === "false"){
 
-                                //add the set
-                                remember[i] = await collected.first().content
-                                
-                            }
+                                //store user input
+                                Query[Index] = collected.first().content.toLowerCase()
+                            }else{
 
-                            //if the question price related
-                            if(queryList[i] === 'price'){
+                                //add user error
+                                Query[Index] = 'User Error'
 
-                                //if the user added a value not NUMBER
-                                if(!isNaN(collected.first().content)){
+                                //create an error
+                                const err = await new Discord.MessageEmbed()
 
-                                    //store the price to the array
-                                    Query[i] = await collected.first().content
-                                }else{
+                                //add color
+                                await err.setColor('#BB00EE')
 
-                                    //add user error
-                                    Query[i] = 'User Error'
+                                //add title
+                                if(lang === "en") err.setTitle(`Please make sure to type TRUE or FALSE correctly ${errorEmoji}`)
+                                else if(lang === "en") err.setTitle(`الرجائ كتابة TRUE او FALSE بشكل صحيح ${errorEmoji}`)
 
-                                    //create an error
-                                    const err = await new Discord.MessageEmbed()
+                                await message.channel.send(err)
 
-                                    //add color
-                                    await err.setColor('#BB00EE')
-
-                                    //add title
-                                    if(lang === "en") err.setTitle(`The value you added is not a number ${errorEmoji}`)
-                                    else if(lang === "en") err.setTitle(`لقت قمت بكابة رقم غلط ${errorEmoji}`)
-
-                                    await message.channel.send(err)
-                                }
-                            }
-
-                            //if the question has styles related
-                            if(queryList[i] === 'gameplayTagsStyles'){
-
-                                //if the user entered wrong value
-                                if(collected.first().content.toLowerCase() === "true" || collected.first().content.toLowerCase() === "false"){
-
-                                    //store user input
-                                    Query[i] = collected.first().content.toLowerCase()
-                                }else{
-
-                                    //add user error
-                                    Query[i] = 'User Error'
-
-                                    //create an error
-                                    const err = await new Discord.MessageEmbed()
-
-                                    //add color
-                                    await err.setColor('#BB00EE')
-
-                                    //add title
-                                    if(lang === "en") err.setTitle(`Please make sure to type TRUE or FALSE correctly ${errorEmoji}`)
-                                    else if(lang === "en") err.setTitle(`الرجائ كتابة TRUE او FALSE بشكل صحيح ${errorEmoji}`)
-
-                                    await message.channel.send(err)
-
-                                }
-                            }
-
-                            //if the question set related
-                            if(queryList[i] === 'set'){
-
-                                //add the set
-                                Query[i] = await collected.first().content
-                                
-                            }
-
-                            //if the question introduction chapter related
-                            if(queryList[i] === 'introductionChapter'){
-
-                                //add the set
-                                Query[i] = await collected.first().content
-                                
-                            }
-
-                            //if the question introduction season related
-                            if(queryList[i] === 'introductionSeason'){
-
-                                //add the set
-                                Query[i] = await collected.first().content
-                                
-                            }
-
-                            //if the question type related
-                            if(queryList[i] === 'type'){
-
-                                //if the user enterd out of ragnge
-                                if(collected.first().content < types.length){
-                                    Query[i] = collected.first().content
-                                }else{
-
-                                    //add user error
-                                    Query[i] = 'User Error'
-
-                                    //create an error
-                                    const err = await new Discord.MessageEmbed()
-
-                                    //add color
-                                    await err.setColor('#BB00EE')
-
-                                    //add title
-                                    if(lang === "en") err.setTitle(`Out of range number, please try again and enter a number from the list above ${errorEmoji}`)
-                                    else if(lang === "en") err.setTitle(`لقد قمت بكتابة رقم ليس موجود بالقائمة الرجاء محاولة مرا اخرى ${errorEmoji}`)
-
-                                    await message.channel.send(err)
-
-                                }
-                            }
-
-                            //if the question series related
-                            if(queryList[i] === 'rarity'){
-
-                                //if the user enterd out of ragnge
-                                if(collected.first().content < rarities.length){
-                                    Query[i] = collected.first().content
-                                }else{
-
-                                    //add user error
-                                    Query[i] = 'User Error'
-
-                                    //create an error
-                                    const err = await new Discord.MessageEmbed()
-
-                                    //add color
-                                    await err.setColor('#BB00EE')
-
-                                    //add title
-                                    if(lang === "en") err.setTitle(`Out of range number, please try again and enter a number from the list above ${errorEmoji}`)
-                                    else if(lang === "en") err.setTitle(`لقد قمت بكتابة رقم ليس موجود بالقائمة الرجاء محاولة مرا اخرى ${errorEmoji}`)
-
-                                    await message.channel.send(err)
-
-                                }
-                            }
-
-                            //if the question series related
-                            if(queryList[i] === 'series'){
-
-                                //if the user enterd out of ragnge
-                                if(collected.first().content < series.length){
-                                    Query[i] = collected.first().content
-                                }else{
-
-                                    //add the error
-                                    Query[i] = 'User Error'
-
-                                    //create an error
-                                    const err = await new Discord.MessageEmbed()
-
-                                    //add color
-                                    await err.setColor('#BB00EE')
-
-                                    //add title
-                                    if(lang === "en") err.setTitle(`Out of range number, please try again and enter a number from the list above ${errorEmoji}`)
-                                    else if(lang === "en") err.setTitle(`لقد قمت بكتابة رقم ليس موجود بالقائمة الرجاء محاولة مرا اخرى ${errorEmoji}`)
-
-                                    await message.channel.send(err)
-
-                                }
-                            }
-
-                            //if the question copyrighted audio related
-                            if(queryList[i] === 'copyrightedAudio'){
-
-                                //if the user entered wrong value
-                                if(collected.first().content.toLowerCase() === "true" || collected.first().content.toLowerCase() === "false"){
-
-                                    //store user input
-                                    Query[i] = collected.first().content.toLowerCase()
-                                }else{
-
-                                    //add user error
-                                    Query[i] = 'User Error'
-
-                                    //create an error
-                                    const err = await new Discord.MessageEmbed()
-
-                                    //add color
-                                    await err.setColor('#BB00EE')
-
-                                    //add title
-                                    if(lang === "en") err.setTitle(`Please make sure to type TRUE or FALSE correctly ${errorEmoji}`)
-                                    else if(lang === "en") err.setTitle(`الرجائ كتابة TRUE او FALSE بشكل صحيح ${errorEmoji}`)
-
-                                    await message.channel.send(err)
-
-                                }
-                            }
-
-                            //if the question upcoming audio related
-                            if(queryList[i] === 'upcoming'){
-
-                                //if the user entered wrong value
-                                if(collected.first().content.toLowerCase() === "true" || collected.first().content.toLowerCase() === "false"){
-
-                                    //store user input
-                                    Query[i] = collected.first().content.toLowerCase()
-                                }else{
-
-                                    //add user error
-                                    Query[i] = 'User Error'
-
-                                    //create an error
-                                    const err = await new Discord.MessageEmbed()
-
-                                    //add color
-                                    await err.setColor('#BB00EE')
-
-                                    //add title
-                                    if(lang === "en") err.setTitle(`Please make sure to type TRUE or FALSE correctly ${errorEmoji}`)
-                                    else if(lang === "en") err.setTitle(`الرجائ كتابة TRUE او FALSE بشكل صحيح ${errorEmoji}`)
-
-                                    await message.channel.send(err)
-
-                                }
-                            }
-
-                            //if the question reactive audio related
-                            if(queryList[i] === 'reactive'){
-
-                                //if the user entered wrong value
-                                if(collected.first().content.toLowerCase() === "true" || collected.first().content.toLowerCase() === "false"){
-
-                                    //store user input
-                                    Query[i] = collected.first().content.toLowerCase()
-                                }else{
-
-                                    //add user error
-                                    Query[i] = 'User Error'
-
-                                    //create an error
-                                    const err = await new Discord.MessageEmbed()
-
-                                    //add color
-                                    await err.setColor('#BB00EE')
-
-                                    //add title
-                                    if(lang === "en") err.setTitle(`Please make sure to type TRUE or FALSE correctly ${errorEmoji}`)
-                                    else if(lang === "en") err.setTitle(`الرجائ كتابة TRUE او FALSE بشكل صحيح ${errorEmoji}`)
-
-                                    await message.channel.send(err)
-
-                                }
                             }
 
                         }else{
-                            Query[i] = await collected.first().content
+                            Query[Index] = await collected.first().content
                         }
-                    }).catch(err => console.log(err))
-                }).catch(err => console.log(err))
+                    })
+                })
+
+                //filter user input
+                const filterTraversal = async m => await m.author.id === message.author.id
+
+                //add the text for the questions
+                if(lang === "en") var reply = "does the emote is traversal ?, if u don't know type *\nTrue = Yes\nFalse = No"
+                else if(lang === "ar") var reply = "هل الرقصه قابلة للمشي ؟، اذا ما تعرف اكتب *"
+
+                await message.reply(reply)
+                .then( async notify => {
+
+                    //listen for user input
+                    await message.channel.awaitMessages(filterTraversal, {max: 1, time: 60000})
+                    .then( async collected => {
+
+                        //delete the message
+                        notify.delete()
+
+                        //if the user knows the anser of the question
+                        if(collected.first().content !== "*"){
+                            
+                            //add the name
+                            remember[Index] = await collected.first().content
+                        }else{
+                            remember[Index] = "*"
+                        }
+                    })
+                })
+
+                //++
+                Index++
+
+            }else{
+                remember[3] = "false"
+                Query[Index] = "false"
             }
+
+            //filter user input
+            const filterUpcoming = async m => await m.author.id === message.author.id
+
+            //add the text for the questions
+            if(lang === "en") var reply = "Does the item set to be an upcoming item ?, if u don't know type *\nTrue = Yes\nFalse = No"
+            else if(lang === "ar") var reply = "هل العنصر ما بعد نزل ؟ اذا ما تعرف اكتب *\nنعم = True\nلا = False"
+
+            await message.reply(reply)
+            .then( async notify => {
+
+                //listen for user input
+                await message.channel.awaitMessages(filterUpcoming, {max: 1, time: 60000})
+                .then( async collected => {
+
+                    //delete the message
+                    notify.delete()
+
+                    //if the user knows the anser of the question
+                    if(collected.first().content !== "*"){
+
+                        //if the user entered wrong value
+                        if(collected.first().content.toLowerCase() === "true" || collected.first().content.toLowerCase() === "false"){
+
+                            //store user input
+                            Query[Index] = collected.first().content.toLowerCase()
+                        }else{
+
+                            //add user error
+                            Query[Index] = 'User Error'
+
+                            //create an error
+                            const err = await new Discord.MessageEmbed()
+
+                            //add color
+                            await err.setColor('#BB00EE')
+
+                            //add title
+                            if(lang === "en") err.setTitle(`Please make sure to type TRUE or FALSE correctly ${errorEmoji}`)
+                            else if(lang === "en") err.setTitle(`الرجائ كتابة TRUE او FALSE بشكل صحيح ${errorEmoji}`)
+
+                            await message.channel.send(err)
+
+                        }
+
+                    }else{
+                        Query[Index] = await collected.first().content
+                    }
+                })
+            })
+
+            //++
+            Index++
+
+            //filter user input
+            const filterReactive = async m => await m.author.id === message.author.id
+
+            //add the text for the questions
+            if(lang === "en") var reply = "Does the item is reactive ?, if u don't know type *\nTrue = Yes\nFalse = No"
+            else if(lang === "ar") var reply = "هل العنصر متفاعل ؟ اذا ما تعرف اكتب *\nنعم = True\nلا = False"
+
+            await message.reply(reply)
+            .then( async notify => {
+
+                //listen for user input
+                await message.channel.awaitMessages(filterReactive, {max: 1, time: 60000})
+                .then( async collected => {
+
+                    //delete the message
+                    notify.delete()
+
+                    //if the user knows the anser of the question
+                    if(collected.first().content !== "*"){
+
+                        //if the user entered wrong value
+                        if(collected.first().content.toLowerCase() === "true" || collected.first().content.toLowerCase() === "false"){
+
+                            //store user input
+                            Query[Index] = collected.first().content.toLowerCase()
+                        }else{
+
+                            //add user error
+                            Query[Index] = 'User Error'
+
+                            //create an error
+                            const err = await new Discord.MessageEmbed()
+
+                            //add color
+                            await err.setColor('#BB00EE')
+
+                            //add title
+                            if(lang === "en") err.setTitle(`Please make sure to type TRUE or FALSE correctly ${errorEmoji}`)
+                            else if(lang === "en") err.setTitle(`الرجائ كتابة TRUE او FALSE بشكل صحيح ${errorEmoji}`)
+
+                            await message.channel.send(err)
+
+                        }
+
+                    }else{
+                        Query[Index] = await collected.first().content
+                    }
+                })
+            })
+
             return await Query
         }
 
@@ -503,6 +782,9 @@ module.exports = {
                 message.reply(error)
             }
         })
+
+        console.log(Query)
+        console.log(queryList)
         
         //if all questions has been answered without any issues
         if(!Query.includes('User Error')){
@@ -520,8 +802,8 @@ module.exports = {
                 //if there is a match
                 if(res.data.items.length !== 0){
 
-                    //define the match
-                    var match = ""
+                    //counter
+                    var counter = 1
 
                     //create varable to store the names
                     var string = ""
@@ -535,57 +817,135 @@ module.exports = {
                             //check if the item is a battlepass or not
                             if(res.data.items[i].battlepass !== null){
 
-                                if(lang === "en") match = "(50% Match)"
-                                else if(lang === "ar") match = "(مناسب بنسبة 50%)"
+                                //if the user added words
+                                if(remember[0] !== "*"){
 
-                                //if the name includes the words that the use added
-                                if(res.data.items[i].name.includes(remember[0])){
+                                    //if the name includes the words that the use added
+                                    if(res.data.items[i].name.toLowerCase().includes(remember[0].toLowerCase())){
 
-                                    if(lang === "en") match = "(75% Match)"
-                                    else if(lang === "ar") match = "(مناسب بنسبة 75%)"
-
-                                    //add the items to the string variable
-                                    string += "•" + (i + 1) + ": " + res.data.items[i].name + " " + match + "\n"
+                                        //add the items to the string variable
+                                        string += "•" + counter + ": " + res.data.items[i].name + "\n"
+                                        counter++
+                                    }
                                 }else{
                                     //add the items to the string variable
-                                    string += "•" + (i + 1) + ": " + res.data.items[i].name + " " + match + "\n"
+                                    string += "•" + counter + ": " + res.data.items[i].name + "\n"
+                                    counter++
                                 }
                             }
 
-                        }else{
-                            if(remember[2] === "true"){
+                        }else if(remember[2] === "true"){
+
+                            //if the item is from the itemshop
+                            if(res.data.items[i].gameplayTags.includes('Cosmetics.Source.ItemShop')){
+
+                                //if the user added words
+                                if(remember[0] !== "*"){
+
+                                    //if the name includes the words that the use added
+                                    if(res.data.items[i].name.toLowerCase().includes(remember[0].toLowerCase())){
+
+                                        //add the items to the string variable
+                                        string += "•" + counter + ": " + res.data.items[i].name + "\n"
+                                        counter++
+                                    }
+                                }else{
+
+                                    //add the items to the string variable
+                                    string += "•" + counter + ": " + res.data.items[i].name + "\n"
+                                    counter++
+                                }
+                            }
+
+                        }else if(remember[3] === "true"){
+
+                            //if the item is from the shop
+                            if(res.data.items[i].gameplayTags.includes('Cosmetics.Source.ItemShop')){
+
+                                //if the user added words
+                                if(remember[0] !== "*"){
+
+                                    //if the item is from the itemshop
+                                    if(res.data.items[i].gameplayTags.includes('Cosmetics.UserFacingFlags.Emote.Traversal')){
+
+                                        //if the name includes the words that the use added
+                                        if(res.data.items[i].name.toLowerCase().includes(remember[0].toLowerCase())){
+
+                                            //add the items to the string variable
+                                            string += "•" + counter + ": " + res.data.items[i].name + "\n"
+                                            counter++
+                                        }
+                                    }
+                                }else{
+
+                                    //add the items to the string variable
+                                    string += "•" + counter + ": " + res.data.items[i].name + "\n"
+                                    counter++
+                                }
+                            }else if(res.data.items[i].battlepass !== null){
+
+                                //if the user added words
+                                if(remember[0] !== "*"){
+
+                                    //if the item is from the itemshop
+                                    if(res.data.items[i].gameplayTags.includes('Cosmetics.UserFacingFlags.Emote.Traversal')){
+
+                                        //if the name includes the words that the use added
+                                        if(res.data.items[i].name.toLowerCase().includes(remember[0].toLowerCase())){
+
+                                            //add the items to the string variable
+                                            string += "•" + counter + ": " + res.data.items[i].name + "\n"
+                                            counter++
+                                        }
+                                    }
+                                }else{
+                                    //add the items to the string variable
+                                    string += "•" + counter + ": " + res.data.items[i].name + "\n"
+                                    counter++
+                                }
+                            }else{
 
                                 //if the item is from the itemshop
-                                if(res.data.items[i].gameplayTags.includes('Cosmetics.Source.ItemShop')){
+                                if(res.data.items[i].gameplayTags.includes('Cosmetics.UserFacingFlags.Emote.Traversal')){
 
-                                if(lang === "en") match = "(50% Match)"
-                                else if(lang === "ar") match = "(مناسب بنسبة 50%)"
+                                    //if the user added words
+                                    if(remember[0] !== "*"){
 
-                                //if the name includes the words that the use added
-                                if(res.data.items[i].name.includes(remember[0])){
+                                        //if the name includes the words that the use added
+                                        if(res.data.items[i].name.toLowerCase().includes(remember[0].toLowerCase())){
 
-                                    if(lang === "en") match = "(75% Match)"
-                                    else if(lang === "ar") match = "(مناسب بنسبة 75%)"
-
-                                    //add the items to the string variable
-                                    string += "•" + (i + 1) + ": " + res.data.items[i].name + " " + match + "\n"
-                                }else{
-                                    //add the items to the string variable
-                                    string += "•" + (i + 1) + ": " + res.data.items[i].name + " " + match + "\n"
+                                            //add the items to the string variable
+                                            string += "•" + counter + ": " + res.data.items[i].name + "\n"
+                                            counter++
+                                        }
+                                    }else{
+                                        //add the items to the string variable
+                                        string += "•" + counter + ": " + res.data.items[i].name + "\n"
+                                        counter++
+                                    }
                                 }
                             }
+
+                        }else if(remember[0] !== "*"){
+
+                            //ensure the item is not a battlepass or shop
+                            if(res.data.items[i].battlepass === null && !res.data.items[i].gameplayTags.includes('Cosmetics.Source.ItemShop')){
+    
+                                //if the name includes the words that the use added
+                                if(res.data.items[i].name.toLowerCase().includes(remember[0].toLowerCase())){
+
+                                    //add the items to the string variable
+                                    string += "•" + counter + ": " + res.data.items[i].name + "\n"
+                                    counter++
+                                }
+                            }
+                            
                         }else{
-                                //if the name includes the words that the use added
-                                if(res.data.items[i].name.includes(remember[0])){
 
-                                    //add the items to the string variable
-                                    string += "•" + (i + 1) + ": " + res.data.items[i].name + " " + match + "\n"
-                                }else{
-                                    //add the items to the string variable
-                                    string += "•" + (i + 1) + ": " + res.data.items[i].name + "\n"
-                                }
+                            //add the items to the string variable
+                            string += "•" + counter + ": " + res.data.items[i].name + "\n"
+                            counter++
 
-                            }
                         }
                     }
 

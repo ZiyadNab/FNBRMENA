@@ -26,13 +26,43 @@ module.exports = {
         //specify the type
         var type = "name"
 
+        if(text.includes("+")){
+            //storing the items
+            var list = []
+            var Counter = 0
+            while(await text.indexOf("+") !== -1){
+
+                //getting the index of the + in text string
+                var stringNumber = text.indexOf("+")
+                //substring the cosmetic name and store it
+                var cosmetic = text.substring(0,stringNumber)
+                //trimming every space
+                cosmetic = cosmetic.trim()
+                //store it into the array
+                list[Counter] = cosmetic
+                //remove the cosmetic from text to start again if the while statment !== -1
+                text = text.replace(cosmetic + ' +','')
+                //remove every space in text
+                text = text.trim()
+                //add the counter index
+                Counter++
+                //end of wile lets try aagin
+            }
+            //still there is the last cosmetic name so lets trim text
+            text = text.trim()
+            //add the what text holds in the last index
+            list[Counter++] = text
+
+            text = `&name=${list[0]}&searchLang=${list[1]}`
+            type = "langType"
+        }
+
         //search by parms
         if(args[0] === "*"){
             text = text.replace('* ', '')
             type = "custom"
         }
         
-        console.log(text)
         //request data
         FNBRMENA.Search(lang, type, text)
         .then(async res => {

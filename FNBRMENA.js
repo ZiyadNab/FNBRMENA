@@ -58,58 +58,42 @@ class FNBRMENA {
     /**
      * 
      * @param {String} Lang 
-     * @param {String} Name 
-     * @param {String} Type 
+     * @param {String} Type
+     * @param {String} Name
      */
-     async Query(Lang, Query, listQuery, Rarity, Type, Series){
+     async Search(Lang, Type, Name){
 
-        //store query string
-        var string = ""
+        if(Type === 'name'){
 
-        for(let i = 0; i < listQuery.length; i ++){
+            //return the item searched by name
+            return await axios.get(`https://fortniteapi.io/v2/items/list?lang=${Lang}&name=${Name}&fields=id,name,description,price,reactive,copyrightedAudio,builtInEmote,upcoming,releaseDate,lastAppearance,rarity,series,added,type,images,gameplayTags,battlepass,set,introduction,shopHistory`, { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
+        
+        }else if(Type === 'id'){
 
-            //if there is a query to add
-            if(Query[i] !== "*"){
+            //return the item searched by id
+            return await axios.get(`https://fortniteapi.io/v2/items/list?lang=${Lang}&id=${Name}&fields=id,name,description,price,reactive,copyrightedAudio,builtInEmote,upcoming,releaseDate,lastAppearance,rarity,series,added,type,images,gameplayTags,battlepass,set,introduction,shopHistory`, { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
+        
+        }else if(Type === 'set'){
 
-                if(!isNaN(Query[i]) && listQuery[i] === 'series'){
+            //return the item searched by id
+            return await axios.get(`https://fortniteapi.io/v2/items/list?lang=${Lang}&set.name=${Name}&fields=id,name,description,price,reactive,copyrightedAudio,builtInEmote,upcoming,releaseDate,lastAppearance,rarity,series,added,type,images,gameplayTags,battlepass,set,introduction,shopHistory`, { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
+        
+        }else if(Type === 'season'){
 
-                    //add the query
-                    string += "&" + listQuery[i] + "=" + Series[Query[i]]
-                }else if(!isNaN(Query[i]) && listQuery[i] === 'rarity'){
+            //return the item searched by id
+            return await axios.get(`https://fortniteapi.io/v2/items/list?lang=${Lang}&${Name}&fields=id,name,description,price,reactive,copyrightedAudio,builtInEmote,upcoming,releaseDate,lastAppearance,rarity,series,added,type,images,gameplayTags,battlepass,set,introduction,shopHistory`, { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
+        
+        }else if(Type === 'series'){
 
-                    //add the query
-                    string += "&" + listQuery[i] + "=" + Rarity[Query[i]]
-                }else if(!isNaN(Query[i]) && listQuery[i] === 'type'){
+            //return the item searched by id
+            return await axios.get(`https://fortniteapi.io/v2/items/list?lang=${Lang}&series.name=${Name}&fields=id,name,description,price,reactive,copyrightedAudio,builtInEmote,upcoming,releaseDate,lastAppearance,rarity,series,added,type,images,gameplayTags,battlepass,set,introduction,shopHistory`, { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
+        
+        }else if(Type === 'custom'){
 
-                    //add the query
-                    string += "&" + listQuery[i] + "=" + Type[Query[i]]
-                }else if(!isNaN(Query[i]) && listQuery[i] === 'set'){
-
-                    //add the query
-                    string += "&" + listQuery[i] + ".name=" + Query[i]
-                }else if(!isNaN(Query[i]) && listQuery[i] === 'introductionSeason'){
-
-                    //add the query
-                    string += "&introduction.season=Season " + Query[i]
-                }else if(!isNaN(Query[i]) && listQuery[i] === 'introductionChapter'){
-
-                    //add the query
-                    string += "&introduction.chapter=Chapter " + Query[i]
-                }else if(Query[i].toLowerCase() === "true" && listQuery[i] === 'gameplayTagsStyles'){
-
-                    //add the query
-                    string += "&gameplayTags=Cosmetics.UserFacingFlags.HasVariants"
-                }else{
-
-                    //add the query
-                    string += "&" + listQuery[i] + "=" + Query[i]
-                }
-            }
+            //return the item searched by id
+            return await axios.get(`https://fortniteapi.io/v2/items/list?lang=${Lang}${Name}&fields=id,name,description,price,reactive,copyrightedAudio,builtInEmote,upcoming,releaseDate,lastAppearance,rarity,series,added,type,images,gameplayTags,battlepass,set,introduction,shopHistory`, { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
+        
         }
-        
-        //return the possiable items
-        return await axios.get(`https://fortniteapi.io/v2/items/list?fields=name,gameplayTags,battlepass${string}&lang=${Lang}`, { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
-        
     }
 
     /** 

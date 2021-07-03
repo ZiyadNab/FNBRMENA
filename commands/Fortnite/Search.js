@@ -149,7 +149,22 @@ module.exports = {
                 })
             }
 
-            if(error === 0){
+            //if there is no item found
+            if(res.data.items.length < 0){
+                if(lang === "en"){
+                    const Err = new Discord.MessageEmbed()
+                    .setColor('#BB00EE')
+                    .setTitle(`No cosmetic has been found check your speling and try again ${errorEmoji}`)
+                    message.reply(Err)
+                }else if(lang === "ar"){
+                    const Err = new Discord.MessageEmbed()
+                    .setColor('#BB00EE')
+                    .setTitle(`لا يمكنني العثور على العنصر الرجاء التأكد من كتابة الاسم بشكل صحيح ${errorEmoji}`)
+                    message.reply(Err)
+                }
+            }
+
+            if(error === 0 && res.data.items.length > 0){
 
                 //getting item data loading
                 const generating = new Discord.MessageEmbed()

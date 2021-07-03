@@ -1158,6 +1158,11 @@ module.exports = {
                         if(res.data.items[num].set !== null) var set = res.data.items[num].set.partOf
                         else if(lang === "en") var set = "There is no set for the item"
                         else if(lang === "ar") var set = "لا يوجد مجموعة للعنصر"
+                        
+                        //introduction
+                        if(res.data.items[num].introduction !== null) var introduction = res.data.items[num].introduction.text
+                        else if(lang === "en") var set = "No data"
+                        else if(lang === "ar") var set = "لا يوجد معلومات"
 
                         //reactive?
                         if(lang === "en"){
@@ -1223,7 +1228,7 @@ module.exports = {
                                 {name: "Type", value: res.data.items[num].type.name},
                                 {name: "Rarity", value: res.data.items[num].rarity.name},
                                 {name: "Price", value: res.data.items[num].price},
-                                {name: "Introduction", value: res.data.items[num].introduction.text},
+                                {name: "Introduction", value: introduction},
                                 {name: "Set", value: set},
                                 {name: "Reactive ?", value: reactive},
                                 {name: "Copy Righted Music ?", value: copyrighted},
@@ -1240,7 +1245,7 @@ module.exports = {
                                 {name: "النوع", value: res.data.items[num].type.name},
                                 {name: "الندرة", value: res.data.items[num].rarity.name},
                                 {name: "السعر", value: res.data.items[num].price},
-                                {name: "تم تقديمه", value: res.data.items[num].introduction.text},
+                                {name: "تم تقديمه", value: introduction},
                                 {name: "المجموعة", value: set},
                                 {name: "متفاعل ؟", value: reactive},
                                 {name: "حقوق الطبع و النشر ؟", value: copyrighted},

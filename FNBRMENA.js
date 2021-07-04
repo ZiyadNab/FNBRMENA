@@ -50,8 +50,8 @@ class FNBRMENA {
      */
      async SearchByType(Lang, Name, Type){
 
-        //return active section
-        return await axios.get(`ttps://fortniteapi.io/v2/items/list?lang=${Lang}&type=${Type}&name=${Name}`, { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
+        //return the items
+        return await axios.get(`https://fortniteapi.io/v2/items/list?lang=${Lang}&fields=name,rarity,series,description,id,price,reactive,type,added,builtInEmote,copyrightedAudio,upcoming,releaseDate,lastAppearance,images,video,audio,gameplayTags,apiTags,battlepass,set,introduction,shopHistory,styles,grants,grantedBy,displayAssets&type=${Type}&name=${Name}`, { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
         
     }
 

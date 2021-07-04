@@ -7,7 +7,7 @@ module.exports = {
     permissionError: 'Sorry you do not have acccess to this command',
     callback: (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji) => {
 
-        if(message.author.id === "325507145871130624"){
+        if(message.author.id === "670067434278879235" || message.author.id === "325507145871130624"){
             if(text.includes("edit title")){
                 admin.database().ref("ERA's").child("Zolan").update({
                     title: text.replace('edit title', '')

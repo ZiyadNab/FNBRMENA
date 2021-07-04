@@ -138,19 +138,11 @@ module.exports = {
 
         if(offerID){
 
-            //message
-            var mess
-
-            if(lang === "en"){
-                mess = "Give just a sec to get the bundle data"
-            }else if(lang === "ar"){
-                mess = "عطني وقت بس قاعد اجيب معلومات الحزمة"
-            }
-
             const generating = new Discord.MessageEmbed()
             generating.setColor('#BB00EE')
             const emoji = client.emojis.cache.get("805690920157970442")
-            generating.setTitle(`${mess} ${emoji}`)
+            if(lang === "en") generating.setTitle(`Give just a sec to get the bundle data ${emoji}`)
+            else if(lang === "ar") generating.setTitle(`عطني وقت بس قاعد اجيب معلومات الحزمة ${emoji}`)
             message.channel.send(generating)
             .then( async msg => {
 
@@ -293,28 +285,62 @@ module.exports = {
                     //tumbnail and image
                     if(found[0].displayAssets.length !== 0){
 
+                        //store the url
+                        var url = found[0].displayAssets[0].url
+                            
+                        //decode and encode
+                        url = decodeURI(url);
+                        url = encodeURI(url);
+
                         //add thumbnail
-                        bundle.setThumbnail(found[0].displayAssets[0].url)
+                        bundle.setThumbnail(url)
 
                         //add the image
                         if(found[0].thumbnail !== null){
-                            bundle.setImage(found[0].thumbnail)
+
+                            //store the url
+                            var url = found[0].thumbnail
+                            
+                            //decode and encode
+                            url = decodeURI(url);
+                            url = encodeURI(url);
+
+                            //set the image
+                            bundle.setImage(url)
                         }else{
-                            bundle.setImage(found[0].displayAssets[0].background)
+
+                            //store the url
+                            var url = found[0].displayAssets[0].background
+                            
+                            //decode and encode
+                            url = decodeURI(url);
+                            url = encodeURI(url);
+
+                            //set the image
+                            bundle.setImage(url)
                         }
                     }else{
 
                         //add the image
                         if(found[0].thumbnail !== null){
-                            bundle.setImage(found[0].thumbnail)
+
+                            //store the url
+                            var url = found[0].thumbnail
+                            
+                            //decode and encode
+                            url = decodeURI(url);
+                            url = encodeURI(url);
+
+                            //set the image
+                            bundle.setImage(url)
                         }
                     }
 
                     message.channel.send(bundle)
                     msg.delete()
 
-                })
-            })
+                }).catch(err => console.log(err))
+            }).catch(err => console.log(err))
         }
     }
 }

@@ -131,7 +131,7 @@ module.exports = (client, admin) => {
                                 )
 
                                 //prices
-                                for(let p = 0; p < available[0].prices.length; p++){
+                                for(let p = 0; p < available[0].prices.length - 1; p++){
                                     bundle.addFields(
                                         {name: available[0].prices[p].paymentCurrencyCode, value: available[0].prices[p].paymentCurrencyAmountNatural + available[0].prices[p].paymentCurrencySymbol, inline: true}
                                     )
@@ -140,20 +140,54 @@ module.exports = (client, admin) => {
                                 //tumbnail and image
                                 if(available[0].displayAssets.length !== 0){
 
+                                    //store the url
+                                    var url = available[0].displayAssets[0].url
+                                        
+                                    //decode and encode
+                                    url = decodeURI(url);
+                                    url = encodeURI(url);
+
                                     //add thumbnail
-                                    bundle.setThumbnail(available[0].displayAssets[0].url)
+                                    bundle.setThumbnail(url)
 
                                     //add the image
                                     if(available[0].thumbnail !== null){
-                                        bundle.setImage(available[0].thumbnail)
+
+                                        //store the url
+                                        var url = available[0].thumbnail
+                                        
+                                        //decode and encode
+                                        url = decodeURI(url);
+                                        url = encodeURI(url);
+
+                                        //set the image
+                                        bundle.setImage(url)
                                     }else{
-                                        bundle.setImage(available[0].displayAssets[0].background)
+
+                                        //store the url
+                                        var url = available[0].displayAssets[0].background
+                                        
+                                        //decode and encode
+                                        url = decodeURI(url);
+                                        url = encodeURI(url);
+
+                                        //set the image
+                                        bundle.setImage(url)
                                     }
                                 }else{
 
                                     //add the image
                                     if(available[0].thumbnail !== null){
-                                        bundle.setImage(available[0].thumbnail)
+
+                                        //store the url
+                                        var url = available[0].thumbnail
+                                        
+                                        //decode and encode
+                                        url = decodeURI(url);
+                                        url = encodeURI(url);
+
+                                        //set the image
+                                        bundle.setImage(url)
                                     }
                                 }
 

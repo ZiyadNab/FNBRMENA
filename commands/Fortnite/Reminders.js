@@ -27,17 +27,11 @@ module.exports = {
         var counter = 0
         var names = []
 
-        //inisilizing type string
-        if(lang === "en"){
-            var type = "Getting all of the reminders under your account"
-        }else if(lang === "ar"){
-            var type = "جاري جلب جميع التنبيهات لحسابك"
-        }
-
         const generating = new Discord.MessageEmbed()
         generating.setColor('#BB00EE')
         const emoji = client.emojis.cache.get("805690920157970442")
-        generating.setTitle(`${type} ${emoji}`)
+        if(lang === "en") generating.setTitle(`Getting all of the reminders under your account ${emoji}`)
+        if(lang === "ar") generating.setTitle(`جاري جلب جميع التنبيهات لحسابك ${emoji}`)
         message.channel.send(generating)
         .then( async msg => {
         
@@ -82,9 +76,9 @@ module.exports = {
 
                 //add title
                 if(lang === "en"){
-                    Reminders.setTitle("Please choose an item to remove")
+                    Reminders.setTitle("All the reminders for your account")
                 }else if(lang === "ar"){
-                    Reminders.setTitle("الرجاء اختيار عنصر ليتم حذفه")
+                    Reminders.setTitle("جميع التذكيرات لحسابك")
                 }
 
                 //add description
@@ -108,7 +102,7 @@ module.exports = {
                 }
 
                 await message.channel.send(err)
-                msg.edit(err)
+                msg.delete(err)
             }
         })
     }

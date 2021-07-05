@@ -100,9 +100,8 @@ module.exports = {
                 }else if(lang === "ar"){
                     err.setTitle(`ليس لديك اي عنصر للتذكير ${errorEmoji}`)
                 }
-
-                await message.channel.send(err)
-                msg.delete(err)
+                
+                msg.delete()
             }
         })
     }

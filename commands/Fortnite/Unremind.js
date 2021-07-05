@@ -194,7 +194,8 @@ module.exports = {
                     err.setTitle(`ليس لديك اي عنصر للتذكير ${errorEmoji}`)
                 }
 
-                await m.edit(err)
+                await message.channel.send(err)
+                m.edit(err)
             }
         })
     }

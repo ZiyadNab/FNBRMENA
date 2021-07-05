@@ -35,15 +35,10 @@ module.exports = {
         //inizilizing variables
         var num = 0
         var Last = ""
-        var mess = ""
-
-        if(lang === "en"){
-            mess = "Getting info about the item"
-        }else if(lang === "ar"){
-            mess = "جاري البحث عن معلومات العنصر" 
-        }
 
         //maneging the time
+
+        moment.locale("en")
         var time = moment(message.createdAt).format()
 
         //checking if the item is valid
@@ -142,7 +137,8 @@ module.exports = {
                         const generating = new Discord.MessageEmbed()
                         generating.setColor('#BB00EE')
                         const emoji = client.emojis.cache.get("805690920157970442")
-                        generating.setTitle(`${mess} ${emoji}`)
+                        if(lang === "en") generating.setTitle(`Getting info about the item ${emoji}`)
+                        else if(lang === "ar") generating.setTitle(`جاري البحث عن معلومات العنصر ${emoji}`)
                         message.channel.send(generating)
                         .then( async msg => {
 

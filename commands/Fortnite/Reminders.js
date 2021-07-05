@@ -85,7 +85,8 @@ module.exports = {
                 Reminders.setDescription(string)
 
                 //send the message
-                message.channel.send(Reminders)
+                await message.channel.send(Reminders)
+                msg.delete()
 
             }else{
                 //create embed
@@ -100,8 +101,8 @@ module.exports = {
                 }else if(lang === "ar"){
                     err.setTitle(`ليس لديك اي عنصر للتذكير ${errorEmoji}`)
                 }
-                
-                msg.delete()
+
+                msg.edit(err)
             }
         })
     }

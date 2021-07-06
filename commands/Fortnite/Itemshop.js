@@ -1601,7 +1601,7 @@ module.exports = {
                 .setTitle(`${send} ${emoji}`)
                 msg.edit(sending)
 
-                const att = new Discord.MessageAttachment(canvas.toBuffer(), res.lastUpdate.uid + '.png')
+                const att = new Discord.MessageAttachment(canvas.toBuffer('image/jpeg', {quality: 0.8}))
                 await message.channel.send(att)
                 msg.delete()
             })

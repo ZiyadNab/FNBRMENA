@@ -26,6 +26,9 @@ module.exports = {
         //specify the parms
         var type = "name"
 
+        //search by id
+        if(text.includes("_")) type = "id"
+
         //search by parms
         if(await args[0] === "*"){
 
@@ -41,7 +44,10 @@ module.exports = {
                 'series',
                 'rarity',
                 'introduction',
-                'set'
+                'tags',
+                'set',
+                'battlepass',
+                'copyrighted',
             ]
 
             //add every type in-game
@@ -56,6 +62,16 @@ module.exports = {
                 'wrap',
                 'music',
                 'loadingscreen'
+            ]
+
+            //list of gameplay tags
+            var tags = [
+                'Cosmetics.Source.ItemShop',
+                'Cosmetics.UserFacingFlags.HasVariants',
+                'Cosmetics.UserFacingFlags.Reactive',
+                'Cosmetics.UserFacingFlags.Emote.Traversal',
+                'Cosmetics.UserFacingFlags.Wrap.Animated',
+                'Cosmetics.UserFacingFlags.Synced'
             ]
 
             //add every series in-game
@@ -100,7 +116,10 @@ module.exports = {
                     {name: '• 2: Series', value: 'Used to specify the item series ~ e.g. Icon Series, DC Series...'},
                     {name: '• 3: Rarity', value: 'Used to specify the item rarity ~ e.g. Legendary, Rare...'},
                     {name: '• 4: Introduction', value: 'Used to specify the item introduction ~ e.g. Chatper 2 Season 3...'},
-                    {name: '• 5: Set', value: 'Used to specify the item set ~ e.g. Storm Scavenger, To The Moon...'},
+                    {name: '• 5: Tags', value: 'Used to specify the item gameplay tags ~ e.g. Itemshop, Reactive, Styles...'},
+                    {name: '• 6: Set', value: 'Used to specify the item set ~ e.g. Storm Scavenger, To The Moon...'},
+                    {name: '• 7: Battlepass', value: 'Used to specify the item battlepass ~ e.g. Chatper 2 Season 3...'},
+                    {name: '• 8: Copyrighted', value: 'Used to specify if the item containg copyrighted audio or not ~ e.g. True, False'},
                 )
             }else if(await lang === "ar"){
 
@@ -110,8 +129,11 @@ module.exports = {
                     {name: '• 1: السعر', value: 'يستعمل في تحديد نوع السعر ~ مثل 1500, 1200...'},
                     {name: '• 2: السلسلة', value: 'يستعمل في تحديد سلسلة العنصر ~ مثل ايكون, دي سي...'},
                     {name: '• 3: الندرة', value: 'يستعمل في تحديد نوع الندرة ~ مثل اسطوري, نادر...'},
-                    {name: '• 4: تقديم العنصر', value: 'يستعمل في تحديد متى تم تقدين العنصر ~ مثل شابتر ٢ سيزون ٣...'},
-                    {name: '• 5: المجموعة', value: 'يستعمل في تحديد توع المجموعة ~ مثل كاسحة العاصفة, نحو القمر!...'},
+                    {name: '• 4: تقديم العنصر', value: 'يستعمل في تحديد متى تم تقديم العنصر ~ مثل شابتر ٢ سيزون ٣...'},
+                    {name: '• 5: شعارات', value: 'يستعمل في تحديد شعارات العنصر ~ مثل ايتم شوب, متفاعل، ستايلات!...'},
+                    {name: '• 6: المجموعة', value: 'يستعمل في تحديد نوع المجموعة ~ مثل كاسحة العاصفة, نحو القمر!...'},
+                    {name: '• 7: باتل باس', value: 'يستعمل في تحديد الباتل باس للعنصر ~ مثل شابتر ٢ سيزون ٣...'},
+                    {name: '• 8: حقوق الطبع و النشر', value: 'يستعمل في تحديد اذا العنصر يحتوي على حقوق الطبع و النشر ام لا ~ مثال True او False'},
                 )
             }
 
@@ -172,13 +194,14 @@ module.exports = {
                                 if(query.includes(query[list[i]])){
                                     
                                     if(errorHandleing === 0){
+
                                         if(query[list[i]] === "type"){
 
                                             //create embed
                                             const typeInput = await new Discord.MessageEmbed()
     
                                             //set the color
-                                            await typeInput.setColor()
+                                            await typeInput.setColor('#BB00EE')
     
                                             //set title
                                             if(lang === "en") typeInput.setTitle('what is the type of the item ?')
@@ -207,25 +230,46 @@ module.exports = {
                                                         notifyType.delete()
                                                         msgTypes.delete()
     
-                                                        if(collectedType.first().content >= 0 && collectedType.first().content < types.length){
-    
-                                                            //store the type
-                                                            text += "&type=" + types[collectedType.first().content]
+                                                        //check if its a number
+                                                        if(!isNaN(collectedType.first().content)){
+
+                                                            //check if the number in range
+                                                            if(collectedType.first().content >= 0 && collectedType.first().content < types.length){
+        
+                                                                //store the type
+                                                                text += "&type=" + types[collectedType.first().content]
+                                                            }else{
+                                                                
+                                                                //add an error
+                                                                errorHandleing++
+        
+                                                                //if user typed a number out of range
+                                                                if(lang === "en"){
+                                                                    const errorType = await new Discord.MessageEmbed()
+                                                                    .setColor('#BB00EE')
+                                                                    .setTitle(`Sorry we canceled your process becuase u selected a number out of range ${errorEmoji}`)
+                                                                    message.reply(errorType)
+                                                                }else if(lang === "ar"){
+                                                                    const errorType = await new Discord.MessageEmbed()
+                                                                    .setColor('#BB00EE')
+                                                                    .setTitle(`تم ايقاف الامر بسبب اختيارك لرقم خارج النطاق ${errorEmoji}`)
+                                                                    message.reply(errorType)
+                                                                }
+                                                            }
                                                         }else{
-                                                            
                                                             //add an error
                                                             errorHandleing++
-    
+            
                                                             //if user typed a number out of range
                                                             if(lang === "en"){
                                                                 const errorType = await new Discord.MessageEmbed()
                                                                 .setColor('#BB00EE')
-                                                                .setTitle(`Sorry we canceled your process becuase u selected a number out of range ${errorEmoji}`)
+                                                                .setTitle(`Please type only number without any symbols or words ${errorEmoji}`)
                                                                 message.reply(errorType)
                                                             }else if(lang === "ar"){
                                                                 const errorType = await new Discord.MessageEmbed()
                                                                 .setColor('#BB00EE')
-                                                                .setTitle(`تم ايقاف الامر بسبب اختيارك لرقم خارج النطاق ${errorEmoji}`)
+                                                                .setTitle(`رجاء كتابة فقط رقم بدون كلامات او علامات ${errorEmoji}`)
                                                                 message.reply(errorType)
                                                             }
                                                         }
@@ -262,22 +306,44 @@ module.exports = {
                                                     //delete the message
                                                     notifyPrice.delete()
     
-                                                    if(collectedPrice.first().content >= 100 && collectedPrice.first().content <= 5000){
-                                                        text += "&price=" + collectedPrice.first().content
+                                                    //check if its a number
+                                                    if(!isNaN(collectedPrice.first().content)){
+
+                                                        //check if the number in range
+                                                        if(collectedPrice.first().content >= 0 && collectedPrice.first().content <= 5000){
+
+                                                            text += "&price=" + collectedPrice.first().content
+                                                        }else{
+                                                            //add an error
+                                                            errorHandleing++
+        
+                                                            //if user typed a number out of range
+                                                            if(lang === "en"){
+                                                                const errorType = await new Discord.MessageEmbed()
+                                                                .setColor('#BB00EE')
+                                                                .setTitle(`Sorry we canceled your process becuase u selected a number out of range ${errorEmoji}`)
+                                                                message.reply(errorType)
+                                                            }else if(lang === "ar"){
+                                                                const errorType = await new Discord.MessageEmbed()
+                                                                .setColor('#BB00EE')
+                                                                .setTitle(`تم ايقاف الامر بسبب اختيارك لرقم خارج النطاق ${errorEmoji}`)
+                                                                message.reply(errorType)
+                                                            }
+                                                        }
                                                     }else{
                                                         //add an error
                                                         errorHandleing++
-    
+        
                                                         //if user typed a number out of range
                                                         if(lang === "en"){
                                                             const errorType = await new Discord.MessageEmbed()
                                                             .setColor('#BB00EE')
-                                                            .setTitle(`Sorry we canceled your process becuase u selected a number out of range ${errorEmoji}`)
+                                                            .setTitle(`Please type only number without any symbols or words ${errorEmoji}`)
                                                             message.reply(errorType)
                                                         }else if(lang === "ar"){
                                                             const errorType = await new Discord.MessageEmbed()
                                                             .setColor('#BB00EE')
-                                                            .setTitle(`تم ايقاف الامر بسبب اختيارك لرقم خارج النطاق ${errorEmoji}`)
+                                                            .setTitle(`رجاء كتابة فقط رقم بدون كلامات او علامات ${errorEmoji}`)
                                                             message.reply(errorType)
                                                         }
                                                     }
@@ -304,7 +370,7 @@ module.exports = {
                                             const seriesInput = await new Discord.MessageEmbed()
     
                                             //set the color
-                                            await seriesInput.setColor()
+                                            await seriesInput.setColor('#BB00EE')
     
                                             //set title
                                             if(lang === "en") seriesInput.setTitle('what is the series of the item ?')
@@ -327,31 +393,51 @@ module.exports = {
     
                                                     //listen for user input
                                                     await message.channel.awaitMessages(filter, {max: 1, time: 60000})
-                                                    .then( async collectedType => {
+                                                    .then( async collectedSeries => {
     
                                                         //delete the message
                                                         notifySeries.delete()
                                                         msgSeries.delete()
     
-                                                        if(collectedType.first().content >= 0 && collectedType.first().content < series.length){
-    
-                                                            //store the type
-                                                            text += "&series=" + series[collectedType.first().content]
+                                                        //check if its a number
+                                                        if(!isNaN(collectedSeries.first().content)){
+
+                                                            if(collectedSeries.first().content >= 0 && collectedSeries.first().content < series.length){
+        
+                                                                //store the type
+                                                                text += "&series=" + series[collectedSeries.first().content]
+                                                            }else{
+                                                                
+                                                                //add an error
+                                                                errorHandleing++
+        
+                                                                //if user typed a number out of range
+                                                                if(lang === "en"){
+                                                                    const errorType = await new Discord.MessageEmbed()
+                                                                    .setColor('#BB00EE')
+                                                                    .setTitle(`Sorry we canceled your process becuase u selected a number out of range ${errorEmoji}`)
+                                                                    message.reply(errorType)
+                                                                }else if(lang === "ar"){
+                                                                    const errorType = await new Discord.MessageEmbed()
+                                                                    .setColor('#BB00EE')
+                                                                    .setTitle(`تم ايقاف الامر بسبب اختيارك لرقم خارج النطاق ${errorEmoji}`)
+                                                                    message.reply(errorType)
+                                                                }
+                                                            }
                                                         }else{
-                                                            
                                                             //add an error
                                                             errorHandleing++
-    
+            
                                                             //if user typed a number out of range
                                                             if(lang === "en"){
                                                                 const errorType = await new Discord.MessageEmbed()
                                                                 .setColor('#BB00EE')
-                                                                .setTitle(`Sorry we canceled your process becuase u selected a number out of range ${errorEmoji}`)
+                                                                .setTitle(`Please type only number without any symbols or words ${errorEmoji}`)
                                                                 message.reply(errorType)
                                                             }else if(lang === "ar"){
                                                                 const errorType = await new Discord.MessageEmbed()
                                                                 .setColor('#BB00EE')
-                                                                .setTitle(`تم ايقاف الامر بسبب اختيارك لرقم خارج النطاق ${errorEmoji}`)
+                                                                .setTitle(`رجاء كتابة فقط رقم بدون كلامات او علامات ${errorEmoji}`)
                                                                 message.reply(errorType)
                                                             }
                                                         }
@@ -379,7 +465,7 @@ module.exports = {
                                             const rarityInput = await new Discord.MessageEmbed()
     
                                             //set the color
-                                            await rarityInput.setColor()
+                                            await rarityInput.setColor('#BB00EE')
     
                                             //set title
                                             if(lang === "en") rarityInput.setTitle('what is the rarity of the item ?')
@@ -407,26 +493,46 @@ module.exports = {
                                                         //delete the message
                                                         notifyRarity.delete()
                                                         msgRarity.delete()
+
+                                                        //check if its a number
+                                                        if(!isNaN(collectedRarity.first().content)){
     
-                                                        if(collectedRarity.first().content >= 0 && collectedRarity.first().content < rarities.length){
-    
-                                                            //store the type
-                                                            text += "&rarity=" + rarities[collectedRarity.first().content]
+                                                            if(collectedRarity.first().content >= 0 && collectedRarity.first().content < rarities.length){
+        
+                                                                //store the type
+                                                                text += "&rarity=" + rarities[collectedRarity.first().content]
+                                                            }else{
+                                                                
+                                                                //add an error
+                                                                errorHandleing++
+        
+                                                                //if user typed a number out of range
+                                                                if(lang === "en"){
+                                                                    const errorType = await new Discord.MessageEmbed()
+                                                                    .setColor('#BB00EE')
+                                                                    .setTitle(`Sorry we canceled your process becuase u selected a number out of range ${errorEmoji}`)
+                                                                    message.reply(errorType)
+                                                                }else if(lang === "ar"){
+                                                                    const errorType = await new Discord.MessageEmbed()
+                                                                    .setColor('#BB00EE')
+                                                                    .setTitle(`تم ايقاف الامر بسبب اختيارك لرقم خارج النطاق ${errorEmoji}`)
+                                                                    message.reply(errorType)
+                                                                }
+                                                            }
                                                         }else{
-                                                            
                                                             //add an error
                                                             errorHandleing++
-    
+            
                                                             //if user typed a number out of range
                                                             if(lang === "en"){
                                                                 const errorType = await new Discord.MessageEmbed()
                                                                 .setColor('#BB00EE')
-                                                                .setTitle(`Sorry we canceled your process becuase u selected a number out of range ${errorEmoji}`)
+                                                                .setTitle(`Please type only number without any symbols or words ${errorEmoji}`)
                                                                 message.reply(errorType)
                                                             }else if(lang === "ar"){
                                                                 const errorType = await new Discord.MessageEmbed()
                                                                 .setColor('#BB00EE')
-                                                                .setTitle(`تم ايقاف الامر بسبب اختيارك لرقم خارج النطاق ${errorEmoji}`)
+                                                                .setTitle(`رجاء كتابة فقط رقم بدون كلامات او علامات ${errorEmoji}`)
                                                                 message.reply(errorType)
                                                             }
                                                         }
@@ -464,7 +570,27 @@ module.exports = {
                                                     //delete the message
                                                     notifyChapter.delete()
     
-                                                    text += "&introduction.chapter=Chapter " + collectedChapter.first().content
+                                                    //check if its a number
+                                                    if(!isNaN(collectedChapter.first().content)){
+
+                                                        text += "&introduction.chapter=Chapter " + collectedChapter.first().content
+                                                    }else{
+                                                        //add an error
+                                                        errorHandleing++
+
+                                                        //if user typed a number out of range
+                                                        if(lang === "en"){
+                                                            const errorType = await new Discord.MessageEmbed()
+                                                            .setColor('#BB00EE')
+                                                            .setTitle(`Please type only number without any symbols or words ${errorEmoji}`)
+                                                            message.reply(errorType)
+                                                        }else if(lang === "ar"){
+                                                            const errorType = await new Discord.MessageEmbed()
+                                                            .setColor('#BB00EE')
+                                                            .setTitle(`رجاء كتابة فقط رقم بدون كلامات او علامات ${errorEmoji}`)
+                                                            message.reply(errorType)
+                                                        }
+                                                    }
 
                                                     //add the reply
                                                     if(lang === "en") reply = "what is the season ? the command will stop listen in 20 sec"
@@ -480,7 +606,26 @@ module.exports = {
                                                             //delete the message
                                                             notifySeason.delete()
             
-                                                            text += "&introduction.season=Season " + collectedSeason.first().content
+                                                            //check if its a number
+                                                            if(!isNaN(collectedSeason.first().content)){
+                                                                text += "&introduction.season=Season " + collectedSeason.first().content
+                                                            }else{
+                                                                //add an error
+                                                                errorHandleing++
+
+                                                                //if user typed a number out of range
+                                                                if(lang === "en"){
+                                                                    const errorType = await new Discord.MessageEmbed()
+                                                                    .setColor('#BB00EE')
+                                                                    .setTitle(`Please type only number without any symbols or words ${errorEmoji}`)
+                                                                    message.reply(errorType)
+                                                                }else if(lang === "ar"){
+                                                                    const errorType = await new Discord.MessageEmbed()
+                                                                    .setColor('#BB00EE')
+                                                                    .setTitle(`رجاء كتابة فقط رقم بدون كلامات او علامات ${errorEmoji}`)
+                                                                    message.reply(errorType)
+                                                                }
+                                                            }
                                                         }).catch(err => {
             
                                                             //add an error
@@ -509,6 +654,122 @@ module.exports = {
                                                     .setColor('#BB00EE')
                                                     .setTitle(`${FNBRMENA.Errors("Time", lang)} ${errorEmoji}`)
                                                     message.reply(priceError)
+                                                })
+                                            })
+                                        }
+
+                                        if(query[list[i]] === "tags"){
+
+                                            //create embed
+                                            const tagsInput = await new Discord.MessageEmbed()
+    
+                                            //set the color
+                                            await tagsInput.setColor('#BB00EE')
+    
+                                            //set title
+                                            if(lang === "en") tagsInput.setTitle('what is the tags of the item ?')
+                                            else if(lang === "ar") tagsInput.setTitle('ايش هي الشعارات للعنصر ؟')
+
+                                            if(lang === "en") tagsInput.setDescription(`0: Itemshop\n1: Has Styles\n2: Reactive\n3: Traversal\n4: Animated\n5: Synced`)
+                                            else if(lang === "ar") tagsInput.setDescription(`0: ايتم شوب\n1: يتضمن ستايلات\n2: متفاعل\n3: قابل للمشي\n4: متحرك\n5: متزامن`)
+
+                                            //send the embed
+                                            await message.channel.send(tagsInput)
+                                            .then(async msgTags => {
+    
+                                                //add the reply
+                                                if(lang === "en") reply = "please choose from above list the command will stop listen in 20 sec"
+                                                else if(lang === "ar") reply = "الرجاء الاختيار من القائمة بالاعلى، سوف ينتهي الامر خلال ٢٠ ثانية"
+    
+                                                await message.reply(reply)
+                                                .then( async notifyTags => {
+
+                                                    //listen for user input
+                                                    await message.channel.awaitMessages(filter, {max: 1, time: 60000})
+                                                    .then( async collectedTags => {
+
+                                                        //delete messages
+                                                        notifyTags.delete()
+                                                        msgTags.delete()
+
+                                                        //add the gameplay parms to text
+                                                        text += "&gameplayTags="
+
+                                                        //storing the items
+                                                        var listTags = []
+                                                        var CounterTags = 0
+                                                        while(await collectedTags.first().content.indexOf("+") !== -1){
+
+                                                            //getting the index of the + in text string
+                                                            var stringNumber = collectedTags.first().content.indexOf("+")
+                                                            //substring the tagsChosen name and store it
+                                                            var tagsChosen = collectedTags.first().content.substring(0,stringNumber)
+                                                            //trimming every space
+                                                            tagsChosen = tagsChosen.trim()
+                                                            //store it into the array
+                                                            listTags[CounterTags] = tagsChosen
+                                                            //remove the tagsChosen from text to start again if the while statment !== -1
+                                                            collectedTags.first().content = collectedTags.first().content.replace(tagsChosen + ' +','')
+                                                            //remove every space in text
+                                                            collectedTags.first().content = collectedTags.first().content.trim()
+                                                            //add the counter index
+                                                            CounterTags++
+                                                            //end of while lets try aagin
+                                                        }
+                                                        //still there is the last tagsChosen name so lets trim text
+                                                        collectedTags.first().content = collectedTags.first().content.trim()
+                                                        //add the what text holds in the last index
+                                                        listTags[CounterTags++] = await collectedTags.first().content
+
+                                                        //add the first tag
+                                                        text += tags[listTags[0]]
+
+                                                        for(let t = 1; t < listTags.length; t++){
+
+                                                            //check if its a number
+                                                            if(!isNaN(listTags[t])){
+                                                                //check if the number in range
+                                                                if(listTags[t] >= 0 && listTags[t] < tags.length){
+            
+                                                                    //store the type
+                                                                    text += "," + tags[listTags[t]]
+                                                                }else{
+                                                                    
+                                                                    //add an error
+                                                                    errorHandleing++
+            
+                                                                    //if user typed a number out of range
+                                                                    if(lang === "en"){
+                                                                        const errorType = await new Discord.MessageEmbed()
+                                                                        .setColor('#BB00EE')
+                                                                        .setTitle(`Sorry we canceled your process becuase u selected a number out of range ${errorEmoji}`)
+                                                                        message.reply(errorType)
+                                                                    }else if(lang === "ar"){
+                                                                        const errorType = await new Discord.MessageEmbed()
+                                                                        .setColor('#BB00EE')
+                                                                        .setTitle(`تم ايقاف الامر بسبب اختيارك لرقم خارج النطاق ${errorEmoji}`)
+                                                                        message.reply(errorType)
+                                                                    }
+                                                                }
+                                                            }else{
+                                                                //add an error
+                                                                errorHandleing++
+                
+                                                                //if user typed a number out of range
+                                                                if(lang === "en"){
+                                                                    const errorType = await new Discord.MessageEmbed()
+                                                                    .setColor('#BB00EE')
+                                                                    .setTitle(`Please type only number without any symbols or words ${errorEmoji}`)
+                                                                    message.reply(errorType)
+                                                                }else if(lang === "ar"){
+                                                                    const errorType = await new Discord.MessageEmbed()
+                                                                    .setColor('#BB00EE')
+                                                                    .setTitle(`رجاء كتابة فقط رقم بدون كلامات او علامات ${errorEmoji}`)
+                                                                    message.reply(errorType)
+                                                                }
+                                                            }
+                                                        }
+                                                    })
                                                 })
                                             })
                                         }
@@ -545,6 +806,176 @@ module.exports = {
                                                 })
                                             })
                                         }
+
+                                        if(query[list[i]] === "battlepass"){
+
+                                            //add the reply
+                                            if(lang === "en") reply = "what is the battlepass chapter ? the command will stop listen in 20 sec"
+                                            else if(lang === "ar") reply = "ماهو الشابتر للباتل باس سوف ينتهي الامر خلال ٢٠ ثانية"
+    
+                                            await message.reply(reply)
+                                            .then( async notifyBattlepassChapter => {
+    
+                                                //listen for user input
+                                                await message.channel.awaitMessages(filter, {max: 1, time: 60000})
+                                                .then( async collectedBattlepassChapter => {
+    
+                                                    //delete the message
+                                                    notifyBattlepassChapter.delete()
+
+                                                    //check if its a number
+                                                    if(!isNaN(collectedBattlepassChapter.first().content)){
+                                                        text += "&battlepass.displayText.chapter=Chapter " + collectedBattlepassChapter.first().content
+                                                    }else{
+                                                        //add an error
+                                                        errorHandleing++
+
+                                                        //if user typed a number out of range
+                                                        if(lang === "en"){
+                                                            const errorType = await new Discord.MessageEmbed()
+                                                            .setColor('#BB00EE')
+                                                            .setTitle(`Please type only number without any symbols or words ${errorEmoji}`)
+                                                            message.reply(errorType)
+                                                        }else if(lang === "ar"){
+                                                            const errorType = await new Discord.MessageEmbed()
+                                                            .setColor('#BB00EE')
+                                                            .setTitle(`رجاء كتابة فقط رقم بدون كلامات او علامات ${errorEmoji}`)
+                                                            message.reply(errorType)
+                                                        }
+                                                    }
+
+                                                    //add the reply
+                                                    if(lang === "en") reply = "what is the battlepass season ? the command will stop listen in 20 sec"
+                                                    else if(lang === "ar") reply = "ماهو السيزون للباتل باس سوف ينتهي الامر خلال ٢٠ ثانية"
+            
+                                                    await message.reply(reply)
+                                                    .then( async notifyBattlepassSeason => {
+            
+                                                        //listen for user input
+                                                        await message.channel.awaitMessages(filter, {max: 1, time: 60000})
+                                                        .then( async collectedBattlepassSeason => {
+            
+                                                            //delete the message
+                                                            notifyBattlepassSeason.delete()
+            
+                                                            //check if its a number
+                                                            if(!isNaN(collectedBattlepassSeason.first().content)){
+                                                                text += "&battlepass.displayText.season=Season " + collectedBattlepassSeason.first().content
+                                                            }else{
+                                                                //add an error
+                                                                errorHandleing++
+
+                                                                //if user typed a number out of range
+                                                                if(lang === "en"){
+                                                                    const errorType = await new Discord.MessageEmbed()
+                                                                    .setColor('#BB00EE')
+                                                                    .setTitle(`Please type only number without any symbols or words ${errorEmoji}`)
+                                                                    message.reply(errorType)
+                                                                }else if(lang === "ar"){
+                                                                    const errorType = await new Discord.MessageEmbed()
+                                                                    .setColor('#BB00EE')
+                                                                    .setTitle(`رجاء كتابة فقط رقم بدون كلامات او علامات ${errorEmoji}`)
+                                                                    message.reply(errorType)
+                                                                }
+                                                            }
+                                                        }).catch(err => {
+            
+                                                            //add an error
+                                                            errorHandleing++
+
+                                                            //delete the message
+                                                            notifyBattlepassSeason.delete()
+            
+                                                            //if user took to long to excute the command
+                                                            const priceError = new Discord.MessageEmbed()
+                                                            .setColor('#BB00EE')
+                                                            .setTitle(`${FNBRMENA.Errors("Time", lang)} ${errorEmoji}`)
+                                                            message.reply(priceError)
+                                                        })
+                                                    })
+                                                }).catch(err => {
+    
+                                                    //add an error
+                                                    errorHandleing++
+
+                                                    //delete the message
+                                                    notifyBattlepassChapter.delete()
+    
+                                                    //if user took to long to excute the command
+                                                    const priceError = new Discord.MessageEmbed()
+                                                    .setColor('#BB00EE')
+                                                    .setTitle(`${FNBRMENA.Errors("Time", lang)} ${errorEmoji}`)
+                                                    message.reply(priceError)
+                                                })
+                                            })
+                                        }
+
+                                        if(query[list[i]] === "copyrighted"){
+                                            //add the reply
+                                            if(lang === "en") reply = "is the item containg copyrighted audio ? the command will stop listen in 20 sec"
+                                            else if(lang === "ar") reply = "هل العنصر يحتوي على حقوق طبع و نشر سوف ينتهي الامر خلال ٢٠ ثانية"
+    
+                                            await message.reply(reply)
+                                            .then( async notifyCopyrighted => {
+    
+                                                //listen for user input
+                                                await message.channel.awaitMessages(filter, {max: 1, time: 60000})
+                                                .then( async collectedCopyrighted => {
+    
+                                                    //delete the message
+                                                    notifyCopyrighted.delete()
+    
+                                                    //check if the user typo is right or not
+                                                    if(collectedCopyrighted.first().content.toLowerCase() === "true" || collectedCopyrighted.first().content.toLowerCase() === "false"){
+                                                        text += "&copyrightedAudio=" + collectedCopyrighted.first().content.toLowerCase()
+                                                    }else{
+                                                        //add an error
+                                                        errorHandleing++
+    
+                                                        //if user typed a number out of range
+                                                        if(lang === "en"){
+                                                            const errorType = await new Discord.MessageEmbed()
+                                                            .setColor('#BB00EE')
+                                                            .setTitle(`Please type TRUE or FALSE correctly ${errorEmoji}`)
+                                                            message.reply(errorType)
+                                                        }else if(lang === "ar"){
+                                                            const errorType = await new Discord.MessageEmbed()
+                                                            .setColor('#BB00EE')
+                                                            .setTitle(`الرجاء كتابة TRUE او FALSE بشكل صحيح ${errorEmoji}`)
+                                                            message.reply(errorType)
+                                                        }
+                                                    }
+                                                }).catch(err => {
+    
+                                                    //add an error
+                                                    errorHandleing++
+
+                                                    //delete the message
+                                                    notifyCopyrighted.delete()
+    
+                                                    //if user took to long to excute the command
+                                                    const priceError = new Discord.MessageEmbed()
+                                                    .setColor('#BB00EE')
+                                                    .setTitle(`${FNBRMENA.Errors("Time", lang)} ${errorEmoji}`)
+                                                    message.reply(priceError)
+                                                })
+                                            })
+                                        }
+                                    }
+                                }else{
+                                    //add an error
+                                    errorHandleing++
+
+                                    if(lang === "en"){
+                                        const errorNumberNotListed = new Discord.MessageEmbed()
+                                        errorNumberNotListed.setColor('#BB00EE')
+                                        errorNumberNotListed.setTitle(`The number ${list[i]} is not listed ${errorEmoji}`)
+                                        message.reply(errorNumberNotListed)
+                                    }else if(lang === "ar"){
+                                        const errorNumberNotListed = new Discord.MessageEmbed()
+                                        errorNumberNotListed.setColor('#BB00EE')
+                                        errorNumberNotListed.setTitle(`الرقم ${list[i]} ليس موجود بالقائمة ${errorEmoji}`)
+                                        message.reply(errorNumberNotListed)
                                     }
                                 }
                             }
@@ -553,10 +984,17 @@ module.exports = {
                             //add an error
                             errorHandleing++
 
-                            const errorMoreTypes = new Discord.MessageEmbed()
-                            .setColor('#BB00EE')
-                            .setTitle(`Please choose 2 or more types to make the command works ${errorEmoji}`)
-                            message.reply(errorMoreTypes)
+                            if(lang === "en"){
+                                const errorMoreTypes = new Discord.MessageEmbed()
+                                errorMoreTypes.setColor('#BB00EE')
+                                errorMoreTypes.setTitle(`Please choose 2 or more types to make the command works ${errorEmoji}`)
+                                message.reply(errorMoreTypes)
+                            }else if(lang === "ar"){
+                                const errorMoreTypes = new Discord.MessageEmbed()
+                                errorMoreTypes.setColor('#BB00EE')
+                                errorMoreTypes.setTitle(`يجب عليك الاختيار اكثر من نوعين ${errorEmoji}`)
+                                message.reply(errorMoreTypes)
+                            }
 
                         }
                     }).catch(err => {
@@ -642,19 +1080,15 @@ module.exports = {
                                 }else{
 
                                     //add an error
-                                    error++
+                                    errorHandleing++
 
                                     //if user typed a number out of range
                                     if(lang === "en"){
-                                        msg.delete()
-                                        notify.delete()
                                         const error = new Discord.MessageEmbed()
                                         .setColor('#BB00EE')
                                         .setTitle(`Sorry we canceled your process becuase u selected a number out of range ${errorEmoji}`)
                                         message.reply(error)
                                     }else if(lang === "ar"){
-                                        msg.delete()
-                                        notify.delete()
                                         const error = new Discord.MessageEmbed()
                                         .setColor('#BB00EE')
                                         .setTitle(`تم ايقاف الامر بسبب اختيارك لرقم خارج النطاق ${errorEmoji}`)

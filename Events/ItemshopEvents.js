@@ -55,7 +55,7 @@ module.exports = (client, admin) => {
                             const emoji = client.emojis.cache.get("805690920157970442")
                             if(lang === "en") generating.setTitle(`Loading a total ${res.shop.length} cosmetics please wait... ${emoji}`)
                             else if(lang === "ar") generating.setTitle(`تحميل جميع العناصر بمجموع ${res.shop.length} عنصر الرجاء الانتظار... ${emoji}`)
-                            message.channel.send(generating)
+                            message.send(generating)
                             .then( async msg => {
 
                                 //creating array of objects

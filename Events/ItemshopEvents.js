@@ -49,31 +49,13 @@ module.exports = (client, admin) => {
                         }
                         if(JSON.stringify(shop) !== JSON.stringify(response)){
 
-                            //variables
-                            var language;
-                            var loading;
-                            var send;
-                            var cosmetics;
-
-                            if(lang === "en"){
-                                language = "en"
-                                loading = "Loading a total"
-                                send = "Sending the image please wait"
-                                cosmetics = "cosmetics please wait"
-                            }
-                            if(lang === "ar"){
-                                language = "ar"
-                                loading = "تحميل جميع العناصر بمجموع"
-                                send = "جاري ارسال الصورة الرجاء الانتظار"
-                                cosmetics = "عنصر الرجاء الانتظار"
-                            }
-
                             //generating animation
                             const generating = new Discord.MessageEmbed()
                             generating.setColor('#BB00EE')
                             const emoji = client.emojis.cache.get("805690920157970442")
-                            generating.setTitle(`${loading} ${res.shop.length} ${cosmetics}... ${emoji}`)
-                            message.send(generating)
+                            if(lang === "en") generating.setTitle(`Loading a total ${res.shop.length} cosmetics please wait... ${emoji}`)
+                            else if(lang === "ar") generating.setTitle(`تحميل جميع العناصر بمجموع ${res.shop.length} عنصر الرجاء الانتظار... ${emoji}`)
+                            message.channel.send(generating)
                             .then( async msg => {
 
                                 //creating array of objects
@@ -123,10 +105,10 @@ module.exports = (client, admin) => {
                                 var LengthSection
                                 var Division = 0
                                 var width = 0
-                                var height = 500
+                                var height = 250
                                 var Lines = 0
-                                var x = 250;
-                                var y = 250;
+                                var x = 125;
+                                var y = 125;
 
                                 //checing if there is Special items
                                 if(SpecialFeatured.length !== 0){
@@ -141,13 +123,13 @@ module.exports = (client, admin) => {
                                             Division = 3
 
                                             //creating width
-                                            width = (9*512) + (25 * 9) + 1000;
+                                            width = (9 * 256) + (12 * 9) + 500;
 
                                             //creating height
                                             for(let i = 0; i<=LengthSection; i++){
                                                 Lines++;
                                                 if(Division === Lines){
-                                                    height += 512 +25;
+                                                    height += 256 + 12;
                                                     Lines = 0;
                                                 }
                                             }
@@ -164,13 +146,13 @@ module.exports = (client, admin) => {
                                             }
 
                                             //creating width
-                                            width = (12*512) + (25 * 12) + 500;
+                                            width = (12*256) + (12 * 12) + 250;
 
                                             //creating height
                                             for(let i = 0; i<LengthSection; i++){
                                                 Lines++;
                                                 if(Division === Lines){
-                                                    height += 512 +25;
+                                                    height += 256 + 12;
                                                     Lines = 0;
                                                 }
                                             }
@@ -183,13 +165,13 @@ module.exports = (client, admin) => {
                                             Division = 3
 
                                             //creating width
-                                            width = (9*512) + (25 * 9) + 1000;
+                                            width = (9 * 256) + (12 * 9) + 500;
 
                                             //creating height
                                             for(let i = 0; i<=LengthSection; i++){
                                                 Lines++;
                                                 if(Division === Lines){
-                                                    height += 512 +25;
+                                                    height += 256 + 12;
                                                     Lines = 0;
                                                 }
                                             }
@@ -205,13 +187,13 @@ module.exports = (client, admin) => {
                                             }
 
                                             //creating width
-                                            width = (12*512) + (25 * 12) + 500;
-
+                                            width = (12 * 256) + (12 * 12) + 250;
+                                            
                                             //creating height
-                                            for(let i = 0; i<LengthSection; i++){
+                                            for(let i = 0; i < LengthSection; i++){
                                                 Lines++;
                                                 if(Division === Lines){
-                                                    height += 512 +25;
+                                                    height += 256 + 12;
                                                     Lines = 0;
                                                 }
                                             }
@@ -224,13 +206,13 @@ module.exports = (client, admin) => {
                                     Division = 3
 
                                     //creating width
-                                    width = (6*512) + (25 * 6) + 750;
+                                    width = (6 * 256) + (12 * 6) + 375;
 
                                     //creating height
-                                    for(let i = 0; i<=LengthSection; i++){
+                                    for(let i = 0; i <= LengthSection; i++){
                                         Lines++;
                                         if(Division === Lines){
-                                            height += 512 +25;
+                                            height += 256 + 12;
                                             Lines = 0;
                                         }
                                     }
@@ -241,13 +223,13 @@ module.exports = (client, admin) => {
                                     Division = 5
 
                                     //creating width
-                                    width = (8*512) + (25 * 8) + 750;
+                                    width = (8 * 256) + (12 * 8) + 375;
 
                                     //creating height
-                                    for(let i = 0; i<LengthSection; i++){
+                                    for(let i = 0; i < LengthSection; i++){
                                         Lines++;
                                         if(Division === Lines){
-                                            height += 512 +25;
+                                            height += 256 + 12;
                                             Lines = 0;
                                         }
                                     }
@@ -257,19 +239,19 @@ module.exports = (client, admin) => {
                                 if(LimitedTime.length !== 0){
                                     if(lang === "en"){
                                         if(Featured.length % FeaturedSection === 0){
-                                            height += 1274
+                                            height += 637
                                             for(let i = 0; i < LimitedTime.length; i++){
                                                 if(3 === Lines){
-                                                    height += 1024 +50;
+                                                    height += 512 + 25;
                                                     Lines = 0;
                                                 }
                                                 Lines++;
                                             }
                                         }else{
-                                            height += 1400
+                                            height += 700
                                             for(let i = 0; i < LimitedTime.length; i++){
                                                 if(3 === Lines){
-                                                    height += 1024 +50;
+                                                    height += 512 + 25;
                                                     Lines = 0;
                                                 }
                                                 Lines++;
@@ -278,38 +260,38 @@ module.exports = (client, admin) => {
                                     } else if(lang === "ar"){
                                         if(SpecialFeatured.length !== 0){
                                             if(SpecialFeatured.length % SpecialFeaturedSection === 0){
-                                                height += 1274
+                                                height += 637
                                                 for(let i = 0; i < LimitedTime.length; i++){
                                                     if(3 === Lines){
-                                                        height += 1024 +50;
+                                                        height += 512 + 25;
                                                         Lines = 0;
                                                     }
                                                     Lines++;
                                                 }
                                             }else{
-                                                height += 1524
+                                                height += 762
                                                 for(let i = 0; i < LimitedTime.length; i++){
                                                     if(3 === Lines){
-                                                        height += 1024 +50;
+                                                        height += 512 + 25;
                                                         Lines = 0;
                                                     }
                                                     Lines++;
                                                 }
                                             }
                                         } else if(res.daily.length % 3 === 0){
-                                            height += 1274
+                                            height += 762
                                             for(let i = 0; i < LimitedTime.length; i++){
                                                 if(3 === Lines){
-                                                    height += 1024 +50;
+                                                    height += 512 + 25;
                                                     Lines = 0;
                                                 }
                                                 Lines++;
                                             }
                                         }else{
-                                            height += 1524
+                                            height += 762
                                             for(let i = 0; i < LimitedTime.length; i++){
                                                 if(3 === Lines){
-                                                    height += 1024 +50;
+                                                    height += 512 + 25;
                                                     Lines = 0;
                                                 }
                                                 Lines++;
@@ -317,31 +299,31 @@ module.exports = (client, admin) => {
                                         }
                                     }
                                 }else{
-                                    height += 300
+                                    height += 150
                                 }
-                                height += 600
+                                height += 200
 
                                 //applyText
                                 const applyText = (canvas, text, type) => {
                                     const ctx = canvas.getContext('2d');
                                     if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
-                                        let fontSize = 150;
+                                        let fontSize = 75;
                                         do {
                                             if(lang === "en"){
                                                 ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
                                             }else if(lang === "ar"){
                                                 ctx.font = `${fontSize -= 1}px Arabic`;
                                             }
-                                        } while (ctx.measureText(text).width > 800);
+                                        } while (ctx.measureText(text).width > 400);
                                     }else{
-                                        let fontSize = 60;
+                                        let fontSize = 30;
                                         do {
                                             if(lang === "en"){
                                                 ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
                                             }else if(lang === "ar"){
                                                 ctx.font = `${fontSize -= 1}px Arabic`;
                                             }
-                                        } while (ctx.measureText(text).width > 420);
+                                        } while (ctx.measureText(text).width > 210);
                                     }
                                     return ctx.font;
                                 };
@@ -362,10 +344,10 @@ module.exports = (client, admin) => {
                                 //code
                                 if(lang === "en"){
                                     const code = await Canvas.loadImage('./assets/Credits/code.png')
-                                    ctx.drawImage(code, 100, (height - 300), 1000, 200)
+                                    ctx.drawImage(code, 50, (height - 150), 500, 100)
                                 }else if(lang === "ar"){
                                     const code = await Canvas.loadImage('./assets/Credits/codeAR.png')
-                                    ctx.drawImage(code, (canvas.width - 1100), (height - 300), 1000, 200)
+                                    ctx.drawImage(code, (canvas.width - 550), (height - 150), 500, 100)
                                 }
 
                                 //date
@@ -375,15 +357,15 @@ module.exports = (client, admin) => {
                                     date = moment(res.lastUpdate.date).format("dddd, MMMM Do of YYYY")
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
-                                    ctx.font = `200px Burbank Big Condensed`
-                                    ctx.fillText(date, (width / 2), (height - 100))
+                                    ctx.font = `100px Burbank Big Condensed`
+                                    ctx.fillText(date, (width / 2), (height - 50))
                                 }else if(lang === "ar"){
                                     moment.locale("ar")
                                     date = moment(res.lastUpdate.date).format("dddd, MMMM Do من YYYY")
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
-                                    ctx.font = `200px Arabic`
-                                    ctx.fillText(date, (width / 2), (height - 100))
+                                    ctx.font = `100px Arabic`
+                                    ctx.fillText(date, (width / 2), (height - 50))
                                 }
 
                                 //display items method
@@ -432,14 +414,14 @@ module.exports = (client, admin) => {
                                         ctx.drawImage(skinborder, x, y, WidthC, HeightC)
                                         if(lang === "en"){
                                             if(newItem === true){
-                                                const skinholder = await Canvas.loadImage('./assets/Shop/new.png')
-                                                ctx.drawImage(skinholder, x - 20, y - 30, BannerW, BannerH)
+                                                const newItem = await Canvas.loadImage('./assets/Shop/new.png')
+                                                ctx.drawImage(newItem, x - 10, y - 15, BannerW, BannerH)
                                             }
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
                                             ctx.font = applyText(canvas, name, type);
                                             if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
-                                                ctx.fillText(name, (NameX + x), (y + NameY - 75))
+                                                ctx.fillText(name, (NameX + x), (y + NameY - 37))
                                             }else{
                                                 ctx.fillText(name, (NameX + x), (y + NameY))
                                             }
@@ -454,14 +436,14 @@ module.exports = (client, admin) => {
                                             ctx.drawImage(v, (vBucksX + x), (y + vBucksY), vBucksW, vBucksH);
                                         }else if(lang === "ar"){
                                             if(newItem === true){
-                                                const skinholder = await Canvas.loadImage('./assets/Shop/newAR.png')
-                                                ctx.drawImage(skinholder, x - 20, y - 30, BannerW, BannerH)
+                                                const newItem = await Canvas.loadImage('./assets/Shop/newAR.png')
+                                                ctx.drawImage(newItem, x - 10, y - 15, BannerW, BannerH)
                                             }
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
                                             ctx.font = applyText(canvas, name, type);
                                             if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
-                                                ctx.fillText(name, (NameX + x), (y + NameY - 60))
+                                                ctx.fillText(name, (NameX + x), (y + NameY - 30))
                                             }else{
                                                 ctx.fillText(name, (NameX + x), (y + NameY))
                                             }
@@ -488,14 +470,14 @@ module.exports = (client, admin) => {
                                         ctx.drawImage(skinborder, x, y, WidthC, HeightC)
                                         if(lang === "en"){
                                             if(newItem === true){
-                                                const skinholder = await Canvas.loadImage('./assets/Shop/new.png')
-                                                ctx.drawImage(skinholder, x - 20, y - 30, BannerW, BannerH)
+                                                const newItem = await Canvas.loadImage('./assets/Shop/new.png')
+                                                ctx.drawImage(newItem, x - 10, y - 15, BannerW, BannerH)
                                             }
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
                                             ctx.font = applyText(canvas, name, type);
                                             if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
-                                                ctx.fillText(name, (NameX + x), (y + NameY - 75))
+                                                ctx.fillText(name, (NameX + x), (y + NameY - 37))
                                             }else{
                                                 ctx.fillText(name, (NameX + x), (y + NameY))
                                             }
@@ -510,14 +492,14 @@ module.exports = (client, admin) => {
                                             ctx.drawImage(v, (vBucksX + x), (y + vBucksY), vBucksW, vBucksH);
                                         }else if(lang === "ar"){
                                             if(newItem === true){
-                                                const skinholder = await Canvas.loadImage('./assets/Shop/newAR.png')
-                                                ctx.drawImage(skinholder, x - 20, y - 30, BannerW, BannerH)
+                                                const newItem = await Canvas.loadImage('./assets/Shop/newAR.png')
+                                                ctx.drawImage(newItem, x - 10, y - 15, BannerW, BannerH)
                                             }
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
                                             ctx.font = applyText(canvas, name, type);
                                             if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
-                                                ctx.fillText(name, (NameX + x), (y + NameY - 60))
+                                                ctx.fillText(name, (NameX + x), (y + NameY - 30))
                                             }else{
                                                 ctx.fillText(name, (NameX + x), (y + NameY))
                                             }
@@ -544,14 +526,14 @@ module.exports = (client, admin) => {
                                         ctx.drawImage(skinborder, x, y, WidthC, HeightC)
                                         if(lang === "en"){
                                             if(newItem === true){
-                                                const skinholder = await Canvas.loadImage('./assets/Shop/new.png')
-                                                ctx.drawImage(skinholder, x - 20, y - 30, BannerW, BannerH)
+                                                const newItem = await Canvas.loadImage('./assets/Shop/new.png')
+                                                ctx.drawImage(newItem, x - 10, y - 15, BannerW, BannerH)
                                             }
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
                                             ctx.font = applyText(canvas, name, type);
                                             if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
-                                                ctx.fillText(name, (NameX + x), (y + NameY - 75))
+                                                ctx.fillText(name, (NameX + x), (y + NameY - 37))
                                             }else{
                                                 ctx.fillText(name, (NameX + x), (y + NameY))
                                             }
@@ -566,14 +548,14 @@ module.exports = (client, admin) => {
                                             ctx.drawImage(v, (vBucksX + x), (y + vBucksY), vBucksW, vBucksH);
                                         }else if(lang === "ar"){
                                             if(newItem === true){
-                                                const skinholder = await Canvas.loadImage('./assets/Shop/newAR.png')
-                                                ctx.drawImage(skinholder, x - 20, y - 30, BannerW, BannerH)
+                                                const newItem = await Canvas.loadImage('./assets/Shop/newAR.png')
+                                                ctx.drawImage(newItem, x - 10, y - 15, BannerW, BannerH)
                                             }
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
                                             ctx.font = applyText(canvas, name, type);
                                             if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
-                                                ctx.fillText(name, (NameX + x), (y + NameY - 60))
+                                                ctx.fillText(name, (NameX + x), (y + NameY - 30))
                                             }else{
                                                 ctx.fillText(name, (NameX + x), (y + NameY))
                                             }
@@ -600,14 +582,14 @@ module.exports = (client, admin) => {
                                         ctx.drawImage(skinborder, x, y, WidthC, HeightC)
                                         if(lang === "en"){
                                             if(newItem === true){
-                                                const skinholder = await Canvas.loadImage('./assets/Shop/new.png')
-                                                ctx.drawImage(skinholder, x - 20, y - 30, BannerW, BannerH)
+                                                const newItem = await Canvas.loadImage('./assets/Shop/new.png')
+                                                ctx.drawImage(newItem, x - 10, y - 15, BannerW, BannerH)
                                             }
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
                                             ctx.font = applyText(canvas, name, type);
                                             if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
-                                                ctx.fillText(name, (NameX + x), (y + NameY - 75))
+                                                ctx.fillText(name, (NameX + x), (y + NameY - 37))
                                             }else{
                                                 ctx.fillText(name, (NameX + x), (y + NameY))
                                             }
@@ -622,14 +604,14 @@ module.exports = (client, admin) => {
                                             ctx.drawImage(v, (vBucksX + x), (y + vBucksY), vBucksW, vBucksH);
                                         }else if(lang === "ar"){
                                             if(newItem === true){
-                                                const skinholder = await Canvas.loadImage('./assets/Shop/newAR.png')
-                                                ctx.drawImage(skinholder, x - 20, y - 30, BannerW, BannerH)
+                                                const newItem = await Canvas.loadImage('./assets/Shop/newAR.png')
+                                                ctx.drawImage(newItem, x - 10, y - 15, BannerW, BannerH)
                                             }
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
                                             ctx.font = applyText(canvas, name, type);
                                             if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
-                                                ctx.fillText(name, (NameX + x), (y + NameY - 60))
+                                                ctx.fillText(name, (NameX + x), (y + NameY - 30))
                                             }else{
                                                 ctx.fillText(name, (NameX + x), (y + NameY))
                                             }
@@ -656,14 +638,14 @@ module.exports = (client, admin) => {
                                         ctx.drawImage(skinborder, x, y, WidthC, HeightC)
                                         if(lang === "en"){
                                             if(newItem === true){
-                                                const skinholder = await Canvas.loadImage('./assets/Shop/new.png')
-                                                ctx.drawImage(skinholder, x - 20, y - 30, BannerW, BannerH)
+                                                const newItem = await Canvas.loadImage('./assets/Shop/new.png')
+                                                ctx.drawImage(newItem, x - 10, y - 15, BannerW, BannerH)
                                             }
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
                                             ctx.font = applyText(canvas, name, type);
                                             if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
-                                                ctx.fillText(name, (NameX + x), (y + NameY - 75))
+                                                ctx.fillText(name, (NameX + x), (y + NameY - 37))
                                             }else{
                                                 ctx.fillText(name, (NameX + x), (y + NameY))
                                             }
@@ -678,14 +660,14 @@ module.exports = (client, admin) => {
                                             ctx.drawImage(v, (vBucksX + x), (y + vBucksY), vBucksW, vBucksH);
                                         }else if(lang === "ar"){
                                             if(newItem === true){
-                                                const skinholder = await Canvas.loadImage('./assets/Shop/newAR.png')
-                                                ctx.drawImage(skinholder, x - 20, y - 30, BannerW, BannerH)
+                                                const newItem = await Canvas.loadImage('./assets/Shop/newAR.png')
+                                                ctx.drawImage(newItem, x - 10, y - 15, BannerW, BannerH)
                                             }
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
                                             ctx.font = applyText(canvas, name, type);
                                             if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
-                                                ctx.fillText(name, (NameX + x), (y + NameY - 60))
+                                                ctx.fillText(name, (NameX + x), (y + NameY - 30))
                                             }else{
                                                 ctx.fillText(name, (NameX + x), (y + NameY))
                                             }
@@ -711,9 +693,18 @@ module.exports = (client, admin) => {
                                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderMarvel.png')
                                         ctx.drawImage(skinborder, x, y, WidthC, HeightC)
                                         if(lang === "en"){
+                                            if(newItem === true){
+                                                const newItem = await Canvas.loadImage('./assets/Shop/new.png')
+                                                ctx.drawImage(newItem, x - 10, y - 15, BannerW, BannerH)
+                                            }
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
                                             ctx.font = applyText(canvas, name, type);
+                                            if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
+                                                ctx.fillText(name, (NameX + x), (y + NameY - 37))
+                                            }else{
+                                                ctx.fillText(name, (NameX + x), (y + NameY))
+                                            }
                                             ctx.fillText(name, (NameX + x), (y + NameY))
                                             ctx.textAlign='left';
                                             ctx.font = `${textSize}px Burbank Big Condensed`
@@ -726,14 +717,14 @@ module.exports = (client, admin) => {
                                             ctx.drawImage(v, (vBucksX + x), (y + vBucksY), vBucksW, vBucksH);
                                         }else if(lang === "ar"){
                                             if(newItem === true){
-                                                const skinholder = await Canvas.loadImage('./assets/Shop/newAR.png')
-                                                ctx.drawImage(skinholder, x - 20, y - 30, BannerW, BannerH)
+                                                const newItem = await Canvas.loadImage('./assets/Shop/newAR.png')
+                                                ctx.drawImage(newItem, x - 10, y - 15, BannerW, BannerH)
                                             }
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
                                             ctx.font = applyText(canvas, name, type);
                                             if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
-                                                ctx.fillText(name, (NameX + x), (y + NameY - 60))
+                                                ctx.fillText(name, (NameX + x), (y + NameY - 30))
                                             }else{
                                                 ctx.fillText(name, (NameX + x), (y + NameY))
                                             }
@@ -758,14 +749,14 @@ module.exports = (client, admin) => {
                                         ctx.drawImage(skinborder, x, y, WidthC, HeightC)
                                         if(lang === "en"){
                                             if(newItem === true){
-                                                const skinholder = await Canvas.loadImage('./assets/Shop/new.png')
-                                                ctx.drawImage(skinholder, x - 20, y - 30, BannerW, BannerH)
+                                                const newItem = await Canvas.loadImage('./assets/Shop/new.png')
+                                                ctx.drawImage(newItem, x - 10, y - 15, BannerW, BannerH)
                                             }
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
                                             ctx.font = applyText(canvas, name, type);
                                             if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
-                                                ctx.fillText(name, (NameX + x), (y + NameY - 75))
+                                                ctx.fillText(name, (NameX + x), (y + NameY - 37))
                                             }else{
                                                 ctx.fillText(name, (NameX + x), (y + NameY))
                                             }
@@ -780,14 +771,14 @@ module.exports = (client, admin) => {
                                             ctx.drawImage(v, (vBucksX + x), (y + vBucksY), vBucksW, vBucksH);
                                         }else if(lang === "ar"){
                                             if(newItem === true){
-                                                const skinholder = await Canvas.loadImage('./assets/Shop/newAR.png')
-                                                ctx.drawImage(skinholder, x - 20, y - 30, BannerW, BannerH)
+                                                const newItem = await Canvas.loadImage('./assets/Shop/newAR.png')
+                                                ctx.drawImage(newItem, x - 10, y - 15, BannerW, BannerH)
                                             }
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
                                             ctx.font = applyText(canvas, name, type);
                                             if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
-                                                ctx.fillText(name, (NameX + x), (y + NameY - 60))
+                                                ctx.fillText(name, (NameX + x), (y + NameY - 30))
                                             }else{
                                                 ctx.fillText(name, (NameX + x), (y + NameY))
                                             }
@@ -814,14 +805,14 @@ module.exports = (client, admin) => {
                                         ctx.drawImage(skinborder, x, y, WidthC, HeightC)
                                         if(lang === "en"){
                                             if(newItem === true){
-                                                const skinholder = await Canvas.loadImage('./assets/Shop/new.png')
-                                                ctx.drawImage(skinholder, x - 20, y - 30, BannerW, BannerH)
+                                                const newItem = await Canvas.loadImage('./assets/Shop/new.png')
+                                                ctx.drawImage(newItem, x - 10, y - 15, BannerW, BannerH)
                                             }
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
                                             ctx.font = applyText(canvas, name, type);
                                             if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
-                                                ctx.fillText(name, (NameX + x), (y + NameY - 75))
+                                                ctx.fillText(name, (NameX + x), (y + NameY - 37))
                                             }else{
                                                 ctx.fillText(name, (NameX + x), (y + NameY))
                                             }
@@ -836,14 +827,14 @@ module.exports = (client, admin) => {
                                             ctx.drawImage(v, (vBucksX + x), (y + vBucksY), vBucksW, vBucksH);
                                         }else if(lang === "ar"){
                                             if(newItem === true){
-                                                const skinholder = await Canvas.loadImage('./assets/Shop/newAR.png')
-                                                ctx.drawImage(skinholder, x - 20, y - 30, BannerW, BannerH)
+                                                const newItem = await Canvas.loadImage('./assets/Shop/newAR.png')
+                                                ctx.drawImage(newItem, x - 10, y - 15, BannerW, BannerH)
                                             }
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
                                             ctx.font = applyText(canvas, name, type);
                                             if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
-                                                ctx.fillText(name, (NameX + x), (y + NameY - 60))
+                                                ctx.fillText(name, (NameX + x), (y + NameY - 30))
                                             }else{
                                                 ctx.fillText(name, (NameX + x), (y + NameY))
                                             }
@@ -870,14 +861,14 @@ module.exports = (client, admin) => {
                                         ctx.drawImage(skinborder, x, y, WidthC, HeightC)
                                         if(lang === "en"){
                                             if(newItem === true){
-                                                const skinholder = await Canvas.loadImage('./assets/Shop/new.png')
-                                                ctx.drawImage(skinholder, x - 20, y - 30, BannerW, BannerH)
+                                                const newItem = await Canvas.loadImage('./assets/Shop/new.png')
+                                                ctx.drawImage(newItem, x - 10, y - 15, BannerW, BannerH)
                                             }
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
                                             ctx.font = applyText(canvas, name, type);
                                             if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
-                                                ctx.fillText(name, (NameX + x), (y + NameY - 75))
+                                                ctx.fillText(name, (NameX + x), (y + NameY - 37))
                                             }else{
                                                 ctx.fillText(name, (NameX + x), (y + NameY))
                                             }
@@ -892,14 +883,14 @@ module.exports = (client, admin) => {
                                             ctx.drawImage(v, (vBucksX + x), (y + vBucksY), vBucksW, vBucksH);
                                         }else if(lang === "ar"){
                                             if(newItem === true){
-                                                const skinholder = await Canvas.loadImage('./assets/Shop/newAR.png')
-                                                ctx.drawImage(skinholder, x - 20, y - 30, BannerW, BannerH)
+                                                const newItem = await Canvas.loadImage('./assets/Shop/newAR.png')
+                                                ctx.drawImage(newItem, x - 10, y - 15, BannerW, BannerH)
                                             }
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
                                             ctx.font = applyText(canvas, name, type);
                                             if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
-                                                ctx.fillText(name, (NameX + x), (y + NameY - 60))
+                                                ctx.fillText(name, (NameX + x), (y + NameY - 30))
                                             }else{
                                                 ctx.fillText(name, (NameX + x), (y + NameY))
                                             }
@@ -926,14 +917,14 @@ module.exports = (client, admin) => {
                                         ctx.drawImage(skinborder, x, y, WidthC, HeightC)
                                         if(lang === "en"){
                                             if(newItem === true){
-                                                const skinholder = await Canvas.loadImage('./assets/Shop/new.png')
-                                                ctx.drawImage(skinholder, x - 20, y - 30, BannerW, BannerH)
+                                                const newItem = await Canvas.loadImage('./assets/Shop/new.png')
+                                                ctx.drawImage(newItem, x - 10, y - 15, BannerW, BannerH)
                                             }
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
                                             ctx.font = applyText(canvas, name, type);
                                             if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
-                                                ctx.fillText(name, (NameX + x), (y + NameY - 75))
+                                                ctx.fillText(name, (NameX + x), (y + NameY - 37))
                                             }else{
                                                 ctx.fillText(name, (NameX + x), (y + NameY))
                                             }
@@ -948,14 +939,14 @@ module.exports = (client, admin) => {
                                             ctx.drawImage(v, (vBucksX + x), (y + vBucksY), vBucksW, vBucksH);
                                         }else if(lang === "ar"){
                                             if(newItem === true){
-                                                const skinholder = await Canvas.loadImage('./assets/Shop/newAR.png')
-                                                ctx.drawImage(skinholder, x - 20, y - 30, BannerW, BannerH)
+                                                const newItem = await Canvas.loadImage('./assets/Shop/newAR.png')
+                                                ctx.drawImage(newItem, x - 10, y - 15, BannerW, BannerH)
                                             }
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
                                             ctx.font = applyText(canvas, name, type);
                                             if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
-                                                ctx.fillText(name, (NameX + x), (y + NameY - 60))
+                                                ctx.fillText(name, (NameX + x), (y + NameY - 30))
                                             }else{
                                                 ctx.fillText(name, (NameX + x), (y + NameY))
                                             }
@@ -982,14 +973,14 @@ module.exports = (client, admin) => {
                                         ctx.drawImage(skinborder, x, y, WidthC, HeightC)
                                         if(lang === "en"){
                                             if(newItem === true){
-                                                const skinholder = await Canvas.loadImage('./assets/Shop/new.png')
-                                                ctx.drawImage(skinholder, x - 20, y - 30, BannerW, BannerH)
+                                                const newItem = await Canvas.loadImage('./assets/Shop/new.png')
+                                                ctx.drawImage(newItem, x - 10, y - 15, BannerW, BannerH)
                                             }
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
                                             ctx.font = applyText(canvas, name, type);
                                             if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
-                                                ctx.fillText(name, (NameX + x), (y + NameY - 75))
+                                                ctx.fillText(name, (NameX + x), (y + NameY - 37))
                                             }else{
                                                 ctx.fillText(name, (NameX + x), (y + NameY))
                                             }
@@ -1004,14 +995,14 @@ module.exports = (client, admin) => {
                                             ctx.drawImage(v, (vBucksX + x), (y + vBucksY), vBucksW, vBucksH);
                                         }else if(lang === "ar"){
                                             if(newItem === true){
-                                                const skinholder = await Canvas.loadImage('./assets/Shop/newAR.png')
-                                                ctx.drawImage(skinholder, x - 20, y - 30, BannerW, BannerH)
+                                                const newItem = await Canvas.loadImage('./assets/Shop/newAR.png')
+                                                ctx.drawImage(newItem, x - 10, y - 15, BannerW, BannerH)
                                             }
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
                                             ctx.font = applyText(canvas, name, type);
                                             if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
-                                                ctx.fillText(name, (NameX + x), (y + NameY - 60))
+                                                ctx.fillText(name, (NameX + x), (y + NameY - 30))
                                             }else{
                                                 ctx.fillText(name, (NameX + x), (y + NameY))
                                             }
@@ -1038,14 +1029,14 @@ module.exports = (client, admin) => {
                                         ctx.drawImage(skinborder, x, y, WidthC, HeightC)
                                         if(lang === "en"){
                                             if(newItem === true){
-                                                const skinholder = await Canvas.loadImage('./assets/Shop/new.png')
-                                                ctx.drawImage(skinholder, x - 20, y - 30, BannerW, BannerH)
+                                                const newItem = await Canvas.loadImage('./assets/Shop/new.png')
+                                                ctx.drawImage(newItem, x - 10, y - 15, BannerW, BannerH)
                                             }
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
                                             ctx.font = applyText(canvas, name, type);
                                             if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
-                                                ctx.fillText(name, (NameX + x), (y + NameY - 75))
+                                                ctx.fillText(name, (NameX + x), (y + NameY - 37))
                                             }else{
                                                 ctx.fillText(name, (NameX + x), (y + NameY))
                                             }
@@ -1060,14 +1051,14 @@ module.exports = (client, admin) => {
                                             ctx.drawImage(v, (vBucksX + x), (y + vBucksY), vBucksW, vBucksH);
                                         }else if(lang === "ar"){
                                             if(newItem === true){
-                                                const skinholder = await Canvas.loadImage('./assets/Shop/newAR.png')
-                                                ctx.drawImage(skinholder, x - 20, y - 30, BannerW, BannerH)
+                                                const newItem = await Canvas.loadImage('./assets/Shop/newAR.png')
+                                                ctx.drawImage(newItem, x - 10, y - 15, BannerW, BannerH)
                                             }
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
                                             ctx.font = applyText(canvas, name, type);
                                             if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
-                                                ctx.fillText(name, (NameX + x), (y + NameY - 60))
+                                                ctx.fillText(name, (NameX + x), (y + NameY - 30))
                                             }else{
                                                 ctx.fillText(name, (NameX + x), (y + NameY))
                                             }
@@ -1094,14 +1085,14 @@ module.exports = (client, admin) => {
                                         ctx.drawImage(skinborder, x, y, WidthC, HeightC)
                                         if(lang === "en"){
                                             if(newItem === true){
-                                                const skinholder = await Canvas.loadImage('./assets/Shop/new.png')
-                                                ctx.drawImage(skinholder, x - 20, y - 30, BannerW, BannerH)
+                                                const newItem = await Canvas.loadImage('./assets/Shop/new.png')
+                                                ctx.drawImage(newItem, x - 10, y - 15, BannerW, BannerH)
                                             }
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
                                             ctx.font = applyText(canvas, name, type);
                                             if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
-                                                ctx.fillText(name, (NameX + x), (y + NameY - 75))
+                                                ctx.fillText(name, (NameX + x), (y + NameY - 37))
                                             }else{
                                                 ctx.fillText(name, (NameX + x), (y + NameY))
                                             }
@@ -1116,14 +1107,14 @@ module.exports = (client, admin) => {
                                             ctx.drawImage(v, (vBucksX + x), (y + vBucksY), vBucksW, vBucksH);
                                         }else if(lang === "ar"){
                                             if(newItem === true){
-                                                const skinholder = await Canvas.loadImage('./assets/Shop/newAR.png')
-                                                ctx.drawImage(skinholder, x - 20, y - 30, BannerW, BannerH)
+                                                const newItem = await Canvas.loadImage('./assets/Shop/newAR.png')
+                                                ctx.drawImage(newItem, x - 10, y - 15, BannerW, BannerH)
                                             }
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
                                             ctx.font = applyText(canvas, name, type);
                                             if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
-                                                ctx.fillText(name, (NameX + x), (y + NameY - 60))
+                                                ctx.fillText(name, (NameX + x), (y + NameY - 30))
                                             }else{
                                                 ctx.fillText(name, (NameX + x), (y + NameY))
                                             }
@@ -1150,14 +1141,14 @@ module.exports = (client, admin) => {
                                         ctx.drawImage(skinborder, x, y, WidthC, HeightC)
                                         if(lang === "en"){
                                             if(newItem === true){
-                                                const skinholder = await Canvas.loadImage('./assets/Shop/new.png')
-                                                ctx.drawImage(skinholder, x - 20, y - 30, BannerW, BannerH)
+                                                const newItem = await Canvas.loadImage('./assets/Shop/new.png')
+                                                ctx.drawImage(newItem, x - 10, y - 15, BannerW, BannerH)
                                             }
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
                                             ctx.font = applyText(canvas, name, type);
                                             if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
-                                                ctx.fillText(name, (NameX + x), (y + NameY - 75))
+                                                ctx.fillText(name, (NameX + x), (y + NameY - 37))
                                             }else{
                                                 ctx.fillText(name, (NameX + x), (y + NameY))
                                             }
@@ -1172,14 +1163,14 @@ module.exports = (client, admin) => {
                                             ctx.drawImage(v, (vBucksX + x), (y + vBucksY), vBucksW, vBucksH);
                                         }else if(lang === "ar"){
                                             if(newItem === true){
-                                                const skinholder = await Canvas.loadImage('./assets/Shop/newAR.png')
-                                                ctx.drawImage(skinholder, x - 20, y - 30, BannerW, BannerH)
+                                                const newItem = await Canvas.loadImage('./assets/Shop/newAR.png')
+                                                ctx.drawImage(newItem, x - 10, y - 15, BannerW, BannerH)
                                             }
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
                                             ctx.font = applyText(canvas, name, type);
                                             if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
-                                                ctx.fillText(name, (NameX + x), (y + NameY - 60))
+                                                ctx.fillText(name, (NameX + x), (y + NameY - 30))
                                             }else{
                                                 ctx.fillText(name, (NameX + x), (y + NameY))
                                             }
@@ -1206,14 +1197,14 @@ module.exports = (client, admin) => {
                                         ctx.drawImage(skinborder, x, y, WidthC, HeightC)
                                         if(lang === "en"){
                                             if(newItem === true){
-                                                const skinholder = await Canvas.loadImage('./assets/Shop/new.png')
-                                                ctx.drawImage(skinholder, x - 20, y - 30, BannerW, BannerH)
+                                                const newItem = await Canvas.loadImage('./assets/Shop/new.png')
+                                                ctx.drawImage(newItem, x - 10, y - 15, BannerW, BannerH)
                                             }
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
                                             ctx.font = applyText(canvas, name, type);
                                             if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
-                                                ctx.fillText(name, (NameX + x), (y + NameY - 75))
+                                                ctx.fillText(name, (NameX + x), (y + NameY - 37))
                                             }else{
                                                 ctx.fillText(name, (NameX + x), (y + NameY))
                                             }
@@ -1228,14 +1219,14 @@ module.exports = (client, admin) => {
                                             ctx.drawImage(v, (vBucksX + x), (y + vBucksY), vBucksW, vBucksH);
                                         }else if(lang === "ar"){
                                             if(newItem === true){
-                                                const skinholder = await Canvas.loadImage('./assets/Shop/newAR.png')
-                                                ctx.drawImage(skinholder, x - 20, y - 30, BannerW, BannerH)
+                                                const newItem = await Canvas.loadImage('./assets/Shop/newAR.png')
+                                                ctx.drawImage(newItem, x - 10, y - 15, BannerW, BannerH)
                                             }
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
                                             ctx.font = applyText(canvas, name, type);
                                             if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
-                                                ctx.fillText(name, (NameX + x), (y + NameY - 60))
+                                                ctx.fillText(name, (NameX + x), (y + NameY - 30))
                                             }else{
                                                 ctx.fillText(name, (NameX + x), (y + NameY))
                                             }
@@ -1261,14 +1252,14 @@ module.exports = (client, admin) => {
                                         ctx.drawImage(skinborder, x, y, WidthC, HeightC)
                                         if(lang === "en"){
                                             if(newItem === true){
-                                                const skinholder = await Canvas.loadImage('./assets/Shop/new.png')
-                                                ctx.drawImage(skinholder, x - 20, y - 30, BannerW, BannerH)
+                                                const newItem = await Canvas.loadImage('./assets/Shop/new.png')
+                                                ctx.drawImage(newItem, x - 10, y - 15, BannerW, BannerH)
                                             }
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
                                             ctx.font = applyText(canvas, name, type);
                                             if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
-                                                ctx.fillText(name, (NameX + x), (y + NameY - 75))
+                                                ctx.fillText(name, (NameX + x), (y + NameY - 37))
                                             }else{
                                                 ctx.fillText(name, (NameX + x), (y + NameY))
                                             }
@@ -1283,14 +1274,14 @@ module.exports = (client, admin) => {
                                             ctx.drawImage(v, (vBucksX + x), (y + vBucksY), vBucksW, vBucksH);
                                         }else if(lang === "ar"){
                                             if(newItem === true){
-                                                const skinholder = await Canvas.loadImage('./assets/Shop/newAR.png')
-                                                ctx.drawImage(skinholder, x - 20, y - 30, BannerW, BannerH)
+                                                const newItem = await Canvas.loadImage('./assets/Shop/newAR.png')
+                                                ctx.drawImage(newItem, x - 10, y - 15, BannerW, BannerH)
                                             }
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
                                             ctx.font = applyText(canvas, name, type);
                                             if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
-                                                ctx.fillText(name, (NameX + x), (y + NameY - 75))
+                                                ctx.fillText(name, (NameX + x), (y + NameY - 30))
                                             }else{
                                                 ctx.fillText(name, (NameX + x), (y + NameY))
                                             }
@@ -1312,43 +1303,24 @@ module.exports = (client, admin) => {
 
                                 //sending data to DisplayShop function
                                 Lines = 0
-                                var WidthC = 0
-                                var HeightC = 0
-                                var NameX = 0
-                                var NameY = 0
-                                var PriceX = 0
-                                var PriceY = 0
-                                var DayX = 0
-                                var DayY = 0
-                                var vBucksX = 0
-                                var vBucksY = 0
-                                var vBucksW = 0
-                                var vBucksH = 0
-                                var CreditX = 0
-                                var CreditY = 0
-                                var CreditW = 0
-                                var CreditH = 0
-                                var BannerW = 0
-                                var BannerH = 0
-                                var textSize = 0
 
                                 //Featured
                                 if(lang === "en"){
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='left';
-                                    ctx.font = '150px Burbank Big Condensed'
-                                    ctx.fillText("Featured", x, (y - 50))
+                                    ctx.font = '75px Burbank Big Condensed'
+                                    ctx.fillText("Featured", x, (y - 25))
                                 }else if(lang === "ar"){
                                     if(FeaturedSection === 3){
                                         ctx.fillStyle = '#ffffff';
                                         ctx.textAlign='right';
-                                        ctx.font = '150px Arabic'
-                                        ctx.fillText("مميز", x + 1586, (y - 50))
+                                        ctx.font = '75px Arabic'
+                                        ctx.fillText("مميز", x + 793, (y - 25))
                                     }else if(FeaturedSection === 5){
                                         ctx.fillStyle = '#ffffff';
                                         ctx.textAlign='right';
-                                        ctx.font = '150px Arabic'
-                                        ctx.fillText("مميز", x + 2660, (y - 50))
+                                        ctx.font = '75px Arabic'
+                                        ctx.fillText("مميز", x + 1130, (y - 25))
                                     }
                                 }
 
@@ -1358,25 +1330,25 @@ module.exports = (client, admin) => {
                                     Lines++
 
                                     //width and height
-                                    WidthC = 512
-                                    HeightC = 512
-                                    NameX = 256
-                                    NameY = 430
-                                    PriceX = 75
-                                    PriceY = 490
-                                    DayX = 487
-                                    DayY = 490
-                                    vBucksX = 20
-                                    vBucksY = 450
-                                    vBucksW = 50
-                                    vBucksH = 50
-                                    CreditX = 15
-                                    CreditY = 15
-                                    CreditW = 146
-                                    CreditH = 40
-                                    textSize = 36
-                                    BannerW = 110
-                                    BannerH = 67
+                                    var WidthC = 256
+                                    var HeightC = 256
+                                    var NameX = 125
+                                    var NameY = 215
+                                    var PriceX = 37
+                                    var PriceY = 245
+                                    var DayX = 243
+                                    var DayY = 245
+                                    var vBucksX = 10
+                                    var vBucksY = 225
+                                    var vBucksW = 25
+                                    var vBucksH = 25
+                                    var CreditX = 7
+                                    var CreditY = 7
+                                    var CreditW = 37
+                                    var CreditH = 20
+                                    var textSize = 18
+                                    var BannerW = 55
+                                    var BannerH = 33
 
                                     //calling the function
                                     await DisplayShop(ctx, canvas, x, y, i, Featured, WidthC, HeightC
@@ -1384,10 +1356,10 @@ module.exports = (client, admin) => {
                                         ,vBucksH, CreditX, CreditY, CreditW, CreditH, textSize, BannerW, BannerH)
 
                                     // changing x and y
-                                    x = x + 25 + 512; 
+                                    x = x + 12 + 256; 
                                     if (FeaturedSection === Lines){
-                                        y = y + 25 + 512;
-                                        x = 250;
+                                        y = y + 12 + 256;
+                                        x = 125;
                                         Lines = 0;
                                     }
                                 }
@@ -1395,24 +1367,24 @@ module.exports = (client, admin) => {
                                 //switching from Featured to Daily
                                 Lines = 0
                                 if(FeaturedSection == 3){
-                                    x = 2086;
-                                    y = 250;
+                                    x = 1043;
+                                    y = 125;
                                 }else if(FeaturedSection === 5){
-                                    x = 3185;
-                                    y = 250;
+                                    x = 1592;
+                                    y = 125;
                                 }
 
                                 //Daily
 
                                 if(lang === "en"){
                                     ctx.fillStyle = '#ffffff';
-                                    ctx.font = '150px Burbank Big Condensed'
-                                    ctx.fillText("Daily", x, (y - 50))
+                                    ctx.font = '75px Burbank Big Condensed'
+                                    ctx.fillText("Daily", x, (y - 25))
                                 }else if(lang === "ar"){
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='right';
-                                    ctx.font = '150px Arabic'
-                                    ctx.fillText("يومي", x + 1586, (y - 60))
+                                    ctx.font = '75px Arabic'
+                                    ctx.fillText("يومي", x + 793, (y - 60))
                                 }
                                 //Daile Loop
                                 for(let i = 0; i < Daily.length; i++){
@@ -1420,25 +1392,25 @@ module.exports = (client, admin) => {
                                     Lines++
 
                                     //width and height
-                                    WidthC = 512
-                                    HeightC = 512
-                                    NameX = 256
-                                    NameY = 430
-                                    PriceX = 75
-                                    PriceY = 490
-                                    DayX = 487
-                                    DayY = 490
-                                    vBucksX = 20
-                                    vBucksY = 450
-                                    vBucksW = 50
-                                    vBucksH = 50
-                                    CreditX = 15
-                                    CreditY = 15
-                                    CreditW = 146
-                                    CreditH = 40
-                                    textSize = 36
-                                    BannerW = 110
-                                    BannerH = 67
+                                    var WidthC = 256
+                                    var HeightC = 256
+                                    var NameX = 125
+                                    var NameY = 215
+                                    var PriceX = 37
+                                    var PriceY = 245
+                                    var DayX = 243
+                                    var DayY = 245
+                                    var vBucksX = 10
+                                    var vBucksY = 225
+                                    var vBucksW = 25
+                                    var vBucksH = 25
+                                    var CreditX = 7
+                                    var CreditY = 7
+                                    var CreditW = 37
+                                    var CreditH = 20
+                                    var textSize = 18
+                                    var BannerW = 55
+                                    var BannerH = 33
 
                                     //calling the function
                                     await DisplayShop(ctx, canvas, x, y, i, Daily, WidthC, HeightC
@@ -1446,14 +1418,14 @@ module.exports = (client, admin) => {
                                         ,vBucksH, CreditX, CreditY, CreditW, CreditH, textSize, BannerW, BannerH)
 
                                     // changing x and y
-                                    x = x + 25 + 512; 
+                                    x = x + 12 + 256; 
                                     if (3 === Lines){
-                                        y = y + 25 + 512;
+                                        y = y + 12 + 256;
                                         Lines = 0
                                         if(FeaturedSection == 3){
-                                            x = 2086;
+                                            x = 1043;
                                         }else if(FeaturedSection === 5){
-                                            x = 3185;
+                                            x = 1592;
                                         }
                                     }
                                 }
@@ -1461,34 +1433,34 @@ module.exports = (client, admin) => {
                                 //Switching from Daily to SpecialFeatured
                                 Lines = 0
                                 if (SpecialFeaturedSection == 5){
-                                    x = 3747 + 250;
-                                    y = 250;  
+                                    x = 1873 + 125;
+                                    y = 125;  
                                 }else if (SpecialFeaturedSection == 3){
                                     if(FeaturedSection === 5){
-                                        x = 5046;
-                                        y = 250;
+                                        x = 2523;
+                                        y = 125;
                                     }else if (FeaturedSection === 3){
-                                        x = 3922;
-                                        y = 250;
+                                        x = 1961;
+                                        y = 125;
                                     }
                                 }
 
                                 //SpecialFeatured
                                 if(lang === "en"){
                                     ctx.fillStyle = '#ffffff';
-                                    ctx.font = '150px Burbank Big Condensed'
-                                    ctx.fillText("Special Featured", x, (y - 50))
+                                    ctx.font = '75px Burbank Big Condensed'
+                                    ctx.fillText("Special Featured", x, (y - 25))
                                 }else if(lang === "ar"){
                                     if(SpecialFeaturedSection === 3){
                                         ctx.fillStyle = '#ffffff';
                                         ctx.textAlign='right';
-                                        ctx.font = '150px Arabic'
-                                        ctx.fillText("عروض مميزة", x + 1586, (y - 60))
+                                        ctx.font = '75px Arabic'
+                                        ctx.fillText("عروض مميزة", x + 793, (y - 30))
                                     }else if(SpecialFeaturedSection === 5){
                                         ctx.fillStyle = '#ffffff';
                                         ctx.textAlign='right';
-                                        ctx.font = '150px Arabic'
-                                        ctx.fillText("عروض مميزه", x + 2660, (y - 60))
+                                        ctx.font = '75px Arabic'
+                                        ctx.fillText("عروض مميزه", x + 1330, (y - 30))
                                     }
                                 }
                             
@@ -1498,25 +1470,25 @@ module.exports = (client, admin) => {
                                     Lines++
 
                                     //width and height
-                                    WidthC = 512
-                                    HeightC = 512
-                                    NameX = 256
-                                    NameY = 430
-                                    PriceX = 75
-                                    PriceY = 490
-                                    DayX = 487
-                                    DayY = 490
-                                    vBucksX = 20
-                                    vBucksY = 450
-                                    vBucksW = 50
-                                    vBucksH = 50
-                                    CreditX = 15
-                                    CreditY = 15
-                                    CreditW = 146
-                                    CreditH = 40
-                                    textSize = 36
-                                    BannerW = 110
-                                    BannerH = 67
+                                    var WidthC = 256
+                                    var HeightC = 256
+                                    var NameX = 125
+                                    var NameY = 215
+                                    var PriceX = 37
+                                    var PriceY = 245
+                                    var DayX = 243
+                                    var DayY = 245
+                                    var vBucksX = 10
+                                    var vBucksY = 225
+                                    var vBucksW = 25
+                                    var vBucksH = 25
+                                    var CreditX = 7
+                                    var CreditY = 7
+                                    var CreditW = 37
+                                    var CreditH = 20
+                                    var textSize = 18
+                                    var BannerW = 55
+                                    var BannerH = 33
 
                                     //calling the function
                                     await DisplayShop(ctx, canvas, x, y, i, SpecialFeatured, WidthC, HeightC
@@ -1524,17 +1496,17 @@ module.exports = (client, admin) => {
                                         ,vBucksH, CreditX, CreditY, CreditW, CreditH, textSize, BannerW, BannerH)
 
                                     // changing x and y
-                                    x = x + 25 + 512; 
+                                    x = x + 12 + 256; 
                                     if(SpecialFeaturedSection === Lines){
-                                        y = y + 25 + 512;
+                                        y = y + 12 + 256;
                                         Lines = 0
                                         if(SpecialFeaturedSection == 5){
-                                            x = 3747 + 250;                  
+                                            x = 1873 + 125;                  
                                         }else if (SpecialFeaturedSection == 3){
                                             if(FeaturedSection === 5){
-                                                x = 5046;
+                                                x = 2523;
                                             }else if (FeaturedSection === 3){
-                                                x = 3922;
+                                                x = 1961;
                                             }
                                         }
                                     }
@@ -1543,20 +1515,20 @@ module.exports = (client, admin) => {
                                 //Limited Time
                                 Lines = 0
                                 if(lang === "en"){
-                                    x = 250
-                                    y = canvas.height - (300 + 150 + 1024)
+                                    x = 256
+                                    y = canvas.height - (150 + 75 + 512)
                                     for(let i = 0; i< LimitedTime.length; i++){
                                         if(Lines === 3){
-                                            y -= 1024 + 50
+                                            y -= 512 + 25
                                         }
                                         Lines++
                                     }
                                 }else if(lang == "ar"){
-                                    x = canvas.width - (250 + 1024 + 25)
-                                    y = canvas.height - (300 + 150 + 1024)
+                                    x = canvas.width - (125 + 512 + 12)
+                                    y = canvas.height - (150 + 75 + 512)
                                     for(let i = 0; i< LimitedTime.length; i++){
                                         if(Lines === 3){
-                                            y -= 1024 + 50
+                                            y -= 512 + 25
                                         }
                                         Lines++
                                     }
@@ -1565,13 +1537,13 @@ module.exports = (client, admin) => {
                                 if(LimitedTime.length !== 0){
                                     if(lang === "en"){
                                         ctx.fillStyle = '#ffffff';
-                                        ctx.font = '150px Burbank Big Condensed'
-                                        ctx.fillText("Bundles", x, (y - 55))
+                                        ctx.font = '75px Burbank Big Condensed'
+                                        ctx.fillText("Bundles", x, (y - 27))
                                     }else if(lang === "ar"){
                                         ctx.fillStyle = '#ffffff';
                                         ctx.textAlign='right';
-                                        ctx.font = '150px Arabic'
-                                        ctx.fillText("الحزم", x + 1024, (y - 55))
+                                        ctx.font = '75px Arabic'
+                                        ctx.fillText("الحزم", x + 512, (y - 27))
                                     }
                                 }
 
@@ -1582,23 +1554,23 @@ module.exports = (client, admin) => {
                                     Lines++
 
                                     //width and height
-                                    WidthC = 1024
-                                    HeightC = 1024
-                                    NameX = 512
-                                    NameY = 942
-                                    PriceX = 105
-                                    PriceY = 987
-                                    DayX = 982
-                                    DayY = 987
-                                    vBucksX = 25
-                                    vBucksY = 920
-                                    vBucksW = 80
-                                    vBucksH = 80
-                                    CreditX = 30
-                                    CreditY = 30
-                                    CreditW = 292
-                                    CreditH = 80
-                                    textSize = 80
+                                    var WidthC = 512
+                                    var HeightC = 512
+                                    var NameX = 256
+                                    var NameY = 471
+                                    var PriceX = 52
+                                    var PriceY = 493
+                                    var DayX = 491
+                                    var DayY = 493
+                                    var vBucksX = 12
+                                    var vBucksY = 460
+                                    var vBucksW = 40
+                                    var vBucksH = 40
+                                    var CreditX = 15
+                                    var CreditY = 15
+                                    var CreditW = 146
+                                    var CreditH = 40
+                                    var textSize = 40
 
                                     //calling the function
                                     await DisplayShop(ctx, canvas, x, y, i, LimitedTime, WidthC, HeightC
@@ -1607,30 +1579,31 @@ module.exports = (client, admin) => {
 
                                     // changing x and y
                                     if(lang === "en"){
-                                        x = x + 25 + 1024;
+                                        x = x + 12 + 512;
                                     }else if(lang === "ar"){
-                                        x = x - (25 + 1024);
+                                        x = x - (12 + 512);
                                     }
                                     if (Lines === 3){
                                         if(lang === "en"){
-                                            y = y + 25 + 1024;
+                                            y = y + 12 + 512;
                                             Lines = 0
-                                            x = 250
+                                            x = 125
                                         }else if(lang === "ar"){
-                                            y = y + 25 + 1024;
+                                            y = y + 12 + 512;
                                             Lines = 0
-                                            x = canvas.width - (250 + 1024 + 25)
+                                            x = canvas.width - (125 + 512 + 12)
                                         }
                                     }
                                 }
 
                                 //sending message
                                 const sending = new Discord.MessageEmbed()
-                                .setColor('#BB00EE')
-                                .setTitle(`${send} ${emoji}`)
+                                sending.setColor('#BB00EE')
+                                if(lang === "en") sending.setTitle(`Sending the image please wait ${emoji}`)
+                                else if(lang === "ar") sending.setTitle(`جاري ارسال الصورة الرجاء الانتظار ${emoji}`)
                                 msg.edit(sending)
 
-                                const att = new Discord.MessageAttachment(canvas.toBuffer('image/jpeg', {quality: 0.5}))
+                                const att = new Discord.MessageAttachment(canvas.toBuffer(), res.lastUpdate.uid + '.png')
                                 await message.send(att)
                                 msg.delete()
 

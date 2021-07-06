@@ -1300,7 +1300,6 @@ module.exports = {
                                 ctx.textAlign='center';
                                 ctx.font = '40px Burbank Big Condensed'
                                 ctx.fillText(name, (256 + x), (y + 425))
-                                ctx.font = '30px Burbank Big Condensed'
                                 ctx.font = applyText(canvas, description);
                                 ctx.textAlign='center';
                                 ctx.fillText(description, (256 + x), (y + 480))
@@ -1327,7 +1326,6 @@ module.exports = {
                                 ctx.textAlign='center';
                                 ctx.font = '40px Burbank Big Condensed'
                                 ctx.fillText(name, (256 + x), (y + 425))
-                                ctx.font = '30px Burbank Big Condensed'
                                 ctx.font = applyText(canvas, description);
                                 ctx.textAlign='center';
                                 ctx.fillText(description, (256 + x), (y + 480))
@@ -1354,7 +1352,6 @@ module.exports = {
                                 ctx.textAlign='center';
                                 ctx.font = '40px Burbank Big Condensed'
                                 ctx.fillText(name, (256 + x), (y + 425))
-                                ctx.font = '30px Burbank Big Condensed'
                                 ctx.font = applyText(canvas, description);
                                 ctx.textAlign='center';
                                 ctx.fillText(description, (256 + x), (y + 480))
@@ -1381,7 +1378,6 @@ module.exports = {
                                 ctx.textAlign='center';
                                 ctx.font = '40px Burbank Big Condensed'
                                 ctx.fillText(name, (256 + x), (y + 425))
-                                ctx.font = '30px Burbank Big Condensed'
                                 ctx.font = applyText(canvas, description);
                                 ctx.textAlign='center';
                                 ctx.fillText(description, (256 + x), (y + 480))
@@ -1408,7 +1404,6 @@ module.exports = {
                                 ctx.textAlign='center';
                                 ctx.font = '40px Burbank Big Condensed'
                                 ctx.fillText(name, (256 + x), (y + 425))
-                                ctx.font = '30px Burbank Big Condensed'
                                 ctx.font = applyText(canvas, description);
                                 ctx.textAlign='center';
                                 ctx.fillText(description, (256 + x), (y + 480))
@@ -1435,7 +1430,6 @@ module.exports = {
                                 ctx.textAlign='center';
                                 ctx.font = '40px Burbank Big Condensed'
                                 ctx.fillText(name, (256 + x), (y + 425))
-                                ctx.font = '30px Burbank Big Condensed'
                                 ctx.font = applyText(canvas, description);
                                 ctx.textAlign='center';
                                 ctx.fillText(description, (256 + x), (y + 480))
@@ -1462,7 +1456,6 @@ module.exports = {
                                 ctx.textAlign='center';
                                 ctx.font = '40px Burbank Big Condensed'
                                 ctx.fillText(name, (256 + x), (y + 425))
-                                ctx.font = '30px Burbank Big Condensed'
                                 ctx.font = applyText(canvas, description);
                                 ctx.textAlign='center';
                                 ctx.fillText(description, (256 + x), (y + 480))
@@ -1489,7 +1482,6 @@ module.exports = {
                                 ctx.textAlign='center';
                                 ctx.font = '40px Burbank Big Condensed'
                                 ctx.fillText(name, (256 + x), (y + 425))
-                                ctx.font = '30px Burbank Big Condensed'
                                 ctx.font = applyText(canvas, description);
                                 ctx.textAlign='center';
                                 ctx.fillText(description, (256 + x), (y + 480))
@@ -1516,7 +1508,6 @@ module.exports = {
                                 ctx.textAlign='center';
                                 ctx.font = '40px Burbank Big Condensed'
                                 ctx.fillText(name, (256 + x), (y + 425))
-                                ctx.font = '30px Burbank Big Condensed'
                                 ctx.font = applyText(canvas, description);
                                 ctx.textAlign='center';
                                 ctx.fillText(description, (256 + x), (y + 480))
@@ -1543,7 +1534,6 @@ module.exports = {
                                 ctx.textAlign='center';
                                 ctx.font = '40px Burbank Big Condensed'
                                 ctx.fillText(name, (256 + x), (y + 425))
-                                ctx.font = '30px Burbank Big Condensed'
                                 ctx.font = applyText(canvas, description);
                                 ctx.textAlign='center';
                                 ctx.fillText(description, (256 + x), (y + 480))
@@ -1570,7 +1560,6 @@ module.exports = {
                                 ctx.textAlign='center';
                                 ctx.font = '40px Burbank Big Condensed'
                                 ctx.fillText(name, (256 + x), (y + 425))
-                                ctx.font = '30px Burbank Big Condensed'
                                 ctx.font = applyText(canvas, description);
                                 ctx.textAlign='center';
                                 ctx.fillText(description, (256 + x), (y + 480))
@@ -1597,7 +1586,6 @@ module.exports = {
                                 ctx.textAlign='center';
                                 ctx.font = '40px Burbank Big Condensed'
                                 ctx.fillText(name, (256 + x), (y + 425))
-                                ctx.font = '30px Burbank Big Condensed'
                                 ctx.font = applyText(canvas, description);
                                 ctx.textAlign='center';
                                 ctx.fillText(description, (256 + x), (y + 480))
@@ -1624,7 +1612,6 @@ module.exports = {
                                 ctx.textAlign='center';
                                 ctx.font = '40px Burbank Big Condensed'
                                 ctx.fillText(name, (256 + x), (y + 425))
-                                ctx.font = '30px Burbank Big Condensed'
                                 ctx.font = applyText(canvas, description);
                                 ctx.textAlign='center';
                                 ctx.fillText(description, (256 + x), (y + 480))
@@ -1651,7 +1638,6 @@ module.exports = {
                                 ctx.textAlign='center';
                                 ctx.font = '40px Burbank Big Condensed'
                                 ctx.fillText(name, (256 + x), (y + 425))
-                                ctx.font = '30px Burbank Big Condensed'
                                 ctx.font = applyText(canvas, description);
                                 ctx.textAlign='center';
                                 ctx.fillText(description, (256 + x), (y + 480))
@@ -1678,7 +1664,6 @@ module.exports = {
                                 ctx.textAlign='center';
                                 ctx.font = '40px Burbank Big Condensed'
                                 ctx.fillText(name, (256 + x), (y + 425))
-                                ctx.font = '30px Burbank Big Condensed'
                                 ctx.font = applyText(canvas, description);
                                 ctx.textAlign='center';
                                 ctx.fillText(description, (256 + x), (y + 480))

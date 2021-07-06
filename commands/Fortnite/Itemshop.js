@@ -1472,7 +1472,7 @@ module.exports = {
                         y = y + 12 + 256;
                         Lines = 0
                         if(SpecialFeaturedSection == 5){
-                            x = 1873 + 256;                  
+                            x = 1873 + 125;                  
                         }else if (SpecialFeaturedSection == 3){
                             if(FeaturedSection === 5){
                                 x = 2523;
@@ -1574,7 +1574,7 @@ module.exports = {
                 else if(lang === "ar") sending.setTitle(`جاري ارسال الصورة الرجاء الانتظار ${emoji}`)
                 msg.edit(sending)
 
-                const att = new Discord.MessageAttachment(canvas.toBuffer('image/jpeg', {quality: 0.8}))
+                const att = new Discord.MessageAttachment(canvas.toBuffer(), res.lastUpdate.uid + '.png')
                 await message.channel.send(att)
                 msg.delete()
             })

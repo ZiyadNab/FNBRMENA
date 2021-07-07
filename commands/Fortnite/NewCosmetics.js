@@ -601,7 +601,7 @@ module.exports = {
             msg.edit(sending)
 
             //send the image to discord channel
-            const att = new Discord.MessageAttachment(canvas.toBuffer(), res.data.build + '.png')
+            const att = new Discord.MessageAttachment(canvas.toBuffer('image/jpeg', {quality: 0.9}))
             await message.channel.send(att)
             msg.delete()
 

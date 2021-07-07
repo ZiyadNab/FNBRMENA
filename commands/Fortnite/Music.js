@@ -43,7 +43,7 @@ module.exports = {
                         .then( async msg => {
 
                             //send attatchment
-                            const att = await new Discord.MessageAttachment(res.data.items[0].audio)
+                            const att = await new Discord.MessageAttachment(res.data.items[0].video)
 
                             //send the emote video
                             await message.channel.send(att)

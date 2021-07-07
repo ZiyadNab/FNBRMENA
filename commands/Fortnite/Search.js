@@ -606,26 +606,7 @@ module.exports = {
                                                             //delete the message
                                                             notifySeason.delete()
             
-                                                            //check if its a number
-                                                            if(!isNaN(collectedSeason.first().content)){
-                                                                text += "&introduction.season=Season " + collectedSeason.first().content
-                                                            }else{
-                                                                //add an error
-                                                                errorHandleing++
-
-                                                                //if user typed a number out of range
-                                                                if(lang === "en"){
-                                                                    const errorType = await new Discord.MessageEmbed()
-                                                                    .setColor('#BB00EE')
-                                                                    .setTitle(`Please type only number without any symbols or words ${errorEmoji}`)
-                                                                    message.reply(errorType)
-                                                                }else if(lang === "ar"){
-                                                                    const errorType = await new Discord.MessageEmbed()
-                                                                    .setColor('#BB00EE')
-                                                                    .setTitle(`رجاء كتابة فقط رقم بدون كلامات او علامات ${errorEmoji}`)
-                                                                    message.reply(errorType)
-                                                                }
-                                                            }
+                                                            text += "&introduction.season=Season " + collectedSeason.first().content
                                                         }).catch(err => {
             
                                                             //add an error
@@ -1097,6 +1078,23 @@ module.exports = {
                                 }
                             })
                         })
+                    }).catch(err => {
+
+                        //add an error
+                        errorHandleing++
+
+                        //if user typed a number out of range
+                        if(lang === "en"){
+                            const errorRequest = new Discord.MessageEmbed()
+                            .setColor('#BB00EE')
+                            .setTitle(`Request entry too large ${errorEmoji}`)
+                            message.reply(errorRequest)
+                        }else if(lang === "ar"){
+                            const errorRequest = new Discord.MessageEmbed()
+                            .setColor('#BB00EE')
+                            .setTitle(`تم تخطي الكمية المحدودة من عدد العناصر ${errorEmoji}`)
+                            message.reply(errorRequest)
+                        }
                     })
                 }
 

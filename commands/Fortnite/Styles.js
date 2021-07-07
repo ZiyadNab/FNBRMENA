@@ -27,6 +27,10 @@ module.exports = {
 
             //if there is no item found
             if(res.data.items.length === 0){
+
+                //create an error
+                errorHandleing++
+
                 if(lang === "en"){
                     const Err = new Discord.MessageEmbed()
                     .setColor('#BB00EE')

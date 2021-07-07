@@ -16,14 +16,13 @@ module.exports = {
         const lang = await FNBRMENA.Admin(admin, message, "", "Lang")
 
         //inisilizing data
-        if(lang === "en"){
-            var loading = "Loading the emote information"
-        }else if(lang === "ar"){
-            var loading = "جاري تحميل بيانات الرقصة"
-        }
+        var SearchType = "name"
+
+        //if input is an id
+        if(text.includes("_")) SearchType = "id"
 
         //request the emote video
-        FNBRMENA.SearchByType(lang, text, 'emote')
+        FNBRMENA.SearchByType(lang, text, 'emote', SearchType)
         .then(async res => {
 
             //check if the user entered a valid emote name
@@ -36,7 +35,8 @@ module.exports = {
                     const generating = new Discord.MessageEmbed()
                     generating.setColor('#BB00EE')
                     const emoji = client.emojis.cache.get("805690920157970442")
-                    generating.setTitle(`${loading} ${emoji}`)
+                    if(lang === "en") generating.setTitle(`Loading the emote information ${emoji}`)
+                    else if(lang === "ar") generating.setTitle(`جاري تحميل بيانات الرقصة ${emoji}`)
                     message.channel.send(generating)
                     .then( async msg => {
 
@@ -69,12 +69,12 @@ module.exports = {
                 if(lang === "en"){
                     const Err = new Discord.MessageEmbed()
                     .setColor('#BB00EE')
-                    .setTitle(`No cosmetic has been found check your speling and try again ${errorEmoji}`)
+                    .setTitle(`No emote has been found check your speling and try again ${errorEmoji}`)
                     message.reply(Err)
                 }else if(lang === "ar"){
                     const Err = new Discord.MessageEmbed()
                     .setColor('#BB00EE')
-                    .setTitle(`لا يمكنني العثور على العنصر الرجاء التأكد من كتابة الاسم بشكل صحيح ${errorEmoji}`)
+                    .setTitle(`لا يمكنني العثور على الرقصه الرجاء التأكد من كتابة الاسم بشكل صحيح ${errorEmoji}`)
                     message.reply(Err)
                 }
             }

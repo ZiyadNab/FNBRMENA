@@ -21,8 +21,14 @@ module.exports = {
         //handleing errors
         var errorHandleing = 0
 
+        //inisilizing data
+        var SearchType = "name"
+
+        //if input is an id
+        if(text.includes("_")) SearchType = "id"
+
         //request data
-        FNBRMENA.SearchByType(lang, text, 'outfit')
+        FNBRMENA.SearchByType(lang, text, 'outfit', SearchType)
         .then(async res => {
 
             //if there is no item found

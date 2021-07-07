@@ -872,26 +872,7 @@ module.exports = {
                                                                         //delete the message
                                                                         notifyBattlepassSeason.delete()
                         
-                                                                        //check if its a number
-                                                                        if(!isNaN(collectedBattlepassSeason.first().content)){
-                                                                            text += "&battlepass.displayText.season=Season " + collectedBattlepassSeason.first().content
-                                                                        }else{
-                                                                            //add an error
-                                                                            errorHandleing++
-            
-                                                                            //if user typed a number out of range
-                                                                            if(lang === "en"){
-                                                                                const errorType = await new Discord.MessageEmbed()
-                                                                                .setColor('#BB00EE')
-                                                                                .setTitle(`Please type only number without any symbols or words ${errorEmoji}`)
-                                                                                message.reply(errorType)
-                                                                            }else if(lang === "ar"){
-                                                                                const errorType = await new Discord.MessageEmbed()
-                                                                                .setColor('#BB00EE')
-                                                                                .setTitle(`رجاء كتابة فقط رقم بدون كلامات او علامات ${errorEmoji}`)
-                                                                                message.reply(errorType)
-                                                                            }
-                                                                        }
+                                                                        text += "&battlepass.displayText.season=Season " + collectedBattlepassSeason.first().content
                                                                     }).catch(err => {
                         
                                                                         //add an error

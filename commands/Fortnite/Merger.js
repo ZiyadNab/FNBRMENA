@@ -1161,6 +1161,7 @@ module.exports = {
                 //change the index and the type
                 type = "name"
                 namesCounter++
+                num = 0
             }
         }
 

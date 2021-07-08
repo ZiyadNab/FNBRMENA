@@ -14,8 +14,8 @@ module.exports = {
         const lang = await FNBRMENA.Admin(admin, message, "", "Lang")
 
         //inilizing data
-        const red = client.emojis.cache.get("856207799650615297")
-        const green = client.emojis.cache.get("856207799037067294")
+        const red = client.emojis.cache.get("855805718779002899")
+        const green = client.emojis.cache.get("855805718363111434")
 
         //ask the user what status should be placed
         const method = new Discord.MessageEmbed()

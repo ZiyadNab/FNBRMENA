@@ -8,9 +8,9 @@ module.exports = {
     maxArgs: 0,
     cooldown: -1,
     permissionError: 'Sorry you do not have acccess to this command',
-    callback: (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji) => {
+    callback: (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji) => {
         const commandsEN = new Discord.MessageEmbed()
-        .setColor('#BB00EE')
+        .setColor(FNBRMENA.Colors("embed"))
         .setTitle('Commands')
         .addFields(
             {name: '-Admin', value: 'to list all the ADMINISTRATOR commands'},

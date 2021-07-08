@@ -8,7 +8,7 @@ module.exports = {
     maxArgs: 0,
     cooldown: -1,
     permissionError: 'Sorry you do not have acccess to this command',
-    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji) => {
+    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji) => {
 
         //get the user language from the database
         const lang = await FNBRMENA.Admin(admin, message, "", "Lang")
@@ -80,7 +80,7 @@ module.exports = {
 
         //creating an embed
         const list = new Discord.MessageEmbed()
-        list.setColor('#BB00EE')
+        list.setColor(FNBRMENA.Colors("embed"))
 
         //check if the language is english or arabic
         if(lang === "en"){
@@ -146,7 +146,7 @@ module.exports = {
 
                 //create embed
                 const firstPage = new Discord.MessageEmbed()
-                firstPage.setColor('#BB00EE')
+                firstPage.setColor(FNBRMENA.Colors("embed"))
                 
                 //change the page value
                 page = 1
@@ -189,7 +189,7 @@ module.exports = {
 
                 //create embed
                 const backwardPage = new Discord.MessageEmbed()
-                backwardPage.setColor('#BB00EE')
+                backwardPage.setColor(FNBRMENA.Colors("embed"))
 
                 //u cant backword at the first page
                 if(page === 1){
@@ -259,7 +259,7 @@ module.exports = {
 
                 //create embed
                 const forwardPage = new Discord.MessageEmbed()
-                forwardPage.setColor('#BB00EE')
+                forwardPage.setColor(FNBRMENA.Colors("embed"))
 
                 //change the page value
                 page++
@@ -323,7 +323,7 @@ module.exports = {
             if(reaction.emoji.name === '⏭️'){
                 //create embed
                 const firstPage = new Discord.MessageEmbed()
-                firstPage.setColor('#BB00EE')
+                firstPage.setColor(FNBRMENA.Colors("embed"))
                 
                 //change the page value
                 page = pagesLength

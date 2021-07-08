@@ -8,9 +8,9 @@ module.exports = {
     maxArgs: 0,
     cooldown: -1,
     permissionError: 'Sorry you do not have acccess to this command',
-    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji) => {
+    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji) => {
         const help = new Discord.MessageEmbed()
-        .setColor('#BB00EE')
+        .setColor(FNBRMENA.Colors("embed"))
         .setTitle('Help Section')
         .addFields(
             {name: '-Commands', value: 'Use that command to find all the FNBRMENA bot commands'}

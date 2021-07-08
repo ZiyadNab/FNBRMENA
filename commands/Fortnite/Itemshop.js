@@ -12,7 +12,7 @@ module.exports = {
     maxArgs: 0,
     cooldown: 30,
     permissionError: 'Sorry you do not have acccess to this command',
-    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji) => {
+    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji) => {
 
         //get the user language from the database
         const lang = await FNBRMENA.Admin(admin, message, "", "Lang")
@@ -22,10 +22,9 @@ module.exports = {
 
             //generating animation
             const generating = new Discord.MessageEmbed()
-            generating.setColor('#BB00EE')
-            const emoji = client.emojis.cache.get("805690920157970442")
-            if(lang === "en") generating.setTitle(`Loading a total ${res.shop.length} cosmetics please wait... ${emoji}`)
-            else if(lang === "ar") generating.setTitle(`تحميل جميع العناصر بمجموع ${res.shop.length} عنصر الرجاء الانتظار... ${emoji}`)
+            generating.setColor(FNBRMENA.Colors("embed"))
+            if(lang === "en") generating.setTitle(`Loading a total ${res.shop.length} cosmetics please wait... ${loadingEmoji}`)
+            else if(lang === "ar") generating.setTitle(`تحميل جميع العناصر بمجموع ${res.shop.length} عنصر الرجاء الانتظار... ${loadingEmoji}`)
             message.channel.send(generating)
             .then( async msg => {
 
@@ -1568,9 +1567,9 @@ module.exports = {
 
                 //sending message
                 const sending = new Discord.MessageEmbed()
-                sending.setColor('#BB00EE')
-                if(lang === "en") sending.setTitle(`Sending the image please wait ${emoji}`)
-                else if(lang === "ar") sending.setTitle(`جاري ارسال الصورة الرجاء الانتظار ${emoji}`)
+                sending.setColor(FNBRMENA.Colors("embed"))
+                if(lang === "en") sending.setTitle(`Sending the image please wait ${loadingEmoji}`)
+                else if(lang === "ar") sending.setTitle(`جاري ارسال الصورة الرجاء الانتظار ${loadingEmoji}`)
                 msg.edit(sending)
 
                 const att = new Discord.MessageAttachment(canvas.toBuffer(), res.lastUpdate.uid + '.png')

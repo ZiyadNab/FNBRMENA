@@ -19,7 +19,7 @@ module.exports = {
     maxArgs: 1,
     cooldown: -1,
     permissionError: 'Sorry you do not have acccess to this command',
-    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji) => {
+    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji) => {
 
         //get the user language from the database
         const lang = await FNBRMENA.Admin(admin, message, "", "Lang")
@@ -36,9 +36,8 @@ module.exports = {
 
             //generating animation
             const generating = new Discord.MessageEmbed()
-            generating.setColor('#BB00EE')
-            const emoji = client.emojis.cache.get("805690920157970442")
-            generating.setTitle(`${loading} ${emoji}`)
+            generating.setColor(FNBRMENA.Colors("embed"))
+            generating.setTitle(`${loading} ${loadingEmoji}`)
             message.channel.send(generating)
             .then( async gen => {
 
@@ -107,7 +106,7 @@ module.exports = {
                     const list = new Discord.MessageEmbed()
 
                     //create the color
-                    list.setColor('#BB00EE')
+                    list.setColor(FNBRMENA.Colors("embed"))
 
                     //create the title
                     if(lang === "en"){
@@ -158,9 +157,8 @@ module.exports = {
 
                                     //generating animation
                                     const generating = new Discord.MessageEmbed()
-                                    generating.setColor('#BB00EE')
-                                    const emoji = client.emojis.cache.get("805690920157970442")
-                                    generating.setTitle(`${loading} ${emoji}`)
+                                    generating.setColor(FNBRMENA.Colors("embed"))
+                                    generating.setTitle(`${loading} ${loadingEmoji}`)
                                     message.channel.send(generating)
                                     .then( async gen => {
 
@@ -206,7 +204,7 @@ module.exports = {
 
                                 //send the time error
                                 const error = new Discord.MessageEmbed()
-                                error.setColor('#BB00EE')
+                                error.setColor(FNBRMENA.Colors("embed"))
                                 error.setTitle(`${FNBRMENA.Errors("Time", lang)} ${errorEmoji}`)
                                 message.reply(error)
 
@@ -220,7 +218,7 @@ module.exports = {
                     const err = new Discord.MessageEmbed()
 
                     //set the color
-                    err.setColor('#BB00EE')
+                    err.setColor(FNBRMENA.Colors("embed"))
 
                     //add title
                     if(lang === "en"){

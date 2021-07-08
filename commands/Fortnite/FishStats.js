@@ -20,7 +20,7 @@ module.exports = {
     maxArgs: null,
     cooldown: 10,
     permissionError: 'Sorry you do not have acccess to this command',
-    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji) => {
+    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji) => {
 
         //get the user language from the database
         const lang = await FNBRMENA.Admin(admin, message, "", "Lang")
@@ -41,9 +41,8 @@ module.exports = {
             
                 //loading message
                 const generating = new Discord.MessageEmbed()
-                generating.setColor('#BB00EE')
-                const emoji = client.emojis.cache.get("805690920157970442")
-                generating.setTitle(`${loading} ${emoji}`)
+                generating.setColor(FNBRMENA.Colors("embed"))
+                generating.setTitle(`${loading} ${loadingEmoji}`)
                 message.channel.send(generating)
                 .then( async msg => {
 
@@ -296,12 +295,12 @@ module.exports = {
             }else{
                 if(lang === "en"){
                     const Err = new Discord.MessageEmbed()
-                    .setColor('#BB00EE')
+                    .setColor(FNBRMENA.Colors("embed"))
                     .setTitle(`There is no account with this name check your speling and try again ${errorEmoji}`)
                     message.reply(Err)
                 }else if(lang === "ar"){
                     const Err = new Discord.MessageEmbed()
-                    .setColor('#BB00EE')
+                    .setColor(FNBRMENA.Colors("embed"))
                     .setTitle(`لا يمكنني العثور على حساب الرجاء التأكد من كتابة الاسم بشكل صحيح ${errorEmoji}`)
                     message.reply(Err)
                 }

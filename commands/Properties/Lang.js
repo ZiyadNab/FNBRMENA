@@ -7,13 +7,13 @@ module.exports = {
     minArgs: 0,
     maxArgs: 0,
     permissionError: 'Sorry you do not have acccess to this command',
-    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji) => {
+    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji) => {
 
         //get the user language from the database
         const lang = await FNBRMENA.Admin(admin, message, "", "Lang")
 
         const method = new Discord.MessageEmbed()
-        method.setColor('#BB00EE')
+        method.setColor(FNBRMENA.Colors("embed"))
         method.setTitle('Choose a language please')
         method.addFields(
             {name: 'Arabic', value: 'React to the Saudi Arabia flag :flag_sa:'},
@@ -35,7 +35,7 @@ module.exports = {
                 })
 
                 const change = new Discord.MessageEmbed()
-                .setColor('#BB00EE')
+                .setColor(FNBRMENA.Colors("embed"))
                 .setTitle(`Your language has been changed to English ${checkEmoji}`)
                 message.channel.send(change)
             }
@@ -46,7 +46,7 @@ module.exports = {
                 })
 
             const change = new Discord.MessageEmbed()
-                .setColor('#BB00EE')
+                .setColor(FNBRMENA.Colors("embed"))
                 .setTitle(`تم تغير اللغة الى العربية ${checkEmoji}`)
                 message.channel.send(change)
             }
@@ -56,7 +56,7 @@ module.exports = {
         }).catch(err => {
             msgReact.delete()
             const error = new Discord.MessageEmbed()
-            .setColor('#BB00EE')
+            .setColor(FNBRMENA.Colors("embed"))
             .setTitle(`${FNBRMENA.Errors("Time", lang)} ${errorEmoji}`)
             message.reply(error)
         })

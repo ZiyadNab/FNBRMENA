@@ -7,7 +7,6 @@ const key = require('../../Coinfigs/config.json')
 const fortniteAPI = new FortniteAPI(FNBRMENA.APIKeys("FortniteAPI.io"));
 const Canvas = require('canvas');
 const moment = require('moment');
-const { SSL_OP_SSLEAY_080_CLIENT_DH_BUG } = require('constants');
 
 module.exports = {
     commands: 'token',
@@ -16,7 +15,7 @@ module.exports = {
     maxArgs: 1,
     cooldown: 40,
     permissionError: 'Sorry you do not have acccess to this command',
-    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji) => {
+    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji) => {
 
         //get the user language from the database
         const lang = await FNBRMENA.Admin(admin, message, "", "Lang")
@@ -391,32 +390,22 @@ module.exports = {
                 ctx.fillText(date + " | عدد العناصر: " + ownedCosmetics[p].length, (canvas.width / 2), (canvas.height - (ctx.font.substring(0,ctx.font.indexOf("p")) - (5 * length))))
             }
 
-            //text lang
-            var string
-            if(lang === "en"){
-                string = `Found ${userItems.length} item`
-            }else if(lang === "ar"){
-                string = `لقت تم اكتشاف ${userItems.length} عنصر`
-            }
-
             //reseting newline
             newline = 0
 
             //generating text
             const generating = new Discord.MessageEmbed()
-            generating.setColor('#BB00EE')
+            generating.setColor(FNBRMENA.Colors("embed"))
             const emoji = client.emojis.cache.get("805690920157970442")
-            generating.setTitle(`${string} ${emoji}`)
+            if(lang === "en") generating.setTitle(`Found ${userItems.length} item ${loadingEmoji}`)
+            else if(lang === "ar") generating.setTitle(`لقت تم اكتشاف ${userItems.length} عنصر ${loadingEmoji}`)
             message.channel.send(generating)
             .then( async msg => {
 
                 const wait = new Discord.MessageEmbed()
-                wait.setColor('#BB00EE')
-                if(lang === "en"){
-                    wait.setTitle(`Generating iamges this might take longer than usual ... ${emoji}`)
-                }else if(lang === "ar"){
-                    wait.setTitle(`جاري تحميل الصور ممكن تستغرق العملية اكثر من المعتاد ... ${emoji}`)
-                }
+                wait.setColor(FNBRMENA.Colors("embed"))
+                if(lang === "en") wait.setTitle(`Generating iamges this might take longer than usual ... ${loadingEmoji}`)
+                else if(lang === "ar") wait.setTitle(`جاري تحميل الصور ممكن تستغرق العملية اكثر من المعتاد ... ${loadingEmoji}`)
                 await msg.edit(wait)
 
                 for(let i = 0; i < userItems.length; i++){

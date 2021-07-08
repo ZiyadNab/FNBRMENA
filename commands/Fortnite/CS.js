@@ -17,14 +17,14 @@ module.exports = {
     maxArgs: 2,
     cooldown: 60,
     permissionError: 'Sorry you do not have acccess to this command',
-    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji) => {
+    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji) => {
 
         //get the user language from the database
         const lang = await FNBRMENA.Admin(admin, message, "", "Lang")
 
         //voting
         const p = new Discord.MessageEmbed()
-        p.setColor('#BB00EE')
+        p.setColor(FNBRMENA.Colors("embed"))
         if(lang === "en"){
             p.setTitle('Choose a method')
             p.addFields(
@@ -176,9 +176,8 @@ module.exports = {
 
                 //generating text
                 const generating = new Discord.MessageEmbed()
-                generating.setColor('#BB00EE')
-                const emoji = client.emojis.cache.get("805690920157970442")
-                generating.setTitle(`${string} ${emoji}`)
+                generating.setColor(FNBRMENA.Colors("embed"))
+                generating.setTitle(`${string} ${loadingEmoji}`)
                 message.channel.send(generating)
                 .then( async msg => {
 
@@ -648,7 +647,7 @@ module.exports = {
         }).catch(err => {
             msgReact.delete()
             const error = new Discord.MessageEmbed()
-            .setColor('#BB00EE')
+            .setColor(FNBRMENA.Colors("embed"))
             .setTitle(`${FNBRMENA.Errors("Time", lang)} ${errorEmoji}`)
             message.reply(error)
         })

@@ -11,7 +11,7 @@ module.exports = {
     maxArgs: 0,
     cooldown: -1,
     permissionError: 'Sorry you do not have acccess to this command',
-    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji) => {
+    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadinEmoji) => {
 
         //get the user language from the database
         const lang = await FNBRMENA.Admin(admin, message, "", "Lang")
@@ -111,7 +111,7 @@ module.exports = {
                             const err = await new Discord.MessageEmbed()
 
                             //add color
-                            await err.setColor('#BB00EE')
+                            await err.setColor(FNBRMENA.Colors("embed"))
 
                             //add title
                             if(lang === "en") err.setTitle(`Out of range number, please try again and enter a number from the list above ${errorEmoji}`)
@@ -271,7 +271,7 @@ module.exports = {
                             const err = await new Discord.MessageEmbed()
 
                             //add color
-                            await err.setColor('#BB00EE')
+                            await err.setColor(FNBRMENA.Colors("embed"))
 
                             //add title
                             if(lang === "en") err.setTitle(`The value you added is not a number ${errorEmoji}`)
@@ -327,7 +327,7 @@ module.exports = {
                             const err = await new Discord.MessageEmbed()
 
                             //add color
-                            await err.setColor('#BB00EE')
+                            await err.setColor(FNBRMENA.Colors("embed"))
 
                             //add title
                             if(lang === "en") err.setTitle(`Please make sure to type TRUE or FALSE correctly ${errorEmoji}`)
@@ -490,7 +490,7 @@ module.exports = {
                             const err = await new Discord.MessageEmbed()
 
                             //add color
-                            await err.setColor('#BB00EE')
+                            await err.setColor(FNBRMENA.Colors("embed"))
 
                             //add title
                             if(lang === "en") err.setTitle(`Out of range number, please try again and enter a number from the list above ${errorEmoji}`)
@@ -545,7 +545,7 @@ module.exports = {
                             const err = await new Discord.MessageEmbed()
 
                             //add color
-                            await err.setColor('#BB00EE')
+                            await err.setColor(FNBRMENA.Colors("embed"))
 
                             //add title
                             if(lang === "en") err.setTitle(`Out of range number, please try again and enter a number from the list above ${errorEmoji}`)
@@ -620,7 +620,7 @@ module.exports = {
                                 const err = await new Discord.MessageEmbed()
 
                                 //add color
-                                await err.setColor('#BB00EE')
+                                await err.setColor(FNBRMENA.Colors("embed"))
 
                                 //add title
                                 if(lang === "en") err.setTitle(`Please make sure to type TRUE or FALSE correctly ${errorEmoji}`)
@@ -714,7 +714,7 @@ module.exports = {
                             const err = await new Discord.MessageEmbed()
 
                             //add color
-                            await err.setColor('#BB00EE')
+                            await err.setColor(FNBRMENA.Colors("embed"))
 
                             //add title
                             if(lang === "en") err.setTitle(`Please make sure to type TRUE or FALSE correctly ${errorEmoji}`)
@@ -771,7 +771,7 @@ module.exports = {
                             const err = await new Discord.MessageEmbed()
 
                             //add color
-                            await err.setColor('#BB00EE')
+                            await err.setColor(FNBRMENA.Colors("embed"))
 
                             //add title
                             if(lang === "en") err.setTitle(`Please make sure to type TRUE or FALSE correctly ${errorEmoji}`)
@@ -833,12 +833,12 @@ module.exports = {
             clicked.delete()
             if(lang === "en"){
                 const error = new Discord.MessageEmbed()
-                .setColor('#BB00EE')
+                .setColor(FNBRMENA.Colors("embed"))
                 .setTitle(`ْUntil when ill wait for u to start ? BTW i canceled your prosses if you are ready just type it again ${errorEmoji}`)
                 message.reply(error)
             }else if(lang === "ar"){
                 const error = new Discord.MessageEmbed()
-                .setColor('#BB00EE')
+                .setColor(FNBRMENA.Colors("embed"))
                 .setTitle(`الى متى انتظرك تبدا ؟ الزبده طفيت الامر اذا كنت جاهز اكتبه ثانية ${errorEmoji}`)
                 message.reply(error)
             }
@@ -855,7 +855,7 @@ module.exports = {
                 const chances = new Discord.MessageEmbed()
 
                 //add color
-                chances.setColor('#BB00EE')
+                chances.setColor(FNBRMENA.Colors("embed"))
 
                 //if there is a match
                 if(res.data.items.length !== 0){

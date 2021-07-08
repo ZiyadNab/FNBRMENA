@@ -10,7 +10,7 @@ module.exports = {
     maxArgs: null,
     cooldown: -1,
     permissionError: 'Sorry you do not have acccess to this command',
-    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji) => {
+    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji) => {
 
         //get the user language from the database
         const lang = await FNBRMENA.Admin(admin, message, "", "Lang")
@@ -35,10 +35,9 @@ module.exports = {
 
                         //send the generating message
                         const generating = new Discord.MessageEmbed()
-                        generating.setColor('#BB00EE')
-                        const emoji = client.emojis.cache.get("805690920157970442")
-                        if(lang === "en") generating.setTitle(`Loading the music information ${emoji}`)
-                        else if(lang === "ar") generating.setTitle(`جاري تحميل بيانات اغنية اللوبي ${emoji}`)
+                        generating.setColor(FNBRMENA.Colors("embed"))
+                        if(lang === "en") generating.setTitle(`Loading the music information ${loadingEmoji}`)
+                        else if(lang === "ar") generating.setTitle(`جاري تحميل بيانات اغنية اللوبي ${loadingEmoji}`)
                         message.channel.send(generating)
                         .then( async msg => {
 
@@ -55,7 +54,7 @@ module.exports = {
                         const err = new Discord.MessageEmbed()
 
                         //add the color
-                        err.setColor('#BB00EE')
+                        err.setColor(FNBRMENA.Colors("embed"))
 
                         //set the title
                         if(lang === "en"){
@@ -70,12 +69,12 @@ module.exports = {
                 }else{
                     if(lang === "en"){
                         const Err = new Discord.MessageEmbed()
-                        .setColor('#BB00EE')
+                        .setColor(FNBRMENA.Colors("embed"))
                         .setTitle(`The type of the item is not a music pack ${errorEmoji}`)
                         message.reply(Err)
                     }else if(lang === "ar"){
                         const Err = new Discord.MessageEmbed()
-                        .setColor('#BB00EE')
+                        .setColor(FNBRMENA.Colors("embed"))
                         .setTitle(`يجب عليك البحث عن ميوزك باك ${errorEmoji}`)
                         message.reply(Err)
                     }
@@ -83,12 +82,12 @@ module.exports = {
             }else{
                 if(lang === "en"){
                     const Err = new Discord.MessageEmbed()
-                    .setColor('#BB00EE')
+                    .setColor(FNBRMENA.Colors("embed"))
                     .setTitle(`No music packs has been found check your speling and try again ${errorEmoji}`)
                     message.reply(Err)
                 }else if(lang === "ar"){
                     const Err = new Discord.MessageEmbed()
-                    .setColor('#BB00EE')
+                    .setColor(FNBRMENA.Colors("embed"))
                     .setTitle(`لا يمكنني العثور على الميوزك الرجاء التأكد من كتابة الاسم بشكل صحيح ${errorEmoji}`)
                     message.reply(Err)
                 }

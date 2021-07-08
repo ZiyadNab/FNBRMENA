@@ -11,7 +11,7 @@ module.exports = {
     maxArgs: 1,
     cooldown: 40,
     permissionError: 'Sorry you do not have acccess to this command',
-    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji) => {
+    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji) => {
 
         //get the user language from the database
         const lang = await FNBRMENA.Admin(admin, message, "", "Lang")
@@ -39,9 +39,8 @@ module.exports = {
                 // generating animation
                 var length = res.rewards.length;
                 const generating = new Discord.MessageEmbed()
-                generating.setColor('#BB00EE')
-                const emoji = client.emojis.cache.get("805690920157970442")
-                generating.setTitle(`${loading} ${length} ${cosmetics}... ${emoji}`)
+                generating.setColor(FNBRMENA.Colors("embed"))
+                generating.setTitle(`${loading} ${length} ${cosmetics}... ${loadingEmoji}`)
                 message.channel.send(generating)
                 .then( async msg => {
 
@@ -326,7 +325,7 @@ module.exports = {
                             free += 1
                     }
                     const info = new Discord.MessageEmbed()
-                    info.setColor('#BB00EE')
+                    info.setColor(FNBRMENA.Colors("embed"))
                     if(lang === "en"){
                         info.setTitle("Season "+ res.displayInfo.chapterSeason +" Battlepass Details")
                         info.addFields(
@@ -348,7 +347,7 @@ module.exports = {
                     //videos
                     for(let i = 0; i < res.videos.length; i++){
                         const embed = new Discord.MessageEmbed()
-                        embed.setColor('#BB00EE')
+                        embed.setColor(FNBRMENA.Colors("embed"))
                         if(res.videos[i].type === "bp"){
                             if(lang === "en"){
                                 embed.setTitle("Battlepass Trailer")
@@ -375,12 +374,12 @@ module.exports = {
                 console.log(err);
                 if(lang === "en"){
                     const error = new Discord.MessageEmbed()
-                    .setColor('#BB00EE')
+                    .setColor(FNBRMENA.Colors("embed"))
                     .setTitle(`There is no battlepass with that number ${errorEmoji}`)
                     message.reply(error)
                 }else if(lang === "ar"){
                     const error = new Discord.MessageEmbed()
-                    .setColor('#BB00EE')
+                    .setColor(FNBRMENA.Colors("embed"))
                     .setTitle(`لا يوجد باتل باس بهذا الرقم ${errorEmoji}`)
                     message.reply(error)
                 }

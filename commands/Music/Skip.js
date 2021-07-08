@@ -8,14 +8,14 @@ module.exports = {
     maxArgs: 0,
     cooldown: -1,
     permissionError: 'Sorry you do not have acccess to this command',
-    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, disTube) => {
+    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji, disTube) => {
 
         //get the user language from the database
         const lang = await FNBRMENA.Admin(admin, message, "", "Lang")
 
         if (!message.member.voice.channel){
             const err = new Discord.MessageEmbed()
-            err.setColor('#BB00EE')
+            err.setColor(FNBRMENA.Colors("embed"))
             if(lang === "en"){
                 err.setTitle(`Ay u r not in a voice channel ${errorEmoji}`)
             }else if(lang === "ar"){
@@ -25,7 +25,7 @@ module.exports = {
         }
         await disTube.skip(message)
         const skipped = new Discord.MessageEmbed()
-        skipped.setColor('#BB00EE')
+        skipped.setColor(FNBRMENA.Colors("embed"))
         if(lang === "en"){
                 skipped.setTitle(`Away we goooooooo to the next track baby ${checkEmoji}`)
         }else if(lang === "ar"){

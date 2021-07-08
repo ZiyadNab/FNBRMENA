@@ -74,7 +74,7 @@ module.exports = (client, admin) => {
                                 const ActivePlaylist = new Discord.MessageEmbed()
 
                                 //set the embed color
-                                ActivePlaylist.setColor('#BB00EE')
+                                ActivePlaylist.setColor('#00ffff')
 
                                 if(lang === "en"){
 

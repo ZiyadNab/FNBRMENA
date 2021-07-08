@@ -17,7 +17,7 @@ module.exports = {
     maxArgs: 0,
     cooldown: 15,
     permissionError: 'Sorry you do not have acccess to this command',
-    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji) => {
+    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji) => {
 
         //get the user language from the database
         const lang = await FNBRMENA.Admin(admin, message, "", "Lang")
@@ -49,9 +49,8 @@ module.exports = {
 
             //generating animation
             const generating = new Discord.MessageEmbed()
-            generating.setColor('#BB00EE')
-            const emoji = client.emojis.cache.get("805690920157970442")
-            generating.setTitle(`${loading} ${res.data.items.length} ${cosmetics}... ${emoji}`)
+            generating.setColor(FNBRMENA.Colors("embed"))
+            generating.setTitle(`${loading} ${res.data.items.length} ${cosmetics}... ${loadingEmoji}`)
             message.channel.send(generating)
             .then( async msg => {
 
@@ -596,8 +595,8 @@ module.exports = {
 
             //sending embed
             const sending = new Discord.MessageEmbed()
-            .setColor('#BB00EE')
-            .setTitle(`${send} ${emoji}`)
+            .setColor(FNBRMENA.Colors("embed"))
+            .setTitle(`${send} ${loadingEmoji}`)
             msg.edit(sending)
 
             //send the image to discord channel

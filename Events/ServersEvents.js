@@ -46,7 +46,7 @@ module.exports = (client, admin) => {
                         const servers = new Discord.MessageEmbed()
 
                         //add color
-                        servers.setColor('#BB00EE')
+                        servers.setColor('#00ffff')
                         
                         //add title
                         servers.setTitle('Fortnite servers are ' + res.data.data.status + '!')

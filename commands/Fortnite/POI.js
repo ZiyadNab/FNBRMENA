@@ -11,7 +11,7 @@ module.exports = {
     maxArgs: 0,
     cooldown: -1,
     permissionError: 'Sorry you do not have acccess to this command',
-    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji) => {
+    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji) => {
 
         //get the user language from the database
         const lang = await FNBRMENA.Admin(admin, message, "", "Lang")
@@ -34,7 +34,7 @@ module.exports = {
             const place = new Discord.MessageEmbed()
 
             //set the embed color
-            place.setColor('#BB00EE')
+            place.setColor(FNBRMENA.Colors("embed"))
 
             //set the title
             if(lang === "en"){
@@ -78,9 +78,8 @@ module.exports = {
 
                             //generating animation
                             const generating = new Discord.MessageEmbed()
-                            generating.setColor('#BB00EE')
-                            const emoji = client.emojis.cache.get("805690920157970442")
-                            generating.setTitle(`${loading} ${res.list[collected.first().content].name} ${emoji}`)
+                            generating.setColor(FNBRMENA.Colors("embed"))
+                            generating.setTitle(`${loading} ${res.list[collected.first().content].name} ${loadingEmoji}`)
                             message.channel.send(generating)
                             .then( async msg => {
 
@@ -93,11 +92,11 @@ module.exports = {
                             const ctx = canvas.getContext('2d');
 
                             const creating = new Discord.MessageEmbed()
-                            creating.setColor('#BB00EE')
+                            creating.setColor(FNBRMENA.Colors("embed"))
                             if(lang === "en"){
-                                creating.setTitle(`Creating image ${emoji}`)
+                                creating.setTitle(`Creating image ${loadingEmoji}`)
                             }else if(lang === "ar"){
-                                creating.setTitle(`جاري انشاء الصوره ${emoji}`)
+                                creating.setTitle(`جاري انشاء الصوره ${loadingEmoji}`)
                             }
                             msg.edit(creating)
 
@@ -128,14 +127,14 @@ module.exports = {
                                 msg.delete()
                                 notify.delete()
                                 const error = new Discord.MessageEmbed()
-                                .setColor('#BB00EE')
+                                .setColor(FNBRMENA.Colors("embed"))
                                 .setTitle(`Sorry we canceled your process becuase u selected a number out of range ${errorEmoji}`)
                                 message.reply(error)
                             }else if(lang === "ar"){
                                 msg.delete()
                                 notify.delete()
                                 const error = new Discord.MessageEmbed()
-                                .setColor('#BB00EE')
+                                .setColor(FNBRMENA.Colors("embed"))
                                 .setTitle(`تم ايقاف الامر بسبب اختيارك لرقم خارج النطاق ${errorEmoji}`)
                                 message.reply(error)
                             }

@@ -12,7 +12,7 @@ module.exports = {
     maxArgs: 0,
     cooldown: -1,
     permissionError: 'Sorry you do not have acccess to this command',
-    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji) => {
+    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji) => {
 
         //get the user language from the database
         const lang = await FNBRMENA.Admin(admin, message, "", "Lang")
@@ -69,9 +69,8 @@ module.exports = {
 
                 //generating animation
                 const generating = new Discord.MessageEmbed()
-                generating.setColor('#BB00EE')
-                const emoji = client.emojis.cache.get("805690920157970442")
-                generating.setTitle(`${loading} ${res.list.length} ${emoji}`)
+                generating.setColor(FNBRMENA.Colors("embed"))
+                generating.setTitle(`${loading} ${res.list.length} ${loadingEmoji}`)
                 message.channel.send(generating)
                 .then( async msg => {
                     //creating embed
@@ -81,7 +80,7 @@ module.exports = {
                     var randomImage = Math.floor(Math.random() * res.list.length)
                     
                     //create the color
-                    await picked.setColor('#BB00EE')
+                    await picked.setColor(FNBRMENA.Colors("embed"))
 
                     //set title
                     if(lang === "en"){
@@ -200,12 +199,12 @@ module.exports = {
                 clicked.delete()
                 if(lang === "en"){
                     const error = new Discord.MessageEmbed()
-                    .setColor('#BB00EE')
+                    .setColor(FNBRMENA.Colors("embed"))
                     .setTitle(`ْUntil when ill wait for u to start ? BTW i canceled your prosses if you are ready just type it again ${errorEmoji}`)
                     message.reply(error)
                 }else if(lang === "ar"){
                     const error = new Discord.MessageEmbed()
-                    .setColor('#BB00EE')
+                    .setColor(FNBRMENA.Colors("embed"))
                     .setTitle(`الى متى انتظرك تبدا ؟ الزبده طفيت الامر اذا كنت جاهز اكتبه ثانية ${errorEmoji}`)
                     message.reply(error)
                 }

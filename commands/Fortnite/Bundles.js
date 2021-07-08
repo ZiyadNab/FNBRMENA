@@ -11,7 +11,7 @@ module.exports = {
     maxArgs: null,
     cooldown: 10,
     permissionError: 'Sorry you do not have acccess to this command',
-    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji) => {
+    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji) => {
 
         //get the user language from the database
         const lang = await FNBRMENA.Admin(admin, message, "", "Lang")
@@ -34,7 +34,7 @@ module.exports = {
                 const bundles = new Discord.MessageEmbed()
 
                 //add the color
-                bundles.setColor('#BB00EE')
+                bundles.setColor(FNBRMENA.Colors("embed"))
 
                 //create and fill a string of names
                 var str = ""
@@ -79,14 +79,14 @@ module.exports = {
                                     msg.delete()
                                     notify.delete()
                                     const error = new Discord.MessageEmbed()
-                                    .setColor('#BB00EE')
+                                    .setColor(FNBRMENA.Colors("embed"))
                                     .setTitle(`Sorry we canceled your process becuase u selected a number out of range ${errorEmoji}`)
                                     message.reply(error)
                                 }else if(lang === "ar"){
                                     msg.delete()
                                     notify.delete()
                                     const error = new Discord.MessageEmbed()
-                                    .setColor('#BB00EE')
+                                    .setColor(FNBRMENA.Colors("embed"))
                                     .setTitle(`تم ايقاف الامر بسبب اختيارك لرقم خارج النطاق ${errorEmoji}`)
                                     message.reply(error)
                                 }
@@ -96,14 +96,14 @@ module.exports = {
                                 notify.delete()
                                 msg.delete()
                                 const error = new Discord.MessageEmbed()
-                                .setColor('#BB00EE')
+                                .setColor(FNBRMENA.Colors("embed"))
                                 .setTitle(`Sorry we canceled your process becuase no method has been selected ${errorEmoji}`)
                                 message.reply(error)
                             }else if(lang === "ar"){
                                 msg.delete()
                                 notify.delete()
                                 const error = new Discord.MessageEmbed()
-                                .setColor('#BB00EE')
+                                .setColor(FNBRMENA.Colors("embed"))
                                 .setTitle(`تم ايقاف الامر بسبب عدم اختيارك لطريقة ${errorEmoji}`)
                                 message.reply(error)
                             }
@@ -124,12 +124,12 @@ module.exports = {
             if(id.length === 0){
                 if(lang === "en"){
                     const Err = new Discord.MessageEmbed()
-                    .setColor('#BB00EE')
+                    .setColor(FNBRMENA.Colors("embed"))
                     .setTitle(`No bundle has been found check your speling and try again ${errorEmoji}`)
                     message.reply(Err)
                 }else if(lang === "ar"){
                     const Err = new Discord.MessageEmbed()
-                    .setColor('#BB00EE')
+                    .setColor(FNBRMENA.Colors("embed"))
                     .setTitle(`لا يمكنني العثور على الحزمة الرجاء التأكد من كتابة الاسم بشكل صحيح ${errorEmoji}`)
                     message.reply(Err)
                 }
@@ -139,10 +139,9 @@ module.exports = {
         if(offerID){
 
             const generating = new Discord.MessageEmbed()
-            generating.setColor('#BB00EE')
-            const emoji = client.emojis.cache.get("805690920157970442")
-            if(lang === "en") generating.setTitle(`Give just a sec to get the bundle data ${emoji}`)
-            else if(lang === "ar") generating.setTitle(`عطني وقت بس قاعد اجيب معلومات الحزمة ${emoji}`)
+            generating.setColor(FNBRMENA.Colors("embed"))
+            if(lang === "en") generating.setTitle(`Give just a sec to get the bundle data ${loadingEmoji}`)
+            else if(lang === "ar") generating.setTitle(`عطني وقت بس قاعد اجيب معلومات الحزمة ${loadingEmoji}`)
             message.channel.send(generating)
             .then( async msg => {
 
@@ -158,7 +157,7 @@ module.exports = {
                     const bundle = new Discord.MessageEmbed()
 
                     //add color
-                    bundle.setColor('#BB00EE')
+                    bundle.setColor(FNBRMENA.Colors("embed"))
 
                     //add title
                     bundle.setTitle(found[0].name)

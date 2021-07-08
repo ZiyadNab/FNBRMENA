@@ -12,7 +12,7 @@ module.exports = {
     maxArgs: null,
     cooldown: -1,
     permissionError: 'Sorry you do not have acccess to this command',
-    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji) => {
+    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji) => {
 
         //get the user language from the database
         const lang = await FNBRMENA.Admin(admin, message, "", "Lang")
@@ -101,7 +101,7 @@ module.exports = {
             const choose = await new Discord.MessageEmbed()
 
             //set color
-            await choose.setColor('#BB00EE')
+            await choose.setColor(FNBRMENA.Colors("embed"))
 
             //set title
             if(await lang === "en") choose.setTitle(`Please specify your search types`)
@@ -201,7 +201,7 @@ module.exports = {
                                             const typeInput = await new Discord.MessageEmbed()
     
                                             //set the color
-                                            await typeInput.setColor('#BB00EE')
+                                            await typeInput.setColor(FNBRMENA.Colors("embed"))
     
                                             //set title
                                             if(lang === "en") typeInput.setTitle('what is the type of the item ?')
@@ -246,12 +246,12 @@ module.exports = {
                                                                 //if user typed a number out of range
                                                                 if(lang === "en"){
                                                                     const errorType = await new Discord.MessageEmbed()
-                                                                    .setColor('#BB00EE')
+                                                                    .setColor(FNBRMENA.Colors("embed"))
                                                                     .setTitle(`Sorry we canceled your process becuase u selected a number out of range ${errorEmoji}`)
                                                                     message.reply(errorType)
                                                                 }else if(lang === "ar"){
                                                                     const errorType = await new Discord.MessageEmbed()
-                                                                    .setColor('#BB00EE')
+                                                                    .setColor(FNBRMENA.Colors("embed"))
                                                                     .setTitle(`تم ايقاف الامر بسبب اختيارك لرقم خارج النطاق ${errorEmoji}`)
                                                                     message.reply(errorType)
                                                                 }
@@ -263,12 +263,12 @@ module.exports = {
                                                             //if user typed a number out of range
                                                             if(lang === "en"){
                                                                 const errorType = await new Discord.MessageEmbed()
-                                                                .setColor('#BB00EE')
+                                                                .setColor(FNBRMENA.Colors("embed"))
                                                                 .setTitle(`Please type only number without any symbols or words ${errorEmoji}`)
                                                                 message.reply(errorType)
                                                             }else if(lang === "ar"){
                                                                 const errorType = await new Discord.MessageEmbed()
-                                                                .setColor('#BB00EE')
+                                                                .setColor(FNBRMENA.Colors("embed"))
                                                                 .setTitle(`رجاء كتابة فقط رقم بدون كلامات او علامات ${errorEmoji}`)
                                                                 message.reply(errorType)
                                                             }
@@ -283,7 +283,7 @@ module.exports = {
                                                         errorHandleing++
     
                                                         const errorTime = new Discord.MessageEmbed()
-                                                        .setColor('#BB00EE')
+                                                        .setColor(FNBRMENA.Colors("embed"))
                                                         .setTitle(`${FNBRMENA.Errors("Time", lang)} ${errorEmoji}`)
                                                         message.reply(errorTime)
                                                     })
@@ -320,12 +320,12 @@ module.exports = {
                                                             //if user typed a number out of range
                                                             if(lang === "en"){
                                                                 const errorType = await new Discord.MessageEmbed()
-                                                                .setColor('#BB00EE')
+                                                                .setColor(FNBRMENA.Colors("embed"))
                                                                 .setTitle(`Sorry we canceled your process becuase u selected a number out of range ${errorEmoji}`)
                                                                 message.reply(errorType)
                                                             }else if(lang === "ar"){
                                                                 const errorType = await new Discord.MessageEmbed()
-                                                                .setColor('#BB00EE')
+                                                                .setColor(FNBRMENA.Colors("embed"))
                                                                 .setTitle(`تم ايقاف الامر بسبب اختيارك لرقم خارج النطاق ${errorEmoji}`)
                                                                 message.reply(errorType)
                                                             }
@@ -337,12 +337,12 @@ module.exports = {
                                                         //if user typed a number out of range
                                                         if(lang === "en"){
                                                             const errorType = await new Discord.MessageEmbed()
-                                                            .setColor('#BB00EE')
+                                                            .setColor(FNBRMENA.Colors("embed"))
                                                             .setTitle(`Please type only number without any symbols or words ${errorEmoji}`)
                                                             message.reply(errorType)
                                                         }else if(lang === "ar"){
                                                             const errorType = await new Discord.MessageEmbed()
-                                                            .setColor('#BB00EE')
+                                                            .setColor(FNBRMENA.Colors("embed"))
                                                             .setTitle(`رجاء كتابة فقط رقم بدون كلامات او علامات ${errorEmoji}`)
                                                             message.reply(errorType)
                                                         }
@@ -357,7 +357,7 @@ module.exports = {
     
                                                     //if user took to long to excute the command
                                                     const priceError = new Discord.MessageEmbed()
-                                                    .setColor('#BB00EE')
+                                                    .setColor(FNBRMENA.Colors("embed"))
                                                     .setTitle(`${FNBRMENA.Errors("Time", lang)} ${errorEmoji}`)
                                                     message.reply(priceError)
                                                 })
@@ -370,7 +370,7 @@ module.exports = {
                                             const seriesInput = await new Discord.MessageEmbed()
     
                                             //set the color
-                                            await seriesInput.setColor('#BB00EE')
+                                            await seriesInput.setColor(FNBRMENA.Colors("embed"))
     
                                             //set title
                                             if(lang === "en") seriesInput.setTitle('what is the series of the item ?')
@@ -414,12 +414,12 @@ module.exports = {
                                                                 //if user typed a number out of range
                                                                 if(lang === "en"){
                                                                     const errorType = await new Discord.MessageEmbed()
-                                                                    .setColor('#BB00EE')
+                                                                    .setColor(FNBRMENA.Colors("embed"))
                                                                     .setTitle(`Sorry we canceled your process becuase u selected a number out of range ${errorEmoji}`)
                                                                     message.reply(errorType)
                                                                 }else if(lang === "ar"){
                                                                     const errorType = await new Discord.MessageEmbed()
-                                                                    .setColor('#BB00EE')
+                                                                    .setColor(FNBRMENA.Colors("embed"))
                                                                     .setTitle(`تم ايقاف الامر بسبب اختيارك لرقم خارج النطاق ${errorEmoji}`)
                                                                     message.reply(errorType)
                                                                 }
@@ -431,12 +431,12 @@ module.exports = {
                                                             //if user typed a number out of range
                                                             if(lang === "en"){
                                                                 const errorType = await new Discord.MessageEmbed()
-                                                                .setColor('#BB00EE')
+                                                                .setColor(FNBRMENA.Colors("embed"))
                                                                 .setTitle(`Please type only number without any symbols or words ${errorEmoji}`)
                                                                 message.reply(errorType)
                                                             }else if(lang === "ar"){
                                                                 const errorType = await new Discord.MessageEmbed()
-                                                                .setColor('#BB00EE')
+                                                                .setColor(FNBRMENA.Colors("embed"))
                                                                 .setTitle(`رجاء كتابة فقط رقم بدون كلامات او علامات ${errorEmoji}`)
                                                                 message.reply(errorType)
                                                             }
@@ -451,7 +451,7 @@ module.exports = {
                                                         errorHandleing++
     
                                                         const errorTime = new Discord.MessageEmbed()
-                                                        .setColor('#BB00EE')
+                                                        .setColor(FNBRMENA.Colors("embed"))
                                                         .setTitle(`${FNBRMENA.Errors("Time", lang)} ${errorEmoji}`)
                                                         message.reply(errorTime)
                                                     })
@@ -465,7 +465,7 @@ module.exports = {
                                             const rarityInput = await new Discord.MessageEmbed()
     
                                             //set the color
-                                            await rarityInput.setColor('#BB00EE')
+                                            await rarityInput.setColor(FNBRMENA.Colors("embed"))
     
                                             //set title
                                             if(lang === "en") rarityInput.setTitle('what is the rarity of the item ?')
@@ -509,12 +509,12 @@ module.exports = {
                                                                 //if user typed a number out of range
                                                                 if(lang === "en"){
                                                                     const errorType = await new Discord.MessageEmbed()
-                                                                    .setColor('#BB00EE')
+                                                                    .setColor(FNBRMENA.Colors("embed"))
                                                                     .setTitle(`Sorry we canceled your process becuase u selected a number out of range ${errorEmoji}`)
                                                                     message.reply(errorType)
                                                                 }else if(lang === "ar"){
                                                                     const errorType = await new Discord.MessageEmbed()
-                                                                    .setColor('#BB00EE')
+                                                                    .setColor(FNBRMENA.Colors("embed"))
                                                                     .setTitle(`تم ايقاف الامر بسبب اختيارك لرقم خارج النطاق ${errorEmoji}`)
                                                                     message.reply(errorType)
                                                                 }
@@ -526,12 +526,12 @@ module.exports = {
                                                             //if user typed a number out of range
                                                             if(lang === "en"){
                                                                 const errorType = await new Discord.MessageEmbed()
-                                                                .setColor('#BB00EE')
+                                                                .setColor(FNBRMENA.Colors("embed"))
                                                                 .setTitle(`Please type only number without any symbols or words ${errorEmoji}`)
                                                                 message.reply(errorType)
                                                             }else if(lang === "ar"){
                                                                 const errorType = await new Discord.MessageEmbed()
-                                                                .setColor('#BB00EE')
+                                                                .setColor(FNBRMENA.Colors("embed"))
                                                                 .setTitle(`رجاء كتابة فقط رقم بدون كلامات او علامات ${errorEmoji}`)
                                                                 message.reply(errorType)
                                                             }
@@ -546,7 +546,7 @@ module.exports = {
                                                         errorHandleing++
     
                                                         const errorTime = new Discord.MessageEmbed()
-                                                        .setColor('#BB00EE')
+                                                        .setColor(FNBRMENA.Colors("embed"))
                                                         .setTitle(`${FNBRMENA.Errors("Time", lang)} ${errorEmoji}`)
                                                         message.reply(errorTime)
                                                     })
@@ -581,12 +581,12 @@ module.exports = {
                                                         //if user typed a number out of range
                                                         if(lang === "en"){
                                                             const errorType = await new Discord.MessageEmbed()
-                                                            .setColor('#BB00EE')
+                                                            .setColor(FNBRMENA.Colors("embed"))
                                                             .setTitle(`Please type only number without any symbols or words ${errorEmoji}`)
                                                             message.reply(errorType)
                                                         }else if(lang === "ar"){
                                                             const errorType = await new Discord.MessageEmbed()
-                                                            .setColor('#BB00EE')
+                                                            .setColor(FNBRMENA.Colors("embed"))
                                                             .setTitle(`رجاء كتابة فقط رقم بدون كلامات او علامات ${errorEmoji}`)
                                                             message.reply(errorType)
                                                         }
@@ -617,7 +617,7 @@ module.exports = {
             
                                                             //if user took to long to excute the command
                                                             const priceError = new Discord.MessageEmbed()
-                                                            .setColor('#BB00EE')
+                                                            .setColor(FNBRMENA.Colors("embed"))
                                                             .setTitle(`${FNBRMENA.Errors("Time", lang)} ${errorEmoji}`)
                                                             message.reply(priceError)
                                                         })
@@ -632,7 +632,7 @@ module.exports = {
     
                                                     //if user took to long to excute the command
                                                     const priceError = new Discord.MessageEmbed()
-                                                    .setColor('#BB00EE')
+                                                    .setColor(FNBRMENA.Colors("embed"))
                                                     .setTitle(`${FNBRMENA.Errors("Time", lang)} ${errorEmoji}`)
                                                     message.reply(priceError)
                                                 })
@@ -645,7 +645,7 @@ module.exports = {
                                             const tagsInput = await new Discord.MessageEmbed()
     
                                             //set the color
-                                            await tagsInput.setColor('#BB00EE')
+                                            await tagsInput.setColor(FNBRMENA.Colors("embed"))
     
                                             //set title
                                             if(lang === "en") tagsInput.setTitle('what is the tags of the item ?')
@@ -722,12 +722,12 @@ module.exports = {
                                                                     //if user typed a number out of range
                                                                     if(lang === "en"){
                                                                         const errorType = await new Discord.MessageEmbed()
-                                                                        .setColor('#BB00EE')
+                                                                        .setColor(FNBRMENA.Colors("embed"))
                                                                         .setTitle(`Sorry we canceled your process becuase u selected a number out of range ${errorEmoji}`)
                                                                         message.reply(errorType)
                                                                     }else if(lang === "ar"){
                                                                         const errorType = await new Discord.MessageEmbed()
-                                                                        .setColor('#BB00EE')
+                                                                        .setColor(FNBRMENA.Colors("embed"))
                                                                         .setTitle(`تم ايقاف الامر بسبب اختيارك لرقم خارج النطاق ${errorEmoji}`)
                                                                         message.reply(errorType)
                                                                     }
@@ -739,12 +739,12 @@ module.exports = {
                                                                 //if user typed a number out of range
                                                                 if(lang === "en"){
                                                                     const errorType = await new Discord.MessageEmbed()
-                                                                    .setColor('#BB00EE')
+                                                                    .setColor(FNBRMENA.Colors("embed"))
                                                                     .setTitle(`Please type only number without any symbols or words ${errorEmoji}`)
                                                                     message.reply(errorType)
                                                                 }else if(lang === "ar"){
                                                                     const errorType = await new Discord.MessageEmbed()
-                                                                    .setColor('#BB00EE')
+                                                                    .setColor(FNBRMENA.Colors("embed"))
                                                                     .setTitle(`رجاء كتابة فقط رقم بدون كلامات او علامات ${errorEmoji}`)
                                                                     message.reply(errorType)
                                                                 }
@@ -781,7 +781,7 @@ module.exports = {
     
                                                     //if user took to long to excute the command
                                                     const priceError = new Discord.MessageEmbed()
-                                                    .setColor('#BB00EE')
+                                                    .setColor(FNBRMENA.Colors("embed"))
                                                     .setTitle(`${FNBRMENA.Errors("Time", lang)} ${errorEmoji}`)
                                                     message.reply(priceError)
                                                 })
@@ -814,12 +814,12 @@ module.exports = {
                                                         //if user typed a number out of range
                                                         if(lang === "en"){
                                                             const errorType = await new Discord.MessageEmbed()
-                                                            .setColor('#BB00EE')
+                                                            .setColor(FNBRMENA.Colors("embed"))
                                                             .setTitle(`Please type only number without any symbols or words ${errorEmoji}`)
                                                             message.reply(errorType)
                                                         }else if(lang === "ar"){
                                                             const errorType = await new Discord.MessageEmbed()
-                                                            .setColor('#BB00EE')
+                                                            .setColor(FNBRMENA.Colors("embed"))
                                                             .setTitle(`رجاء كتابة فقط رقم بدون كلامات او علامات ${errorEmoji}`)
                                                             message.reply(errorType)
                                                         }
@@ -850,7 +850,7 @@ module.exports = {
             
                                                             //if user took to long to excute the command
                                                             const priceError = new Discord.MessageEmbed()
-                                                            .setColor('#BB00EE')
+                                                            .setColor(FNBRMENA.Colors("embed"))
                                                             .setTitle(`${FNBRMENA.Errors("Time", lang)} ${errorEmoji}`)
                                                             message.reply(priceError)
                                                         })
@@ -865,7 +865,7 @@ module.exports = {
     
                                                     //if user took to long to excute the command
                                                     const priceError = new Discord.MessageEmbed()
-                                                    .setColor('#BB00EE')
+                                                    .setColor(FNBRMENA.Colors("embed"))
                                                     .setTitle(`${FNBRMENA.Errors("Time", lang)} ${errorEmoji}`)
                                                     message.reply(priceError)
                                                 })
@@ -897,12 +897,12 @@ module.exports = {
                                                         //if user typed a number out of range
                                                         if(lang === "en"){
                                                             const errorType = await new Discord.MessageEmbed()
-                                                            .setColor('#BB00EE')
+                                                            .setColor(FNBRMENA.Colors("embed"))
                                                             .setTitle(`Please type TRUE or FALSE correctly ${errorEmoji}`)
                                                             message.reply(errorType)
                                                         }else if(lang === "ar"){
                                                             const errorType = await new Discord.MessageEmbed()
-                                                            .setColor('#BB00EE')
+                                                            .setColor(FNBRMENA.Colors("embed"))
                                                             .setTitle(`الرجاء كتابة TRUE او FALSE بشكل صحيح ${errorEmoji}`)
                                                             message.reply(errorType)
                                                         }
@@ -917,7 +917,7 @@ module.exports = {
     
                                                     //if user took to long to excute the command
                                                     const priceError = new Discord.MessageEmbed()
-                                                    .setColor('#BB00EE')
+                                                    .setColor(FNBRMENA.Colors("embed"))
                                                     .setTitle(`${FNBRMENA.Errors("Time", lang)} ${errorEmoji}`)
                                                     message.reply(priceError)
                                                 })
@@ -930,12 +930,12 @@ module.exports = {
 
                                     if(lang === "en"){
                                         const errorNumberNotListed = new Discord.MessageEmbed()
-                                        errorNumberNotListed.setColor('#BB00EE')
+                                        errorNumberNotListed.setColor(FNBRMENA.Colors("embed"))
                                         errorNumberNotListed.setTitle(`The number ${list[i]} is not listed ${errorEmoji}`)
                                         message.reply(errorNumberNotListed)
                                     }else if(lang === "ar"){
                                         const errorNumberNotListed = new Discord.MessageEmbed()
-                                        errorNumberNotListed.setColor('#BB00EE')
+                                        errorNumberNotListed.setColor(FNBRMENA.Colors("embed"))
                                         errorNumberNotListed.setTitle(`الرقم ${list[i]} ليس موجود بالقائمة ${errorEmoji}`)
                                         message.reply(errorNumberNotListed)
                                     }
@@ -948,12 +948,12 @@ module.exports = {
 
                             if(lang === "en"){
                                 const errorMoreTypes = new Discord.MessageEmbed()
-                                errorMoreTypes.setColor('#BB00EE')
+                                errorMoreTypes.setColor(FNBRMENA.Colors("embed"))
                                 errorMoreTypes.setTitle(`Please choose 2 or more types to make the command works ${errorEmoji}`)
                                 message.reply(errorMoreTypes)
                             }else if(lang === "ar"){
                                 const errorMoreTypes = new Discord.MessageEmbed()
-                                errorMoreTypes.setColor('#BB00EE')
+                                errorMoreTypes.setColor(FNBRMENA.Colors("embed"))
                                 errorMoreTypes.setTitle(`يجب عليك الاختيار اكثر من نوعين ${errorEmoji}`)
                                 message.reply(errorMoreTypes)
                             }
@@ -969,7 +969,7 @@ module.exports = {
                         choose.delete()
 
                         const error = new Discord.MessageEmbed()
-                        .setColor('#BB00EE')
+                        .setColor(FNBRMENA.Colors("embed"))
                         .setTitle(`${FNBRMENA.Errors("Time", lang)} ${errorEmoji}`)
                         message.reply(error)
                     })
@@ -991,7 +991,7 @@ module.exports = {
                     const list = new Discord.MessageEmbed()
 
                     //set the color
-                    list.setColor('#BB00EE')
+                    list.setColor(FNBRMENA.Colors("embed"))
 
                     //set title
                     if(lang === "en") list.setTitle(`Please choose your item from the list below`)
@@ -1047,12 +1047,12 @@ module.exports = {
                                     //if user typed a number out of range
                                     if(lang === "en"){
                                         const error = new Discord.MessageEmbed()
-                                        .setColor('#BB00EE')
+                                        .setColor(FNBRMENA.Colors("embed"))
                                         .setTitle(`Sorry we canceled your process becuase u selected a number out of range ${errorEmoji}`)
                                         message.reply(error)
                                     }else if(lang === "ar"){
                                         const error = new Discord.MessageEmbed()
-                                        .setColor('#BB00EE')
+                                        .setColor(FNBRMENA.Colors("embed"))
                                         .setTitle(`تم ايقاف الامر بسبب اختيارك لرقم خارج النطاق ${errorEmoji}`)
                                         message.reply(error)
                                     }
@@ -1067,12 +1067,12 @@ module.exports = {
                         //if user typed a number out of range
                         if(lang === "en"){
                             const errorRequest = new Discord.MessageEmbed()
-                            .setColor('#BB00EE')
+                            .setColor(FNBRMENA.Colors("embed"))
                             .setTitle(`Request entry too large ${errorEmoji}`)
                             message.reply(errorRequest)
                         }else if(lang === "ar"){
                             const errorRequest = new Discord.MessageEmbed()
-                            .setColor('#BB00EE')
+                            .setColor(FNBRMENA.Colors("embed"))
                             .setTitle(`تم تخطي الكمية المحدودة من عدد العناصر ${errorEmoji}`)
                             message.reply(errorRequest)
                         }
@@ -1083,12 +1083,12 @@ module.exports = {
                 if(res.data.items.length === 0){
                     if(lang === "en"){
                         const Err = new Discord.MessageEmbed()
-                        .setColor('#BB00EE')
+                        .setColor(FNBRMENA.Colors("embed"))
                         .setTitle(`No cosmetic has been found check your speling and try again ${errorEmoji}`)
                         message.reply(Err)
                     }else if(lang === "ar"){
                         const Err = new Discord.MessageEmbed()
-                        .setColor('#BB00EE')
+                        .setColor(FNBRMENA.Colors("embed"))
                         .setTitle(`لا يمكنني العثور على العنصر الرجاء التأكد من كتابة الاسم بشكل صحيح ${errorEmoji}`)
                         message.reply(Err)
                     }
@@ -1098,10 +1098,9 @@ module.exports = {
 
                     //getting item data loading
                     const generating = new Discord.MessageEmbed()
-                    generating.setColor('#BB00EE')
-                    const emoji = client.emojis.cache.get("805690920157970442")
-                    if(lang === "en") generating.setTitle(`Loading item data... ${emoji}`)
-                    else if(lang === "ar") generating.setTitle(`تحميل معلومات العنصر... ${emoji}`)
+                    generating.setColor(FNBRMENA.Colors("embed"))
+                    if(lang === "en") generating.setTitle(`Loading item data... ${loadingEmoji}`)
+                    else if(lang === "ar") generating.setTitle(`تحميل معلومات العنصر... ${loadingEmoji}`)
                     message.channel.send(generating)
                     .then( async msg => {
 
@@ -1512,6 +1511,7 @@ module.exports = {
                         var x = 467
 
                         for(let i = 0; i < res.data.items[num].gameplayTags.length; i++){
+
                             //if the item is animated
                             if(res.data.items[num].gameplayTags[i].includes('Animated')){
 
@@ -1522,7 +1522,7 @@ module.exports = {
                                 y += 40
                             }
 
-                            //if the item is animated
+                            //if the item is reactive
                             if(res.data.items[num].gameplayTags[i].includes('Reactive')){
 
                                 //the itm is animated add the animated icon
@@ -1532,7 +1532,7 @@ module.exports = {
                                 y += 40
                             }
 
-                            //if the item is animated
+                            //if the item is synced emote
                             if(res.data.items[num].gameplayTags[i].includes('Synced')){
 
                                 //the itm is animated add the animated icon
@@ -1542,7 +1542,7 @@ module.exports = {
                                 y += 40
                             }
 
-                            //if the item is animated
+                            //if the item is traversal
                             if(res.data.items[num].gameplayTags[i].includes('Traversal')){
 
                                 //the itm is animated add the animated icon
@@ -1552,7 +1552,7 @@ module.exports = {
                                 y += 40
                             }
 
-                            //if the item is animated
+                            //if the item has styles
                             if(res.data.items[num].gameplayTags[i].includes('HasVariants')){
 
                                 //the itm is animated add the animated icon
@@ -1561,6 +1561,16 @@ module.exports = {
 
                                 y += 40
                             }
+                        }
+
+                        //if the item contains copyrited audio
+                        if(res.data.items[num].copyrightedAudio === true){
+
+                            //the itm is animated add the animated icon
+                            const skinholder = await Canvas.loadImage('./assets/Tags/mute.png')
+                            ctx.drawImage(skinholder, x, y, 30, 30)
+
+                            y += 40
                         }
 
                         //setting up moment
@@ -1630,7 +1640,7 @@ module.exports = {
                         const itemInfo = new Discord.MessageEmbed()
 
                         //set color
-                        itemInfo.setColor('#BB00EE')
+                        itemInfo.setColor(FNBRMENA.Colors(rarity))
 
                         //set title
                         if(lang === "en"){
@@ -1682,12 +1692,12 @@ module.exports = {
                 console.log(err)
                 if(lang === "en"){
                     const Err = new Discord.MessageEmbed()
-                    .setColor('#BB00EE')
+                    .setColor(FNBRMENA.Colors("embed"))
                     .setTitle(`No cosmetic has been found check your speling and try again ${errorEmoji}`)
                     message.reply(Err)
                 }else if(lang === "ar"){
                     const Err = new Discord.MessageEmbed()
-                    .setColor('#BB00EE')
+                    .setColor(FNBRMENA.Colors("embed"))
                     .setTitle(`لا يمكنني العثور على العنصر الرجاء التأكد من كتابة الاسم بشكل صحيح ${errorEmoji}`)
                     message.reply(Err)
                 }

@@ -17,7 +17,7 @@ module.exports = {
     maxArgs: 1,
     cooldown: -1,
     permissionError: 'Sorry you do not have acccess to this command',
-    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji) => {
+    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji) => {
 
         //get the user language from the database
         const lang = await FNBRMENA.Admin(admin, message, "", "Lang")
@@ -25,7 +25,7 @@ module.exports = {
         Fortnite.CreatorCodeSearch(text)
         .then( async res => {
             const info = new Discord.MessageEmbed()
-                info.setColor('#BB00EE')
+                info.setColor(FNBRMENA.Colors("embed"))
                 var str
                 if(lang === "en"){
                     info.setTitle("Info about "+text+" SAC")

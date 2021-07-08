@@ -17,7 +17,7 @@ module.exports = {
     maxArgs: 0,
     cooldown: -1,
     permissionError: 'Sorry you do not have acccess to this command',
-    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji) => {
+    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji) => {
 
         //get the user language from the database
         const lang = await FNBRMENA.Admin(admin, message, "", "Lang")
@@ -77,12 +77,12 @@ module.exports = {
         if(error === 1){
             if(lang === "en"){
                 const Err = new Discord.MessageEmbed()
-                .setColor('#BB00EE')
+                .setColor(FNBRMENA.Colors("embed"))
                 .setTitle(`No outfit has been found check your speling and try again ${errorEmoji}`)
                 message.channel.send(Err)
             }else if(lang === "ar"){
                 const Err = new Discord.MessageEmbed()
-                .setColor('#BB00EE')
+                .setColor(FNBRMENA.Colors("embed"))
                 .setTitle(`لا يمكنني العثور على السكن الرجاء التأكد من كتابة الاسم بشكل صحيح ${errorEmoji}`)
                 message.channel.send(Err)
             }
@@ -152,12 +152,12 @@ module.exports = {
             if(error === 1){
                 if(lang === "en"){
                     const Err = new Discord.MessageEmbed()
-                    .setColor('#BB00EE')
+                    .setColor(FNBRMENA.Colors("embed"))
                     .setTitle(`No backbling has been found check your speling and try again ${errorEmoji}`)
                     message.channel.send(Err)
                 }else if(lang === "ar"){
                     const Err = new Discord.MessageEmbed()
-                    .setColor('#BB00EE')
+                    .setColor(FNBRMENA.Colors("embed"))
                     .setTitle(`لا يمكنني العثور على الشنطه الرجاء التأكد من كتابة الاسم بشكل صحيح ${errorEmoji}`)
                     message.channel.send(Err)
                 }
@@ -228,12 +228,12 @@ module.exports = {
                 if(error === 1){
                     if(lang === "en"){
                         const Err = new Discord.MessageEmbed()
-                        .setColor('#BB00EE')
+                        .setColor(FNBRMENA.Colors("embed"))
                         .setTitle(`No harvesting tool has been found check your speling and try again ${errorEmoji}`)
                         message.channel.send(Err)
                     }else if(lang === "ar"){
                         const Err = new Discord.MessageEmbed()
-                        .setColor('#BB00EE')
+                        .setColor(FNBRMENA.Colors("embed"))
                         .setTitle(`لا يمكنني العثور على البيكاكس الرجاء التأكد من كتابة الاسم بشكل صحيح ${errorEmoji}`)
                         message.channel.send(Err)
                     }
@@ -304,12 +304,12 @@ module.exports = {
                     if(error === 1){
                         if(lang === "en"){
                             const Err = new Discord.MessageEmbed()
-                            .setColor('#BB00EE')
+                            .setColor(FNBRMENA.Colors("embed"))
                             .setTitle(`No glider has been found check your speling and try again ${errorEmoji}`)
                             message.channel.send(Err)
                         }else if(lang === "ar"){
                             const Err = new Discord.MessageEmbed()
-                            .setColor('#BB00EE')
+                            .setColor(FNBRMENA.Colors("embed"))
                             .setTitle(`لا يمكنني العثور على المظلة الرجاء التأكد من كتابة الاسم بشكل صحيح ${errorEmoji}`)
                             message.channel.send(Err)
                         }
@@ -381,12 +381,12 @@ module.exports = {
                         if(error === 1){
                             if(lang === "en"){
                                 const Err = new Discord.MessageEmbed()
-                                .setColor('#BB00EE')
+                                .setColor(FNBRMENA.Colors("embed"))
                                 .setTitle(`No emote has been found check your speling and try again ${errorEmoji}`)
                                 message.channel.send(Err)
                             }else if(lang === "ar"){
                                 const Err = new Discord.MessageEmbed()
-                                .setColor('#BB00EE')
+                                .setColor(FNBRMENA.Colors("embed"))
                                 .setTitle(`لا يمكنني العثور على الرقصة الرجاء التأكد من كتابة الاسم بشكل صحيح ${errorEmoji}`)
                                 message.channel.send(Err)
                             }

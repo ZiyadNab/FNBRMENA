@@ -11,7 +11,7 @@ module.exports = {
     maxArgs: null,
     cooldown: 15,
     permissionError: 'Sorry you do not have acccess to this command',
-    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji) => {
+    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji) => {
 
         //get the user language from the database
         const lang = await FNBRMENA.Admin(admin, message, "", "Lang")
@@ -31,12 +31,12 @@ module.exports = {
             if(challenge.length === 0){
                 if(lang === "en"){
                     const err = new Discord.MessageEmbed()
-                    .setColor('#BB00EE')
+                    .setColor(FNBRMENA.Colors("embed"))
                     .setTitle(`There is no challenges with that name ${errorEmoji}`)
                     message.channel.send(err)
                 }else if(lang === "ar"){
                     const err = new Discord.MessageEmbed()
-                    .setColor('#BB00EE')
+                    .setColor(FNBRMENA.Colors("embed"))
                     .setTitle(`لا يوجد تحديات بهذا الأسم ${errorEmoji}`)
                     message.channel.send(err)
                 }
@@ -54,7 +54,7 @@ module.exports = {
                 const challenges = new Discord.MessageEmbed()
 
                 //add the color
-                challenges.setColor('#BB00EE')
+                challenges.setColor(FNBRMENA.Colors("embed"))
 
                 //create and fill a string of names
                 var str = ""
@@ -98,14 +98,14 @@ module.exports = {
                                     msg.delete()
                                     notify.delete()
                                     const error = new Discord.MessageEmbed()
-                                    .setColor('#BB00EE')
+                                    .setColor(FNBRMENA.Colors("embed"))
                                     .setTitle(`Sorry we canceled your process becuase u selected a number out of range ${errorEmoji}`)
                                     message.reply(error)
                                 }else if(lang === "ar"){
                                     msg.delete()
                                     notify.delete()
                                     const error = new Discord.MessageEmbed()
-                                    .setColor('#BB00EE')
+                                    .setColor(FNBRMENA.Colors("embed"))
                                     .setTitle(`تم ايقاف الامر بسبب اختيارك لرقم خارج النطاق ${errorEmoji}`)
                                     message.reply(error)
                                 }
@@ -115,14 +115,14 @@ module.exports = {
                                 notify.delete()
                                 msg.delete()
                                 const error = new Discord.MessageEmbed()
-                                .setColor('#BB00EE')
+                                .setColor(FNBRMENA.Colors("embed"))
                                 .setTitle(`Sorry we canceled your process becuase no method has been selected ${errorEmoji}`)
                                 message.reply(error)
                             }else if(lang === "ar"){
                                 msg.delete()
                                 notify.delete()
                                 const error = new Discord.MessageEmbed()
-                                .setColor('#BB00EE')
+                                .setColor(FNBRMENA.Colors("embed"))
                                 .setTitle(`تم ايقاف الامر بسبب عدم اختيارك لطريقة ${errorEmoji}`)
                                 message.reply(error)
                             }

@@ -12,7 +12,7 @@ module.exports = {
     maxArgs: null,
     cooldown: -1,
     permissionError: 'Sorry you do not have acccess to this command',
-    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji) => {
+    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji) => {
 
         //get the user language from the database
         const lang = await FNBRMENA.Admin(admin, message, "", "Lang")
@@ -39,7 +39,7 @@ module.exports = {
                 const list = new Discord.MessageEmbed()
 
                 //set the color
-                list.setColor('#BB00EE')
+                list.setColor(FNBRMENA.Colors("embed"))
 
                 //set title
                 if(lang === "en") list.setTitle(`Please choose your item from the list below`)
@@ -95,12 +95,12 @@ module.exports = {
                                 //if user typed a number out of range
                                 if(lang === "en"){
                                     const error = new Discord.MessageEmbed()
-                                    .setColor('#BB00EE')
+                                    .setColor(FNBRMENA.Colors("embed"))
                                     .setTitle(`Sorry we canceled your process becuase u selected a number out of range ${errorEmoji}`)
                                     message.reply(error)
                                 }else if(lang === "ar"){
                                     const error = new Discord.MessageEmbed()
-                                    .setColor('#BB00EE')
+                                    .setColor(FNBRMENA.Colors("embed"))
                                     .setTitle(`تم ايقاف الامر بسبب اختيارك لرقم خارج النطاق ${errorEmoji}`)
                                     message.reply(error)
                                 }
@@ -135,10 +135,9 @@ module.exports = {
                         //if the item doen't exists in the database
                         if(access){
                             const generating = new Discord.MessageEmbed()
-                            generating.setColor('#BB00EE')
-                            const emoji = client.emojis.cache.get("805690920157970442")
-                            if(lang === "en") generating.setTitle(`Getting info about the item ${emoji}`)
-                            else if(lang === "ar") generating.setTitle(`جاري البحث عن معلومات العنصر ${emoji}`)
+                            generating.setColor(FNBRMENA.Colors("embed"))
+                            if(lang === "en") generating.setTitle(`Getting info about the item ${loadingEmoji}`)
+                            else if(lang === "ar") generating.setTitle(`جاري البحث عن معلومات العنصر ${loadingEmoji}`)
                             message.channel.send(generating)
                             .then( async msg => {
 
@@ -603,7 +602,7 @@ module.exports = {
                                 const itemInfo = new Discord.MessageEmbed()
 
                                 //set color
-                                itemInfo.setColor('#BB00EE')
+                                itemInfo.setColor(FNBRMENA.Colors("embed"))
 
                                 //set titles and fields
                                 if(lang == "en"){
@@ -632,12 +631,12 @@ module.exports = {
                         }else{
                             if(lang === "en"){
                                 const Err = new Discord.MessageEmbed()
-                                .setColor('#BB00EE')
+                                .setColor(FNBRMENA.Colors("embed"))
                                 .setTitle(`The item is already added for the reminding system ${errorEmoji}`)
                                 message.reply(Err)
                             }else if(lang === "ar"){
                                 const Err = new Discord.MessageEmbed()
-                                .setColor('#BB00EE')
+                                .setColor(FNBRMENA.Colors("embed"))
                                 .setTitle(`تم بالفعل اضافة العنصر من قبل في نظام التذكير ${errorEmoji}`)
                                 message.reply(Err)
                             }
@@ -645,12 +644,12 @@ module.exports = {
                     }else{
                         if(lang === "en"){
                             const Err = new Discord.MessageEmbed()
-                            .setColor('#BB00EE')
+                            .setColor(FNBRMENA.Colors("embed"))
                             .setTitle(`The item source is not an itemshop please reselect again ${errorEmoji}`)
                             message.reply(Err)
                         }else if(lang === "ar"){
                             const Err = new Discord.MessageEmbed()
-                            .setColor('#BB00EE')
+                            .setColor(FNBRMENA.Colors("embed"))
                             .setTitle(`لا يمكنني تذكيرك بالعنصر لانه ليس من عناصر الايتم شوب ${errorEmoji}`)
                             message.reply(Err)
                         }
@@ -658,12 +657,12 @@ module.exports = {
                 }else{
                     if(lang === "en"){
                         const Err = new Discord.MessageEmbed()
-                        .setColor('#BB00EE')
+                        .setColor(FNBRMENA.Colors("embed"))
                         .setTitle(`No cosmetic has been found check your speling and try again ${errorEmoji}`)
                         message.reply(Err)
                     }else if(lang === "ar"){
                         const Err = new Discord.MessageEmbed()
-                        .setColor('#BB00EE')
+                        .setColor(FNBRMENA.Colors("embed"))
                         .setTitle(`لا يمكنني العثور على العنصر الرجاء التأكد من كتابة الاسم بشكل صحيح ${errorEmoji}`)
                         message.reply(Err)
                     }

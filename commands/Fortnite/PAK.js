@@ -16,7 +16,7 @@ module.exports = {
     maxArgs: 1,
     cooldown: 10,
     permissionError: 'Sorry you do not have acccess to this command',
-    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji) => {
+    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji) => {
 
         //get the user language from the database
         const lang = await FNBRMENA.Admin(admin, message, "", "Lang")
@@ -49,9 +49,8 @@ module.exports = {
 
             // generating animation
             const generating = new Discord.MessageEmbed()
-            generating.setColor('#BB00EE')
-            const emoji = client.emojis.cache.get("805690920157970442")
-            generating.setTitle(`${loading} ${length} ${emoji}`)
+            generating.setColor(FNBRMENA.Colors("embed"))
+            generating.setTitle(`${loading} ${length} ${loadingEmoji}`)
             message.channel.send(generating)
             .then( async msg => {
 
@@ -561,7 +560,7 @@ module.exports = {
                     }
                 }
                 const sending = new Discord.MessageEmbed()
-                .setColor('#BB00EE')
+                .setColor(FNBRMENA.Colors("embed"))
                 .setTitle(send)
                 msg.edit(sending)
 
@@ -571,7 +570,7 @@ module.exports = {
                 msg.delete()
 
                 const info = new Discord.MessageEmbed()
-                info.setColor('#BB00EE')
+                info.setColor(FNBRMENA.Colors("embed"))
                 var string = ""
                 if(lang === "en"){
                     info.setTitle('All cosmetic names in pak ' + text)
@@ -602,12 +601,12 @@ module.exports = {
         }).catch(err => {
             if(lang === "en"){
               const errorData = new Discord.MessageEmbed()
-              .setColor('#BB00EE')
+              .setColor(FNBRMENA.Colors("embed"))
               .setTitle(`Pak file could not be found! ${errorEmoji}`)
               message.channel.send(errorData)
             }else if(lang === "ar"){
               const errorData = new Discord.MessageEmbed()
-              .setColor('#BB00EE')
+              .setColor(FNBRMENA.Colors("embed"))
               .setTitle(`عذرا لا يوجد ملف بالرمز هذا ${errorEmoji}`)
               message.channel.send(errorData)
             }

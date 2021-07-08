@@ -16,7 +16,7 @@ module.exports = {
     maxArgs: 0,
     cooldown: -1,
     permissionError: 'Sorry you do not have acccess to this command',
-    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji) => {
+    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji) => {
         
         //get the user language from the database
         const lang = await FNBRMENA.Admin(admin, message, "", "Lang")
@@ -27,9 +27,8 @@ module.exports = {
             var counter = 1
             if(lang == "en"){
                 const generating = new Discord.MessageEmbed()
-                generating.setColor('#BB00EE')
-                const emoji = client.emojis.cache.get("805690920157970442")
-                generating.setTitle(`Generating ... ${emoji}`)
+                generating.setColor(FNBRMENA.Colors("embed"))
+                generating.setTitle(`Generating ... ${loadingEmoji}`)
                 message.channel.send(generating)
                 .then( async msg => {
                     for(let i = 0; i < res.data.dynamicKeys.length; i++){
@@ -39,7 +38,7 @@ module.exports = {
                         }
                     }
                     const AES = new Discord.MessageEmbed()
-                    .setColor('#BB00EE')
+                    .setColor(FNBRMENA.Colors("embed"))
                     .setTitle('AES key and paks')
                     .addFields(
                         {name: 'Build:', value: res.data.build},
@@ -56,9 +55,8 @@ module.exports = {
             }
             if(lang == "ar"){
                 const generating = new Discord.MessageEmbed()
-                generating.setColor('#BB00EE')
-                const emoji = client.emojis.cache.get("805690920157970442")
-                generating.setTitle(`يتم التحميل ... ${emoji}`)
+                generating.setColor(FNBRMENA.Colors("embed"))
+                generating.setTitle(`يتم التحميل ... ${loadingEmoji}`)
                 message.channel.send(generating)
                 .then( async msg => {
                     for(let i = 0; i < res.data.dynamicKeys.length; i++){
@@ -68,7 +66,7 @@ module.exports = {
                         }
                     }
                     const AES = new Discord.MessageEmbed()
-                    AES.setColor('#BB00EE')
+                    AES.setColor(FNBRMENA.Colors("embed"))
                     AES.setTitle('مفتاح الـ AES')
                     AES.addFields(
                         {name: 'التحديث:', value: res.data.build},

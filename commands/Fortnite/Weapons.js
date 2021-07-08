@@ -11,7 +11,7 @@ module.exports = {
     maxArgs: null,
     cooldown: 5,
     permissionError: 'Sorry you do not have acccess to this command',
-    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji) => {
+    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji) => {
 
         //get the user language from the database
         const lang = await FNBRMENA.Admin(admin, message, "", "Lang")
@@ -31,7 +31,7 @@ module.exports = {
                 if(WIDs.length > 1){
                     //string
                     const WIDs_Info = new Discord.MessageEmbed()
-                    WIDs_Info.setColor('#BB00EE')
+                    WIDs_Info.setColor(FNBRMENA.Colors("embed"))
                     for(let i = 0; i < WIDs.length; i++){
                         WIDs_Info.addFields(
                             {name: "• " + i + ": " + WIDs[i].name, value: WIDs[i].id + " ["+WIDs[i].rarity+"]"}
@@ -65,9 +65,8 @@ module.exports = {
                                         })
 
                                         const generating = new Discord.MessageEmbed()
-                                        generating.setColor('#BB00EE')
-                                        const emoji = client.emojis.cache.get("805690920157970442")
-                                        generating.setTitle(`Generating ${emoji}`)
+                                        generating.setColor(FNBRMENA.Colors("embed"))
+                                        generating.setTitle(`Generating ${loadingEmoji}`)
                                         message.channel.send(generating)
                                         .then( async msg => {
 
@@ -380,14 +379,14 @@ module.exports = {
                                         msg.delete()
                                         notify.delete()
                                         const error = new Discord.MessageEmbed()
-                                        .setColor('#BB00EE')
+                                        .setColor(FNBRMENA.Colors("embed"))
                                         .setTitle(`Sorry we canceled your process becuase u selected a number out of range ${errorEmoji}`)
                                         message.reply(error)
                                     }else if(lang === "ar"){
                                         msg.delete()
                                         notify.delete()
                                         const error = new Discord.MessageEmbed()
-                                        .setColor('#BB00EE')
+                                        .setColor(FNBRMENA.Colors("embed"))
                                         .setTitle(`تم ايقاف الامر بسبب اختيارك لرقم خارج النطاق ${errorEmoji}`)
                                         message.reply(error)
                                     }
@@ -397,14 +396,14 @@ module.exports = {
                                     notify.delete()
                                     msg.delete()
                                     const error = new Discord.MessageEmbed()
-                                    .setColor('#BB00EE')
+                                    .setColor(FNBRMENA.Colors("embed"))
                                     .setTitle(`Sorry we canceled your process becuase no method has been selected ${errorEmoji}`)
                                     message.reply(error)
                                 }else if(lang === "ar"){
                                     msg.delete()
                                     notify.delete()
                                     const error = new Discord.MessageEmbed()
-                                    .setColor('#BB00EE')
+                                    .setColor(FNBRMENA.Colors("embed"))
                                     .setTitle(`تم ايقاف الامر بسبب عدم اختيارك لطريقة ${errorEmoji}`)
                                     message.reply(error)
                                 }
@@ -419,9 +418,8 @@ module.exports = {
                         })
 
                         const generating = new Discord.MessageEmbed()
-                        generating.setColor('#BB00EE')
-                        const emoji = client.emojis.cache.get("805690920157970442")
-                        generating.setTitle(`Generating ${emoji}`)
+                        generating.setColor(FNBRMENA.Colors("embed"))
+                        generating.setTitle(`Generating ${loadingEmoji}`)
                         message.channel.send(generating)
                         .then( async msg => {
 
@@ -733,12 +731,12 @@ module.exports = {
             }else{
                 if(lang === "en"){
                     const err = new Discord.MessageEmbed()
-                    err.setColor('#BB00EE')
+                    err.setColor(FNBRMENA.Colors("embed"))
                     err.setTitle(`There is no weapon with that name ${errorEmoji}`)
                     message.channel.send(err)
                 }else if(lang === "ar"){
                     const err = new Discord.MessageEmbed()
-                    err.setColor('#BB00EE')
+                    err.setColor(FNBRMENA.Colors("embed"))
                     err.setTitle(`لا يوجد سلاح بهذا الاسم ${errorEmoji}`)
                     message.channel.send(err)
                 }

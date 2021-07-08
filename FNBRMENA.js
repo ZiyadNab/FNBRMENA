@@ -18,6 +18,27 @@ class FNBRMENA {
 
     }
 
+    Colors(Type){
+
+        if(Type === "embed") return "#00ffff"
+        if(Type === "Legendary") return "#e98d4b"
+        if(Type === "Epic") return "#e95eff"
+        if(Type === "Rare") return "#37d1ff"
+        if(Type === "Uncommon") return "#87e339"
+        if(Type === "Common") return "#b1b1b1"
+        if(Type === "MarvelSeries") return "#ef3537"
+        if(Type === "DCUSeries") return "#6094ce"
+        if(Type === "CUBESeries") return "#ff42e7"
+        if(Type === "CreatorCollabSeries") return "#52e0e0"
+        if(Type === "ColumbusSeries") return "#e7c413"
+        if(Type === "ShadowSeries") return "#949494"
+        if(Type === "SlurpSeries") return "#53f0ff"
+        if(Type === "FrozenSeries") return "#c4dff7"
+        if(Type === "LavaSeries") return "#d19635"
+        if(Type === "PlatformSeries") return "#8e5eff"
+        
+    }
+
     /**
      * Return data about the crew
      * 

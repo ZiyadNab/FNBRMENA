@@ -8,18 +8,18 @@ module.exports = {
     maxArgs: 0,
     cooldown: -1,
     permissionError: 'Sorry you do not have acccess to this command',
-    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji) => {
+    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji) => {
 
         //get the user language from the database
         const lang = await FNBRMENA.Admin(admin, message, "", "Lang")
 
         //inilizing data
-        const red = client.emojis.cache.get("855805718779002899")
-        const green = client.emojis.cache.get("855805718363111434")
+        const red = client.emojis.cache.get("856207799650615297")
+        const green = client.emojis.cache.get("856207799037067294")
 
         //ask the user what status should be placed
         const method = new Discord.MessageEmbed()
-        method.setColor('#BB00EE')
+        method.setColor(FNBRMENA.Colors("embed"))
         if(lang === "en"){
             method.setTitle('Choose a method')
             method.addFields(
@@ -63,7 +63,7 @@ module.exports = {
                     const view = new Discord.MessageEmbed()
 
                     //add the color
-                    view.setColor('#BB00EE')
+                    view.setColor(FNBRMENA.Colors("embed"))
                     
                     //for loop foe each event
                     for(let i = 0; i < Object.keys(res).length; i++){
@@ -135,11 +135,11 @@ module.exports = {
                     const listOfEvents = new Discord.MessageEmbed()
 
                     //add color
-                    listOfEvents.setColor('#BB00EE')
+                    listOfEvents.setColor(FNBRMENA.Colors("embed"))
 
                     //set title
                     if(lang === "en"){
-                        listOfEvents.setTitle("Pleasy Choose an event to change its status")
+                        listOfEvents.setTitle("Please choose an event to change its status")
                     }else if(lang === "ar"){
                         listOfEvents.setTitle("الرجاء اختيار من القائمه بالاسفل")
                     }
@@ -184,7 +184,7 @@ module.exports = {
                                     const change = new Discord.MessageEmbed()
 
                                     //add the color
-                                    change.setColor('#BB00EE')
+                                    change.setColor(FNBRMENA.Colors("embed"))
 
                                     //add title
                                     if(lang === "en"){
@@ -228,7 +228,7 @@ module.exports = {
                                             const method = new Discord.MessageEmbed()
 
                                             //add the color
-                                            method.setColor('#BB00EE')
+                                            method.setColor(FNBRMENA.Colors("embed"))
 
                                             //add title
                                             if(lang === "en"){
@@ -271,12 +271,12 @@ module.exports = {
                                                     //send the embed
                                                     if(lang === "en"){
                                                         const done = new Discord.MessageEmbed()
-                                                        done.setColor('#BB00EE')
+                                                        done.setColor(FNBRMENA.Colors("embed"))
                                                         done.setTitle(`The ${Object.keys(res)[collected.first().content]} event has been turned on ${checkEmoji}`)
                                                         message.channel.send(done)
                                                     }else if(lang === "ar"){
                                                         const done = new Discord.MessageEmbed()
-                                                        done.setColor('#BB00EE')
+                                                        done.setColor(FNBRMENA.Colors("embed"))
                                                         done.setTitle(`تم تفعيل امر ${Object.keys(res)[collected.first().content]} ${checkEmoji}`)
                                                         message.channel.send(done)
                                                     }
@@ -292,12 +292,12 @@ module.exports = {
                                                     //send the embed
                                                     if(lang === "en"){
                                                         const done = new Discord.MessageEmbed()
-                                                        done.setColor('#BB00EE')
+                                                        done.setColor(FNBRMENA.Colors("embed"))
                                                         done.setTitle(`The ${Object.keys(res)[collected.first().content]} event has been turned off ${checkEmoji}`)
                                                         message.channel.send(done)
                                                     }else if(lang === "ar"){
                                                         const done = new Discord.MessageEmbed()
-                                                        done.setColor('#BB00EE')
+                                                        done.setColor(FNBRMENA.Colors("embed"))
                                                         done.setTitle(`تم ايقاف امر ${Object.keys(res)[collected.first().content]} ${checkEmoji}`)
                                                         message.channel.send(done)
                                                     }
@@ -321,7 +321,7 @@ module.exports = {
                                             const method = new Discord.MessageEmbed()
 
                                             //add color
-                                            method.setColor('#BB00EE')
+                                            method.setColor(FNBRMENA.Colors("embed"))
 
                                             //add title
                                             if(lang === "en"){
@@ -367,7 +367,7 @@ module.exports = {
                                                     })
 
                                                     const change = new Discord.MessageEmbed()
-                                                    .setColor('#BB00EE')
+                                                    .setColor(FNBRMENA.Colors("embed"))
                                                     .setTitle(`The Event's language has been changed to English ${checkEmoji}`)
                                                     message.channel.send(change)
                                                 }
@@ -380,7 +380,7 @@ module.exports = {
                                                     })
 
                                                 const change = new Discord.MessageEmbed()
-                                                    .setColor('#BB00EE')
+                                                    .setColor(FNBRMENA.Colors("embed"))
                                                     .setTitle(`تم تغير اللغة الى العربية ${checkEmoji}`)
                                                     message.channel.send(change)
                                                 }
@@ -390,7 +390,7 @@ module.exports = {
                                             }).catch(err => {
                                                 msgReact.delete()
                                                 const error = new Discord.MessageEmbed()
-                                                .setColor('#BB00EE')
+                                                .setColor(FNBRMENA.Colors("embed"))
                                                 .setTitle(`${FNBRMENA.Errors("Time", lang)} ${errorEmoji}`)
                                                 message.reply(error)
                                             })
@@ -405,14 +405,14 @@ module.exports = {
                                         msg.delete()
                                         notify.delete()
                                         const error = new Discord.MessageEmbed()
-                                        .setColor('#BB00EE')
+                                        .setColor(FNBRMENA.Colors("embed"))
                                         .setTitle(`Sorry we canceled your process becuase u selected a number out of range ${errorEmoji}`)
                                         message.reply(error)
                                     }else if(lang === "ar"){
                                         msg.delete()
                                         notify.delete()
                                         const error = new Discord.MessageEmbed()
-                                        .setColor('#BB00EE')
+                                        .setColor(FNBRMENA.Colors("embed"))
                                         .setTitle(`تم ايقاف الامر بسبب اختيارك لرقم خارج النطاق ${errorEmoji}`)
                                         message.reply(error)
                                     }
@@ -423,7 +423,7 @@ module.exports = {
                                 notify.delete()
                                 msg.delete()
                                 const error = new Discord.MessageEmbed()
-                                .setColor('#BB00EE')
+                                .setColor(FNBRMENA.Colors("embed"))
                                 .setTitle(`${FNBRMENA.Errors("Time", lang)} ${errorEmoji}`)
                                 message.reply(error)
                                     
@@ -437,7 +437,7 @@ module.exports = {
             //if user took to long to excute the command
             msgReact.delete()
             const error = new Discord.MessageEmbed()
-            .setColor('#BB00EE')
+            .setColor(FNBRMENA.Colors("embed"))
             .setTitle(`${FNBRMENA.Errors("Time", lang)} ${errorEmoji}`)
             message.reply(error)
                 

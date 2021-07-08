@@ -82,8 +82,8 @@ module.exports = (client, admin) => {
 
                         // generating animation
                         const generating = new Discord.MessageEmbed()
-                        generating.setColor('#BB00EE')
-                        const emoji = client.emojis.cache.get("805690920157970442")
+                        generating.setColor('#00ffff')
+                        const emoji = client.emojis.cache.get("862704096312819722")
                         generating.setTitle(`${loading}... ${emoji}`)
                         message.send(generating)
                         .then( async msg => {
@@ -324,7 +324,7 @@ module.exports = (client, admin) => {
                             const Sections = new Discord.MessageEmbed()
 
                             //add the color
-                            Sections.setColor('#BB00EE')
+                            Sections.setColor('#00ffff')
 
                             //add description
                             Sections.setDescription(string)

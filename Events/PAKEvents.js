@@ -61,7 +61,7 @@ module.exports = (client, admin) => {
                         const aesMessage = new Discord.MessageEmbed()
 
                         //add color
-                        aesMessage.setColor('#BB00EE')
+                        aesMessage.setColor('#00ffff')
 
                         //set title
                         if(lang === "en"){
@@ -101,7 +101,7 @@ module.exports = (client, admin) => {
                                         const pak = new Discord.MessageEmbed()
 
                                         //add color
-                                        pak.setColor('#BB00EE')
+                                        pak.setColor('#00ffff')
 
                                         //set title
                                         if(lang === "en"){

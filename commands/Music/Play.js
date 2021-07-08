@@ -8,7 +8,7 @@ module.exports = {
     maxArgs: null,
     cooldown: -1,
     permissionError: 'Sorry you do not have acccess to this command',
-    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, disTube) => {
+    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji, disTube) => {
 
         //get the user language from the database
         const lang = await FNBRMENA.Admin(admin, message, "", "Lang")
@@ -16,7 +16,7 @@ module.exports = {
         //if the user isnt in a voice chat
         if (!message.member.voice.channel){
             const err = new Discord.MessageEmbed()
-            err.setColor('#BB00EE')
+            err.setColor(FNBRMENA.Colors("embed"))
             if(lang === "en"){
                 err.setTitle(`Ay u r not in a voice channel ${errorEmoji}`)
             }else if(lang === "ar"){

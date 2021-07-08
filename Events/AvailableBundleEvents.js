@@ -64,7 +64,7 @@ module.exports = (client, admin) => {
                                 const bundle = new Discord.MessageEmbed()
 
                                 //add color
-                                bundle.setColor('#BB00EE')
+                                bundle.setColor('#00ffff')
 
                                 //add title
                                 bundle.setTitle(available[0].name)

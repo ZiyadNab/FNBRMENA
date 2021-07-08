@@ -44,7 +44,7 @@ module.exports = (client, admin) => {
                         const Notice = new Discord.MessageEmbed()
 
                         //add the color
-                        Notice.setColor('#BB00EE')
+                        Notice.setColor('#00ffff')
                         
                         for (let i = 0; i < res.data.data.length; i++) {
 

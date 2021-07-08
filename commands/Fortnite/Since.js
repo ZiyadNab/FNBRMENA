@@ -17,7 +17,7 @@ module.exports = {
     maxArgs: null,
     cooldown: 120,
     permissionError: 'Sorry you do not have acccess to this command',
-    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji) => {
+    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji) => {
 
         //get the user language from the database
         const lang = await FNBRMENA.Admin(admin, message, "", "Lang")
@@ -28,7 +28,7 @@ module.exports = {
 
             //voting
             const p = new Discord.MessageEmbed()
-            p.setColor('#BB00EE')
+            p.setColor(FNBRMENA.Colors("embed"))
             if(lang === "en"){
                 p.setTitle('Choose a method')
                 p.addFields(
@@ -131,9 +131,8 @@ module.exports = {
 
                 //generating text
                 const generating = new Discord.MessageEmbed()
-                generating.setColor('#BB00EE')
-                const emoji = client.emojis.cache.get("805690920157970442")
-                generating.setTitle(`${string} ${emoji}`)
+                generating.setColor(FNBRMENA.Colors("embed"))
+                generating.setTitle(`${string} ${loadingEmoji}`)
                 message.channel.send(generating)
                 .then( async msg => {
 
@@ -682,12 +681,12 @@ module.exports = {
                         msg.delete()
                         if(lang === "en"){
                             const error = new Discord.MessageEmbed()
-                            .setColor('#BB00EE')
+                            .setColor(FNBRMENA.Colors("embed"))
                             .setTitle(`There are no items more than ${text} days ${errorEmoji}`)
                             message.reply(error)
                         }else if(lang === "ar"){
                             const error = new Discord.MessageEmbed()
-                            .setColor('#BB00EE')
+                            .setColor(FNBRMENA.Colors("embed"))
                             .setTitle(`لا يوجد عناصر اعلى من ${text} يوم ${errorEmoji}`)
                             message.reply(error)
                         }
@@ -697,13 +696,13 @@ module.exports = {
                 if(lang === "en"){
                     msgReact.delete()
                     const error = new Discord.MessageEmbed()
-                    .setColor('#BB00EE')
+                    .setColor(FNBRMENA.Colors("embed"))
                     .setTitle(`Sorry we canceled your process becuase no method has been selected ${errorEmoji}`)
                     message.reply(error)
                 }else if(lang === "ar"){
                     msgReact.delete()
                     const error = new Discord.MessageEmbed()
-                    .setColor('#BB00EE')
+                    .setColor(FNBRMENA.Colors("embed"))
                     .setTitle(`تم ايقاف الامر بسبب عدم اختيارك لطريقة ${errorEmoji}`)
                     message.reply(error)
                 }
@@ -712,12 +711,12 @@ module.exports = {
         }else{
             if(lang === "en"){
                 const error = new Discord.MessageEmbed()
-                .setColor('#BB00EE')
+                .setColor(FNBRMENA.Colors("embed"))
                 .setTitle(`There are too many items please enter a value greater than 250 ${errorEmoji}`)
                 message.reply(error)
             }else if(lang === "ar"){
                 const error = new Discord.MessageEmbed()
-                .setColor('#BB00EE')
+                .setColor(FNBRMENA.Colors("embed"))
                 .setTitle(`يوجد عناصر كثيرة الرجاء اختيار رقم اعلى من 250 ${errorEmoji}`)
                 message.reply(error)
             }

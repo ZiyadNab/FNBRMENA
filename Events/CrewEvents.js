@@ -26,7 +26,7 @@ module.exports = (client, admin) => {
                 axios.get(`https://fortniteapi.io/v2/game/crew?lang=${lang}`, { headers: {'Content-Type': 'application/json','Authorization': "d4ce1562-839ff66b-3946ccb6-438eb9cf",} })
                 .then(async response => {
                     if(number === 0){
-                        data = response.data
+                        data = await response.data
                         number++
                     }
 
@@ -61,8 +61,8 @@ module.exports = (client, admin) => {
 
                         //send the generating message
                         const generating = new Discord.MessageEmbed()
-                        generating.setColor('#BB00EE')
-                        const emoji = client.emojis.cache.get("805690920157970442")
+                        generating.setColor('#00ffff')
+                        const emoji = client.emojis.cache.get("862704096312819722")
                         generating.setTitle(`${loading} ${emoji}`)
                         message.send(generating)
                         .then( async msg => {
@@ -75,7 +75,7 @@ module.exports = (client, admin) => {
                             const crewData = new Discord.MessageEmbed()
 
                             //add color
-                            crewData.setColor('#BB00EE')
+                            crewData.setColor('#00ffff')
 
                             //add title
                             if(lang === "en"){
@@ -556,7 +556,7 @@ module.exports = (client, admin) => {
                             message.send(crewData)
                             msg.delete()
 
-                            data = response.data
+                            data = await response.data
 
                             //trun off push if enabled
                             admin.database().ref("ERA's").child("Events").child("crew").update({

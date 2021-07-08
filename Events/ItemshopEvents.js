@@ -51,8 +51,8 @@ module.exports = (client, admin) => {
 
                             //generating animation
                             const generating = new Discord.MessageEmbed()
-                            generating.setColor('#BB00EE')
-                            const emoji = client.emojis.cache.get("805690920157970442")
+                            generating.setColor('#00ffff')
+                            const emoji = client.emojis.cache.get("862704096312819722")
                             if(lang === "en") generating.setTitle(`Loading a total ${res.shop.length} cosmetics please wait... ${emoji}`)
                             else if(lang === "ar") generating.setTitle(`تحميل جميع العناصر بمجموع ${res.shop.length} عنصر الرجاء الانتظار... ${emoji}`)
                             message.send(generating)
@@ -1597,7 +1597,7 @@ module.exports = (client, admin) => {
 
                                 //sending message
                                 const sending = new Discord.MessageEmbed()
-                                sending.setColor('#BB00EE')
+                                sending.setColor('#00ffff')
                                 if(lang === "en") sending.setTitle(`Sending the image please wait ${emoji}`)
                                 else if(lang === "ar") sending.setTitle(`جاري ارسال الصورة الرجاء الانتظار ${emoji}`)
                                 msg.edit(sending)
@@ -1653,7 +1653,7 @@ module.exports = (client, admin) => {
                                                     const remind = new Discord.MessageEmbed()
 
                                                     //set the color
-                                                    remind.setColor('#BB00EE')
+                                                    remind.setColor('#00ffff')
 
                                                     //add image
                                                     remind.setImage(res.item.displayAssets[0].background)

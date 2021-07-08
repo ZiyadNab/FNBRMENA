@@ -19,7 +19,7 @@ module.exports = {
     maxArgs: 0,
     cooldown: 20,
     permissionError: 'Sorry you do not have acccess to this command',
-    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji) => {
+    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji) => {
 
         //get the user language from the database
         const lang = await FNBRMENA.Admin(admin, message, "", "Lang")
@@ -30,7 +30,7 @@ module.exports = {
 
             if(lang === "en"){
                 const mode = new Discord.MessageEmbed()
-                .setColor('#BB00EE')
+                .setColor(FNBRMENA.Colors("embed"))
                 .setTitle('Choose a Mode')
                 .addFields(
                     {name: 'Battle Royale', value: 'React to Number 1 for Battle Royale'},
@@ -49,9 +49,8 @@ module.exports = {
                     const reaction = collected.first();
 
                     const generating = new Discord.MessageEmbed()
-                    generating.setColor('#BB00EE')
-                    const emoji = client.emojis.cache.get("805690920157970442")
-                    generating.setTitle(`Getting News ... ${emoji}`)
+                    generating.setColor(FNBRMENA.Colors("embed"))
+                    generating.setTitle(`Getting News ... ${loadingEmoji}`)
                     message.channel.send(generating)
                     .then( async msg => {
 
@@ -435,13 +434,13 @@ module.exports = {
                 if(lang === "en"){
                     msgReact.delete()
                     const error = new Discord.MessageEmbed()
-                    .setColor('#BB00EE')
+                    .setColor(FNBRMENA.Colors("embed"))
                     .setTitle(`Sorry we canceled your process becuase no method has been selected ${errorEmoji}`)
                     message.reply(error)
                 }else if(lang === "ar"){
                     msgReact.delete()
                     const error = new Discord.MessageEmbed()
-                    .setColor('#BB00EE')
+                    .setColor(FNBRMENA.Colors("embed"))
                     .setTitle(`تم ايقاف الامر بسبب عدم اختيارك لطريقة ${errorEmoji}`)
                     message.reply(error)
                 }
@@ -449,7 +448,7 @@ module.exports = {
         }
         if(lang === "ar"){
             const mode = new Discord.MessageEmbed()
-            .setColor('#BB00EE')
+            .setColor(FNBRMENA.Colors("embed"))
             .setTitle('اخطر الطور')
             .addFields(
                 {name: 'Battle Royale', value: 'صوت رقم واحد للحصول على اخبار الباتل رويال'},
@@ -468,9 +467,8 @@ module.exports = {
                 const reaction = collected.first();
 
                 const generating = new Discord.MessageEmbed()
-                generating.setColor('#BB00EE')
-                const emoji = client.emojis.cache.get("805690920157970442")
-                generating.setTitle(`جاري البحث عن اخبار ... ${emoji}`)
+                generating.setColor(FNBRMENA.Colors("embed"))
+                generating.setTitle(`جاري البحث عن اخبار ... ${loadingEmoji}`)
                 message.channel.send(generating)
                 .then( async msg => {
 
@@ -853,13 +851,13 @@ module.exports = {
                 if(lang === "en"){
                     msgReact.delete()
                     const error = new Discord.MessageEmbed()
-                    .setColor('#BB00EE')
+                    .setColor(FNBRMENA.Colors("embed"))
                     .setTitle(`Sorry we canceled your process becuase no method has been selected ${errorEmoji}`)
                     message.reply(error)
                 }else if(lang === "ar"){
                     msgReact.delete()
                     const error = new Discord.MessageEmbed()
-                    .setColor('#BB00EE')
+                    .setColor(FNBRMENA.Colors("embed"))
                     .setTitle(`تم ايقاف الامر بسبب عدم اختيارك لطريقة ${errorEmoji}`)
                     message.reply(error)
                 }

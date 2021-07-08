@@ -67,7 +67,7 @@ module.exports = (client, admin) => {
                         const setInfo = new Discord.MessageEmbed()
 
                         //add color
-                        setInfo.setColor('#BB00EE')
+                        setInfo.setColor('#00ffff')
 
                         //set title
                         if(lang === "en"){
@@ -92,5 +92,5 @@ module.exports = (client, admin) => {
             }
         })
     }
-    setInterval(Set, 1 * 60000)
+    setInterval(Set, 2 * 60000)
 }

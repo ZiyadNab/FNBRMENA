@@ -17,7 +17,7 @@ module.exports = {
     maxArgs: null,
     cooldown: 10,
     permissionError: 'Sorry you do not have acccess to this command',
-    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji) => {
+    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji) => {
 
         //get the user language from the database
         const lang = await FNBRMENA.Admin(admin, message, "", "Lang")
@@ -37,9 +37,8 @@ module.exports = {
 
         //generating text
         const generating = new Discord.MessageEmbed()
-        generating.setColor('#BB00EE')
-        const emoji = client.emojis.cache.get("805690920157970442")
-        generating.setTitle(`${string} ${emoji}`)
+        generating.setColor(FNBRMENA.Colors("embed"))
+        generating.setTitle(`${string} ${loadingEmoji}`)
         message.channel.send(generating)
         .then( async msg => {
         
@@ -616,13 +615,13 @@ module.exports = {
             }).catch(err =>{
                 if(lang === "en"){
                     const errorData = new Discord.MessageEmbed()
-                    .setColor('#BB00EE')
+                    .setColor(FNBRMENA.Colors("embed"))
                     .setTitle(`Sorry, No cosmetics has been found ${errorEmoji}`)
                     msg.delete()
                     message.channel.send(errorData)
                 }else if(lang === "ar"){
                     const errorData = new Discord.MessageEmbed()
-                    .setColor('#BB00EE')
+                    .setColor(FNBRMENA.Colors("embed"))
                     .setTitle(`عذرا لم يتم العثور على عناصر ${errorEmoji}`)
                     msg.delete()
                     message.channel.send(errorData)

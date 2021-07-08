@@ -8,7 +8,7 @@ module.exports = {
     maxArgs: null,
     cooldown: -1,
     permissionError: 'Sorry you do not have acccess to this command',
-    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji) => {
+    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji) => {
 
         //command
         var command = args[0]
@@ -39,7 +39,7 @@ module.exports = {
 
                     //creating success embed
                     const status = new Discord.MessageEmbed()
-                    status.setColor('#BB00EE')
+                    status.setColor(FNBRMENA.Colors("embed"))
                     if (boolean === "true") {
                         if (lang === "en") {
                             status.setTitle(`The ${command} command is Enabled ${checkEmoji}`)
@@ -59,7 +59,7 @@ module.exports = {
 
                     //there is a typo in TRUE or FALSE
                     const err = new Discord.MessageEmbed()
-                    err.setColor('#BB00EE')
+                    err.setColor(FNBRMENA.Colors("embed"))
                     if (lang === "en") {
                         err.setTitle(`Make sure that you enter TRUE to enable the command or FALSE to disable it etherwise it will throw an error ${errorEmoji}`)
                     } else if (lang === "ar") {
@@ -70,7 +70,7 @@ module.exports = {
             } else {
                 //there is a typo in the command
                 const error = new Discord.MessageEmbed()
-                error.setColor('#BB00EE')
+                error.setColor(FNBRMENA.Colors("embed"))
                 if (lang === "en") {
                     error.setTitle(`Make sure that you have entered a valid command ${errorEmoji}`)
                 } else if (lang === "ar") {

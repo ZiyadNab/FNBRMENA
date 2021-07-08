@@ -8,7 +8,7 @@ module.exports = {
     maxArgs: null,
     cooldown: -1,
     permissionError: 'Sorry you do not have acccess to this command',
-    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji) => {
+    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji) => {
 
         //get the user language from the database
         const lang = await FNBRMENA.Admin(admin, message, "", "Lang")
@@ -44,7 +44,7 @@ module.exports = {
         role[Counter++] = text
 
         const method = new Discord.MessageEmbed()
-        method.setColor('#BB00EE')
+        method.setColor(FNBRMENA.Colors("embed"))
         if (lang === "en") {
             method.setTitle('Choose a method')
             method.addFields({
@@ -81,24 +81,24 @@ module.exports = {
                         ])
                         if (lang === "en") {
                             const done = new Discord.MessageEmbed()
-                            done.setColor('#BB00EE')
+                            done.setColor(FNBRMENA.Colors("embed"))
                             done.setTitle(`The ${command} role(s) has been addedd ${checkEmoji}`)
                             message.channel.send(done)
                         } else if (lang === "ar") {
                             const done = new Discord.MessageEmbed()
-                            done.setColor('#BB00EE')
+                            done.setColor(FNBRMENA.Colors("embed"))
                             done.setTitle(`تم اضافة الرول لأمر ${command} ${checkEmoji}`)
                             message.channel.send(done)
                         }
                     } else {
                         if (lang === "en") {
                             const errCommand = new Discord.MessageEmbed()
-                            errCommand.setColor('#BB00EE')
+                            errCommand.setColor(FNBRMENA.Colors("embed"))
                             errCommand.setTitle(`The ${command} is not a valid command ${errorEmoji}`)
                             message.channel.send(errCommand)
                         } else if (lang === "ar") {
                             const errCommand = new Discord.MessageEmbed()
-                            errCommand.setColor('#BB00EE')
+                            errCommand.setColor(FNBRMENA.Colors("embed"))
                             errCommand.setTitle(`الامر ${command} ليس صحيح ${errorEmoji}`)
                             message.channel.send(errCommand)
                         }
@@ -111,24 +111,24 @@ module.exports = {
                         admin.database().ref("ERA's").child("Commands").child(command).child("Roles").remove()
                         if (lang === "en") {
                             const secCommand = new Discord.MessageEmbed()
-                            secCommand.setColor('#BB00EE')
+                            secCommand.setColor(FNBRMENA.Colors("embed"))
                             secCommand.setTitle(`All the ${command} Roles has been removed ${errorEmoji}`)
                             message.channel.send(secCommand)
                         } else if (lang === "ar") {
                             const secCommand = new Discord.MessageEmbed()
-                            secCommand.setColor('#BB00EE')
+                            secCommand.setColor(FNBRMENA.Colors("embed"))
                             secCommand.setTitle(`تم حذف جميع الرولات من الامر ${command} ${checkEmoji}`)
                             message.channel.send(secCommand)
                         }
                     } else {
                         if(lang === "en") {
                             const errCommand = new Discord.MessageEmbed()
-                            errCommand.setColor('#BB00EE')
+                            errCommand.setColor(FNBRMENA.Colors("embed"))
                             errCommand.setTitle(`The ${command} doesn't have Roles ${errorEmoji}`)
                             message.channel.send(errCommand)
                         }else if (lang === "ar") {
                             const errCommand = new Discord.MessageEmbed()
-                            errCommand.setColor('#BB00EE')
+                            errCommand.setColor(FNBRMENA.Colors("embed"))
                             errCommand.setTitle(`لا يوجد رول لأمر ${command} ${errorEmoji}`)
                             message.channel.send(errCommand)
                         }
@@ -139,7 +139,7 @@ module.exports = {
         }).catch(err => {
             msgReact.delete()
             const error = new Discord.MessageEmbed()
-            .setColor('#BB00EE')
+            .setColor(FNBRMENA.Colors("embed"))
             .setTitle(`${FNBRMENA.Errors("Time", lang)} ${errorEmoji}`)
             message.reply(error)
         })

@@ -48,7 +48,7 @@ module.exports = (client, admin) => {
               const posts = new Discord.MessageEmbed()
 
               //set color
-              posts.setColor('#BB00EE')
+              posts.setColor('#00ffff')
 
               //set title
               posts.setTitle(res.data.data.fortnite.posts[orignalNum].title)
@@ -104,7 +104,7 @@ module.exports = (client, admin) => {
               const posts = new Discord.MessageEmbed()
 
               //set color
-              posts.setColor('#BB00EE')
+              posts.setColor('#00ffff')
 
               //set title
               posts.setTitle(res.data.data.competitive.posts[compNum].title)

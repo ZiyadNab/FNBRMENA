@@ -26,7 +26,7 @@ module.exports = (client, admin) => {
                 axios.get(`https://fortniteapi.io/v2/game/crew?lang=${lang}`, { headers: {'Content-Type': 'application/json','Authorization': "d4ce1562-839ff66b-3946ccb6-438eb9cf",} })
                 .then(async response => {
                     if(number === 0){
-                        data = await response.data
+                        //data = await response.data[0].date
                         number++
                     }
 
@@ -35,7 +35,7 @@ module.exports = (client, admin) => {
                         data = []
                     }
 
-                    if(JSON.stringify(response.data) !== JSON.stringify(data)){
+                    if(response.data[0].date !== data){
 
                         //variables
                         var width = 0
@@ -43,33 +43,22 @@ module.exports = (client, admin) => {
                         var newline = 0
                         var x = 0
                         var y = 0
-                        var loading
-
-                        if(lang === "en"){
-                            loading = "Loading the crew information"
-                        }else if(lang === "ar"){
-                            loading = "جاري تحميل بيانات طاقم فورت نايت"
-                        }
 
                         //res
                         const res = response.data
-
-                        //filter
-                        const crew = res.filter(catched => {
-                            return catched.type === "current"
-                        })
 
                         //send the generating message
                         const generating = new Discord.MessageEmbed()
                         generating.setColor('#00ffff')
                         const emoji = client.emojis.cache.get("862704096312819722")
-                        generating.setTitle(`${loading} ${emoji}`)
+                        if(lang === "en") generating.setTitle(`Loading the crew information ${emoji}`)
+                        else if(lang === "ar") generating.setTitle(`جاري تحميل بيانات طاقم فورت نايت ${emoji}`)
                         message.send(generating)
                         .then( async msg => {
 
-                            var year = crew[0].date.substring(0, 4)
-                            var month = crew[0].date.substring(5, 7)
-                            var day = crew[0].date.substring(8, 10)
+                            var year = res[0].date.substring(0, 4)
+                            var month = res[0].date.substring(5, 7)
+                            var day = res[0].date.substring(8, 10)
 
                             //the crew data has been found lets cread an embed
                             const crewData = new Discord.MessageEmbed()
@@ -78,20 +67,17 @@ module.exports = (client, admin) => {
                             crewData.setColor('#00ffff')
 
                             //add title
-                            if(lang === "en"){
-                                crewData.setTitle(`The Fortnite Crew for month ${month} of ${year}`)
-                            }else if(lang === "ar"){
-                                crewData.setTitle(`حزمة طاقم فورت نايت لشهر ${month} سنه ${year}`)
-                            }
+                            if(lang === "en") crewData.setTitle(`The Fortnite Crew for month ${month} of ${year}`)
+                            else if(lang === "ar") crewData.setTitle(`حزمة طاقم فورت نايت لشهر ${month} سنه ${year}`)
 
                             //add image
-                            crewData.setImage(crew[0].images.apiRender)
+                            crewData.setImage(res[0].images.apiRender)
 
                             //add url
-                            crewData.setURL(crew[0].video)
+                            crewData.setURL(res[0].video)
 
                             //creating length
-                            var length = crew[0].rewards.length
+                            var length = res[0].rewards.length
                             if(length <= 2){
                                 length = length
                             }else if(length > 2 && length <= 4){
@@ -115,7 +101,7 @@ module.exports = (client, admin) => {
                             width += (length * 512) + (length * 5) - 5
 
                             //creating height
-                            for(let i = 0; i < crew[0].rewards.length; i++){
+                            for(let i = 0; i < res[0].rewards.length; i++){
                                 
                                 if(newline === length){
                                     height += 512 + 5
@@ -154,19 +140,19 @@ module.exports = (client, admin) => {
                             newline = 0
 
                             //items
-                            for(let i = 0; i < crew[0].rewards.length; i++){
+                            for(let i = 0; i < res[0].rewards.length; i++){
 
-                                var name = crew[0].rewards[i].item.name
-                                var description = crew[0].rewards[i].item.description
-                                if(crew[0].rewards[i].item.series !== null){
-                                    var rarity = crew[0].rewards[i].item.series.id
+                                var name = res[0].rewards[i].item.name
+                                var description = res[0].rewards[i].item.description
+                                if(res[0].rewards[i].item.series !== null){
+                                    var rarity = res[0].rewards[i].item.series.id
                                 }else{
-                                    var rarity = crew[0].rewards[i].item.rarity.id
+                                    var rarity = res[0].rewards[i].item.rarity.id
                                 }
-                                if(crew[0].rewards[i].item.images.featured !== null && crew[0].rewards[i].item.type.id !== "loadingscreen"){
-                                    var image = crew[0].rewards[i].item.images.featured
+                                if(res[0].rewards[i].item.images.featured !== null && res[0].rewards[i].item.type.id !== "loadingscreen"){
+                                    var image = res[0].rewards[i].item.images.featured
                                 }else{
-                                    var image = crew[0].rewards[i].item.images.icon
+                                    var image = res[0].rewards[i].item.images.icon
                                 }
 
                                 newline++
@@ -551,12 +537,12 @@ module.exports = (client, admin) => {
                             }
 
                             //send embed
-                            const att = new Discord.MessageAttachment(canvas.toBuffer(), crew[0].date + '.png')
+                            const att = new Discord.MessageAttachment(canvas.toBuffer(), res[0].date + '.png')
                             await message.send(att)
                             message.send(crewData)
                             msg.delete()
 
-                            data = await response.data
+                            data = await response.data[0].date
 
                             //trun off push if enabled
                             admin.database().ref("ERA's").child("Events").child("crew").update({
@@ -570,5 +556,5 @@ module.exports = (client, admin) => {
             }
         })
     }
-    setInterval(Crew, 60000)
+    setInterval(Crew, 30000)
 }

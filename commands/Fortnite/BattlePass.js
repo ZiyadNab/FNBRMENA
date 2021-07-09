@@ -109,7 +109,7 @@ module.exports = {
                             if(res.rewards[i].price === 0) ctx.fillText(tier, (x + 107), (y + 275))
                             else {
                                 const holder = await Canvas.loadImage('./assets/battlepass/star.png')
-                                ctx.drawImage(holder, x + 100, y + 275, 60, 60)
+                                ctx.drawImage(holder, x + 70, y + 210, 60, 60)
                                 ctx.fillText(tier, (x + 160), (y + 275))
                             }
                         }else
@@ -126,7 +126,7 @@ module.exports = {
                             if(res.rewards[i].price === 0) ctx.fillText(tier, (x + 107), (y + 275))
                             else {
                                 const holder = await Canvas.loadImage('./assets/battlepass/star.png')
-                                ctx.drawImage(holder, x + 100, y + 275, 60, 60)
+                                ctx.drawImage(holder, x + 70, y + 210, 60, 60)
                                 ctx.fillText(tier, (x + 160), (y + 275))
                             }
                         }else
@@ -143,7 +143,7 @@ module.exports = {
                             if(res.rewards[i].price === 0) ctx.fillText(tier, (x + 107), (y + 275))
                             else {
                                 const holder = await Canvas.loadImage('./assets/battlepass/star.png')
-                                ctx.drawImage(holder, x + 100, y + 275, 60, 60)
+                                ctx.drawImage(holder, x + 70, y + 210, 60, 60)
                                 ctx.fillText(tier, (x + 160), (y + 275))
                             }
                         }else

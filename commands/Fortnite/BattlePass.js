@@ -157,7 +157,12 @@ module.exports = {
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '75px Burbank Big Condensed'
-                            ctx.fillText(tier, (x + 107), (y + 275))
+                            if(res.rewards[i].price === 0) ctx.fillText(tier, (x + 107), (y + 275))
+                            else {
+                                const holder = await Canvas.loadImage('./assets/battlepass/star.png')
+                                ctx.drawImage(holder, x + 100, y + 220, 60, 60)
+                                ctx.fillText(tier, (x + 73), (y + 272))
+                            }
                         }else
                         if(rarity === "Common"){
                             const holder = await Canvas.loadImage('./assets/Rarities/battlepass/common.png')
@@ -169,7 +174,12 @@ module.exports = {
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '75px Burbank Big Condensed'
-                            ctx.fillText(tier, (x + 107), (y + 275))
+                            if(res.rewards[i].price === 0) ctx.fillText(tier, (x + 107), (y + 275))
+                            else {
+                                const holder = await Canvas.loadImage('./assets/battlepass/star.png')
+                                ctx.drawImage(holder, x + 100, y + 220, 60, 60)
+                                ctx.fillText(tier, (x + 73), (y + 272))
+                            }
                         }else
                         if(rarity === "MarvelSeries"){
                             const holder = await Canvas.loadImage('./assets/Rarities/battlepass/marvel.png')
@@ -181,7 +191,12 @@ module.exports = {
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '75px Burbank Big Condensed'
-                            ctx.fillText(tier, (x + 107), (y + 275))
+                            if(res.rewards[i].price === 0) ctx.fillText(tier, (x + 107), (y + 275))
+                            else {
+                                const holder = await Canvas.loadImage('./assets/battlepass/star.png')
+                                ctx.drawImage(holder, x + 100, y + 220, 60, 60)
+                                ctx.fillText(tier, (x + 73), (y + 272))
+                            }
                         }else
                         if(rarity === "DCUSeries"){
                             const holder = await Canvas.loadImage('./assets/Rarities/battlepass/dc.png')
@@ -193,7 +208,12 @@ module.exports = {
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '75px Burbank Big Condensed'
-                            ctx.fillText(tier, (x + 107), (y + 275))
+                            if(res.rewards[i].price === 0) ctx.fillText(tier, (x + 107), (y + 275))
+                            else {
+                                const holder = await Canvas.loadImage('./assets/battlepass/star.png')
+                                ctx.drawImage(holder, x + 100, y + 220, 60, 60)
+                                ctx.fillText(tier, (x + 73), (y + 272))
+                            }
                         }else
                         if(rarity === "DarkSeries"){
                             const holder = await Canvas.loadImage('./assets/Rarities/battlepass/dark.png')
@@ -205,7 +225,12 @@ module.exports = {
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '75px Burbank Big Condensed'
-                            ctx.fillText(tier, (x + 107), (y + 275))
+                            if(res.rewards[i].price === 0) ctx.fillText(tier, (x + 107), (y + 275))
+                            else {
+                                const holder = await Canvas.loadImage('./assets/battlepass/star.png')
+                                ctx.drawImage(holder, x + 100, y + 220, 60, 60)
+                                ctx.fillText(tier, (x + 73), (y + 272))
+                            }
                         }else
                         if(rarity === "CreatorCollabSeries"){
                             const holder = await Canvas.loadImage('./assets/Rarities/battlepass/icon.png')
@@ -217,7 +242,12 @@ module.exports = {
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '75px Burbank Big Condensed'
-                            ctx.fillText(tier, (x + 107), (y + 275))
+                            if(res.rewards[i].price === 0) ctx.fillText(tier, (x + 107), (y + 275))
+                            else {
+                                const holder = await Canvas.loadImage('./assets/battlepass/star.png')
+                                ctx.drawImage(holder, x + 100, y + 220, 60, 60)
+                                ctx.fillText(tier, (x + 73), (y + 272))
+                            }
                         }else
                         if(rarity === "ColumbusSeries"){
                             const holder = await Canvas.loadImage('./assets/Rarities/standard/starwars.png')
@@ -229,7 +259,12 @@ module.exports = {
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '75px Burbank Big Condensed'
-                            ctx.fillText(tier, (x + 107), (y + 275))
+                            if(res.rewards[i].price === 0) ctx.fillText(tier, (x + 107), (y + 275))
+                            else {
+                                const holder = await Canvas.loadImage('./assets/battlepass/star.png')
+                                ctx.drawImage(holder, x + 100, y + 220, 60, 60)
+                                ctx.fillText(tier, (x + 73), (y + 272))
+                            }
                         }else
                         if(rarity === "ShadowSeries"){
                             const holder = await Canvas.loadImage('./assets/Rarities/battlepass/shadow.png')
@@ -241,7 +276,12 @@ module.exports = {
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '75px Burbank Big Condensed'
-                            ctx.fillText(tier, (x + 107), (y + 275))
+                            if(res.rewards[i].price === 0) ctx.fillText(tier, (x + 107), (y + 275))
+                            else {
+                                const holder = await Canvas.loadImage('./assets/battlepass/star.png')
+                                ctx.drawImage(holder, x + 100, y + 220, 60, 60)
+                                ctx.fillText(tier, (x + 73), (y + 272))
+                            }
                         }else
                         if(rarity === "SlurpSeries"){
                             const holder = await Canvas.loadImage('./assets/Rarities/battlepass/slurp.png')
@@ -253,7 +293,12 @@ module.exports = {
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '75px Burbank Big Condensed'
-                            ctx.fillText(tier, (x + 107), (y + 275))
+                            if(res.rewards[i].price === 0) ctx.fillText(tier, (x + 107), (y + 275))
+                            else {
+                                const holder = await Canvas.loadImage('./assets/battlepass/star.png')
+                                ctx.drawImage(holder, x + 100, y + 220, 60, 60)
+                                ctx.fillText(tier, (x + 73), (y + 272))
+                            }
                         }else
                         if(rarity === "FrozenSeries"){
                             const holder = await Canvas.loadImage('./assets/Rarities/battlepass/frozen.png')
@@ -265,7 +310,12 @@ module.exports = {
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '75px Burbank Big Condensed'
-                            ctx.fillText(tier, (x + 107), (y + 275))
+                            if(res.rewards[i].price === 0) ctx.fillText(tier, (x + 107), (y + 275))
+                            else {
+                                const holder = await Canvas.loadImage('./assets/battlepass/star.png')
+                                ctx.drawImage(holder, x + 100, y + 220, 60, 60)
+                                ctx.fillText(tier, (x + 73), (y + 272))
+                            }
                         }else
                         if(rarity === "LavaSeries"){
                             const holder = await Canvas.loadImage('./assets/Rarities/battlepass/lava.png')
@@ -277,7 +327,12 @@ module.exports = {
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '75px Burbank Big Condensed'
-                            ctx.fillText(tier, (x + 107), (y + 275))
+                            if(res.rewards[i].price === 0) ctx.fillText(tier, (x + 107), (y + 275))
+                            else {
+                                const holder = await Canvas.loadImage('./assets/battlepass/star.png')
+                                ctx.drawImage(holder, x + 100, y + 220, 60, 60)
+                                ctx.fillText(tier, (x + 73), (y + 272))
+                            }
                         }else
                         if(rarity === "PlatformSeries"){
                             const holder = await Canvas.loadImage('./assets/Rarities/battlepass/gaming.png')
@@ -289,7 +344,12 @@ module.exports = {
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '75px Burbank Big Condensed'
-                            ctx.fillText(tier, (x + 107), (y + 275))
+                            if(res.rewards[i].price === 0) ctx.fillText(tier, (x + 107), (y + 275))
+                            else {
+                                const holder = await Canvas.loadImage('./assets/battlepass/star.png')
+                                ctx.drawImage(holder, x + 100, y + 220, 60, 60)
+                                ctx.fillText(tier, (x + 73), (y + 272))
+                            }
                         }else{
                             const holder = await Canvas.loadImage('./assets/Rarities/battlepass/common.png')
                             ctx.drawImage(holder, x, y, 215, 215)
@@ -300,7 +360,12 @@ module.exports = {
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '75px Burbank Big Condensed'
-                            ctx.fillText(tier, (x + 107), (y + 275))
+                            if(res.rewards[i].price === 0) ctx.fillText(tier, (x + 107), (y + 275))
+                            else {
+                                const holder = await Canvas.loadImage('./assets/battlepass/star.png')
+                                ctx.drawImage(holder, x + 100, y + 220, 60, 60)
+                                ctx.fillText(tier, (x + 73), (y + 272))
+                            }
                         }
 
                         //x, y

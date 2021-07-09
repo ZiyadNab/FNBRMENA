@@ -84,7 +84,7 @@ module.exports = {
 
                     //add page 1
                     ctx.font = '100px Burbank Big Condensed'
-                    ctx.fillText("1", (x - 50), y + 115)
+                    ctx.fillText("1", (x - 50), y + 130)
 
                     //loop throw every item
                     for(let i = 0; i < length; i++){

@@ -105,12 +105,12 @@ module.exports = {
                             ctx.drawImage(cover, x, y, 215, 215)
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
-                            ctx.font = '75px Burbank Big Condensed'
+                            ctx.font = '60px Burbank Big Condensed'
                             if(res.rewards[i].price === 0) ctx.fillText(tier, (x + 107), (y + 275))
                             else {
                                 const holder = await Canvas.loadImage('./assets/battlepass/star.png')
-                                ctx.drawImage(holder, x, y, 75, 75)
-                                ctx.fillText(tier, (x + 185), (y + 275))
+                                ctx.drawImage(holder, x + 100, y + 275, 60, 60)
+                                ctx.fillText(tier, (x + 160), (y + 275))
                             }
                         }else
                         if(rarity === "Epic"){
@@ -122,12 +122,12 @@ module.exports = {
                             ctx.drawImage(cover, x, y, 215, 215)
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
-                            ctx.font = '75px Burbank Big Condensed'
+                            ctx.font = '60px Burbank Big Condensed'
                             if(res.rewards[i].price === 0) ctx.fillText(tier, (x + 107), (y + 275))
                             else {
                                 const holder = await Canvas.loadImage('./assets/battlepass/star.png')
-                                ctx.drawImage(holder, x, y, 75, 75)
-                                ctx.fillText(tier, (x + 185), (y + 275))
+                                ctx.drawImage(holder, x + 100, y + 275, 60, 60)
+                                ctx.fillText(tier, (x + 160), (y + 275))
                             }
                         }else
                         if(rarity === "Rare"){
@@ -139,12 +139,12 @@ module.exports = {
                             ctx.drawImage(cover, x, y, 215, 215)
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
-                            ctx.font = '75px Burbank Big Condensed'
+                            ctx.font = '60px Burbank Big Condensed'
                             if(res.rewards[i].price === 0) ctx.fillText(tier, (x + 107), (y + 275))
                             else {
                                 const holder = await Canvas.loadImage('./assets/battlepass/star.png')
-                                ctx.drawImage(holder, x, y, 75, 75)
-                                ctx.fillText(tier, (x + 185), (y + 275))
+                                ctx.drawImage(holder, x + 100, y + 275, 60, 60)
+                                ctx.fillText(tier, (x + 160), (y + 275))
                             }
                         }else
                         if(rarity === "Uncommon"){

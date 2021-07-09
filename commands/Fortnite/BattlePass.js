@@ -31,10 +31,10 @@ module.exports = {
 
                     //variables
                     var width = 125
-                    var height = 750
+                    var height = 500
                     var newline = 0
                     var x = 125
-                    var y = 375
+                    var y = 250
                     var paid = 0
                     var free = 0
 
@@ -64,20 +64,20 @@ module.exports = {
 
                     //upper
                     const upper = await Canvas.loadImage('./assets/battlepass/upper.png')
-                    ctx.drawImage(upper, 0, 0, canvas.width, 250)
+                    ctx.drawImage(upper, 0, 0, canvas.width, 160)
 
                     //fnbrmena
                     ctx.fillStyle = '#ffffff';
                     ctx.textAlign='left';
-                    ctx.font = '125px Burbank Big Condensed'
-                    ctx.fillText("FNBRMENA", 75, 175)
+                    ctx.font = '80px Burbank Big Condensed'
+                    ctx.fillText("FNBRMENA", 50, 116)
 
                     //season
                     ctx.fillStyle = '#ffffff';
                     ctx.textAlign='right';
-                    if(lang === "en") ctx.font = '125px Burbank Big Condensed'
-                    else if (lang === "ar") ctx.font = '125px Arabic'
-                    ctx.fillText(res.displayInfo.chapterSeason, (canvas.width - 75), 175)
+                    if(lang === "en") ctx.font = '80px Burbank Big Condensed'
+                    else if (lang === "ar") ctx.font = '80px Arabic'
+                    ctx.fillText(res.displayInfo.chapterSeason, (canvas.width - 50), 116)
 
                     //reseting new line
                     newline = 0

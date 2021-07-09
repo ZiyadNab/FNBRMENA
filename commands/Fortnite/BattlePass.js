@@ -109,8 +109,8 @@ module.exports = {
                             if(res.rewards[i].price === 0) ctx.fillText(tier, (x + 107), (y + 275))
                             else {
                                 const holder = await Canvas.loadImage('./assets/battlepass/star.png')
-                                ctx.drawImage(holder, x + 70, y + 210, 60, 60)
-                                ctx.fillText(tier, (x + 160), (y + 275))
+                                ctx.drawImage(holder, x + 155, y + 220, 60, 60)
+                                ctx.fillText(tier, (x + 70), (y + 275))
                             }
                         }else
                         if(rarity === "Epic"){
@@ -126,8 +126,8 @@ module.exports = {
                             if(res.rewards[i].price === 0) ctx.fillText(tier, (x + 107), (y + 275))
                             else {
                                 const holder = await Canvas.loadImage('./assets/battlepass/star.png')
-                                ctx.drawImage(holder, x + 70, y + 210, 60, 60)
-                                ctx.fillText(tier, (x + 160), (y + 275))
+                                ctx.drawImage(holder, x + 155, y + 220, 60, 60)
+                                ctx.fillText(tier, (x + 70), (y + 275))
                             }
                         }else
                         if(rarity === "Rare"){
@@ -143,8 +143,8 @@ module.exports = {
                             if(res.rewards[i].price === 0) ctx.fillText(tier, (x + 107), (y + 275))
                             else {
                                 const holder = await Canvas.loadImage('./assets/battlepass/star.png')
-                                ctx.drawImage(holder, x + 70, y + 210, 60, 60)
-                                ctx.fillText(tier, (x + 160), (y + 275))
+                                ctx.drawImage(holder, x + 155, y + 220, 60, 60)
+                                ctx.fillText(tier, (x + 70), (y + 275))
                             }
                         }else
                         if(rarity === "Uncommon"){

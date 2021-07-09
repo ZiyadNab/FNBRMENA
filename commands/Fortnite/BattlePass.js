@@ -31,7 +31,7 @@ module.exports = {
 
                     //variables
                     var width = 125
-                    var height = 500
+                    var height = 750
                     var newline = 0
                     var x = 125
                     var y = 250
@@ -69,15 +69,15 @@ module.exports = {
                     //fnbrmena
                     ctx.fillStyle = '#ffffff';
                     ctx.textAlign='left';
-                    ctx.font = '80px Burbank Big Condensed'
-                    ctx.fillText("FNBRMENA", 50, 116)
+                    ctx.font = '100px Burbank Big Condensed'
+                    ctx.fillText("FNBRMENA", 25, 107)
 
                     //season
                     ctx.fillStyle = '#ffffff';
                     ctx.textAlign='right';
-                    if(lang === "en") ctx.font = '80px Burbank Big Condensed'
-                    else if (lang === "ar") ctx.font = '80px Arabic'
-                    ctx.fillText(res.displayInfo.chapterSeason, (canvas.width - 50), 116)
+                    if(lang === "en") ctx.font = '100px Burbank Big Condensed'
+                    else if (lang === "ar") ctx.font = '100px Arabic'
+                    ctx.fillText(res.displayInfo.chapterSeason, (canvas.width - 25), 107)
 
                     //reseting new line
                     newline = 0

@@ -83,8 +83,11 @@ module.exports = {
                     newline = 0
 
                     //add page 1
-                    ctx.font = '100px Burbank Big Condensed'
-                    ctx.fillText("1", (x - 50), y + 130)
+                    if(res.rewards[i].price.amount !== undefined){
+                        
+                        ctx.font = '100px Burbank Big Condensed'
+                        ctx.fillText("1", (x - 50), y + 130)
+                    }
 
                     //loop throw every item
                     for(let i = 0; i < length; i++){
@@ -377,6 +380,14 @@ module.exports = {
                         if(10 === newline){
                             x = 125
                             y += 215 + 75
+
+                            //add page 1
+                            if(res.rewards[i].price.amount !== undefined){
+                                
+                                ctx.font = '100px Burbank Big Condensed'
+                                ctx.fillText("1", (x - 50), y + 130)
+                            }
+
                             newline = 0
                         }
                     }

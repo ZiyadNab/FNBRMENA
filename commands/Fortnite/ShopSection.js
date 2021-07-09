@@ -151,6 +151,18 @@ module.exports = {
                         grd.addColorStop(0, "#FF0000")
                         grd.addColorStop(1, "#FFFFFF")
 
+                    }else if(await res.data.data.sections[i].id.toLowerCase().includes("blackwidow")){
+
+                        //icon grediant colors
+                        grd.addColorStop(0, "#FF0000")
+                        grd.addColorStop(1, "#FFFFFF")
+
+                    }else if(await res.data.data.sections[i].id.toLowerCase().includes("armbatzero")){
+
+                        //icon grediant colors
+                        grd.addColorStop(0, "#004E8E")
+                        grd.addColorStop(1, "#000000")
+
                     }else if(await res.data.data.sections[i].id.toLowerCase().includes("icon")){
 
                         //icon grediant colors

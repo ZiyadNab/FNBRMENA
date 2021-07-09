@@ -83,10 +83,10 @@ module.exports = {
                     newline = 0
 
                     //add page 1
-                    if(res.rewards[i].price.amount !== undefined){
+                    if(res.rewards[0].page !== undefined){
                         
                         ctx.font = '100px Burbank Big Condensed'
-                        ctx.fillText("1", (x - 50), y + 130)
+                        ctx.fillText(res.rewards[0].page, (x - 50), y + 130)
                     }
 
                     //loop throw every item
@@ -382,10 +382,10 @@ module.exports = {
                             y += 215 + 75
 
                             //add page 1
-                            if(res.rewards[i].price.amount !== undefined){
+                            if(res.rewards[i].page !== undefined){
                                 
                                 ctx.font = '100px Burbank Big Condensed'
-                                ctx.fillText("1", (x - 50), y + 130)
+                                ctx.fillText(res.rewards[i].page, (x - 50), y + 130)
                             }
 
                             newline = 0

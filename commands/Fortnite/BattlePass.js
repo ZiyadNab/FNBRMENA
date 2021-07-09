@@ -108,7 +108,7 @@ module.exports = {
                             ctx.font = '75px Burbank Big Condensed'
                             if(res.rewards[i].price === 0) ctx.fillText(tier, (x + 107), (y + 275))
                             else {
-                                const holder = await Canvas.loadImage('./assets/Rarities/battlepass/star.png')
+                                const holder = await Canvas.loadImage('./assets/battlepass/star.png')
                                 ctx.drawImage(holder, x, y, 75, 75)
                                 ctx.fillText(tier, (x + 185), (y + 275))
                             }
@@ -125,7 +125,7 @@ module.exports = {
                             ctx.font = '75px Burbank Big Condensed'
                             if(res.rewards[i].price === 0) ctx.fillText(tier, (x + 107), (y + 275))
                             else {
-                                const holder = await Canvas.loadImage('./assets/Rarities/battlepass/star.png')
+                                const holder = await Canvas.loadImage('./assets/battlepass/star.png')
                                 ctx.drawImage(holder, x, y, 75, 75)
                                 ctx.fillText(tier, (x + 185), (y + 275))
                             }
@@ -142,7 +142,7 @@ module.exports = {
                             ctx.font = '75px Burbank Big Condensed'
                             if(res.rewards[i].price === 0) ctx.fillText(tier, (x + 107), (y + 275))
                             else {
-                                const holder = await Canvas.loadImage('./assets/Rarities/battlepass/star.png')
+                                const holder = await Canvas.loadImage('./assets/battlepass/star.png')
                                 ctx.drawImage(holder, x, y, 75, 75)
                                 ctx.fillText(tier, (x + 185), (y + 275))
                             }

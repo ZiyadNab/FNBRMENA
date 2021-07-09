@@ -297,7 +297,7 @@ module.exports = {
                     }
 
                     //send the pic
-                    const att = new Discord.MessageAttachment(canvas.toBuffer('image/jpeg', {quality: 0.5}))
+                    const att = new Discord.MessageAttachment(canvas.toBuffer(), `season${res.season}.png`)
                     await message.channel.send(att)
 
                     //loop throw every item and store the paid and unpaid items

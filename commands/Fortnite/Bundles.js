@@ -53,11 +53,8 @@ module.exports = {
                     const filter = m => m.author.id === message.author.id
 
                     //send the reply to the user
-                    if(lang === "en"){
-                        reply = "please choose from above list the command will stop listen in 20 sec"
-                    }else if(lang === "ar"){
-                        reply = "الرجاء الاختيار من القائمة بالاعلى، سوف ينتهي الامر خلال ٢٠ ثانية"
-                    }
+                    if(lang === "en") reply = "please choose from above list the command will stop listen in 20 sec"
+                    else if(lang === "ar") reply = "الرجاء الاختيار من القائمة بالاعلى، سوف ينتهي الامر خلال ٢٠ ثانية"
 
                     //send the reply
                     await message.reply(reply)
@@ -65,48 +62,35 @@ module.exports = {
 
                         //await messages
                         await message.channel.awaitMessages(filter, {max: 1, time: 20000})
-                            .then( async collected => {
+                        .then( async collected => {
 
+                            //deleting messages
+                            msg.delete()
+                            notify.delete()
+
+                            //if the user input in range
                             if(await collected.first().content >= 0 && collected.first().content < id.length){
 
-                                console.log(collected.first().content)
-                                msg.delete()
-                                notify.delete()
+                                //store user input
                                 num = await collected.first().content
 
                             }else{
-                                if(lang === "en"){
-                                    msg.delete()
-                                    notify.delete()
-                                    const error = new Discord.MessageEmbed()
-                                    .setColor(FNBRMENA.Colors("embed"))
-                                    .setTitle(`Sorry we canceled your process becuase u selected a number out of range ${errorEmoji}`)
-                                    message.reply(error)
-                                }else if(lang === "ar"){
-                                    msg.delete()
-                                    notify.delete()
-                                    const error = new Discord.MessageEmbed()
-                                    .setColor(FNBRMENA.Colors("embed"))
-                                    .setTitle(`تم ايقاف الامر بسبب اختيارك لرقم خارج النطاق ${errorEmoji}`)
-                                    message.reply(error)
-                                }
+
+                                const error = new Discord.MessageEmbed()
+                                error.setColor(FNBRMENA.Colors("embed"))
+                                if(lang === "en") error.setTitle(`Sorry we canceled your process becuase u selected a number out of range ${errorEmoji}`)
+                                else if(lang === "ar") error.setTitle(`تم ايقاف الامر بسبب اختيارك لرقم خارج النطاق ${errorEmoji}`)
+                                message.reply(error)
+                                
                             }
                         }).catch(err => {
-                            if(lang === "en"){
-                                notify.delete()
-                                msg.delete()
-                                const error = new Discord.MessageEmbed()
-                                .setColor(FNBRMENA.Colors("embed"))
-                                .setTitle(`Sorry we canceled your process becuase no method has been selected ${errorEmoji}`)
-                                message.reply(error)
-                            }else if(lang === "ar"){
-                                msg.delete()
-                                notify.delete()
-                                const error = new Discord.MessageEmbed()
-                                .setColor(FNBRMENA.Colors("embed"))
-                                .setTitle(`تم ايقاف الامر بسبب عدم اختيارك لطريقة ${errorEmoji}`)
-                                message.reply(error)
-                            }
+                            notify.delete()
+                            msg.delete()
+                            const error = new Discord.MessageEmbed()
+                            error.setColor(FNBRMENA.Colors("embed"))
+                            if(lang === "en") error.setTitle(`Sorry we canceled your process becuase no method has been selected ${errorEmoji}`)
+                            else if(lang === "ar") error.setTitle(`تم ايقاف الامر بسبب عدم اختيارك لطريقة ${errorEmoji}`)
+                            message.reply(error)
                         })
                     })
                 })
@@ -122,17 +106,11 @@ module.exports = {
             
             //no bundle has been found
             if(id.length === 0){
-                if(lang === "en"){
-                    const Err = new Discord.MessageEmbed()
-                    .setColor(FNBRMENA.Colors("embed"))
-                    .setTitle(`No bundle has been found check your speling and try again ${errorEmoji}`)
-                    message.reply(Err)
-                }else if(lang === "ar"){
-                    const Err = new Discord.MessageEmbed()
-                    .setColor(FNBRMENA.Colors("embed"))
-                    .setTitle(`لا يمكنني العثور على الحزمة الرجاء التأكد من كتابة الاسم بشكل صحيح ${errorEmoji}`)
-                    message.reply(Err)
-                }
+                const Err = new Discord.MessageEmbed()
+                Err.setColor(FNBRMENA.Colors("embed"))
+                if(lang === "en") Err.setTitle(`No bundle has been found check your speling and try again ${errorEmoji}`)
+                else if(lang === "ar") Err.setTitle(`لا يمكنني العثور على الحزمة الرجاء التأكد من كتابة الاسم بشكل صحيح ${errorEmoji}`)
+                message.reply(Err)
             }
         })
 

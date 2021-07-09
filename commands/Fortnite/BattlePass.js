@@ -89,7 +89,7 @@ module.exports = {
                         newline += 1
 
                         //variables
-                        if(res.rewards[i].price === 0) var tier = res.rewards[i].tier
+                        if(res.rewards[i].price === null) var tier = res.rewards[i].tier
                         else var tier = res.rewards[i].price.amount
                         var image = res.rewards[i].item.images.icon
                         if(res.rewards[i].item.series === null) var rarity = res.rewards[i].item.rarity.id
@@ -106,7 +106,7 @@ module.exports = {
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '60px Burbank Big Condensed'
-                            if(res.rewards[i].price === 0) ctx.fillText(tier, (x + 107), (y + 275))
+                            if(res.rewards[i].price === null) ctx.fillText(tier, (x + 107), (y + 275))
                             else {
                                 const holder = await Canvas.loadImage('./assets/battlepass/star.png')
                                 ctx.drawImage(holder, x + 100, y + 220, 60, 60)
@@ -123,7 +123,7 @@ module.exports = {
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '60px Burbank Big Condensed'
-                            if(res.rewards[i].price === 0) ctx.fillText(tier, (x + 107), (y + 275))
+                            if(res.rewards[i].price === null) ctx.fillText(tier, (x + 107), (y + 275))
                             else {
                                 const holder = await Canvas.loadImage('./assets/battlepass/star.png')
                                 ctx.drawImage(holder, x + 100, y + 220, 60, 60)
@@ -140,7 +140,7 @@ module.exports = {
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '60px Burbank Big Condensed'
-                            if(res.rewards[i].price === 0) ctx.fillText(tier, (x + 107), (y + 275))
+                            if(res.rewards[i].price === null) ctx.fillText(tier, (x + 107), (y + 275))
                             else {
                                 const holder = await Canvas.loadImage('./assets/battlepass/star.png')
                                 ctx.drawImage(holder, x + 100, y + 220, 60, 60)
@@ -157,7 +157,7 @@ module.exports = {
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '60px Burbank Big Condensed'
-                            if(res.rewards[i].price === 0) ctx.fillText(tier, (x + 107), (y + 275))
+                            if(res.rewards[i].price === null) ctx.fillText(tier, (x + 107), (y + 275))
                             else {
                                 const holder = await Canvas.loadImage('./assets/battlepass/star.png')
                                 ctx.drawImage(holder, x + 100, y + 220, 60, 60)
@@ -174,7 +174,7 @@ module.exports = {
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '60px Burbank Big Condensed'
-                            if(res.rewards[i].price === 0) ctx.fillText(tier, (x + 107), (y + 275))
+                            if(res.rewards[i].price === null) ctx.fillText(tier, (x + 107), (y + 275))
                             else {
                                 const holder = await Canvas.loadImage('./assets/battlepass/star.png')
                                 ctx.drawImage(holder, x + 100, y + 220, 60, 60)
@@ -191,7 +191,7 @@ module.exports = {
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '60px Burbank Big Condensed'
-                            if(res.rewards[i].price === 0) ctx.fillText(tier, (x + 107), (y + 275))
+                            if(res.rewards[i].price === null) ctx.fillText(tier, (x + 107), (y + 275))
                             else {
                                 const holder = await Canvas.loadImage('./assets/battlepass/star.png')
                                 ctx.drawImage(holder, x + 100, y + 220, 60, 60)
@@ -208,7 +208,7 @@ module.exports = {
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '60px Burbank Big Condensed'
-                            if(res.rewards[i].price === 0) ctx.fillText(tier, (x + 107), (y + 275))
+                            if(res.rewards[i].price === null) ctx.fillText(tier, (x + 107), (y + 275))
                             else {
                                 const holder = await Canvas.loadImage('./assets/battlepass/star.png')
                                 ctx.drawImage(holder, x + 100, y + 220, 60, 60)
@@ -225,7 +225,7 @@ module.exports = {
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '60px Burbank Big Condensed'
-                            if(res.rewards[i].price === 0) ctx.fillText(tier, (x + 107), (y + 275))
+                            if(res.rewards[i].price === null) ctx.fillText(tier, (x + 107), (y + 275))
                             else {
                                 const holder = await Canvas.loadImage('./assets/battlepass/star.png')
                                 ctx.drawImage(holder, x + 100, y + 220, 60, 60)
@@ -242,7 +242,7 @@ module.exports = {
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '60px Burbank Big Condensed'
-                            if(res.rewards[i].price === 0) ctx.fillText(tier, (x + 107), (y + 275))
+                            if(res.rewards[i].price === null) ctx.fillText(tier, (x + 107), (y + 275))
                             else {
                                 const holder = await Canvas.loadImage('./assets/battlepass/star.png')
                                 ctx.drawImage(holder, x + 100, y + 220, 60, 60)
@@ -259,7 +259,7 @@ module.exports = {
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '60px Burbank Big Condensed'
-                            if(res.rewards[i].price === 0) ctx.fillText(tier, (x + 107), (y + 275))
+                            if(res.rewards[i].price === null) ctx.fillText(tier, (x + 107), (y + 275))
                             else {
                                 const holder = await Canvas.loadImage('./assets/battlepass/star.png')
                                 ctx.drawImage(holder, x + 100, y + 220, 60, 60)
@@ -276,7 +276,7 @@ module.exports = {
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '60px Burbank Big Condensed'
-                            if(res.rewards[i].price === 0) ctx.fillText(tier, (x + 107), (y + 275))
+                            if(res.rewards[i].price === null) ctx.fillText(tier, (x + 107), (y + 275))
                             else {
                                 const holder = await Canvas.loadImage('./assets/battlepass/star.png')
                                 ctx.drawImage(holder, x + 100, y + 220, 60, 60)
@@ -293,7 +293,7 @@ module.exports = {
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '60px Burbank Big Condensed'
-                            if(res.rewards[i].price === 0) ctx.fillText(tier, (x + 107), (y + 275))
+                            if(res.rewards[i].price === null) ctx.fillText(tier, (x + 107), (y + 275))
                             else {
                                 const holder = await Canvas.loadImage('./assets/battlepass/star.png')
                                 ctx.drawImage(holder, x + 100, y + 220, 60, 60)
@@ -310,7 +310,7 @@ module.exports = {
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '60px Burbank Big Condensed'
-                            if(res.rewards[i].price === 0) ctx.fillText(tier, (x + 107), (y + 275))
+                            if(res.rewards[i].price === null) ctx.fillText(tier, (x + 107), (y + 275))
                             else {
                                 const holder = await Canvas.loadImage('./assets/battlepass/star.png')
                                 ctx.drawImage(holder, x + 100, y + 220, 60, 60)
@@ -327,7 +327,7 @@ module.exports = {
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '60px Burbank Big Condensed'
-                            if(res.rewards[i].price === 0) ctx.fillText(tier, (x + 107), (y + 275))
+                            if(res.rewards[i].price === null) ctx.fillText(tier, (x + 107), (y + 275))
                             else {
                                 const holder = await Canvas.loadImage('./assets/battlepass/star.png')
                                 ctx.drawImage(holder, x + 100, y + 220, 60, 60)
@@ -344,7 +344,7 @@ module.exports = {
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '60px Burbank Big Condensed'
-                            if(res.rewards[i].price === 0) ctx.fillText(tier, (x + 107), (y + 275))
+                            if(res.rewards[i].price === null) ctx.fillText(tier, (x + 107), (y + 275))
                             else {
                                 const holder = await Canvas.loadImage('./assets/battlepass/star.png')
                                 ctx.drawImage(holder, x + 100, y + 220, 60, 60)
@@ -360,7 +360,7 @@ module.exports = {
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '60px Burbank Big Condensed'
-                            if(res.rewards[i].price === 0) ctx.fillText(tier, (x + 107), (y + 275))
+                            if(res.rewards[i].price === null) ctx.fillText(tier, (x + 107), (y + 275))
                             else {
                                 const holder = await Canvas.loadImage('./assets/battlepass/star.png')
                                 ctx.drawImage(holder, x + 100, y + 220, 60, 60)

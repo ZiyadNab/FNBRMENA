@@ -602,7 +602,7 @@ module.exports = {
                                 const itemInfo = new Discord.MessageEmbed()
 
                                 //set color
-                                itemInfo.setColor(FNBRMENA.Colors("embed"))
+                                itemInfo.setColor(FNBRMENA.Colors(rarity))
 
                                 //set titles and fields
                                 if(lang == "en"){

@@ -26,7 +26,7 @@ module.exports = (client, admin) => {
                 axios.get(`https://fortniteapi.io/v2/game/crew?lang=${lang}`, { headers: {'Content-Type': 'application/json','Authorization': "d4ce1562-839ff66b-3946ccb6-438eb9cf",} })
                 .then(async response => {
                     if(number === 0){
-                        //data = await response.data[0].date
+                        data = await response.data[0].date
                         number++
                     }
 
@@ -556,5 +556,5 @@ module.exports = (client, admin) => {
             }
         })
     }
-    setInterval(Crew, 30000)
+    setInterval(Crew, 5 * 60000)
 }

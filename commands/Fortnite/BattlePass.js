@@ -31,10 +31,10 @@ module.exports = {
 
                     //variables
                     var width = 125
-                    var height = 750
+                    var height = 600
                     var newline = 0
                     var x = 125
-                    var y = 250
+                    var y = 240
                     var paid = 0
                     var free = 0
 
@@ -64,7 +64,7 @@ module.exports = {
 
                     //upper
                     const upper = await Canvas.loadImage('./assets/battlepass/upper.png')
-                    ctx.drawImage(upper, 0, 0, canvas.width, 160)
+                    ctx.drawImage(upper, 0, 0, canvas.width, 150)
 
                     //fnbrmena
                     ctx.fillStyle = '#ffffff';

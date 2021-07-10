@@ -353,11 +353,10 @@ module.exports = {
                             var styles = []
                             var Counter = 0
                             for(let i = 0; i < cosmeticvariants.data.items.length; i++){
-                                if(await cosmeticvariants.data.items[i].name.toLowerCase().includes(res.data.items[num].name.toLowerCase().trim())){
-                                    if(cosmeticvariants.data.items[i].description.toLowerCase().includes(res.data.items[num].name.toLowerCase().trim())){
-                                        styles[Counter] = await cosmeticvariants.data.items[i]
-                                        Counter++
-                                    }
+                                if(await cosmeticvariants.data.items[i].description.toLowerCase().includes(res.data.items[num].name.toLowerCase().trim())){
+
+                                    styles[Counter] = await cosmeticvariants.data.items[i]
+                                    Counter++
                                 }
                             }
 
@@ -1272,7 +1271,7 @@ module.exports = {
                                     await message.channel.send(att)
                                 }
 
-                            }else if(styles.length === 0 && res.data.items[num].displayAssets.length > 0){
+                            }else if(res.data.items[num].displayAssets.length > 0){
                             
                                 //loop throw every style
                                 for(let i = 0; i < res.data.items[num].displayAssets.length; i ++){

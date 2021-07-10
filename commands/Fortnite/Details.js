@@ -225,7 +225,7 @@ module.exports = {
                 if(errorHandleing === 0){
 
                     //if the user input is info
-                    if(details[detailsIndex] === "info"){
+                    if(details[detailsIndex] === "info" && errorHandleing === 0 && errorHandleing === 0){
 
                         //create info embed
                         const info = new Discord.MessageEmbed()
@@ -336,7 +336,7 @@ module.exports = {
                     }
                     
                     //if the user input is styles
-                    if(details[detailsIndex] === "styles"){
+                    if(details[detailsIndex] === "styles" && errorHandleing === 0){
 
                         //getting item data loading
                         const generating = new Discord.MessageEmbed()
@@ -360,7 +360,7 @@ module.exports = {
                             }
 
                             //if there is a style in the files
-                            if(styles.length > 0){
+                            if(styles.length > 0 && res.data.items[num].type.id === "outfit"){
 
                                 //creating canvas
                                 const canvas = Canvas.createCanvas(512, 512);
@@ -1731,7 +1731,7 @@ module.exports = {
                             }
                             msg.delete()
                         })
-                    }else if(details[detailsIndex] === "styles" && res.data.items[num].displayAssets.length === 0){
+                    }else if(details[detailsIndex] === "styles" && res.data.items[num].displayAssets.length === 0 && errorHandleing === 0){
 
                         //send an error
                         const Err = new Discord.MessageEmbed()
@@ -1742,7 +1742,7 @@ module.exports = {
                     }
 
                     //if the user input is grants
-                    if(details[detailsIndex] === "grants" && res.data.items[num].grants.length > 0){
+                    if(details[detailsIndex] === "grants" && res.data.items[num].grants.length > 0 && errorHandleing === 0){
 
                         //getting item data loading
                         const generating = new Discord.MessageEmbed()
@@ -2671,7 +2671,7 @@ module.exports = {
                     
                     
                     
-                    }else if(details[detailsIndex] === "grants" && res.data.items[num].grants.length === 0){
+                    }else if(details[detailsIndex] === "grants" && res.data.items[num].grants.length === 0 && errorHandleing === 0){
 
                         //if the item doesn't have any grants
                         const error = new Discord.MessageEmbed()

@@ -265,12 +265,15 @@ module.exports = {
                             info.addFields(
                                 {name: "ID", value: res.data.items[num].id, inline: true},
                                 {name: "Name", value: res.data.items[num].name, inline: true},
-                                {name: "Description", value: rdescription, inline: true},
+                                {name: "Description", value: description, inline: true},
                                 {name: "Rarity", value: `${rarityID} \n ${rarityName}`, inline: true},
                                 {name: "Set", value: set, inline: true},
                                 {name: "Introduction", value: introduction, inline: true},
                                 {name: "Added", value: `Date: ${res.data.items[num].added.date} \nVersion: ${res.data.items[num].added.version}`, inline: true},
                                 {name: "Price", value: res.data.items[num].price, inline: true},
+                                {name: "Ractive", value: res.data.items[num].reactive, inline: true},
+                                {name: "Copyrightd", value: res.data.items[num].copyrightedAudio, inline: true},
+                                {name: "Upcoming", value: res.data.items[num].upcoming, inline: true},
                             )
 
                             //if the item is from the battlepass
@@ -303,6 +306,9 @@ module.exports = {
                                 {name: "تم تقديمة", value: introduction, inline: true},
                                 {name: "تم اضافته", value: `التاريخ: ${res.data.items[num].added.date} \التحديث: ${res.data.items[num].added.version}`, inline: true},
                                 {name: "السعر", value: res.data.items[num].price, inline: true},
+                                {name: "متفاعل", value: res.data.items[num].reactive, inline: true},
+                                {name: "يحتوي على حقوق الطبع و النشر", value: res.data.items[num].copyrightedAudio, inline: true},
+                                {name: "عنصر قادم بالمستقبل", value: res.data.items[num].upcoming, inline: true},
                             )
 
                             //if the item is from the battlepass
@@ -794,6 +800,16 @@ module.exports = {
                                     }
                                 }
 
+                                //if the item contains copyrited audio
+                                if(res.data.items[num].copyrightedAudio === true){
+
+                                    //the itm is animated add the animated icon
+                                    const skinholder = await Canvas.loadImage('./assets/Tags/mute.png')
+                                    ctx.drawImage(skinholder, x, y, 30, 30)
+
+                                    y += 40
+                                }
+
                                 //send the item picture
                                 const att = new Discord.MessageAttachment(canvas.toBuffer(), res.data.items[num].id + '.png')
                                 await message.channel.send(att)
@@ -1237,6 +1253,16 @@ module.exports = {
 
                                             y += 40
                                         }
+                                    }
+
+                                    //if the item contains copyrited audio
+                                    if(res.data.items[num].copyrightedAudio === true){
+
+                                        //the itm is animated add the animated icon
+                                        const skinholder = await Canvas.loadImage('./assets/Tags/mute.png')
+                                        ctx.drawImage(skinholder, x, y, 30, 30)
+
+                                        y += 40
                                     }
 
                                     //send the item picture
@@ -1685,6 +1711,16 @@ module.exports = {
 
                                             y += 40
                                         }
+                                    }
+
+                                    //if the item contains copyrited audio
+                                    if(res.data.items[num].copyrightedAudio === true){
+
+                                        //the itm is animated add the animated icon
+                                        const skinholder = await Canvas.loadImage('./assets/Tags/mute.png')
+                                        ctx.drawImage(skinholder, x, y, 30, 30)
+
+                                        y += 40
                                     }
 
                                     //send the item picture
@@ -2154,8 +2190,18 @@ module.exports = {
                                 }
                             }
 
+                            //if the item contains copyrited audio
+                            if(res.data.items[num].copyrightedAudio === true){
+
+                                //the itm is animated add the animated icon
+                                const skinholder = await Canvas.loadImage('./assets/Tags/mute.png')
+                                ctx.drawImage(skinholder, x, y, 30, 30)
+
+                                y += 40
+                            }
+
                             //send the item picture
-                            const att = new Discord.MessageAttachment(canvas.toBuffer(), res.data.items[0].id + '.png')
+                            const att = new Discord.MessageAttachment(canvas.toBuffer(), res.data.items[num].id + '.png')
                             await message.channel.send(att)
 
                             //loop throw every grant
@@ -2601,6 +2647,16 @@ module.exports = {
 
                                             y += 40
                                         }
+                                    }
+
+                                    //if the item contains copyrited audio
+                                    if(res.data.items[num].copyrightedAudio === true){
+
+                                        //the itm is animated add the animated icon
+                                        const skinholder = await Canvas.loadImage('./assets/Tags/mute.png')
+                                        ctx.drawImage(skinholder, x, y, 30, 30)
+
+                                        y += 40
                                     }
 
                                     //send the item picture

@@ -353,8 +353,8 @@ module.exports = {
                             var styles = []
                             var Counter = 0
                             for(let i = 0; i < cosmeticvariants.data.items.length; i++){
-                                if(await cosmeticvariants.data.items[i].name.toLowerCase().includes(res.data.items[num].name.toLowerCase())){
-                                    if(cosmeticvariants.data.items[i].description.toLowerCase().includes(res.data.items[num].name.toLowerCase())){
+                                if(await cosmeticvariants.data.items[i].name.toLowerCase().includes(res.data.items[num].name.toLowerCase().trim())){
+                                    if(cosmeticvariants.data.items[i].description.toLowerCase().includes(res.data.items[num].name.toLowerCase().trim())){
                                         styles[Counter] = await cosmeticvariants.data.items[i]
                                         Counter++
                                     }

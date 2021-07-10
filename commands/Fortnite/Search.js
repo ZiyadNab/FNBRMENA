@@ -1045,17 +1045,12 @@ module.exports = {
                                     errorHandleing++
 
                                     //if user typed a number out of range
-                                    if(lang === "en"){
-                                        const error = new Discord.MessageEmbed()
-                                        .setColor(FNBRMENA.Colors("embed"))
-                                        .setTitle(`Sorry we canceled your process becuase u selected a number out of range ${errorEmoji}`)
-                                        message.reply(error)
-                                    }else if(lang === "ar"){
-                                        const error = new Discord.MessageEmbed()
-                                        .setColor(FNBRMENA.Colors("embed"))
-                                        .setTitle(`تم ايقاف الامر بسبب اختيارك لرقم خارج النطاق ${errorEmoji}`)
-                                        message.reply(error)
-                                    }
+                                    const error = new Discord.MessageEmbed()
+                                    error.setColor(FNBRMENA.Colors("embed"))
+                                    if(lang === "en") error.setTitle(`Sorry we canceled your process becuase u selected a number out of range ${errorEmoji}`)
+                                    else if(lang === "ar") error.setTitle(`تم ايقاف الامر بسبب اختيارك لرقم خارج النطاق ${errorEmoji}`)
+                                    message.reply(error)
+                                    
                                 }
                             })
                         })
@@ -1065,33 +1060,28 @@ module.exports = {
                         errorHandleing++
 
                         //if user typed a number out of range
-                        if(lang === "en"){
-                            const errorRequest = new Discord.MessageEmbed()
-                            .setColor(FNBRMENA.Colors("embed"))
-                            .setTitle(`Request entry too large ${errorEmoji}`)
-                            message.reply(errorRequest)
-                        }else if(lang === "ar"){
-                            const errorRequest = new Discord.MessageEmbed()
-                            .setColor(FNBRMENA.Colors("embed"))
-                            .setTitle(`تم تخطي الكمية المحدودة من عدد العناصر ${errorEmoji}`)
-                            message.reply(errorRequest)
-                        }
+                        const errorRequest = new Discord.MessageEmbed()
+                        errorRequest.setColor(FNBRMENA.Colors("embed"))
+                        if(lang === "en") errorRequest.setTitle(`Request entry too large ${errorEmoji}`)
+                        else if(lang === "ar") errorRequest.setTitle(`تم تخطي الكمية المحدودة من عدد العناصر ${errorEmoji}`)
+                        message.reply(errorRequest)
+
                     })
                 }
 
                 //if there is no item found
                 if(res.data.items.length === 0){
-                    if(lang === "en"){
-                        const Err = new Discord.MessageEmbed()
-                        .setColor(FNBRMENA.Colors("embed"))
-                        .setTitle(`No cosmetic has been found check your speling and try again ${errorEmoji}`)
-                        message.reply(Err)
-                    }else if(lang === "ar"){
-                        const Err = new Discord.MessageEmbed()
-                        .setColor(FNBRMENA.Colors("embed"))
-                        .setTitle(`لا يمكنني العثور على العنصر الرجاء التأكد من كتابة الاسم بشكل صحيح ${errorEmoji}`)
-                        message.reply(Err)
-                    }
+
+                    //add an error
+                    errorHandleing++
+
+                    //if user typed a number out of range
+                    const errorRequest = new Discord.MessageEmbed()
+                    errorRequest.setColor(FNBRMENA.Colors("embed"))
+                    if(lang === "en") errorRequest.setTitle(`No cosmetic has been found check your speling and try again ${errorEmoji}`)
+                    else if(lang === "ar") errorRequest.setTitle(`لا يمكنني العثور على العنصر الرجاء التأكد من كتابة الاسم بشكل صحيح ${errorEmoji}`)
+                    message.reply(errorRequest)
+                    
                 }
 
                 if(errorHandleing === 0 && res.data.items.length > 0){
@@ -1641,6 +1631,9 @@ module.exports = {
 
                         //set color
                         itemInfo.setColor(FNBRMENA.Colors(rarity))
+
+                        //set author
+                        itemInfo.setAuthor(`${res.data.items[num].name} | ${res.data.items[num].type.name}`, res.data.items[num].images.icon)
 
                         //set title
                         if(lang === "en"){

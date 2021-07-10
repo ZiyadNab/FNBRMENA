@@ -361,7 +361,7 @@ module.exports = {
                             }
 
                             //if there is a style in the files
-                            if(styles.length > 0 && res.data.items[num].type.id === "outfit"){
+                            if(styles.length !== 0 && res.data.items[num].type.id === "outfit"){
 
                                 //creating canvas
                                 const canvas = Canvas.createCanvas(512, 512);
@@ -1271,7 +1271,7 @@ module.exports = {
                                     await message.channel.send(att)
                                 }
 
-                            }else if(res.data.items[num].displayAssets.length > 0){
+                            }else if(res.data.items[num].displayAssets.length !== 0){
                             
                                 //loop throw every style
                                 for(let i = 0; i < res.data.items[num].displayAssets.length; i ++){
@@ -1729,17 +1729,17 @@ module.exports = {
                                     await message.channel.send(att)
 
                                 }
+                            }else if(details[detailsIndex] === "styles" && res.data.items[num].displayAssets.length === 0 && errorHandleing === 0){
+
+                                //send an error
+                                const Err = new Discord.MessageEmbed()
+                                Err.setColor(FNBRMENA.Colors(embedColor))
+                                if(lang === "en") Err.setTitle(`No styles has been found for ${res.data.items[num].name} ${res.data.items[num].type.name} ${errorEmoji}`)
+                                else if(lang === "ar") Err.setTitle(`لا يمكنني العثور على ستايلات ${res.data.items[num].type.name} ${res.data.items[num].name} ${errorEmoji}`)
+                                message.reply(Err)
                             }
                             msg.delete()
                         })
-                    }else if(details[detailsIndex] === "styles" && res.data.items[num].displayAssets.length === 0 && errorHandleing === 0){
-
-                        //send an error
-                        const Err = new Discord.MessageEmbed()
-                        Err.setColor(FNBRMENA.Colors(embedColor))
-                        if(lang === "en") Err.setTitle(`No styles has been found for ${res.data.items[num].name} ${res.data.items[num].type.name} ${errorEmoji}`)
-                        else if(lang === "ar") Err.setTitle(`لا يمكنني العثور على ستايلات ${res.data.items[num].type.name} ${res.data.items[num].name} ${errorEmoji}`)
-                        message.reply(Err)
                     }
 
                     //if the user input is grants

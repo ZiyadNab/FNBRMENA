@@ -1319,12 +1319,13 @@ module.exports = (client, admin) => {
                                         ctx.fillStyle = '#ffffff';
                                         ctx.textAlign='right';
                                         ctx.font = '75px Arabic'
-                                        ctx.fillText("مميز", x + 1130, (y - 25))
+                                        ctx.fillText("مميز", x + 1330, (y - 25))
                                     }
                                 }
 
                                 //Featured Loop
                                 for(let i = 0; i < Featured.length; i++){
+
                                     //changing the lines
                                     Lines++
 
@@ -1383,7 +1384,7 @@ module.exports = (client, admin) => {
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='right';
                                     ctx.font = '75px Arabic'
-                                    ctx.fillText("يومي", x + 793, (y - 60))
+                                    ctx.fillText("يومي", x + 793, (y - 30))
                                 }
                                 //Daile Loop
                                 for(let i = 0; i < Daily.length; i++){

@@ -539,8 +539,8 @@ module.exports = {
                     }
                 }
 
-                if(res.data.length < 20) const att = new Discord.MessageAttachment(canvas.toBuffer(), text+'.png')
-                else const att = new Discord.MessageAttachment(canvas.toBuffer('image/jpeg', {quality: 0.5}))
+                if(res.data.length < 20) var att = new Discord.MessageAttachment(canvas.toBuffer(), text+'.png')
+                else var att = new Discord.MessageAttachment(canvas.toBuffer('image/jpeg', {quality: 0.5}))
                 await message.channel.send(att)
                 msg.delete()
 

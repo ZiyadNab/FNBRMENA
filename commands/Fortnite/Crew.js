@@ -28,7 +28,9 @@ module.exports = {
             //res
             const res = response.data
 
-            if((text - 1) < res.length){
+            if((Number(text) - 1) < res.length){
+
+                console.log("ss")
 
                 //filter
                 const crew = res[res.length - text]
@@ -528,8 +530,8 @@ module.exports = {
                 const Err = new Discord.MessageEmbed()
                 Err.setColor(FNBRMENA.Colors("embed"))
                 if(lang === "en") Err.setTitle(`No crew pack has been found${errorEmoji}`)
-                else if(lang === "en") Err.setTitle(`لا يمكنني العثور على حزمة طاقم فورت نايت ${errorEmoji}`)
-                message.reply(Err)
+                else if(lang === "ar") Err.setTitle(`لا يمكنني العثور على حزمة طاقم فورت نايت ${errorEmoji}`)
+                message.channel.send(Err)
 
             }
 

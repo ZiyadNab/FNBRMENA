@@ -20,13 +20,6 @@ module.exports = {
         var newline = 0
         var x = 0
         var y = 0
-        var loading
-
-        if(lang === "en"){
-            loading = "Loading the crew information"
-        }else if(lang === "ar"){
-            loading = "جاري تحميل بيانات طاقم فورت نايت"
-        }
 
         //request crew data
         FNBRMENA.Crew(lang)
@@ -43,7 +36,8 @@ module.exports = {
                 //send the generating message
                 const generating = new Discord.MessageEmbed()
                 generating.setColor(FNBRMENA.Colors("embed"))
-                generating.setTitle(`${loading} ${loadingEmoji}`)
+                if(lang === "en") generating.setTitle(`Loading the crew information ${loadingEmoji}`)
+                else if(lang === "ar") generating.setTitle(`جاري تحميل بيانات طاقم فورت نايت ${loadingEmoji}`)
                 message.channel.send(generating)
                 .then( async msg => {
 
@@ -57,38 +51,26 @@ module.exports = {
                     //add color
                     crewData.setColor(FNBRMENA.Colors("embed"))
 
-                    //add title
-                    if(lang === "en"){
-                        crewData.setTitle(`The Fortnite Crew for month ${month} of ${year}`)
-                    }else if(lang === "ar"){
-                        crewData.setTitle(`حزمة طاقم فورت نايت لشهر ${month} سنه ${year}`)
-                    }
+                    //set author
+                    if(lang === "en") crewData.setAuthor(`The Fortnite Crew for month ${month} of ${year}`, crew.images.skin, crew.video)
+                    else if(lang === "ar") crewData.setAuthor(`حزمة طاقم فورت نايت لشهر ${month} سنه ${year}`, crew.images.skin, crew.video)
 
                     //add image
                     crewData.setImage(crew.images.apiRender)
 
-                    //add url
-                    crewData.setURL(crew.video)
-
                     //creating length
                     var length = crew.rewards.length
-                    if(length <= 2){
-                        length = length
-                    }else if(length > 2 && length <= 4){
-                        length = length / 2
-                    }else if(length > 4 && length <= 7){
-                        length = length / 3
-                    }else if(length > 7 && length <= 50){
-                        length = length / 5
-                    }else if(length > 50 && length < 70){
-                        length = length / 7
-                    }else{
-                        length = length / 10
-                    }
+
+                    if(length <= 2) length = length
+                    else if(length > 2 && length <= 4) length = length / 2
+                    else if(length > 4 && length <= 7) length = length / 3
+                    else if(length > 7 && length <= 50) length = length / 5
+                    else if(length > 50 && length < 70) length = length / 7
+                    else length = length / 10
 
                     if (length % 2 !== 0){
                         length += 1;
-                        length = length | 0;
+                        length = length | 0
                     }
 
                     //creating width
@@ -130,6 +112,9 @@ module.exports = {
                     const background = await Canvas.loadImage('./assets/backgroundwhite.jpg')
                     ctx.drawImage(background, 0, 0, canvas.width, canvas.height)
 
+                    //add the background
+                    ctx.fillRect(0, 0, canvas.width, canvas.height)
+
                     //reset newline
                     newline = 0
 
@@ -138,16 +123,11 @@ module.exports = {
 
                         var name = crew.rewards[i].item.name
                         var description = crew.rewards[i].item.description
-                        if(crew.rewards[i].item.series !== null){
-                            var rarity = crew.rewards[i].item.series.id
-                        }else{
-                            var rarity = crew.rewards[i].item.rarity.id
-                        }
-                        if(crew.rewards[i].item.images.featured !== null && crew.rewards[i].item.type.id !== "loadingscreen"){
-                            var image = crew.rewards[i].item.images.featured
-                        }else{
-                            var image = crew.rewards[i].item.images.icon
-                        }
+                        if(crew.rewards[i].item.series !== null) var rarity = crew.rewards[i].item.series.id
+                        else var rarity = crew.rewards[i].item.rarity.id
+                        if(crew.rewards[i].item.images.featured !== null && crew.rewards[i].item.type.id !== "loadingscreen")
+                        var image = crew.rewards[i].item.images.featured
+                        else var image = crew.rewards[i].item.images.icon
 
                         newline++
 
@@ -539,19 +519,16 @@ module.exports = {
                 }).catch(err => {
                     console.log(err)
                 })
+
             }else{
 
-                if(lang === "en"){
-                    const Err = new Discord.MessageEmbed()
-                    .setColor(FNBRMENA.Colors("embed"))
-                    .setTitle(`No crew pack has been found with that date ${errorEmoji}`)
-                    message.reply(Err)
-                }else if(lang === "ar"){
-                    const Err = new Discord.MessageEmbed()
-                    .setColor(FNBRMENA.Colors("embed"))
-                    .setTitle(`لا يمكنني العثور على حزمة طاقم فورت نايت بهذا التاريخ ${errorEmoji}`)
-                    message.reply(Err)
-                }
+                //no crew pach has been found
+                const Err = new Discord.MessageEmbed()
+                Err.setColor(FNBRMENA.Colors("embed"))
+                if(lang === "en") Err.setTitle(`No crew pack has been found${errorEmoji}`)
+                else if(lang === "en") Err.setTitle(`لا يمكنني العثور على حزمة طاقم فورت نايت ${errorEmoji}`)
+                message.reply(Err)
+
             }
 
         }).catch(err => {

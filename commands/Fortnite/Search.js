@@ -927,36 +927,23 @@ module.exports = {
                                 }else{
                                     //add an error
                                     errorHandleing++
-
-                                    if(lang === "en"){
-                                        const errorNumberNotListed = new Discord.MessageEmbed()
-                                        errorNumberNotListed.setColor(FNBRMENA.Colors("embed"))
-                                        errorNumberNotListed.setTitle(`The number ${list[i]} is not listed ${errorEmoji}`)
-                                        message.reply(errorNumberNotListed)
-                                    }else if(lang === "ar"){
-                                        const errorNumberNotListed = new Discord.MessageEmbed()
-                                        errorNumberNotListed.setColor(FNBRMENA.Colors("embed"))
-                                        errorNumberNotListed.setTitle(`الرقم ${list[i]} ليس موجود بالقائمة ${errorEmoji}`)
-                                        message.reply(errorNumberNotListed)
-                                    }
+                                    
+                                    const errorNumberNotListed = new Discord.MessageEmbed()
+                                    errorNumberNotListed.setColor(FNBRMENA.Colors("embed"))
+                                    if(lang === "en") errorNumberNotListed.setTitle(`The number ${list[i]} is not listed ${errorEmoji}`)
+                                    else if(lang === "ar") errorNumberNotListed.setTitle(`الرقم ${list[i]} ليس موجود بالقائمة ${errorEmoji}`)
+                                    message.reply(errorNumberNotListed)
                                 }
                             }
                         }else{
                             
                             //add an error
                             errorHandleing++
-
-                            if(lang === "en"){
-                                const errorMoreTypes = new Discord.MessageEmbed()
-                                errorMoreTypes.setColor(FNBRMENA.Colors("embed"))
-                                errorMoreTypes.setTitle(`Please choose 2 or more types to make the command works ${errorEmoji}`)
-                                message.reply(errorMoreTypes)
-                            }else if(lang === "ar"){
-                                const errorMoreTypes = new Discord.MessageEmbed()
-                                errorMoreTypes.setColor(FNBRMENA.Colors("embed"))
-                                errorMoreTypes.setTitle(`يجب عليك الاختيار اكثر من نوعين ${errorEmoji}`)
-                                message.reply(errorMoreTypes)
-                            }
+                            const errorMoreTypes = new Discord.MessageEmbed()
+                            errorMoreTypes.setColor(FNBRMENA.Colors("embed"))
+                            if(lang === "en") errorMoreTypes.setTitle(`Please choose 2 or more types to make the command works ${errorEmoji}`)
+                            else if(lang === "ar") errorMoreTypes.setTitle(`يجب عليك الاختيار اكثر من نوعين ${errorEmoji}`)
+                            message.reply(errorMoreTypes) 
 
                         }
                     }).catch(err => {
@@ -969,8 +956,8 @@ module.exports = {
                         choose.delete()
 
                         const error = new Discord.MessageEmbed()
-                        .setColor(FNBRMENA.Colors("embed"))
-                        .setTitle(`${FNBRMENA.Errors("Time", lang)} ${errorEmoji}`)
+                        error.setColor(FNBRMENA.Colors("embed"))
+                        error.setTitle(`${FNBRMENA.Errors("Time", lang)} ${errorEmoji}`)
                         message.reply(error)
                     })
                 })
@@ -1052,6 +1039,19 @@ module.exports = {
                                     message.reply(error)
                                     
                                 }
+                            }).catch(err => {
+
+                                //add an error
+                                errorHandleing++
+        
+                                //if user took to long to excute the command
+                                notify.delete()
+                                choose.delete()
+        
+                                const error = new Discord.MessageEmbed()
+                                error.setColor(FNBRMENA.Colors("embed"))
+                                error.setTitle(`${FNBRMENA.Errors("Time", lang)} ${errorEmoji}`)
+                                message.reply(error)
                             })
                         })
                     }).catch(err => {

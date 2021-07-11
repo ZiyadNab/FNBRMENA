@@ -960,36 +960,23 @@ module.exports = {
                                             }else{
                                                 //add an error
                                                 errorHandleing++
-            
-                                                if(lang === "en"){
-                                                    const errorNumberNotListed = new Discord.MessageEmbed()
-                                                    errorNumberNotListed.setColor(FNBRMENA.Colors("embed"))
-                                                    errorNumberNotListed.setTitle(`The number ${list[i]} is not listed ${errorEmoji}`)
-                                                    message.reply(errorNumberNotListed)
-                                                }else if(lang === "ar"){
-                                                    const errorNumberNotListed = new Discord.MessageEmbed()
-                                                    errorNumberNotListed.setColor(FNBRMENA.Colors("embed"))
-                                                    errorNumberNotListed.setTitle(`الرقم ${list[i]} ليس موجود بالقائمة ${errorEmoji}`)
-                                                    message.reply(errorNumberNotListed)
-                                                }
+
+                                                const errorNumberNotListed = new Discord.MessageEmbed()
+                                                errorNumberNotListed.setColor(FNBRMENA.Colors("embed"))
+                                                if(lang === "en") errorNumberNotListed.setTitle(`The number ${list[i]} is not listed ${errorEmoji}`)
+                                                else if(lang === "ar") errorNumberNotListed.setTitle(`الرقم ${list[i]} ليس موجود بالقائمة ${errorEmoji}`)
+                                                message.reply(errorNumberNotListed)
                                             }
                                         }
                                     }else{
                                         
                                         //add an error
                                         errorHandleing++
-            
-                                        if(lang === "en"){
-                                            const errorMoreTypes = new Discord.MessageEmbed()
-                                            errorMoreTypes.setColor(FNBRMENA.Colors("embed"))
-                                            errorMoreTypes.setTitle(`Please choose 2 or more types to make the command works ${errorEmoji}`)
-                                            message.reply(errorMoreTypes)
-                                        }else if(lang === "ar"){
-                                            const errorMoreTypes = new Discord.MessageEmbed()
-                                            errorMoreTypes.setColor(FNBRMENA.Colors("embed"))
-                                            errorMoreTypes.setTitle(`يجب عليك الاختيار اكثر من نوعين ${errorEmoji}`)
-                                            message.reply(errorMoreTypes)
-                                        }
+                                        const errorMoreTypes = new Discord.MessageEmbed()
+                                        errorMoreTypes.setColor(FNBRMENA.Colors("embed"))
+                                        if(lang === "en") errorMoreTypes.setTitle(`Please choose 2 or more types to make the command works ${errorEmoji}`)
+                                        else if(lang === "ar") errorMoreTypes.setTitle(`يجب عليك الاختيار اكثر من نوعين ${errorEmoji}`)
+                                        message.reply(errorMoreTypes) 
             
                                     }
                                 }).catch(err => {
@@ -1002,8 +989,8 @@ module.exports = {
                                     choose.delete()
             
                                     const error = new Discord.MessageEmbed()
-                                    .setColor(FNBRMENA.Colors("embed"))
-                                    .setTitle(`${FNBRMENA.Errors("Time", lang)} ${errorEmoji}`)
+                                    error.setColor(FNBRMENA.Colors("embed"))
+                                    error.setTitle(`${FNBRMENA.Errors("Time", lang)} ${errorEmoji}`)
                                     message.reply(error)
                                 })
                             })
@@ -1086,18 +1073,26 @@ module.exports = {
                                             errorHandleing++
 
                                             //if user typed a number out of range
-                                            if(lang === "en"){
-                                                const error = new Discord.MessageEmbed()
-                                                .setColor(FNBRMENA.Colors("embed"))
-                                                .setTitle(`Sorry we canceled your process becuase u selected a number out of range ${errorEmoji}`)
-                                                message.reply(error)
-                                            }else if(lang === "ar"){
-                                                const error = new Discord.MessageEmbed()
-                                                .setColor(FNBRMENA.Colors("embed"))
-                                                .setTitle(`تم ايقاف الامر بسبب اختيارك لرقم خارج النطاق ${errorEmoji}`)
-                                                message.reply(error)
-                                            }
+                                            const error = new Discord.MessageEmbed()
+                                            error.setColor(FNBRMENA.Colors("embed"))
+                                            if(lang === "en") error.setTitle(`Sorry we canceled your process becuase u selected a number out of range ${errorEmoji}`)
+                                            else if(lang === "ar") error.setTitle(`تم ايقاف الامر بسبب اختيارك لرقم خارج النطاق ${errorEmoji}`)
+                                            message.reply(error)
+                                            
                                         }
+                                    }).catch(err => {
+
+                                        //add an error
+                                        errorHandleing++
+                
+                                        //if user took to long to excute the command
+                                        notify.delete()
+                                        choose.delete()
+                
+                                        const error = new Discord.MessageEmbed()
+                                        error.setColor(FNBRMENA.Colors("embed"))
+                                        error.setTitle(`${FNBRMENA.Errors("Time", lang)} ${errorEmoji}`)
+                                        message.reply(error)
                                     })
                                 })
                             }).catch(err => {
@@ -1106,17 +1101,11 @@ module.exports = {
                                 errorHandleing++
 
                                 //if user typed a number out of range
-                                if(lang === "en"){
-                                    const errorRequest = new Discord.MessageEmbed()
-                                    .setColor(FNBRMENA.Colors("embed"))
-                                    .setTitle(`Request entry too large ${errorEmoji}`)
-                                    message.reply(errorRequest)
-                                }else if(lang === "ar"){
-                                    const errorRequest = new Discord.MessageEmbed()
-                                    .setColor(FNBRMENA.Colors("embed"))
-                                    .setTitle(`تم تخطي الكمية المحدودة من عدد العناصر ${errorEmoji}`)
-                                    message.reply(errorRequest)
-                                }
+                                const errorRequest = new Discord.MessageEmbed()
+                                errorRequest.setColor(FNBRMENA.Colors("embed"))
+                                if(lang === "en") errorRequest.setTitle(`Request entry too large ${errorEmoji}`)
+                                else if(lang === "ar") errorRequest.setTitle(`تم تخطي الكمية المحدودة من عدد العناصر ${errorEmoji}`)
+                                message.reply(errorRequest)
                             })
                         }
 
@@ -1125,18 +1114,12 @@ module.exports = {
 
                             //add an error
                             errorHandleing++
-
-                            if(lang === "en"){
-                                const Err = new Discord.MessageEmbed()
-                                .setColor(FNBRMENA.Colors("embed"))
-                                .setTitle(`No cosmetic has been found check your speling and try again ${errorEmoji}`)
-                                message.reply(Err)
-                            }else if(lang === "ar"){
-                                const Err = new Discord.MessageEmbed()
-                                .setColor(FNBRMENA.Colors("embed"))
-                                .setTitle(`لا يمكنني العثور على العنصر الرجاء التأكد من كتابة الاسم بشكل صحيح ${errorEmoji}`)
-                                message.reply(Err)
-                            }
+                            const Err = new Discord.MessageEmbed()
+                            Err.setColor(FNBRMENA.Colors("embed"))
+                            if(lang === "en") Err.setTitle(`the ${list[i]} is not a valid item check your speling and try again ${errorEmoji}`)
+                            else if(lang === "ar") Err.setTitle(`الـ ${list[i]} ليس عنصر صحيح الرجاء التأكد من كتابة الاسم بشكل صحيح ${errorEmoji}`)
+                            message.reply(Err)
+                            
                         }
 
                         //if everything is correct start merging

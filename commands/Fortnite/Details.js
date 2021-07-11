@@ -57,10 +57,6 @@ module.exports = {
         FNBRMENA.Search(lang, SearchType, text)
         .then(async res => {
 
-            //get the item rarity
-            if(res.data.items[num].series === null) var embedColor = res.data.items[num].rarity.id
-            else var embedColor = res.data.items[num].series.id
-
             //if the result is more than one item
             if(res.data.items.length > 1){
 
@@ -166,6 +162,10 @@ module.exports = {
 
                 //ask the user what method he needs
                 const question = new Discord.MessageEmbed()
+
+                //get the item rarity
+                if(res.data.items[num].series === null) var embedColor = res.data.items[num].rarity.id
+                else var embedColor = res.data.items[num].series.id
 
                 //set color
                 question.setColor(FNBRMENA.Colors(embedColor))
@@ -292,7 +292,8 @@ module.exports = {
                             else info.addFields({name: "Shop History", value: `the ${res.data.items[num].name} ${res.data.items[num].type.name} is not an itemshop item`, inline: true})
 
                             //add gameplay tags
-                            info.addFields({name: "Gameplay Tags", value: res.data.items[num].gameplayTags, inline: true})
+                            if(res.data.items[num].gameplayTags.length > 0) info.addFields({name: "Gameplay Tags", value: res.data.items[num].gameplayTags, inline: true})
+                            else info.addFields({name: "Gameplay Tags", value: `There is no GameplayTags for ${res.data.items[num].name} ${res.data.items[num].type.name}`, inline: true})
                             
                         }else if(lang === "ar"){
 
@@ -327,7 +328,9 @@ module.exports = {
                             else info.addFields({name: "تاريخ الشوب", value: `${res.data.items[num].type.name} ${res.data.items[num].name} ليس عنصر ايتم شوب`, inline: true})
 
                             //add gameplay tags
-                            info.addFields({name: "العلامات", value: res.data.items[num].gameplayTags, inline: true})
+                            if(res.data.items[num].gameplayTags.length > 0) info.addFields({name: "العلامات", value: res.data.items[num].gameplayTags, inline: true})
+                            else info.addFields({name: "العلامات", value: `لا يوجد علامات لعنصر ${res.data.items[num].type.name} ${res.data.items[num].name}`, inline: true})
+                            
                             
                         }
 
@@ -338,30 +341,30 @@ module.exports = {
                     //if the user input is styles
                     if(details[detailsIndex] === "styles" && errorHandleing === 0){
 
-                        //getting item data loading
-                        const generating = new Discord.MessageEmbed()
-                        generating.setColor(FNBRMENA.Colors("embed"))
-                        if(lang === "en") generating.setTitle(`Loading item data... ${loadingEmoji}`)
-                        else if(lang === "ar") generating.setTitle(`تحميل معلومات العنصر... ${loadingEmoji}`)
-                        message.channel.send(generating)
-                        .then( async msg => {
+                        //check if there is a style in the files
+                        const cosmeticvariants = await FNBRMENA.List(lang, "cosmeticvariant")
 
-                            //check if there is a style in the files
-                            const cosmeticvariants = await FNBRMENA.List(lang, "cosmeticvariant")
+                        //filtering
+                        var styles = []
+                        var Counter = 0
+                        for(let i = 0; i < cosmeticvariants.data.items.length; i++){
+                            if(await cosmeticvariants.data.items[i].description.toLowerCase().includes(res.data.items[num].name.toLowerCase().trim())){
 
-                            //filtering
-                            var styles = []
-                            var Counter = 0
-                            for(let i = 0; i < cosmeticvariants.data.items.length; i++){
-                                if(await cosmeticvariants.data.items[i].description.toLowerCase().includes(res.data.items[num].name.toLowerCase().trim())){
-
-                                    styles[Counter] = await cosmeticvariants.data.items[i]
-                                    Counter++
-                                }
+                                styles[Counter] = await cosmeticvariants.data.items[i]
+                                Counter++
                             }
+                        }
 
-                            //if there is a style in the files
-                            if(styles.length !== 0 && res.data.items[num].type.id === "outfit"){
+                        //if there is a style in the files
+                        if(styles.length !== 0 && res.data.items[num].type.id === "outfit"){
+
+                            //getting item data loading
+                            const generating = new Discord.MessageEmbed()
+                            generating.setColor(FNBRMENA.Colors("embed"))
+                            if(lang === "en") generating.setTitle(`Loading item data... ${loadingEmoji}`)
+                            else if(lang === "ar") generating.setTitle(`تحميل معلومات العنصر... ${loadingEmoji}`)
+                            message.channel.send(generating)
+                            .then( async msg => {
 
                                 //creating canvas
                                 const canvas = Canvas.createCanvas(512, 512);
@@ -1271,7 +1274,19 @@ module.exports = {
                                     await message.channel.send(att)
                                 }
 
-                            }else if(res.data.items[num].displayAssets.length !== 0){
+                                //delete generating msg
+                                msg.delete()
+                            })
+
+                        }else if(res.data.items[num].displayAssets.length !== 0){
+
+                            //getting item data loading
+                            const generating = new Discord.MessageEmbed()
+                            generating.setColor(FNBRMENA.Colors("embed"))
+                            if(lang === "en") generating.setTitle(`Loading item data... ${loadingEmoji}`)
+                            else if(lang === "ar") generating.setTitle(`تحميل معلومات العنصر... ${loadingEmoji}`)
+                            message.channel.send(generating)
+                            .then( async msg => {
                             
                                 //loop throw every style
                                 for(let i = 0; i < res.data.items[num].displayAssets.length; i ++){
@@ -1729,17 +1744,19 @@ module.exports = {
                                     await message.channel.send(att)
 
                                 }
-                            }else if(details[detailsIndex] === "styles" && res.data.items[num].displayAssets.length === 0 && errorHandleing === 0){
-
-                                //send an error
-                                const Err = new Discord.MessageEmbed()
-                                Err.setColor(FNBRMENA.Colors(embedColor))
-                                if(lang === "en") Err.setTitle(`No styles has been found for ${res.data.items[num].name} ${res.data.items[num].type.name} ${errorEmoji}`)
-                                else if(lang === "ar") Err.setTitle(`لا يمكنني العثور على ستايلات ${res.data.items[num].type.name} ${res.data.items[num].name} ${errorEmoji}`)
-                                message.reply(Err)
-                            }
+                            })
+                            //delete generating msg
                             msg.delete()
-                        })
+                            
+                        }else if(details[detailsIndex] === "styles" && res.data.items[num].displayAssets.length === 0 && errorHandleing === 0){
+
+                            //send an error
+                            const Err = new Discord.MessageEmbed()
+                            Err.setColor(FNBRMENA.Colors(embedColor))
+                            if(lang === "en") Err.setTitle(`No styles has been found for ${res.data.items[num].name} ${res.data.items[num].type.name} ${errorEmoji}`)
+                            else if(lang === "ar") Err.setTitle(`لا يمكنني العثور على ستايلات ${res.data.items[num].type.name} ${res.data.items[num].name} ${errorEmoji}`)
+                            message.reply(Err)
+                        }   
                     }
 
                     //if the user input is grants

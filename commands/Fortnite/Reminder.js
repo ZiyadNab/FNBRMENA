@@ -151,37 +151,6 @@ module.exports = {
                             message.channel.send(generating)
                             .then( async msg => {
 
-                                //json data 
-                                const reminder = {
-                                    id: message.author.id,
-                                    mainId: res.items[num].id,
-                                    date: `${time}`,
-                                    lang: lang
-                                }
-
-                                //creating an array to store the response
-                                var list = []
-                                var counter = 0
-
-                                //get every single collection
-                                await snapshot.forEach(doc => {
-                                    list[counter] = doc.id
-                                    counter++
-                                })
-
-                                //add the reminder to the database but step by step
-                                for(let i = 0; i <= list.length; i++){
-
-                                    //check if there an exisiting data with that number i
-                                    const doc = await db.collection("Reminders").doc(`${i}`).get()
-                                    if (!doc.exists){
-
-                                        //store the data
-                                        await db.collection("Reminders").doc(`${i}`).set(reminder)
-                                        break
-                                    }
-                                }
-
                                 //aplyText
                                 const applyText = (canvas, text) => {
                                     const ctx = canvas.getContext('2d');
@@ -587,10 +556,10 @@ module.exports = {
                                 var y = 12
                                 var x = 467
 
-                                for(let i = 0; i < res.data.items[num].gameplayTags.length; i++){
+                                for(let i = 0; i < res.items[num].gameplayTags.length; i++){
 
                                     //if the item is animated
-                                    if(res.data.items[num].gameplayTags[i].includes('Animated')){
+                                    if(res.items[num].gameplayTags[i].includes('Animated')){
 
                                         //the itm is animated add the animated icon
                                         const skinholder = await Canvas.loadImage('./assets/Tags/T-Icon-Animated-64.png')
@@ -600,7 +569,7 @@ module.exports = {
                                     }
 
                                     //if the item is reactive
-                                    if(res.data.items[num].gameplayTags[i].includes('Reactive')){
+                                    if(res.items[num].gameplayTags[i].includes('Reactive')){
 
                                         //the itm is animated add the animated icon
                                         const skinholder = await Canvas.loadImage('./assets/Tags/T-Icon-Adaptive-64.png')
@@ -610,7 +579,7 @@ module.exports = {
                                     }
 
                                     //if the item is synced emote
-                                    if(res.data.items[num].gameplayTags[i].includes('Synced')){
+                                    if(res.items[num].gameplayTags[i].includes('Synced')){
 
                                         //the itm is animated add the animated icon
                                         const skinholder = await Canvas.loadImage('./assets/Tags/T-Icon-Synced-64x.png')
@@ -620,7 +589,7 @@ module.exports = {
                                     }
 
                                     //if the item is traversal
-                                    if(res.data.items[num].gameplayTags[i].includes('Traversal')){
+                                    if(res.items[num].gameplayTags[i].includes('Traversal')){
 
                                         //the itm is animated add the animated icon
                                         const skinholder = await Canvas.loadImage('./assets/Tags/T-Icon-Traversal-64.png')
@@ -630,7 +599,7 @@ module.exports = {
                                     }
 
                                     //if the item has styles
-                                    if(res.data.items[num].gameplayTags[i].includes('HasVariants')){
+                                    if(res.items[num].gameplayTags[i].includes('HasVariants')){
 
                                         //the itm is animated add the animated icon
                                         const skinholder = await Canvas.loadImage('./assets/Tags/T-Icon-Variant-64.png')
@@ -641,13 +610,44 @@ module.exports = {
                                 }
 
                                 //if the item contains copyrited audio
-                                if(res.data.items[num].copyrightedAudio === true){
+                                if(res.items[num].copyrightedAudio === true){
 
                                     //the itm is animated add the animated icon
                                     const skinholder = await Canvas.loadImage('./assets/Tags/mute.png')
                                     ctx.drawImage(skinholder, x, y, 30, 30)
 
                                     y += 40
+                                }
+
+                                //json data 
+                                const reminder = {
+                                    id: message.author.id,
+                                    mainId: res.items[num].id,
+                                    date: `${time}`,
+                                    lang: lang
+                                }
+
+                                //creating an array to store the response
+                                var list = []
+                                var counter = 0
+
+                                //get every single collection
+                                await snapshot.forEach(doc => {
+                                    list[counter] = doc.id
+                                    counter++
+                                })
+
+                                //add the reminder to the database but step by step
+                                for(let i = 0; i <= list.length; i++){
+
+                                    //check if there an exisiting data with that number i
+                                    const doc = await db.collection("Reminders").doc(`${i}`).get()
+                                    if (!doc.exists){
+
+                                        //store the data
+                                        await db.collection("Reminders").doc(`${i}`).set(reminder)
+                                        break
+                                    }
                                 }
 
                                 //change the local of the moment

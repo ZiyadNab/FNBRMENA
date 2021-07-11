@@ -21,6 +21,9 @@ class FNBRMENA {
     Colors(Type){
 
         if(Type === "embed") return "#00ffff"
+        if(Type === "embedError") return "#00ffff"
+
+        //api.ip
         if(Type === "Legendary") return "#e98d4b"
         if(Type === "Epic") return "#e95eff"
         if(Type === "Rare") return "#37d1ff"
@@ -36,6 +39,23 @@ class FNBRMENA {
         if(Type === "FrozenSeries") return "#c4dff7"
         if(Type === "LavaSeries") return "#d19635"
         if(Type === "PlatformSeries") return "#8e5eff"
+
+        //fortnite-api.com
+        if(Type === "legendary") return "#e98d4b"
+        if(Type === "epic") return "#e95eff"
+        if(Type === "rare") return "#37d1ff"
+        if(Type === "uncommon") return "#87e339"
+        if(Type === "common") return "#b1b1b1"
+        if(Type === "marvel") return "#ef3537"
+        if(Type === "dc") return "#6094ce"
+        if(Type === "dark") return "#ff42e7"
+        if(Type === "icon") return "#52e0e0"
+        if(Type === "starwars") return "#e7c413"
+        if(Type === "shadow") return "#949494"
+        if(Type === "slurp") return "#53f0ff"
+        if(Type === "frozen") return "#c4dff7"
+        if(Type === "lava") return "#d19635"
+        if(Type === "gaminglegends") return "#8e5eff"
         
     }
 

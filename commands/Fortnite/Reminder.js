@@ -583,6 +583,73 @@ module.exports = {
                                     }
                                 }
 
+                                //inilizing tags
+                                var y = 12
+                                var x = 467
+
+                                for(let i = 0; i < res.data.items[num].gameplayTags.length; i++){
+
+                                    //if the item is animated
+                                    if(res.data.items[num].gameplayTags[i].includes('Animated')){
+
+                                        //the itm is animated add the animated icon
+                                        const skinholder = await Canvas.loadImage('./assets/Tags/T-Icon-Animated-64.png')
+                                        ctx.drawImage(skinholder, x, y, 30, 30)
+
+                                        y += 40
+                                    }
+
+                                    //if the item is reactive
+                                    if(res.data.items[num].gameplayTags[i].includes('Reactive')){
+
+                                        //the itm is animated add the animated icon
+                                        const skinholder = await Canvas.loadImage('./assets/Tags/T-Icon-Adaptive-64.png')
+                                        ctx.drawImage(skinholder, x, y, 30, 30)
+
+                                        y += 40
+                                    }
+
+                                    //if the item is synced emote
+                                    if(res.data.items[num].gameplayTags[i].includes('Synced')){
+
+                                        //the itm is animated add the animated icon
+                                        const skinholder = await Canvas.loadImage('./assets/Tags/T-Icon-Synced-64x.png')
+                                        ctx.drawImage(skinholder, x, y, 30, 30)
+
+                                        y += 40
+                                    }
+
+                                    //if the item is traversal
+                                    if(res.data.items[num].gameplayTags[i].includes('Traversal')){
+
+                                        //the itm is animated add the animated icon
+                                        const skinholder = await Canvas.loadImage('./assets/Tags/T-Icon-Traversal-64.png')
+                                        ctx.drawImage(skinholder, x, y, 30, 30)
+
+                                        y += 40
+                                    }
+
+                                    //if the item has styles
+                                    if(res.data.items[num].gameplayTags[i].includes('HasVariants')){
+
+                                        //the itm is animated add the animated icon
+                                        const skinholder = await Canvas.loadImage('./assets/Tags/T-Icon-Variant-64.png')
+                                        ctx.drawImage(skinholder, x, y, 30, 30)
+
+                                        y += 40
+                                    }
+                                }
+
+                                //if the item contains copyrited audio
+                                if(res.data.items[num].copyrightedAudio === true){
+
+                                    //the itm is animated add the animated icon
+                                    const skinholder = await Canvas.loadImage('./assets/Tags/mute.png')
+                                    ctx.drawImage(skinholder, x, y, 30, 30)
+
+                                    y += 40
+                                }
+
                                 //change the local of the moment
                                 moment.locale(lang)
 

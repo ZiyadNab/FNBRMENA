@@ -1689,7 +1689,7 @@ module.exports = {
                             }
 
                             //if the item has styles
-                            if(res.data.items[num].gameplayTags[i].includes('HasVariants')){
+                            if(res.data.items[num].gameplayTags[i].includes('HasVariants') || res.data.items[num].gameplayTags[i].includes('HasUpgradeQuests')){
 
                                 //the itm is animated add the animated icon
                                 const skinholder = await Canvas.loadImage('./assets/Tags/T-Icon-Variant-64.png')

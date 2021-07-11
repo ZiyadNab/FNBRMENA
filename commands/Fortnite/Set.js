@@ -530,6 +530,61 @@ module.exports = {
                             ctx.fillText(description, (256 + x), (y + 480))
                         }
                     }
+
+                    var yTags = y
+                    for(let g = 0; g < res.data[i].gameplayTags.length; g++){
+
+                        //if the item is animated
+                        if(res.data[i].gameplayTags[g].includes('Animated')){
+
+                            //the itm is animated add the animated icon
+                            const skinholder = await Canvas.loadImage('./assets/Tags/T-Icon-Animated-64.png')
+                            ctx.drawImage(skinholder, x + 467, yTags + 12, 30, 30)
+
+                            yTags += 40
+                        }
+
+                        //if the item is reactive
+                        if(res.data[i].gameplayTags[g].includes('Reactive')){
+
+                            //the itm is animated add the animated icon
+                            const skinholder = await Canvas.loadImage('./assets/Tags/T-Icon-Adaptive-64.png')
+                            ctx.drawImage(skinholder, x + 467, yTags + 12, 30, 30)
+
+                            yTags += 40
+                        }
+
+                        //if the item is synced emote
+                        if(res.data[i].gameplayTags[g].includes('Synced')){
+
+                            //the itm is animated add the animated icon
+                            const skinholder = await Canvas.loadImage('./assets/Tags/T-Icon-Synced-64x.png')
+                            ctx.drawImage(skinholder, x + 467, yTags + 12, 30, 30)
+
+                            yTags += 40
+                        }
+
+                        //if the item is traversal
+                        if(res.data[i].gameplayTags[g].includes('Traversal')){
+
+                            //the itm is animated add the animated icon
+                            const skinholder = await Canvas.loadImage('./assets/Tags/T-Icon-Traversal-64.png')
+                            ctx.drawImage(skinholder, x + 467, yTags + 12, 30, 30)
+
+                            yTags += 40
+                        }
+
+                        //if the item has styles
+                        if(res.data[i].gameplayTags[g].includes('HasVariants')){
+
+                            //the itm is animated add the animated icon
+                            const skinholder = await Canvas.loadImage('./assets/Tags/T-Icon-Variant-64.png')
+                            ctx.drawImage(skinholder, x + 467, yTags + 12, 30, 30)
+
+                            yTags += 40
+                        }
+                    }
+
                     // changing x and y
                     x = x + 5 + 512; 
                     if (length === newline){

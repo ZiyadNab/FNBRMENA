@@ -30,8 +30,6 @@ module.exports = {
 
             if((Number(text) - 1) < res.length){
 
-                console.log("ss")
-
                 //filter
                 const crew = res[res.length - text]
 
@@ -56,8 +54,6 @@ module.exports = {
                     //set author
                     if(lang === "en") crewData.setAuthor(`The Fortnite Crew for month ${month} of ${year}`, crew.rewards[0].item.images.icon, crew.video)
                     else if(lang === "ar") crewData.setAuthor(`حزمة طاقم فورت نايت لشهر ${month} سنه ${year}`, crew.rewards[0].item.images.icon, crew.video)
-
-                    message.channel.send(crewData)
 
                     //add image
                     crewData.setImage(crew.images.apiRender)

@@ -82,28 +82,38 @@ module.exports = {
                             await notify.delete()
                             await list.delete()
 
-                            //if the user chosen inside range
-                            if(collected.first().content >= 0 && collected.first().content < res.items.length){
+                            //check if its a number
+                            if(!isNaN(collectedType.first().content)){
 
-                                //change the item index
-                                num = collected.first().content
+                                //if the user chosen inside range
+                                if(collected.first().content >= 0 && collected.first().content < res.items.length){
+
+                                    //change the item index
+                                    num = collected.first().content
+                                }else{
+
+                                    //add an error
+                                    errorHandleing++
+
+                                    //if user typed a number out of range
+                                    const error = new Discord.MessageEmbed()
+                                    error.setColor(FNBRMENA.Colors("embed"))
+                                    if(lang === "en") error.setTitle(`Sorry we canceled your process becuase u selected a number out of range ${errorEmoji}`)
+                                    else if(lang === "ar") error.setTitle(`تم ايقاف الامر بسبب اختيارك لرقم خارج النطاق ${errorEmoji}`)
+                                    message.reply(error)
+
+                                }
                             }else{
-
                                 //add an error
                                 errorHandleing++
 
                                 //if user typed a number out of range
-                                if(lang === "en"){
-                                    const error = new Discord.MessageEmbed()
-                                    .setColor(FNBRMENA.Colors("embed"))
-                                    .setTitle(`Sorry we canceled your process becuase u selected a number out of range ${errorEmoji}`)
-                                    message.reply(error)
-                                }else if(lang === "ar"){
-                                    const error = new Discord.MessageEmbed()
-                                    .setColor(FNBRMENA.Colors("embed"))
-                                    .setTitle(`تم ايقاف الامر بسبب اختيارك لرقم خارج النطاق ${errorEmoji}`)
-                                    message.reply(error)
-                                }
+                                const error = new Discord.MessageEmbed()
+                                error.setColor(FNBRMENA.Colors("embed"))
+                                if(lang === "en") error.setTitle(`Please type only number without any symbols or words ${errorEmoji}`)
+                                else if(lang === "ar") error.setTitle(`رجاء كتابة فقط رقم بدون كلامات او علامات ${errorEmoji}`)
+                                message.reply(error)
+                                
                             }
                         })
                     })
@@ -199,12 +209,8 @@ module.exports = {
                                 var price = res.items[num].price
                                 var description = res.items[num].description
                                 var image = res.items[num].images.icon
-                                if(res.items[num].series !== null){
-                                    var rarity = res.items[num].series.id
-                                }else{
-                                    var rarity = res.items[num].rarity.id
-                                }
-
+                                if(res.items[num].series !== null) var rarity = res.items[num].series.id
+                                else var rarity = res.items[num].rarity.id
 
                                 //searching...
                                 if(rarity === "Legendary"){
@@ -582,20 +588,21 @@ module.exports = {
 
                                 //lastseen
                                 if(res.items[num].lastAppearance !== null){
+
+                                    //setting up moment js
                                     const Now = moment();
                                     var LastSeenDays = Now.diff(res.items[num].lastAppearance, 'days');
                                     var LastSeenDate = moment(res.items[num].lastAppearance).format("ddd, hA")
-                                    if(lang === "en"){
-                                        Last = LastSeenDays + " days at " + LastSeenDate
-                                    }else if(lang === "ar"){
-                                        Last = LastSeenDays + " يوم في " + LastSeenDate
-                                    }
+
+                                    //set a last release message
+                                    if(lang === "en") Last = LastSeenDays + " days at " + LastSeenDate
+                                    else if(lang === "ar") Last = LastSeenDays + " يوم في " + LastSeenDate
+
                                 }else{
-                                    if(lang === "en"){
-                                        Last = "not out yet or the sorce is not an itemshop"
-                                    }else if(lang === "ar"){
-                                        Last = "لم يتم نزول العنصر بعد او مصدر العنصر ليس من الايتم شوب"
-                                    }
+
+                                    //set non message last release
+                                    if(lang === "en") Last = "not out yet or the sorce is not an itemshop"
+                                    else if(lang === "ar") Last = "لم يتم نزول العنصر بعد او مصدر العنصر ليس من الايتم شوب"
                                 }
 
                                 //create embed
@@ -623,49 +630,41 @@ module.exports = {
                                     )
                                 }
 
+                                //send the message
                                 const att = new Discord.MessageAttachment(canvas.toBuffer(), text+'.png')
                                 await message.channel.send(att)
                                 await message.channel.send(itemInfo)
                                 msg.delete()
+
                             })
                         }else{
-                            if(lang === "en"){
-                                const Err = new Discord.MessageEmbed()
-                                .setColor(FNBRMENA.Colors("embed"))
-                                .setTitle(`The item is already added for the reminding system ${errorEmoji}`)
-                                message.reply(Err)
-                            }else if(lang === "ar"){
-                                const Err = new Discord.MessageEmbed()
-                                .setColor(FNBRMENA.Colors("embed"))
-                                .setTitle(`تم بالفعل اضافة العنصر من قبل في نظام التذكير ${errorEmoji}`)
-                                message.reply(Err)
-                            }
+
+                            //if user typed a number out of range
+                            const errorRequest = new Discord.MessageEmbed()
+                            errorRequest.setColor(FNBRMENA.Colors("embed"))
+                            if(lang === "en") errorRequest.setTitle(`The item is already added for the reminding system ${errorEmoji}`)
+                            else if(lang === "ar") errorRequest.setTitle(`تم بالفعل اضافة العنصر من قبل في نظام التذكير ${errorEmoji}`)
+                            message.reply(errorRequest)
+
                         }
                     }else{
-                        if(lang === "en"){
-                            const Err = new Discord.MessageEmbed()
-                            .setColor(FNBRMENA.Colors("embed"))
-                            .setTitle(`The item source is not an itemshop please reselect again ${errorEmoji}`)
-                            message.reply(Err)
-                        }else if(lang === "ar"){
-                            const Err = new Discord.MessageEmbed()
-                            .setColor(FNBRMENA.Colors("embed"))
-                            .setTitle(`لا يمكنني تذكيرك بالعنصر لانه ليس من عناصر الايتم شوب ${errorEmoji}`)
-                            message.reply(Err)
-                        }
+
+                        //if user typed a number out of range
+                        const errorRequest = new Discord.MessageEmbed()
+                        errorRequest.setColor(FNBRMENA.Colors("embed"))
+                        if(lang === "en") errorRequest.setTitle(`The item source is not an itemshop please reselect again ${errorEmoji}`)
+                        else if(lang === "ar") errorRequest.setTitle(`لا يمكنني تذكيرك بالعنصر لانه ليس من عناصر الايتم شوب ${errorEmoji}`)
+                        message.reply(errorRequest)
                     }
                 }else{
-                    if(lang === "en"){
-                        const Err = new Discord.MessageEmbed()
-                        .setColor(FNBRMENA.Colors("embed"))
-                        .setTitle(`No cosmetic has been found check your speling and try again ${errorEmoji}`)
-                        message.reply(Err)
-                    }else if(lang === "ar"){
-                        const Err = new Discord.MessageEmbed()
-                        .setColor(FNBRMENA.Colors("embed"))
-                        .setTitle(`لا يمكنني العثور على العنصر الرجاء التأكد من كتابة الاسم بشكل صحيح ${errorEmoji}`)
-                        message.reply(Err)
-                    }
+                    
+                    //if user typed a number out of range
+                    const errorRequest = new Discord.MessageEmbed()
+                    errorRequest.setColor(FNBRMENA.Colors("embed"))
+                    if(lang === "en") errorRequest.setTitle(`No cosmetic has been found check your speling and try again ${errorEmoji}`)
+                    else if(lang === "ar") errorRequest.setTitle(`لا يمكنني العثور على العنصر الرجاء التأكد من كتابة الاسم بشكل صحيح ${errorEmoji}`)
+                    message.reply(errorRequest)
+
                 }
             }
 

@@ -25,20 +25,13 @@ module.exports = {
         var query = {
             set: text,
             language: lang
-        };
-
-        //text lang
-        var string
-        if(lang === "en"){
-            string = "Searching for Cosmetics"
-        }else if(lang === "ar"){
-            string = "جاري البحث عن عناصر"
         }
 
         //generating text
         const generating = new Discord.MessageEmbed()
         generating.setColor(FNBRMENA.Colors("embed"))
-        generating.setTitle(`${string} ${loadingEmoji}`)
+        if(lang === "en") generating.setTitle(`Searching for Cosmetics... ${loadingEmoji}`)
+        else if(lang === "ar") generating.setTitle(`جاري البحث عن عناصر... ${loadingEmoji}`)
         message.channel.send(generating)
         .then( async msg => {
         
@@ -54,15 +47,10 @@ module.exports = {
 
                 //creating length
                 var length = res.data.length
-                if(length <= 2){
-                    length = res.data.length
-                }else if(length > 2 && length <= 4){
-                    length = res.data.length / 2
-                }else if(length > 4 && length <= 7){
-                    length = res.data.length / 3
-                }else{
-                    length = res.data.length / 4
-                }
+                if(length <= 2) length = res.data.length
+                else if(length > 2 && length <= 4) length = res.data.length / 2
+                else if(length > 4 && length <= 7) length = res.data.length / 3
+                else length = res.data.length / 4
 
                 //forcing to be int
                 if (length % 2 !== 0){
@@ -115,14 +103,11 @@ module.exports = {
                 for (let i = 0; i < res.data.length; i++){
 
                     //skin informations
-                    var name = res.data[i].name;
-                    var description = res.data[i].description;
-                    if (res.data[i].images.icon === null){
-                        var image = res.data[i].images.smallIcon;
-                    } else {
-                        var image = res.data[i].images.icon;
-                    }
-                    var rarity = res.data[i].rarity.value;
+                    var name = res.data[i].name
+                    var description = res.data[i].description
+                    if (res.data[i].images.icon === null) var image = res.data[i].images.smallIcon
+                    else var image = res.data[i].images.icon
+                    var rarity = res.data[i].rarity.value
                     newline = newline + 1;
 
                     //searching
@@ -153,9 +138,6 @@ module.exports = {
                             ctx.textAlign='center';
                             ctx.fillText(description, (256 + x), (y + 480))
                         }
-                        // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                        // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
-                        
                     }
                     if(rarity === 'epic'){
                         //creating image
@@ -184,8 +166,6 @@ module.exports = {
                             ctx.textAlign='center';
                             ctx.fillText(description, (256 + x), (y + 480))
                         }
-                        // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                        // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                     }
                     if(rarity === 'rare'){
                         //creating image
@@ -213,8 +193,6 @@ module.exports = {
                             ctx.textAlign='center';
                             ctx.fillText(description, (256 + x), (y + 480))
                         }
-                        // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                        // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                     }
                     if(rarity === 'uncommon'){
                         //creating image
@@ -243,8 +221,6 @@ module.exports = {
                             ctx.textAlign='center';
                             ctx.fillText(description, (256 + x), (y + 480))
                         }
-                        // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                        // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                     }
                     if(rarity === 'common'){
                         //creating image
@@ -273,8 +249,6 @@ module.exports = {
                             ctx.textAlign='center';
                             ctx.fillText(description, (256 + x), (y + 480))
                         }
-                        // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                        // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                     }
                     if(rarity === 'marvel'){
                         //creating image
@@ -303,8 +277,6 @@ module.exports = {
                             ctx.textAlign='center';
                             ctx.fillText(description, (256 + x), (y + 480))
                         }
-                        // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                        // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                     }
                     if(rarity === 'dc'){
                         //creating image
@@ -333,8 +305,6 @@ module.exports = {
                             ctx.textAlign='center';
                             ctx.fillText(description, (256 + x), (y + 480))
                         }
-                        // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                        // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                     }
                     if(rarity === 'dark'){
                         //creating image
@@ -363,8 +333,6 @@ module.exports = {
                             ctx.textAlign='center';
                             ctx.fillText(description, (256 + x), (y + 480))
                         }
-                        // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                        // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                     }
                     if(rarity === 'icon'){
                         //creating image
@@ -393,8 +361,6 @@ module.exports = {
                             ctx.textAlign='center';
                             ctx.fillText(description, (256 + x), (y + 480))
                         }
-                        // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                        // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                     }
                     if(rarity === 'starwars'){
                         //creating image
@@ -423,8 +389,6 @@ module.exports = {
                             ctx.textAlign='center';
                             ctx.fillText(description, (256 + x), (y + 480))
                         }
-                        // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                        // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                     }
                     if(rarity === 'shadow'){
                         //creating image
@@ -453,8 +417,6 @@ module.exports = {
                             ctx.textAlign='center';
                             ctx.fillText(description, (256 + x), (y + 480))
                         }
-                        // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                        // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                     }
                     if(rarity === 'slurp'){
                         //creating image
@@ -483,8 +445,6 @@ module.exports = {
                             ctx.textAlign='center';
                             ctx.fillText(description, (256 + x), (y + 480))
                         }
-                        // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                        // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                     }
                     if(rarity === 'frozen'){
                         //creating image
@@ -513,8 +473,6 @@ module.exports = {
                             ctx.textAlign='center';
                             ctx.fillText(description, (256 + x), (y + 480))
                         }
-                        // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                        // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                     }
                     if(rarity === 'lava'){
                         //creating image
@@ -543,8 +501,6 @@ module.exports = {
                             ctx.textAlign='center';
                             ctx.fillText(description, (256 + x), (y + 480))
                         }
-                        // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                        // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                     }
                     if(rarity === 'gaminglegends'){
                         //creating image
@@ -573,8 +529,6 @@ module.exports = {
                             ctx.textAlign='center';
                             ctx.fillText(description, (256 + x), (y + 480))
                         }
-                        // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                        // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                     }
                     // changing x and y
                     x = x + 5 + 512; 
@@ -585,47 +539,50 @@ module.exports = {
                     }
                 }
 
-                if(res.data.length < 20){
-                    const att = new Discord.MessageAttachment(canvas.toBuffer(), text+'.png')
-                    await message.channel.send(att)
-                }else{
-                    const att = new Discord.MessageAttachment(canvas.toBuffer('image/jpeg', {quality: 0.5}))
-                    await message.channel.send(att)
-                }
+                if(res.data.length < 20) const att = new Discord.MessageAttachment(canvas.toBuffer(), text+'.png')
+                else const att = new Discord.MessageAttachment(canvas.toBuffer('image/jpeg', {quality: 0.5}))
+                await message.channel.send(att)
                 msg.delete()
+
+                //create set embed
                 const embed = new Discord.MessageEmbed()
-                embed.setColor('BB00EE')
+
+                //set color
+                embed.setColor(FNBRMENA.Colors(rarity))
+
+                //loop throw every item
                 var string = ""
                 for(let i = 0; i < res.data.length; i++){
                     var num = 1 + i
                     string += "\n• " + num +": " + res.data[i].name
                 }
+
+                //if user lang is english
                 if(lang === "en"){
-                    string += "\n\n• All Cosmetic "+res.data.length
-                    embed.setTitle("All Cosmetics In Set " + res.data[0].set.value)
+                    string += `\n\n• All Cosmetic ${res.data.length}`
+                    embed.setTitle(`All cosmetics in set ${res.data[0].set.value}`)
                     
                 }else if(lang === "ar"){
-                    string += "\n\n• المجموع " + res.data.length +" عناصر"
-                    embed.setTitle("جميع العناصر في مجموعة " + res.data[0].set.value)
+                    string += `\n\n• المجموع ${res.data.length} عناصر`
+                    embed.setTitle(`جميع العناصر في مجموعة ${res.data[0].set.value}`)
                     
                 }
+
+                //set description
                 embed.setDescription(string)
+
+                //send the embed
                 message.channel.send(embed)
 
             }).catch(err =>{
-                if(lang === "en"){
-                    const errorData = new Discord.MessageEmbed()
-                    .setColor(FNBRMENA.Colors("embed"))
-                    .setTitle(`Sorry, No cosmetics has been found ${errorEmoji}`)
-                    msg.delete()
-                    message.channel.send(errorData)
-                }else if(lang === "ar"){
-                    const errorData = new Discord.MessageEmbed()
-                    .setColor(FNBRMENA.Colors("embed"))
-                    .setTitle(`عذرا لم يتم العثور على عناصر ${errorEmoji}`)
-                    msg.delete()
-                    message.channel.send(errorData)
-                }
+
+                //no emote has been found
+                const Err = new Discord.MessageEmbed()
+                Err.setColor(FNBRMENA.Colors("embed"))
+                if(lang === "en") Err.setTitle(`Sorry, No cosmetics has been found ${errorEmoji}`)
+                else if(lang === "ar") Err.setTitle(`عذرا لم يتم العثور على عناصر ${errorEmoji}`)
+                message.channel.send(Err)
+
             })
         })
     },

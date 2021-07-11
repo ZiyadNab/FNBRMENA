@@ -27,30 +27,18 @@ module.exports = {
             language: lang
           };
 
+        //request data
         Fortnite.CosmeticsSearchAll(query)
         .then(async res => {
-
-            //variables
-            var loading;
-            var send
-
-            //language stuff
-            if(lang === "en"){
-                loading = "Loading a total"
-                send = "Sending the image please wait"
-            }
-            if(lang === "ar"){
-                loading = "تحميل جميع العناصر بمجموع"
-                send = "جاري ارسال الصورة الرجاء الانتظار"
-            }
 
             //the length
             var length = res.data.length;
 
-            // generating animation
+            //generating animation
             const generating = new Discord.MessageEmbed()
             generating.setColor(FNBRMENA.Colors("embed"))
-            generating.setTitle(`${loading} ${length} ${loadingEmoji}`)
+            if(lang === "en") generating.setTitle(`Loading a total ${length} ${loadingEmoji}`)
+            else if(lang === "ar") generating.setTitle(`تحميل جميع العناصر بمجموع ${length} ${loadingEmoji}`)
             message.channel.send(generating)
             .then( async msg => {
 
@@ -62,15 +50,10 @@ module.exports = {
                 var newline = 0;
 
                 //creating length to calc the width and height
-                if(length <= 2){
-                    length = res.data.length
-                }else if(length > 2 && length <= 4){
-                    length = res.data.length / 2
-                }else if(length > 4 && length <= 7){
-                    length = res.data.length / 3
-                }else{
-                    length = res.data.length / 4
-                }
+                if(length <= 2)length = res.data.length 
+                else if(length > 2 && length <= 4)length = res.data.length / 2
+                else if(length > 4 && length <= 7)length = res.data.length / 3
+                else length = res.data.length / 4
 
                 //forcing to be int
                 if (length % 2 !== 0){
@@ -79,11 +62,8 @@ module.exports = {
                 }
 
                 //creating width
-                if(res.data.length === 1){
-                    width = 512
-                }else{
-                    width += (length * 512) + (length * 5) - 5
-                }
+                if(res.data.length === 1) width = 512
+                else width += (length * 512) + (length * 5) - 5
 
                 //creating height
                 for(let i = 0; i < res.data.length; i++){
@@ -157,8 +137,6 @@ module.exports = {
                             ctx.font = applyText(canvas, description);
                             ctx.fillText(description, (256 + x), (y + 470))
                         }
-                        // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                        // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                         
                     }else
                     if(rarity === 'epic'){
@@ -184,8 +162,6 @@ module.exports = {
                             ctx.font = applyText(canvas, description);
                             ctx.fillText(description, (256 + x), (y + 470))
                         }
-                        // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                        // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                     }else
                     if(rarity === 'rare'){
                         //creating image
@@ -210,8 +186,6 @@ module.exports = {
                             ctx.font = applyText(canvas, description);
                             ctx.fillText(description, (256 + x), (y + 470))
                         }
-                        // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                        // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                     }else
                     if(rarity === 'uncommon'){
                         //creating image
@@ -236,8 +210,6 @@ module.exports = {
                             ctx.font = applyText(canvas, description);
                             ctx.fillText(description, (256 + x), (y + 470))
                         }
-                        // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                        // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                     }else
                     if(rarity === 'common'){
                         //creating image
@@ -262,8 +234,6 @@ module.exports = {
                             ctx.font = applyText(canvas, description);
                             ctx.fillText(description, (256 + x), (y + 470))
                         }
-                        // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                        // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                     }else
                     if(rarity === 'marvel'){
                         //creating image
@@ -288,8 +258,6 @@ module.exports = {
                             ctx.font = applyText(canvas, description);
                             ctx.fillText(description, (256 + x), (y + 470))
                         }
-                        // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                        // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                     }else
                     if(rarity === 'dc'){
                         //creating image
@@ -314,8 +282,6 @@ module.exports = {
                             ctx.font = applyText(canvas, description);
                             ctx.fillText(description, (256 + x), (y + 470))
                         }
-                        // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                        // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                     }else
                     if(rarity === 'dark'){
                         //creating image
@@ -340,8 +306,6 @@ module.exports = {
                             ctx.font = applyText(canvas, description);
                             ctx.fillText(description, (256 + x), (y + 470))
                         }
-                        // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                        // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                     }else
                     if(rarity === 'icon'){
                         //creating image
@@ -366,8 +330,6 @@ module.exports = {
                             ctx.font = applyText(canvas, description);
                             ctx.fillText(description, (256 + x), (y + 470))
                         }
-                        // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                        // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                     }else
                     if(rarity === 'starwars'){
                         //creating image
@@ -392,8 +354,6 @@ module.exports = {
                             ctx.font = applyText(canvas, description);
                             ctx.fillText(description, (256 + x), (y + 470))
                         }
-                        // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                        // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                     }else
                     if(rarity === 'shadow'){
                         //creating image
@@ -418,8 +378,6 @@ module.exports = {
                             ctx.font = applyText(canvas, description);
                             ctx.fillText(description, (256 + x), (y + 470))
                         }
-                        // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                        // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                     }else
                     if(rarity === 'slurp'){
                         //creating image
@@ -444,8 +402,6 @@ module.exports = {
                             ctx.font = applyText(canvas, description);
                             ctx.fillText(description, (256 + x), (y + 470))
                         }
-                        // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                        // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                     }else
                     if(rarity === 'frozen'){
                         //creating image
@@ -470,8 +426,6 @@ module.exports = {
                             ctx.font = applyText(canvas, description);
                             ctx.fillText(description, (256 + x), (y + 470))
                         }
-                        // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                        // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                     }else
                     if(rarity === 'lava'){
                         //creating image
@@ -496,8 +450,6 @@ module.exports = {
                             ctx.font = applyText(canvas, description);
                             ctx.fillText(description, (256 + x), (y + 470))
                         }
-                        // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                        // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                     }else
                     if(rarity === 'gaminglegends'){
                         //creating image
@@ -522,8 +474,6 @@ module.exports = {
                             ctx.font = applyText(canvas, description);
                             ctx.fillText(description, (256 + x), (y + 470))
                         }
-                        // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                        // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                     }else{
                         //creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/common.png')
@@ -547,8 +497,6 @@ module.exports = {
                             ctx.font = applyText(canvas, description);
                             ctx.fillText(description, (256 + x), (y + 470))
                         }
-                        // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                        // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                     }
     
                     // changing x and y
@@ -559,57 +507,84 @@ module.exports = {
                         newline = 0;
                     }
                 }
+
+                //sending loading msg
                 const sending = new Discord.MessageEmbed()
-                .setColor(FNBRMENA.Colors("embed"))
-                .setTitle(send)
+                sending.setColor(FNBRMENA.Colors("embed"))
+                if(lang === "en") sending.setTitle(`Sending the image please wait ${loadingEmoji}`)
+                else if(lang === "ar") sending.setTitle(`جاري ارسال الصورة الرجاء الانتظار ${loadingEmoji}`)
                 msg.edit(sending)
 
                 //send the image to discord channel
-                const att = new Discord.MessageAttachment(canvas.toBuffer(), text+'.jpg')
+                const att = new Discord.MessageAttachment(canvas.toBuffer(), text + '.png')
                 await message.channel.send(att)
                 msg.delete()
 
+                //create info embed
                 const info = new Discord.MessageEmbed()
-                info.setColor(FNBRMENA.Colors("embed"))
+
+                //add the color
+                info.setColor(FNBRMENA.Colors(rarity))
+
+                //adding string
                 var string = ""
                 if(lang === "en"){
-                    info.setTitle('All cosmetic names in pak ' + text)
-                  for(let i = 0; i < res.data.length; i++){
-                      var num = 1 + i
-                      string += "\n• " + num +": " + res.data[i].name
-                  }
-                  string += "\n\n• " + res.data.length +" Cosmetic(s) in total "
-                  string += "\n• " + res.data[0].introduction.text
-                  if(res.data[0].set !== null){
-                    string += "\n• " + res.data[0].set.text
-                  }
+
+                    //set the title
+                    info.setTitle(`All cosmetic names in pak ${text}`)
+
+                    //loop throw every item found
+                    for(let i = 0; i < res.data.length; i++){
+                        var num = 1 + i
+                        string += `\n• ${num}: ${res.data[i].name}`
+                    }
+
+                    //add the total string
+                    string += `\n\n• ${res.data.length} Cosmetic(s) in total`
+
+                    //add the introduction
+                    string += `\n• ${res.data[0].introduction.text}`
+
+                    //add the set if avalabile
+                    if(res.data[0].set !== null){
+                        string += `\n• ${res.data[0].set.text}`
+                    }
                 }else if(lang === "ar"){
-                    info.setTitle('جميع العناصر في باك ' + text)
-                  for(let i = 0; i < res.data.length; i++){
-                      var num = 1 + i
-                      string += "\n• " + num +": " + res.data[i].name
-                  }
-                  string += "\n\n• المجموع " + res.data.length +" عناصر"
-                  string += "\n• " + res.data[0].introduction.text
-                  if(res.data[0].set !== null){
-                    string += "\n• " + res.data[0].set.text
-                  }
+
+                    //set the title
+                    info.setTitle(`جميع العناصر في باك ${text}`)
+
+                    //loop throw every item found
+                    for(let i = 0; i < res.data.length; i++){
+                        var num = 1 + i
+                        string += `\n• ${num}: ${res.data[i].name}`
+                    }
+
+                    //add the total string
+                    string += `\n\n• المجموع ${res.data.length} عناصر`
+
+                    //add the introduction
+                    string += `\n• ${res.data[0].introduction.text}`
+
+                    //add the set if avalabile
+                    if(res.data[0].set !== null){
+                        string += `\n• ${res.data[0].set.text}`
+                    }
                 }
+
+                //set description
                 info.setDescription(string)
+
+                //send the message
                 message.channel.send(info)
             })
         }).catch(err => {
-            if(lang === "en"){
-              const errorData = new Discord.MessageEmbed()
-              .setColor(FNBRMENA.Colors("embed"))
-              .setTitle(`Pak file could not be found! ${errorEmoji}`)
-              message.channel.send(errorData)
-            }else if(lang === "ar"){
-              const errorData = new Discord.MessageEmbed()
-              .setColor(FNBRMENA.Colors("embed"))
-              .setTitle(`عذرا لا يوجد ملف بالرمز هذا ${errorEmoji}`)
-              message.channel.send(errorData)
-            }
+
+            const errorData = new Discord.MessageEmbed()
+            errorData.setColor(FNBRMENA.Colors("embed"))
+            if(lang === "en") errorData.setTitle(`Pak file could not be found! ${errorEmoji}`)
+            else if(lang === "ar") errorData.setTitle(`عذرا لا يوجد ملف بالرمز هذا ${errorEmoji}`)
+            message.channel.send(errorData)
         })
     }
 }

@@ -65,17 +65,14 @@ module.exports = {
                     message.channel.send(err)
                 }
             }else{
-                if(lang === "en"){
-                    const Err = new Discord.MessageEmbed()
-                    .setColor(FNBRMENA.Colors("embed"))
-                    .setTitle(`No emote has been found check your speling and try again ${errorEmoji}`)
-                    message.reply(Err)
-                }else if(lang === "ar"){
-                    const Err = new Discord.MessageEmbed()
-                    .setColor(FNBRMENA.Colors("embed"))
-                    .setTitle(`لا يمكنني العثور على الرقصه الرجاء التأكد من كتابة الاسم بشكل صحيح ${errorEmoji}`)
-                    message.reply(Err)
-                }
+
+                //no emote has been found
+                const Err = new Discord.MessageEmbed()
+                Err.setColor(FNBRMENA.Colors("embed"))
+                if(lang === "en") Err.setTitle(`No emote has been found check your speling and try again ${errorEmoji}`)
+                else if(lang === "ar") Err.setTitle(`لا يمكنني العثور على الرقصه الرجاء التأكد من كتابة الاسم بشكل صحيح ${errorEmoji}`)
+                message.channel.send(Err)
+
             }
 
         }).catch(err => {

@@ -1756,7 +1756,8 @@ module.exports = {
                             if(lang === "en") Err.setTitle(`No styles has been found for ${res.data.items[num].name} ${res.data.items[num].type.name} ${errorEmoji}`)
                             else if(lang === "ar") Err.setTitle(`لا يمكنني العثور على ستايلات ${res.data.items[num].type.name} ${res.data.items[num].name} ${errorEmoji}`)
                             message.reply(Err)
-                        }   
+                        }
+                            
                     }
 
                     //if the user input is grants

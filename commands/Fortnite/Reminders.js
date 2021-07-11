@@ -74,11 +74,8 @@ module.exports = {
                 Reminders.setColor(FNBRMENA.Colors("embed"))
 
                 //add title
-                if(lang === "en"){
-                    Reminders.setTitle("All the reminders for your account")
-                }else if(lang === "ar"){
-                    Reminders.setTitle("جميع التذكيرات لحسابك")
-                }
+                if(lang === "en") Reminders.setTitle("All the reminders for your account")
+                else if(lang === "ar") Reminders.setTitle("جميع التذكيرات لحسابك")
 
                 //add description
                 Reminders.setDescription(string)
@@ -88,19 +85,12 @@ module.exports = {
                 msg.delete()
 
             }else{
+
                 //create embed
                 const err = new Discord.MessageEmbed()
-
-                //add the color
                 err.setColor(FNBRMENA.Colors("embed"))
-
-                //add the title
-                if(lang === "en"){
-                    err.setTitle(`You dont have any reminders ${errorEmoji}`)
-                }else if(lang === "ar"){
-                    err.setTitle(`ليس لديك اي عنصر للتذكير ${errorEmoji}`)
-                }
-
+                if(lang === "en") err.setTitle(`You dont have any reminders ${errorEmoji}`)
+                else if(lang === "ar") err.setTitle(`ليس لديك اي عنصر للتذكير ${errorEmoji}`)
                 msg.edit(err)
             }
         })

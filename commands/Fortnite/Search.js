@@ -181,6 +181,7 @@ module.exports = {
                             Counter++
                             //end of while lets try aagin
                         }
+
                         //still there is the last typeChosen name so lets trim text
                         collected.first().content = collected.first().content.trim()
                         //add the what text holds in the last index
@@ -244,34 +245,23 @@ module.exports = {
                                                                 errorHandleing++
         
                                                                 //if user typed a number out of range
-                                                                if(lang === "en"){
-                                                                    const errorType = await new Discord.MessageEmbed()
-                                                                    .setColor(FNBRMENA.Colors("embed"))
-                                                                    .setTitle(`Sorry we canceled your process becuase u selected a number out of range ${errorEmoji}`)
-                                                                    message.reply(errorType)
-                                                                }else if(lang === "ar"){
-                                                                    const errorType = await new Discord.MessageEmbed()
-                                                                    .setColor(FNBRMENA.Colors("embed"))
-                                                                    .setTitle(`تم ايقاف الامر بسبب اختيارك لرقم خارج النطاق ${errorEmoji}`)
-                                                                    message.reply(errorType)
-                                                                }
+                                                                const error = new Discord.MessageEmbed()
+                                                                error.setColor(FNBRMENA.Colors("embed"))
+                                                                if(lang === "en") error.setTitle(`Sorry we canceled your process becuase u selected a number out of range ${errorEmoji}`)
+                                                                else if(lang === "ar") error.setTitle(`تم ايقاف الامر بسبب اختيارك لرقم خارج النطاق ${errorEmoji}`)
+                                                                message.reply(error)
                                                             }
                                                         }else{
                                                             //add an error
                                                             errorHandleing++
-            
+
                                                             //if user typed a number out of range
-                                                            if(lang === "en"){
-                                                                const errorType = await new Discord.MessageEmbed()
-                                                                .setColor(FNBRMENA.Colors("embed"))
-                                                                .setTitle(`Please type only number without any symbols or words ${errorEmoji}`)
-                                                                message.reply(errorType)
-                                                            }else if(lang === "ar"){
-                                                                const errorType = await new Discord.MessageEmbed()
-                                                                .setColor(FNBRMENA.Colors("embed"))
-                                                                .setTitle(`رجاء كتابة فقط رقم بدون كلامات او علامات ${errorEmoji}`)
-                                                                message.reply(errorType)
-                                                            }
+                                                            const error = new Discord.MessageEmbed()
+                                                            error.setColor(FNBRMENA.Colors("embed"))
+                                                            if(lang === "en") error.setTitle(`Please type only number without any symbols or words ${errorEmoji}`)
+                                                            else if(lang === "ar") error.setTitle(`رجاء كتابة فقط رقم بدون كلامات او علامات ${errorEmoji}`)
+                                                            message.reply(error)
+                                                            
                                                         }
                                                     }).catch(err => {
     
@@ -314,38 +304,28 @@ module.exports = {
 
                                                             text += "&price=" + collectedPrice.first().content
                                                         }else{
+                                                                
                                                             //add an error
                                                             errorHandleing++
-        
+    
                                                             //if user typed a number out of range
-                                                            if(lang === "en"){
-                                                                const errorType = await new Discord.MessageEmbed()
-                                                                .setColor(FNBRMENA.Colors("embed"))
-                                                                .setTitle(`Sorry we canceled your process becuase u selected a number out of range ${errorEmoji}`)
-                                                                message.reply(errorType)
-                                                            }else if(lang === "ar"){
-                                                                const errorType = await new Discord.MessageEmbed()
-                                                                .setColor(FNBRMENA.Colors("embed"))
-                                                                .setTitle(`تم ايقاف الامر بسبب اختيارك لرقم خارج النطاق ${errorEmoji}`)
-                                                                message.reply(errorType)
-                                                            }
+                                                            const error = new Discord.MessageEmbed()
+                                                            error.setColor(FNBRMENA.Colors("embed"))
+                                                            if(lang === "en") error.setTitle(`Sorry we canceled your process becuase u selected a number out of range ${errorEmoji}`)
+                                                            else if(lang === "ar") error.setTitle(`تم ايقاف الامر بسبب اختيارك لرقم خارج النطاق ${errorEmoji}`)
+                                                            message.reply(error)
                                                         }
                                                     }else{
                                                         //add an error
                                                         errorHandleing++
-        
+
                                                         //if user typed a number out of range
-                                                        if(lang === "en"){
-                                                            const errorType = await new Discord.MessageEmbed()
-                                                            .setColor(FNBRMENA.Colors("embed"))
-                                                            .setTitle(`Please type only number without any symbols or words ${errorEmoji}`)
-                                                            message.reply(errorType)
-                                                        }else if(lang === "ar"){
-                                                            const errorType = await new Discord.MessageEmbed()
-                                                            .setColor(FNBRMENA.Colors("embed"))
-                                                            .setTitle(`رجاء كتابة فقط رقم بدون كلامات او علامات ${errorEmoji}`)
-                                                            message.reply(errorType)
-                                                        }
+                                                        const error = new Discord.MessageEmbed()
+                                                        error.setColor(FNBRMENA.Colors("embed"))
+                                                        if(lang === "en") error.setTitle(`Please type only number without any symbols or words ${errorEmoji}`)
+                                                        else if(lang === "ar") error.setTitle(`رجاء كتابة فقط رقم بدون كلامات او علامات ${errorEmoji}`)
+                                                        message.reply(error)
+                                                        
                                                     }
                                                 }).catch(err => {
     
@@ -412,34 +392,23 @@ module.exports = {
                                                                 errorHandleing++
         
                                                                 //if user typed a number out of range
-                                                                if(lang === "en"){
-                                                                    const errorType = await new Discord.MessageEmbed()
-                                                                    .setColor(FNBRMENA.Colors("embed"))
-                                                                    .setTitle(`Sorry we canceled your process becuase u selected a number out of range ${errorEmoji}`)
-                                                                    message.reply(errorType)
-                                                                }else if(lang === "ar"){
-                                                                    const errorType = await new Discord.MessageEmbed()
-                                                                    .setColor(FNBRMENA.Colors("embed"))
-                                                                    .setTitle(`تم ايقاف الامر بسبب اختيارك لرقم خارج النطاق ${errorEmoji}`)
-                                                                    message.reply(errorType)
-                                                                }
+                                                                const error = new Discord.MessageEmbed()
+                                                                error.setColor(FNBRMENA.Colors("embed"))
+                                                                if(lang === "en") error.setTitle(`Sorry we canceled your process becuase u selected a number out of range ${errorEmoji}`)
+                                                                else if(lang === "ar") error.setTitle(`تم ايقاف الامر بسبب اختيارك لرقم خارج النطاق ${errorEmoji}`)
+                                                                message.reply(error)
                                                             }
                                                         }else{
                                                             //add an error
                                                             errorHandleing++
-            
+
                                                             //if user typed a number out of range
-                                                            if(lang === "en"){
-                                                                const errorType = await new Discord.MessageEmbed()
-                                                                .setColor(FNBRMENA.Colors("embed"))
-                                                                .setTitle(`Please type only number without any symbols or words ${errorEmoji}`)
-                                                                message.reply(errorType)
-                                                            }else if(lang === "ar"){
-                                                                const errorType = await new Discord.MessageEmbed()
-                                                                .setColor(FNBRMENA.Colors("embed"))
-                                                                .setTitle(`رجاء كتابة فقط رقم بدون كلامات او علامات ${errorEmoji}`)
-                                                                message.reply(errorType)
-                                                            }
+                                                            const error = new Discord.MessageEmbed()
+                                                            error.setColor(FNBRMENA.Colors("embed"))
+                                                            if(lang === "en") error.setTitle(`Please type only number without any symbols or words ${errorEmoji}`)
+                                                            else if(lang === "ar") error.setTitle(`رجاء كتابة فقط رقم بدون كلامات او علامات ${errorEmoji}`)
+                                                            message.reply(error)
+                                                            
                                                         }
                                                     }).catch(err => {
     
@@ -507,34 +476,23 @@ module.exports = {
                                                                 errorHandleing++
         
                                                                 //if user typed a number out of range
-                                                                if(lang === "en"){
-                                                                    const errorType = await new Discord.MessageEmbed()
-                                                                    .setColor(FNBRMENA.Colors("embed"))
-                                                                    .setTitle(`Sorry we canceled your process becuase u selected a number out of range ${errorEmoji}`)
-                                                                    message.reply(errorType)
-                                                                }else if(lang === "ar"){
-                                                                    const errorType = await new Discord.MessageEmbed()
-                                                                    .setColor(FNBRMENA.Colors("embed"))
-                                                                    .setTitle(`تم ايقاف الامر بسبب اختيارك لرقم خارج النطاق ${errorEmoji}`)
-                                                                    message.reply(errorType)
-                                                                }
+                                                                const error = new Discord.MessageEmbed()
+                                                                error.setColor(FNBRMENA.Colors("embed"))
+                                                                if(lang === "en") error.setTitle(`Sorry we canceled your process becuase u selected a number out of range ${errorEmoji}`)
+                                                                else if(lang === "ar") error.setTitle(`تم ايقاف الامر بسبب اختيارك لرقم خارج النطاق ${errorEmoji}`)
+                                                                message.reply(error)
                                                             }
                                                         }else{
                                                             //add an error
                                                             errorHandleing++
-            
+
                                                             //if user typed a number out of range
-                                                            if(lang === "en"){
-                                                                const errorType = await new Discord.MessageEmbed()
-                                                                .setColor(FNBRMENA.Colors("embed"))
-                                                                .setTitle(`Please type only number without any symbols or words ${errorEmoji}`)
-                                                                message.reply(errorType)
-                                                            }else if(lang === "ar"){
-                                                                const errorType = await new Discord.MessageEmbed()
-                                                                .setColor(FNBRMENA.Colors("embed"))
-                                                                .setTitle(`رجاء كتابة فقط رقم بدون كلامات او علامات ${errorEmoji}`)
-                                                                message.reply(errorType)
-                                                            }
+                                                            const error = new Discord.MessageEmbed()
+                                                            error.setColor(FNBRMENA.Colors("embed"))
+                                                            if(lang === "en") error.setTitle(`Please type only number without any symbols or words ${errorEmoji}`)
+                                                            else if(lang === "ar") error.setTitle(`رجاء كتابة فقط رقم بدون كلامات او علامات ${errorEmoji}`)
+                                                            message.reply(error)
+                                                            
                                                         }
                                                     }).catch(err => {
     
@@ -579,17 +537,11 @@ module.exports = {
                                                         errorHandleing++
 
                                                         //if user typed a number out of range
-                                                        if(lang === "en"){
-                                                            const errorType = await new Discord.MessageEmbed()
-                                                            .setColor(FNBRMENA.Colors("embed"))
-                                                            .setTitle(`Please type only number without any symbols or words ${errorEmoji}`)
-                                                            message.reply(errorType)
-                                                        }else if(lang === "ar"){
-                                                            const errorType = await new Discord.MessageEmbed()
-                                                            .setColor(FNBRMENA.Colors("embed"))
-                                                            .setTitle(`رجاء كتابة فقط رقم بدون كلامات او علامات ${errorEmoji}`)
-                                                            message.reply(errorType)
-                                                        }
+                                                        const error = new Discord.MessageEmbed()
+                                                        error.setColor(FNBRMENA.Colors("embed"))
+                                                        if(lang === "en") error.setTitle(`Please type only number without any symbols or words ${errorEmoji}`)
+                                                        else if(lang === "ar") error.setTitle(`رجاء كتابة فقط رقم بدون كلامات او علامات ${errorEmoji}`)
+                                                        message.reply(error)
                                                     }
 
                                                     //add the reply
@@ -715,39 +667,28 @@ module.exports = {
                                                                     //store the type
                                                                     text += "," + tags[listTags[t]]
                                                                 }else{
-                                                                    
+                                                                
                                                                     //add an error
                                                                     errorHandleing++
             
                                                                     //if user typed a number out of range
-                                                                    if(lang === "en"){
-                                                                        const errorType = await new Discord.MessageEmbed()
-                                                                        .setColor(FNBRMENA.Colors("embed"))
-                                                                        .setTitle(`Sorry we canceled your process becuase u selected a number out of range ${errorEmoji}`)
-                                                                        message.reply(errorType)
-                                                                    }else if(lang === "ar"){
-                                                                        const errorType = await new Discord.MessageEmbed()
-                                                                        .setColor(FNBRMENA.Colors("embed"))
-                                                                        .setTitle(`تم ايقاف الامر بسبب اختيارك لرقم خارج النطاق ${errorEmoji}`)
-                                                                        message.reply(errorType)
-                                                                    }
+                                                                    const error = new Discord.MessageEmbed()
+                                                                    error.setColor(FNBRMENA.Colors("embed"))
+                                                                    if(lang === "en") error.setTitle(`Sorry we canceled your process becuase u selected a number out of range ${errorEmoji}`)
+                                                                    else if(lang === "ar") error.setTitle(`تم ايقاف الامر بسبب اختيارك لرقم خارج النطاق ${errorEmoji}`)
+                                                                    message.reply(error)
                                                                 }
                                                             }else{
                                                                 //add an error
                                                                 errorHandleing++
-                
+    
                                                                 //if user typed a number out of range
-                                                                if(lang === "en"){
-                                                                    const errorType = await new Discord.MessageEmbed()
-                                                                    .setColor(FNBRMENA.Colors("embed"))
-                                                                    .setTitle(`Please type only number without any symbols or words ${errorEmoji}`)
-                                                                    message.reply(errorType)
-                                                                }else if(lang === "ar"){
-                                                                    const errorType = await new Discord.MessageEmbed()
-                                                                    .setColor(FNBRMENA.Colors("embed"))
-                                                                    .setTitle(`رجاء كتابة فقط رقم بدون كلامات او علامات ${errorEmoji}`)
-                                                                    message.reply(errorType)
-                                                                }
+                                                                const error = new Discord.MessageEmbed()
+                                                                error.setColor(FNBRMENA.Colors("embed"))
+                                                                if(lang === "en") error.setTitle(`Please type only number without any symbols or words ${errorEmoji}`)
+                                                                else if(lang === "ar") error.setTitle(`رجاء كتابة فقط رقم بدون كلامات او علامات ${errorEmoji}`)
+                                                                message.reply(error)
+                                                                
                                                             }
                                                         }
                                                     })
@@ -808,21 +749,16 @@ module.exports = {
                                                     if(!isNaN(collectedBattlepassChapter.first().content)){
                                                         text += "&battlepass.displayText.chapter=Chapter " + collectedBattlepassChapter.first().content
                                                     }else{
+
                                                         //add an error
                                                         errorHandleing++
 
                                                         //if user typed a number out of range
-                                                        if(lang === "en"){
-                                                            const errorType = await new Discord.MessageEmbed()
-                                                            .setColor(FNBRMENA.Colors("embed"))
-                                                            .setTitle(`Please type only number without any symbols or words ${errorEmoji}`)
-                                                            message.reply(errorType)
-                                                        }else if(lang === "ar"){
-                                                            const errorType = await new Discord.MessageEmbed()
-                                                            .setColor(FNBRMENA.Colors("embed"))
-                                                            .setTitle(`رجاء كتابة فقط رقم بدون كلامات او علامات ${errorEmoji}`)
-                                                            message.reply(errorType)
-                                                        }
+                                                        const error = new Discord.MessageEmbed()
+                                                        error.setColor(FNBRMENA.Colors("embed"))
+                                                        if(lang === "en") error.setTitle(`Please type only number without any symbols or words ${errorEmoji}`)
+                                                        else if(lang === "ar") error.setTitle(`رجاء كتابة فقط رقم بدون كلامات او علامات ${errorEmoji}`)
+                                                        message.reply(error)
                                                     }
 
                                                     //add the reply
@@ -893,19 +829,13 @@ module.exports = {
                                                     }else{
                                                         //add an error
                                                         errorHandleing++
-    
+
                                                         //if user typed a number out of range
-                                                        if(lang === "en"){
-                                                            const errorType = await new Discord.MessageEmbed()
-                                                            .setColor(FNBRMENA.Colors("embed"))
-                                                            .setTitle(`Please type TRUE or FALSE correctly ${errorEmoji}`)
-                                                            message.reply(errorType)
-                                                        }else if(lang === "ar"){
-                                                            const errorType = await new Discord.MessageEmbed()
-                                                            .setColor(FNBRMENA.Colors("embed"))
-                                                            .setTitle(`الرجاء كتابة TRUE او FALSE بشكل صحيح ${errorEmoji}`)
-                                                            message.reply(errorType)
-                                                        }
+                                                        const error = new Discord.MessageEmbed()
+                                                        error.setColor(FNBRMENA.Colors("embed"))
+                                                        if(lang === "en") error.setTitle(`Please type TRUE or FALSE correctly ${errorEmoji}`)
+                                                        else if(lang === "ar") error.setTitle(`الرجاء كتابة TRUE او FALSE بشكل صحيح ${errorEmoji}`)
+                                                        message.reply(error)
                                                     }
                                                 }).catch(err => {
     
@@ -961,6 +891,18 @@ module.exports = {
                         message.reply(error)
                     })
                 })
+            }).catch(err => {
+
+                //add an error
+                errorHandleing++
+
+                //if user typed a number out of range
+                const errorRequest = new Discord.MessageEmbed()
+                errorRequest.setColor(FNBRMENA.Colors("embed"))
+                if(lang === "en") errorRequest.setTitle(`Request entry too large ${errorEmoji}`)
+                else if(lang === "ar") errorRequest.setTitle(`تم تخطي الكمية المحدودة من عدد العناصر ${errorEmoji}`)
+                message.reply(errorRequest)
+
             })
         }
 

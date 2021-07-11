@@ -27,13 +27,6 @@ module.exports = {
             var y = 550
             var string = ""
 
-            if(lang === "en"){
-                loading = "Loading sections"
-            }
-            if(lang === "ar"){
-                loading = "جاري تحميل الأقسام"
-            }
-
             //creating height
             for(let i = 0; i < res.data.data.sections.length; i++){
                 height += 300
@@ -57,10 +50,11 @@ module.exports = {
                 return ctx.font;
             }
 
-            // generating animation
+            //generating animation
             const generating = new Discord.MessageEmbed()
             generating.setColor(FNBRMENA.Colors("embed"))
-            generating.setTitle(`${loading}... ${loadingEmoji}`)
+            if(lang === "en") generating.setTitle(`Loading sections... ${loadingEmoji}`)
+            else if(lang === "ar") generating.setTitle(`جاري تحميل الأقسام... ${loadingEmoji}`)
             message.channel.send(generating)
             .then( async msg => {
 
@@ -124,11 +118,8 @@ module.exports = {
                 for (let i = 0; i < res.data.data.sections.length; i++) {
 
                     //add the section to the embed string
-                    if(lang === "en"){
-                        string += "• " + (i + 1) + ": " + res.data.data.sections[i].name + " | " + res.data.data.sections[i].quantity + " Tabs" + "\n" 
-                    }else if(lang === "ar"){
-                        string += "• " + (i + 1) + ": " + res.data.data.sections[i].name + " | " + res.data.data.sections[i].quantity + " صفحة" + "\n" 
-                    }
+                    if(lang === "en") string += "• " + (i + 1) + ": " + res.data.data.sections[i].name + " | " + res.data.data.sections[i].quantity + " Tabs" + "\n" 
+                    else if(lang === "ar") string += "• " + (i + 1) + ": " + res.data.data.sections[i].name + " | " + res.data.data.sections[i].quantity + " صفحة" + "\n" 
 
                     //grediant
                     const grd = ctx.createLinearGradient(0, (canvas.height / 2), canvas.width, (canvas.height / 2))

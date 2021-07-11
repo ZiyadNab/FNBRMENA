@@ -24,20 +24,14 @@ module.exports = {
         //get the user language from the database
         const lang = await FNBRMENA.Admin(admin, message, "", "Lang")
 
-        //inisilizing loading and reply
-        if(lang === "en"){
-            var loading = "Loading..."
-        }else if(lang === "ar"){
-            var loading = "جاري التحميل"
-        }
-
         // if the use did not add any season number
         if(text === ''){
 
             //generating animation
             const generating = new Discord.MessageEmbed()
             generating.setColor(FNBRMENA.Colors("embed"))
-            generating.setTitle(`${loading} ${loadingEmoji}`)
+            if(lang === "en") generating.setTitle(`Loading... ${loadingEmoji}`)
+            else if(lang == "ar") generating.setTitle(`جاري التحميل... ${loadingEmoji}`)
             message.channel.send(generating)
             .then( async gen => {
 
@@ -46,11 +40,8 @@ module.exports = {
                 .then(async res => {
 
                     //get the image data
-                    if(res.data.images.pois === null){
-                        var image = res.data.images.blank
-                    }else{
-                        var image = res.data.images.pois
-                    }
+                    if(res.data.images.pois === null) var image = res.data.images.blank
+                    else var image = res.data.images.pois
 
                     //registering font
                     Canvas.registerFont('./assets/font/BurbankBigCondensed-Black.otf' ,{family: 'Burbank Big Condensed',weight: "700",style: "bold"})
@@ -143,16 +134,20 @@ module.exports = {
 
                         //filtering
                         const filter = m => m.author.id === message.author.id
-                        if(lang === "en"){
-                            var reply = "please choose from above list the command will stop listen in 20 sec"
-                        }else if(lang === "ar"){
-                            var reply = "الرجاء الاختيار من القائمة بالاعلى، سوف ينتهي الامر خلال ٢٠ ثانية"
-                        }
-                        message.reply(reply)
-                            .then( async notify => {
-                                await message.channel.awaitMessages(filter, {max: 1, time: 20000})
-                                .then( async collected => {
 
+                        //reply message
+                        if(lang === "en") var reply = "please choose from above list the command will stop listen in 20 sec"
+                        else if(lang === "ar") var reply = "الرجاء الاختيار من القائمة بالاعلى، سوف ينتهي الامر خلال ٢٠ ثانية"
+                        
+                        //send the list of maps
+                        message.reply(reply)
+                        .then( async notify => {
+
+                            //collect messages
+                            await message.channel.awaitMessages(filter, {max: 1, time: 20000})
+                            .then( async collected => {
+
+                                //if the user input in range
                                 if(collected.first().content >= 0 && collected.first().content < counter){
 
                                     //generating animation
@@ -167,11 +162,8 @@ module.exports = {
                                         notify.delete()
                                         
                                         //get the image data
-                                        if(season[collected.first().content].urlPOI === null){
-                                            var image = season[collected.first().content].url
-                                        }else{
-                                            var image = season[collected.first().content].urlPOI
-                                        }
+                                        if(season[collected.first().content].urlPOI === null) var image = season[collected.first().content].url
+                                        else var image = season[collected.first().content].urlPOI
 
                                         //registering font
                                         Canvas.registerFont('./assets/font/BurbankBigCondensed-Black.otf' ,{family: 'Burbank Big Condensed',weight: "700",style: "bold"})
@@ -216,18 +208,9 @@ module.exports = {
 
                     //create embed handleing the season error
                     const err = new Discord.MessageEmbed()
-
-                    //set the color
                     err.setColor(FNBRMENA.Colors("embed"))
-
-                    //add title
-                    if(lang === "en"){
-                        err.setTitle(`Sorry there is no season with that number ${errorEmoji}`)
-                    }else if(lang === "ar"){
-                        err.setTitle(`عذرا لا يوجد موسم بنفس هذا الرقم ${errorEmoji}`)
-                    }
-
-                    //send the error embed
+                    if(lang === "en") err.setTitle(`Sorry there is no season with that number ${errorEmoji}`)
+                    else if(lang === "ar") err.setTitle(`عذرا لا يوجد موسم بنفس هذا الرقم ${errorEmoji}`)
                     message.channel.send(err)
 
                 }

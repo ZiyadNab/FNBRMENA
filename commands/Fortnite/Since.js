@@ -23,15 +23,16 @@ module.exports = {
         const lang = await FNBRMENA.Admin(admin, message, "", "Lang")
 
         if(text >= 250){
+
             //setting quary
             var query
 
             //voting
-            const p = new Discord.MessageEmbed()
-            p.setColor(FNBRMENA.Colors("embed"))
+            const type = new Discord.MessageEmbed()
+            type.setColor(FNBRMENA.Colors("embed"))
             if(lang === "en"){
-                p.setTitle('Choose a method')
-                p.addFields(
+                type.setTitle('Choose a method')
+                type.addFields(
                     {name: 'Outfit', value: 'React to Number :one:'},
                     {name: 'Back Bling', value: 'React to Number :two:'},
                     {name: 'Pickaxe', value: 'React to Number :three:'},
@@ -39,8 +40,8 @@ module.exports = {
                     {name: 'Emote', value: 'React to Number :five:'},
                 )
             }else if(lang === "ar"){
-                p.setTitle('اختر طريقة')
-                p.addFields(
+                type.setTitle('اختر طريقة')
+                type.addFields(
                     {name: 'سكنات', value: 'اختر رقم :one:'},
                     {name: 'شنطات', value: 'اختر رقم :two:'},
                     {name: 'بيكاكسات', value: 'اختر رقم :three:'},
@@ -48,91 +49,76 @@ module.exports = {
                     {name: 'رقصات', value: 'اختر رقم :five:'},
                 )
             }
-            const msgReact = await message.channel.send(p)
+
+            //send the message
+            const msgReact = await message.channel.send(type)
+
+            //add reactions
             await msgReact.react('1️⃣')
             await msgReact.react('2️⃣')
             await msgReact.react('3️⃣')
             await msgReact.react('4️⃣')
             await msgReact.react('5️⃣')
+
+            //listening
             const filter = (reaction, user) => {
-            return ['1️⃣', '2️⃣', '3️⃣', '4️⃣','5️⃣'].includes(reaction.emoji.name) && user.id === message.author.id;
-            };
+            return ['1️⃣', '2️⃣', '3️⃣', '4️⃣','5️⃣'].includes(reaction.emoji.name) && user.id === message.author.id;}
+
+            //await reactions
             await msgReact.awaitReactions(filter, { max: 1, time: 60000, errors: ['time'] })
             .then( async collected => {
                 const reaction = collected.first();
-                    if(reaction.emoji.name === '1️⃣'){
-                        query = {
-                            displayType: "Outfit",
-                            unseenFor: text,
-                            language: lang
-                        };
-                        if(lang === "en"){
-                            type = "Outfit"
-                        }else if(lang === "ar"){
-                            type = "السكنات"
-                        }
+
+                //if the user input is outfit
+                if(reaction.emoji.name === '1️⃣'){
+                    query = {
+                        displayType: "Outfit",
+                        unseenFor: text,
+                        language: lang
                     }
-                    if(reaction.emoji.name === '2️⃣'){
-                        query = {
-                            displayType: "Back Bling",
-                            unseenFor: text,
-                            language: lang
-                        };
-                        if(lang === "en"){
-                            type = "Back Bling"
-                        }else if(lang === "ar"){
-                            type = "الشنطات"
-                        }
+                }
+
+                //if the user input is backbling
+                if(reaction.emoji.name === '2️⃣'){
+                    query = {
+                        displayType: "Back Bling",
+                        unseenFor: text,
+                        language: lang
                     }
-                    if(reaction.emoji.name === '3️⃣'){
-                        query = {
-                            displayType: "Harvesting Tool",
-                            unseenFor: text,
-                            language: lang
-                        };
-                        if(lang === "en"){
-                            type = "Harvesting Tool"
-                        }else if(lang === "ar"){
-                            type = "البيكاكسات"
-                        }
+                }
+
+                //if the user input is pickaxe
+                if(reaction.emoji.name === '3️⃣'){
+                    query = {
+                        displayType: "Harvesting Tool",
+                        unseenFor: text,
+                        language: lang
                     }
-                    if(reaction.emoji.name === '4️⃣'){
-                        query = {
-                            displayType: "Glider",
-                            unseenFor: text,
-                            language: lang
-                        };
-                        if(lang === "en"){
-                            type = "Glider"
-                        }else if(lang === "ar"){
-                            type = "المظلات"
-                        }
+                }
+
+                //if the user input is glider
+                if(reaction.emoji.name === '4️⃣'){
+                    query = {
+                        displayType: "Glider",
+                        unseenFor: text,
+                        language: lang
                     }
-                    if(reaction.emoji.name === '5️⃣'){
-                        query = {
-                            displayType: "Emote",
-                            unseenFor: text,
-                            language: lang
-                        };
-                        if(lang === "en"){
-                            type = "Emote"
-                        }else if(lang === "ar"){
-                            type = "الرقصات"
-                        }
+                }
+
+                //if the user input is emotes
+                if(reaction.emoji.name === '5️⃣'){
+                    query = {
+                        displayType: "Emote",
+                        unseenFor: text,
+                        language: lang
                     }
-                
-                //text lang
-                var string
-                if(lang === "en"){
-                    string = "Searching for Cosmetics"
-                }else if(lang === "ar"){
-                    string = "جاري البحث عن عناصر"
                 }
 
                 //generating text
                 const generating = new Discord.MessageEmbed()
                 generating.setColor(FNBRMENA.Colors("embed"))
-                generating.setTitle(`${string} ${loadingEmoji}`)
+                if(lang === "en") generating.setTitle(`Searching for Cosmetics ${loadingEmoji}`)
+                else if(lang === "ar") generating.setTitle(`جاري البحث عن عناصر ${loadingEmoji}`)
                 message.channel.send(generating)
                 .then( async msg => {
 
@@ -148,19 +134,13 @@ module.exports = {
 
                         //creating length
                         var length = res.data.length
-                        if(length <= 2){
-                            length = res.data.length
-                        }else if(length > 2 && length <= 4){
-                            length = res.data.length / 2
-                        }else if(length > 4 && length <= 7){
-                            length = res.data.length / 3
-                        }else if(length > 7 && length <= 50){
-                            length = res.data.length / 5
-                        }else if(length > 50 && length < 70){
-                            length = length / 7
-                        }else{
-                            length = res.data.length / 10
-                        }
+
+                        if(length <= 2) length = res.data.length
+                        else if(length > 2 && length <= 4) length = res.data.length / 2
+                        else if(length > 4 && length <= 7) length = res.data.length / 3
+                        else if(length > 7 && length <= 50) length = res.data.length / 5
+                        else if(length > 50 && length < 70) length = length / 7
+                        else length = res.data.length / 10
 
                         if (length % 2 !== 0){
                             length += 1;
@@ -212,14 +192,11 @@ module.exports = {
                         for (let i = 0; i < res.data.length; i++){
 
                             //skin informations
-                            var name = res.data[i].name;
-                            var description = res.data[i].description;
-                            if (res.data[i].images.icon === null){
-                                var image = res.data[i].images.smallIcon;
-                            } else {
-                                var image = res.data[i].images.icon;
-                            }
-                            var rarity = res.data[i].rarity.value;
+                            var name = res.data[i].name
+                            var description = res.data[i].description
+                            if(res.data[i].images.icon === null)var image = res.data[i].images.smallIcon
+                            else var image = res.data[i].images.icon
+                            var rarity = res.data[i].rarity.value
                             newline = newline + 1;
 
                             //searching
@@ -249,9 +226,6 @@ module.exports = {
                                     ctx.textAlign='center';
                                     ctx.fillText(description, (256 + x), (y + 480))
                                 }
-                                // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
-                                
                             }
                             if(rarity === 'epic'){
                                 //creating image
@@ -279,8 +253,6 @@ module.exports = {
                                     ctx.textAlign='center';
                                     ctx.fillText(description, (256 + x), (y + 480))
                                 }
-                                // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                             }
                             if(rarity === 'rare'){
                                 //creating image
@@ -308,8 +280,6 @@ module.exports = {
                                     ctx.textAlign='center';
                                     ctx.fillText(description, (256 + x), (y + 480))
                                 }
-                                // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                             }
                             if(rarity === 'uncommon'){
                                 //creating image
@@ -337,8 +307,6 @@ module.exports = {
                                     ctx.textAlign='center';
                                     ctx.fillText(description, (256 + x), (y + 480))
                                 }
-                                // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                             }
                             if(rarity === 'common'){
                                 //creating image
@@ -366,8 +334,6 @@ module.exports = {
                                     ctx.textAlign='center';
                                     ctx.fillText(description, (256 + x), (y + 480))
                                 }
-                                // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                             }
                             if(rarity === 'marvel'){
                                 //creating image
@@ -395,8 +361,6 @@ module.exports = {
                                     ctx.textAlign='center';
                                     ctx.fillText(description, (256 + x), (y + 480))
                                 }
-                                // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                             }
                             if(rarity === 'dc'){
                                 //creating image
@@ -424,8 +388,6 @@ module.exports = {
                                     ctx.textAlign='center';
                                     ctx.fillText(description, (256 + x), (y + 480))
                                 }
-                                // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                             }
                             if(rarity === 'dark'){
                                 //creating image
@@ -453,8 +415,6 @@ module.exports = {
                                     ctx.textAlign='center';
                                     ctx.fillText(description, (256 + x), (y + 480))
                                 }
-                                // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                             }
                             if(rarity === 'icon'){
                                 //creating image
@@ -482,8 +442,6 @@ module.exports = {
                                     ctx.textAlign='center';
                                     ctx.fillText(description, (256 + x), (y + 480))
                                 }
-                                // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                             }
                             if(rarity === 'starwars'){
                                 //creating image
@@ -511,8 +469,6 @@ module.exports = {
                                     ctx.textAlign='center';
                                     ctx.fillText(description, (256 + x), (y + 480))
                                 }
-                                // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                             }
                             if(rarity === 'shadow'){
                                 //creating image
@@ -540,8 +496,6 @@ module.exports = {
                                     ctx.textAlign='center';
                                     ctx.fillText(description, (256 + x), (y + 480))
                                 }
-                                // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                             }
                             if(rarity === 'slurp'){
                                 //creating image
@@ -569,8 +523,6 @@ module.exports = {
                                     ctx.textAlign='center';
                                     ctx.fillText(description, (256 + x), (y + 480))
                                 }
-                                // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                             }
                             if(rarity === 'frozen'){
                                 //creating image
@@ -598,8 +550,6 @@ module.exports = {
                                     ctx.textAlign='center';
                                     ctx.fillText(description, (256 + x), (y + 480))
                                 }
-                                // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                             }
                             if(rarity === 'lava'){
                                 //creating image
@@ -627,8 +577,6 @@ module.exports = {
                                     ctx.textAlign='center';
                                     ctx.fillText(description, (256 + x), (y + 480))
                                 }
-                                // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                             }
                             if(rarity === 'gaminglegends'){
                                 //creating image
@@ -656,8 +604,6 @@ module.exports = {
                                     ctx.textAlign='center';
                                     ctx.fillText(description, (256 + x), (y + 480))
                                 }
-                                // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                                // ctx.drawImage(credit, (15 + x), (y + 15), 146, 40);
                             }
                             // changing x and y
                             x = x + 5 + 512; 
@@ -668,58 +614,42 @@ module.exports = {
                             }
                         }
 
-                        if(res.data.length < 20){
-                            const att = new Discord.MessageAttachment(canvas.toBuffer(), text+'.png')
-                            await message.channel.send(att)
-                        }else{
-                            const att = new Discord.MessageAttachment(canvas.toBuffer('image/jpeg', {quality: 0.5}))
-                            await message.channel.send(att)
-                        }
+                        if(res.data.length < 20) const att = new Discord.MessageAttachment(canvas.toBuffer(), text+'.png')
+                        else const att = new Discord.MessageAttachment(canvas.toBuffer('image/jpeg', {quality: 0.5}))    
+                        await message.channel.send(att)
+                        
                         msg.delete()
 
                     }).catch(err => {
+
+                        //delete msgs
                         msg.delete()
-                        if(lang === "en"){
-                            const error = new Discord.MessageEmbed()
-                            .setColor(FNBRMENA.Colors("embed"))
-                            .setTitle(`There are no items more than ${text} days ${errorEmoji}`)
-                            message.reply(error)
-                        }else if(lang === "ar"){
-                            const error = new Discord.MessageEmbed()
-                            .setColor(FNBRMENA.Colors("embed"))
-                            .setTitle(`لا يوجد عناصر اعلى من ${text} يوم ${errorEmoji}`)
-                            message.reply(error)
-                        }
+
+                        const error = new Discord.MessageEmbed()
+                        error.setColor(FNBRMENA.Colors("embed"))
+                        if(lang === "en") error.setTitle(`There are no items more than ${text} days ${errorEmoji}`)
+                        else if(lang === "ar") error.setTitle(`لا يوجد عناصر اعلى من ${text} يوم ${errorEmoji}`)
+                        message.reply(error)
+                        
                     })
                 })
             }).catch(err =>{
-                if(lang === "en"){
-                    msgReact.delete()
-                    const error = new Discord.MessageEmbed()
-                    .setColor(FNBRMENA.Colors("embed"))
-                    .setTitle(`Sorry we canceled your process becuase no method has been selected ${errorEmoji}`)
-                    message.reply(error)
-                }else if(lang === "ar"){
-                    msgReact.delete()
-                    const error = new Discord.MessageEmbed()
-                    .setColor(FNBRMENA.Colors("embed"))
-                    .setTitle(`تم ايقاف الامر بسبب عدم اختيارك لطريقة ${errorEmoji}`)
-                    message.reply(error)
-                }
+                const error = new Discord.MessageEmbed()
+                error.setColor(FNBRMENA.Colors("embed"))
+                error.setTitle(`${FNBRMENA.Errors("Time", lang)} ${errorEmoji}`)
+                message.reply(error)
             })
+
+            //delete msg reaction
             msgReact.delete()
         }else{
-            if(lang === "en"){
-                const error = new Discord.MessageEmbed()
-                .setColor(FNBRMENA.Colors("embed"))
-                .setTitle(`There are too many items please enter a value greater than 250 ${errorEmoji}`)
-                message.reply(error)
-            }else if(lang === "ar"){
-                const error = new Discord.MessageEmbed()
-                .setColor(FNBRMENA.Colors("embed"))
-                .setTitle(`يوجد عناصر كثيرة الرجاء اختيار رقم اعلى من 250 ${errorEmoji}`)
-                message.reply(error)
-            }
+
+            //no emote has been found
+            const Err = new Discord.MessageEmbed()
+            Err.setColor(FNBRMENA.Colors("embed"))
+            if(lang === "en") Err.setTitle(`There are too many items please enter a value greater than 250 ${errorEmoji}`)
+            else if(lang === "ar") Err.setTitle(`يوجد عناصر كثيرة الرجاء اختيار رقم اعلى من 250 ${errorEmoji}`)
+            message.channel.send(Err)
         }
     }
 }

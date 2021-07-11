@@ -525,7 +525,7 @@ module.exports = {
                 //no crew pach has been found
                 const Err = new Discord.MessageEmbed()
                 Err.setColor(FNBRMENA.Colors("embed"))
-                if(lang === "en") Err.setTitle(`No crew pack has been found${errorEmoji}`)
+                if(lang === "en") Err.setTitle(`No crew pack has been found ${errorEmoji}`)
                 else if(lang === "ar") Err.setTitle(`لا يمكنني العثور على حزمة طاقم فورت نايت ${errorEmoji}`)
                 message.channel.send(Err)
 

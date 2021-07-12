@@ -23,7 +23,7 @@ module.exports = (client, admin) => {
             var push = data.val().Push
 
             //if the event is set to be true [ON]
-            if(status === "true"){
+            if(status === true){
 
                 //request data
                 axios.get(`https://www.epicgames.com/fortnite/api/blog/getPosts?category=&postsPerPage=0&offset=0&rootPageSlug=blog&locale=${lang}`)
@@ -42,7 +42,7 @@ module.exports = (client, admin) => {
                     }
 
                     //if push is enabled
-                    if(push === "true") blogs[0] = []
+                    if(push === true) blogs[0] = []
 
                     //storing the new blog to compare
                     for(let i = 0; i < res.data.blogList.length; i++){
@@ -91,12 +91,12 @@ module.exports = (client, admin) => {
                                 if(lang === "en"){
                                     blogEmbed.addFields(
                                         {name: "Date:", value: moment(newBlog[0].date).format("dddd, MMMM Do of YYYY")},
-                                        {name: "Link:", value: `https://www.epicgames.com/fortnite/${newBlog[0].urlPattern}`},
+                                        {name: "Link:", value: `https://www.epicgames.com/fortnite${newBlog[0].urlPattern}`},
                                     )
                                 }else if(lang === "ar"){
                                     blogEmbed.addFields(
                                         {name: "التاريخ:", value: moment(newBlog[0].date).format("dddd, MMMM Do من YYYY")},
-                                        {name: "الرابط:", value: `https://www.epicgames.com/fortnite/${newBlog[0].urlPattern}`},
+                                        {name: "الرابط:", value: `https://www.epicgames.com/fortnite${newBlog[0].urlPattern}`},
                                     )
                                 }
 
@@ -119,6 +119,12 @@ module.exports = (client, admin) => {
                         for(let i = 0; i < res.data.blogList.length; i++){
                             blogs[i] = await res.data.blogList[i].slug
                         }
+
+                        //trun off push if enabled
+                        await admin.database().ref("ERA's").child("Events").child("blogposts").update({
+                            Push: false
+                        })
+
                     }
                 
                 }).catch(err => {
@@ -127,5 +133,5 @@ module.exports = (client, admin) => {
             }
         })
     }
-    setInterval(Blogposts, 2 * 10000)
+    setInterval(Blogposts, 1 * 20000)
 }

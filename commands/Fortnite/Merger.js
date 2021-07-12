@@ -1116,8 +1116,13 @@ module.exports = {
                             errorHandleing++
                             const Err = new Discord.MessageEmbed()
                             Err.setColor(FNBRMENA.Colors("embed"))
-                            if(lang === "en") Err.setTitle(`the ${list[i]} is not a valid item check your speling and try again ${errorEmoji}`)
-                            else if(lang === "ar") Err.setTitle(`الـ ${list[i]} ليس عنصر صحيح الرجاء التأكد من كتابة الاسم بشكل صحيح ${errorEmoji}`)
+                            if(!list[i].includes("&")){
+                                if(lang === "en") Err.setTitle(`the ${list[i]} is not a valid item check your speling and try again ${errorEmoji}`)
+                                else if(lang === "ar") Err.setTitle(`الـ ${list[i]} ليس عنصر صحيح الرجاء التأكد من كتابة الاسم بشكل صحيح ${errorEmoji}`)
+                            }else{
+                                if(lang === "en") Err.setTitle(`There is no items matching your entry ${errorEmoji}`)
+                                else if(lang === "ar") Err.setTitle(`لا يمكنني العثور على عناصر تناسب ادوات البحث الخاصة بك ${errorEmoji}`)
+                            }
                             message.reply(Err)
                             
                         }

@@ -1744,9 +1744,9 @@ module.exports = {
                                     await message.channel.send(att)
 
                                 }
+                                //delete generating msg
+                                msg.delete()
                             })
-                            //delete generating msg
-                            msg.delete()
                             
                         }else if(details[detailsIndex] === "styles" && res.data.items[num].displayAssets.length === 0 && errorHandleing === 0){
 

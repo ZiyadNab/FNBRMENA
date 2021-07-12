@@ -43,8 +43,6 @@ module.exports = {
 
                 //creating length
                 var length = res.data.items.length
-
-                console.log(length)
                 
                 if(length <= 2) length = length
                 else if(length > 2 && length <= 4) length = length / 2
@@ -52,8 +50,6 @@ module.exports = {
                 else if(length > 7 && length <= 50) length = length / 5
                 else if(length > 50 && length < 70) length = length / 7
                 else length = length / 10
-
-                console.log(length)
 
                 if (length % 2 !== 0){
                     length += 1;
@@ -85,8 +81,6 @@ module.exports = {
                     } while (ctx.measureText(text).width > 420);
                     return ctx.font;
                 }
-
-                console.log(height, width)
 
                 //Registering fonts
                 Canvas.registerFont('./assets/font/Lalezar-Regular.ttf', {family: 'Arabic',weight: "700",style: "bold"});
@@ -536,57 +530,60 @@ module.exports = {
                         }
                     }
 
-                    var yTags = y
-                    for(let g = 0; g < res.data.items[i].gameplayTags.length; g++){
+                    //adding tags
+                    if(res.data.items[i].gameplayTags !== null){
+                        var yTags = y
+                        for(let g = 0; g < res.data.items[i].gameplayTags.length; g++){
 
-                        //if the item is animated
-                        if(res.data.items[i].gameplayTags[g].includes('Animated')){
+                            //if the item is animated
+                            if(res.data.items[i].gameplayTags[g].includes('Animated')){
 
-                            //the itm is animated add the animated icon
-                            const skinholder = await Canvas.loadImage('./assets/Tags/T-Icon-Animated-64.png')
-                            ctx.drawImage(skinholder, x + 467, yTags + 12, 30, 30)
+                                //the itm is animated add the animated icon
+                                const skinholder = await Canvas.loadImage('./assets/Tags/T-Icon-Animated-64.png')
+                                ctx.drawImage(skinholder, x + 467, yTags + 12, 30, 30)
 
-                            yTags += 40
-                        }
+                                yTags += 40
+                            }
 
-                        //if the item is reactive
-                        if(res.data.items[i].gameplayTags[g].includes('Reactive')){
+                            //if the item is reactive
+                            if(res.data.items[i].gameplayTags[g].includes('Reactive')){
 
-                            //the itm is animated add the animated icon
-                            const skinholder = await Canvas.loadImage('./assets/Tags/T-Icon-Adaptive-64.png')
-                            ctx.drawImage(skinholder, x + 467, yTags + 12, 30, 30)
+                                //the itm is animated add the animated icon
+                                const skinholder = await Canvas.loadImage('./assets/Tags/T-Icon-Adaptive-64.png')
+                                ctx.drawImage(skinholder, x + 467, yTags + 12, 30, 30)
 
-                            yTags += 40
-                        }
+                                yTags += 40
+                            }
 
-                        //if the item is synced emote
-                        if(res.data.items[i].gameplayTags[g].includes('Synced')){
+                            //if the item is synced emote
+                            if(res.data.items[i].gameplayTags[g].includes('Synced')){
 
-                            //the itm is animated add the animated icon
-                            const skinholder = await Canvas.loadImage('./assets/Tags/T-Icon-Synced-64x.png')
-                            ctx.drawImage(skinholder, x + 467, yTags + 12, 30, 30)
+                                //the itm is animated add the animated icon
+                                const skinholder = await Canvas.loadImage('./assets/Tags/T-Icon-Synced-64x.png')
+                                ctx.drawImage(skinholder, x + 467, yTags + 12, 30, 30)
 
-                            yTags += 40
-                        }
+                                yTags += 40
+                            }
 
-                        //if the item is traversal
-                        if(res.data.items[i].gameplayTags[g].includes('Traversal')){
+                            //if the item is traversal
+                            if(res.data.items[i].gameplayTags[g].includes('Traversal')){
 
-                            //the itm is animated add the animated icon
-                            const skinholder = await Canvas.loadImage('./assets/Tags/T-Icon-Traversal-64.png')
-                            ctx.drawImage(skinholder, x + 467, yTags + 12, 30, 30)
+                                //the itm is animated add the animated icon
+                                const skinholder = await Canvas.loadImage('./assets/Tags/T-Icon-Traversal-64.png')
+                                ctx.drawImage(skinholder, x + 467, yTags + 12, 30, 30)
 
-                            yTags += 40
-                        }
+                                yTags += 40
+                            }
 
-                        //if the item has styles
-                        if(res.data.items[i].gameplayTags[g].includes('HasVariants') || res.data.items[i].gameplayTags[g].includes('HasUpgradeQuests')){
+                            //if the item has styles
+                            if(res.data.items[i].gameplayTags[g].includes('HasVariants') || res.data.items[i].gameplayTags[g].includes('HasUpgradeQuests')){
 
-                            //the itm is animated add the animated icon
-                            const skinholder = await Canvas.loadImage('./assets/Tags/T-Icon-Variant-64.png')
-                            ctx.drawImage(skinholder, x + 467, yTags + 12, 30, 30)
+                                //the itm is animated add the animated icon
+                                const skinholder = await Canvas.loadImage('./assets/Tags/T-Icon-Variant-64.png')
+                                ctx.drawImage(skinholder, x + 467, yTags + 12, 30, 30)
 
-                            yTags += 40
+                                yTags += 40
+                            }
                         }
                     }
                     

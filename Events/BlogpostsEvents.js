@@ -7,140 +7,125 @@ module.exports = (client, admin) => {
     const message = client.channels.cache.find(channel => channel.id === config.events.Blogposts)
 
     //result
-    var orignalResponse = []
-    var orignalNumber = 0
-    var orignalNum = 0
-    var compResponse = []
-    var compNumber = 0
-    var compNum = 0
+    var blogs = []
+    var response = []
+    var number = 0
 
+    //handle the blogs
     const Blogposts = async () => {
 
-      //checking if the bot on or off
-      admin.database().ref("ERA's").child("Events").child("blogposts").once('value', async function (data) {
+        //checking if the bot on or off
+        admin.database().ref("ERA's").child("Events").child("blogposts").once('value', async function (data) {
 
-        //store aceess
-        var status = data.val().Active;
-        var lang = data.val().Lang;
-        var push = data.val().Push
+            //store aceess
+            var status = data.val().Active;
+            var lang = data.val().Lang;
+            var push = data.val().Push
 
-        //if the event is set to be true [ON]
-        if(status === "true"){
+            //if the event is set to be true [ON]
+            if(status === "true"){
 
-          //request data
-          axios.get('https://fn-api.com/api/blogposts?lang='+lang)
-          .then(async res => {
+                //request data
+                axios.get(`https://www.epicgames.com/fortnite/api/blog/getPosts?category=&postsPerPage=0&offset=0&rootPageSlug=blog&locale=${lang}`)
+                .then(async res => {
 
-            //store the first time when the bot turns on
-            if(orignalNumber === 0){
-              orignalResponse = await res.data.data.fortnite.posts[orignalNum].id
-              orignalNumber++
+                    //storing the first start up
+                    if(number === 0){
+
+                        //storing
+                        for(let i = 0; i < res.data.blogList.length; i++){
+                            blogs[i] = await res.data.blogList[i].slug
+                        }
+
+                        //stop from storing again
+                        number++
+                    }
+
+                    //if push is enabled
+                    if(push === "true") blogs[0] = []
+
+                    //storing the new blog to compare
+                    for(let i = 0; i < res.data.blogList.length; i++){
+                        response[i] = await res.data.blogList[i].slug
+                    }
+
+                    //check if there is a new blog
+                    if(JSON.stringify(response) !== JSON.stringify(blogs)){
+
+                        //new blog has been registerd lets find it
+                        for(let i = 0; i < response.length; i++){
+                            
+                            //compare if its the index i includes or not
+                            if(!blogs.includes(response[i])){
+
+                                //filtering to get the new blog
+                                var newBlog = await res.data.blogList.filter(blog => {
+                                    return blog.slug === response[i]
+                                })
+
+                                //create embed
+                                const blogEmbed = new Discord.MessageEmbed()
+
+                                //set the color
+                                blogEmbed.setColor("#00ffff")
+
+                                //set title
+                                blogEmbed.setAuthor(newBlog[0].title, newBlog[0].image)
+
+                                //seting up the description
+                                if(newBlog[0].shareDescription !== "" && newBlog[0].shareDescription !== undefined) blogEmbed.setDescription(newBlog[0].shareDescription)
+                                else {
+
+                                    //add description variable
+                                    var description = await newBlog[0]._metaTags
+                                    description = await description.replace(description.substring(0, description.indexOf("<meta name=\"description\" content=\"")), "")
+                                    description = await description.replace('<meta name="description" content="', "")
+                                    description = await description.substring(0, description.indexOf("\">"))
+                                    blogEmbed.setDescription(description)
+                                }
+
+                                //moment language
+                                moment.locale(lang)
+
+                                //add fields
+                                if(lang === "en"){
+                                    blogEmbed.addFields(
+                                        {name: "Date:", value: moment(newBlog[0].date).format("dddd, MMMM Do of YYYY")},
+                                        {name: "Link:", value: `https://www.epicgames.com/fortnite/${newBlog[0].urlPattern}`},
+                                    )
+                                }else if(lang === "ar"){
+                                    blogEmbed.addFields(
+                                        {name: "التاريخ:", value: moment(newBlog[0].date).format("dddd, MMMM Do من YYYY")},
+                                        {name: "الرابط:", value: `https://www.epicgames.com/fortnite/${newBlog[0].urlPattern}`},
+                                    )
+                                }
+
+                                //set image
+                                if(newBlog[0].shareImage !== undefined) blogEmbed.setImage(newBlog[0].shareImage)
+                                else if(newBlog[0].trendingImage !== undefined) blogEmbed.setImage(newBlog[0].trendingImage)
+                                else if(newBlog[0].image !== undefined) blogEmbed.setImage(newBlog[0].image)
+                                else blogEmbed.setImage("https://i.imgur.com/Dg7jrFV.jpeg")
+
+                                //set author
+                                blogEmbed.setFooter(newBlog[0].author)
+
+                                //send the message
+                                message.send(blogEmbed)
+                                
+                            }
+                        }
+
+                        //store the new data
+                        for(let i = 0; i < res.data.blogList.length; i++){
+                            blogs[i] = await res.data.blogList[i].slug
+                        }
+                    }
+                
+                }).catch(err => {
+                    console.log("The issue is in Blogposts Events ", err)
+                })
             }
-
-            if(push === "true"){
-              orignalResponse = []
-            }
-
-            //compare diff
-            if(JSON.stringify(res.data.data.fortnite.posts[orignalNum].id) !== JSON.stringify(orignalResponse)){
-
-              //create embed
-              const posts = new Discord.MessageEmbed()
-
-              //set color
-              posts.setColor('#00ffff')
-
-              //set title
-              posts.setTitle(res.data.data.fortnite.posts[orignalNum].title)
-
-              //set author
-              if(lang === "en"){
-                posts.setAuthor("Click Here",res.data.data.fortnite.posts[orignalNum].images.image ,res.data.data.fortnite.posts[orignalNum].url)
-              }else if(lang === "ar"){
-                posts.setAuthor("اضغط هنا",res.data.data.fortnite.posts[orignalNum].images.image ,res.data.data.fortnite.posts[orignalNum].url)
-              }
-
-              //add the image
-              if(res.data.data.fortnite.posts[orignalNum].images.share !== undefined || res.data.data.fortnite.posts[orignalNum].images.share !== null){
-                posts.setImage(res.data.data.fortnite.posts[orignalNum].images.share)
-
-              }else if(res.data.data.fortnite.posts[orignalNum].images.trending !== undefined || res.data.data.fortnite.posts[orignalNum].images.trending !== null){
-                posts.setImage(res.data.data.fortnite.posts[orignalNum].trending)
-
-              }else{
-                posts.setImage(res.data.data.fortnite.posts[orignalNum].image)
-              }
-
-              //set footer
-              if(res.data.data.fortnite.posts[orignalNum].author !== null){
-                posts.setFooter(res.data.data.fortnite.posts[orignalNum].author)
-              }
-
-              //send
-              message.send(posts)
-              orignalResponse = await res.data.data.fortnite.posts[orignalNum].id
-
-              //trun off push if enabled
-              admin.database().ref("ERA's").child("Events").child("blogposts").update({
-                Push: "false"
-              })
-
-            }
-
-            //store the first time when the bot turns on
-            if(compNumber === 0){
-              compResponse = await res.data.data.competitive.posts[compNum].id
-              compNumber++
-            }
-
-            if(push === "true"){
-              compResponse = []
-            }
-
-            //compare diff
-            if(JSON.stringify(res.data.data.competitive.posts[compNum].id) !== JSON.stringify(compResponse)){
-
-              //create embed
-              const posts = new Discord.MessageEmbed()
-
-              //set color
-              posts.setColor('#00ffff')
-
-              //set title
-              posts.setTitle(res.data.data.competitive.posts[compNum].title)
-
-              //set author
-              if(lang === "en"){
-                posts.setAuthor("Click Here",res.data.data.competitive.posts[compNum].images.image ,res.data.data.competitive.posts[compNum].url)
-              }else if(lang === "ar"){
-                posts.setAuthor("اضغط هنا",res.data.data.competitive.posts[compNum].images.image ,res.data.data.competitive.posts[compNum].url)
-              }
-
-              //add the image
-              if(res.data.data.competitive.posts[compNum].images.share !== undefined || res.data.data.competitive.posts[compNum].images.share !== null){
-                posts.setImage(res.data.data.competitive.posts[compNum].images.share)
-
-              }else if(res.data.data.competitive.posts[compNum].images.trending !== undefined || res.data.data.competitive.posts[compNum].images.trending !== null){
-                posts.setImage(res.data.data.competitive.posts[compNum].trending)
-
-              }else{
-                posts.setImage(res.data.data.competitive.posts[compNum].image)
-              }
-
-              //set footer
-              if(res.data.data.competitive.posts[compNum].author !== null){
-                posts.setFooter(res.data.data.competitive.posts[compNum].author)
-              }
-
-              //send
-              message.send(posts)
-              compResponse = await res.data.data.competitive.posts[compNum].id
-            }
-          }).catch(err => {
-            console.log("The issue is in Blogposts Events ", err)
         })
-        }
-      })
     }
-    setInterval(Blogposts, 2 * 60000)
+    setInterval(Blogposts, 2 * 10000)
 }

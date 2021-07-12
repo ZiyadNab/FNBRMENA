@@ -43,13 +43,17 @@ module.exports = {
 
                 //creating length
                 var length = res.data.items.length
+
+                console.log(length)
                 
-                if(length <= 2) length = res.data.length
-                else if(length > 2 && length <= 4) length = res.data.length / 2
-                else if(length > 4 && length <= 7) length = res.data.length / 3
-                else if(length > 7 && length <= 50) length = res.data.length / 5
+                if(length <= 2) length = length
+                else if(length > 2 && length <= 4) length = length / 2
+                else if(length > 4 && length <= 7) length = length / 3
+                else if(length > 7 && length <= 50) length = length / 5
                 else if(length > 50 && length < 70) length = length / 7
-                else length = res.data.length / 10
+                else length = length / 10
+
+                console.log(length)
 
                 if (length % 2 !== 0){
                     length += 1;
@@ -80,7 +84,9 @@ module.exports = {
                         }
                     } while (ctx.measureText(text).width > 420);
                     return ctx.font;
-                };
+                }
+
+                console.log(height, width)
 
                 //Registering fonts
                 Canvas.registerFont('./assets/font/Lalezar-Regular.ttf', {family: 'Arabic',weight: "700",style: "bold"});
@@ -531,10 +537,10 @@ module.exports = {
                     }
 
                     var yTags = y
-                    for(let g = 0; g < res.data[i].gameplayTags.length; g++){
+                    for(let g = 0; g < res.data.items[i].gameplayTags.length; g++){
 
                         //if the item is animated
-                        if(res.data[i].gameplayTags[g].includes('Animated')){
+                        if(res.data.items[i].gameplayTags[g].includes('Animated')){
 
                             //the itm is animated add the animated icon
                             const skinholder = await Canvas.loadImage('./assets/Tags/T-Icon-Animated-64.png')
@@ -544,7 +550,7 @@ module.exports = {
                         }
 
                         //if the item is reactive
-                        if(res.data[i].gameplayTags[g].includes('Reactive')){
+                        if(res.data.items[i].gameplayTags[g].includes('Reactive')){
 
                             //the itm is animated add the animated icon
                             const skinholder = await Canvas.loadImage('./assets/Tags/T-Icon-Adaptive-64.png')
@@ -554,7 +560,7 @@ module.exports = {
                         }
 
                         //if the item is synced emote
-                        if(res.data[i].gameplayTags[g].includes('Synced')){
+                        if(res.data.items[i].gameplayTags[g].includes('Synced')){
 
                             //the itm is animated add the animated icon
                             const skinholder = await Canvas.loadImage('./assets/Tags/T-Icon-Synced-64x.png')
@@ -564,7 +570,7 @@ module.exports = {
                         }
 
                         //if the item is traversal
-                        if(res.data[i].gameplayTags[g].includes('Traversal')){
+                        if(res.data.items[i].gameplayTags[g].includes('Traversal')){
 
                             //the itm is animated add the animated icon
                             const skinholder = await Canvas.loadImage('./assets/Tags/T-Icon-Traversal-64.png')
@@ -574,7 +580,7 @@ module.exports = {
                         }
 
                         //if the item has styles
-                        if(res.data[i].gameplayTags[g].includes('HasVariants') || res.data[i].gameplayTags[g].includes('HasUpgradeQuests')){
+                        if(res.data.items[i].gameplayTags[g].includes('HasVariants') || res.data.items[i].gameplayTags[g].includes('HasUpgradeQuests')){
 
                             //the itm is animated add the animated icon
                             const skinholder = await Canvas.loadImage('./assets/Tags/T-Icon-Variant-64.png')

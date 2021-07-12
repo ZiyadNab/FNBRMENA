@@ -153,7 +153,8 @@ module.exports = {
                                     //generating animation
                                     const generating = new Discord.MessageEmbed()
                                     generating.setColor(FNBRMENA.Colors("embed"))
-                                    generating.setTitle(`${loading} ${loadingEmoji}`)
+                                    if(lang === "en") generating.setTitle(`Loading... ${loadingEmoji}`)
+                                    else if(lang == "ar") generating.setTitle(`جاري التحميل... ${loadingEmoji}`)
                                     message.channel.send(generating)
                                     .then( async gen => {
 

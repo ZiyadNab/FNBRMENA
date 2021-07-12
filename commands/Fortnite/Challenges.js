@@ -399,15 +399,29 @@ module.exports = {
                         //if there is an image for the quest
                         if(Object.entries(found.quests[i].tandemCharacter).length !== 0){
 
-                            //if the image is not an npc defualt
-                            if(!found.quests[i].tandemCharacter.images.sidePanel.includes('T_NPC_Default.T_NPC_Default')){
+                            if(found.quests[i].tandemCharacter.images.sidePanel !== null){
 
-                                //add the card of the challenge
-                                const questManegar = await Canvas.loadImage(found.quests[i].tandemCharacter.images.sidePanel)
-                                ctx.drawImage(questManegar, x - 125, y - 50, 450, 450)
+                                //if the image is not an npc defualt
+                                if(!found.quests[i].tandemCharacter.images.sidePanel.includes('T_NPC_Default.T_NPC_Default')){
 
-                                //change the x value
-                                x = 350
+                                    //add the card of the challenge
+                                    const questManegar = await Canvas.loadImage(found.quests[i].tandemCharacter.images.sidePanel)
+                                    ctx.drawImage(questManegar, x - 125, y - 50, 450, 450)
+
+                                    //change the x value
+                                    x = 350
+                                }
+                            }else if(found.quests[i].tandemCharacter.images.entryList !== null){
+                                //if the image is not an npc defualt
+                                if(!found.quests[i].tandemCharacter.images.entryList.includes('T_NPC_Default.T_NPC_Default')){
+
+                                    //add the card of the challenge
+                                    const questManegar = await Canvas.loadImage(found.quests[i].tandemCharacter.images.entryList)
+                                    ctx.drawImage(questManegar, x, y, h, h)
+
+                                    //change the x value
+                                    x = 500
+                                }
                             }
                         }
                             
@@ -631,15 +645,28 @@ module.exports = {
                         //if there is an image for the quest
                         if(Object.entries(found.quests[i].tandemCharacter).length !== 0){
 
-                            //if the image is not an npc defualt
-                            if(!found.quests[i].tandemCharacter.images.sidePanel.includes('T_NPC_Default.T_NPC_Default')){
+                            if(found.quests[i].tandemCharacter.images.sidePanel !== null){
+                                //if the image is not an npc defualt
+                                if(!found.quests[i].tandemCharacter.images.sidePanel.includes('T_NPC_Default.T_NPC_Default')){
 
-                                //add the card of the challenge
-                                const questManegar = await Canvas.loadImage(found.quests[i].tandemCharacter.images.sidePanel)
-                                ctx.drawImage(questManegar, x - 300, y - 50, 450, 450)
+                                    //add the card of the challenge
+                                    const questManegar = await Canvas.loadImage(found.quests[i].tandemCharacter.images.sidePanel)
+                                    ctx.drawImage(questManegar, x - 300, y - 50, 450, 450)
 
-                                //change the x value
-                                x -= 250
+                                    //change the x value
+                                    x -= 250
+                                }
+                            }else if(found.quests[i].tandemCharacter.images.entryList !== null){
+                                //if the image is not an npc defualt
+                                if(!found.quests[i].tandemCharacter.images.entryList.includes('T_NPC_Default.T_NPC_Default')){
+
+                                    //add the card of the challenge
+                                    const questManegar = await Canvas.loadImage(found.quests[i].tandemCharacter.images.entryList)
+                                    ctx.drawImage(questManegar, x - 375, y, h, h)
+
+                                    //change the x value
+                                    x -= 400
+                                }
                             }
                         }
 

@@ -139,11 +139,11 @@ module.exports = (client, admin) => {
                                         .then(async res => {
 
                                             //skin informations
-                                            var name = res.items[0].name;
-                                            var description = res.items[0].description
-                                            var image = res.items[0].images.icon
-                                            if(res.items[0].series === null) var rarity = res.items[0].rarity.id
-                                            else var rarity = res.items[0].series.id
+                                            var name = res.item.name;
+                                            var description = res.item.description
+                                            var image = res.item.images.icon
+                                            if(res.item.series === null) var rarity = res.item.rarity.id
+                                            else var rarity = res.item.series.id
                                             newline = newline + 1;
 
                                             //searching for a comatiable rarity
@@ -539,10 +539,10 @@ module.exports = (client, admin) => {
                                             }
 
                                             var yTags = y
-                                            for(let i = 0; i < res.items[0].gameplayTags.length; i++){
+                                            for(let i = 0; i < res.item.gameplayTags.length; i++){
 
                                                 //if the item is animated
-                                                if(res.items[0].gameplayTags[i].includes('Animated')){
+                                                if(res.item.gameplayTags[i].includes('Animated')){
 
                                                     //the itm is animated add the animated icon
                                                     const skinholder = await Canvas.loadImage('./assets/Tags/T-Icon-Animated-64.png')
@@ -552,7 +552,7 @@ module.exports = (client, admin) => {
                                                 }
 
                                                 //if the item is reactive
-                                                if(res.items[0].gameplayTags[i].includes('Reactive')){
+                                                if(res.item.gameplayTags[i].includes('Reactive')){
 
                                                     //the itm is animated add the animated icon
                                                     const skinholder = await Canvas.loadImage('./assets/Tags/T-Icon-Adaptive-64.png')
@@ -562,7 +562,7 @@ module.exports = (client, admin) => {
                                                 }
 
                                                 //if the item is synced emote
-                                                if(res.items[0].gameplayTags[i].includes('Synced')){
+                                                if(res.item.gameplayTags[i].includes('Synced')){
 
                                                     //the itm is animated add the animated icon
                                                     const skinholder = await Canvas.loadImage('./assets/Tags/T-Icon-Synced-64x.png')
@@ -572,7 +572,7 @@ module.exports = (client, admin) => {
                                                 }
 
                                                 //if the item is traversal
-                                                if(res.items[0].gameplayTags[i].includes('Traversal')){
+                                                if(res.item.gameplayTags[i].includes('Traversal')){
 
                                                     //the itm is animated add the animated icon
                                                     const skinholder = await Canvas.loadImage('./assets/Tags/T-Icon-Traversal-64.png')
@@ -582,7 +582,7 @@ module.exports = (client, admin) => {
                                                 }
 
                                                 //if the item has styles
-                                                if(res.items[0].gameplayTags[i].includes('HasVariants') || res.items[0].gameplayTags[i].includes('HasUpgradeQuests')){
+                                                if(res.item.gameplayTags[i].includes('HasVariants') || res.item.gameplayTags[i].includes('HasUpgradeQuests')){
 
                                                     //the itm is animated add the animated icon
                                                     const skinholder = await Canvas.loadImage('./assets/Tags/T-Icon-Variant-64.png')
@@ -593,7 +593,7 @@ module.exports = (client, admin) => {
                                             }
 
                                             //if the item contains copyrited audio
-                                            if(res.items[0].copyrightedAudio === true){
+                                            if(res.item.copyrightedAudio === true){
 
                                                 //the itm is animated add the animated icon
                                                 const skinholder = await Canvas.loadImage('./assets/Tags/mute.png')
@@ -620,7 +620,7 @@ module.exports = (client, admin) => {
                                 for(let i = 0; i < available[0].granted.length; i++){
 
                                     //add every vbucks to the vbucks variable
-                                    if(available[0].granted[i].templateId === "MtxPurchased" || favailable[0].granted[i].templateId === "MtxPurchaseBonus"){
+                                    if(available[0].granted[i].templateId === "MtxPurchased" || available[0].granted[i].templateId === "MtxPurchaseBonus"){
                                         vbucks += await available[0].granted[i].quantity
 
                                     }

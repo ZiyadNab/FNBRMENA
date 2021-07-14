@@ -786,7 +786,7 @@ module.exports = (client, admin) => {
                                     }
                                 }
 
-                                const att = new Discord.MessageAttachment(canvas.toBuffer(), offerID + '.png')
+                                const att = new Discord.MessageAttachment(canvas.toBuffer(), available[0].offerID + '.png')
                                 await message.send(att)
                                 await message.send(bundle)
                             

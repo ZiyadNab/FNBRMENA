@@ -544,5 +544,5 @@ module.exports = (client, admin) => {
             }
         })
     }
-    setInterval(Crew, 1 * 20000)
+    setInterval(Crew, 5 * 60000)
 }

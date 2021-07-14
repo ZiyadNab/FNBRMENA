@@ -86,18 +86,18 @@ module.exports = (client, admin) => {
                                 }
                                 
                                 //creating width
-                                if(found[0].granted.length === 1) width = 512
+                                if(available[0].granted.length === 1) width = 512
                                 else width += (length * 512) + (length * 5) - 5
 
                                 //creating height
-                                for(let i = 0; i < found[0].granted.length; i++){
+                                for(let i = 0; i < available[0].granted.length; i++){
                                     
                                     if(newline === length){
                                         height += 512 + 5
                                         newline = 0
                                     }
                                     
-                                    if(found[0].granted[i].templateId !== "MtxPurchaseBonus") newline++
+                                    if(available[0].granted[i].templateId !== "MtxPurchaseBonus") newline++
                                 }
 
                                 //registering fonts

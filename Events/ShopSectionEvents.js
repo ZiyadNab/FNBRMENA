@@ -74,7 +74,7 @@ module.exports = (client, admin) => {
 
                         //generating animation
                         const generating = new Discord.MessageEmbed()
-                        generating.setColor(FNBRMENA.Colors("embed"))
+                        generating.setColor('#00ffff')
                         if(lang === "en") generating.setTitle(`Loading sections... ${loadingEmoji}`)
                         else if(lang === "ar") generating.setTitle(`جاري تحميل الأقسام... ${loadingEmoji}`)
                         message.send(generating)

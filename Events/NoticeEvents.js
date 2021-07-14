@@ -18,7 +18,7 @@ module.exports = (client, admin) => {
             var push = data.val().Push
 
             //if the event is set to be true [ON]
-            if(status === "true"){
+            if(status === true){
 
                 //request data
                 axios.get('https://fn-api.com/api/emergencyNotices?lang=' + lang)
@@ -33,7 +33,7 @@ module.exports = (client, admin) => {
                     }
 
                     //if the client wants to pust data
-                    if(push === "true"){
+                    if(push === true){
                         response = []
                     }
 
@@ -144,7 +144,7 @@ module.exports = (client, admin) => {
 
                         //trun off push if enabled
                         admin.database().ref("ERA's").child("Events").child("notice").update({
-                            Push: "false"
+                            Push: false
                         })
                     }
                 }).catch(err => {

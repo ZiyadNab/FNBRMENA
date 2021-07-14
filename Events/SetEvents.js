@@ -11,7 +11,7 @@ module.exports = (client, admin) => {
     var names = []
     var number = 0
     var sets = ''
-    var counter = 1
+    var counter = 0
 
     const Set = async () => {
 
@@ -24,7 +24,7 @@ module.exports = (client, admin) => {
             var push = data.val().Push
 
             //if the event is set to be true [ON]
-            if(status === "true"){
+            if(status === true){
 
                 //request data
                 fortniteAPI.listSets(options = {lang: lang})
@@ -51,17 +51,14 @@ module.exports = (client, admin) => {
 
                             //check where is the new set
                             if(!names.includes(res.sets[i].name)){
-                                sets += '\n• ' + counter + ': '+ res.sets[i].name
                                 counter++
+                                sets += '\n• ' + counter + ': '+ res.sets[i].name
                             }
                         }
 
                         //add title
-                        if(lang === "en"){
-                            sets += '\n\n• ' + counter + ' Sets in total'
-                        }else if(lang === "ar"){
-                            sets += '\n\n• المجموع '+counter+' مجموعة'
-                        }
+                        if(lang === "en") sets += '\n\n• ' + counter + ' Sets in total'
+                        else if(lang === "ar") sets += '\n\n• المجموع '+counter+' مجموعة'
 
                         //create embed
                         const setInfo = new Discord.MessageEmbed()
@@ -70,22 +67,22 @@ module.exports = (client, admin) => {
                         setInfo.setColor('#00ffff')
 
                         //set title
-                        if(lang === "en"){
-                            setInfo.setTitle("All new sets in this update")
-                        }else if(lang === "ar"){
-                            setInfo.setTitle("جميع المجموعات الجديدة في التحديث الحالي")
-                        }
+                        if(lang === "en") setInfo.setTitle("All new sets in this update")
+                        else if(lang === "ar") setInfo.setTitle("جميع المجموعات الجديدة في التحديث الحالي")
 
                         //set description
                         setInfo.setDescription(sets)
 
                         //send message
                         message.send(setInfo)
+
+                        //store data
                         response = await res.sets
                         for(let i = 0; i < res.sets.length; i++){
                             names[i] = await res.sets[i].name
                         }
                     }
+                    
                 }).catch(err => {
                     console.log("The issue is in Set Events ", err)
                 })

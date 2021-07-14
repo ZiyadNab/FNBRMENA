@@ -20,7 +20,7 @@ module.exports = (client, admin) => {
             var push = server.val().Push
 
             //if the event is set to be true [ON]
-            if(status === "true"){
+            if(status === true){
 
                 //request data
                 axios.get(`https://fortniteapi.io/v2/game/crew?lang=${lang}`, { headers: {'Content-Type': 'application/json','Authorization': "d4ce1562-839ff66b-3946ccb6-438eb9cf",} })
@@ -31,7 +31,7 @@ module.exports = (client, admin) => {
                     }
 
                     //if the client wants to pust data
-                    if(push === "true"){
+                    if(push === true){
                         data = []
                     }
 
@@ -78,23 +78,17 @@ module.exports = (client, admin) => {
 
                             //creating length
                             var length = res[0].rewards.length
-                            if(length <= 2){
-                                length = length
-                            }else if(length > 2 && length <= 4){
-                                length = length / 2
-                            }else if(length > 4 && length <= 7){
-                                length = length / 3
-                            }else if(length > 7 && length <= 50){
-                                length = length / 5
-                            }else if(length > 50 && length < 70){
-                                length = length / 7
-                            }else{
-                                length = length / 10
-                            }
+                            
+                            if(length <= 2) length = length
+                            else if(length > 2 && length <= 4) length = length / 2
+                            else if(length > 4 && length <= 7) length = length / 3
+                            else if(length > 7 && length <= 50) length = length / 5
+                            else if(length > 50 && length < 70) length = length / 7
+                            else length = length / 10
 
                             if (length % 2 !== 0){
                                 length += 1;
-                                length = length | 0;
+                                length = length | 0
                             }
 
                             //creating width
@@ -144,16 +138,10 @@ module.exports = (client, admin) => {
 
                                 var name = res[0].rewards[i].item.name
                                 var description = res[0].rewards[i].item.description
-                                if(res[0].rewards[i].item.series !== null){
-                                    var rarity = res[0].rewards[i].item.series.id
-                                }else{
-                                    var rarity = res[0].rewards[i].item.rarity.id
-                                }
-                                if(res[0].rewards[i].item.images.featured !== null && res[0].rewards[i].item.type.id !== "loadingscreen"){
-                                    var image = res[0].rewards[i].item.images.featured
-                                }else{
-                                    var image = res[0].rewards[i].item.images.icon
-                                }
+                                if(res[0].rewards[i].item.series !== null)var rarity = res[0].rewards[i].item.series.id
+                                else var rarity = res[0].rewards[i].item.rarity.id
+                                if(res[0].rewards[i].item.images.featured !== null && res[0].rewards[i].item.type.id !== "loadingscreen")var image = res[0].rewards[i].item.images.featured
+                                else var image = res[0].rewards[i].item.images.icon
 
                                 newline++
 
@@ -546,7 +534,7 @@ module.exports = (client, admin) => {
 
                             //trun off push if enabled
                             admin.database().ref("ERA's").child("Events").child("crew").update({
-                                Push: "false"
+                                Push: false
                             })
                         })
                     }
@@ -556,5 +544,5 @@ module.exports = (client, admin) => {
             }
         })
     }
-    setInterval(Crew, 5 * 60000)
+    setInterval(Crew, 1 * 20000)
 }

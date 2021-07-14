@@ -23,7 +23,7 @@ module.exports = (client, admin) => {
             var push = data.val().Push
 
             //if the event is set to be true [ON]
-            if(status === "true"){
+            if(status === true){
 
                 //request data
                 axios.get('https://fn-api.com/api/shop/sections?lang=' + lang)
@@ -36,7 +36,7 @@ module.exports = (client, admin) => {
                     }
 
                     //if the client wants to pust data
-                    if(push === "true"){
+                    if(push === true){
                         response = ""
                     }
 
@@ -48,14 +48,6 @@ module.exports = (client, admin) => {
                         var height = 1200
                         var x = 250
                         var y = 550
-                        var string = ""
-
-                        if(lang === "en"){
-                            loading = "Loading sections"
-                        }
-                        if(lang === "ar"){
-                            loading = "جاري تحميل الأقسام"
-                        }
 
                         //creating height
                         for(let i = 0; i < res.data.data.sections.length; i++){
@@ -80,11 +72,11 @@ module.exports = (client, admin) => {
                             return ctx.font;
                         }
 
-                        // generating animation
+                        //generating animation
                         const generating = new Discord.MessageEmbed()
-                        generating.setColor('#00ffff')
-                        const emoji = client.emojis.cache.get("862704096312819722")
-                        generating.setTitle(`${loading}... ${emoji}`)
+                        generating.setColor(FNBRMENA.Colors("embed"))
+                        if(lang === "en") generating.setTitle(`Loading sections... ${loadingEmoji}`)
+                        else if(lang === "ar") generating.setTitle(`جاري تحميل الأقسام... ${loadingEmoji}`)
                         message.send(generating)
                         .then( async msg => {
 
@@ -145,14 +137,12 @@ module.exports = (client, admin) => {
                             y += 100
 
                             //add sections
+                            var string = ""
                             for (let i = 0; i < res.data.data.sections.length; i++) {
 
                                 //add the section to the embed string
-                                if(lang === "en"){
-                                    string += "• " + (i + 1) + ": " + res.data.data.sections[i].name + " | " + res.data.data.sections[i].quantity + " Tabs" + "\n" 
-                                }else if(lang === "ar"){
-                                    string += "• " + (i + 1) + ": " + res.data.data.sections[i].name + " | " + res.data.data.sections[i].quantity + " صفحة" + "\n" 
-                                }
+                                if(lang === "en") string += "• " + (i + 1) + ": " + res.data.data.sections[i].name + " | " + res.data.data.sections[i].quantity + " Tabs" + "\n" 
+                                else if(lang === "ar") string += "• " + (i + 1) + ": " + res.data.data.sections[i].name + " | " + res.data.data.sections[i].quantity + " صفحة" + "\n"
 
                                 //grediant
                                 const grd = ctx.createLinearGradient(0, (canvas.height / 2), canvas.width, (canvas.height / 2))
@@ -163,11 +153,11 @@ module.exports = (client, admin) => {
                                     grd.addColorStop(0, "#004F99")
                                     grd.addColorStop(1, "#0084FF")
 
-                                }else if(await res.data.data.sections[i].id.toLowerCase().includes("cosmicsummer")){
+                                }else if(await res.data.data.sections[i].id.toLowerCase().includes("lebron")){
 
                                     //marvel grediant colors
-                                    grd.addColorStop(0, "#00E4FF")
-                                    grd.addColorStop(1, "#00FFFF")
+                                    grd.addColorStop(0, "#FF8000")
+                                    grd.addColorStop(1, "#00F7FF")
             
                                 }else if(await res.data.data.sections[i].id.toLowerCase().includes("marvel")){
 
@@ -341,15 +331,18 @@ module.exports = (client, admin) => {
                             //add description
                             Sections.setDescription(string)
 
+                            //send messages
                             const att = new Discord.MessageAttachment(canvas.toBuffer(), 'section.png')
                             await message.send(att)
                             await message.send(Sections)
                             msg.delete()
+
+                            //store data
                             response = res.data.data.hash
 
                             //trun off push if enabled
                             admin.database().ref("ERA's").child("Events").child("section").update({
-                                Push: "false"
+                                Push: false
                             })
                         })
                         

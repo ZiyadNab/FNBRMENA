@@ -20,7 +20,7 @@ module.exports = (client, admin) => {
             var push = data.val().Push
 
             //if the event is set to be true [ON]
-            if(status === "true"){
+            if(status === true){
 
                 //request data
                 axios.get('https://fn-api.com/api/status')
@@ -35,7 +35,7 @@ module.exports = (client, admin) => {
                         number++
                     }
 
-                    if(push === "true"){
+                    if(push === true){
                         response = []
                     }
 
@@ -60,13 +60,9 @@ module.exports = (client, admin) => {
                         //add description
                         servers.setDescription(res.data.data.message + '\n\n**Allowed Actions**\n' + string)
 
-                        if(res.data.data.status.toLowerCase() === "up"){
-                            servers.setImage('https://i.imgur.com/nUoBZCy.jpeg')
-                        }else if(res.data.data.status.toLowerCase() === "down"){
-                            servers.setImage('https://i.imgur.com/rutqcEe.jpeg')
-                        }else{
-                            servers.setImage('https://i.imgur.com/5igHZCt.jpg')
-                        }
+                        if(res.data.data.status.toLowerCase() === "up") servers.setImage('https://i.imgur.com/kt4FLIq.jpg')
+                        else if(res.data.data.status.toLowerCase() === "down") servers.setImage('https://i.imgur.com/RBFGS9F.jpeg')
+                        else servers.setImage('https://i.imgur.com/OuV0nHn.jpg')
 
                         //add footer
                         servers.setFooter(res.data.data.launcherInfo.appName)
@@ -76,7 +72,7 @@ module.exports = (client, admin) => {
 
                         //trun off push if enabled
                         admin.database().ref("ERA's").child("Events").child("servers").update({
-                            Push: "false"
+                            Push: false
                         })
 
                         //store data

@@ -25,7 +25,7 @@ module.exports = (client, admin) => {
             var push = data.val().Push
 
             //if the event is set to be true [ON]
-            if(status === "true"){
+            if(status === true){
                 
                 fortniteAPI.getDailyShopV2(options = {lang: lang})
                 .then(async res => {
@@ -38,7 +38,7 @@ module.exports = (client, admin) => {
                     }
 
                     //if the client wants to pust data
-                    if(push === "true"){
+                    if(push === true){
                         response = []
                         lastUpdate = []
                     }
@@ -1697,7 +1697,7 @@ module.exports = (client, admin) => {
 
                                 //trun off push if enabled
                                 admin.database().ref("ERA's").child("Events").child("itemshop").update({
-                                    Push: "false"
+                                    Push: false
                                 })
 
                             })

@@ -52,7 +52,7 @@ module.exports = (client, admin) => {
 
                     //push new data
                     if(push === true){
-                        response = []
+                        pakFilename = []
                     }
 
                     //storing pak files...

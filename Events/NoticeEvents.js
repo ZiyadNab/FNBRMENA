@@ -57,6 +57,29 @@ module.exports = (client, admin) => {
                                 //add description
                                 Notice.setDescription(res.data.data[i].body)
 
+                                //add platforms
+                                if(res.data.data[i].platforms !== undefined){
+                                    var string = ""
+                                    for(let j = 0; j < res.data.data[i].platforms.length; j++){
+
+                                        //add strings
+                                        string += "` " + res.data.data[i].platforms[j] + " ` "
+                                    }
+
+                                    //add platform feild
+                                    if(lang === "en"){
+                                        Notice.addFields({
+                                            name: "Platforms",
+                                            value: string
+                                        })
+                                    }else if(lang === "ar"){
+                                        Notice.addFields({
+                                            name: "المنصات",
+                                            value: string
+                                        })
+                                    }
+                                }
+
                                 //playlists
                                 if(res.data.data[i].playlists !== undefined){
                                     var playlists = ""
@@ -72,10 +95,22 @@ module.exports = (client, admin) => {
                                             playlists += "` " + playlist.data.data.name + " - " + playlist.data.data.subName + " ` "
                                         }
                                     }
+
+                                    if(lang === "en"){
+                                        Notice.addFields({
+                                            name: "Playlists",
+                                            value: playlists,
+                                        })
+                                    }else if(lang === "ar"){
+                                        Notice.addFields({
+                                            name: "الاطوار",
+                                            value: playlists,
+                                        })
+                                    }
                                 }
-                                
+
                                 //add gamemodes
-                                if(res.data.data.gamemodes !== undefined){
+                                if(res.data.data[i].gamemodes !== undefined){
                                     var gamemodes = ""
                                     for(let j = 0; j < res.data.data[i].gamemodes.length; j++){
 
@@ -83,46 +118,23 @@ module.exports = (client, admin) => {
                                         gamemodes += "` " + res.data.data[i].gamemodes[j] + " ` "
 
                                     }
-                                }
 
-                                //add platforms
-                                if(res.data.data.platforms !== undefined){
-                                    var string = ""
-                                    for(let j = 0; j < res.data.data[i].platforms.length; j++){
-
-                                        //add strings
-                                        string += "` " + res.data.data[i].platforms[j] + " ` "
-                                    }
-
-                                    //add platform feild
                                     if(lang === "en"){
                                         Notice.addFields({
-                                            name: "Platforms",
-                                            value: string
-                                        },{
                                             name: "Game Modes",
                                             value: gamemodes,
-                                        },{
-                                            name: "Playlists",
-                                            value: playlists,
                                         })
                                     }else if(lang === "ar"){
                                         Notice.addFields({
-                                            name: "المنصات",
-                                            value: string
-                                        },{
                                             name: "طور اللعب",
                                             value: gamemodes,
-                                        },{
-                                            name: "الاطوار",
-                                            value: playlists,
                                         })
                                     }
                                 }
                             }
                         }
-                        Notice.setFooter('Generated By FNBRMENA Bot')
-                        Notice.setAuthor('FNBRMENA Bot', 'https://i.imgur.com/LfotEkZ.jpg', 'https://twitter.com/FNBRMENA')
+
+                        //send
                         message.send(Notice);
 
                         //store data

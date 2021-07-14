@@ -1168,17 +1168,12 @@ module.exports = {
 
             //canvas length
             var length = names.length
-            if(length <= 2){
-                length = length
-            }else if(length >= 3 && length <= 4){
-                length = length / 2
-            }else if(length > 4 && length <= 7){
-                length = length / 3
-            }else if(length > 7 && length <= 50){
-                length = length / 5
-            }else{
-                length = length / 10
-            }
+
+            if(length <= 2) length = length
+            else if(length >= 3 && length <= 4) length = length / 2
+            else if(length > 4 && length <= 7) length = length / 3
+            else if(length > 7 && length <= 50)length = length / 5
+            else length = length / 10
 
             //forcing to be int
             if (length % 2 !== 0){
@@ -1187,11 +1182,8 @@ module.exports = {
             }
             
             //creating width
-            if(names.length === 1){
-                width = 512
-            }else{
-                width += (length * 512) + (length * 5) - 5
-            }
+            if(names.length === 1) width = 512
+            else width += (length * 512) + (length * 5) - 5
 
             //creating height
             for(let i = 0; i < names.length; i++){
@@ -1252,13 +1244,15 @@ module.exports = {
 
                         //skin informations
                         var name = res.data.items[num].name;
-                        var description = res.data.items[num].description
+                        if(res.data.items[num].description !== "") var description = res.data.items[num].description
+                        else if(lang === "en") var description = "There is no description to this item"
+                        else if(lang === "ar") var description = "لا يوجد وصف للعنصر"
                         var image = res.data.items[num].images.icon
                         if(res.data.items[num].series === null) var rarity = res.data.items[num].rarity.id
                         else var rarity = res.data.items[num].series.id
                         newline = newline + 1;
 
-                        //searching for a comatiable rarity
+                        //searching
                         if(rarity === 'Legendary'){
                             //creating image
                             const skinholder = await Canvas.loadImage('./assets/Rarities/standard/legendary.png')

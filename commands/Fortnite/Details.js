@@ -372,7 +372,9 @@ module.exports = {
 
                                 //set the item info
                                 var name = res.data.items[num].name
-                                var description = res.data.items[num].description
+                                if(res.data.items[num].description !== "") var description = res.data.items[num].description
+                                else if(lang === "en") var description = "There is no description to this item"
+                                else if(lang === "ar") var description = "لا يوجد وصف للعنصر"
                                 var image = res.data.items[num].images.icon
                                 if(res.data.items[num].series !== null) var rarity = res.data.items[num].series.id
                                 else var rarity = res.data.items[num].rarity.id
@@ -827,7 +829,9 @@ module.exports = {
 
                                     //set the item info
                                     var name = styles[i].name
-                                    var description = styles[i].description
+                                    if(res.data.items[num].description !== "") var description = res.data.items[num].description
+                                    else if(lang === "en") var description = "There is no description to this item"
+                                    else if(lang === "ar") var description = "لا يوجد وصف للعنصر"
                                     var image = styles[i].images.icon
                                     if(styles[i].series !== null) var rarity = styles[i].series.id
                                     else var rarity = styles[i].rarity.id
@@ -1297,7 +1301,9 @@ module.exports = {
 
                                     //set the item info
                                     var name = res.data.items[num].name
-                                    var description = res.data.items[num].description
+                                    if(res.data.items[num].description !== "") var description = res.data.items[num].description
+                                    else if(lang === "en") var description = "There is no description to this item"
+                                    else if(lang === "ar") var description = "لا يوجد وصف للعنصر"
                                     var image = res.data.items[num].displayAssets[i].url
                                     if(res.data.items[num].series !== null) var rarity = res.data.items[num].series.id
                                     else var rarity = res.data.items[num].rarity.id
@@ -1777,7 +1783,9 @@ module.exports = {
 
                             //set the item info
                             var name = res.data.items[num].name
-                            var description = res.data.items[num].description
+                            if(res.data.items[num].description !== "") var description = res.data.items[num].description
+                            else if(lang === "en") var description = "There is no description to this item"
+                            else if(lang === "ar") var description = "لا يوجد وصف للعنصر"
                             var image = res.data.items[num].images.icon
                             if(res.data.items[num].series !== null) var rarity = res.data.items[num].series.id
                             else var rarity = res.data.items[num].rarity.id
@@ -2236,7 +2244,9 @@ module.exports = {
 
                                     //set the item info
                                     var name = res.data.items[0].name
-                                    var description = res.data.items[0].description
+                                    if(res.data.items[num].description !== "") var description = res.data.items[num].description
+                                    else if(lang === "en") var description = "There is no description to this item"
+                                    else if(lang === "ar") var description = "لا يوجد وصف للعنصر"
                                     var image = res.data.items[0].images.icon
                                     if(res.data.items[0].series !== null) var rarity = res.data.items[num].series.id
                                     else var rarity = res.data.items[0].rarity.id

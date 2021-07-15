@@ -1,6 +1,7 @@
 const Data = require('../../FNBRMENA')
 const FNBRMENA = new Data()
-const Canvas = require('canvas');
+var wrap = require('word-wrap')
+const Canvas = require('canvas')
 
 module.exports = {
     commands: 'playlist',
@@ -19,13 +20,6 @@ module.exports = {
 
         //error handleing
         var errorHandleing = 0
-
-        //non images array
-        const imgs = [
-            "https://cdn1.dotesports.com/wp-content/uploads/2019/05/06105616/Fortnite-Heavy-Sniper-Weapon.jpg",
-            "https://wallpaperaccess.com/full/1526414.jpg",
-
-        ]
 
         //request data
         FNBRMENA.PlayList(lang, "Name", text)
@@ -49,7 +43,7 @@ module.exports = {
                 for(let i = 0; i < res.data.modes.length; i++){
 
                     //store the name to the string
-                    string += `• ${i}: ${res.data.modes[i].name}\n`
+                    string += `• ${i}: ${res.data.modes[i].name} | ${res.data.modes[i].team}\n`
                 }
 
                 //how many items where matchinh the user input?
@@ -201,7 +195,7 @@ module.exports = {
 
                 }else{
 
-                    const background = await Canvas.loadImage(imgs[0])
+                    const background = await Canvas.loadImage('https://i.imgur.com/TN86zLu.png')
                     ctx.drawImage(background, 0, 0, canvas.width, canvas.height)
 
                     //add blue fog
@@ -240,7 +234,7 @@ module.exports = {
                 //add the description
                 ctx.fillStyle = '#ffffff';
                 ctx.textAlign='center';
-                ctx.font = applyTextDescription(canvas, description);
+                ctx.font = applyTextDescription(canvas, description)
                 ctx.fillText(description, canvas.width / 2, 1000)
 
                 //send the img

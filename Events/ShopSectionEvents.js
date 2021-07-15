@@ -75,8 +75,9 @@ module.exports = (client, admin) => {
                         //generating animation
                         const generating = new Discord.MessageEmbed()
                         generating.setColor('#00ffff')
-                        if(lang === "en") generating.setTitle(`Loading sections... ${loadingEmoji}`)
-                        else if(lang === "ar") generating.setTitle(`جاري تحميل الأقسام... ${loadingEmoji}`)
+                        const emoji = client.emojis.cache.get("862704096312819722")
+                        if(lang === "en") generating.setTitle(`Loading sections... ${emoji}`)
+                        else if(lang === "ar") generating.setTitle(`جاري تحميل الأقسام... ${emoji}`)
                         message.send(generating)
                         .then( async msg => {
 

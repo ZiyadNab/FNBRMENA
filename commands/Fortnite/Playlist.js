@@ -160,12 +160,12 @@ module.exports = {
                     //applytext
                     const applyTextDescription = (canvas, text) => {
                         const ctx = canvas.getContext('2d');
-                        let fontSize = 40;
+                        let fontSize = 30;
                         do {
                             if(lang === "en"){
-                                ctx.font = `${fontSize -= 1}px Sans`;
+                                ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
                             }else if(lang === "ar"){
-                                ctx.font = `${fontSize -= 1}px Sans`;
+                                ctx.font = `${fontSize -= 1}px Arabic`;
                             }
                         } while (ctx.measureText(text).width > 1800);
                         return ctx.font;
@@ -246,7 +246,7 @@ module.exports = {
 
                     //add the description
                     ctx.fillStyle = '#ffffff';
-                    ctx.textAlign='center';
+                    ctx.textAlign = 'center';
                     ctx.font = applyTextDescription(canvas, description)
                     ctx.fillText(description, canvas.width / 2, 1000)
 
@@ -265,7 +265,7 @@ module.exports = {
                     else modeInfo.setTitle(`${name} ${res.data.modes[num].team} | ${red}`)
                     
                     //set descroption
-                    modeInfo.setDescription(description)
+                    modeInfo.setDescription(res.data.modes[num].description)
 
                     //ltm message
                     var ltmMessage = ""

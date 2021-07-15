@@ -163,9 +163,9 @@ module.exports = {
                         let fontSize = 30;
                         do {
                             if(lang === "en"){
-                                ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
+                                ctx.font = `${fontSize -= 1}px Arial`;
                             }else if(lang === "ar"){
-                                ctx.font = `${fontSize -= 1}px Arabic`;
+                                ctx.font = `${fontSize -= 1}px Arial`;
                             }
                         } while (ctx.measureText(text).width > 1800);
                         return ctx.font;
@@ -228,7 +228,7 @@ module.exports = {
 
                     //add the credits
                     ctx.fillStyle = '#ffffff';
-                    ctx.textAlign='left';
+                    ctx.textAlign = 'left';
                     ctx.font = '75px Burbank Big Condensed'
                     ctx.fillText("FNBRMENA", 25, 83)
 
@@ -240,15 +240,30 @@ module.exports = {
 
                     //add the name
                     ctx.fillStyle = '#ffffff';
-                    ctx.textAlign='center';
+                    ctx.textAlign = 'center';
                     ctx.font = applyTextName(canvas, name);
                     ctx.fillText(name, canvas.width / 2, 900)
+
+                    console.log(description)
+                    description = description.replace("\n", "")
+                    description = description.replace("\r", "")
+                    console.log(description)
+                    description = wrap(description, {width: 150})
+                    description = description.split(/\r\n|\r|\n/)
 
                     //add the description
                     ctx.fillStyle = '#ffffff';
                     ctx.textAlign = 'center';
-                    ctx.font = applyTextDescription(canvas, description)
-                    ctx.fillText(description, canvas.width / 2, 1000)
+                    ctx.font = applyTextDescription(canvas, description[0])
+                    var lines = 960
+
+                    //loop throw every line
+                    for(let i = 0; i < description.length; i++){
+
+                        ctx.fillText(description[i], canvas.width / 2, lines)
+
+                        lines += 30
+                    }
 
                     //creating embed
                     const modeInfo = new Discord.MessageEmbed()

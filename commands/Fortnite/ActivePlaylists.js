@@ -110,7 +110,7 @@ module.exports = {
                     const playlist = await Canvas.loadImage(Top[i].image)
                     ctx.drawImage(playlist, x, y, w, 512)
 
-                    x += 512 + 100
+                    x += w + 100
                 }
             }
 

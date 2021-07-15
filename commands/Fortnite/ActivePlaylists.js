@@ -92,14 +92,13 @@ module.exports = {
             const background = await Canvas.loadImage('./assets/Itemshop/background.png')
             ctx.drawImage(background, 0, 0, canvas.width, canvas.height)
 
-            //add the top playlists
-            if(Top.length > 5) x = (width - (Top.length * 512)) / 2
-            else x = (width - (Top.length * 1024)) / 2
-
             var w = 1024
             do{
                 w -= 200
             } while((w * Top.length + (100 * Top.length)) > width)
+
+            //add the top playlists
+            if(Top.length > 5) x = (width - (Top.length * w)) / 2
 
             //loop throw every top mode
             for(let i = 0; i < Top.length; i++){

@@ -93,8 +93,8 @@ module.exports = {
             ctx.drawImage(background, 0, 0, canvas.width, canvas.height)
 
             //add the top playlists
-            if(Top.length > 5) x = ((Top.length * 512) - width) / 2
-            else x = ((Top.length * 1024) - width) / 2
+            if(Top.length > 5) x = (width - (Top.length * 512)) / 2
+            else x = (width - (Top.length * 1024)) / 2
 
             //loop throw every top mode
             for(let i = 0; i < Top.length; i++){

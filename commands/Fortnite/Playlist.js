@@ -173,7 +173,7 @@ module.exports = {
 
                     //applytext
                     const applyTextName = (canvas, text) => {
-                        const ctx = canvas.getContext('2d');
+                        const ctx = canvas.getContext('2d')
                         let fontSize = 100;
                         do {
                             if(lang === "en"){
@@ -250,9 +250,109 @@ module.exports = {
                     ctx.font = applyTextDescription(canvas, description)
                     ctx.fillText(description, canvas.width / 2, 1000)
 
+                    //creating embed
+                    const modeInfo = new Discord.MessageEmbed()
+
+                    //set the color
+                    modeInfo.setColor(FNBRMENA.Colors("embed"))
+
+                    //inislizing emojis
+                    const red = client.emojis.cache.get("855805718779002899")
+                    const green = client.emojis.cache.get("855805718363111434")
+
+                    //set title
+                    if(res.data.modes[num].enabled) modeInfo.setTitle(`${name} ${res.data.modes[num].team} | ${green}`)
+                    else modeInfo.setTitle(`${name} ${res.data.modes[num].team} | ${red}`)
+                    
+                    //set descroption
+                    modeInfo.setDescription(description)
+
+                    //ltm message
+                    var ltmMessage = ""
+                    if(res.data.modes[num].ltmMessage !== null){
+
+                        //loop throw every ltm message
+                        for(let i = 0; i < res.data.modes[num].ltmMessage.length; i++){
+                            ltmMessage += `${res.data.modes[num].ltmMessage[i]} \n`
+                        }
+                        
+                        //check languages
+                        if(lang === "en"){
+
+                            //add fields
+                            modeInfo.addFields(
+                                {name: "LTM Message", value: ltmMessage, inline: true}
+                            )
+                        }else if(lang === "ar"){
+
+                            //add fields
+                            modeInfo.addFields(
+                                {name: "وصف الطور", value: ltmMessage, inline: true}
+                            )
+                        }
+                    }
+
+                    //more info
+                    if(res.data.modes[num].gameType === "BR"){
+                    if(lang === "en") var gameType = "Battle Royale Mode"
+                    else if(lang === "ar") var gameType = "طور باتل رويال اساسي"
+
+                    }else if(res.data.modes[num].gameType === "BRArena"){
+                    if(lang === "en") var gameType = "Battle Royale Arena Mode"
+                    else if(lang === "ar") var gameType = "طور ارينا باتل رويال"
+
+                    }else if(res.data.modes[num].gameType === "BRLTM"){
+                    if(lang === "en") var gameType = "Battle Royale LTM"
+                    else if(lang === "ar") var gameType = "طور باتل رويال مؤقت"
+
+                    }else if(res.data.modes[num].gameType === "CreativeLTM"){
+                    if(lang === "en") var gameType = "Creative LTM"
+                    else if(lang === "ar") var gameType = "طور كريتف مؤقت"
+
+                    }else if(res.data.modes[num].gameType === "BR"){
+                    if(lang === "en") var gameType = "Creative Mode"
+                    else if(lang === "ar") var gameType = "طور كريتف اساسي"
+
+                    }else if(res.data.modes[num].gameType === "Social"){
+                    if(lang === "en") var gameType = "Social Mode"
+                    else if(lang === "ar") var gameType = "طور اجتماعي"
+
+                    }else if(lang === "en") var gameType = "Other"
+                    else if(lang === "ar") var gameType = "طور اخر"
+
+                    //is large team [true]
+                    if(res.data.modes[num].largeTeams === true)
+                    if(lang === "en") var largeTeam = "Yes, it is"
+                    else if(lang === "ar") var largeTeam = "نعم, طور كبير"
+
+                    //is large team [false]
+                    if(res.data.modes[num].largeTeams === false)
+                    if(lang === "en") var largeTeam = "No, it is not"
+                    else if(lang === "ar") var largeTeam = "لا, ليس طور كبير"
+
+                    //check language
+                    if(lang === "en"){
+
+                        //add fields
+                        modeInfo.addFields(
+                            {name: "Plalist Type", value: gameType, inline: true},
+                            {name: "Max Team Size", value: res.data.modes[num].maxTeamSize, inline: true},
+                            {name: "is Large Team?", value: largeTeam, inline: true},
+                        )
+                    }else if(lang === "ar"){
+
+                        //add fields
+                        modeInfo.addFields(
+                            {name: "نوع الطور", value: gameType, inline: true},
+                            {name: "اعلى عدد مسموح", value: res.data.modes[num].maxTeamSize, inline: true},
+                            {name: "هل هو طور كبير؟", value: largeTeam, inline: true},
+                        )
+                    }
+
                     //send the img
                     const att = new Discord.MessageAttachment(canvas.toBuffer(), `${res.data.modes[num].id}.png`)
                     await message.channel.send(att)
+                    message.channel.send(modeInfo)
                     msg.delete()
                 })
             }

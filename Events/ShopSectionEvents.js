@@ -146,7 +146,7 @@ module.exports = (client, admin) => {
                                 else if(lang === "ar") string += "• " + (i + 1) + ": " + res.data.data.sections[i].name + " | " + res.data.data.sections[i].quantity + " صفحة" + "\n"
 
                                 //grediant
-                                const grd = ctx.createLinearGradient(0, (canvas.height / 2), canvas.width, (canvas.height / 2))
+                                const grd = ctx.createLinearGradient(x, y, x + 1500, y)
 
                                 if(await res.data.data.sections[i].id.toLowerCase().includes("dc")){
 
@@ -156,9 +156,9 @@ module.exports = (client, admin) => {
 
                                 }else if(await res.data.data.sections[i].id.toLowerCase().includes("lebron")){
 
-                                    //marvel grediant colors
-                                    grd.addColorStop(0, "#FF8000")
-                                    grd.addColorStop(1, "#00F7FF")
+                                    //lebron grediant colors
+                                    grd.addColorStop(0, "#000000")
+                                    grd.addColorStop(1, "#FFCE42")
             
                                 }else if(await res.data.data.sections[i].id.toLowerCase().includes("marvel")){
 

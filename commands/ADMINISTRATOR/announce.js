@@ -11,11 +11,20 @@ module.exports = {
     permissionError: 'Sorry you do not have acccess to this command',
     callback: (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji) => {
         admin.database().ref("ERA's").child("Users").child(message.author.id).once('value', async function (data) {
-            var lang = data.val().lang;
+            var lang = data.val().lang
 
+            var announce = text.substring(0, text.indexOf("+"))
+            var des = text.replace("+", "")
+
+            //create embed
             const messageAnnounce = new Discord.MessageEmbed()
+
+            //set color
             messageAnnounce.setColor(FNBRMENA.Colors("embed"))
-            messageAnnounce.setTitle(args.join(' '))
+
+            //set title
+            messageAnnounce.setTitle(announce)
+            messageAnnounce.setDescription(des)
             const accounce = client.channels.cache.find(channel => channel.id === config.channels.announce)
             if (accounce.send(messageAnnounce)) {
                 const messageAnnounceDone = new Discord.MessageEmbed()

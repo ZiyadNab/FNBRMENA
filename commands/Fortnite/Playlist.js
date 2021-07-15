@@ -228,8 +228,8 @@ module.exports = {
                 //add the credits
                 ctx.fillStyle = '#ffffff';
                 ctx.textAlign='left';
-                ctx.font = '100px Burbank Big Condensed'
-                ctx.fillText("FNBRMENA", 25, 108)
+                ctx.font = '75px Burbank Big Condensed'
+                ctx.fillText("FNBRMENA", 25, 83)
 
                 //add the name
                 ctx.fillStyle = '#ffffff';

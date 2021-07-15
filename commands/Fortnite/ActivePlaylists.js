@@ -96,6 +96,11 @@ module.exports = {
             if(Top.length > 5) x = (width - (Top.length * 512)) / 2
             else x = (width - (Top.length * 1024)) / 2
 
+            var w = 1024
+            do{
+                w -= 200
+            } while((w * Top.length + (100 * Top.length)) > width)
+
             //loop throw every top mode
             for(let i = 0; i < Top.length; i++){
 
@@ -104,7 +109,7 @@ module.exports = {
 
                     //add the playlist index i
                     const playlist = await Canvas.loadImage(Top[i].image)
-                    ctx.drawImage(playlist, x, y, 512, 512)
+                    ctx.drawImage(playlist, x, y, w, 512)
 
                     x += 512 + 100
                 }

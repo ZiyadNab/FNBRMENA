@@ -163,9 +163,9 @@ module.exports = {
                         let fontSize = 40;
                         do {
                             if(lang === "en"){
-                                ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
+                                ctx.font = `${fontSize -= 1}px Sans`;
                             }else if(lang === "ar"){
-                                ctx.font = `${fontSize -= 1}px Arabic`;
+                                ctx.font = `${fontSize -= 1}px Sans`;
                             }
                         } while (ctx.measureText(text).width > 1800);
                         return ctx.font;
@@ -281,13 +281,13 @@ module.exports = {
 
                             //add fields
                             modeInfo.addFields(
-                                {name: "LTM Message", value: ltmMessage, inline: true}
+                                {name: "LTM Message", value: ltmMessage}
                             )
                         }else if(lang === "ar"){
 
                             //add fields
                             modeInfo.addFields(
-                                {name: "وصف الطور", value: ltmMessage, inline: true}
+                                {name: "وصف الطور", value: ltmMessage}
                             )
                         }
                     }
@@ -335,17 +335,17 @@ module.exports = {
 
                         //add fields
                         modeInfo.addFields(
-                            {name: "Plalist Type", value: gameType, inline: true},
-                            {name: "Max Team Size", value: res.data.modes[num].maxTeamSize, inline: true},
-                            {name: "is Large Team?", value: largeTeam, inline: true},
+                            {name: "Plalist Type", value: gameType},
+                            {name: "Max Team Size", value: res.data.modes[num].maxTeamSize},
+                            {name: "is Large Team?", value: largeTeam},
                         )
                     }else if(lang === "ar"){
 
                         //add fields
                         modeInfo.addFields(
-                            {name: "نوع الطور", value: gameType, inline: true},
-                            {name: "اعلى عدد مسموح", value: res.data.modes[num].maxTeamSize, inline: true},
-                            {name: "هل هو طور كبير؟", value: largeTeam, inline: true},
+                            {name: "نوع الطور", value: gameType},
+                            {name: "اعلى عدد مسموح", value: res.data.modes[num].maxTeamSize},
+                            {name: "هل هو طور كبير؟", value: largeTeam},
                         )
                     }
 

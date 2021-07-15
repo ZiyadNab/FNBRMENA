@@ -160,7 +160,7 @@ module.exports = {
                     //applytext
                     const applyTextDescription = (canvas, text) => {
                         const ctx = canvas.getContext('2d');
-                        let fontSize = 30;
+                        let fontSize = 20;
                         do {
                             if(lang === "en"){
                                 ctx.font = `${fontSize -= 1}px Arial`;
@@ -262,7 +262,7 @@ module.exports = {
 
                         ctx.fillText(description[i], canvas.width / 2, lines)
 
-                        lines += 30
+                        lines += 33
                     }
 
                     //creating embed

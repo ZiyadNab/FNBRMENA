@@ -144,8 +144,7 @@ module.exports = {
                 var name = res.data.modes[num].name
                 var description = res.data.modes[num].description
                 var matchmakingImage = res.data.modes[num].matchmakingIcon
-                if(res.data.modes[num].image !== null) var image = res.data.modes[num].image
-                else var image = null
+                var image = res.data.modes[num].image
 
                 const generating = new Discord.MessageEmbed()
                 generating.setColor(FNBRMENA.Colors("embed"))
@@ -234,8 +233,10 @@ module.exports = {
                     ctx.fillText("FNBRMENA", 25, 83)
 
                     //add the matchmaking image
-                    const matchmaking = await Canvas.loadImage(matchmakingImage)
-                    ctx.drawImage(matchmaking, canvas.width - 90, 25, 65, 65)
+                    if(matchmakingImage !== null){
+                        const matchmaking = await Canvas.loadImage(matchmakingImage)
+                        ctx.drawImage(matchmaking, canvas.width - 90, 25, 65, 65)
+                    }
 
                     //add the name
                     ctx.fillStyle = '#ffffff';

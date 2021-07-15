@@ -140,108 +140,121 @@ module.exports = {
 
             if(errorHandleing === 0 && res.data.modes.length !== 0){
 
-                //register fonts
-                Canvas.registerFont('./assets/font/Lalezar-Regular.ttf', {family: 'Arabic',weight: "700",style: "bold"});
-                Canvas.registerFont('./assets/font/BurbankBigCondensed-Black.otf' ,{family: 'Burbank Big Condensed',weight: "700",style: "bold"})
-
-                //applytext
-                const applyTextDescription = (canvas, text) => {
-                    const ctx = canvas.getContext('2d');
-                    let fontSize = 40;
-                    do {
-                        if(lang === "en"){
-                            ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
-                        }else if(lang === "ar"){
-                            ctx.font = `${fontSize -= 1}px Arabic`;
-                        }
-                    } while (ctx.measureText(text).width > 1800);
-                    return ctx.font;
-                }
-
-                //applytext
-                const applyTextName = (canvas, text) => {
-                    const ctx = canvas.getContext('2d');
-                    let fontSize = 100;
-                    do {
-                        if(lang === "en"){
-                            ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
-                        }else if(lang === "ar"){
-                            ctx.font = `${fontSize -= 1}px Arabic`;
-                        }
-                    } while (ctx.measureText(text).width > 1800);
-                    return ctx.font;
-                }
-
-                //canvas
-                const canvas = Canvas.createCanvas(1920, 1080);
-                const ctx = canvas.getContext('2d');
-
                 //inisilizing data
                 var name = res.data.modes[num].name
                 var description = res.data.modes[num].description
+                var matchmakingImage = res.data.modes[num].matchmakingIcon
                 if(res.data.modes[num].image !== null) var image = res.data.modes[num].image
                 else var image = null
 
-                //background
-                if(image !== null){
-                    
-                    //add the image
-                    const background = await Canvas.loadImage(image)
-                    ctx.drawImage(background, 0, 0, canvas.width, canvas.height)
+                const generating = new Discord.MessageEmbed()
+                generating.setColor(FNBRMENA.Colors("embed"))
+                if(lang === "en") generating.setTitle(`Getting data about ${name}... ${loadingEmoji}`)
+                else if(lang === "ar") generating.setTitle(`جاري تحميل معلومات طور ${name}... ${loadingEmoji}`)
+                message.channel.send(generating)
+                .then( async msg => {
 
-                    //add blue fog
-                    const fog = await Canvas.loadImage('./assets/News/fog.png')
-                    ctx.drawImage(fog,0,0,1920,1080)
+                    //register fonts
+                    Canvas.registerFont('./assets/font/Lalezar-Regular.ttf', {family: 'Arabic',weight: "700",style: "bold"});
+                    Canvas.registerFont('./assets/font/BurbankBigCondensed-Black.otf' ,{family: 'Burbank Big Condensed',weight: "700",style: "bold"})
 
-                }else{
+                    //applytext
+                    const applyTextDescription = (canvas, text) => {
+                        const ctx = canvas.getContext('2d');
+                        let fontSize = 40;
+                        do {
+                            if(lang === "en"){
+                                ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
+                            }else if(lang === "ar"){
+                                ctx.font = `${fontSize -= 1}px Arabic`;
+                            }
+                        } while (ctx.measureText(text).width > 1800);
+                        return ctx.font;
+                    }
 
-                    const background = await Canvas.loadImage('https://i.imgur.com/TN86zLu.png')
-                    ctx.drawImage(background, 0, 0, canvas.width, canvas.height)
+                    //applytext
+                    const applyTextName = (canvas, text) => {
+                        const ctx = canvas.getContext('2d');
+                        let fontSize = 100;
+                        do {
+                            if(lang === "en"){
+                                ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
+                            }else if(lang === "ar"){
+                                ctx.font = `${fontSize -= 1}px Arabic`;
+                            }
+                        } while (ctx.measureText(text).width > 1800);
+                        return ctx.font;
+                    }
 
-                    //add blue fog
-                    const fog = await Canvas.loadImage('./assets/News/fog.png')
-                    ctx.drawImage(fog, 0, 0, 1920, 1080)
+                    //canvas
+                    const canvas = Canvas.createCanvas(1920, 1080);
+                    const ctx = canvas.getContext('2d');
 
-                    //no img text
+                    //background
+                    if(image !== null){
+                        
+                        //add the image
+                        const background = await Canvas.loadImage(image)
+                        ctx.drawImage(background, 0, 0, canvas.width, canvas.height)
+
+                        //add blue fog
+                        const fog = await Canvas.loadImage('./assets/News/fog.png')
+                        ctx.drawImage(fog,0,0,1920,1080)
+
+                    }else{
+
+                        const background = await Canvas.loadImage('https://i.imgur.com/TN86zLu.png')
+                        ctx.drawImage(background, 0, 0, canvas.width, canvas.height)
+
+                        //add blue fog
+                        const fog = await Canvas.loadImage('./assets/News/fog.png')
+                        ctx.drawImage(fog, 0, 0, 1920, 1080)
+
+                        //no img text
+                        ctx.fillStyle = '#ffffff';
+                        ctx.textAlign='center';
+                        if(lang === "en"){
+                            ctx.font = '200px Burbank Big Condensed'
+                            ctx.fillText("No images found!", canvas.width / 2, canvas.height / 2)
+                        }
+                        else{
+                            if(lang === "ar") ctx.font = '200px Arabic'
+                            ctx.fillText("لا يوجد صورة", canvas.width / 2, canvas.height / 2)
+                        }
+                    }
+
+                    //add the border
+                    const border = await Canvas.loadImage('./assets/Rarities/Playlists/border.png')
+                    ctx.drawImage(border, 0, 0, canvas.width, canvas.height)
+
+                    //add the credits
+                    ctx.fillStyle = '#ffffff';
+                    ctx.textAlign='left';
+                    ctx.font = '75px Burbank Big Condensed'
+                    ctx.fillText("FNBRMENA", 25, 83)
+
+                    //add the matchmaking image
+                    const matchmaking = await Canvas.loadImage(matchmakingImage)
+                    ctx.drawImage(matchmaking, canvas.width - 90, 25, 65, 65)
+
+                    //add the name
                     ctx.fillStyle = '#ffffff';
                     ctx.textAlign='center';
-                    if(lang === "en"){
-                        ctx.font = '200px Burbank Big Condensed'
-                        ctx.fillText("No images found!", canvas.width / 2, canvas.height / 2)
-                    }
-                    else{
-                        if(lang === "ar") ctx.font = '200px Arabic'
-                        ctx.fillText("لا يوجد صورة", canvas.width / 2, canvas.height / 2)
-                    }
-                }
+                    ctx.font = applyTextName(canvas, name);
+                    ctx.fillText(name, canvas.width / 2, 900)
 
-                //add the border
-                var background = await Canvas.loadImage('./assets/Rarities/Playlists/border.png')
-                ctx.drawImage(background, 0, 0, canvas.width, canvas.height)
+                    //add the description
+                    ctx.fillStyle = '#ffffff';
+                    ctx.textAlign='center';
+                    ctx.font = applyTextDescription(canvas, description)
+                    ctx.fillText(description, canvas.width / 2, 1000)
 
-                //add the credits
-                ctx.fillStyle = '#ffffff';
-                ctx.textAlign='left';
-                ctx.font = '75px Burbank Big Condensed'
-                ctx.fillText("FNBRMENA", 25, 83)
-
-                //add the name
-                ctx.fillStyle = '#ffffff';
-                ctx.textAlign='center';
-                ctx.font = applyTextName(canvas, name);
-                ctx.fillText(name, canvas.width / 2, 900)
-
-                //add the description
-                ctx.fillStyle = '#ffffff';
-                ctx.textAlign='center';
-                ctx.font = applyTextDescription(canvas, description)
-                ctx.fillText(description, canvas.width / 2, 1000)
-
-                //send the img
-                const att = new Discord.MessageAttachment(canvas.toBuffer(), 'playlists.png')
-                await message.channel.send(att)
+                    //send the img
+                    const att = new Discord.MessageAttachment(canvas.toBuffer(), `${res.data.modes[num].id}.png`)
+                    await message.channel.send(att)
+                    msg.delete()
+                })
             }
-            
         })
     }
 }

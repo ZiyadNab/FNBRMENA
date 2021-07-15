@@ -63,6 +63,36 @@ class FNBRMENA {
      * Return data about the crew
      * 
      * @param {String} Lang
+     * @param {String} Type
+     * @param {String} Name
+     * 
+     */
+     async PlayList(Lang, Type, Name){
+
+        if(Type === "All") //return the crew data
+        return await axios.get(`https://fortniteapi.io/v1/game/modes?lang=${Lang}`, { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
+
+        if(Type === "Name") //return the crew data
+        return await axios.get(`https://fortniteapi.io/v1/game/modes?lang=${Lang}&name=${Name}`, { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
+
+    }
+
+    /**
+     * Return data about the crew
+     * 
+     * @param {String} Lang
+     * 
+     */
+     async ActivePlayLists(Lang){
+
+        //return the crew data
+        return await axios.get(`https://fortniteapi.io/v1/game/modes?lang=${Lang}&enabled=true`, { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
+    }
+
+    /**
+     * Return data about the crew
+     * 
+     * @param {String} Lang
      * 
      */
     async Crew(Lang){

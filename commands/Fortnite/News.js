@@ -1,16 +1,8 @@
 const Data = require('../../FNBRMENA')
 const FNBRMENA = new Data()
 const Canvas = require('canvas')
-var wrap = require('word-wrap');
-const Gif = require('make-a-gif')
-const FortniteAPI = require("fortnite-api-com");
-const config = {
-  apikey: FNBRMENA.APIKeys("FortniteAPI.com"),
-  language: "en",
-  debug: true
-};
-
-var Fortnite = new FortniteAPI(config);
+var wrap = require('word-wrap')
+const Gif = require('gif-encoder-2')
 
 module.exports = {
     commands: 'news',
@@ -24,844 +16,166 @@ module.exports = {
         //get the user language from the database
         const lang = await FNBRMENA.Admin(admin, message, "", "Lang")
 
-        var arrayBR = []
-        var arrayCR = []
-            var arraySTW = []
+        //index
+        let data = []
 
-            if(lang === "en"){
-                const mode = new Discord.MessageEmbed()
-                .setColor(FNBRMENA.Colors("embed"))
-                .setTitle('Choose a Mode')
-                .addFields(
-                    {name: 'Battle Royale', value: 'React to Number 1 for Battle Royale'},
-                    {name: 'STW', value: 'React to Number 2 for Save The World'},
-                    {name: 'Creative', value: 'React to Number 3 for Creative'}
-                )
-                const msgReact = await message.channel.send(mode)
-                await msgReact.react('1️⃣')
-                await msgReact.react('2️⃣')
-                await msgReact.react('3️⃣')
-                const filter = (reaction, user) => {
-                    return ['1️⃣', '2️⃣', '3️⃣'].includes(reaction.emoji.name) && user.id === message.author.id;
-                };
-                msgReact.awaitReactions(filter, { max: 1, time: 60000, errors: ['time'] })
-                .then( async collected => {
-                    const reaction = collected.first();
+        //handle errors
+        var errorHandleing = 0
 
-                    const generating = new Discord.MessageEmbed()
-                    generating.setColor(FNBRMENA.Colors("embed"))
-                    generating.setTitle(`Getting News ... ${loadingEmoji}`)
-                    message.channel.send(generating)
-                    .then( async msg => {
+        //news types
+        const NewsTypes = [
+            "BR",
+            "STW",
+            "Creative"
+        ]
+        
+        //request data
+        await FNBRMENA.News(lang)
+        .then(async res => {
 
-                    if(reaction.emoji.name === '1️⃣'){
-                        Fortnite.NewsBR("en")
-                        .then(async res => {
+            //ask the user what type of news he needs
+            const list = new Discord.MessageEmbed()
 
-                            Canvas.registerFont('./assets/font/BurbankBigCondensed-Black.otf' ,{family: 'Burbank Big Condensed',weight: "700",style: "bold"})
+            //set the color
+            list.setColor(FNBRMENA.Colors("embed"))
 
-                            const canvas = Canvas.createCanvas(1920, 1080);
-                            const ctx = canvas.getContext('2d');
-                            const PreGif = new Gif(1920,1080)
+            //set title
+            if(lang === "en") list.setTitle(`Please choose your item from the list below`)
+            else if(lang === "ar") list.setTitle(`الرجاء اختيار من القائمه بالاسفل`)
 
-                            const length = res.data.motds.length
-                            const layout = 1920 / length
+            //how many items where matchinh the user input?
+            if(lang === "en") var string = `• 0: Battle Royale\n• 1: STW\n• 2: Creative`
+            else if(lang === "ar") var string = `• 0: باتل رويال\n• 1: طور إنقاذ العالم\n• 2: طور الإبداعي`
 
-                            const applyText = (canvas, text) => {
-                                const ctx = canvas.getContext('2d');
-                                let fontSize = 60;
-                                do {
-                                    ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
-                                } while (ctx.measureText(text).width > (layout - 100));
-                                return ctx.font;
-                            };
+            //set Description
+            list.setDescription(string)
 
-                            for(let i = 0; i < length; i++){
-                                const photo = await Canvas.loadImage(res.data.motds[i].image)
-                                ctx.drawImage(photo,0,0,canvas.width,canvas.height)
-                                var x = 0;
-                                var text = 1
-                                for(let j = 0; j < length; j++){
-                                    if(i === j){
-                                        const Used = await Canvas.loadImage('./assets/News/Used.png')
-                                        ctx.drawImage(Used,x,0,layout,100)
-                                        ctx.fillStyle = '#ffffff';
-                                        ctx.textAlign='center';
-                                        if(res.data.motds[j].tabTitle !== null){
-                                            ctx.font = applyText(canvas, res.data.motds[j].tabTitle);
-                                            ctx.fillText(res.data.motds[j].tabTitle, ((layout * text) / 2), 66)
-                                    }else{
-                                        ctx.font = applyText(canvas, res.data.motds[j].title);
-                                        ctx.fillText(res.data.motds[j].title, ((layout * text) / 2), 66)
-                                    }
-                                        x += layout
-                                        text += 2;
-                                    }else{
-                                        const NotUsed = await Canvas.loadImage('./assets/News/NotUsed.png')
-                                        ctx.drawImage(NotUsed,x,0,layout,100)
-                                        ctx.fillStyle = '#ffffff';
-                                        ctx.textAlign='center';
-                                        if(res.data.motds[j].tabTitle !== null){
-                                            ctx.font = applyText(canvas, res.data.motds[j].tabTitle);
-                                            ctx.fillText(res.data.motds[j].tabTitle, ((layout * text) / 2), 66)
-                                    }else{
-                                        ctx.font = applyText(canvas, res.data.motds[j].title);
-                                        ctx.fillText(res.data.motds[j].title, ((layout * text) / 2), 66)
-                                    }
-                                        x += layout
-                                        text += 2;
-                                    }
-                                }
+            //send the message and wait for answer
+            await message.channel.send(list)
+            .then(async list => {
 
-                                //lines
-                                const t = wrap(res.data.motds[i].body, {width: 50})
-                                const lines = (t.split(/\r\n|\r|\n/).length)
+                //filtering outfits
+                const filter = async m => await m.author.id === message.author.id
 
-                                var px
-                                var y
-                                var x
-                                if(lines > 4){
-                                    px = 45
-                                    y = lines * 28
-                                    x = 910
-                                }else if(lines >= 2 && lines <= 4){
-                                    px = 45
-                                    y = lines * 22
-                                    x = 910
-                                }else if (lines < 2){
-                                    px = 60
-                                    y = 0
-                                    x = 900
-                                }
+                //add the reply
+                if(lang === "en") var reply = `please choose your item, listening will be stopped after 20 seconds`
+                else if(lang === "ar") var reply = `الرجاء كتابة اسم العنصر، راح يتوقف الامر بعد ٢٠ ثانية`
+                
+                await message.reply(reply)
+                .then( async notify => {
 
-                                const fog = await Canvas.loadImage('./assets/News/fog.png')
-                                ctx.drawImage(fog,0,0,1920,1080)
+                    //listen for user input
+                    await message.channel.awaitMessages(filter, {max: 1, time: 20000})
+                    .then( async collected => {
 
-                                //credit
-                                const credit = await Canvas.loadImage('./assets/Credits/FNBR.png')
-                                ctx.drawImage(credit,1550,950,370,125)
+                        //delete messages
+                        await notify.delete()
+                        await list.delete()
 
-                                //title
-                                ctx.fillStyle = '#ffffff';
-                                ctx.textAlign='left';
-                                ctx.font = '100px Burbank Big Condensed'
-                                ctx.fillText(res.data.motds[i].title, 50, x - y)
+                        //if the user chosen inside range
+                        if(collected.first().content >= 0 && collected.first().content < NewsTypes.length){
 
-                                //body
-                                ctx.fillStyle = '#33edff';
-                                ctx.textAlign='left';
-                                ctx.font = `${px}px Burbank Big Condensed`
-                                ctx.fillText(t, 33, 970 - y)
+                            //store the news data to the data variable
+                            if(NewsTypes[collected.first().content] === NewsTypes[0])
+                            data = await res.data.data.br
+                            if(NewsTypes[collected.first().content] === NewsTypes[1])
+                            data = await res.data.data.stw
+                            if(NewsTypes[collected.first().content] === NewsTypes[2])
+                            data = await res.data.data.creative
+                             
+                        }else{
 
-                                arrayBR[i] = canvas.toBuffer('image/jpeg')
-                            }
-                            if(arrayBR.length == 1){
-                                await PreGif.setImages(arrayBR[0])
-                            }
-                            if(arrayBR.length == 2){
-                                await PreGif.setImages(arrayBR[0],arrayBR[1])
-                            }
-                            if(arrayBR.length == 3){
-                                await PreGif.setImages(arrayBR[0],arrayBR[1],arrayBR[2])
-                            }
-                            if(arrayBR.length == 4){
-                                await PreGif.setImages(arrayBR[0],arrayBR[1],arrayBR[2],arrayBR[3])
-                            }
-                            if(arrayBR.length == 5){
-                                await PreGif.setImages(arrayBR[0],arrayBR[1],arrayBR[2],arrayBR[3],arrayBR[4])
-                            }
+                            //add an error
+                            errorHandleing++
+
+                            //if user typed a number out of range
+                            const error = new Discord.MessageEmbed()
+                            error.setColor(FNBRMENA.Colors("embed"))
+                            if(lang === "en") error.setTitle(`Sorry we canceled your process becuase u selected a number out of range ${errorEmoji}`)
+                            else if(lang === "ar") error.setTitle(`تم ايقاف الامر بسبب اختيارك لرقم خارج النطاق ${errorEmoji}`)
+                            message.reply(error)
                             
-                            PreGif.setDelay(3 * 1000)
-                            const gif = await PreGif.create()
-                            const att = new Discord.MessageAttachment(gif, 'file.gif')
-                            await message.channel.send(att)
-                            msg.delete()
-                        })
-                        msgReact.delete()
-                    }
-                    if(reaction.emoji.name === '2️⃣'){
-                        Fortnite.NewsSTW("en")
-                        .then(async res => {
-                            
-                            Canvas.registerFont('./assets/font/BurbankBigCondensed-Black.otf' ,{family: 'Burbank Big Condensed',weight: "700",style: "bold"})
+                        }
+                    }).catch(err => {
 
-                            const canvas = Canvas.createCanvas(1920, 1080);
-                            const ctx = canvas.getContext('2d');
-                            const PreGif = new Gif(1920,1080)
+                        //add an error
+                        errorHandleing++
 
-                            const length = res.data.messages.length
-                            const layout = 1920 / length
-
-                            const applyText = (canvas, text) => {
-                                const ctx = canvas.getContext('2d');
-                                let fontSize = 60;
-                                do {
-                                    ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
-                                } while (ctx.measureText(text).width > (layout - 100));
-                                return ctx.font;
-                            };
-
-                            for(let i = 0; i < length; i++){
-                                const photo = await Canvas.loadImage(res.data.messages[i].image)
-                                ctx.drawImage(photo,0,0,canvas.width,canvas.height)
-                                var x = 0;
-                                var text = 1
-                                for(let j = 0; j < length; j++){
-                                    if(i === j){
-                                        const Used = await Canvas.loadImage('./assets/News/Used.png')
-                                        ctx.drawImage(Used,x,0,layout,100)
-                                        ctx.fillStyle = '#ffffff';
-                                        ctx.textAlign='center';
-                                        if(res.data.messages[j].adspace !== ''){
-                                            ctx.font = applyText(canvas, res.data.messages[j].adspace);
-                                            ctx.fillText(res.data.messages[j].adspace, ((layout * text) / 2), 66)
-                                        }else{
-                                            ctx.font = applyText(canvas, res.data.messages[i].title);
-                                            ctx.fillText(res.data.messages[j].title, ((layout * text) / 2), 66)
-                                        }
-                                        x += layout
-                                        text += 2;
-                                    }else{
-                                        const NotUsed = await Canvas.loadImage('./assets/News/NotUsed.png')
-                                        ctx.drawImage(NotUsed,x,0,layout,100)
-                                        ctx.fillStyle = '#ffffff';
-                                        ctx.textAlign='center';
-                                        if(res.data.messages[j].adspace !== ''){
-                                            ctx.font = applyText(canvas, res.data.messages[j].adspace);
-                                            ctx.fillText(res.data.messages[j].adspace, ((layout * text) / 2), 66)
-                                        }else{
-                                            ctx.font = applyText(canvas, res.data.messages[i].title);
-                                            ctx.fillText(res.data.messages[j].title, ((layout * text) / 2), 66)
-                                        }
-                                        x += layout
-                                        text += 2;
-                                    }
-                                }
-                                //lines
-                                const t = wrap(res.data.messages[i].body, {width: 50})
-                                const lines = (t.split(/\r\n|\r|\n/).length)
-
-                                var px
-                                var y
-                                var x
-                                if(lines > 4){
-                                    px = 45
-                                    y = lines * 28
-                                    x = 910
-                                }else if(lines >= 2 && lines <= 4){
-                                    px = 45
-                                    y = lines * 22
-                                    x = 910
-                                }else if (lines < 2){
-                                    px = 60
-                                    y = 0
-                                    x = 900
-                                }
-
-                                const fog = await Canvas.loadImage('./assets/News/fog.png')
-                                ctx.drawImage(fog,0,0,1920,1080)
-
-                                //credit
-                                const credit = await Canvas.loadImage('./assets/Credits/FNBR.png')
-                                ctx.drawImage(credit,1550,950,370,125)
-
-                                //title
-                                ctx.fillStyle = '#ffffff';
-                                ctx.textAlign='left';
-                                ctx.font = '100px Burbank Big Condensed'
-                                ctx.fillText(res.data.messages[i].title, 50, x - y)
-
-                                //body
-                                ctx.fillStyle = '#33edff';
-                                ctx.textAlign='left';
-                                ctx.font = `${px}px Burbank Big Condensed`
-                                ctx.fillText(t, 33, 970 - y)
-
-                                arraySTW[i] = canvas.toBuffer('image/jpeg')
-                            }
-                            if(arraySTW.length == 1){
-                                await PreGif.setImages(arraySTW[0])
-                            }
-                            if(arraySTW.length == 2){
-                                await PreGif.setImages(arraySTW[0],arraySTW[1])
-                            }
-                            if(arraySTW.length == 3){
-                                await PreGif.setImages(arraySTW[0],arraySTW[1],arraySTW[2])
-                            }
-                            if(arraySTW.length == 4){
-                                await PreGif.setImages(arraySTW[0],arraySTW[1],arraySTW[2],arraySTW[3])
-                            }
-                            if(arraySTW.length == 5){
-                                await PreGif.setImages(arraySTW[0],arraySTW[1],arraySTW[2],arraySTW[3],arraySTW[4])
-                            }
-                            
-                            PreGif.setDelay(3 * 1000)
-                            const gif = await PreGif.create()
-                            const att = new Discord.MessageAttachment(gif, 'file.gif')
-                            await message.channel.send(att)
-                            msg.delete()
-                        })
-                        msgReact.delete()
-                    }
-                    if(reaction.emoji.name === '3️⃣'){
-                        Fortnite.NewsCreative("en")
-                        .then(async res => {
-                            
-
-                            Canvas.registerFont('./assets/font/BurbankBigCondensed-Black.otf' ,{family: 'Burbank Big Condensed',weight: "700",style: "bold"})
-
-                            const canvas = Canvas.createCanvas(1920, 1080);
-                            const ctx = canvas.getContext('2d');
-                            const PreGif = new Gif(1920,1080)
-
-                            const length = res.data.motds.length
-                            const layout = 1920 / length
-
-                            const applyText = (canvas, text) => {
-                                const ctx = canvas.getContext('2d');
-                                let fontSize = 60;
-                                do {
-                                    ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
-                                } while (ctx.measureText(text).width > (layout - 100));
-                                return ctx.font;
-                            };
-
-                            for(let i = 0; i < length; i++){
-                                const photo = await Canvas.loadImage(res.data.motds[i].image)
-                                ctx.drawImage(photo,0,0,canvas.width,canvas.height)
-                                var x = 0;
-                                var text = 1
-                                for(let j = 0; j < length; j++){
-                                    if(i === j){
-                                        const Used = await Canvas.loadImage('./assets/News/Used.png')
-                                        ctx.drawImage(Used,x,0,layout,100)
-                                        ctx.fillStyle = '#ffffff';
-                                        ctx.textAlign='center';
-                                        if(res.data.motds[j].tabTitle !== null){
-                                            ctx.font = applyText(canvas, res.data.motds[j].tabTitle);
-                                            ctx.fillText(res.data.motds[j].tabTitle, ((layout * text) / 2), 66)
-                                    }else{
-                                        ctx.font = applyText(canvas, res.data.motds[j].title);
-                                        ctx.fillText(res.data.motds[j].title, ((layout * text) / 2), 66)
-                                    }
-                                        x += layout
-                                        text += 2;
-                                    }else{
-                                        const NotUsed = await Canvas.loadImage('./assets/News/NotUsed.png')
-                                        ctx.drawImage(NotUsed,x,0,layout,100)
-                                        ctx.fillStyle = '#ffffff';
-                                        ctx.textAlign='center';
-                                        if(res.data.motds[j].tabTitle !== null){
-                                            ctx.font = applyText(canvas, res.data.motds[j].tabTitle);
-                                            ctx.fillText(res.data.motds[j].tabTitle, ((layout * text) / 2), 66)
-                                    }else{
-                                        ctx.font = applyText(canvas, res.data.motds[j].title);
-                                        ctx.fillText(res.data.motds[j].title, ((layout * text) / 2), 66)
-                                    }
-                                        x += layout
-                                        text += 2;
-                                    }
-                                }
-                                //lines
-                                const t = wrap(res.data.motds[i].body, {width: 50})
-                                const lines = (t.split(/\r\n|\r|\n/).length)
-
-                                var px
-                                var y
-                                var x
-                                if(lines > 4){
-                                    px = 45
-                                    y = lines * 28
-                                    x = 910
-                                }else if(lines >= 2 && lines <= 4){
-                                    px = 45
-                                    y = lines * 22
-                                    x = 910
-                                }else if (lines < 2){
-                                    px = 60
-                                    y = 0
-                                    x = 900
-                                }
-
-                                const fog = await Canvas.loadImage('./assets/News/fog.png')
-                                ctx.drawImage(fog,0,0,1920,1080)
-
-                                //credit
-                                const credit = await Canvas.loadImage('./assets/Credits/FNBR.png')
-                                ctx.drawImage(credit,1550,950,370,125)
-
-                                //title
-                                ctx.fillStyle = '#ffffff';
-                                ctx.textAlign='left';
-                                ctx.font = '100px Burbank Big Condensed'
-                                ctx.fillText(res.data.motds[i].title, 50, x - y)
-
-                                //body
-                                ctx.fillStyle = '#33edff';
-                                ctx.textAlign='left';
-                                ctx.font = `${px}px Burbank Big Condensed`
-                                ctx.fillText(t, 33, 970 - y)
-
-                                arrayCR[i] = canvas.toBuffer('image/jpeg')
-                            }
-                            if(arrayCR.length == 1){
-                                await PreGif.setImages(arrayCR[0])
-                            }
-                            if(arrayCR.length == 2){
-                                await PreGif.setImages(arrayCR[0],arrayCR[1])
-                            }
-                            if(arrayCR.length == 3){
-                                await PreGif.setImages(arrayCR[0],arrayCR[1],arrayCR[2])
-                            }
-                            if(arrayCR.length == 4){
-                                await PreGif.setImages(arrayCR[0],arrayCR[1],arrayCR[2],arrayCR[3])
-                            }
-                            if(arrayCR.length == 5){
-                                await PreGif.setImages(arrayCR[0],arrayCR[1],arrayCR[2],arrayCR[3],arrayCR[4])
-                            }
-                            
-                            PreGif.setDelay(3 * 1000)
-                            const gif = await PreGif.create()
-                            const att = new Discord.MessageAttachment(gif, 'file.gif')
-                            await message.channel.send(att)
-                            msg.delete()
-                        })
-                        msgReact.delete()
-                    
-                    }
+                        const error = new Discord.MessageEmbed()
+                        error.setColor(FNBRMENA.Colors("embed"))
+                        error.setTitle(`${FNBRMENA.Errors("Time", lang)} ${errorEmoji}`)
+                        message.reply(error)
+                    })
                 })
-            }).catch(err =>{
-                if(lang === "en"){
-                    msgReact.delete()
-                    const error = new Discord.MessageEmbed()
-                    .setColor(FNBRMENA.Colors("embed"))
-                    .setTitle(`Sorry we canceled your process becuase no method has been selected ${errorEmoji}`)
-                    message.reply(error)
-                }else if(lang === "ar"){
-                    msgReact.delete()
-                    const error = new Discord.MessageEmbed()
-                    .setColor(FNBRMENA.Colors("embed"))
-                    .setTitle(`تم ايقاف الامر بسبب عدم اختيارك لطريقة ${errorEmoji}`)
-                    message.reply(error)
-                }
+            }).catch(err => {
+
+                //add an error
+                errorHandleing++
+
+                //if user typed a number out of range
+                const errorRequest = new Discord.MessageEmbed()
+                errorRequest.setColor(FNBRMENA.Colors("embed"))
+                if(lang === "en") errorRequest.setTitle(`Request entry too large ${errorEmoji}`)
+                else if(lang === "ar") errorRequest.setTitle(`تم تخطي الكمية المحدودة من عدد العناصر ${errorEmoji}`)
+                message.reply(errorRequest)
+
             })
-        }
-        if(lang === "ar"){
-            const mode = new Discord.MessageEmbed()
-            .setColor(FNBRMENA.Colors("embed"))
-            .setTitle('اخطر الطور')
-            .addFields(
-                {name: 'Battle Royale', value: 'صوت رقم واحد للحصول على اخبار الباتل رويال'},
-                {name: 'STW', value: 'صوت رقم اثنان للحصول على اخبار انقاذ العالم'},
-                {name: 'Creative', value: 'صوت رقم ثلاثة للحصول على اخبار الكريتف'}
-            )
-            const msgReact = await message.channel.send(mode)
-            await msgReact.react('1️⃣')
-            await msgReact.react('2️⃣')
-            await msgReact.react('3️⃣')
-            const filter = (reaction, user) => {
-                return ['1️⃣', '2️⃣', '3️⃣'].includes(reaction.emoji.name) && user.id === message.author.id;
-            };
-            msgReact.awaitReactions(filter, { max: 1, time: 60000, errors: ['time'] })
-            .then( async collected => {
-                const reaction = collected.first();
+        })
 
-                const generating = new Discord.MessageEmbed()
-                generating.setColor(FNBRMENA.Colors("embed"))
-                generating.setTitle(`جاري البحث عن اخبار ... ${loadingEmoji}`)
-                message.channel.send(generating)
-                .then( async msg => {
+        //create the news gif based on user choice
+        if(errorHandleing === 0){
 
-                if(reaction.emoji.name === '1️⃣'){
-                    Fortnite.NewsBR("ar")
-                    .then(async res => {
-                        
-
-                        Canvas.registerFont('./assets/font/Lalezar-Regular.ttf', {family: 'Arabic',weight: "700",style: "bold"});
-
-                        const canvas = Canvas.createCanvas(1920, 1080);
-                        const ctx = canvas.getContext('2d');
-                        const PreGif = new Gif(1920,1080)
-
-                        const length = res.data.motds.length
-                        const layout = 1920 / length
-
-                        const applyText = (canvas, text) => {
-                            const ctx = canvas.getContext('2d');
-                            let fontSize = 60;
-                            do {
-                                ctx.font = `${fontSize -= 1}px Arabic`;
-                            } while (ctx.measureText(text).width > (layout - 100));
-                            return ctx.font;
-                        };
-
-                        for(let i = 0; i < length; i++){
-                            const photo = await Canvas.loadImage(res.data.motds[i].image)
-                            ctx.drawImage(photo,0,0,canvas.width,canvas.height)
-                            var x = 0;
-                            var text = 1
-                            for(let j = 0; j < length; j++){
-                                if(i === j){
-                                    const Used = await Canvas.loadImage('./assets/News/Used.png')
-                                    ctx.drawImage(Used,x,0,layout,100)
-                                    ctx.fillStyle = '#ffffff';
-                                    ctx.textAlign='center';
-                                    if(res.data.motds[j].tabTitle !== null){
-                                        ctx.font = applyText(canvas, res.data.motds[j].tabTitle);
-                                        ctx.fillText(res.data.motds[j].tabTitle, ((layout * text) / 2), 66)
-                                }else{
-                                    ctx.font = applyText(canvas, res.data.motds[j].title);
-                                    ctx.fillText(res.data.motds[j].title, ((layout * text) / 2), 66)
-                                }
-                                    x += layout
-                                    text += 2;
-                                }else{
-                                    const NotUsed = await Canvas.loadImage('./assets/News/NotUsed.png')
-                                    ctx.drawImage(NotUsed,x,0,layout,100)
-                                    ctx.fillStyle = '#ffffff';
-                                    ctx.textAlign='center';
-                                    if(res.data.motds[j].tabTitle !== null){
-                                        ctx.font = applyText(canvas, res.data.motds[j].tabTitle);
-                                        ctx.fillText(res.data.motds[j].tabTitle, ((layout * text) / 2), 66)
-                                }else{
-                                    ctx.font = applyText(canvas, res.data.motds[j].title);
-                                    ctx.fillText(res.data.motds[j].title, ((layout * text) / 2), 66)
-                                }
-                                    x += layout
-                                    text += 2;
-                                }
-                            }
-                            //lines
-                            const t = wrap(res.data.motds[i].body, {width: 50})
-                            const lines = (t.split(/\r\n|\r|\n/).length)
-
-                            var px
-                            var y
-                            var x
-                            if(lines > 4){
-                                px = 45
-                                y = lines * 35
-                                x = 890
-                            }else if(lines >= 2 && lines <= 4){
-                                px = 45
-                                y = lines * 28
-                                x = 890
-                            }else if (lines < 2){
-                                px = 60
-                                y = 0
-                                x = 885
-                            }
-
-                            const fog = await Canvas.loadImage('./assets/News/fog.png')
-                            ctx.drawImage(fog,0,0,1920,1080)
-
-                            //credit
-                            const credit = await Canvas.loadImage('./assets/Credits/FNBR.png')
-                            ctx.drawImage(credit,8,950,370,125)
-
-                            //title
-                            ctx.fillStyle = '#ffffff';
-                            ctx.textAlign='right';
-                            ctx.font = '100px Arabic'
-                            ctx.fillText(res.data.motds[i].title, 1870, x - y)
-
-                            //body
-                            ctx.fillStyle = '#33edff';
-                            ctx.textAlign='right';
-                            ctx.font = `${px}px Arabic`
-                            ctx.fillText(t, 1885, 970 - y)
-
-                            arrayBR[i] = canvas.toBuffer('image/jpeg')
-                        }
-                        if(arrayBR.length == 1){
-                            await PreGif.setImages(arrayBR[0])
-                        }
-                        if(arrayBR.length == 2){
-                            await PreGif.setImages(arrayBR[0],arrayBR[1])
-                        }
-                        if(arrayBR.length == 3){
-                            await PreGif.setImages(arrayBR[0],arrayBR[1],arrayBR[2])
-                        }
-                        if(arrayBR.length == 4){
-                            await PreGif.setImages(arrayBR[0],arrayBR[1],arrayBR[2],arrayBR[3])
-                        }
-                        if(arrayBR.length == 5){
-                            await PreGif.setImages(arrayBR[0],arrayBR[1],arrayBR[2],arrayBR[3],arrayBR[4])
-                        }
-                        
-                        PreGif.setDelay(3 * 1000)
-                        const gif = await PreGif.create()
-                        const att = new Discord.MessageAttachment(gif, 'file.gif')
-                        await message.channel.send(att)
-                        msg.delete()
-                    })
-                    msgReact.delete()
-                }
-                if(reaction.emoji.name === '2️⃣'){
-                    Fortnite.NewsSTW("ar")
-                    .then(async res => {
-                        
-                        Canvas.registerFont('./assets/font/Lalezar-Regular.ttf', {family: 'Arabic',weight: "700",style: "bold"});
-
-                        const canvas = Canvas.createCanvas(1920, 1080);
-                        const ctx = canvas.getContext('2d');
-                        const PreGif = new Gif(1920,1080)
-
-                        const length = res.data.messages.length
-                        const layout = 1920 / length
-
-                        const applyText = (canvas, text) => {
-                            const ctx = canvas.getContext('2d');
-                            let fontSize = 60;
-                            do {
-                                ctx.font = `${fontSize -= 1}px Arabic`;
-                            } while (ctx.measureText(text).width > (layout - 100));
-                            return ctx.font;
-                        };
-
-                        for(let i = 0; i < length; i++){
-                            const photo = await Canvas.loadImage(res.data.messages[i].image)
-                            ctx.drawImage(photo,0,0,canvas.width,canvas.height)
-                            var x = 0;
-                            var text = 1
-                            for(let j = 0; j < length; j++){
-                                if(i === j){
-                                    const Used = await Canvas.loadImage('./assets/News/Used.png')
-                                    ctx.drawImage(Used,x,0,layout,100)
-                                    ctx.fillStyle = '#ffffff';
-                                    ctx.textAlign='center';
-                                    if(res.data.messages[j].adspace !== ''){
-                                        ctx.font = applyText(canvas, res.data.messages[j].adspace);
-                                        ctx.fillText(res.data.messages[j].adspace, ((layout * text) / 2), 66)
-                                    }else{
-                                        ctx.font = applyText(canvas, res.data.messages[i].title);
-                                        ctx.fillText(res.data.messages[j].title, ((layout * text) / 2), 66)
-                                    }
-                                    x += layout
-                                    text += 2;
-                                }else{
-                                    const NotUsed = await Canvas.loadImage('./assets/News/NotUsed.png')
-                                    ctx.drawImage(NotUsed,x,0,layout,100)
-                                    ctx.fillStyle = '#ffffff';
-                                    ctx.textAlign='center';
-                                    if(res.data.messages[j].adspace !== ''){
-                                        ctx.font = applyText(canvas, res.data.messages[j].adspace);
-                                        ctx.fillText(res.data.messages[j].adspace, ((layout * text) / 2), 66)
-                                    }else{
-                                        ctx.font = applyText(canvas, res.data.messages[i].title);
-                                        ctx.fillText(res.data.messages[j].title, ((layout * text) / 2), 66)
-                                    }
-                                    x += layout
-                                    text += 2;
-                                }
-                            }
-                            //lines
-                            const t = wrap(res.data.messages[i].body, {width: 50})
-                            const lines = (t.split(/\r\n|\r|\n/).length)
-
-                            var px
-                            var y
-                            var x
-                            if(lines > 4){
-                                px = 45
-                                y = lines * 35
-                                x = 890
-                            }else if(lines >= 2 && lines <= 4){
-                                px = 45
-                                y = lines * 28
-                                x = 890
-                            }else if (lines < 2){
-                                px = 60
-                                y = 0
-                                x = 885
-                            }
-
-                            const fog = await Canvas.loadImage('./assets/News/fog.png')
-                            ctx.drawImage(fog,0,0,1920,1080)
-
-                            //credit
-                            const credit = await Canvas.loadImage('./assets/Credits/FNBR.png')
-                            ctx.drawImage(credit,8,950,370,125)
-
-                            //title
-                            ctx.fillStyle = '#ffffff';
-                            ctx.textAlign='right';
-                            ctx.font = '100px Arabic'
-                            ctx.fillText(res.data.messages[i].title, 1870, x - y)
-
-                            //body
-                            ctx.fillStyle = '#33edff';
-                            ctx.textAlign='right';
-                            ctx.font = `${px}px Arabic`
-                            ctx.fillText(t, 1885, 970 - y)
-
-                            arraySTW[i] = canvas.toBuffer('image/jpeg')
-                        }
-                        if(arraySTW.length == 1){
-                            await PreGif.setImages(arraySTW[0])
-                        }
-                        if(arraySTW.length == 2){
-                            await PreGif.setImages(arraySTW[0],arraySTW[1])
-                        }
-                        if(arraySTW.length == 3){
-                            await PreGif.setImages(arraySTW[0],arraySTW[1],arraySTW[2])
-                        }
-                        if(arraySTW.length == 4){
-                            await PreGif.setImages(arraySTW[0],arraySTW[1],arraySTW[2],arraySTW[3])
-                        }
-                        if(arraySTW.length == 5){
-                            await PreGif.setImages(arraySTW[0],arraySTW[1],arraySTW[2],arraySTW[3],arraySTW[4])
-                        }
-                        
-                        PreGif.setDelay(3 * 1000)
-                        const gif = await PreGif.create()
-                        const att = new Discord.MessageAttachment(gif, 'file.gif')
-                        await message.channel.send(att)
-                        msg.delete()
-                    })
-                    msgReact.delete()
-                }
-                if(reaction.emoji.name === '3️⃣'){
-                    Fortnite.NewsCreative("ar")
-                    .then(async res => {
-                        
-
-                        Canvas.registerFont('./assets/font/Lalezar-Regular.ttf', {family: 'Arabic',weight: "700",style: "bold"});
-
-                        const canvas = Canvas.createCanvas(1920, 1080);
-                        const ctx = canvas.getContext('2d');
-                        const PreGif = new Gif(1920,1080)
-
-                        const length = res.data.motds.length
-                        const layout = 1920 / length
-
-                        const applyText = (canvas, text) => {
-                            const ctx = canvas.getContext('2d');
-                            let fontSize = 60;
-                            do {
-                                ctx.font = `${fontSize -= 1}px Arabic`;
-                            } while (ctx.measureText(text).width > (layout - 100));
-                            return ctx.font;
-                        }
-
-                        for(let i = 0; i < length; i++){
-                            const photo = await Canvas.loadImage(res.data.motds[i].image)
-                            ctx.drawImage(photo,0,0,canvas.width,canvas.height)
-                            var x = 0;
-                            var text = 1
-                            for(let j = 0; j < length; j++){
-                                if(i === j){
-                                    const Used = await Canvas.loadImage('./assets/News/Used.png')
-                                    ctx.drawImage(Used,x,0,layout,100)
-                                    ctx.fillStyle = '#ffffff';
-                                    ctx.textAlign='center';
-                                    if(res.data.motds[j].tabTitle !== null){
-                                        ctx.font = applyText(canvas, res.data.motds[j].tabTitle);
-                                        ctx.fillText(res.data.motds[j].tabTitle, ((layout * text) / 2), 66)
-                                }else{
-                                    ctx.font = applyText(canvas, res.data.motds[j].title);
-                                    ctx.fillText(res.data.motds[j].title, ((layout * text) / 2), 66)
-                                }
-                                    x += layout
-                                    text += 2;
-                                }else{
-                                    const NotUsed = await Canvas.loadImage('./assets/News/NotUsed.png')
-                                    ctx.drawImage(NotUsed,x,0,layout,100)
-                                    ctx.fillStyle = '#ffffff';
-                                    ctx.textAlign='center';
-                                    if(res.data.motds[j].tabTitle !== null){
-                                        ctx.font = applyText(canvas, res.data.motds[j].tabTitle);
-                                        ctx.fillText(res.data.motds[j].tabTitle, ((layout * text) / 2), 66)
-                                }else{
-                                    ctx.font = applyText(canvas, res.data.motds[j].title);
-                                    ctx.fillText(res.data.motds[j].title, ((layout * text) / 2), 66)
-                                }
-                                    x += layout
-                                    text += 2;
-                                }
-                            }
-                            //lines
-                            const t = wrap(res.data.motds[i].body, {width: 50})
-                            const lines = (t.split(/\r\n|\r|\n/).length)
-
-                            var px
-                            var y
-                            var x
-                            if(lines > 4){
-                                px = 45
-                                y = lines * 35
-                                x = 890
-                            }else if(lines >= 2 && lines <= 4){
-                                px = 45
-                                y = lines * 28
-                                x = 890
-                            }else if (lines < 2){
-                                px = 60
-                                y = 0
-                                x = 885
-                            }
-
-                            const fog = await Canvas.loadImage('./assets/News/fog.png')
-                            ctx.drawImage(fog,0,0,1920,1080)
-
-                            //credit
-                            const credit = await Canvas.loadImage('./assets/Credits/FNBR.png')
-                            ctx.drawImage(credit,8,950,370,125)
-
-                            //title
-                            ctx.fillStyle = '#ffffff';
-                            ctx.textAlign='right';
-                            ctx.font = '100px Arabic'
-                            ctx.fillText(res.data.motds[i].title, 1870, x - y)
-
-                            //body
-                            ctx.fillStyle = '#33edff';
-                            ctx.textAlign='right';
-                            ctx.font = `${px}px Arabic`
-                            ctx.fillText(t, 1885, 970 - y)
-
-                            arrayCR[i] = canvas.toBuffer('image/jpeg')
-                        }
-                        if(arrayCR.length == 1){
-                            await PreGif.setImages(arrayCR[0])
-                        }
-                        if(arrayCR.length == 2){
-                            await PreGif.setImages(arrayCR[0],arrayCR[1])
-                        }
-                        if(arrayCR.length == 3){
-                            await PreGif.setImages(arrayCR[0],arrayCR[1],arrayCR[2])
-                        }
-                        if(arrayCR.length == 4){
-                            await PreGif.setImages(arrayCR[0],arrayCR[1],arrayCR[2],arrayCR[3])
-                        }
-                        if(arrayCR.length == 5){
-                            await PreGif.setImages(arrayCR[0],arrayCR[1],arrayCR[2],arrayCR[3],arrayCR[4])
-                        }
-                        
-                        PreGif.setDelay(3 * 1000)
-                        const gif = await PreGif.create()
-                        const att = new Discord.MessageAttachment(gif, 'file.gif')
-                        await message.channel.send(att)
-                        msg.delete()
-                    })
-                    msgReact.delete()
+            //aplyText
+            const applyText = (canvas, text) => {
+                const ctx = canvas.getContext('2d')
+                let fontSize = 36
+                do {
+                    if(lang === "en"){
+                        ctx.font = `${fontSize -= 1}px Burbank Big Condensed`
+                    }else if(lang === "ar"){
+                        ctx.font = `${fontSize -= 1}px Arabic`
                     }
-                })
-            }).catch(err =>{
-                if(lang === "en"){
-                    msgReact.delete()
-                    const error = new Discord.MessageEmbed()
-                    .setColor(FNBRMENA.Colors("embed"))
-                    .setTitle(`Sorry we canceled your process becuase no method has been selected ${errorEmoji}`)
-                    message.reply(error)
-                }else if(lang === "ar"){
-                    msgReact.delete()
-                    const error = new Discord.MessageEmbed()
-                    .setColor(FNBRMENA.Colors("embed"))
-                    .setTitle(`تم ايقاف الامر بسبب عدم اختيارك لطريقة ${errorEmoji}`)
-                    message.reply(error)
-                }
-            })
+                } while (ctx.measureText(text).width > 420)
+                return ctx.font;
+            }
+
+            //registering fonts
+            Canvas.registerFont('./assets/font/Lalezar-Regular.ttf', {family: 'Arabic',weight: "700",style: "bold"});
+            Canvas.registerFont('./assets/font/BurbankBigCondensed-Black.otf' ,{family: 'Burbank Big Condensed',weight: "700",style: "bold"})
+
+            //create canvas
+            const canvas = Canvas.createCanvas(1920, 1080);
+            const ctx = canvas.getContext('2d');
+
+            //create the gif layout
+            const encoder = new Gif(canvas.width, canvas.height)
+
+            //start encodeing
+            encoder.start()
+
+            //add gif delay between image and image
+            encoder.setDelay(3 * 1000)
+
+            //loop throw every 
+            for(let i = 0; i < data.motds.length; i++){
+
+                //inislizing variables
+                var title = data.motds[i].title
+                var tabTitle = data.motds[i].tabTitle
+                var body = data.motds[i].body
+                var image = data.motds[i].image
+
+                //add the news image at index i
+                const newsImage = await Canvas.loadImage(image)
+                ctx.drawImage(newsImage, 0, 0, canvas.width, canvas.height)
+
+                //add frame
+                encoder.addFrame(ctx)
+            }
+
+            //send the message
+            const att = new Discord.MessageAttachment(encoder.out.getData(),  `${data.hash}.gif`)
+            await message.channel.send(att)
         }
     }
 }

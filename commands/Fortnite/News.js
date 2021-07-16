@@ -153,6 +153,12 @@ module.exports = {
             //start encodeing
             encoder.start()
 
+            //set quality
+            encoder.setQuality(100)
+
+            //set framerate
+            encoder.setFrameRate(60)
+
             //add gif delay between image and image
             encoder.setDelay(3 * 1000)
 
@@ -172,6 +178,9 @@ module.exports = {
                 //add frame
                 encoder.addFrame(ctx)
             }
+
+            //end encoding
+            encoder.end()
 
             //send the message
             const att = new Discord.MessageAttachment(encoder.out.getData(),  `${data.hash}.gif`)

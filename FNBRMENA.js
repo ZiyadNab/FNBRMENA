@@ -83,6 +83,18 @@ class FNBRMENA {
      * @param {String} Lang
      * 
      */
+     async News(Lang){
+
+        //return the crew data
+        return await axios.get(`https://fortnite-api.com/v2/news?language=${Lang}`)
+    }
+
+    /**
+     * Return data about the crew
+     * 
+     * @param {String} Lang
+     * 
+     */
      async ActivePlayLists(Lang){
 
         //return the crew data

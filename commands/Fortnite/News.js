@@ -148,13 +148,10 @@ module.exports = {
             const ctx = canvas.getContext('2d');
 
             //create the gif layout
-            const encoder = new Gif(canvas.width, canvas.height, 'octree', true)
+            const encoder = new Gif(canvas.width, canvas.height, 'octree')
 
             //start encoding
             encoder.start()
-
-            //optimizer
-            encoder.setThreshold(100)
 
             //add gif delay between image and image
             encoder.setDelay(3 * 1000)

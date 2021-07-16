@@ -148,7 +148,7 @@ module.exports = {
             const ctx = canvas.getContext('2d');
 
             //create the gif layout
-            const encoder = new Gif(canvas.width, canvas.height, 'octree')
+            const encoder = new Gif(canvas.width, canvas.height, 'octree', false)
 
             //start encoding
             encoder.start()

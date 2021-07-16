@@ -2,7 +2,7 @@ const Data = require('../../FNBRMENA')
 const FNBRMENA = new Data()
 const Canvas = require('canvas')
 var wrap = require('word-wrap')
-const Gif = require('gifencoder')
+const Gif = require('gif-encoder-2')
 
 module.exports = {
     commands: 'news',

@@ -2,7 +2,7 @@ const Data = require('../../FNBRMENA')
 const FNBRMENA = new Data()
 const Canvas = require('canvas')
 var wrap = require('word-wrap')
-const Gif = require('gif-encoder-2')
+const Gif = require('gif-encoder')
 
 module.exports = {
     commands: 'news',
@@ -150,14 +150,8 @@ module.exports = {
             //create the gif layout
             const encoder = new Gif(canvas.width, canvas.height)
 
-            //start encodeing
-            encoder.start()
-
-            //set threshold
-            encoder.setThreshold(100)
-
-            //set framerate
-            encoder.setFrameRate(60)
+            //
+            encoder.stop
 
             //add gif delay between image and image
             encoder.setDelay(3 * 1000)
@@ -180,10 +174,10 @@ module.exports = {
             }
 
             //end encoding
-            encoder.end()
+            encoder.finish()
 
             //send the message
-            const att = new Discord.MessageAttachment(encoder.out.getData(),  `${data.hash}.gif`)
+            const att = new Discord.MessageAttachment(encoder.outputImage(),  `${data.hash}.gif`)
             await message.channel.send(att)
         }
     }

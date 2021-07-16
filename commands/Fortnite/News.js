@@ -153,8 +153,8 @@ module.exports = {
             //start encodeing
             encoder.start()
 
-            //set quality
-            encoder.setQuality(100)
+            //set threshold
+            encoder.setThreshold(100)
 
             //set framerate
             encoder.setFrameRate(60)

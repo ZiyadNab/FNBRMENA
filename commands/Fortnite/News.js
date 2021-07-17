@@ -179,6 +179,11 @@ module.exports = {
                 //add the top part
                 for(let t = 0; t < length; t++){
 
+                    //add the title tab
+                    if(data.news[t].tabTitle !== null || data.news[t].tabTitle !== undefined) var tabTitle = data.news[t].tabTitle
+                    else if(data.news[t].adspace !== null || data.news[t].adspace !== undefined) var tabTitle = data.news[t].adspace
+                    else var tabTitle = title
+
                     //add Used
                     if(t === i){
                         
@@ -189,13 +194,8 @@ module.exports = {
                         //add the tab text
                         ctx.fillStyle = '#ffffff'
                         ctx.textAlign='center'
-                        if(data.news[t].tabTitle !== undefined){
-                            ctx.font = applyText(canvas, data.news[t].tabTitle)
-                            ctx.fillText(data.news[t].tabTitle, ((layout / 2) + z), 66)
-                        }else{
-                            ctx.font = applyText(canvas, data.news[t].title)
-                            ctx.fillText(data.news[t].title, ((layout / 2) + z), 66)
-                        }
+                        ctx.font = applyText(canvas, tabTitle)
+                        ctx.fillText(tabTitle, ((layout / 2) + z), 66)
 
                         //change the z value
                         z += layout
@@ -211,13 +211,8 @@ module.exports = {
                         //add the tab text
                         ctx.fillStyle = '#ffffff'
                         ctx.textAlign='center'
-                        if(data.news[t].tabTitle !== undefined){
-                            ctx.font = applyText(canvas, data.news[t].tabTitle)
-                            ctx.fillText(data.news[t].tabTitle, ((layout / 2) + z), 66)
-                        }else{
-                            ctx.font = applyText(canvas, data.news[t].title)
-                            ctx.fillText(data.news[t].title, ((layout / 2) + z), 66)
-                        }
+                        ctx.font = applyText(canvas, tabTitle)
+                        ctx.fillText(tabTitle, ((layout / 2) + z), 66)
 
                         //change the z value
                         z += layout
@@ -247,9 +242,6 @@ module.exports = {
                     ctx.fillText(title, canvas.width - x, y)
                 }
 
-                //set the body y
-                y += 50
-
                 //body
                 ctx.fillStyle = '#33edff';
                 if(lang === "en"){
@@ -263,12 +255,13 @@ module.exports = {
                 //loop throw every line
                 for(let b = 0; b < body.length; b++){
 
+                    //move to the new line
+                    y += 50
+
                     //add the body by line
                     if(lang === "en") ctx.fillText(body[b], x, y)
                     else if(lang === "ar") ctx.fillText(body[b], canvas.width - x, y)
                     
-                    //move to the new line
-                    y += 50
                 }
 
                 //add the credits

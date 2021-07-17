@@ -130,162 +130,186 @@ module.exports = {
         //create the news gif based on user choice
         if(errorHandleing === 0){
 
-            //aplyText
-            const applyText = (canvas, text) => {
-                const ctx = canvas.getContext('2d')
-                let fontSize = 60
-                do {
+            const generating = new Discord.MessageEmbed()
+            generating.setColor(FNBRMENA.Colors("embed"))
+            if(lang === "en") generating.setTitle(`Getting News ... ${loadingEmoji}`)
+            if(lang === "ar") generating.setTitle(`جاري تحميل الاخبار ... ${loadingEmoji}`)
+            if(lang === "es") generating.setTitle(`Recibiendo noticias ... ${loadingEmoji}`)
+            message.channel.send(generating)
+            .then( async msg => {
+
+                //aplyText
+                const applyText = (canvas, text) => {
+                    const ctx = canvas.getContext('2d')
+                    let fontSize = 60
+                    do {
+                        if(lang === "en"){
+                            ctx.font = `${fontSize -= 1}px Burbank Big Condensed`
+                        }else if(lang === "ar"){
+                            ctx.font = `${fontSize -= 1}px Arabic`
+                        }
+                    } while (ctx.measureText(text).width > 420)
+                    return ctx.font;
+                }
+
+                //registering fonts
+                Canvas.registerFont('./assets/font/Lalezar-Regular.ttf', {family: 'Arabic',weight: "700",style: "bold"});
+                Canvas.registerFont('./assets/font/BurbankBigCondensed-Black.otf' ,{family: 'Burbank Big Condensed',weight: "700",style: "bold"})
+
+                //create canvas
+                const canvas = Canvas.createCanvas(1920, 1080);
+                const ctx = canvas.getContext('2d');
+
+                //create the gif workspace
+                const encoder = new Gif(canvas.width, canvas.height)
+
+                //start encoding
+                encoder.start()
+
+                //add gif delay between image and image
+                encoder.setDelay(3 * 1000)
+
+                const length = data.news.length
+                const layout = 1920 / length
+
+                //loop throw every 
+                for(let i = 0; i < length; i++){
+
+                    //inislizing variables
+                    var title = data.news[i].title
+                    var body = data.news[i].body
+                    var image = data.news[i].image
+
+                    //add the news image at index i
+                    const newsImage = await Canvas.loadImage(image)
+                    ctx.drawImage(newsImage, 0, 0, canvas.width, canvas.height)
+
+                    //add the top part
+                    for(let t = 0; t < length; t++){
+
+                        if(data.news[t].tabTitle === null || data.news[t].tabTitle === undefined) var tabTitle = data.news[t].tabTitle
+                        else if(data.news[t].adspace === null || data.news[t].adspace === undefined) var tabTitle = data.news[t].adspace
+                        else var tabTitle = title
+
+                        //add Used
+                        if(t === i){
+                            
+                            //add the image tab
+                            const Used = await Canvas.loadImage('./assets/News/Used.png')
+                            ctx.drawImage(Used, z, 0, layout, 100)
+
+                            //add the tab text
+                            ctx.fillStyle = '#ffffff'
+                            ctx.textAlign='center'
+                            ctx.font = applyText(canvas, tabTitle)
+                            ctx.fillText(tabTitle, ((layout / 2) + z), 66)
+
+                            //change the z value
+                            z += layout
+                        }
+                        
+                        //add Not Used
+                        else{
+                            
+                            //add the image tab
+                            const NotUsed = await Canvas.loadImage('./assets/News/NotUsed.png')
+                            ctx.drawImage(NotUsed, z, 0, layout, 100)
+
+                            //add the tab text
+                            ctx.fillStyle = '#ffffff'
+                            ctx.textAlign='center'
+                            ctx.font = applyText(canvas, tabTitle)
+                            ctx.fillText(tabTitle, ((layout / 2) + z), 66)
+                            
+
+                            //change the z value
+                            z += layout
+                        }
+                    }
+
+                    //add the news image at index i
+                    const fog = await Canvas.loadImage('./assets/News/fog.png')
+                    ctx.drawImage(fog, 0, 0, canvas.width, canvas.height)
+
+                    //split the body into lines
+                    body = wrap(body, {width: 50})
+                    body = body.split(/\r\n|\r|\n/)
+
+                    //set the title y
+                    y = y - (body.length * 50) - 40
+
+                    //title
+                    ctx.fillStyle = '#ffffff';
                     if(lang === "en"){
-                        ctx.font = `${fontSize -= 1}px Burbank Big Condensed`
+                        ctx.textAlign = 'left';
+                        ctx.font = `100px Burbank Big Condensed`;
+                        ctx.fillText(title, x, y)
                     }else if(lang === "ar"){
-                        ctx.font = `${fontSize -= 1}px Arabic`
+                        ctx.textAlign = 'right';
+                        ctx.font = `100px Arabic`;
+                        ctx.fillText(title, canvas.width - x, y)
                     }
-                } while (ctx.measureText(text).width > 420)
-                return ctx.font;
-            }
 
-            //registering fonts
-            Canvas.registerFont('./assets/font/Lalezar-Regular.ttf', {family: 'Arabic',weight: "700",style: "bold"});
-            Canvas.registerFont('./assets/font/BurbankBigCondensed-Black.otf' ,{family: 'Burbank Big Condensed',weight: "700",style: "bold"})
+                    //set the body y
+                    y += 70
 
-            //create canvas
-            const canvas = Canvas.createCanvas(1920, 1080);
-            const ctx = canvas.getContext('2d');
+                    //body
+                    ctx.fillStyle = '#33edff';
+                    if(lang === "en"){
+                        ctx.textAlign = 'left';
+                        ctx.font = `46px Burbank Big Condensed`;
+                    }else if(lang === "ar"){
+                        ctx.textAlign = 'right';
+                        ctx.font = `46px Arabic`;
+                    }
 
-            //create the gif workspace
-            const encoder = new Gif(canvas.width, canvas.height)
+                    //loop throw every line
+                    for(let b = 0; b < body.length; b++){
 
-            //start encoding
-            encoder.start()
-
-            //add gif delay between image and image
-            encoder.setDelay(3 * 1000)
-
-            const length = data.news.length
-            const layout = 1920 / length
-
-            //loop throw every 
-            for(let i = 0; i < length; i++){
-
-                //inislizing variables
-                var title = data.news[i].title
-                var body = data.news[i].body
-                var image = data.news[i].image
-
-                //add the news image at index i
-                const newsImage = await Canvas.loadImage(image)
-                ctx.drawImage(newsImage, 0, 0, canvas.width, canvas.height)
-
-                //add the top part
-                for(let t = 0; t < length; t++){
-
-                    //add the title tab
-                    if(data.news[t].tabTitle !== null || data.news[t].tabTitle !== undefined) var tabTitle = data.news[t].tabTitle
-                    else if(data.news[t].adspace !== null || data.news[t].adspace !== undefined) var tabTitle = data.news[t].adspace
-                    else var tabTitle = title
-
-                    //add Used
-                    if(t === i){
+                        //add the body by line
+                        if(lang === "en") ctx.fillText(body[b], x, y)
+                        else if(lang === "ar") ctx.fillText(body[b], canvas.width - x, y)
                         
-                        //add the image tab
-                        const Used = await Canvas.loadImage('./assets/News/Used.png')
-                        ctx.drawImage(Used, z, 0, layout, 100)
-
-                        //add the tab text
-                        ctx.fillStyle = '#ffffff'
-                        ctx.textAlign='center'
-                        ctx.font = applyText(canvas, tabTitle)
-                        ctx.fillText(tabTitle, ((layout / 2) + z), 66)
-
-                        //change the z value
-                        z += layout
+                        //move to the new line
+                        y += 50
                     }
-                    
-                    //add Not Used
-                    else{
-                        
-                        //add the image tab
-                        const NotUsed = await Canvas.loadImage('./assets/News/NotUsed.png')
-                        ctx.drawImage(NotUsed, z, 0, layout, 100)
 
-                        //add the tab text
-                        ctx.fillStyle = '#ffffff'
-                        ctx.textAlign='center'
-                        ctx.font = applyText(canvas, tabTitle)
-                        ctx.fillText(tabTitle, ((layout / 2) + z), 66)
+                    //add the credits
+                    ctx.fillStyle = '#ffffff';
+                    if(lang === "en") ctx.textAlign = 'right';
+                    else if(lang === "ar") ctx.textAlign = 'left';
+                    ctx.font = '75px Burbank Big Condensed'
+                    if(lang === "en") ctx.fillText("FNBRMENA", canvas.width - x, canvas.height - x)
+                    if(lang === "ar") ctx.fillText("FNBRMENA", x, canvas.height - x)
 
-                        //change the z value
-                        z += layout
-                    }
+                    //add frame
+                    encoder.addFrame(ctx)
+
+                    //reset y, z
+                    y = 1030
+                    z = 0
                 }
 
-                //add the news image at index i
-                const fog = await Canvas.loadImage('./assets/News/fog.png')
-                ctx.drawImage(fog, 0, 0, canvas.width, canvas.height)
+                //stop endcoding
+                encoder.finish()
 
-                //split the body into lines
-                body = wrap(body, {width: 50})
-                body = body.split(/\r\n|\r|\n/)
+                //add the video if avalabile
+                if(data.video === null || data.video === undefined){
 
-                //set the title y
-                y = y - (body.length * 50)
+                    //get the link
+                    var link = `https://media.fortniteapi.io/videos/news/${data.video.id}_en.mp4`
 
-                //title
-                ctx.fillStyle = '#ffffff';
-                if(lang === "en"){
-                    ctx.textAlign = 'left';
-                    ctx.font = `100px Burbank Big Condensed`;
-                    ctx.fillText(title, x, y)
-                }else if(lang === "ar"){
-                    ctx.textAlign = 'right';
-                    ctx.font = `100px Arabic`;
-                    ctx.fillText(title, canvas.width - x, y)
+                    //creat discord attachment
+                    var video = new Discord.MessageAttachment(link)
                 }
 
-                //body
-                ctx.fillStyle = '#33edff';
-                if(lang === "en"){
-                    ctx.textAlign = 'left';
-                    ctx.font = `46px Burbank Big Condensed`;
-                }else if(lang === "ar"){
-                    ctx.textAlign = 'right';
-                    ctx.font = `46px Arabic`;
-                }
-
-                //loop throw every line
-                for(let b = 0; b < body.length; b++){
-
-                    //move to the new line
-                    y += 50
-
-                    //add the body by line
-                    if(lang === "en") ctx.fillText(body[b], x, y)
-                    else if(lang === "ar") ctx.fillText(body[b], canvas.width - x, y)
-                    
-                }
-
-                //add the credits
-                ctx.fillStyle = '#ffffff';
-                if(lang === "en") ctx.textAlign = 'right';
-                else if(lang === "ar") ctx.textAlign = 'left';
-                ctx.font = '75px Burbank Big Condensed'
-                if(lang === "en") ctx.fillText("FNBRMENA", canvas.width - x, canvas.height - x)
-                if(lang === "ar") ctx.fillText("FNBRMENA", x, canvas.height - x)
-
-                //add frame
-                encoder.addFrame(ctx)
-
-                //reset y, z
-                y = 1030
-                z = 0
-            }
-
-            //stop endcoding
-            encoder.finish()
-
-            //send the message
-            const att = new Discord.MessageAttachment(encoder.out.getData(),  `${data.hash}.gif`)
-            await message.channel.send(att)
+                //send the message
+                const att = new Discord.MessageAttachment(encoder.out.getData(),  `${data.hash}.gif`)
+                await message.channel.send(att)
+                await message.channel.send(video)
+                .catch(err => message.channel.send(link))
+                msg.delete()
+            })
         }
     }
 }

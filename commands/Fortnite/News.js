@@ -30,9 +30,9 @@ module.exports = {
         ]
 
         //inilizing x, y and z
-        var x = 25
-        var y = 500
-        var z = 540
+        var x = 50
+        var y = 800
+        var z = 880
         
         //request data
         await FNBRMENA.News(lang)
@@ -149,7 +149,7 @@ module.exports = {
             Canvas.registerFont('./assets/font/BurbankBigCondensed-Black.otf' ,{family: 'Burbank Big Condensed',weight: "700",style: "bold"})
 
             //create canvas
-            const canvas = Canvas.createCanvas(1280, 720);
+            const canvas = Canvas.createCanvas(1920, 1080);
             const ctx = canvas.getContext('2d');
 
             //create the gif layout
@@ -182,11 +182,11 @@ module.exports = {
                 ctx.fillStyle = '#ffffff';
                 if(lang === "en"){
                     ctx.textAlign = 'left';
-                    ctx.font = `50px Burbank Big Condensed`;
+                    ctx.font = `100px Burbank Big Condensed`;
                     ctx.fillText(title, x, y)
                 }else if(lang === "ar"){
                     ctx.textAlign = 'right';
-                    ctx.font = `50px Arabic`;
+                    ctx.font = `100px Arabic`;
                     ctx.fillText(title, canvas.width - x, y)
                 }
 
@@ -198,10 +198,10 @@ module.exports = {
                 ctx.fillStyle = '#33edff';
                 if(lang === "en"){
                     ctx.textAlign = 'left';
-                    ctx.font = `23px Burbank Big Condensed`;
+                    ctx.font = `46px Burbank Big Condensed`;
                 }else if(lang === "ar"){
                     ctx.textAlign = 'right';
-                    ctx.font = `23px Arabic`;
+                    ctx.font = `46px Arabic`;
                 }
 
                 //loop throw every line
@@ -212,11 +212,11 @@ module.exports = {
                     else if(lang === "ar") ctx.fillText(body[b], canvas.width - x, z)
                     
                     //move to the new line
-                    z += 25
+                    z += 50
                 }
 
                 //reset z
-                z = 540
+                z = 880
 
                 //add frame
                 encoder.addFrame(ctx)

@@ -32,7 +32,7 @@ module.exports = {
         //inilizing x, y and z
         var x = 50
         var y = 800
-        var z = 830
+        var z = 900
         
         //request data
         await FNBRMENA.News(lang)
@@ -192,7 +192,9 @@ module.exports = {
 
                 //split the body into lines
                 body = wrap(body, {width: 50})
+                console.log(body)
                 body = body.split(/\r\n|\r|\n/)
+                console.log(body)
 
                 //body
                 ctx.fillStyle = '#33edff';
@@ -205,14 +207,14 @@ module.exports = {
                 }
 
                 //loop throw every line
-                for (let b = 0; b < body.length; b++){
+                for(let b = 0; b < body.length; b++){
 
                     //add the body by line
-                    if(lang === "en") ctx.fillText(body, x, z)
-                    else if(lang === "ar") ctx.fillText(body, canvas.width - x, z)
+                    if(lang === "en") ctx.fillText(body[i], x, z)
+                    else if(lang === "ar") ctx.fillText(body[i], canvas.width - x, z)
                     
                     //move to the new line
-                    z -= 50
+                    z += 50
                 }
 
                 //add frame

@@ -226,7 +226,7 @@ module.exports = {
             encoder.finish()
 
             //send the message
-            const att = new Discord.MessageAttachment(encoder.out.getData(),  `${data.hash}.gif`)
+            const att = new Discord.MessageAttachment(encoder.out.getData(),  `${data.hash}.mp4`)
             await message.channel.send(att)
         }
     }

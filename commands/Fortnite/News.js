@@ -29,9 +29,10 @@ module.exports = {
             "Creative"
         ]
 
-        //inilizing x, y
+        //inilizing x, y and z
         var x = 50
         var y = 1030
+        var z = 0
         
         //request data
         await FNBRMENA.News(lang)
@@ -151,7 +152,7 @@ module.exports = {
             const canvas = Canvas.createCanvas(1920, 1080);
             const ctx = canvas.getContext('2d');
 
-            //create the gif layout
+            //create the gif workspace
             const encoder = new Gif(canvas.width, canvas.height)
 
             //start encoding
@@ -160,14 +161,68 @@ module.exports = {
             //add gif delay between image and image
             encoder.setDelay(3 * 1000)
 
+            const length = data.news.length
+            const layout = 1920 / length
+
             //loop throw every 
-            for(let i = 0; i < data.news.length; i++){
+            for(let i = 0; i < length; i++){
 
                 //inislizing variables
                 var title = data.news[i].title
                 var tabTitle = data.news[i].tabTitle
                 var body = data.news[i].body
                 var image = data.news[i].image
+
+                //add the top part
+                for(let t = 0; t < length; t++){
+
+                    //setting up values
+                    z = 0
+
+                    //add used
+                    if(t === i){
+
+                        //add the image tab
+                        const Used = await Canvas.loadImage('./assets/News/Used.png')
+                        ctx.drawImage(Used, z, 0, layout, 100)
+
+                        //add the tab text
+                        ctx.fillStyle = '#ffffff'
+                        ctx.textAlign='center'
+                        if(tabTitle !== null){
+                            ctx.font = applyText(canvas, tabTitle)
+                            ctx.fillText(tabTitle, ((layout / 2) + z), 66)
+                        }else{
+                            ctx.font = applyText(canvas, title)
+                            ctx.fillText(title, ((layout / 2) + z), 66)
+                        }
+
+                        //change the z value
+                        z += layout
+                    }
+                    
+                    //add unsed
+                    else{
+
+                        //add the image tab
+                        const Used = await Canvas.loadImage('./assets/News/NotUsed.png')
+                        ctx.drawImage(Used, z, 0, layout, 100)
+
+                        //add the tab text
+                        ctx.fillStyle = '#ffffff'
+                        ctx.textAlign='center'
+                        if(tabTitle !== null){
+                            ctx.font = applyText(canvas, tabTitle)
+                            ctx.fillText(tabTitle, ((layout / 2) + z), 66)
+                        }else{
+                            ctx.font = applyText(canvas, title)
+                            ctx.fillText(title, ((layout / 2) + z), 66)
+                        }
+
+                        //change the z value
+                        z += layout
+                    }
+                }
 
                 //add the news image at index i
                 const newsImage = await Canvas.loadImage(image)
@@ -182,8 +237,7 @@ module.exports = {
                 body = body.split(/\r\n|\r|\n/)
 
                 //set the title y
-                y = y - (body.length * 50)
-                y -= 40
+                y = y - (body.length * 50) - 40
 
                 //title
                 ctx.fillStyle = '#ffffff';
@@ -221,9 +275,6 @@ module.exports = {
                     y += 50
                 }
 
-                //reset y
-                y = 1030
-
                 //add the credits
                 ctx.fillStyle = '#ffffff';
                 if(lang === "en") ctx.textAlign = 'right';
@@ -234,6 +285,9 @@ module.exports = {
 
                 //add frame
                 encoder.addFrame(ctx)
+
+                //reset y
+                y = 1030
             }
 
             //stop endcoding

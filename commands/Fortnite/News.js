@@ -189,7 +189,7 @@ module.exports = {
                         //add the tab text
                         ctx.fillStyle = '#ffffff'
                         ctx.textAlign='center'
-                        if(data.news[t].tabTitle !== null){
+                        if(data.news[t].tabTitle !== undefined){
                             ctx.font = applyText(canvas, data.news[t].tabTitle)
                             ctx.fillText(data.news[t].tabTitle, ((layout / 2) + z), 66)
                         }else{

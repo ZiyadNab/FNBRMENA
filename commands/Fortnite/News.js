@@ -31,8 +31,8 @@ module.exports = {
 
         //inilizing x, y and z
         var x = 25
-        var y = 400
-        var z = 440
+        var y = 500
+        var z = 540
         
         //request data
         await FNBRMENA.News(lang)
@@ -216,7 +216,7 @@ module.exports = {
                 }
 
                 //reset z
-                z = 440
+                z = 540
 
                 //add frame
                 encoder.addFrame(ctx)
@@ -226,7 +226,7 @@ module.exports = {
             encoder.finish()
 
             //send the message
-            const att = new Discord.MessageAttachment(encoder.out.getData(),  `${data.hash}.mp4`)
+            const att = new Discord.MessageAttachment(encoder.out.getData(),  `${data.hash}.gif`)
             await message.channel.send(att)
         }
     }

@@ -32,7 +32,7 @@ module.exports = {
         //inilizing x, y and z
         var x = 50
         var y = 800
-        var z = 750
+        var z = 830
         
         //request data
         await FNBRMENA.News(lang)
@@ -208,8 +208,8 @@ module.exports = {
                 for (let b = 0; b < body.length; b++){
 
                     //add the body by line
-                    if(lang === "en") ctx.fillText(title, x, z)
-                    else if(lang === "ar") ctx.fillText(title, canvas.width - x, z)
+                    if(lang === "en") ctx.fillText(body, x, z)
+                    else if(lang === "ar") ctx.fillText(body, canvas.width - x, z)
                     
                     //move to the new line
                     z -= 50

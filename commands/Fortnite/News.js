@@ -28,6 +28,10 @@ module.exports = {
             "STW",
             "Creative"
         ]
+
+        //inilizing x, y
+        var x = 50
+        var y = 970
         
         //request data
         await FNBRMENA.News(lang)
@@ -150,9 +154,6 @@ module.exports = {
             //create the gif layout
             const encoder = new Gif(canvas.width, canvas.height)
 
-            //quality
-            encoder.setQuality(20)
-
             //start encoding
             encoder.start()
 
@@ -171,6 +172,22 @@ module.exports = {
                 //add the news image at index i
                 const newsImage = await Canvas.loadImage(image)
                 ctx.drawImage(newsImage, 0, 0, canvas.width, canvas.height)
+
+                //add the news image at index i
+                const newsImage = await Canvas.loadImage('./assets/News/fog.png')
+                ctx.drawImage(newsImage, 0, 0, canvas.width, canvas.height)
+
+                //body
+                ctx.fillStyle = '#33edff';
+                if(lang === "en"){
+                    ctx.textAlign = 'left';
+                    ctx.font = `60px Burbank Big Condensed`;
+                    ctx.fillText(body, x, y)
+                }else if(lang === "ar"){
+                    ctx.textAlign = 'right';
+                    ctx.font = `60px Arabic`;
+                    ctx.fillText(body, canvas.width - x, y)
+                }
 
                 //add frame
                 encoder.addFrame(ctx)

@@ -215,6 +215,9 @@ module.exports = {
                     z += 50
                 }
 
+                //reset z
+                z = 880
+
                 //add frame
                 encoder.addFrame(ctx)
             }

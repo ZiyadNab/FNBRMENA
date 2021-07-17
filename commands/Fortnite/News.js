@@ -29,10 +29,9 @@ module.exports = {
             "Creative"
         ]
 
-        //inilizing x, y and z
+        //inilizing x, y
         var x = 50
-        var y = 800
-        var z = 880
+        var y = 1030
         
         //request data
         await FNBRMENA.News(lang)
@@ -178,6 +177,14 @@ module.exports = {
                 const fog = await Canvas.loadImage('./assets/News/fog.png')
                 ctx.drawImage(fog, 0, 0, canvas.width, canvas.height)
 
+                //split the body into lines
+                body = wrap(body, {width: 50})
+                body = body.split(/\r\n|\r|\n/)
+
+                //set the title y
+                y = y - (body.length * 50)
+                y -= 40
+
                 //title
                 ctx.fillStyle = '#ffffff';
                 if(lang === "en"){
@@ -190,9 +197,8 @@ module.exports = {
                     ctx.fillText(title, canvas.width - x, y)
                 }
 
-                //split the body into lines
-                body = wrap(body, {width: 50})
-                body = body.split(/\r\n|\r|\n/)
+                //set the body y
+                y += 40
 
                 //body
                 ctx.fillStyle = '#33edff';
@@ -212,11 +218,11 @@ module.exports = {
                     else if(lang === "ar") ctx.fillText(body[b], canvas.width - x, z)
                     
                     //move to the new line
-                    z += 50
+                    y += 50
                 }
 
-                //reset z
-                z = 880
+                //reset y
+                y = 1030
 
                 //add frame
                 encoder.addFrame(ctx)

@@ -164,6 +164,7 @@ module.exports = {
             const length = data.news.length
             const layout = 1920 / length
 
+            console.log(layout)
             //loop throw every 
             for(let i = 0; i < length; i++){
 
@@ -176,12 +177,9 @@ module.exports = {
                 //add the top part
                 for(let t = 0; t < length; t++){
 
-                    //setting up values
-                    z = 0
-
-                    //add used
+                    //add Used
                     if(t === i){
-
+                        
                         //add the image tab
                         const Used = await Canvas.loadImage('./assets/News/Used.png')
                         ctx.drawImage(Used, z, 0, layout, 100)
@@ -201,12 +199,12 @@ module.exports = {
                         z += layout
                     }
                     
-                    //add unsed
+                    //add Not Used
                     else{
-
+                        
                         //add the image tab
-                        const Used = await Canvas.loadImage('./assets/News/NotUsed.png')
-                        ctx.drawImage(Used, z, 0, layout, 100)
+                        const NotUsed = await Canvas.loadImage('./assets/News/NotUsed.png')
+                        ctx.drawImage(NotUsed, z, 0, layout, 100)
 
                         //add the tab text
                         ctx.fillStyle = '#ffffff'

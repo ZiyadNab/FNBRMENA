@@ -154,7 +154,7 @@ module.exports = {
             encoder.start()
 
             //seet quality
-            encoder.setQuality(1)
+            encoder.setQuality(100)
 
             //add gif delay between image and image
             encoder.setDelay(3 * 1000)

@@ -244,10 +244,9 @@ module.exports = {
                     ctx.font = applyTextName(canvas, name);
                     ctx.fillText(name, canvas.width / 2, 900)
 
-                    console.log(description)
+                    //split the description into lines
                     description = description.replace("\n", "")
                     description = description.replace("\r", "")
-                    console.log(description)
                     description = wrap(description, {width: 150})
                     description = description.split(/\r\n|\r|\n/)
 

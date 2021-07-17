@@ -162,13 +162,13 @@ module.exports = {
             encoder.setDelay(3 * 1000)
 
             //loop throw every 
-            for(let i = 0; i < data.motds.length; i++){
+            for(let i = 0; i < data.news.length; i++){
 
                 //inislizing variables
-                var title = data.motds[i].title
-                var tabTitle = data.motds[i].tabTitle
-                var body = data.motds[i].body
-                var image = data.motds[i].image
+                var title = data.news[i].title
+                var tabTitle = data.news[i].tabTitle
+                var body = data.news[i].body
+                var image = data.news[i].image
 
                 //add the news image at index i
                 const newsImage = await Canvas.loadImage(image)

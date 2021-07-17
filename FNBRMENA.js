@@ -86,7 +86,7 @@ class FNBRMENA {
      async News(Lang){
 
         //return the crew data
-        return await axios.get(`https://fortnite-api.com/v2/news?language=${Lang}`)
+        return await axios.get(`https://fn-api.com/api/news?lang=${Lang}`)
     }
 
     /**

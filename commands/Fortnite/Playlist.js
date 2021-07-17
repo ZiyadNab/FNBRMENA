@@ -165,7 +165,7 @@ module.exports = {
                             if(lang === "en"){
                                 ctx.font = `${fontSize -= 1}px Arial`;
                             }else if(lang === "ar"){
-                                ctx.font = `${fontSize -= 1}px Arial`;
+                                ctx.font = `${fontSize -= 1}px Arabic`;
                             }
                         } while (ctx.measureText(text).width > 1800);
                         return ctx.font;
@@ -261,7 +261,7 @@ module.exports = {
 
                         ctx.fillText(description[i], canvas.width / 2, lines)
 
-                        lines += 33
+                        lines += 30
                     }
 
                     //creating embed

@@ -284,21 +284,13 @@ module.exports = {
                     if(lang === "en") ctx.fillText("FNBRMENA", canvas.width - x, canvas.height - x)
                     if(lang === "ar") ctx.fillText("FNBRMENA", x, canvas.height - x)
 
-                    //add the video if avalabile
-                    if(data.news[i].video !== null){
-
-                        //get the link
-                        link[Counter] = `https://media.fortniteapi.io/videos/news/${data.news[i].video.id}_en.mp4`
-                        Counter++
-
-                    }
-
                     //add frame
                     encoder.addFrame(ctx)
 
                     //reset y, z
                     y = 1030
                     z = 0
+
                 }
 
                 //stop endcoding
@@ -308,8 +300,8 @@ module.exports = {
                 const att = new Discord.MessageAttachment(encoder.out.getData(),  `${data.hash}.gif`)
                 await message.channel.send(att)
                 
-                if(link.length !== 0){
-                    for(let i = 0; i < link.length; i++){
+                for(let i = 0; i < length; i++){
+                    if(data.news[i].video !== null){
 
                         //creat discord embed
                         const video = new Discord.MessageEmbed()
@@ -318,13 +310,13 @@ module.exports = {
                         video.setColor(FNBRMENA.Colors("embed"))
 
                         //set title
-                        video.setTitle(title)
+                        video.setTitle(data.news[i].title)
 
                         //set image
-                        video.setImage(image)
+                        video.setImage(data.news[i].image)
 
                         //url
-                        video.setURL(link[i])
+                        video.setURL(`https://media.fortniteapi.io/videos/news/${data.news[i].video.id}_en.mp4`)
                         
                         await message.channel.send(video)
                     } 

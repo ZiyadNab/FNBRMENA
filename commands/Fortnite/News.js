@@ -198,7 +198,7 @@ module.exports = {
                 }
 
                 //set the body y
-                y += 70
+                y += 75
 
                 //body
                 ctx.fillStyle = '#33edff';
@@ -223,6 +223,14 @@ module.exports = {
 
                 //reset y
                 y = 1030
+
+                //add the credits
+                ctx.fillStyle = '#ffffff';
+                if(lang === "en") ctx.textAlign = 'rigth';
+                else if(lang === "ar") ctx.textAlign = 'left';
+                ctx.font = '75px Burbank Big Condensed'
+                if(lang === "en") ctx.fillText("FNBRMENA", canvas.width - x, canvas.height - x)
+                if(lang === "ar") ctx.fillText("FNBRMENA", x, canvas.height - x)
 
                 //add frame
                 encoder.addFrame(ctx)

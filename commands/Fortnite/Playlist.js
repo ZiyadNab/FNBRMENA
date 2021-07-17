@@ -261,7 +261,7 @@ module.exports = {
 
                         ctx.fillText(description[i], canvas.width / 2, lines)
 
-                        lines += 30
+                        lines += 25
                     }
 
                     //creating embed

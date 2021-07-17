@@ -301,7 +301,7 @@ module.exports = {
                 await message.channel.send(att)
                 
                 for(let i = 0; i < length; i++){
-                    if(data.news[i].video !== null){
+                    if(data.news[i].video !== null && data.news[i].video !== undefined){
 
                         //creat discord embed
                         const video = new Discord.MessageEmbed()

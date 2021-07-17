@@ -148,10 +148,10 @@ module.exports = {
             const ctx = canvas.getContext('2d');
 
             //create the gif layout
-            const encoder = new Gif(canvas.width, canvas.height, 'neuquant', true)
+            const encoder = new Gif(canvas.width, canvas.height)
 
-            //
-            encoder.setThreshold(100)
+            //quality
+            encoder.setQuality(20)
 
             //start encoding
             encoder.start()

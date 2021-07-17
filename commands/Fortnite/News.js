@@ -18,6 +18,8 @@ module.exports = {
 
         //index
         let data = []
+        var link = []
+        var Counter = 0
 
         //handle errors
         var errorHandleing = 0
@@ -282,6 +284,15 @@ module.exports = {
                     if(lang === "en") ctx.fillText("FNBRMENA", canvas.width - x, canvas.height - x)
                     if(lang === "ar") ctx.fillText("FNBRMENA", x, canvas.height - x)
 
+                    //add the video if avalabile
+                    if(data.news[i].video !== null){
+
+                        //get the link
+                        link[Counter] = `https://media.fortniteapi.io/videos/news/${data.video.id}_en.mp4`
+                        Counter++
+
+                    }
+
                     //add frame
                     encoder.addFrame(ctx)
 
@@ -293,21 +304,18 @@ module.exports = {
                 //stop endcoding
                 encoder.finish()
 
-                //add the video if avalabile
-                if(data.video === null || data.video === undefined){
-
-                    //get the link
-                    var link = `https://media.fortniteapi.io/videos/news/${data.video.id}_en.mp4`
-
-                    //creat discord attachment
-                    var video = new Discord.MessageAttachment(link)
-                }
-
                 //send the message
                 const att = new Discord.MessageAttachment(encoder.out.getData(),  `${data.hash}.gif`)
                 await message.channel.send(att)
-                await message.channel.send(video)
-                .catch(err => message.channel.send(link))
+                
+                if(link.length !== 0){
+                    for(let i = 0; i < link.length; i++){
+
+                        //creat discord attachment
+                        var video = new Discord.MessageAttachment(link[i])
+                        await message.channel.send(video)
+                    } 
+                }
                 msg.delete()
             })
         }

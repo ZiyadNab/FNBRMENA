@@ -211,7 +211,7 @@ module.exports = {
                         //add the tab text
                         ctx.fillStyle = '#ffffff'
                         ctx.textAlign='center'
-                        if(data.news[t].tabTitle !== null){
+                        if(data.news[t].tabTitle !== undefined){
                             ctx.font = applyText(canvas, data.news[t].tabTitle)
                             ctx.fillText(data.news[t].tabTitle, ((layout / 2) + z), 66)
                         }else{
@@ -233,7 +233,7 @@ module.exports = {
                 body = body.split(/\r\n|\r|\n/)
 
                 //set the title y
-                y = y - (body.length * 50) - 40
+                y = y - (body.length * 50)
 
                 //title
                 ctx.fillStyle = '#ffffff';
@@ -248,7 +248,7 @@ module.exports = {
                 }
 
                 //set the body y
-                y += 75
+                y += 50
 
                 //body
                 ctx.fillStyle = '#33edff';

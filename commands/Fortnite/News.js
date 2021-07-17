@@ -226,7 +226,7 @@ module.exports = {
 
                 //add the credits
                 ctx.fillStyle = '#ffffff';
-                if(lang === "en") ctx.textAlign = 'rigth';
+                if(lang === "en") ctx.textAlign = 'right';
                 else if(lang === "ar") ctx.textAlign = 'left';
                 ctx.font = '75px Burbank Big Condensed'
                 if(lang === "en") ctx.fillText("FNBRMENA", canvas.width - x, canvas.height - x)

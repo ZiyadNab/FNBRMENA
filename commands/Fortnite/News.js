@@ -31,7 +31,7 @@ module.exports = {
 
         //inilizing x, y
         var x = 50
-        var y = 970
+        var y = 800
         
         //request data
         await FNBRMENA.News(lang)
@@ -181,12 +181,12 @@ module.exports = {
                 ctx.fillStyle = '#33edff';
                 if(lang === "en"){
                     ctx.textAlign = 'left';
-                    ctx.font = `60px Burbank Big Condensed`;
-                    ctx.fillText(body, x, y)
+                    ctx.font = `100px Burbank Big Condensed`;
+                    ctx.fillText(title, x, y)
                 }else if(lang === "ar"){
                     ctx.textAlign = 'right';
-                    ctx.font = `60px Arabic`;
-                    ctx.fillText(body, canvas.width - x, y)
+                    ctx.font = `100px Arabic`;
+                    ctx.fillText(title, canvas.width - x, y)
                 }
 
                 //add frame

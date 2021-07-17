@@ -164,7 +164,6 @@ module.exports = {
             const length = data.news.length
             const layout = 1920 / length
 
-            console.log(layout)
             //loop throw every 
             for(let i = 0; i < length; i++){
 
@@ -173,6 +172,10 @@ module.exports = {
                 var tabTitle = data.news[i].tabTitle
                 var body = data.news[i].body
                 var image = data.news[i].image
+
+                //add the news image at index i
+                const newsImage = await Canvas.loadImage(image)
+                ctx.drawImage(newsImage, 0, 0, canvas.width, canvas.height)
 
                 //add the top part
                 for(let t = 0; t < length; t++){
@@ -221,10 +224,6 @@ module.exports = {
                         z += layout
                     }
                 }
-
-                //add the news image at index i
-                const newsImage = await Canvas.loadImage(image)
-                ctx.drawImage(newsImage, 0, 0, canvas.width, canvas.height)
 
                 //add the news image at index i
                 const fog = await Canvas.loadImage('./assets/News/fog.png')

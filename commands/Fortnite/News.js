@@ -288,7 +288,7 @@ module.exports = {
                     if(data.news[i].video !== null){
 
                         //get the link
-                        link[Counter] = `https://media.fortniteapi.io/videos/news/${data.video.id}_en.mp4`
+                        link[Counter] = `https://media.fortniteapi.io/videos/news/${data.news[i].video.id}_en.mp4`
                         Counter++
 
                     }

@@ -151,7 +151,7 @@ module.exports = {
             const encoder = new Gif(canvas.width, canvas.height, 'neuquant', true)
 
             //
-            encoder.setThreshold(1)
+            encoder.setThreshold(100)
 
             //start encoding
             encoder.start()

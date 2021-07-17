@@ -214,8 +214,8 @@ module.exports = {
                 for(let b = 0; b < body.length; b++){
 
                     //add the body by line
-                    if(lang === "en") ctx.fillText(body[b], x, z)
-                    else if(lang === "ar") ctx.fillText(body[b], canvas.width - x, z)
+                    if(lang === "en") ctx.fillText(body[b], x, y)
+                    else if(lang === "ar") ctx.fillText(body[b], canvas.width - x, y)
                     
                     //move to the new line
                     y += 50

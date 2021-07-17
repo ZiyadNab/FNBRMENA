@@ -198,7 +198,7 @@ module.exports = {
                 }
 
                 //set the body y
-                y += 40
+                y += 60
 
                 //body
                 ctx.fillStyle = '#33edff';

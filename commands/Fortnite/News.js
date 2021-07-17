@@ -133,7 +133,7 @@ module.exports = {
             //aplyText
             const applyText = (canvas, text) => {
                 const ctx = canvas.getContext('2d')
-                let fontSize = 36
+                let fontSize = 60
                 do {
                     if(lang === "en"){
                         ctx.font = `${fontSize -= 1}px Burbank Big Condensed`
@@ -283,8 +283,9 @@ module.exports = {
                 //add frame
                 encoder.addFrame(ctx)
 
-                //reset y
+                //reset y, z
                 y = 1030
+                z = 0
             }
 
             //stop endcoding

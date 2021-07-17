@@ -169,7 +169,6 @@ module.exports = {
 
                 //inislizing variables
                 var title = data.news[i].title
-                var tabTitle = data.news[i].tabTitle
                 var body = data.news[i].body
                 var image = data.news[i].image
 
@@ -190,12 +189,12 @@ module.exports = {
                         //add the tab text
                         ctx.fillStyle = '#ffffff'
                         ctx.textAlign='center'
-                        if(tabTitle !== null){
-                            ctx.font = applyText(canvas, tabTitle)
-                            ctx.fillText(tabTitle, ((layout / 2) + z), 66)
+                        if(data.news[t].tabTitle !== null){
+                            ctx.font = applyText(canvas, data.news[t].tabTitle)
+                            ctx.fillText(data.news[t].tabTitle, ((layout / 2) + z), 66)
                         }else{
-                            ctx.font = applyText(canvas, title)
-                            ctx.fillText(title, ((layout / 2) + z), 66)
+                            ctx.font = applyText(canvas, data.news[t].title)
+                            ctx.fillText(data.news[t].title, ((layout / 2) + z), 66)
                         }
 
                         //change the z value
@@ -212,12 +211,12 @@ module.exports = {
                         //add the tab text
                         ctx.fillStyle = '#ffffff'
                         ctx.textAlign='center'
-                        if(tabTitle !== null){
-                            ctx.font = applyText(canvas, tabTitle)
-                            ctx.fillText(tabTitle, ((layout / 2) + z), 66)
+                        if(data.news[t].tabTitle !== null){
+                            ctx.font = applyText(canvas, data.news[t].tabTitle)
+                            ctx.fillText(data.news[t].tabTitle, ((layout / 2) + z), 66)
                         }else{
-                            ctx.font = applyText(canvas, title)
-                            ctx.fillText(title, ((layout / 2) + z), 66)
+                            ctx.font = applyText(canvas, data.news[t].title)
+                            ctx.fillText(data.news[t].title, ((layout / 2) + z), 66)
                         }
 
                         //change the z value

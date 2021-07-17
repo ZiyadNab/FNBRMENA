@@ -189,8 +189,8 @@ module.exports = {
                     //add the top part
                     for(let t = 0; t < length; t++){
 
-                        if(data.news[t].tabTitle === null || data.news[t].tabTitle === undefined) var tabTitle = data.news[t].tabTitle
-                        else if(data.news[t].adspace === null || data.news[t].adspace === undefined) var tabTitle = data.news[t].adspace
+                        if(data.news[t].tabTitle !== undefined) var tabTitle = data.news[t].tabTitle
+                        else if(data.news[t].adspace !== undefined) var tabTitle = data.news[t].adspace
                         else var tabTitle = title
 
                         //add Used
@@ -311,8 +311,21 @@ module.exports = {
                 if(link.length !== 0){
                     for(let i = 0; i < link.length; i++){
 
-                        //creat discord attachment
-                        var video = new Discord.MessageAttachment(link[i])
+                        //creat discord embed
+                        const video = new Discord.MessageEmbed()
+
+                        //set color
+                        video.setColor(FNBRMENA.Colors("embed"))
+
+                        //set title
+                        video.setTitle(title)
+
+                        //set image
+                        video.setImage(image)
+
+                        //url
+                        video.setURL(link[i])
+                        
                         await message.channel.send(video)
                     } 
                 }

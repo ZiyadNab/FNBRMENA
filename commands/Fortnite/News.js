@@ -174,8 +174,8 @@ module.exports = {
                 ctx.drawImage(newsImage, 0, 0, canvas.width, canvas.height)
 
                 //add the news image at index i
-                const newsImage = await Canvas.loadImage('./assets/News/fog.png')
-                ctx.drawImage(newsImage, 0, 0, canvas.width, canvas.height)
+                const fog = await Canvas.loadImage('./assets/News/fog.png')
+                ctx.drawImage(fog, 0, 0, canvas.width, canvas.height)
 
                 //body
                 ctx.fillStyle = '#33edff';

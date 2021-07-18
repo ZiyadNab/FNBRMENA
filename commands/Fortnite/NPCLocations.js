@@ -29,28 +29,39 @@ module.exports = {
             const mapImage = await Canvas.loadImage(map.data.data.images.pois)
             ctx.drawImage(mapImage, 0, 0, canvas.width, canvas.height)
 
-            //add the border
-            const border = await Canvas.loadImage('./assets/NPC/border.png')
-            ctx.drawImage(border, 0, 0, canvas.width, canvas.height)
-
             //get random skin from the api
             const skin = await FNBRMENA.SearchType(lang, "outfit")
             .then( async res => {
                 
-                //get the length of the items
-                const length = await res.data.items.length
+                const getFeatured = async () => {
 
-                //get random item from the request
-                const randomImage = Math.floor(Math.random() * length)
+                    //get the length of the items
+                    const length = await res.data.items.length
+
+                    //get random item from the request
+                    const randomImage = Math.floor(Math.random() * length)
+
+                    //return data
+                    return await res.data.items[randomImage].images.featured
+
+                }
+
+                //if the item image === null
+                var data = null
+                while(data !== null) data = await getFeatured()
 
                 //return data
-                return res.data.items[randomImage].images.featured
+                return data
+
             })
 
-            console.log(skin)
             //add the featured left bottom
             const featured = await Canvas.loadImage(skin)
-            ctx.drawImage(featured, 0, (canvas.height - 630), 630, 630)
+            ctx.drawImage(featured, -50, (canvas.height - 630), 630, 630)
+
+            //add the border
+            const border = await Canvas.loadImage('./assets/NPC/border.png')
+            ctx.drawImage(border, 0, 0, canvas.width, canvas.height)
 
             //send the message
             const att = new Discord.MessageAttachment(canvas.toBuffer(), `npc.png`)

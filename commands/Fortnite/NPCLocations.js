@@ -64,7 +64,7 @@ module.exports = {
 
                     //add the featured left bottom
                     const featured = await Canvas.loadImage(skin)
-                    ctx.drawImage(featured, -50, (canvas.height - 630), 630, 630)
+                    ctx.drawImage(featured, -75, (canvas.height - 630), 630, 630)
 
                     //add the border
                     const border = await Canvas.loadImage('./assets/NPC/border.png')

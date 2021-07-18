@@ -160,6 +160,20 @@ class FNBRMENA {
      * @param {String} Lang 
      * @param {String} Type 
      */
+     async NPC(Lang, Enabled){
+
+        if(Enabled === "true"){
+            //return the items
+            return await axios.get(`https://fortniteapi.io/v1/game/npc/list?lang=${Lang}&coordinates=map&enabled=true`, { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
+
+        }else return await axios.get(`https://fortniteapi.io/v1/game/npc/list?lang=${Lang}&coordinates=map`, { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
+    }
+
+    /**
+     * 
+     * @param {String} Lang 
+     * @param {String} Type 
+     */
      async SearchType(Lang, Type){
 
         //return the items

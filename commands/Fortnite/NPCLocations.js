@@ -2,8 +2,6 @@ const Data = require('../../FNBRMENA')
 const FNBRMENA = new Data()
 const axios = require('axios')
 const Canvas = require('canvas')
-const FortniteAPI = require("fortniteapi.io-api");
-const fortniteAPI = new FortniteAPI(FNBRMENA.APIKeys("FortniteAPI.io"));
 
 module.exports = {
     commands: 'npc',
@@ -17,55 +15,67 @@ module.exports = {
         //get the user language from the database
         const lang = await FNBRMENA.Admin(admin, message, "", "Lang")
 
-        //create canvas
-        const canvas = Canvas.createCanvas(2048, 2048)
-        const ctx = canvas.getContext('2d')
+        //request data
+        FNBRMENA.NPC(lang, "true")
+        .then(async res => {
 
-        //add the map image
-        FNBRMENA.Map(lang)
-        .then(async map => {
+            //generating animation
+            const generating = new Discord.MessageEmbed()
+            generating.setColor(FNBRMENA.Colors("embed"))
+            if(lang === "en") generating.setTitle(`Loading a total ${res.data.npc.length} ${loadingEmoji}`)
+            else if(lang === "ar") generating.setTitle(`تحميل جميع العناصر بمجموع ${length} ${loadingEmoji}`)
+            message.channel.send(generating)
+            .then( async msg => {
 
-            //add the map image
-            const mapImage = await Canvas.loadImage(map.data.data.images.pois)
-            ctx.drawImage(mapImage, 0, 0, canvas.width, canvas.height)
+                //create canvas
+                const canvas = Canvas.createCanvas(2048, 2048)
+                const ctx = canvas.getContext('2d')
 
-            //get random skin from the api
-            const skin = await FNBRMENA.SearchType(lang, "outfit")
-            .then( async res => {
-                
-                const getFeatured = async () => {
+                //add the map image
+                FNBRMENA.Map(lang)
+                .then(async map => {
 
-                    //get the length of the items
-                    const length = await res.data.items.length
+                    //add the map image
+                    const mapImage = await Canvas.loadImage(map.data.data.images.pois)
+                    ctx.drawImage(mapImage, 0, 0, canvas.width, canvas.height)
 
-                    //get random item from the request
-                    const randomImage = Math.floor(Math.random() * length)
+                    //get random skin from the api
+                    const skin = await FNBRMENA.SearchType(lang, "outfit")
+                    .then( async res => {
 
-                    //return data
-                    return await res.data.items[randomImage].images.featured
+                        //if the item image === null
+                        var data = null
+                        while(data === null){
 
-                }
+                            //get the length of the items
+                            const length = await res.data.items.length
 
-                //if the item image === null
-                var data = null
-                while(data !== null) data = await getFeatured()
+                            //get random item from the request
+                            const randomImage = Math.floor(Math.random() * length)
 
-                //return data
-                return data
+                            //return data
+                            data = await res.data.items[randomImage].images.featured
 
+                        }
+                        //return data
+                        return data
+
+                    })
+
+                    //add the featured left bottom
+                    const featured = await Canvas.loadImage(skin)
+                    ctx.drawImage(featured, -50, (canvas.height - 630), 630, 630)
+
+                    //add the border
+                    const border = await Canvas.loadImage('./assets/NPC/border.png')
+                    ctx.drawImage(border, 0, 0, canvas.width, canvas.height)
+
+                    //send the message
+                    const att = new Discord.MessageAttachment(canvas.toBuffer(), `npc.png`)
+                    await message.channel.send(att)
+                    msg.delete()
+                })
             })
-
-            //add the featured left bottom
-            const featured = await Canvas.loadImage(skin)
-            ctx.drawImage(featured, -50, (canvas.height - 630), 630, 630)
-
-            //add the border
-            const border = await Canvas.loadImage('./assets/NPC/border.png')
-            ctx.drawImage(border, 0, 0, canvas.width, canvas.height)
-
-            //send the message
-            const att = new Discord.MessageAttachment(canvas.toBuffer(), `npc.png`)
-            await message.channel.send(att)
         })
     }
 }

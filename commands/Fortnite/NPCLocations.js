@@ -23,7 +23,7 @@ module.exports = {
             const generating = new Discord.MessageEmbed()
             generating.setColor(FNBRMENA.Colors("embed"))
             if(lang === "en") generating.setTitle(`Loading a total ${res.data.npc.length} ${loadingEmoji}`)
-            else if(lang === "ar") generating.setTitle(`تحميل جميع العناصر بمجموع ${length} ${loadingEmoji}`)
+            else if(lang === "ar") generating.setTitle(`تحميل جميع العناصر بمجموع ${res.data.npc.length} ${loadingEmoji}`)
             message.channel.send(generating)
             .then( async msg => {
 
@@ -52,7 +52,7 @@ module.exports = {
 
                         //add the pin based on the npc location
                         const npc = await Canvas.loadImage('./assets/NPC/pin.png')
-                        ctx.drawImage(npc, res.data.npc[i].spawnLocations.locations.x, res.data.npc[i].spawnLocations.locations.y, 50, 50)
+                        ctx.drawImage(npc, res.data.npc[i].spawnLocations.locations.x, res.data.npc[i].spawnLocations.locations.y - 80, 80, 80)
                     }
 
                     //send the message

@@ -39,38 +39,21 @@ module.exports = {
                     const mapImage = await Canvas.loadImage(map.data.data.images.pois)
                     ctx.drawImage(mapImage, 0, 0, canvas.width, canvas.height)
 
-                    //get random skin from the api
-                    const skin = await FNBRMENA.SearchType(lang, "outfit")
-                    .then( async res => {
-
-                        //if the item image === null
-                        var data = null
-                        while(data === null){
-
-                            //get the length of the items
-                            const length = await res.data.items.length
-
-                            //get random item from the request
-                            const randomImage = Math.floor(Math.random() * length)
-
-                            //return data
-                            if(!res.data.items[randomImage].gameplayTags.includes('Cosmetics.UserFacingFlags.HasVariants'))
-                            data = await res.data.items[randomImage].images.featured
-                            else data = null
-
-                        }
-                        //return data
-                        return data
-
-                    })
-
                     //add the featured left bottom
                     const featured = await Canvas.loadImage('https://media.fortniteapi.io/images/4cf0e96-cd67885-b054b0f-e54d851/full_featured.png')
-                    ctx.drawImage(featured, -100, (canvas.height - 630), 630, 630)
+                    ctx.drawImage(featured, -110, (canvas.height - 630), 630, 630)
 
                     //add the border
                     const border = await Canvas.loadImage('./assets/NPC/border.png')
                     ctx.drawImage(border, 0, 0, canvas.width, canvas.height)
+
+                    //add the pin to locations
+                    for(let i = 0; i < res.data.npc.length; i++){
+
+                        //add the pin based on the npc location
+                        const npc = await Canvas.loadImage('./assets/NPC/pin.png')
+                        ctx.drawImage(npc, res.data.npc[i].spawnLocations.locations.x, res.data.npc[i].spawnLocations.locations.y, 50, 50)
+                    }
 
                     //send the message
                     const att = new Discord.MessageAttachment(canvas.toBuffer(), `npc.png`)

@@ -54,7 +54,9 @@ module.exports = {
                             const randomImage = Math.floor(Math.random() * length)
 
                             //return data
+                            if(!res.data.items[randomImage].gameplayTags.includes('Cosmetics.UserFacingFlags.HasVariants'))
                             data = await res.data.items[randomImage].images.featured
+                            else data = null
 
                         }
                         //return data

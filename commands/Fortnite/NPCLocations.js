@@ -66,7 +66,7 @@ module.exports = {
 
                     //add the featured left bottom
                     const featured = await Canvas.loadImage('https://media.fortniteapi.io/images/4cf0e96-cd67885-b054b0f-e54d851/full_featured.png')
-                    ctx.drawImage(featured, -95, (canvas.height - 630), 630, 630)
+                    ctx.drawImage(featured, -100, (canvas.height - 630), 630, 630)
 
                     //add the border
                     const border = await Canvas.loadImage('./assets/NPC/border.png')

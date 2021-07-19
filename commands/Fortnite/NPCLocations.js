@@ -60,17 +60,21 @@ module.exports = {
                             const featured = await Canvas.loadImage(res.data.npc[i].images.sidePanel)
                             ctx.drawImage(featured, x, y - 50, 150, 150)
 
+                            //add the pin based on the npc location
+                            const npcBorder = await Canvas.loadImage('./assets/NPC/pinBorder.png')
+                            ctx.drawImage(npcBorder, x, y, 150, 150)
+
                         }else{
 
                             y += 150
 
                             //add the pin based on the npc location
-                            const npc = await Canvas.loadImage('./assets/NPC/flipedPIN.png')
-                            ctx.drawImage(npc, x, y, 150, 150)
+                            //const npc = await Canvas.loadImage('./assets/NPC/flipedPIN.png')
+                            //ctx.drawImage(npc, x, y, 150, 150)
 
                             //add the pin based on the npc location
-                            const featured = await Canvas.loadImage(res.data.npc[i].images.sidePanel)
-                            ctx.drawImage(featured, x, y, 150, 150)
+                            //const featured = await Canvas.loadImage(res.data.npc[i].images.sidePanel)
+                            //ctx.drawImage(featured, x, y, 150, 150)
 
                         }
                     }

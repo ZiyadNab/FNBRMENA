@@ -58,7 +58,7 @@ module.exports = {
 
                             //add the pin based on the npc location
                             const featured = await Canvas.loadImage(res.data.npc[i].images.sidePanel)
-                            ctx.drawImage(featured, x + 50, y - 50, 150, 150)
+                            ctx.drawImage(featured, x, y - 50, 150, 150)
 
                         }else{
 
@@ -70,7 +70,7 @@ module.exports = {
 
                             //add the pin based on the npc location
                             const featured = await Canvas.loadImage(res.data.npc[i].images.sidePanel)
-                            ctx.drawImage(featured, x + 50, y - 50, 150, 150)
+                            ctx.drawImage(featured, x, y, 150, 150)
 
                         }
                     }

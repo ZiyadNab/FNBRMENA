@@ -39,10 +39,6 @@ module.exports = {
                     const mapImage = await Canvas.loadImage(map.data.data.images.pois)
                     ctx.drawImage(mapImage, 0, 0, canvas.width, canvas.height)
 
-                    //add the featured left bottom
-                    const featured = await Canvas.loadImage('https://media.fortniteapi.io/images/4cf0e96-cd67885-b054b0f-e54d851/full_featured.png')
-                    ctx.drawImage(featured, -110, (canvas.height - 630), 630, 630)
-
                     //add the border
                     const border = await Canvas.loadImage('./assets/NPC/border.png')
                     ctx.drawImage(border, 0, 0, canvas.width, canvas.height)
@@ -50,8 +46,8 @@ module.exports = {
                     //add the pin to locations
                     for(let i = 0; i < res.data.npc.length; i++){
 
-                        var x = res.data.npc[i].spawnLocations.locations[0].x - 175
-                        var y = res.data.npc[i].spawnLocations.locations[0].y - 175
+                        var x = res.data.npc[i].spawnLocations.locations[0].x - 80
+                        var y = res.data.npc[i].spawnLocations.locations[0].y - 180
 
                         //if the location is in range
                         if(y > 170){

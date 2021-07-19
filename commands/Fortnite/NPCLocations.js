@@ -60,15 +60,19 @@ module.exports = {
                             ctx.drawImage(npc, x, y, 160, 160)
                         }else{
 
-                            //rotate image
-                            ctx.rotate(180)
+                            //rotate
+                            ctx.translate(x + 80, y + 80);
+                            ctx.rotate(9.4)
+                            ctx.translate(x - 80, y - 80);
 
                             //add the pin based on the npc location
                             const npc = await Canvas.loadImage('./assets/NPC/pin.png')
                             ctx.drawImage(npc, x, y + (160 * 2), 160, 160)
 
-                            //rotate image
-                            ctx.rotate(0)
+                            //reset rotation
+                            ctx.translate(x + 80, y + 80);
+                            ctx.rotate(-9.4)
+                            ctx.translate(x - 80, y - 80);
                         }
                     }
 

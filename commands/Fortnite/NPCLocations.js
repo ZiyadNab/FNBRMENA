@@ -46,8 +46,8 @@ module.exports = {
                     //add the pin to locations
                     for(let i = 0; i < res.data.npc.length; i++){
 
-                        var x = res.data.npc[i].spawnLocations.locations[0].x - 75
-                        var y = res.data.npc[i].spawnLocations.locations[0].y - 175
+                        var x = res.data.npc[i].spawnLocations.locations[0].x - 70
+                        var y = res.data.npc[i].spawnLocations.locations[0].y - 170
 
                         //if the location is in range
                         if(y > 20){
@@ -58,12 +58,11 @@ module.exports = {
 
                         }else{
 
-                            y += 175
-                            console.log(y)
+                            y += 170
 
                             //add the pin based on the npc location
                             const npc = await Canvas.loadImage('./assets/NPC/flipedPIN.png')
-                            ctx.drawImage(npc, x, y + 160, 160, 160)
+                            ctx.drawImage(npc, x, y - 80, 160, 160)
 
                         }
                     }

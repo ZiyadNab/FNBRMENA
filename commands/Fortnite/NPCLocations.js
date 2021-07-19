@@ -52,7 +52,7 @@ module.exports = {
 
                         //add the pin based on the npc location
                         const npc = await Canvas.loadImage('./assets/NPC/pin.png')
-                        ctx.drawImage(npc, res.data.npc[i].spawnLocations.locations[0].x, res.data.npc[i].spawnLocations.locations[0].y - 80, 80, 80)
+                        ctx.drawImage(npc, res.data.npc[i].spawnLocations.locations[0].x, res.data.npc[i].spawnLocations.locations[0].y - 160, 160, 160)
                     }
 
                     //send the message

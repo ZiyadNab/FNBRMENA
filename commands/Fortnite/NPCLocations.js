@@ -47,7 +47,7 @@ module.exports = {
                     for(let i = 0; i < res.data.npc.length; i++){
 
                         var x = res.data.npc[i].spawnLocations.locations[0].x - (160 / 2)
-                        var y = res.data.npc[i].spawnLocations.locations[0].y - (160 / 2)
+                        var y = res.data.npc[i].spawnLocations.locations[0].y - 160
 
                         //if the location is in range
                         if(y > 20){

@@ -50,7 +50,7 @@ module.exports = {
                         var y = res.data.npc[i].spawnLocations.locations[0].y - 180
 
                         //if the location is in range
-                        if(y > 170){
+                        if(y > 20){
 
                             //add the pin based on the npc location
                             const npc = await Canvas.loadImage('./assets/NPC/pin.png')
@@ -59,18 +59,18 @@ module.exports = {
                         }else{
 
                             //rotate
-                            ctx.translate(x + 160, y + 360)
+                            ctx.translate(1024 + 160, 1024 + 360)
                             ctx.rotate(9.4)
-                            ctx.translate(x - 160, y - 360)
+                            ctx.translate(1024 - 160, 1024 - 360)
 
                             //add the pin based on the npc location
                             const npc = await Canvas.loadImage('./assets/NPC/pin.png')
                             ctx.drawImage(npc, 1024, 1024, 160, 160)
 
                             //reset rotation
-                            ctx.translate(x + 160, y + 360)
+                            ctx.translate(1024 + 160, 1024 + 360)
                             ctx.rotate(-9.4)
-                            ctx.translate(x - 160, y - 360)
+                            ctx.translate(1024 - 160, 1024 - 360)
                         }
                     }
 

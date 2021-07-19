@@ -60,7 +60,7 @@ module.exports = {
 
                             //rotate
                             ctx.translate(canvas.width / 2, canvas.height / 2)
-                            ctx.rotate(100)
+                            ctx.rotate(9.4)
                             ctx.translate(-canvas.width / 2, -canvas.height / 2)
 
                             //add the pin based on the npc location
@@ -69,7 +69,7 @@ module.exports = {
 
                             //reset rotation
                             ctx.translate(canvas.width / 2, canvas.height / 2)
-                            ctx.rotate(-100)
+                            ctx.rotate(-9.4)
                             ctx.translate(-canvas.width / 2, -canvas.height / 2)
                         }
                     }

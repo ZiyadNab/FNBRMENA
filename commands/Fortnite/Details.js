@@ -356,7 +356,7 @@ module.exports = {
                         }
 
                         //if there is a style in the files
-                        if(styles.length !== 0 && res.data.items[num].type.id === "outfit"){
+                        if(styles.length !== 0){
 
                             //getting item data loading
                             const generating = new Discord.MessageEmbed()

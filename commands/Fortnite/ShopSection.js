@@ -117,9 +117,12 @@ module.exports = {
                 //add sections
                 for (let i = 0; i < res.data.data.sections.length; i++) {
 
+                    if(res.data.data.sections[i].name !== null) var name = res.data.data.sections[i].name
+                    else var name = res.data.data.sections[i].id
+
                     //add the section to the embed string
-                    if(lang === "en") string += "• " + (i + 1) + ": " + res.data.data.sections[i].name + " | " + res.data.data.sections[i].quantity + " Tabs" + "\n" 
-                    else if(lang === "ar") string += "• " + (i + 1) + ": " + res.data.data.sections[i].name + " | " + res.data.data.sections[i].quantity + " صفحة" + "\n" 
+                    if(lang === "en") string += "• " + (i + 1) + ": " + name + " | " + res.data.data.sections[i].quantity + " Tabs" + "\n" 
+                    else if(lang === "ar") string += "• " + (i + 1) + ": " + name + " | " + res.data.data.sections[i].quantity + " صفحة" + "\n" 
 
                     //grediant
                     const grd = ctx.createLinearGradient(x, y, x + 1500, y)
@@ -130,11 +133,49 @@ module.exports = {
                         grd.addColorStop(0, "#004F99")
                         grd.addColorStop(1, "#0084FF")
 
+                    }else if(await res.data.data.sections[i].id.toLowerCase().includes("racing")){
+
+                        //racing grediant colors
+                        grd.addColorStop(0, "#4FFF30")
+                        grd.addColorStop(0.5, "#FFD030")
+                        grd.addColorStop(1, "#FF3030")
+
+                    }else if(await res.data.data.sections[i].id.toLowerCase().includes("bugha")){
+
+                        //bugha grediant colors
+                        grd.addColorStop(0, "#7CFEF1")
+                        grd.addColorStop(1, "#00FFE4")
+
+                    }else if(await res.data.data.sections[i].id.toLowerCase().includes("special")){
+
+                        //special grediant colors
+                        grd.addColorStop(0, "#FF30FC")
+                        grd.addColorStop(1, "#30F6FF")
+
+                    }else if(await res.data.data.sections[i].id.toLowerCase().includes("shortnite")){
+
+                        //ferrari grediant colors
+                        grd.addColorStop(0, "#FF0000")
+                        grd.addColorStop(1, "#FFF300")
+
+                    }else if(await res.data.data.sections[i].id.toLowerCase().includes("ferrari")){
+
+                        //ferrari grediant colors
+                        grd.addColorStop(0, "#FF0000")
+                        grd.addColorStop(1, "#000000")
+
+                    }else if(await res.data.data.sections[i].id.toLowerCase().includes("rainbow")){
+
+                        //shortnite grediant colors
+                        grd.addColorStop(0, "#B96800")
+                        grd.addColorStop(1, "#B96800")
+
                     }else if(await res.data.data.sections[i].id.toLowerCase().includes("lebron")){
 
                         //lebron grediant colors
-                        grd.addColorStop(0, "#000000")
-                        grd.addColorStop(1, "#FFCE42")
+                        
+                        grd.addColorStop(0, "#00FFFB")
+                        grd.addColorStop(1, "#010F93")
 
                     }else if(await res.data.data.sections[i].id.toLowerCase().includes("marvel")){
 

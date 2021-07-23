@@ -143,14 +143,21 @@ module.exports = {
                     }else if(await res.data.data.sections[i].id.toLowerCase().includes("bugha")){
 
                         //bugha grediant colors
-                        grd.addColorStop(0, "#7CFEF1")
-                        grd.addColorStop(1, "#00FFE4")
+                        grd.addColorStop(0, "#00FFFB")
+                        grd.addColorStop(1, "#010F93")
 
                     }else if(await res.data.data.sections[i].id.toLowerCase().includes("special")){
 
                         //special grediant colors
                         grd.addColorStop(0, "#FF30FC")
                         grd.addColorStop(1, "#30F6FF")
+
+                    }else if(await res.data.data.sections[i].id.toLowerCase().includes("wrap")){
+            
+                        //wraps grediant colors
+                        grd.addColorStop(0, "#7800FF")
+                        grd.addColorStop(0.5, "#00FF61")
+                        grd.addColorStop(1, "#00ECFF")
 
                     }else if(await res.data.data.sections[i].id.toLowerCase().includes("shortnite")){
 
@@ -173,9 +180,9 @@ module.exports = {
                     }else if(await res.data.data.sections[i].id.toLowerCase().includes("lebron")){
 
                         //lebron grediant colors
-                        
-                        grd.addColorStop(0, "#00FFFB")
-                        grd.addColorStop(1, "#010F93")
+                        grd.addColorStop(0, "#F7FF47")
+                        grd.addColorStop(0.5, "#E047FF")
+                        grd.addColorStop(1, "#F947FF")
 
                     }else if(await res.data.data.sections[i].id.toLowerCase().includes("marvel")){
 

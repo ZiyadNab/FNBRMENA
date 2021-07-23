@@ -19,6 +19,7 @@ module.exports = {
 
         //inisilizing number
         var num = null
+        var outfit = ""
 
         const offerID = await fortniteAPI.getBundles()
         .then(async res => {
@@ -214,7 +215,7 @@ module.exports = {
                     //loop throw every item
                     for(let i = 0; i < found[0].granted.length; i++){
 
-                        if(found[0].granted[i].templateId !== "MtxPurchased" && found[0].granted[i].templateId !== "MtxPurchaseBonus"){
+                        if(found[0].granted[i].templateId !== "MtxPurchased" && found[0].granted[i].templateId !== "MtxPurchaseBonus" && !found[0].granted[i].templateId.includes("bundleschedule")){
 
                             //request data
                             await FNBRMENA.Search(lang, "id", found[0].granted[i].templateId)
@@ -222,6 +223,7 @@ module.exports = {
 
                                 //skin informations
                                 var name = res.data.items[0].name;
+                                if(res.data.items[0].type.id === "outfit") outfit = res.data.items[0].name
                                 var description = res.data.items[0].description
                                 var image = res.data.items[0].images.icon
                                 if(res.data.items[0].series === null) var rarity = res.data.items[0].rarity.id
@@ -704,7 +706,7 @@ module.exports = {
                         //add every vbucks to the vbucks variable
                         if(found[0].granted[i].templateId === "MtxPurchased" || found[0].granted[i].templateId === "MtxPurchaseBonus"){
                             vbucks += await found[0].granted[i].quantity
-                            
+
                         }
 
                     }
@@ -730,10 +732,42 @@ module.exports = {
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '40px Arabic'
-                            ctx.fillText(vbucks + 'فيبوكس', (256 + x), (y + 425))  
+                            ctx.fillText(vbucks + 'فيبوكس ', (256 + x), (y + 425))  
                             ctx.font = applyText(canvas, 'عملة ثمينة تُستخدَم لشراء البضائع من المتجر.');
                             ctx.textAlign='center';
                             ctx.fillText('عملة ثمينة تُستخدَم لشراء البضائع من المتجر.', (256 + x), (y + 480))
+                        }
+                    }
+
+                    //load the image if there is a challenges pack
+                    for(let i = 0; i < found[0].granted.length; i++){
+
+                        //found an challenge pack
+                        if(found[0].granted[i].templateId.includes("bundleschedule")){
+                            //creating image
+                            const skinholder = await Canvas.loadImage('./assets/Rarities/standard/legendary.png')
+                            ctx.drawImage(skinholder, x, y, 512, 512)
+                            const skin = await Canvas.loadImage('https://i.imgur.com/MaGvfNq.png');
+                            ctx.drawImage(skin, x, y, 512, 512)
+                            const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderLegendary.png')
+                            ctx.drawImage(skinborder, x, y, 512, 512)
+                            if(lang === "en"){
+                                ctx.fillStyle = '#ffffff';
+                                ctx.textAlign='center';
+                                ctx.font = '40px Burbank Big Condensed'
+                                ctx.fillText(found[0].name, (256 + x), (y + 425))
+                                ctx.font = applyText(canvas, `Additional quests for ${outfit}.`);
+                                ctx.textAlign='center';
+                                ctx.fillText(`Additional quests for ${outfit}.`, (256 + x), (y + 480))
+                            }else if(lang === "ar"){
+                                ctx.fillStyle = '#ffffff';
+                                ctx.textAlign='center';
+                                ctx.font = '40px Arabic'
+                                ctx.fillText(found[0].name, (256 + x), (y + 425))  
+                                ctx.font = applyText(canvas, `مهام إضافية لـ ${outfit}.`);
+                                ctx.textAlign='center';
+                                ctx.fillText(`مهام إضافية لـ ${outfit}.`, (256 + x), (y + 480))
+                            }
                         }
                     }
 

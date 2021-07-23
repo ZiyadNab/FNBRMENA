@@ -14,6 +14,7 @@ module.exports = (client, admin) => {
     var offer = []
     var available = []
     var number = 0
+    var outfit = ""
 
     const Bundle = async () => {
 
@@ -132,7 +133,7 @@ module.exports = (client, admin) => {
                                 //loop throw every item
                                 for(let i = 0; i < available[0].granted.length; i++){
 
-                                    if(available[0].granted[i].templateId !== "MtxPurchased" && available[0].granted[i].templateId !== "MtxPurchaseBonus"){
+                                    if(available[0].granted[i].templateId !== "MtxPurchased" && available[0].granted[i].templateId !== "MtxPurchaseBonus" && !available[0].granted[i].templateId.includes("bundleschedule")){
 
                                         //request data
                                         await fortniteAPI.getItemDetails(itemId = available[0].granted[i].templateId, options = {lang: lang})
@@ -140,6 +141,7 @@ module.exports = (client, admin) => {
 
                                             //skin informations
                                             var name = res.item.name;
+                                            if(res.item.type.id === "outfit") outfit = res.item.name
                                             var description = res.item.description
                                             var image = res.item.images.icon
                                             if(res.item.series === null) var rarity = res.item.rarity.id
@@ -652,6 +654,38 @@ module.exports = (client, admin) => {
                                         ctx.font = applyText(canvas, 'عملة ثمينة تُستخدَم لشراء البضائع من المتجر.');
                                         ctx.textAlign='center';
                                         ctx.fillText('عملة ثمينة تُستخدَم لشراء البضائع من المتجر.', (256 + x), (y + 480))
+                                    }
+                                }
+
+                                //load the image if there is a challenges pack
+                                for(let i = 0; i < found[0].granted.length; i++){
+
+                                    //found an challenge pack
+                                    if(found[0].granted[i].templateId.includes("bundleschedule")){
+                                        //creating image
+                                        const skinholder = await Canvas.loadImage('./assets/Rarities/standard/legendary.png')
+                                        ctx.drawImage(skinholder, x, y, 512, 512)
+                                        const skin = await Canvas.loadImage('https://i.imgur.com/MaGvfNq.png');
+                                        ctx.drawImage(skin, x, y, 512, 512)
+                                        const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderLegendary.png')
+                                        ctx.drawImage(skinborder, x, y, 512, 512)
+                                        if(lang === "en"){
+                                            ctx.fillStyle = '#ffffff';
+                                            ctx.textAlign='center';
+                                            ctx.font = '40px Burbank Big Condensed'
+                                            ctx.fillText(found[0].name, (256 + x), (y + 425))
+                                            ctx.font = applyText(canvas, `Additional quests for ${outfit}.`);
+                                            ctx.textAlign='center';
+                                            ctx.fillText(`Additional quests for ${outfit}.`, (256 + x), (y + 480))
+                                        }else if(lang === "ar"){
+                                            ctx.fillStyle = '#ffffff';
+                                            ctx.textAlign='center';
+                                            ctx.font = '40px Arabic'
+                                            ctx.fillText(found[0].name, (256 + x), (y + 425))  
+                                            ctx.font = applyText(canvas, `مهام إضافية لـ ${outfit}.`);
+                                            ctx.textAlign='center';
+                                            ctx.fillText(`مهام إضافية لـ ${outfit}.`, (256 + x), (y + 480))
+                                        }
                                     }
                                 }
 

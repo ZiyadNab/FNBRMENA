@@ -18,6 +18,7 @@
     "ffmpeg-static": "^4.3.0",
     "firebase": "^8.2.10",
     "firebase-admin": "^9.5.0",
+    "fnbr": "^1.4.1",
     "fnbr.js": "^1.0.1",
     "fortnite": "^4.3.2",
     "fortnite-api-com": "^2.2.1",

@@ -1,4 +1,5 @@
-const BlogpostsEvents = require('./Events/BlogpostsEvents')
+const BlogpostsEvents = require('./Events/BlogpostsEvents.js')
+const CompBlogpostsEvents = require('./Events/CompBlogpostsEvents.js')
 const PAKEvents = require('./Events/PAKEvents.js')
 const SetEvents = require('./Events/SetEvents.js')
 const ShopSectionEvents = require('./Events/ShopSectionEvents.js')
@@ -261,6 +262,7 @@ class FNBRMENA {
         //return Blogposts access
         if(Type === "Blogposts"){
             BlogpostsEvents(Client, Admin)
+            CompBlogpostsEvents(Client, Admin)
         }
 
         //return Itemshop access

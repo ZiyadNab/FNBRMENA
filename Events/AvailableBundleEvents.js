@@ -658,10 +658,10 @@ module.exports = (client, admin) => {
                                 }
 
                                 //load the image if there is a challenges pack
-                                for(let i = 0; i < found[0].granted.length; i++){
+                                for(let i = 0; i < available[0].granted.length; i++){
 
                                     //found an challenge pack
-                                    if(found[0].granted[i].templateId.includes("bundleschedule")){
+                                    if(available[0].granted[i].templateId.includes("bundleschedule")){
                                         //creating image
                                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/legendary.png')
                                         ctx.drawImage(skinholder, x, y, 512, 512)
@@ -673,7 +673,7 @@ module.exports = (client, admin) => {
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
                                             ctx.font = '40px Burbank Big Condensed'
-                                            ctx.fillText(found[0].name, (256 + x), (y + 425))
+                                            ctx.fillText(available[0].name, (256 + x), (y + 425))
                                             ctx.font = applyText(canvas, `Additional quests for ${outfit}.`);
                                             ctx.textAlign='center';
                                             ctx.fillText(`Additional quests for ${outfit}.`, (256 + x), (y + 480))
@@ -681,7 +681,7 @@ module.exports = (client, admin) => {
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
                                             ctx.font = '40px Arabic'
-                                            ctx.fillText(found[0].name, (256 + x), (y + 425))  
+                                            ctx.fillText(available[0].name, (256 + x), (y + 425))  
                                             ctx.font = applyText(canvas, `مهام إضافية لـ ${outfit}.`);
                                             ctx.textAlign='center';
                                             ctx.fillText(`مهام إضافية لـ ${outfit}.`, (256 + x), (y + 480))

@@ -3,6 +3,7 @@ const CompBlogpostsEvents = require('./Events/CompBlogpostsEvents.js')
 const PAKEvents = require('./Events/PAKEvents.js')
 const SetEvents = require('./Events/SetEvents.js')
 const ShopSectionEvents = require('./Events/ShopSectionEvents.js')
+const NewSectionsEvents = require('./Events/NewSectionsEvents.js')
 const PlaylistsEvents = require('./Events/PlaylistsEvents.js')
 const NoticeEvents = require('./Events/NoticeEvents.js')
 const UserJoined = require('./Events/User.js')
@@ -288,6 +289,7 @@ class FNBRMENA {
         //return ShopSection access
         if(Type === "ShopSection"){
             ShopSectionEvents(Client, Admin)
+            NewSectionsEvents(Client, Admin)
         }
 
         //return ShopSection access

@@ -10,8 +10,6 @@ module.exports = (client, admin) => {
     var response = []
     var names = []
     var number = 0
-    var sets = ''
-    var counter = 0
 
     const Set = async () => {
 
@@ -41,10 +39,15 @@ module.exports = (client, admin) => {
 
                         //add sets names
                         number++
+
                     }
 
                     //check data
                     if(JSON.stringify(res.sets) !== JSON.stringify(response)){
+
+                        //inisilizing sets variavle
+                        var sets = ""
+                        var counter = 0
 
                         //loop throw every set
                         for(let i = 0; i < res.sets.length; i++){

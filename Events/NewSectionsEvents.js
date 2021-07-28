@@ -45,9 +45,9 @@ module.exports = (client, admin) => {
                     }
 
                     if(push === true){
-                        names[0] = ""
-                        names[1] = ""
-                        names[2] = ""
+                        names[0] = null
+                        names[1] = null
+                        names[2] = null
                     }
 
                     //check data
@@ -63,10 +63,10 @@ module.exports = (client, admin) => {
                         for(let i = 0; i < response.length; i++){
 
                             //check where is the new set
-                            if(!names.includes(response[i])){
+                            if(!names.includes(response[i]) && response[i] !== null){
                                 counter++
                                 added++
-                                section += '\n• ' + counter + ': ' + response[i]
+                                section += `\n• ${counter}: ${response[i]}`
                             }
                         }
 
@@ -74,10 +74,10 @@ module.exports = (client, admin) => {
                         for(let i = 0; i < names.length; i++){
 
                             //check where is the new set
-                            if(!response.includes(names[i])){
+                            if(!response.includes(names[i]) && names[i] !== null){
                                 counter++
                                 removed++
-                                section += '\n• ' + counter + ': ' + names[i]
+                                section += `\n• ${counter}: ${names[i]}`
                             }
                         }
 

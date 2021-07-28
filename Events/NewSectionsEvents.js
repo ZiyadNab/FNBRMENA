@@ -115,6 +115,12 @@ module.exports = (client, admin) => {
                         for(let i = 0; i < res.data.sections.length; i++){
                             names[i] = await res.data.sections[i].sectionId
                         }
+
+                        //trun off push if enabled
+                        admin.database().ref("ERA's").child("Events").child("newsections").update({
+                            Push: false
+                        })
+
                     }
                     
                 }).catch(err => {
@@ -123,5 +129,5 @@ module.exports = (client, admin) => {
             }
         })
     }
-    setInterval(Sections, 1 * 10000)
+    setInterval(Sections, 2 * 60000)
 }

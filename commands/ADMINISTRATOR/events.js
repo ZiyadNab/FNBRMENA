@@ -75,7 +75,7 @@ module.exports = {
                         if(lang === "en"){
 
                             //active ?
-                            if(res[Object.keys(res)[i]].Active === "true"){
+                            if(res[Object.keys(res)[i]].Active === true){
                                 str += `Active: ${green} \n`
                             }else{
                                 str += `Active: ${red} \n`
@@ -96,7 +96,7 @@ module.exports = {
                         }else if(lang === "ar"){
 
                             //active ?
-                            if(res[Object.keys(res)[i]].Active === "true"){
+                            if(res[Object.keys(res)[i]].Active === true){
                                 str += `الحالة: ${green} \n`
                             }else{
                                 str += `الحالة: ${red} \n`
@@ -265,7 +265,7 @@ module.exports = {
 
                                                     //change the command status
                                                     admin.database().ref("ERA's").child("Events").child(Object.keys(res)[collected.first().content]).update({
-                                                        Active: "true"
+                                                        Active: true
                                                     })
 
                                                     //send the embed
@@ -286,7 +286,7 @@ module.exports = {
 
                                                     //change the command status
                                                     admin.database().ref("ERA's").child("Events").child(Object.keys(res)[collected.first().content]).update({
-                                                        Active: "false"
+                                                        Active: false
                                                     })
 
                                                     //send the embed

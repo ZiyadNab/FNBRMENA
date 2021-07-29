@@ -450,6 +450,19 @@ class FNBRMENA {
             })
             return events
         }
+
+        //get the progress status
+        if(Type === "Progress"){
+            var progress = await Admin.database().ref("ERA's").child("Progress").once('value')
+            .then(async data => {
+                if(data.val() !== null){
+                    return progress = data.val()
+                }else{
+                    return []
+                }
+            })
+            return progress
+        }
     }
 }
 

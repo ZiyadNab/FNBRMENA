@@ -34,7 +34,7 @@ module.exports = {
             Canvas.registerFont('./assets/font/BurbankBigCondensed-Black.otf' ,{family: 'Burbank Big Condensed',weight: "700",style: "bold"})
 
             //creating canvas
-            const canvas = Canvas.createCanvas(4000, 3600);
+            const canvas = Canvas.createCanvas(4000, 4000);
             const ctx = canvas.getContext('2d');
 
             //create background grediant

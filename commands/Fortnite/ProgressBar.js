@@ -41,8 +41,8 @@ module.exports = {
             const grediant = ctx.createLinearGradient(0, canvas.height, canvas.width, 0)
 
             //background grediant colors
-            grediant.addColorStop(0, "#001C86")
-            grediant.addColorStop(1, "#13FF00")
+            grediant.addColorStop(0, "#f3c5f4")
+            grediant.addColorStop(1, "#8b47bc")
 
             //add the background color to ctx
             ctx.fillStyle = grediant
@@ -55,6 +55,10 @@ module.exports = {
 
             const battlebus = await Canvas.loadImage('./assets/Bar/battlebus.png')
             ctx.drawImage(battlebus, 1500, 300, 1550, 2000)
+
+            //ariana grande
+            const ariana = await Canvas.loadImage('./assets/Bar/ariana.png')
+            ctx.drawImage(ariana, 0, 1350, 1500, 2700)
 
             //change the opacity back
             ctx.globalAlpha = 1

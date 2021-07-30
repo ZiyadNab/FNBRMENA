@@ -33,16 +33,49 @@ module.exports = {
             Canvas.registerFont('./assets/font/Lalezar-Regular.ttf', {family: 'Arabic',weight: "700",style: "bold"});
             Canvas.registerFont('./assets/font/BurbankBigCondensed-Black.otf' ,{family: 'Burbank Big Condensed',weight: "700",style: "bold"})
 
+            //progressData index
+            var index = 0
+            var grediantsIndex = 0
+            var customImagesIndex = 0
+            for(let i = 0; i < Object.keys(progressData).length; i++){
+                if(Object.keys(progressData)[i] === 'progressData') index = i
+                if(Object.keys(progressData)[i] === 'Gradiants') grediantsIndex = i
+                if(Object.keys(progressData)[i] === 'customImages') customImagesIndex = i
+            }
+
+            //get how many bars r set to true [ACTIVE]
+            var active = 0
+            for(let i = 0; i < Object.keys(progressData[Object.keys(progressData)[index]]).length; i++){
+
+                //response data
+                var data = progressData[Object.keys(progressData)[index]][Object.keys(progressData[Object.keys(progressData)[index]])[i]].Status
+
+                //if the status is true
+                if(data) active += 1
+
+            }
+
             //creating canvas
-            const canvas = Canvas.createCanvas(4000, 4000);
+            const canvas = Canvas.createCanvas(4000, (active * 420) + 1000);
             const ctx = canvas.getContext('2d');
 
             //create background grediant
             const grediant = ctx.createLinearGradient(0, canvas.height, canvas.width, 0)
 
             //background grediant colors
-            grediant.addColorStop(0, "#001C86")
-            grediant.addColorStop(1, "#13FF00")
+            const backgroundGrediants = progressData[Object.keys(progressData)[grediantsIndex]]
+            if(backgroundGrediants.length === 2){
+
+                //add the grediands
+                grediant.addColorStop(0, `#${backgroundGrediants[0]}`)
+                grediant.addColorStop(1, `#${backgroundGrediants[1]}`)
+            }else if(backgroundGrediants.length === 3){
+
+                //add the grediands
+                grediant.addColorStop(0, `#${backgroundGrediants[0]}`)
+                grediant.addColorStop(0.5, `#${backgroundGrediants[1]}`)
+                grediant.addColorStop(1, `#${backgroundGrediants[2]}`)
+            }
 
             //add the background color to ctx
             ctx.fillStyle = grediant
@@ -55,6 +88,17 @@ module.exports = {
 
             const battlebus = await Canvas.loadImage('./assets/Bar/battlebus.png')
             ctx.drawImage(battlebus, 1500, 300, 1550, 2000)
+
+            //customImages
+            const customImagesData = progressData[Object.keys(progressData)[customImagesIndex]]
+
+            //if there is access to customImagesData
+            if(customImagesData.Status){
+
+                //add the image
+                const customImages = await Canvas.loadImage(customImagesData.Image)
+                ctx.drawImage(customImages, customImagesData.X, customImagesData.Y, customImagesData.W, customImagesData.H)
+            }
 
             //change the opacity back
             ctx.globalAlpha = 1
@@ -104,8 +148,18 @@ module.exports = {
                 else if(lang === "ar") ctx.fillText(`${left} يوم متبقي`, x + objectPercent + ((3000 - objectPercent) / 2), y - 80)
 
                 //objectPercent progress grediant colors
-                grd.addColorStop(0, `#${colors[0]}`)
-                grd.addColorStop(1, `#${colors[1]}`)
+                if(colors.length === 2){
+
+                    //add the grediands
+                    grd.addColorStop(0, `#${colors[0]}`)
+                    grd.addColorStop(1, `#${colors[1]}`)
+                }else if(backgroundGrediants.length === 3){
+    
+                    //add the grediands
+                    grd.addColorStop(0, `#${colors[0]}`)
+                    grd.addColorStop(0.5, `#${colors[1]}`)
+                    grd.addColorStop(1, `#${colors[2]}`)
+                }
 
                 //add the objectPercent progress grediant to ctx
                 ctx.fillStyle = grd
@@ -137,25 +191,33 @@ module.exports = {
             }
 
             //loop throw every progress
-            for(let i = 0; i < Object.keys(progressData).length; i ++){
+            for(let i = 0; i < Object.keys(progressData[Object.keys(progressData)[index]]).length; i ++){
 
-                //adding the gradiant
-                var grd = ctx.createLinearGradient(x, 1500, x + 1500, 3000)
+                //response data
+                var data = progressData[Object.keys(progressData)[index]][Object.keys(progressData[Object.keys(progressData)[index]])[i]]
 
-                //get the object image
-                const objectIcon = await Canvas.loadImage(`./assets/Bar/${i}.png`)
+                //if the bar is set to active
+                if(data.Status){
 
-                //inisilizing gone, left & objectPercent
-                const gone = Now.diff(moment(progressData[Object.keys(progressData)[i]].Starts), "days") 
-                const left = moment(progressData[Object.keys(progressData)[i]].Ends).diff(Now, "days")
-                const length = gone + left
-                const objectPercent = (gone / length) * 3000
+                    //adding the gradiant
+                    var grd = ctx.createLinearGradient(x, 1500, x + 1500, 3000)
 
-                //calling the object
-                await CreatingObj(grd, x, y, gone, left, length, objectPercent, 
-                    progressData[Object.keys(progressData)[i]].Colors, objectIcon)
+                    //get the object image
+                    const objectIcon = await Canvas.loadImage(`./assets/Bar/${data.Path}.png`)
 
-                y += 420
+                    //inisilizing gone, left & objectPercent
+                    const gone = Now.diff(moment(data.Starts), "days") 
+                    const left = moment(data.Ends).diff(Now, "days")
+                    const length = gone + left
+                    const objectPercent = (gone / length) * 3000
+
+                    //calling the object
+                    await CreatingObj(grd, x, y, gone, left, length, objectPercent, 
+                        data.Colors, objectIcon)
+
+                    y += 420
+
+                }
             }
 
             //Crew Object

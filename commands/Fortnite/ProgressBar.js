@@ -103,18 +103,17 @@ module.exports = {
             //change the opacity
             ctx.globalAlpha = 0.5
 
-            const battlebus = await Canvas.loadImage('./assets/Bar/battlebus.png')
-            ctx.drawImage(battlebus, 1500, 300, 1550, 2000)
-
             //customImages
             const customImagesData = progressData[Object.keys(progressData)[customImagesIndex]]
+            for(let i = 0; i < customImagesData.length; i++){
 
-            //if there is access to customImagesData
-            if(customImagesData.Status){
+                //if there is access to customImagesData
+                if(customImagesData[i].Status){
 
-                //add the image
-                const customImages = await Canvas.loadImage(customImagesData.Image)
-                ctx.drawImage(customImages, customImagesData.X, customImagesData.Y, customImagesData.W, customImagesData.H)
+                    //add the image
+                    const customImages = await Canvas.loadImage(customImagesData[i].Image)
+                    ctx.drawImage(customImages, customImagesData[i].X, customImagesData[i].Y, customImagesData[i].W, customImagesData[i].H)
+                }
             }
 
             //change the opacity back

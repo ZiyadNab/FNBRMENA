@@ -37,10 +37,12 @@ module.exports = {
             var index = 0
             var grediantsIndex = 0
             var customImagesIndex = 0
+            var backgroundLayerImageIndex = 0
             for(let i = 0; i < Object.keys(progressData).length; i++){
                 if(Object.keys(progressData)[i] === 'progressData') index = i
                 if(Object.keys(progressData)[i] === 'Gradiants') grediantsIndex = i
                 if(Object.keys(progressData)[i] === 'customImages') customImagesIndex = i
+                if(Object.keys(progressData)[i] === 'backgroundLayerImage') backgroundLayerImageIndex = i
             }
 
             //get how many bars r set to true [ACTIVE]
@@ -82,6 +84,21 @@ module.exports = {
 
             //add the background
             ctx.fillRect(0, 0, canvas.width, canvas.height)
+
+            //backgroundLayerImage
+            const backgroundLayerImage = progressData[Object.keys(progressData)[backgroundLayerImageIndex]]
+            if(backgroundLayerImage.Status){
+
+                //change the opacity back if i changed it from the database
+                ctx.globalAlpha = backgroundLayerImage.Opacity
+
+                //add the image
+                const backgroundImage = await Canvas.loadImage(backgroundLayerImage.Image)
+                ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height)
+
+                //change the opacity back if i changed it from the database
+                ctx.globalAlpha = 1
+            }
 
             //change the opacity
             ctx.globalAlpha = 0.5

@@ -66,15 +66,15 @@ module.exports = (client, admin) => {
                             //add color
                             crewData.setColor('#00ffff')
 
-                            //add title
+                            //set title
                             if(lang === "en") crewData.setTitle(`The Fortnite Crew for month ${month} of ${year}`)
                             else if(lang === "ar") crewData.setTitle(`حزمة طاقم فورت نايت لشهر ${month} سنه ${year}`)
 
-                            //add image
-                            crewData.setImage(res[0].images.apiRender)
-
                             //add url
                             crewData.setURL(res[0].video)
+
+                            //add image
+                            crewData.setImage(res[0].images.apiRender)
 
                             //creating length
                             var length = res[0].rewards.length

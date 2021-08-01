@@ -51,9 +51,12 @@ module.exports = {
                     //add color
                     crewData.setColor(FNBRMENA.Colors("embed"))
 
-                    //set author
-                    if(lang === "en") crewData.setAuthor(`The Fortnite Crew for month ${month} of ${year}`, crew.rewards[0].item.images.icon, crew.video)
-                    else if(lang === "ar") crewData.setAuthor(`حزمة طاقم فورت نايت لشهر ${month} سنه ${year}`, crew.rewards[0].item.images.icon, crew.video)
+                    //set title
+                    if(lang === "en") crewData.setTitle(`The Fortnite Crew for month ${month} of ${year}`)
+                    else if(lang === "ar") crewData.setTitle(`حزمة طاقم فورت نايت لشهر ${month} سنه ${year}`)
+
+                    //add url
+                    crewData.setURL(crew.video)
 
                     //add image
                     crewData.setImage(crew.images.apiRender)

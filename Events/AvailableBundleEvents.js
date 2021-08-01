@@ -841,5 +841,5 @@ module.exports = (client, admin) => {
             }
         })
     }
-    setInterval(Bundle, 1 * 60000)
+    setInterval(Bundle, 1 * 30000)
 }

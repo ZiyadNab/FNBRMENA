@@ -1709,5 +1709,5 @@ module.exports = (client, admin) => {
             }
         })
     }
-    setInterval(Itemshop, 4 * 30000)
+    setInterval(Itemshop, 2 * 30000)
 }

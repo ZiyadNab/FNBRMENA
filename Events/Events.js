@@ -10,6 +10,7 @@ module.exports = async (client, admin, array) => {
     FNBRMENA.Events(client, admin, array, "Pak")
     FNBRMENA.Events(client, admin, array, "Set")
     FNBRMENA.Events(client, admin, array, "ShopSection")
+    FNBRMENA.Events(client, admin, array, "DynamicBackgrounds")
     FNBRMENA.Events(client, admin, array, "Crew")
     FNBRMENA.Events(client, admin, array, "Notice")
     FNBRMENA.Events(client, admin, array, "AvailableBundle")

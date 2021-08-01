@@ -4,6 +4,7 @@ const PAKEvents = require('./Events/PAKEvents.js')
 const SetEvents = require('./Events/SetEvents.js')
 const ShopSectionEvents = require('./Events/ShopSectionEvents.js')
 const NewSectionsEvents = require('./Events/NewSectionsEvents.js')
+const DynamicBackgroundsEvents = require('./Events/DynamicBackgroundsEvents.js')
 const PlaylistsEvents = require('./Events/PlaylistsEvents.js')
 const NoticeEvents = require('./Events/NoticeEvents.js')
 const UserJoined = require('./Events/User.js')
@@ -284,6 +285,11 @@ class FNBRMENA {
         //return Set access
         if(Type === "Set"){
             SetEvents(Client, Admin)
+        }
+
+        //return Set access
+        if(Type === "DynamicBackgrounds"){
+            DynamicBackgroundsEvents(Client, Admin)
         }
 
         //return ShopSection access

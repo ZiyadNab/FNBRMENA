@@ -1,5 +1,6 @@
 const Data = require('../../FNBRMENA')
 const FNBRMENA = new Data()
+const moment = require('moment')
 const FortniteAPI = require("fortniteapi.io-api");
 const fortniteAPI = new FortniteAPI(FNBRMENA.APIKeys("FortniteAPI.io"));
 
@@ -18,9 +19,6 @@ module.exports = {
         //seeting up the db firestore
         var db = admin.firestore()
 
-        //get the collection from the database
-        const snapshot = await db.collection("Reminders").get()
-
         //data
         var string = ""
         var counter = 0
@@ -35,28 +33,41 @@ module.exports = {
         message.channel.send(generating)
         .then( async m => {
         
+            //define the collection
+            const docRef = await db.collection("Reminders")
+
+            //get the collection data
+            const snapshot = await docRef.get()
+            
             //get every single collection
             for(let i = 0; i < snapshot.size; i++){
-                var docRef = await db.collection("Reminders").doc(`${i}`)
-                await docRef.get()
-                .then(async doc => {
-                    if (await doc.exists) {
-                        if(await doc.data().id === message.author.id){
 
-                            //get the item name
-                            await fortniteAPI.getItemDetails(itemId = doc.data().mainId, options = {lang: lang})
-                            .then( async res => {
-                                
-                                //add every reminder to the array
-                                string += "• " + counter + ": " + await res.item.name + "\n"
-                                ids[counter] = await res.item.id
-                                names[counter] = await res.item.name
-                                counter++
+                //if the id is undefined
+                if(await snapshot.docs[i].data().id !== undefined){
 
-                            })
-                        }
+                    //if the data user ID matching the message author
+                    if(await snapshot.docs[i].data().id === message.author.id){
+
+                        //get the item name
+                        await fortniteAPI.getItemDetails(itemId = snapshot.docs[i].data().mainId, options = {lang: lang})
+                        .then(async res => {
+
+                            //long client has been waiting for
+                            moment.locale(lang)
+                            var Now = moment()
+                            var long = moment(snapshot.docs[i].data().date)
+                            const day = Now.diff(long, 'days')
+                            
+                            //add every reminder to the array
+                            if(lang === "en") string += "• " + counter + ": " + await res.item.name + " | Days Waiting: " + day + "\n"
+                            else if(lang === "ar") string += "• " + counter + ": " + await res.item.name + " | الايام المنتظرة: " + day + "\n"
+                            names[counter] = await res.item.name
+                            ids[counter] = await res.item.id
+                            counter++
+
+                        })
                     }
-                })
+                }
             }
 
             //if the user has no reminders
@@ -102,31 +113,30 @@ module.exports = {
                                 //delete the right item
                                 for(let i = 0; i < snapshot.size; i++){
 
-                                    var docRef = await db.collection("Reminders").doc(`${i}`)
-                                    await docRef.get()
-                                    .then(async doc => {
-                                        if (await doc.exists) {
-                                            if(await doc.data().id === message.author.id && ids[num] === doc.data().mainId){
+                                    //if the id is undefined
+                                    if(await snapshot.docs[i].data().id !== undefined){
+                                        
+                                        //insure that the data is valid and its from the same author
+                                        if(await snapshot.docs[i].data().id === message.author.id && ids[num] === snapshot.docs[i].data().mainId){
 
-                                                //delete the item
-                                                await db.collection("Reminders").doc(`${i}`).delete()
-                                                
-                                                //create embed
-                                                const embed = new Discord.MessageEmbed()
-
-                                                //add the color
-                                                embed.setColor(FNBRMENA.Colors("embed"))
-
-                                                //add the title
-                                                if(lang === "en") embed.setTitle(`The ${names[num]} item has been removed successfully ${checkEmoji}`)
-                                                else if(lang === "ar") embed.setTitle(`تم حذف العنصر ${names[num]} بنجاح ${checkEmoji}`)
-
-                                                await m.delete()
-                                                message.channel.send(embed)
+                                            //delete the item
+                                            await db.collection("Reminders").doc(`${snapshot.docs[i].id}`).delete()
                                             
-                                            }
+                                            //create embed
+                                            const embed = new Discord.MessageEmbed()
+
+                                            //add the color
+                                            embed.setColor(FNBRMENA.Colors("embed"))
+
+                                            //add the title
+                                            if(lang === "en") embed.setTitle(`The ${names[num]} item has been removed successfully ${checkEmoji}`)
+                                            else if(lang === "ar") embed.setTitle(`تم حذف العنصر ${names[num]} بنجاح ${checkEmoji}`)
+
+                                            await m.delete()
+                                            message.channel.send(embed)
+                                        
                                         }
-                                    })
+                                    }
                                 }
 
                             }else{

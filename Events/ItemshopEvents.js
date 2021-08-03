@@ -1615,80 +1615,76 @@ module.exports = (client, admin) => {
                                 //seeting up the db firestore
                                 var db = admin.firestore()
 
-                                //get the collection from the database
-                                const snapshot = await db.collection("Reminders").get()
-                                .then(doc => {
-                                    return doc.size
-                                })
+                                //define the collection
+                                const docRef = await db.collection("Reminders")
 
-                                for(let i = 1; i < snapshot; i++){
-                                    const data = db.collection("Reminders").doc(`${i}`);
-                                    const doc = await data.get();
-                                    if(doc.exists){
-                                        for(let j = 0; j < mainId.length; j++){
-                                            if(mainId[j] === doc.data().mainId){
-                                                //the item has been released
+                                //get the collection data
+                                const snapshot = await docRef.get()
 
-                                                fortniteAPI.getItemDetails(itemId = mainId[j], options = {lang: doc.data().lang})
-                                                .then( async res => {
+                                for(let i = 1; i < snapshot.size; i++){
 
-                                                    //item details
-                                                    var name = res.item.name
-                                                    var description = res.item.description
-                                                    var price = res.item.price
-                                                    if(res.item.series === null){
-                                                        var rarity = res.item.rarity.name
-                                                    }else{
-                                                        var rarity = res.item.series.name
-                                                    }
-                                                    if(res.item.shopHistory !== null){
-                                                        var Occourance = res.item.shopHistory.length
-                                                    }else{
-                                                        var Occourance = "0"
-                                                    }
-                                                    var Now = moment()
-                                                    var long = moment(doc.data().date)
-                                                    const day = Now.diff(long, 'days')
+                                    //loop throw every item id that is in the itemshop
+                                    for(let j = 0; j < mainId.length; j++){
 
-                                                    //createing the embed
-                                                    const remind = new Discord.MessageEmbed()
+                                        if(mainId[j] === snapshot.docs[i].data().mainId){
+                                            //the item has been released
 
-                                                    //set the color
-                                                    remind.setColor('#00ffff')
+                                            fortniteAPI.getItemDetails(itemId = mainId[j], options = {lang: snapshot.docs[i].data().lang})
+                                            .then( async res => {
 
-                                                    //add image
-                                                    remind.setImage(res.item.displayAssets[0].background)
+                                                //item details
+                                                var name = res.item.name
+                                                var description = res.item.description
+                                                var price = res.item.price
+                                                if(res.item.series === null) var rarity = res.item.rarity.name
+                                                else var rarity = res.item.series.name
+                                                if(res.item.shopHistory !== null) var Occourance = res.item.shopHistory.length
+                                                else var Occourance = "0"
 
-                                                    //set title
-                                                    if(doc.data().lang === "en"){
-                                                        remind.setTitle("Ay congrats your item is in the shop right now")
-                                                        remind.addFields(
-                                                            {name: "Name:" ,value: name},
-                                                            {name: "Description:" ,value: description},
-                                                            {name: "Price:" ,value: price},
-                                                            {name: "Rarity:" ,value: rarity},
-                                                            {name: "Occourance:" ,value: Occourance},
-                                                            {name: "How long have you been waiting?:" ,value: day + "day(s)"},
-                                                        )
-                                                    }else if(doc.data().lang === "ar"){
-                                                        remind.setTitle("مبروك السكن الي تنتظره الان موجود بالشوب")
-                                                        remind.addFields(
-                                                            {name: "الاسم:" ,value: name},
-                                                            {name: "الوصف:" ,value: description},
-                                                            {name: "السعر:" ,value: price},
-                                                            {name: "الندرة:" ,value: rarity},
-                                                            {name: "عدد النزول:" ,value: Occourance},
-                                                            {name: "كم لك يوم تنتظر العنصر؟:" ,value: day + " يوم"},
-                                                        )
-                                                    }
+                                                //setting up moment
+                                                var Now = moment()
+                                                var long = moment(snapshot.docs[i].data().date)
+                                                const day = Now.diff(long, 'days')
 
-                                                    await reminderMessage.send(`<@${doc.data().id}>`, remind)
-                                                    data.delete()
-                                                })
-                                            }
+                                                //createing the embed
+                                                const remind = new Discord.MessageEmbed()
+
+                                                //set the color
+                                                remind.setColor('#00ffff')
+
+                                                //add image
+                                                remind.setImage(res.item.displayAssets[0].background)
+
+                                                //set title
+                                                if(snapshot.docs[i].data().lang === "en"){
+                                                    remind.setTitle("Ay congrats your item is in the shop right now")
+                                                    remind.addFields(
+                                                        {name: "Name:" ,value: name},
+                                                        {name: "Description:" ,value: description},
+                                                        {name: "Price:" ,value: price},
+                                                        {name: "Rarity:" ,value: rarity},
+                                                        {name: "Occourance:" ,value: Occourance},
+                                                        {name: "How long have you been waiting?:" ,value: day + "day(s)"},
+                                                    )
+                                                }else if(snapshot.docs[i].data().lang === "ar"){
+                                                    remind.setTitle("مبروك السكن الي تنتظره الان موجود بالشوب")
+                                                    remind.addFields(
+                                                        {name: "الاسم:" ,value: name},
+                                                        {name: "الوصف:" ,value: description},
+                                                        {name: "السعر:" ,value: price},
+                                                        {name: "الندرة:" ,value: rarity},
+                                                        {name: "عدد النزول:" ,value: Occourance},
+                                                        {name: "كم لك يوم تنتظر العنصر؟:" ,value: day + " يوم"},
+                                                    )
+                                                }
+
+                                                await reminderMessage.send(`<@${snapshot.docs[i].data().id}>`, remind)
+                                                data.delete()
+                                            })
                                         }
                                     }
                                 }
+                                
 
                                 for(let i = 0; i < res.shop.length; i++){
                                     response[i] = await res.shop[i].displayName
@@ -1709,5 +1705,5 @@ module.exports = (client, admin) => {
             }
         })
     }
-    setInterval(Itemshop, 2 * 30000)
+    setInterval(Itemshop, 1.5 * 30000)
 }

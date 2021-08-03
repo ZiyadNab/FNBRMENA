@@ -17,10 +17,7 @@ module.exports = {
         const lang = await FNBRMENA.Admin(admin, message, "", "Lang")
 
         //seeting up the db firestore
-        var db = admin.firestore()
-
-        //get the collection from the database
-        const snapshot = await db.collection("Reminders").get()
+        var db = await admin.firestore()
 
         //data
         var string = ""
@@ -33,35 +30,41 @@ module.exports = {
         if(lang === "ar") generating.setTitle(`جاري جلب جميع التنبيهات لحسابك ${loadingEmoji}`)
         message.channel.send(generating)
         .then( async msg => {
-        
+
+            //define the collection
+            const docRef = await db.collection("Reminders")
+
+            //get the collection data
+            const snapshot = await docRef.get()
+            
             //get every single collection
             for(let i = 0; i < snapshot.size; i++){
-                var docRef = await db.collection("Reminders").doc(`${i}`)
-                await docRef.get()
-                .then(async doc => {
-                    if (await doc.exists) {
-                        if(await doc.data().id === message.author.id){
 
-                            //get the item name
-                            await fortniteAPI.getItemDetails(itemId = doc.data().mainId, options = {lang: lang})
-                            .then( async res => {
+                //if the id is undefined
+                if(await snapshot.docs[i].data().id !== undefined){
 
-                                //long client has been waiting for
-                                moment.locale(lang)
-                                var Now = moment()
-                                var long = moment(doc.data().date)
-                                const day = Now.diff(long, 'days')
-                                
-                                //add every reminder to the array
-                                if(lang === "en") string += "• " + counter + ": " + await res.item.name + " | Days Waiting: " + day + "\n"
-                                else if(lang === "ar") string += "• " + counter + ": " + await res.item.name + " | الايام المنتظرة: " + day + "\n"
-                                names[counter] = await res.item.name
-                                counter++
+                    //if the data user ID matching the message author
+                    if(await snapshot.docs[i].data().id === message.author.id){
 
-                            })
-                        }
+                        //get the item name
+                        await fortniteAPI.getItemDetails(itemId = snapshot.docs[i].data().mainId, options = {lang: lang})
+                        .then(async res => {
+
+                            //long client has been waiting for
+                            moment.locale(lang)
+                            var Now = moment()
+                            var long = moment(snapshot.docs[i].data().date)
+                            const day = Now.diff(long, 'days')
+                            
+                            //add every reminder to the array
+                            if(lang === "en") string += "• " + counter + ": " + await res.item.name + " | Days Waiting: " + day + "\n"
+                            else if(lang === "ar") string += "• " + counter + ": " + await res.item.name + " | الايام المنتظرة: " + day + "\n"
+                            names[counter] = await res.item.name
+                            counter++
+
+                        })
                     }
-                })
+                }
             }
 
             //if the user has no reminders

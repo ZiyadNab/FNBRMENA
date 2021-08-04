@@ -5,6 +5,7 @@ const SetEvents = require('./Events/SetEvents.js')
 const ShopSectionEvents = require('./Events/ShopSectionEvents.js')
 const NewSectionsEvents = require('./Events/NewSectionsEvents.js')
 const DynamicBackgroundsEvents = require('./Events/DynamicBackgroundsEvents.js')
+const NewTournamentsEvents = require('./Events/NewTournamentsEvents.js')
 const PlaylistsEvents = require('./Events/PlaylistsEvents.js')
 const NoticeEvents = require('./Events/NoticeEvents.js')
 const UserJoined = require('./Events/User.js')
@@ -301,6 +302,11 @@ class FNBRMENA {
         //return ShopSection access
         if(Type === "Crew"){
             Crew(Client, Admin)
+        }
+
+        //return ShopSection access
+        if(Type === "NewTournaments"){
+            NewTournamentsEvents(Client, Admin)
         }
 
         //return Notice access

@@ -86,10 +86,13 @@ module.exports = (client, admin) => {
                                                 tournamentINFO.setColor('#00ffff')
 
                                                 //set title
-                                                tournamentINFO.setAuthor(`${tournamentsDATA[i].long_format_title} | ${tournamentsDATA[i].title_line_1} ${tournamentsDATA[i].title_line_2}`, tournamentsDATA[i].loading_screen_image)
+                                                tournamentINFO.setAuthor(`${tournamentsDATA[i].long_format_title}`, tournamentsDATA[i].loading_screen_image)
+
+                                                //creating description
+                                                var description = `${tournamentsDATA[i].flavor_description} ${tournamentsDATA[i].details_description}`
 
                                                 //set description
-                                                tournamentINFO.setDescription(`${tournamentsDATA[i].flavor_description} ${tournamentsDATA[i].details_description}`)
+                                                tournamentINFO.setDescription(description)
 
                                                 //set image
                                                 tournamentINFO.setImage(tournamentsDATA[i].playlist_tile_image)

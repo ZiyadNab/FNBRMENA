@@ -133,6 +133,24 @@ module.exports = {
                         grd.addColorStop(0, "#004F99")
                         grd.addColorStop(1, "#0084FF")
 
+                    }else if(await res.data.data.sections[i].id.toLowerCase().includes("bloodsport")){
+
+                        //dc grediant colors
+                        grd.addColorStop(0, "#004F99")
+                        grd.addColorStop(1, "#0084FF")
+
+                    }else if(await res.data.data.sections[i].id.toLowerCase().includes("rifttour")){
+
+                        //dc grediant colors
+                        grd.addColorStop(0, "#FF00E4")
+                        grd.addColorStop(1, "#E8FF00")
+
+                    }else if(await res.data.data.sections[i].id.toLowerCase().includes("ariana")){
+
+                        //dc grediant colors
+                        grd.addColorStop(0, "#D6BCFF")
+                        grd.addColorStop(1, "#6400FF")
+
                     }else if(await res.data.data.sections[i].id.toLowerCase().includes("racing")){
 
                         //racing grediant colors

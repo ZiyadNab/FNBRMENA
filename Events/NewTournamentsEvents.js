@@ -67,6 +67,8 @@ module.exports = async (client, admin) => {
                             //if there is a new torunaments
                             if(!response.includes(tournamentsDATA[i].tournament_display_id)){
 
+                                console.log(response + "Not found in " + tournamentsDATA[i].tournament_display_id)
+
                                 //request more detailed data for the new tournament
                                 await axios.post(`https://www.epicgames.com/fortnite/competitive/api/${lang}/calendar`)
                                 .then(async details => {

@@ -5,11 +5,12 @@ const probe = require('probe-image-size')
 const config = require('../Coinfigs/config.json')
 const moment = require('moment')
 
-module.exports = (client, admin) => {
+module.exports = async (client, admin) => {
     const message = client.channels.cache.find(channel => channel.id === config.events.Tournament)
 
     //result
     var response = []
+    var newData = []
     var number = 0
 
     //handle the blogs
@@ -40,9 +41,9 @@ module.exports = (client, admin) => {
                     //storing the first start up
                     if(number === 0){
 
-                        //storing tournamentinformation
+                        //storing tournament information
                         for(let i = 0; i < tournamentsDATA.length; i++){
-                            response[i] = await tournamentsDATA[i]
+                            response[i] = await tournamentsDATA[i].tournament_display_id
                         }
 
                         //stop from storing again
@@ -52,19 +53,19 @@ module.exports = (client, admin) => {
                     //if push is enabled
                     if(push) response[0] = []
 
-                    //if the data was modified 
-                    if(JSON.stringify(tournamentsDATA) !== JSON.stringify(response)){
+                    //storing new tournament information
+                    for(let i = 0; i < tournamentsDATA.length; i++){
+                        newData[i] = await tournamentsDATA[i].tournament_display_id
+                    }
 
-                        //trun off push if enabled
-                        await admin.database().ref("ERA's").child("Events").child("newtournaments").update({
-                            Push: false
-                        })
+                    //if the data was modified 
+                    if(JSON.stringify(newData) !== JSON.stringify(response)){
 
                         //a data has been changed
                         for(let i = 0; i < tournamentsDATA.length; i++){
 
                             //if there is a new torunaments
-                            if(!response.includes(tournamentsDATA[i])){
+                            if(!response.includes(tournamentsDATA[i].tournament_display_id)){
 
                                 //request more detailed data for the new tournament
                                 await axios.post(`https://www.epicgames.com/fortnite/competitive/api/${lang}/calendar`)
@@ -170,10 +171,15 @@ module.exports = (client, admin) => {
                             }
                         }
 
-                        //storing tournamentinformation
+                        //storing tournament information
                         for(let i = 0; i < tournamentsDATA.length; i++){
-                            response[i] = await tournamentsDATA[i]
+                            response[i] = await tournamentsDATA[i].tournament_display_id
                         }
+
+                        //trun off push if enabled
+                        await admin.database().ref("ERA's").child("Events").child("newtournaments").update({
+                            Push: false
+                        })
                     }
 
                 }).catch(err => {
@@ -182,5 +188,6 @@ module.exports = (client, admin) => {
             }
         })
     }
+
     setInterval(NewTournaments, 1 * 30000)
 }

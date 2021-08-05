@@ -64,10 +64,10 @@ module.exports = async (client, admin) => {
                         //a data has been changed
                         for(let i = 0; i < tournamentsDATA.length; i++){
 
+                            console.log(!response.includes(tournamentsDATA[i].tournament_display_id))
+
                             //if there is a new torunaments
                             if(!response.includes(tournamentsDATA[i].tournament_display_id)){
-
-                                console.log(response + "Not found in " + tournamentsDATA[i].tournament_display_id)
 
                                 //request more detailed data for the new tournament
                                 await axios.post(`https://www.epicgames.com/fortnite/competitive/api/${lang}/calendar`)

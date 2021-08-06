@@ -1679,7 +1679,7 @@ module.exports = (client, admin) => {
                                                 }
 
                                                 await reminderMessage.send(`<@${snapshot.docs[i].data().id}>`, remind)
-                                                data.delete()
+                                                await db.collection("Reminders").doc(`${snapshot.docs[i].id}`).delete()
                                             })
                                         }
                                     }

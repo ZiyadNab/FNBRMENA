@@ -51,14 +51,14 @@ module.exports = (client, admin) => {
                         //remove data
                         lastModified = ""
                         for(let i = 0; i < data.val().Push.Number; i++){
-                            sections.splice(i, 1)
+                            await sections.shift()
                         }
                     }else if(push && type.toLowerCase() === "added"){
 
                         //remove data
                         lastModified = ""
                         for(let i = 0; i < data.val().Push.Number; i++){
-                            response.splice(i, 1)
+                            await response.shift()
                         }
                     }
                 

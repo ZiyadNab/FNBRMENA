@@ -360,10 +360,20 @@ module.exports = (FNBRMENA, client, admin) => {
                             //add description
                             SectionsEmbed.setDescription(string)
 
+                            //send the message
                             const att = new Discord.MessageAttachment(canvas.toBuffer(), 'section.png')
                             await message.send(att)
                             await message.send(SectionsEmbed)
                             msg.delete()
+
+                            //store data
+                            response = await res.data.list[current].starts
+                            
+                            //trun off push if enabled
+                            await admin.database().ref("ERA's").child("Events").child("section").update({
+                                Push: false
+                            })
+
                         })
                     }
                 }).catch(err => {

@@ -6,7 +6,6 @@ module.exports = (client, admin) => {
     const message = client.channels.cache.find(channel => channel.id === key.events.Section)
 
     //result
-    var lastModified = ""
     var response = []
     var sections = []
     var number = 0
@@ -15,47 +14,56 @@ module.exports = (client, admin) => {
     const Sections = async () => {
 
         //checking if the bot on or off
-        admin.database().ref("ERA's").child("Events").child("newsections").once('value', async function (data) {
+        await admin.database().ref("ERA's").child("Events").child("newsections").once('value', async function (data) {
 
             //store the data
             var status = data.val().Active
             var lang = data.val().Lang
             var push = data.val().Push.Status
+            var type = data.val().Push.Type
 
             //if the event is set to be true [ON]
-            if(status === true){
+            if(status){
 
                 //request data
-                axios.get(`https://fortnitecontent-website-prod07.ol.epicgames.com/content/api/pages/fortnite-game?lang=${lang}`)
+                await axios.get(`https://fortnitecontent-website-prod07.ol.epicgames.com/content/api/pages/fortnite-game?lang=${lang}`)
                 .then(async res => {
-
-                    //constant to make woring easy
-                    var sections = await res.data.shopSections.sectionList.sections
 
                     if(number === 0){
 
                         //store data
-                        lastModified = await res.data.shopSections.lastModified
-                        for(let i = 0; i < sections.length; i++){
-                            response[i] = await sections[i]
+                        for(let i = 0; i < res.data.shopSections.sectionList.sections.length; i++){
+                            response[i] = await res.data.shopSections.sectionList.sections[i].sectionId
                         }
 
                         //add sets names
                         number++
                     }
 
+                    //up to date sections data
+                    for(let i = 0; i < res.data.shopSections.sectionList.sections.length; i++){
+                        sections[i] = await res.data.shopSections.sectionList.sections[i].sectionId
+                    }
+
                     //if push was enabled
-                    if(push){
+                    if(push && type.toLowerCase() === "removed"){
 
                         //remove data
                         lastModified = ""
                         for(let i = 0; i < data.val().Push.Number; i++){
-                            response[i] = null
+                            sections.splice(i, 1)
+                        }
+                    }else if(push && type.toLowerCase() === "added"){
+
+                        //remove data
+                        lastModified = ""
+                        for(let i = 0; i < data.val().Push.Number; i++){
+                            response.splice(i, 1)
                         }
                     }
                 
                     //check data
-                    if(res.data.shopSections.lastModified !== lastModified){
+                    if(JSON.stringify(sections) !== JSON.stringify(response)){
 
                         //defin added string
                         if(lang === "en") var stringAdded = "New sections just got added\n\n"
@@ -71,10 +79,17 @@ module.exports = (client, admin) => {
                         for(let i = 0; i < sections.length; i++){
 
                             //if the section at index i is new
-                            if(!response.includes(sections[i]) && sections[i] !== undefined && sections[i] !== null){
+                            if(!response.includes(sections[i])){
 
                                 //add the new sections to added array
-                                added[counter] = await sections[i]
+                                for(let x = 0; x < res.data.shopSections.sectionList.sections.length; x++){
+
+                                    //catch the searched sectionId
+                                    if(res.data.shopSections.sectionList.sections[i].sectionId === sections[i])
+                                    added[counter] = await res.data.shopSections.sectionList.sections[i]
+                                }
+
+                                //change the index
                                 counter++
                             }
                         }
@@ -85,10 +100,17 @@ module.exports = (client, admin) => {
                         for(let i = 0; i < response.length; i++){
 
                             //if the section at index i is removed
-                            if(!sections.includes(response[i]) && response[i] !== undefined && response[i] !== null){
+                            if(!sections.includes(response[i])){
 
                                 //add the removed sections to removed array
-                                removed[counter] = await response[i]
+                                for(let x = 0; x < res.data.shopSections.sectionList.sections.length; x++){
+
+                                    //catch the searched sectionId
+                                    if(res.data.shopSections.sectionList.sections[i].sectionId === response[i])
+                                    removed[counter] = await res.data.shopSections.sectionList.sections[i]
+                                }
+
+                                //change the index
                                 counter++
                             }
                         }
@@ -144,7 +166,7 @@ module.exports = (client, admin) => {
                             addedEmbed.setDescription(String)
 
                             //send the new sections
-                            message.send(addedEmbed)
+                            await message.send(addedEmbed)
                         }
 
                         //if there is a new sections
@@ -152,9 +174,8 @@ module.exports = (client, admin) => {
                         if(removed.length > 0) await printSections(removed, stringRemoved)
 
                         //store data
-                        lastModified = await res.data.shopSections.lastModified
-                        for(let i = 0; i < sections.length; i++){
-                            response[i] = await sections[i]
+                        for(let i = 0; i < res.data.shopSections.sectionList.sections.length; i++){
+                            response[i] = await res.data.shopSections.sectionList.sections[i].sectionId
                         }
 
                         //trun off push if enabled

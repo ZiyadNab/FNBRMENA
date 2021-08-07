@@ -265,7 +265,7 @@ class FNBRMENA {
      * @param {String} [Type]
      * 
     */
-    Events(Client, Admin, array, Type){
+    Events(FNBRMENA, Client, Admin, array, Type){
         
         //return Blogposts access
         if(Type === "Blogposts"){
@@ -300,8 +300,8 @@ class FNBRMENA {
 
         //return ShopSection access
         if(Type === "ShopSection"){
-            ShopSectionEvents(Client, Admin)
-            NewSectionsEvents(Client, Admin)
+            ShopSectionEvents(FNBRMENA, Client, Admin)
+            NewSectionsEvents(FNBRMENA, Client, Admin)
         }
 
         //return ShopSection access

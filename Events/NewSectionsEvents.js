@@ -2,7 +2,7 @@ const Discord = require('discord.js')
 const key = require('../Coinfigs/config.json');
 const axios = require("axios");
 
-module.exports = (client, admin) => {
+module.exports = (FNBRMENA, client, admin) => {
     const message = client.channels.cache.find(channel => channel.id === key.events.Section)
 
     //result
@@ -160,7 +160,7 @@ module.exports = (client, admin) => {
                             const addedEmbed = new Discord.MessageEmbed()
 
                             //set the color
-                            addedEmbed.setColor('#00ffff')
+                            addedEmbed.setColor(FNBRMENA.Colors("embed"))
 
                             //set the description
                             addedEmbed.setDescription(String)

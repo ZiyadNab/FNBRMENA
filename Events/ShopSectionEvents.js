@@ -5,7 +5,7 @@ const moment = require('moment')
 const Canvas = require('canvas')
 
 
-module.exports = (client, admin) => {
+module.exports = (FNBRMENA, client, admin) => {
     const message = client.channels.cache.find(channel => channel.id === config.events.Section)
 
     //result
@@ -26,31 +26,113 @@ module.exports = (client, admin) => {
             if(status === true){
 
                 //request data
-                axios.get('https://fn-api.com/api/shop/sections?lang=' + lang)
+                await FNBRMENA.Sections(lang, "Yes")
                 .then(async res => {
 
                     //store the data if the bot got restarted
                     if (number === 0) {
-                        response = res.data.data.hash
+                        response = res.data.list[0].starts
                         number++
                     }
 
                     //if the client wants to pust data
-                    if(push === true){
+                    if(true){
                         response = ""
                     }
 
                     //checking for deff
-                    if (JSON.stringify(res.data.data.hash) !== JSON.stringify(response)) {
+                    if (JSON.stringify(res.data.list[0].starts) !== JSON.stringify(response)) {
+                        
+                        //get the sections data from database
+                        const SectionsData = await FNBRMENA.Admin(admin, message, "", "ShopSections")
+
+                        //SectionsData index
+                        var sectionsIndex = 0
+                        var grediantsIndex = 0
+                        var customImagesIndex = 0
+                        var backgroundLayerImageIndex = 0
+                        for(let i = 0; i < Object.keys(SectionsData).length; i++){
+                            if(Object.keys(SectionsData)[i] === 'Sections') sectionsIndex = i
+                            if(Object.keys(SectionsData)[i] === 'Gradiants') grediantsIndex = i
+                            if(Object.keys(SectionsData)[i] === 'customImages') customImagesIndex = i
+                            if(Object.keys(SectionsData)[i] === 'backgroundLayerImage') backgroundLayerImageIndex = i
+                        }
+
+                        //data minpulator
+                        const JSONresponse = async (Sections) => {
+
+                            //define json response and its requirments
+                            var Counter = 0
+                            var JSON = []
+
+                            //get the section tabs and add them to a string
+                            while(Sections.length !== 0){
+
+                                //defined tabs and i index
+                                var tabs = 0
+                                var i = 0
+                                
+                                //see what is the index 0 is and how many tabs for the same section
+                                const firstIndex = await Sections[0]
+
+                                //loop throw all of the modified section
+                                while(i !== Sections.length){
+
+                                    //if there is another tab for the section at index 0
+                                    if(firstIndex.displayName === Sections[i].displayName){
+
+                                        //remove the section from the section array
+                                        const index = Sections.indexOf(Sections[i])
+                                        if(index > -1) Sections.splice(index, 1)
+
+                                        //add new tab
+                                        tabs++
+
+                                    } else i++
+                                }
+
+                                //add the tabs string
+                                if(firstIndex.displayName !== undefined){
+
+                                    //add the data
+                                    JSON[Counter] = {
+                                        name: firstIndex.displayName,
+                                        id: firstIndex.id,
+                                        quantity: tabs
+                                    }
+
+                                    //change Counter index
+                                    Counter++
+                                }else{
+                                    
+                                    //add the data
+                                    JSON[Counter] = {
+                                        name: firstIndex.id,
+                                        id: firstIndex.id,
+                                        quantity: tabs
+                                    }
+
+                                    //change Counter index
+                                    Counter++
+                                }
+                            }
+
+                            //return JSON array
+                            return JSON
+                        }
+
+                        //get the sections as a minpulated data
+                        const sections = await JSONresponse(res.data.list[0].sections)
 
                         //inisilizing values
                         var width = 2000
                         var height = 1200
                         var x = 250
                         var y = 550
+                        var string = ""
 
                         //creating height
-                        for(let i = 0; i < res.data.data.sections.length; i++){
+                        for(let i = 0; i < sections.length; i++){
                             height += 300
                         }
 
@@ -63,18 +145,15 @@ module.exports = (client, admin) => {
                             const ctx = canvas.getContext('2d');
                             let fontSize = 150;
                             do {
-                                if(lang === "en"){
-                                    ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
-                                }else if(lang === "ar"){
-                                    ctx.font = `${fontSize -= 1}px Arabic`;
-                                }
+                                if(lang === "en") ctx.font = `${fontSize -= 1}px Burbank Big Condensed`
+                                else if(lang === "ar") ctx.font = `${fontSize -= 1}px Arabic`
                             } while (ctx.measureText(text).width > 1400);
                             return ctx.font;
                         }
 
                         //generating animation
                         const generating = new Discord.MessageEmbed()
-                        generating.setColor('#00ffff')
+                        generating.setColor(FNBRMENA.Colors("embed"))
                         const emoji = client.emojis.cache.get("862704096312819722")
                         if(lang === "en") generating.setTitle(`Loading sections... ${emoji}`)
                         else if(lang === "ar") generating.setTitle(`جاري تحميل الأقسام... ${emoji}`)
@@ -89,14 +168,45 @@ module.exports = (client, admin) => {
                             const grediant = ctx.createLinearGradient(0, canvas.height, canvas.width, 0)
 
                             //background grediant colors
-                            grediant.addColorStop(0, "#001C86")
-                            grediant.addColorStop(1, "#13FF00")
+                            const backgroundGrediants = SectionsData[Object.keys(SectionsData)[grediantsIndex]]
+                            if(backgroundGrediants.length === 2){
+
+                                //background grediant colors
+                                grediant.addColorStop(0, `#${backgroundGrediants[0]}`)
+                                grediant.addColorStop(1, `#${backgroundGrediants[1]}`)
+
+                            }else if(backgroundGrediants.length === 3){
+
+                                //add the grediands
+                                grediant.addColorStop(0, `#${backgroundGrediants[0]}`)
+                                grediant.addColorStop(0.5, `#${backgroundGrediants[1]}`)
+                                grediant.addColorStop(1, `#${backgroundGrediants[2]}`)
+                            }
 
                             //add the background color to ctx
                             ctx.fillStyle = grediant
 
                             //add the background
                             ctx.fillRect(0, 0, canvas.width, canvas.height)
+
+                            //customImages
+                            const customImagesData = SectionsData[Object.keys(SectionsData)[customImagesIndex]]
+                            for(let i = 0; i < customImagesData.length; i++){
+
+                                //if there is access to customImagesData
+                                if(customImagesData[i].Status){
+
+                                    //change the opacity back if i changed it from the database
+                                    ctx.globalAlpha = customImagesData[i].Opacity
+
+                                    //add the image
+                                    const customImages = await Canvas.loadImage(customImagesData[i].Image)
+                                    ctx.drawImage(customImages, customImagesData[i].X, customImagesData[i].Y, customImagesData[i].W, customImagesData[i].H)
+
+                                    //change the opacity back if i changed it from the database
+                                    ctx.globalAlpha = 1
+                                }
+                            }
 
                             //add FNBRMENA credit
                             ctx.fillStyle = '#ffffff';
@@ -138,234 +248,84 @@ module.exports = (client, admin) => {
                             y += 100
 
                             //add sections
-                            var string = ""
-                            for (let i = 0; i < res.data.data.sections.length; i++) {
+                            for (let i = 0; i < sections.length; i++) {
 
-                                if(res.data.data.sections[i].name !== null) var name = res.data.data.sections[i].name
-                                else var name = res.data.data.sections[i].id
+                                if(sections[i].name !== null) var name = sections[i].name
+                                else var name = sections[i].id
 
                                 //add the section to the embed string
-                                if(lang === "en") string += "• " + (i + 1) + ": " + name + " | " + res.data.data.sections[i].quantity + " Tabs" + "\n" 
-                                else if(lang === "ar") string += "• " + (i + 1) + ": " + name + " | " + res.data.data.sections[i].quantity + " صفحة" + "\n" 
+                                if(lang === "en") string += "• " + (i + 1) + ": " + name + " | " + sections[i].quantity + " Tabs" + "\n" 
+                                else if(lang === "ar") string += "• " + (i + 1) + ": " + name + " | " + sections[i].quantity + " صفحة" + "\n" 
 
                                 //grediant
                                 const grd = ctx.createLinearGradient(x, y, x + 1500, y)
 
-                                if(await res.data.data.sections[i].id.toLowerCase().includes("dc")){
+                                //response data
+                                var data = undefined
+                                var finder = Object.keys(SectionsData[Object.keys(SectionsData)[sectionsIndex]])
+                                for(let f = 0; f < finder.length; f++){
 
-                                    //dc grediant colors
-                                    grd.addColorStop(0, "#004F99")
-                                    grd.addColorStop(1, "#0084FF")
-
-                                }else if(await res.data.data.sections[i].id.toLowerCase().includes("rifttour")){
-
-                                    //dc grediant colors
-                                    grd.addColorStop(0, "#FF00E4")
-                                    grd.addColorStop(1, "#E8FF00")
-            
-                                }else if(await res.data.data.sections[i].id.toLowerCase().includes("bloodsport")){
-
-                                    //dc grediant colors
-                                    grd.addColorStop(0, "#004F99")
-                                    grd.addColorStop(1, "#0084FF")
-
-                                }else if(await res.data.data.sections[i].id.toLowerCase().includes("ariana")){
-
-                                    //dc grediant colors
-                                    grd.addColorStop(0, "#D6BCFF")
-                                    grd.addColorStop(1, "#6400FF")
-
-                                }else if(await res.data.data.sections[i].id.toLowerCase().includes("racing")){
-
-                                    //racing grediant colors
-                                    grd.addColorStop(0, "#4FFF30")
-                                    grd.addColorStop(0.5, "#FFD030")
-                                    grd.addColorStop(1, "#FF3030")
-            
-                                }else if(await res.data.data.sections[i].id.toLowerCase().includes("bugha")){
-
-                                    //bugha grediant colors
-                                    grd.addColorStop(0, "#00FFFB")
-                                    grd.addColorStop(1, "#010F93")
-            
-                                }else if(await res.data.data.sections[i].id.toLowerCase().includes("special")){
-            
-                                    //special grediant colors
-                                    grd.addColorStop(0, "#FF30FC")
-                                    grd.addColorStop(1, "#30F6FF")
-            
-                                }else if(await res.data.data.sections[i].id.toLowerCase().includes("wraps")){
-            
-                                    //wraps grediant colors
-                                    grd.addColorStop(0, "#FF00FB")
-                                    grd.addColorStop(1, "#7400FF")
-                                    grd.addColorStop(1, "#00D1FF")
-                                    grd.addColorStop(1, "#00FF61")
-            
-                                }else if(await res.data.data.sections[i].id.toLowerCase().includes("shortnite")){
-            
-                                    //ferrari grediant colors
-                                    grd.addColorStop(0, "#FF0000")
-                                    grd.addColorStop(1, "#FFF300")
-            
-                                }else if(await res.data.data.sections[i].id.toLowerCase().includes("ferrari")){
-            
-                                    //ferrari grediant colors
-                                    grd.addColorStop(0, "#FF0000")
-                                    grd.addColorStop(1, "#000000")
-            
-                                }else if(await res.data.data.sections[i].id.toLowerCase().includes("rainbow")){
-            
-                                    //shortnite grediant colors
-                                    grd.addColorStop(0, "#B96800")
-                                    grd.addColorStop(1, "#B96800")
-            
-                                }else if(await res.data.data.sections[i].id.toLowerCase().includes("lebron")){
-
-                                    //lebron grediant colors
-                                    grd.addColorStop(0, "#F7FF47")
-                                    grd.addColorStop(0.5, "#E047FF")
-                                    grd.addColorStop(1, "#F947FF")
-            
-                                }else if(await res.data.data.sections[i].id.toLowerCase().includes("marvel")){
-
-                                    //marvel grediant colors
-                                    grd.addColorStop(0, "#FF0000")
-                                    grd.addColorStop(1, "#FFFFFF")
-
-                                }else if(await res.data.data.sections[i].id.toLowerCase().includes("blackwidow")){
-
-                                    //icon grediant colors
-                                    grd.addColorStop(0, "#FF0000")
-                                    grd.addColorStop(1, "#FFFFFF")
-            
-                                }else if(await res.data.data.sections[i].id.toLowerCase().includes("armbatzero")){
-            
-                                    //icon grediant colors
-                                    grd.addColorStop(0, "#004E8E")
-                                    grd.addColorStop(1, "#000000")
-            
-                                }else if(await res.data.data.sections[i].id.toLowerCase().includes("icon")){
-
-                                    //icon grediant colors
-                                    grd.addColorStop(0, "#7CFEF1")
-                                    grd.addColorStop(1, "#00FFE4")
-
-                                }else if(await res.data.data.sections[i].id.toLowerCase().includes("starwars")){
-
-                                    //startwars grediant colors
-                                    grd.addColorStop(0, "#FBFF00")
-                                    grd.addColorStop(1, "#000000")
-
-                                }else if(await res.data.data.sections[i].id.toLowerCase().includes("bannerbrigade")){
-
-                                    //startwars grediant colors
-                                    grd.addColorStop(0, "#00F3FF")
-                                    grd.addColorStop(1, "#FF00CD")
-
-                                }else if(await res.data.data.sections[i].id.toLowerCase().includes("tron")){
-
-                                    //startwars grediant colors
-                                    grd.addColorStop(0, "#000000")
-                                    grd.addColorStop(1, "#00FBFF")
-
-                                }else if(await res.data.data.sections[i].id.toLowerCase().includes("customizehero") || await res.data.data.sections[i].id.toLowerCase().includes("herogear")){
-
-                                    //startwars grediant colors
-                                    grd.addColorStop(0, "#FF8000")
-                                    grd.addColorStop(1, "#00FFF3")
-
-                                }else if(await res.data.data.sections[i].id.toLowerCase().includes("inthepaint")){
-
-                                    //startwars grediant colors
-                                    grd.addColorStop(0, "#000275")
-                                    grd.addColorStop(1, "#D70000")
-
-                                }else if(await res.data.data.sections[i].id.toLowerCase().includes("repyourclub") || await res.data.data.sections[i].id.toLowerCase().includes("goalbound")){
-
-                                    //startwars grediant colors
-                                    grd.addColorStop(0, "#00D703")
-                                    grd.addColorStop(1, "#FFFFFF")
-
-                                }else if(await res.data.data.sections[i].id.toLowerCase().includes("locker")){
-
-                                    //startwars grediant colors
-                                    grd.addColorStop(0, "#D800FF")
-                                    grd.addColorStop(1, "#1300FF")
-
-                                }else if(await res.data.data.sections[i].id.toLowerCase().includes("vaultshop")){
-
-                                    //startwars grediant colors
-                                    grd.addColorStop(0, "#FFDC00")
-                                    grd.addColorStop(1, "#FEE755")
-
-                                }else if(await res.data.data.sections[i].id.toLowerCase().includes("shadowstrike")){
-
-                                    //startwars grediant colors
-                                    grd.addColorStop(0, "#000000")
-                                    grd.addColorStop(1, "#FFFFFF")
-
-                                }else if(await res.data.data.sections[i].id.toLowerCase().includes("horizonzerodawn")){
-
-                                    //startwars grediant colors
-                                    grd.addColorStop(0, "#AA00FF")
-                                    grd.addColorStop(1, "#315AE4")
-
-                                }else if(await res.data.data.sections[i].id.toLowerCase().includes("partygear") || await res.data.data.sections[i].id.toLowerCase().includes("startparty")){
-
-                                    //startwars grediant colors
-                                    grd.addColorStop(0, "#FF00FF")
-                                    grd.addColorStop(1, "#FFF700")
-
-                                }else if(await res.data.data.sections[i].id.toLowerCase().includes("mello")){
-
-                                    //startwars grediant colors
-                                    grd.addColorStop(0, "#FB00FF")
-                                    grd.addColorStop(1, "#00FFFB")
-
-                                }else if(await res.data.data.sections[i].id.toLowerCase().includes("majorlazer")){
-
-                                    //startwars grediant colors
-                                    grd.addColorStop(0, "#000000")
-                                    grd.addColorStop(1, "#FF0000")
-
-                                }else if(await res.data.data.sections[i].id.toLowerCase().includes("turnmusicup")){
-
-                                    //startwars grediant colors
-                                    grd.addColorStop(0, "#00FFF3")
-                                    grd.addColorStop(1, "#FF00FF")
-
-                                }else if(await res.data.data.sections[i].id.toLowerCase().includes("fishyoffers")){
-
-                                    //startwars grediant colors
-                                    grd.addColorStop(0, "#00FBFF")
-                                    grd.addColorStop(1, "#FFFFFF")
-
-                                }else if(await res.data.data.sections[i].id.toLowerCase().includes("daily")){
-
-                                    //startwars grediant colors
-                                    grd.addColorStop(0, "#FFFFFF")
-                                    grd.addColorStop(1, "#AAAAAA")
-
-                                }else if(await res.data.data.sections[i].id.toLowerCase().includes("featured")){
-
-                                    //startwars grediant colors
-                                    grd.addColorStop(0, "#FFA600")
-                                    grd.addColorStop(1, "#FF8300")
-
-                                }else{
-
-                                    //anything else grediant colors
-                                    grd.addColorStop(0, "#000000")
-                                    grd.addColorStop(1, "#FFFFFF")
-
+                                    //finding a match
+                                    if(sections[i].id.toLowerCase().includes(finder[f])){
+                                        data = await SectionsData[Object.keys(SectionsData)[sectionsIndex]][finder[f]]
+                                    }
                                 }
 
-                                //add the color
-                                ctx.fillStyle = grd
+                                //find a match
+                                if(data !== undefined){
 
-                                //display the section
-                                ctx.fillRect(x, y, 1500, 200)
+                                    //match has been found now register the colors
+                                    if(data.Image.Status){
+
+                                        //loop throw the colors array
+                                        for(let x = 0; x < data.Colors.length; x++){
+
+                                            //add the grediant colors
+                                            grd.addColorStop(x, `#${data.Colors[x]}`)
+                                        }
+
+                                        //add the color
+                                        ctx.fillStyle = grd
+
+                                        //display the section
+                                        ctx.fillRect(x, y, 1500, 200)
+
+                                        //set the opacity from the database
+                                        ctx.globalAlpha = data.Image.Opacity
+
+                                        //add the image
+                                        const imageData = await Canvas.loadImage(data.Image.Url)
+                                        ctx.drawImage(imageData, x, y, 1500, 200)
+
+                                        //change the opacity back
+                                        ctx.globalAlpha = 1
+
+                                    }else{
+
+                                        //loop throw the colors array
+                                        for(let x = 0; x < data.Colors.length; x++){
+
+                                            //add the grediant colors
+                                            grd.addColorStop(x, `#${data.Colors[x]}`)
+                                        }
+
+                                        //add the color
+                                        ctx.fillStyle = grd
+
+                                        //display the section
+                                        ctx.fillRect(x, y, 1500, 200)
+                                    }
+                                }else{
+                                    //add the grediant colors
+                                    grd.addColorStop(0, "#000000")
+                                    grd.addColorStop(1, "#FFFFFF")
+
+                                    //add the color
+                                    ctx.fillStyle = grd
+
+                                    //display the section
+                                    ctx.fillRect(x, y, 1500, 200)
+                                }
 
                                 //add the number of the section
                                 ctx.fillStyle = grd;
@@ -377,13 +337,13 @@ module.exports = (client, admin) => {
                                 if(lang === "en"){
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
-                                    applyText(canvas, res.data.data.sections[i].name + " | " + res.data.data.sections[i].quantity + " Tabs")
-                                    ctx.fillText(res.data.data.sections[i].name + " | " + res.data.data.sections[i].quantity + " Tabs", x + 750, y + 140)
+                                    applyText(canvas, name + " | " + sections[i].quantity + " Tabs")
+                                    ctx.fillText(name + " | " + sections[i].quantity + " Tabs", x + 750, y + 140)
                                 }else if(lang === "ar"){
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
-                                    applyText(canvas, res.data.data.sections[i].name + " | " + res.data.data.sections[i].quantity + " صفحة")
-                                    ctx.fillText(res.data.data.sections[i].name + " | " + res.data.data.sections[i].quantity + " صفحة", x + 750, y + 140)
+                                    applyText(canvas, name + " | " + sections[i].quantity + " صفحة")
+                                    ctx.fillText(name + " | " + sections[i].quantity + " صفحة", x + 750, y + 140)
                                 }
 
                                 //new line
@@ -391,29 +351,19 @@ module.exports = (client, admin) => {
                             }
 
                             //create embed
-                            const Sections = new Discord.MessageEmbed()
+                            const SectionsEmbed = new Discord.MessageEmbed()
 
                             //add the color
-                            Sections.setColor('#00ffff')
+                            SectionsEmbed.setColor(FNBRMENA.Colors("embed"))
 
                             //add description
-                            Sections.setDescription(string)
+                            SectionsEmbed.setDescription(string)
 
-                            //send messages
                             const att = new Discord.MessageAttachment(canvas.toBuffer(), 'section.png')
                             await message.send(att)
-                            await message.send(Sections)
+                            await message.send(SectionsEmbed)
                             msg.delete()
-
-                            //store data
-                            response = res.data.data.hash
-
-                            //trun off push if enabled
-                            admin.database().ref("ERA's").child("Events").child("section").update({
-                                Push: false
-                            })
                         })
-                        
                     }
                 }).catch(err => {
                     console.log("The issue is in ShopSection Events ", err)

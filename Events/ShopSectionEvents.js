@@ -21,9 +21,10 @@ module.exports = (FNBRMENA, client, admin) => {
             var status = data.val().Active;
             var lang = data.val().Lang;
             var push = data.val().Push
+            var current = data.val().Index
 
             //if the event is set to be true [ON]
-            if(status === true){
+            if(status){
 
                 //request data
                 await FNBRMENA.Sections(lang, "Yes")
@@ -31,17 +32,17 @@ module.exports = (FNBRMENA, client, admin) => {
 
                     //store the data if the bot got restarted
                     if (number === 0) {
-                        response = res.data.list[0].starts
+                        response = res.data.list[current].starts
                         number++
                     }
 
                     //if the client wants to pust data
-                    if(true){
+                    if(push){
                         response = ""
                     }
 
                     //checking for deff
-                    if (JSON.stringify(res.data.list[0].starts) !== JSON.stringify(response)) {
+                    if (JSON.stringify(res.data.list[current].starts) !== JSON.stringify(response)) {
                         
                         //get the sections data from database
                         const SectionsData = await FNBRMENA.Admin(admin, message, "", "ShopSections")
@@ -122,7 +123,7 @@ module.exports = (FNBRMENA, client, admin) => {
                         }
 
                         //get the sections as a minpulated data
-                        const sections = await JSONresponse(res.data.list[0].sections)
+                        const sections = await JSONresponse(res.data.list[current].sections)
 
                         //inisilizing values
                         var width = 2000

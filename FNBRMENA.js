@@ -475,6 +475,19 @@ class FNBRMENA {
             })
             return progress
         }
+
+        //get the shopsections status
+        if(Type === "ShopSections"){
+            var sectionsGradient = await Admin.database().ref("ERA's").child("ShopSections").once('value')
+            .then(async data => {
+                if(data.val() !== null){
+                    return sectionsGradient = data.val()
+                }else{
+                    return []
+                }
+            })
+            return sectionsGradient
+        }
     }
 }
 

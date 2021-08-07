@@ -33,7 +33,73 @@ module.exports = {
         
         //request data
         FNBRMENA.Sections(lang, "Yes")
-        .then(async (res) => {
+        .then(async res => {
+
+            //data minpulator
+            const JSONresponse = async (Sections) => {
+
+                //define json response and its requirments
+                var Counter = 0
+                var JSON = []
+
+                //get the section tabs and add them to a string
+                while(Sections.length !== 0){
+
+                    //defined tabs and i index
+                    var tabs = 0
+                    var i = 0
+                    
+                    //see what is the index 0 is and how many tabs for the same section
+                    const firstIndex = await Sections[0]
+
+                    //loop throw all of the modified section
+                    while(i !== Sections.length){
+
+                        //if there is another tab for the section at index 0
+                        if(firstIndex.displayName === Sections[i].displayName){
+
+                            //remove the section from the section array
+                            const index = Sections.indexOf(Sections[i])
+                            if(index > -1) Sections.splice(index, 1)
+
+                            //add new tab
+                            tabs++
+
+                        } else i++
+                    }
+
+                    //add the tabs string
+                    if(firstIndex.displayName !== undefined){
+
+                        //add the data
+                        JSON[Counter] = {
+                            name: firstIndex.displayName,
+                            id: firstIndex.id,
+                            quantity: tabs
+                        }
+
+                        //change Counter index
+                        Counter++
+                    }else{
+                        
+                        //add the data
+                        JSON[Counter] = {
+                            name: firstIndex.id,
+                            id: firstIndex.id,
+                            quantity: tabs
+                        }
+
+                        //change Counter index
+                        Counter++
+                    }
+                }
+
+                //return JSON array
+                return JSON
+            }
+
+            //get the sections as a minpulated data
+            const sections = await JSONresponse(res.data.list[0].sections)
 
             //inisilizing values
             var width = 2000
@@ -43,7 +109,7 @@ module.exports = {
             var string = ""
 
             //creating height
-            for(let i = 0; i < res.data.data.sections.length; i++){
+            for(let i = 0; i < sections.length; i++){
                 height += 300
             }
 
@@ -158,20 +224,28 @@ module.exports = {
                 y += 100
 
                 //add sections
-                for (let i = 0; i < res.data.data.sections.length; i++) {
+                for (let i = 0; i < sections.length; i++) {
 
-                    if(res.data.data.sections[i].name !== null) var name = res.data.data.sections[i].name
-                    else var name = res.data.data.sections[i].id
+                    if(sections[i].name !== null) var name = sections[i].name
+                    else var name = sections[i].id
 
                     //add the section to the embed string
-                    if(lang === "en") string += "• " + (i + 1) + ": " + name + " | " + res.data.data.sections[i].quantity + " Tabs" + "\n" 
-                    else if(lang === "ar") string += "• " + (i + 1) + ": " + name + " | " + res.data.data.sections[i].quantity + " صفحة" + "\n" 
+                    if(lang === "en") string += "• " + (i + 1) + ": " + name + " | " + sections[i].quantity + " Tabs" + "\n" 
+                    else if(lang === "ar") string += "• " + (i + 1) + ": " + name + " | " + sections[i].quantity + " صفحة" + "\n" 
 
                     //grediant
                     const grd = ctx.createLinearGradient(x, y, x + 1500, y)
 
                     //response data
-                    var data = SectionsData[Object.keys(SectionsData)[sectionsIndex]][res.data.data.sections[i].id.toLowerCase()]
+                    var data = undefined
+                    var finder = Object.keys(SectionsData[Object.keys(SectionsData)[sectionsIndex]])
+                    for(let f = 0; f < finder.length; f++){
+
+                        //finding a match
+                        if(sections[i].id.toLowerCase().includes(finder[f])){
+                            data = await SectionsData[Object.keys(SectionsData)[sectionsIndex]][finder[f]]
+                        }
+                    }
 
                     //find a match
                     if(data !== undefined){
@@ -239,13 +313,13 @@ module.exports = {
                     if(lang === "en"){
                         ctx.fillStyle = '#ffffff';
                         ctx.textAlign='center';
-                        applyText(canvas, res.data.data.sections[i].name + " | " + res.data.data.sections[i].quantity + " Tabs")
-                        ctx.fillText(res.data.data.sections[i].name + " | " + res.data.data.sections[i].quantity + " Tabs", x + 750, y + 140)
+                        applyText(canvas, name + " | " + sections[i].quantity + " Tabs")
+                        ctx.fillText(name + " | " + sections[i].quantity + " Tabs", x + 750, y + 140)
                     }else if(lang === "ar"){
                         ctx.fillStyle = '#ffffff';
                         ctx.textAlign='center';
-                        applyText(canvas, res.data.data.sections[i].name + " | " + res.data.data.sections[i].quantity + " صفحة")
-                        ctx.fillText(res.data.data.sections[i].name + " | " + res.data.data.sections[i].quantity + " صفحة", x + 750, y + 140)
+                        applyText(canvas, name + " | " + sections[i].quantity + " صفحة")
+                        ctx.fillText(name + " | " + sections[i].quantity + " صفحة", x + 750, y + 140)
                     }
 
                     //new line
@@ -253,17 +327,17 @@ module.exports = {
                 }
 
                 //create embed
-                const Sections = new Discord.MessageEmbed()
+                const SectionsEmbed = new Discord.MessageEmbed()
 
                 //add the color
-                Sections.setColor(FNBRMENA.Colors("embed"))
+                SectionsEmbed.setColor(FNBRMENA.Colors("embed"))
 
                 //add description
-                Sections.setDescription(string)
+                SectionsEmbed.setDescription(string)
 
                 const att = new Discord.MessageAttachment(canvas.toBuffer(), 'section.png')
                 await message.channel.send(att)
-                await message.channel.send(Sections)
+                await message.channel.send(SectionsEmbed)
                 msg.delete()
             })
         })

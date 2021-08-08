@@ -97,13 +97,26 @@ module.exports = {
                 //return JSON array
                 return JSON
             }
-
             //get the sections as a minpulated data
-            const sections = await JSONresponse(res.data.list[0].sections)
+            let sections
+            if(res.data.list.length === 1) sections = await JSONresponse(res.data.list[0].sections)
+            else if(res.data.list.length === 2){
+
+                //loop throw every list
+                for(let i = 0; i < res.data.list.length; i++){
+                    
+                    //if the list has a tag NEXT
+                    if(res.data.list[i].apiTag === "next"){
+
+                        //get the sections as a minpulated data
+                        sections = await JSONresponse(res.data.list[i].sections)
+                    }
+                }
+            }
 
             //inisilizing values
             var width = 2000
-            var height = 1200
+            var height = 1100
             var x = 250
             var y = 550
             var string = ""
@@ -175,9 +188,27 @@ module.exports = {
                         //change the opacity back if i changed it from the database
                         ctx.globalAlpha = customImagesData[i].Opacity
 
-                        //add the image
-                        const customImages = await Canvas.loadImage(customImagesData[i].Image)
-                        ctx.drawImage(customImages, customImagesData[i].X, customImagesData[i].Y, customImagesData[i].W, customImagesData[i].H)
+                        if(customImagesData[i].canvasWidth && customImagesData[i].canvasHeight){
+
+                            //add the image
+                            const customImages = await Canvas.loadImage(customImagesData[i].Image)
+                            ctx.drawImage(customImages, customImagesData[i].X, customImagesData[i].Y, canvas.width, canvas.height)
+                        }else if(customImagesData[i].canvasWidth && !customImagesData[i].canvasHeight){
+
+                            //add the image
+                            const customImages = await Canvas.loadImage(customImagesData[i].Image)
+                            ctx.drawImage(customImages, customImagesData[i].X, customImagesData[i].Y, canvas.width, canvas.width)
+                        }else if(!customImagesData[i].canvasWidth && customImagesData[i].canvasHeight){
+
+                            //add the image
+                            const customImages = await Canvas.loadImage(customImagesData[i].Image)
+                            ctx.drawImage(customImages, customImagesData[i].X, customImagesData[i].Y, canvas.height, canvas.height)
+                        }else if(!customImagesData[i].canvasWidth && !customImagesData[i].canvasHeight){
+                            
+                            //add the image
+                            const customImages = await Canvas.loadImage(customImagesData[i].Image)
+                            ctx.drawImage(customImages, customImagesData[i].X, customImagesData[i].Y, customImagesData[i].W, customImagesData[i].H)
+                        }
 
                         //change the opacity back if i changed it from the database
                         ctx.globalAlpha = 1

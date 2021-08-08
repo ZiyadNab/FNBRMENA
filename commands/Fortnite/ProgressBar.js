@@ -85,21 +85,6 @@ module.exports = {
             //add the background
             ctx.fillRect(0, 0, canvas.width, canvas.height)
 
-            //backgroundLayerImage
-            const backgroundLayerImage = progressData[Object.keys(progressData)[backgroundLayerImageIndex]]
-            if(backgroundLayerImage.Status){
-
-                //change the opacity back if i changed it from the database
-                ctx.globalAlpha = backgroundLayerImage.Opacity
-
-                //add the image
-                const backgroundImage = await Canvas.loadImage(backgroundLayerImage.Image)
-                ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height)
-
-                //change the opacity back if i changed it from the database
-                ctx.globalAlpha = 1
-            }
-
             //change the opacity
             ctx.globalAlpha = 0.5
 
@@ -110,14 +95,48 @@ module.exports = {
                 //if there is access to customImagesData
                 if(customImagesData[i].Status){
 
-                    //add the image
-                    const customImages = await Canvas.loadImage(customImagesData[i].Image)
-                    ctx.drawImage(customImages, customImagesData[i].X, customImagesData[i].Y, customImagesData[i].W, customImagesData[i].H)
+                    //change the opacity from the database
+                    ctx.globalAlpha = customImagesData[i].Opacity
+
+                    //find the W, H
+                    if(customImagesData[i].canvasWidth && customImagesData[i].canvasHeight){
+
+                        //add the image
+                        const customImages = await Canvas.loadImage(customImagesData[i].Image)
+                        ctx.drawImage(customImages, customImagesData[i].X, customImagesData[i].Y, canvas.width, canvas.height)
+                    }else if(customImagesData[i].canvasWidth && !customImagesData[i].canvasHeight){
+
+                        if(customImagesData[i].H === 0){
+                            //add the image
+                            const customImages = await Canvas.loadImage(customImagesData[i].Image)
+                            ctx.drawImage(customImages, customImagesData[i].X, customImagesData[i].Y, canvas.width, canvas.width)
+                        }else{
+                            //add the image
+                            const customImages = await Canvas.loadImage(customImagesData[i].Image)
+                            ctx.drawImage(customImages, customImagesData[i].X, customImagesData[i].Y, canvas.width, customImagesData[i].H)
+                        }
+                    }else if(!customImagesData[i].canvasWidth && customImagesData[i].canvasHeight){
+
+                        if(customImagesData[i].W === 0){
+                            //add the image
+                            const customImages = await Canvas.loadImage(customImagesData[i].Image)
+                            ctx.drawImage(customImages, customImagesData[i].X, customImagesData[i].Y, canvas.height, canvas.height)
+                        }else{
+                            //add the image
+                            const customImages = await Canvas.loadImage(customImagesData[i].Image)
+                            ctx.drawImage(customImages, customImagesData[i].X, customImagesData[i].Y, customImagesData[i].W, canvas.height)
+                        }
+                    }else if(!customImagesData[i].canvasWidth && !customImagesData[i].canvasHeight){
+                        
+                        //add the image
+                        const customImages = await Canvas.loadImage(customImagesData[i].Image)
+                        ctx.drawImage(customImages, customImagesData[i].X, customImagesData[i].Y, customImagesData[i].W, customImagesData[i].H)
+                    }
+
+                    //change the opacity back
+                    ctx.globalAlpha = 1
                 }
             }
-
-            //change the opacity back
-            ctx.globalAlpha = 1
 
             //add FNBRMENA credit
             ctx.fillStyle = '#ffffff';
@@ -237,8 +256,7 @@ module.exports = {
             }
 
             //Crew Object
-            if(Number(Now.format("MM")) >= 9) var Ends = moment(Now.format("YYYY") + "-" + `${Number(Now.format("MM")) + 1}` + "-01")
-            else var Ends = moment(Now.format("YYYY") + "-" + `0${Number(Now.format("MM")) + 1}` + "-01")
+            const Ends = moment(Now.format("YYYY") + "-" + `${Number(Now.format("MM")) + 1}` + "-01")
             const Starts = moment(Now.format("YYYY") + "-" + Now.format("MM") + "-01")
             var gone = Now.diff(Starts, "days")
             var left = Ends.diff(Now, "days")

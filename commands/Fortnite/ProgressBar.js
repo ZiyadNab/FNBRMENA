@@ -256,7 +256,7 @@ module.exports = {
             }
 
             //Crew Object
-            const Ends = moment(Now.format("YYYY") + "-" + `${Number(Now.format("MM")) + 1}` + "-01")
+            const Ends = moment(`${Now.format("YYYY")}-${moment().add(1, 'months').format("MM")}-01`)
             const Starts = moment(Now.format("YYYY") + "-" + Now.format("MM") + "-01")
             var gone = Now.diff(Starts, "days")
             var left = Ends.diff(Now, "days")

@@ -400,7 +400,7 @@ module.exports = (FNBRMENA, client, admin) => {
                             msg.delete()
 
                             //store data
-                            response = await res.data.list[current].starts
+                            response = await res.data.list[index].starts
 
                             //trun off push if enabled
                             await admin.database().ref("ERA's").child("Events").child("section").update({

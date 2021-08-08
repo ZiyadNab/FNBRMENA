@@ -188,6 +188,7 @@ module.exports = {
                         //change the opacity back if i changed it from the database
                         ctx.globalAlpha = customImagesData[i].Opacity
 
+                        //find the W, H
                         if(customImagesData[i].canvasWidth && customImagesData[i].canvasHeight){
 
                             //add the image
@@ -195,14 +196,26 @@ module.exports = {
                             ctx.drawImage(customImages, customImagesData[i].X, customImagesData[i].Y, canvas.width, canvas.height)
                         }else if(customImagesData[i].canvasWidth && !customImagesData[i].canvasHeight){
 
-                            //add the image
-                            const customImages = await Canvas.loadImage(customImagesData[i].Image)
-                            ctx.drawImage(customImages, customImagesData[i].X, customImagesData[i].Y, canvas.width, canvas.width)
+                            if(customImagesData[i].H === 0){
+                                //add the image
+                                const customImages = await Canvas.loadImage(customImagesData[i].Image)
+                                ctx.drawImage(customImages, customImagesData[i].X, customImagesData[i].Y, canvas.width, canvas.width)
+                            }else{
+                                //add the image
+                                const customImages = await Canvas.loadImage(customImagesData[i].Image)
+                                ctx.drawImage(customImages, customImagesData[i].X, customImagesData[i].Y, canvas.width, customImagesData[i].H)
+                            }
                         }else if(!customImagesData[i].canvasWidth && customImagesData[i].canvasHeight){
 
-                            //add the image
-                            const customImages = await Canvas.loadImage(customImagesData[i].Image)
-                            ctx.drawImage(customImages, customImagesData[i].X, customImagesData[i].Y, canvas.height, canvas.height)
+                            if(customImagesData[i].W === 0){
+                                //add the image
+                                const customImages = await Canvas.loadImage(customImagesData[i].Image)
+                                ctx.drawImage(customImages, customImagesData[i].X, customImagesData[i].Y, canvas.height, canvas.height)
+                            }else{
+                                //add the image
+                                const customImages = await Canvas.loadImage(customImagesData[i].Image)
+                                ctx.drawImage(customImages, customImagesData[i].X, customImagesData[i].Y, customImagesData[i].W, canvas.height)
+                            }
                         }else if(!customImagesData[i].canvasWidth && !customImagesData[i].canvasHeight){
                             
                             //add the image

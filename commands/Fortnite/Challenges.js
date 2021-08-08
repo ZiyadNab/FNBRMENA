@@ -259,7 +259,7 @@ module.exports = {
                             if(found.bundleRewards.length !== 0){
 
                                 //lopp throw every reward
-                                for(let x = 0; x < found.bundleRewards.length; x++){
+                                for(let x = 0; x < found.bundleRewards.length - 2; x++){
 
                                     //change the xp position
                                     r += 475
@@ -276,7 +276,7 @@ module.exports = {
                             if(found.quests[i].reward.items.length !== 0){
 
                                 //lopp throw every reward
-                                for(let x = 0; x < found.quests[i].reward.items.length; x++){
+                                for(let x = 0; x < found.quests[i].reward.items.length - 2; x++){
 
                                     //change the xp position
                                     r += 475
@@ -504,7 +504,7 @@ module.exports = {
                             if(found.bundleRewards.length !== 0){
 
                                 //lopp throw every reward
-                                for(let x = 0; x < found.bundleRewards.length; x++){
+                                for(let x = 0; x < found.bundleRewards.length - 2; x++){
 
                                     //change the xp position
                                     r += 400
@@ -521,7 +521,7 @@ module.exports = {
                             if(found.quests[i].reward.items.length !== 0){
 
                                 //lopp throw every reward
-                                for(let x = 0; x < found.quests[i].reward.items.length; x++){
+                                for(let x = 0; x < found.quests[i].reward.items.length - 2; x++){
 
                                     //change the xp position
                                     r += 400

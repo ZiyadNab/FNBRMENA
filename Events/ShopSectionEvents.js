@@ -21,7 +21,6 @@ module.exports = (FNBRMENA, client, admin) => {
             var status = data.val().Active;
             var lang = data.val().Lang;
             var push = data.val().Push
-            var current = data.val().Index
 
             //if the event is set to be true [ON]
             if(status){
@@ -30,19 +29,34 @@ module.exports = (FNBRMENA, client, admin) => {
                 await FNBRMENA.Sections(lang, "Yes")
                 .then(async res => {
 
+                    //get the index of current sections
+                    let index
+                    if(res.data.list.length === 1) index = 0
+                    else if(res.data.list.length === 2){
+
+                        //loop throw every list
+                        for(let i = 0; i < res.data.list.length; i++){
+                            
+                            //if the list has a tag NEXT
+                            if(res.data.list[i].apiTag === "next"){
+
+                                //get the index of next sections
+                                index = i
+                            }
+                        }
+                    }
+
                     //store the data if the bot got restarted
-                    if (number === 0) {
-                        response = res.data.list[current].starts
+                    if(number === 0){
+                        response = res.data.list[index].starts
                         number++
                     }
 
                     //if the client wants to pust data
-                    if(push){
-                        response = ""
-                    }
+                    if(push) response = ""
 
                     //checking for deff
-                    if (JSON.stringify(res.data.list[current].starts) !== JSON.stringify(response)) {
+                    if (JSON.stringify(res.data.list[index].starts) !== JSON.stringify(response)) {
                         
                         //get the sections data from database
                         const SectionsData = await FNBRMENA.Admin(admin, message, "", "ShopSections")
@@ -123,7 +137,7 @@ module.exports = (FNBRMENA, client, admin) => {
                         }
 
                         //get the sections as a minpulated data
-                        const sections = await JSONresponse(res.data.list[current].sections)
+                        const sections = await JSONresponse(res.data.list[index].sections)
 
                         //inisilizing values
                         var width = 2000
@@ -200,9 +214,28 @@ module.exports = (FNBRMENA, client, admin) => {
                                     //change the opacity back if i changed it from the database
                                     ctx.globalAlpha = customImagesData[i].Opacity
 
-                                    //add the image
-                                    const customImages = await Canvas.loadImage(customImagesData[i].Image)
-                                    ctx.drawImage(customImages, customImagesData[i].X, customImagesData[i].Y, customImagesData[i].W, customImagesData[i].H)
+                                    //find the W, H
+                                    if(customImagesData[i].canvasWidth && customImagesData[i].canvasHeight){
+
+                                        //add the image
+                                        const customImages = await Canvas.loadImage(customImagesData[i].Image)
+                                        ctx.drawImage(customImages, customImagesData[i].X, customImagesData[i].Y, canvas.width, canvas.height)
+                                    }else if(customImagesData[i].canvasWidth && !customImagesData[i].canvasHeight){
+
+                                        //add the image
+                                        const customImages = await Canvas.loadImage(customImagesData[i].Image)
+                                        ctx.drawImage(customImages, customImagesData[i].X, customImagesData[i].Y, canvas.width, canvas.width)
+                                    }else if(!customImagesData[i].canvasWidth && customImagesData[i].canvasHeight){
+
+                                        //add the image
+                                        const customImages = await Canvas.loadImage(customImagesData[i].Image)
+                                        ctx.drawImage(customImages, customImagesData[i].X, customImagesData[i].Y, canvas.height, canvas.height)
+                                    }else if(!customImagesData[i].canvasWidth && !customImagesData[i].canvasHeight){
+                                        
+                                        //add the image
+                                        const customImages = await Canvas.loadImage(customImagesData[i].Image)
+                                        ctx.drawImage(customImages, customImagesData[i].X, customImagesData[i].Y, customImagesData[i].W, customImagesData[i].H)
+                                    }
 
                                     //change the opacity back if i changed it from the database
                                     ctx.globalAlpha = 1
@@ -368,7 +401,7 @@ module.exports = (FNBRMENA, client, admin) => {
 
                             //store data
                             response = await res.data.list[current].starts
-                            
+
                             //trun off push if enabled
                             await admin.database().ref("ERA's").child("Events").child("section").update({
                                 Push: false

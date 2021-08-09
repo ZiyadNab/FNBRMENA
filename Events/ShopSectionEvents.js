@@ -10,7 +10,7 @@ module.exports = (FNBRMENA, client, admin) => {
     const message = client.channels.cache.find(channel => channel.id === config.events.Section)
 
     //result
-    var response = ""
+    var response = []
     var number = 0
 
     const Section = async () => {
@@ -47,22 +47,21 @@ module.exports = (FNBRMENA, client, admin) => {
                         }
                     }
 
-                    console.log(index)
-
                     //store the data if the bot got restarted
                     if(number === 0){
-                        response = await res.data.list[index].sections
+
+                        //store sections
+                        for(let i = 0; i < res.data.list[index].sections.length; i++){
+                            response[i] = await res.data.list[index].sections[i]
+                        }
                         number++
                     }
 
                     //if the client wants to pust data
-                    if(push) response = ""
+                    if(push) response = []
 
                     //checking for deff
-                    if (JSON.stringify(res.data.list[index].sections) !== JSON.stringify(response)) {
-
-                        //store data
-                        response = await res.data.list[index].sections
+                    if(JSON.stringify(res.data.list[index].sections) !== JSON.stringify(response)){
                         
                         //get the sections data from database
                         const SectionsData = await FNBRMENA.Admin(admin, message, "", "ShopSections")
@@ -423,11 +422,15 @@ module.exports = (FNBRMENA, client, admin) => {
                             await message.send(SectionsEmbed)
                             msg.delete()
 
+                            //store sections
+                            for(let i = 0; i < res.data.list[index].sections.length; i++){
+                                response[i] = await res.data.list[index].sections[i]
+                            }
+
                             //trun off push if enabled
                             await admin.database().ref("ERA's").child("Events").child("section").update({
                                 Push: false
                             })
-
                         })
                     }
                 }).catch(err => {

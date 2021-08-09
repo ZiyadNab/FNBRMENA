@@ -48,7 +48,7 @@ module.exports = (FNBRMENA, client, admin) => {
 
                     //store the data if the bot got restarted
                     if(number === 0){
-                        response = res.data.list[index].starts
+                        response = await res.data.list[index].sections
                         number++
                     }
 
@@ -56,7 +56,7 @@ module.exports = (FNBRMENA, client, admin) => {
                     if(push) response = ""
 
                     //checking for deff
-                    if (JSON.stringify(res.data.list[index].starts) !== JSON.stringify(response)) {
+                    if (JSON.stringify(res.data.list[index].sections) !== JSON.stringify(response)) {
                         
                         //get the sections data from database
                         const SectionsData = await FNBRMENA.Admin(admin, message, "", "ShopSections")
@@ -412,7 +412,7 @@ module.exports = (FNBRMENA, client, admin) => {
                             msg.delete()
 
                             //store data
-                            response = await res.data.list[index].starts
+                            response = await res.data.list[index].sections
 
                             //trun off push if enabled
                             await admin.database().ref("ERA's").child("Events").child("section").update({

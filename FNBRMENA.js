@@ -150,6 +150,16 @@ class FNBRMENA {
     /**
      * 
      * @param {String} Lang 
+     */
+     async EpicContentEndpoint(Lang){
+
+        //return the items
+        return await axios.get(`https://fortnitecontent-website-prod07.ol.epicgames.com/content/api/pages/fortnite-game?lang=${Lang}`)
+    }
+
+    /**
+     * 
+     * @param {String} Lang 
      * @param {String} Name 
      * @param {String} Type 
      */

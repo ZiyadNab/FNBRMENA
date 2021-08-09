@@ -26,7 +26,7 @@ module.exports = (FNBRMENA, client, admin) => {
             if(status){
 
                 //request data
-                await axios.get(`https://fortnitecontent-website-prod07.ol.epicgames.com/content/api/pages/fortnite-game?lang=${lang}`)
+                await FNBRMENA.EpicContentEndpoint(lang)
                 .then(async res => {
 
                     if(number === 0){
@@ -53,6 +53,7 @@ module.exports = (FNBRMENA, client, admin) => {
                         for(let i = 0; i < data.val().Push.Number; i++){
                             await sections.shift()
                         }
+                        
                     }else if(push && type.toLowerCase() === "added"){
 
                         //remove data

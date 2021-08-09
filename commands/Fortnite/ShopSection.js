@@ -1,7 +1,7 @@
 const Data = require('../../FNBRMENA')
 const FNBRMENA = new Data()
 const moment = require('moment')
-const axios = require('axios');
+const probe = require('probe-image-size')
 const Canvas = require('canvas')
 
 module.exports = {
@@ -188,41 +188,47 @@ module.exports = {
                         //change the opacity back if i changed it from the database
                         ctx.globalAlpha = customImagesData[i].Opacity
 
-                        //find the W, H
-                        if(customImagesData[i].canvasWidth && customImagesData[i].canvasHeight){
+                        //if probe in set to be true
+                        if(customImagesData[i].probe){
+
+                            //image dimensions
+                            var dimensions = await probe(customImagesData[i].Image)
+
+                            //set the height
+                            var dimensionsH = dimensions.height
+                            var dimensionsW = dimensions.width
+
+                            //lowering the height
+                            if(dimensionsH > canvas.height){
+                                while(dimensionsH > canvas.height){
+
+                                    //decrease the height
+                                    dimensionsH -= 1
+                                    dimensionsW -= 0.75
+                                }
+                            }
+
+                            //increase the height
+                            if(dimensionsH < canvas.height){
+                                while(dimensionsH < canvas.height){
+
+                                    //increase the height
+                                    dimensionsH += 1
+                                    dimensionsW += 0.75
+                                }
+                            }
 
                             //add the image
                             const customImages = await Canvas.loadImage(customImagesData[i].Image)
-                            ctx.drawImage(customImages, customImagesData[i].X, customImagesData[i].Y, canvas.width, canvas.height)
-                        }else if(customImagesData[i].canvasWidth && !customImagesData[i].canvasHeight){
+                            ctx.drawImage(customImages, customImagesData[i].X, customImagesData[i].Y, dimensionsW, dimensionsH)
 
-                            if(customImagesData[i].H === 0){
-                                //add the image
-                                const customImages = await Canvas.loadImage(customImagesData[i].Image)
-                                ctx.drawImage(customImages, customImagesData[i].X, customImagesData[i].Y, canvas.width, canvas.width)
-                            }else{
-                                //add the image
-                                const customImages = await Canvas.loadImage(customImagesData[i].Image)
-                                ctx.drawImage(customImages, customImagesData[i].X, customImagesData[i].Y, canvas.width, customImagesData[i].H)
-                            }
-                        }else if(!customImagesData[i].canvasWidth && customImagesData[i].canvasHeight){
+                        }else{
 
-                            if(customImagesData[i].W === 0){
-                                //add the image
-                                const customImages = await Canvas.loadImage(customImagesData[i].Image)
-                                ctx.drawImage(customImages, customImagesData[i].X, customImagesData[i].Y, canvas.height, canvas.height)
-                            }else{
-                                //add the image
-                                const customImages = await Canvas.loadImage(customImagesData[i].Image)
-                                ctx.drawImage(customImages, customImagesData[i].X, customImagesData[i].Y, customImagesData[i].W, canvas.height)
-                            }
-                        }else if(!customImagesData[i].canvasWidth && !customImagesData[i].canvasHeight){
-                            
                             //add the image
                             const customImages = await Canvas.loadImage(customImagesData[i].Image)
                             ctx.drawImage(customImages, customImagesData[i].X, customImagesData[i].Y, customImagesData[i].W, customImagesData[i].H)
                         }
-
+                            
                         //change the opacity back if i changed it from the database
                         ctx.globalAlpha = 1
                     }

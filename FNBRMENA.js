@@ -327,7 +327,7 @@ class FNBRMENA {
 
         //return ShopSection access
         if(Type === "NewTournaments"){
-            NewTournamentsEvents(Client, Admin)
+            NewTournamentsEvents(FNBRMENA, Client, Admin)
         }
 
         //return Notice access

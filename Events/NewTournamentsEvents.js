@@ -5,7 +5,7 @@ const probe = require('probe-image-size')
 const config = require('../Coinfigs/config.json')
 const moment = require('moment')
 
-module.exports = async (client, admin) => {
+module.exports = async (FNBRMENA, client, admin) => {
     const message = client.channels.cache.find(channel => channel.id === config.events.Tournament)
 
     //result
@@ -15,6 +15,9 @@ module.exports = async (client, admin) => {
 
     //handle the blogs
     const NewTournaments = async () => {
+
+        //change moment language
+        moment.locale(lang)
 
         //checking if the bot on or off
         admin.database().ref("ERA's").child("Events").child("newtournaments").once('value', async function (data) {
@@ -26,14 +29,11 @@ module.exports = async (client, admin) => {
             var region = data.val().Region
 
             //if the event is set to be true [ON]
-            if(status === true){
+            if(status){
 
                 //request data
-                axios.get(`https://fortnitecontent-website-prod07.ol.epicgames.com/content/api/pages/fortnite-game?lang=${lang}`)
+                await FNBRMENA.EpicContentEndpoint(lang)
                 .then(async res => {
-
-                    //change moment language
-                    moment.locale(lang)
 
                     //constant to make woring easy
                     const tournamentsDATA = await res.data.tournamentinformation.tournament_info.tournaments
@@ -60,12 +60,14 @@ module.exports = async (client, admin) => {
 
                     //if the data was modified 
                     if(JSON.stringify(newData) !== JSON.stringify(response)){
+                        message.send("New tournament added")
 
                         //a data has been changed
                         for(let i = 0; i < tournamentsDATA.length; i++){
 
                             //if there is a new torunaments
                             if(!response.includes(tournamentsDATA[i].tournament_display_id)){
+                                console.log(tournamentsDATA[i].tournament_display_id)
 
                                 //request more detailed data for the new tournament
                                 await axios.post(`https://www.epicgames.com/fortnite/competitive/api/${lang}/calendar`)
@@ -76,6 +78,7 @@ module.exports = async (client, admin) => {
 
                                         //if there is an id match
                                         if(details.data.eventsData[j].displayDataId === tournamentsDATA[i].tournament_display_id){
+                                            console.log(details.data.eventsData[j].displayDataId)
 
                                             //if its in the same region
                                             if(details.data.eventsData[j].regions.includes(region)){

@@ -11,6 +11,7 @@ module.exports = async (client, admin, array) => {
     FNBRMENA.Events(FNBRMENA, client, admin, array, "Set")
     FNBRMENA.Events(FNBRMENA, client, admin, array, "ShopSection")
     FNBRMENA.Events(FNBRMENA, client, admin, array, "DynamicBackgrounds")
+    FNBRMENA.Events(FNBRMENA, client, admin, array, "SubGameInfo")
     FNBRMENA.Events(FNBRMENA, client, admin, array, "NewTournaments")
     FNBRMENA.Events(FNBRMENA, client, admin, array, "Crew")
     FNBRMENA.Events(FNBRMENA, client, admin, array, "Notice")

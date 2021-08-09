@@ -15,6 +15,7 @@ const AvailableBundle = require('./Events/AvailableBundleEvents.js')
 const Commands = require('./Events/Commands.js')
 const ItemshopEvents = require('./Events/ItemshopEvents')
 const axios = require('axios')
+const SubGameInfoEvents = require('./Events/SubGameInfoEvents.js')
 
 class FNBRMENA {
 
@@ -295,7 +296,12 @@ class FNBRMENA {
 
         //return Set access
         if(Type === "DynamicBackgrounds"){
-            DynamicBackgroundsEvents(Client, Admin)
+            DynamicBackgroundsEvents(FNBRMENA, Client, Admin)
+        }
+
+        //return Set access
+        if(Type === "SubGameInfo"){
+            SubGameInfoEvents(FNBRMENA, Client, Admin)
         }
 
         //return ShopSection access

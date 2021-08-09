@@ -4,7 +4,7 @@ const Canvas = require('canvas')
 const probe = require('probe-image-size')
 const config = require('../Coinfigs/config.json')
 
-module.exports = (client, admin) => {
+module.exports = (FNBRMENA, client, admin) => {
     const message = client.channels.cache.find(channel => channel.id === config.events.Backgrounds)
 
     //result
@@ -20,18 +20,18 @@ module.exports = (client, admin) => {
         admin.database().ref("ERA's").child("Events").child("dynamicbackgrounds").once('value', async function (data) {
 
             //store aceess
-            var status = data.val().Active
-            var lang = data.val().Lang
-            var push = data.val().Push
+            const status = data.val().Active
+            const lang = data.val().Lang
+            const push = data.val().Push
 
             //if the event is set to be true [ON]
-            if(status === true){
+            if(status){
 
                 //request data
-                axios.get(`https://fortnitecontent-website-prod07.ol.epicgames.com/content/api/pages/fortnite-game`)
+                await FNBRMENA.EpicContentEndpoint(lang)
                 .then(async res => {
 
-                    //constant to make woring easy
+                    //constant response to make working easy
                     const backgroundsDATA = res.data.dynamicbackgrounds.backgrounds.backgrounds
 
                     //storing the first start up
@@ -44,7 +44,7 @@ module.exports = (client, admin) => {
 
                             //if there is an image
                             if(backgroundsDATA[i].backgroundimage !== undefined){
-                                response[Counter] = backgroundsDATA[i].backgroundimage
+                                response[Counter] = backgroundsDATA[i]
                                 Counter++
                             }
                         }
@@ -56,7 +56,7 @@ module.exports = (client, admin) => {
                     //if push is enabled
                     if(push){
                         lastModified = ""
-                        response[0] = []
+                        response = []
                     }
 
                     //if the data was modified 
@@ -69,7 +69,7 @@ module.exports = (client, admin) => {
                             if(backgroundsDATA[i].backgroundimage !== undefined){
 
                                 //if the image is new
-                                if(!response.includes(backgroundsDATA[i].backgroundimage)){
+                                if(!response.includes(backgroundsDATA[i])){
 
                                     //registering fonts
                                     Canvas.registerFont('./assets/font/Lalezar-Regular.ttf', {family: 'Arabic',weight: "700"});
@@ -108,7 +108,7 @@ module.exports = (client, admin) => {
 
                             //if there is an image
                             if(backgroundsDATA[i].backgroundimage !== undefined){
-                                response[Counter] = backgroundsDATA[i].backgroundimage
+                                response[Counter] = backgroundsDATA[i]
                                 Counter++
                             }
                         }

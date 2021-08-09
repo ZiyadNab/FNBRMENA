@@ -16,9 +16,6 @@ module.exports = async (FNBRMENA, client, admin) => {
     //handle the blogs
     const NewTournaments = async () => {
 
-        //change moment language
-        moment.locale(lang)
-
         //checking if the bot on or off
         admin.database().ref("ERA's").child("Events").child("newtournaments").once('value', async function (data) {
 
@@ -27,6 +24,9 @@ module.exports = async (FNBRMENA, client, admin) => {
             var lang = data.val().Lang
             var push = data.val().Push
             var region = data.val().Region
+
+            //change moment language
+            moment.locale(lang)
 
             //if the event is set to be true [ON]
             if(status){

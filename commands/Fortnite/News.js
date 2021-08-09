@@ -18,8 +18,6 @@ module.exports = {
 
         //index
         let data = []
-        var link = []
-        var Counter = 0
 
         //handle errors
         var errorHandleing = 0
@@ -84,11 +82,11 @@ module.exports = {
 
                             //store the news data to the data variable
                             if(NewsTypes[collected.first().content] === NewsTypes[0])
-                            data = await res.data.data.br
+                            data = await res.data.data.br.motds
                             if(NewsTypes[collected.first().content] === NewsTypes[1])
-                            data = await res.data.data.stw
+                            data = await rres.data.data.stw.messages
                             if(NewsTypes[collected.first().content] === NewsTypes[2])
-                            data = await res.data.data.creative
+                            data = await res.data.data.creative.motds
                              
                         }else{
 
@@ -145,11 +143,8 @@ module.exports = {
                     const ctx = canvas.getContext('2d')
                     let fontSize = 60
                     do {
-                        if(lang === "en"){
-                            ctx.font = `${fontSize -= 1}px Burbank Big Condensed`
-                        }else if(lang === "ar"){
-                            ctx.font = `${fontSize -= 1}px Arabic`
-                        }
+                        if(lang === "en") ctx.font = `${fontSize -= 1}px Burbank Big Condensed`
+                        else if(lang === "ar") ctx.font = `${fontSize -= 1}px Arabic`
                     } while (ctx.measureText(text).width > 420)
                     return ctx.font;
                 }
@@ -171,16 +166,16 @@ module.exports = {
                 //add gif delay between image and image
                 encoder.setDelay(3 * 1000)
 
-                const length = data.news.length
+                const length = data.length
                 const layout = 1920 / length
 
                 //loop throw every 
                 for(let i = 0; i < length; i++){
 
                     //inislizing variables
-                    var title = data.news[i].title
-                    var body = data.news[i].body
-                    var image = data.news[i].image
+                    var title = data[i].title
+                    var body = data[i].body
+                    var image = data[i].image
 
                     //add the news image at index i
                     const newsImage = await Canvas.loadImage(image)
@@ -189,8 +184,8 @@ module.exports = {
                     //add the top part
                     for(let t = 0; t < length; t++){
 
-                        if(data.news[t].tabTitle !== undefined) var tabTitle = data.news[t].tabTitle
-                        else if(data.news[t].adspace !== undefined) var tabTitle = data.news[t].adspace
+                        if(data[t].tabTitle !== undefined) var tabTitle = data[t].tabTitle
+                        else if(data[t].adspace !== undefined) var tabTitle = data[t].adspace
                         else var tabTitle = title
 
                         //add Used
@@ -299,28 +294,6 @@ module.exports = {
                 //send the message
                 const att = new Discord.MessageAttachment(encoder.out.getData(),  `${data.hash}.gif`)
                 await message.channel.send(att)
-                
-                for(let i = 0; i < length; i++){
-                    if(data.news[i].video !== null && data.news[i].video !== undefined){
-
-                        //creat discord embed
-                        const video = new Discord.MessageEmbed()
-
-                        //set color
-                        video.setColor(FNBRMENA.Colors("embed"))
-
-                        //set title
-                        video.setTitle(data.news[i].title)
-
-                        //set image
-                        video.setImage(data.news[i].image)
-
-                        //url
-                        video.setURL(`https://media.fortniteapi.io/videos/news/${data.news[i].video.id}_en.mp4`)
-                        
-                        await message.channel.send(video)
-                    } 
-                }
                 msg.delete()
             })
         }

@@ -1,5 +1,5 @@
 const Data = require('../FNBRMENA.js')
-const BackBling = require('./Commands/BackBling.js')
+const BackBling = require('../XMPPReceiver/Commands/Backbling.js')
 const Emote = require('./Commands/Emote.js')
 const Outfit = require('./Commands/Outfit.js')
 const clearEmote = require('./Commands/clearEmote.js')

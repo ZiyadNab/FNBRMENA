@@ -62,11 +62,6 @@ module.exports = (FNBRMENA, client, admin) => {
 
                     //checking for deff
                     if(JSON.stringify(res.data.list[index].sections) !== JSON.stringify(response)){
-
-                        //store sections
-                        for(let i = 0; i < res.data.list[index].sections.length; i++){
-                            response[i] = await res.data.list[index].sections[i]
-                        }
                         
                         //get the sections data from database
                         const SectionsData = await FNBRMENA.Admin(admin, message, "", "ShopSections")
@@ -424,6 +419,11 @@ module.exports = (FNBRMENA, client, admin) => {
                             await message.send(att)
                             await message.send(SectionsEmbed)
                             msg.delete()
+
+                            //store sections
+                            for(let i = 0; i < res.data.list[index].sections.length; i++){
+                                response[i] = await res.data.list[index].sections[i]
+                            }
 
                             //trun off push if enabled
                             await admin.database().ref("ERA's").child("Events").child("section").update({

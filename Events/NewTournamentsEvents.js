@@ -60,7 +60,7 @@ module.exports = async (FNBRMENA, client, admin) => {
 
                     //if the data was modified 
                     if(JSON.stringify(newData) !== JSON.stringify(response)){
-                        message.send("New tournament added")
+                        message.send("New tournament added" + tournamentsDATA[i].tournament_display_id)
 
                         //a data has been changed
                         for(let i = 0; i < tournamentsDATA.length; i++){
@@ -78,10 +78,12 @@ module.exports = async (FNBRMENA, client, admin) => {
 
                                         //if there is an id match
                                         if(details.data.eventsData[j].displayDataId === tournamentsDATA[i].tournament_display_id){
-                                            console.log(details.data.eventsData[j].displayDataId)
+                                            message.send(details.data.eventsData[j].displayDataId)
+                                            message.send(details.data.eventsData[j].regions)
 
                                             //if its in the same region
                                             if(details.data.eventsData[j].regions.includes(region)){
+                                                message.send("sending...")
 
                                                 //creat an embed
                                                 const tournamentINFO = new Discord.MessageEmbed()

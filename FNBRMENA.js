@@ -160,6 +160,16 @@ class FNBRMENA {
     /**
      * 
      * @param {String} Lang 
+     */
+     async CompCalendarEndpoint(Lang){
+
+        //return the items
+        return await axios.post(`https://www.epicgames.com/fortnite/competitive/api/${Lang}/calendar`)
+    }
+
+    /**
+     * 
+     * @param {String} Lang 
      * @param {String} Name 
      * @param {String} Type 
      */

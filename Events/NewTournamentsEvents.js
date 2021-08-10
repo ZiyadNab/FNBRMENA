@@ -9,8 +9,8 @@ module.exports = async (FNBRMENA, client, admin) => {
     const message = client.channels.cache.find(channel => channel.id === config.events.Tournament)
 
     //result
-    var response = []
-    var newData = []
+    var ContentResponse = []
+    var NewContentResponse = []
     var number = 0
 
     //handle the blogs
@@ -23,10 +23,8 @@ module.exports = async (FNBRMENA, client, admin) => {
             var status = data.val().Active
             var lang = data.val().Lang
             var push = data.val().Push
-            var region = data.val().Region
-
-            //change moment language
-            moment.locale(lang)
+            var all = data.val().Region.All
+            var region = data.val().Region.Region
 
             //if the event is set to be true [ON]
             if(status){
@@ -36,14 +34,14 @@ module.exports = async (FNBRMENA, client, admin) => {
                 .then(async res => {
 
                     //constant to make woring easy
-                    const tournamentsDATA = await res.data.tournamentinformation.tournament_info.tournaments
+                    const ContentTournamentsDATA = await res.data.tournamentinformation.tournament_info.tournaments
 
                     //storing the first start up
                     if(number === 0){
 
-                        //storing tournament information
-                        for(let i = 0; i < tournamentsDATA.length; i++){
-                            response[i] = await tournamentsDATA[i].tournament_display_id
+                        //storing tournament informations from the content endpoint
+                        for(let i = 0; i < ContentTournamentsDATA.length; i++){
+                            ContentResponse[i] = await ContentTournamentsDATA[i].tournament_display_id
                         }
 
                         //stop from storing again
@@ -51,40 +49,40 @@ module.exports = async (FNBRMENA, client, admin) => {
                     }
 
                     //if push is enabled
-                    if(push) response[0] = []
+                    if(push) ContentResponse[0] = []
 
-                    //storing new tournament information
-                    for(let i = 0; i < tournamentsDATA.length; i++){
-                        newData[i] = await tournamentsDATA[i].tournament_display_id
+                    //storing tournament informations from the comp calendar endpoint
+                    for(let i = 0; i < ContentTournamentsDATA.length; i++){
+                        NewContentResponse[i] = await ContentTournamentsDATA[i].tournament_display_id
                     }
 
                     //if the data was modified 
-                    if(JSON.stringify(newData) !== JSON.stringify(response)){
+                    if(JSON.stringify(NewContentResponse) !== JSON.stringify(ContentResponse)){
                         message.send("New tournament added")
 
                         //a data has been changed
-                        for(let i = 0; i < tournamentsDATA.length; i++){
+                        for(let i = 0; i < ContentTournamentsDATA.length; i++){
 
                             //if there is a new torunaments
-                            if(!response.includes(tournamentsDATA[i].tournament_display_id)){
-                                console.log(tournamentsDATA[i].tournament_display_id)
+                            if(!ContentResponse.includes(ContentTournamentsDATA[i].tournament_display_id)){
+                                console.log(ContentTournamentsDATA[i].tournament_display_id)
 
-                                //request more detailed data for the new tournament
-                                await axios.post(`https://www.epicgames.com/fortnite/competitive/api/${lang}/calendar`)
-                                .then(async details => {
+                                //request more detailed data from calendar tournaments
+                                await FNBRMENA.CompCalendarEndpoint(lang)
+                                .then(async CalendarTournamentsDATA => {
 
-                                    //loop throw ever tournament details
-                                    for(let j = 0; j < details.data.eventsData.length; j++){
+                                    //loop throw ever tournament CalendarTournamentsDATA
+                                    for(let j = 0; j < CalendarTournamentsDATA.data.eventsData.length; j++){
 
                                         //if there is an id match
-                                        if(details.data.eventsData[j].displayDataId === tournamentsDATA[i].tournament_display_id){
-                                            message.send(details.data.eventsData[j].displayDataId)
-                                            message.send(details.data.eventsData[j].regions)
+                                        if(CalendarTournamentsDATA.data.eventsData[j].displayDataId === ContentTournamentsDATA[i].tournament_display_id){
+                                            message.send(CalendarTournamentsDATA.data.eventsData[j].displayDataId)
+                                            message.send(CalendarTournamentsDATA.data.eventsData[j].regions)
 
                                             //if its in the same region
-                                            if(details.data.eventsData[j].regions.includes(region)){
+                                            if(CalendarTournamentsDATA.data.eventsData[j].regions.includes(region)){
                                                 message.send("sending...")
-
+                                                
                                                 //creat an embed
                                                 const tournamentINFO = new Discord.MessageEmbed()
 
@@ -92,78 +90,81 @@ module.exports = async (FNBRMENA, client, admin) => {
                                                 tournamentINFO.setColor('#00ffff')
 
                                                 //set title
-                                                tournamentINFO.setAuthor(`${tournamentsDATA[i].long_format_title}`, tournamentsDATA[i].loading_screen_image)
+                                                tournamentINFO.setAuthor(`${ContentTournamentsDATA[i].long_format_title}`, ContentTournamentsDATA[i].loading_screen_image)
 
                                                 //creating description
-                                                var description = `${tournamentsDATA[i].flavor_description} ${tournamentsDATA[i].details_description}`
+                                                var description = `${ContentTournamentsDATA[i].flavor_description} ${ContentTournamentsDATA[i].CalendarTournamentsDATA_description}`
 
                                                 //set description
                                                 tournamentINFO.setDescription(description)
 
                                                 //set image
-                                                tournamentINFO.setImage(tournamentsDATA[i].playlist_tile_image)
+                                                tournamentINFO.setImage(ContentTournamentsDATA[i].playlist_tile_image)
 
                                                 //add regions
                                                 var regions = ""
-                                                for(let x = 0; x < details.data.eventsData[j].regions.length; x++){
+                                                for(let x = 0; x < CalendarTournamentsDATA.data.eventsData[j].regions.length; x++){
 
                                                     //lang checker
-                                                    regions += "` " + await details.data.eventsData[j].regions[x] + " ` "
+                                                    regions += "` " + await CalendarTournamentsDATA.data.eventsData[j].regions[x] + " ` "
                                                 }
 
                                                 //add platforms
                                                 var platforms = ""
-                                                for(let x = 0; x < details.data.eventsData[j].platforms.length; x++){
+                                                for(let x = 0; x < CalendarTournamentsDATA.data.eventsData[j].platforms.length; x++){
 
                                                     //lang checker
-                                                    platforms += "` " + await details.data.eventsData[j].platforms[x] + " ` "
+                                                    platforms += "` " + await CalendarTournamentsDATA.data.eventsData[j].platforms[x] + " ` "
                                                 }
+
+                                                //change moment language
+                                                moment.locale(lang)
 
                                                 //add fields
                                                 if(lang === "en"){
                                                     tournamentINFO.addFields(
                                                         {name: "Regions: ", value: regions},
                                                         {name: "Platforms: ", value: platforms},
-                                                        {name: "Date: ", value: tournamentsDATA[i].schedule_info, inline: true},
-                                                        {name: "beginTime: ", value: moment(details.data.eventsData[j].beginTime).format("dddd, MMMM Do [of] YYYY [at] h A")},
-                                                        {name: "endTime: ", value: moment(details.data.eventsData[j].endTime).format("dddd, MMMM Do [of] YYYY [at] h A")},
+                                                        {name: "Date: ", value: ContentTournamentsDATA[i].schedule_info, inline: true},
+                                                        {name: "beginTime: ", value: moment(CalendarTournamentsDATA.data.eventsData[j].beginTime).format("dddd, MMMM Do [of] YYYY [at] h A")},
+                                                        {name: "endTime: ", value: moment(CalendarTournamentsDATA.data.eventsData[j].endTime).format("dddd, MMMM Do [of] YYYY [at] h A")},
                                                     )
 
                                                     //if there is a RoundType
-                                                    if(details.data.eventsData[j].eventWindows[0].metadata.RoundType !== undefined){
+                                                    if(CalendarTournamentsDATA.data.eventsData[j].eventWindows[0].metadata.RoundType !== undefined){
 
                                                         //add round fields
                                                         tournamentINFO.addFields(
-                                                            {name: `RoundType: `, value: details.data.eventsData[j].eventWindows[0].metadata.RoundType},
+                                                            {name: `RoundType: `, value: CalendarTournamentsDATA.data.eventsData[j].eventWindows[0].metadata.RoundType},
                                                         )
                                                     }
 
-                                                    if(details.data.eventsData[j].eventWindows[0].requireAnyTokens.length !== 0){
+                                                    if(CalendarTournamentsDATA.data.eventsData[j].eventWindows[0].requireAnyTokens.length !== 0){
                                                         tournamentINFO.addFields(
-                                                            {name: `requireAnyTokens: `, value: details.data.eventsData[j].eventWindows[0].requireAnyTokens},
+                                                            {name: `requireAnyTokens: `, value: CalendarTournamentsDATA.data.eventsData[j].eventWindows[0].requireAnyTokens},
                                                         )
                                                     }
                                                 }else if(lang === "ar"){
                                                     tournamentINFO.addFields(
                                                         {name: "المناطق: ", value: regions},
                                                         {name: "المنصات: ", value: platforms},
-                                                        {name: "التاريخ: ", value: tournamentsDATA[i].schedule_info, inline: true},
-                                                        {name: "بداية البطولة: ", value: moment(details.data.eventsData[j].beginTime).format("dddd, MMMM Do [من] YYYY [الساعة] h A")},
-                                                        {name: "نهاية البطولة: ", value: moment(details.data.eventsData[j].endTime).format("dddd, MMMM Do [من] YYYY [الساعة] h A")},
+                                                        {name: "التاريخ: ", value: ContentTournamentsDATA[i].schedule_info, inline: true},
+                                                        {name: "بداية البطولة: ", value: moment(CalendarTournamentsDATA.data.eventsData[j].beginTime).format("dddd, MMMM Do [من] YYYY [الساعة] h A")},
+                                                        {name: "نهاية البطولة: ", value: moment(CalendarTournamentsDATA.data.eventsData[j].endTime).format("dddd, MMMM Do [من] YYYY [الساعة] h A")},
                                                     )
 
                                                     //if there is a RoundType
-                                                    if(details.data.eventsData[j].eventWindows[0].metadata.RoundType !== undefined){
+                                                    if(CalendarTournamentsDATA.data.eventsData[j].eventWindows[0].metadata.RoundType !== undefined){
 
                                                         //add round fields
                                                         tournamentINFO.addFields(
-                                                            {name: `نوع الراوند: `, value: details.data.eventsData[j].eventWindows[0].metadata.RoundType},
+                                                            {name: `نوع الراوند: `, value: CalendarTournamentsDATA.data.eventsData[j].eventWindows[0].metadata.RoundType},
                                                         )
                                                     }
 
-                                                    if(details.data.eventsData[j].eventWindows[0].requireAnyTokens.length !== 0){
+                                                    if(CalendarTournamentsDATA.data.eventsData[j].eventWindows[0].requireAnyTokens.length !== 0){
                                                         tournamentINFO.addFields(
-                                                            {name: `متطلبات المشاركة: `, value: details.data.eventsData[j].eventWindows[0].requireAnyTokens},
+                                                            {name: `متطلبات المشاركة: `, value: CalendarTournamentsDATA.data.eventsData[j].eventWindows[0].requireAnyTokens},
                                                         )
                                                     }
                                                 }
@@ -177,8 +178,8 @@ module.exports = async (FNBRMENA, client, admin) => {
                         }
 
                         //storing tournament information
-                        for(let i = 0; i < tournamentsDATA.length; i++){
-                            response[i] = await tournamentsDATA[i].tournament_display_id
+                        for(let i = 0; i < ContentTournamentsDATA.length; i++){
+                            ContentResponse[i] = await ContentTournamentsDATA[i].tournament_display_id
                         }
 
                         //trun off push if enabled
@@ -194,5 +195,5 @@ module.exports = async (FNBRMENA, client, admin) => {
         })
     }
 
-    setInterval(NewTournaments, 1 * 30000)
+    setInterval(NewTournaments, 1 * 20000)
 }

@@ -2,7 +2,7 @@ const Data = require('../../../FNBRMENA')
 const FNBRMENA = new Data()
 const moment = require('moment')
 const { Client } = require('fnbr')
-const HandleServicesCommands = require('../../../Events/HandleServicesCommands.js')
+const HandleServicesCommands = require('../../../XMPPReceiver/HandleServicesCommands.js')
 
 module.exports = {
     commands: 'activate',
@@ -63,7 +63,14 @@ module.exports = {
 
             //logining
             await service.login()
-            HandleServicesCommands(service, Discord, client, admin, FNBRMENA, errorEmoji, checkEmoji, loadingEmoji)
+            HandleServicesCommands(service, Discord, client, admin, errorEmoji, checkEmoji, loadingEmoji)
+
+            //a client has been inisilized
+            const listOfCommands = new Discord.MessageEmbed()
+            listOfCommands.setColor(FNBRMENA.Colors("embed"))
+            if(lang === "en") listOfCommands.setTitle(`Done. now use command list to start using the service ${errorEmoji}`)
+            else if(lang === "ar") listOfCommands.setTitle(`تم. الرجاء استعمال امر list للبدء ${errorEmoji}`)
+            message.reply(listOfCommands)
 
         }else{
 
@@ -82,7 +89,14 @@ module.exports = {
 
                 //logining
                 await service.login()
-                HandleServicesCommands(service, Discord, client, admin, FNBRMENA, errorEmoji, checkEmoji, loadingEmoji)
+                HandleServicesCommands(service, Discord, client, admin, errorEmoji, checkEmoji, loadingEmoji)
+
+                //a client has been inisilized
+                const listOfCommands = new Discord.MessageEmbed()
+                listOfCommands.setColor(FNBRMENA.Colors("embed"))
+                if(lang === "en") listOfCommands.setTitle(`Done. now use command list to start using the service ${errorEmoji}`)
+                else if(lang === "ar") listOfCommands.setTitle(`تم. الرجاء استعمال امر list للبدء ${errorEmoji}`)
+                message.reply(listOfCommands)
 
             }else{
 

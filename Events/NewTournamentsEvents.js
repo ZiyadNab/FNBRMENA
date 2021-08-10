@@ -23,7 +23,7 @@ module.exports = async (FNBRMENA, client, admin) => {
             var status = data.val().Active
             var lang = data.val().Lang
             var push = data.val().Push
-            var region = data.val().Region
+            var region = data.val().Region.Region
 
             //if the event is set to be true [ON]
             if(status){
@@ -77,99 +77,95 @@ module.exports = async (FNBRMENA, client, admin) => {
                                         if(CalendarTournamentsDATA.data.eventsData[j].displayDataId === ContentTournamentsDATA[i].tournament_display_id){
                                             message.send(CalendarTournamentsDATA.data.eventsData[j].displayDataId)
                                             message.send(CalendarTournamentsDATA.data.eventsData[j].regions)
-
-                                            //if its in the same region
-                                            if(CalendarTournamentsDATA.data.eventsData[j].regions.includes(region)){
-                                                message.send("sending...")
                                                 
-                                                //creat an embed
-                                                const tournamentINFO = new Discord.MessageEmbed()
+                                            //creat an embed
+                                            const tournamentINFO = new Discord.MessageEmbed()
 
-                                                //set color
-                                                tournamentINFO.setColor('#00ffff')
+                                            //set color
+                                            tournamentINFO.setColor('#00ffff')
 
-                                                //set title
-                                                tournamentINFO.setAuthor(`${ContentTournamentsDATA[i].long_format_title}`, ContentTournamentsDATA[i].loading_screen_image)
+                                            //set title
+                                            tournamentINFO.setAuthor(`${ContentTournamentsDATA[i].long_format_title}`, ContentTournamentsDATA[i].loading_screen_image)
 
-                                                //creating description
-                                                var description = `${ContentTournamentsDATA[i].flavor_description} ${ContentTournamentsDATA[i].CalendarTournamentsDATA_description}`
+                                            //creating description
+                                            var description = `${ContentTournamentsDATA[i].flavor_description} ${ContentTournamentsDATA[i].CalendarTournamentsDATA_description}`
 
-                                                //set description
-                                                tournamentINFO.setDescription(description)
+                                            //set description
+                                            tournamentINFO.setDescription(description)
 
-                                                //set image
-                                                tournamentINFO.setImage(ContentTournamentsDATA[i].playlist_tile_image)
+                                            //set image
+                                            tournamentINFO.setImage(ContentTournamentsDATA[i].playlist_tile_image)
 
-                                                //add regions
-                                                var regions = ""
-                                                for(let x = 0; x < CalendarTournamentsDATA.data.eventsData[j].regions.length; x++){
+                                            //add regions
+                                            var regions = ""
+                                            for(let x = 0; x < CalendarTournamentsDATA.data.eventsData[j].regions.length; x++){
 
-                                                    //lang checker
-                                                    regions += "` " + await CalendarTournamentsDATA.data.eventsData[j].regions[x] + " ` "
-                                                }
-
-                                                //add platforms
-                                                var platforms = ""
-                                                for(let x = 0; x < CalendarTournamentsDATA.data.eventsData[j].platforms.length; x++){
-
-                                                    //lang checker
-                                                    platforms += "` " + await CalendarTournamentsDATA.data.eventsData[j].platforms[x] + " ` "
-                                                }
-
-                                                //change moment language
-                                                moment.locale(lang)
-
-                                                //add fields
-                                                if(lang === "en"){
-                                                    tournamentINFO.addFields(
-                                                        {name: "Regions: ", value: regions},
-                                                        {name: "Platforms: ", value: platforms},
-                                                        {name: "Date: ", value: ContentTournamentsDATA[i].schedule_info, inline: true},
-                                                        {name: "beginTime: ", value: moment(CalendarTournamentsDATA.data.eventsData[j].beginTime).format("dddd, MMMM Do [of] YYYY [at] h A")},
-                                                        {name: "endTime: ", value: moment(CalendarTournamentsDATA.data.eventsData[j].endTime).format("dddd, MMMM Do [of] YYYY [at] h A")},
-                                                    )
-
-                                                    //if there is a RoundType
-                                                    if(CalendarTournamentsDATA.data.eventsData[j].eventWindows[0].metadata.RoundType !== undefined){
-
-                                                        //add round fields
-                                                        tournamentINFO.addFields(
-                                                            {name: `RoundType: `, value: CalendarTournamentsDATA.data.eventsData[j].eventWindows[0].metadata.RoundType},
-                                                        )
-                                                    }
-
-                                                    if(CalendarTournamentsDATA.data.eventsData[j].eventWindows[0].requireAnyTokens.length !== 0){
-                                                        tournamentINFO.addFields(
-                                                            {name: `requireAnyTokens: `, value: CalendarTournamentsDATA.data.eventsData[j].eventWindows[0].requireAnyTokens},
-                                                        )
-                                                    }
-                                                }else if(lang === "ar"){
-                                                    tournamentINFO.addFields(
-                                                        {name: "المناطق: ", value: regions},
-                                                        {name: "المنصات: ", value: platforms},
-                                                        {name: "التاريخ: ", value: ContentTournamentsDATA[i].schedule_info, inline: true},
-                                                        {name: "بداية البطولة: ", value: moment(CalendarTournamentsDATA.data.eventsData[j].beginTime).format("dddd, MMMM Do [من] YYYY [الساعة] h A")},
-                                                        {name: "نهاية البطولة: ", value: moment(CalendarTournamentsDATA.data.eventsData[j].endTime).format("dddd, MMMM Do [من] YYYY [الساعة] h A")},
-                                                    )
-
-                                                    //if there is a RoundType
-                                                    if(CalendarTournamentsDATA.data.eventsData[j].eventWindows[0].metadata.RoundType !== undefined){
-
-                                                        //add round fields
-                                                        tournamentINFO.addFields(
-                                                            {name: `نوع الراوند: `, value: CalendarTournamentsDATA.data.eventsData[j].eventWindows[0].metadata.RoundType},
-                                                        )
-                                                    }
-
-                                                    if(CalendarTournamentsDATA.data.eventsData[j].eventWindows[0].requireAnyTokens.length !== 0){
-                                                        tournamentINFO.addFields(
-                                                            {name: `متطلبات المشاركة: `, value: CalendarTournamentsDATA.data.eventsData[j].eventWindows[0].requireAnyTokens},
-                                                        )
-                                                    }
-                                                }
-
-                                                await message.send(tournamentINFO)
+                                                //lang checker
+                                                regions += "` " + await CalendarTournamentsDATA.data.eventsData[j].regions[x] + " ` "
                                             }
+
+                                            //add platforms
+                                            var platforms = ""
+                                            for(let x = 0; x < CalendarTournamentsDATA.data.eventsData[j].platforms.length; x++){
+
+                                                //lang checker
+                                                platforms += "` " + await CalendarTournamentsDATA.data.eventsData[j].platforms[x] + " ` "
+                                            }
+
+                                            //change moment language
+                                            moment.locale(lang)
+
+                                            //add fields
+                                            if(lang === "en"){
+                                                tournamentINFO.addFields(
+                                                    {name: "Regions: ", value: regions},
+                                                    {name: "Platforms: ", value: platforms},
+                                                    {name: "Date: ", value: ContentTournamentsDATA[i].schedule_info, inline: true},
+                                                    {name: "beginTime: ", value: moment(CalendarTournamentsDATA.data.eventsData[j].beginTime).format("dddd, MMMM Do [of] YYYY [at] h A")},
+                                                    {name: "endTime: ", value: moment(CalendarTournamentsDATA.data.eventsData[j].endTime).format("dddd, MMMM Do [of] YYYY [at] h A")},
+                                                )
+
+                                                //if there is a RoundType
+                                                if(CalendarTournamentsDATA.data.eventsData[j].eventWindows[0].metadata.RoundType !== undefined){
+
+                                                    //add round fields
+                                                    tournamentINFO.addFields(
+                                                        {name: `RoundType: `, value: CalendarTournamentsDATA.data.eventsData[j].eventWindows[0].metadata.RoundType},
+                                                    )
+                                                }
+
+                                                if(CalendarTournamentsDATA.data.eventsData[j].eventWindows[0].requireAnyTokens.length !== 0){
+                                                    tournamentINFO.addFields(
+                                                        {name: `requireAnyTokens: `, value: CalendarTournamentsDATA.data.eventsData[j].eventWindows[0].requireAnyTokens},
+                                                    )
+                                                }
+                                            }else if(lang === "ar"){
+                                                tournamentINFO.addFields(
+                                                    {name: "المناطق: ", value: regions},
+                                                    {name: "المنصات: ", value: platforms},
+                                                    {name: "التاريخ: ", value: ContentTournamentsDATA[i].schedule_info, inline: true},
+                                                    {name: "بداية البطولة: ", value: moment(CalendarTournamentsDATA.data.eventsData[j].beginTime).format("dddd, MMMM Do [من] YYYY [الساعة] h A")},
+                                                    {name: "نهاية البطولة: ", value: moment(CalendarTournamentsDATA.data.eventsData[j].endTime).format("dddd, MMMM Do [من] YYYY [الساعة] h A")},
+                                                )
+
+                                                //if there is a RoundType
+                                                if(CalendarTournamentsDATA.data.eventsData[j].eventWindows[0].metadata.RoundType !== undefined){
+
+                                                    //add round fields
+                                                    tournamentINFO.addFields(
+                                                        {name: `نوع الراوند: `, value: CalendarTournamentsDATA.data.eventsData[j].eventWindows[0].metadata.RoundType},
+                                                    )
+                                                }
+
+                                                if(CalendarTournamentsDATA.data.eventsData[j].eventWindows[0].requireAnyTokens.length !== 0){
+                                                    tournamentINFO.addFields(
+                                                        {name: `متطلبات المشاركة: `, value: CalendarTournamentsDATA.data.eventsData[j].eventWindows[0].requireAnyTokens},
+                                                    )
+                                                }
+                                            }
+
+                                            //send the message
+                                            await message.send(tournamentINFO)
                                         }
                                     }
                                 })

@@ -23,8 +23,7 @@ module.exports = async (FNBRMENA, client, admin) => {
             var status = data.val().Active
             var lang = data.val().Lang
             var push = data.val().Push
-            var all = data.val().Region.All
-            var region = data.val().Region.Region
+            var region = data.val().Region
 
             //if the event is set to be true [ON]
             if(status){

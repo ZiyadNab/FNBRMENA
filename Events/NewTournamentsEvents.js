@@ -60,7 +60,7 @@ module.exports = async (FNBRMENA, client, admin) => {
 
                     //if the data was modified 
                     if(JSON.stringify(newData) !== JSON.stringify(response)){
-                        message.send("New tournament added" + tournamentsDATA[i].tournament_display_id)
+                        message.send("New tournament added")
 
                         //a data has been changed
                         for(let i = 0; i < tournamentsDATA.length; i++){

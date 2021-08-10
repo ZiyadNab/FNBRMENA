@@ -62,6 +62,11 @@ module.exports = (FNBRMENA, client, admin) => {
 
                     //checking for deff
                     if(JSON.stringify(res.data.list[index].sections) !== JSON.stringify(response)){
+
+                        //store sections
+                        for(let i = 0; i < res.data.list[index].sections.length; i++){
+                            response[i] = await res.data.list[index].sections[i]
+                        }
                         
                         //get the sections data from database
                         const SectionsData = await FNBRMENA.Admin(admin, message, "", "ShopSections")
@@ -70,12 +75,10 @@ module.exports = (FNBRMENA, client, admin) => {
                         var sectionsIndex = 0
                         var grediantsIndex = 0
                         var customImagesIndex = 0
-                        var backgroundLayerImageIndex = 0
                         for(let i = 0; i < Object.keys(SectionsData).length; i++){
                             if(Object.keys(SectionsData)[i] === 'Sections') sectionsIndex = i
                             if(Object.keys(SectionsData)[i] === 'Gradiants') grediantsIndex = i
                             if(Object.keys(SectionsData)[i] === 'customImages') customImagesIndex = i
-                            if(Object.keys(SectionsData)[i] === 'backgroundLayerImage') backgroundLayerImageIndex = i
                         }
 
                         //data minpulator
@@ -421,11 +424,6 @@ module.exports = (FNBRMENA, client, admin) => {
                             await message.send(att)
                             await message.send(SectionsEmbed)
                             msg.delete()
-
-                            //store sections
-                            for(let i = 0; i < res.data.list[index].sections.length; i++){
-                                response[i] = await res.data.list[index].sections[i]
-                            }
 
                             //trun off push if enabled
                             await admin.database().ref("ERA's").child("Events").child("section").update({

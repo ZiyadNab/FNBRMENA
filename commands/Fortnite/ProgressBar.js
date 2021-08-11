@@ -306,7 +306,7 @@ module.exports = {
             await CreatingObj(grd, x, y, gone, left, length, crewPercent, 
                 ['FF0064', 'FF0008'], crew)
 
-            const att = new Discord.MessageAttachment(canvas.toBuffer(), 'progress.png')
+            const att = new Discord.MessageAttachment(canvas.toBuffer(), 'progress.jpg')
             await message.channel.send(att)
             msg.delete()
         })

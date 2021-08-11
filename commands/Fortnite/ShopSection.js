@@ -179,9 +179,49 @@ module.exports = {
                                 //change the opacity from the database
                                 ctx.globalAlpha = data.Images[x].Opacity
 
-                                //add the image
+                                //upload the image to canvas
                                 const upcomingEventImage = await Canvas.loadImage(data.Images[x].Image)
-                                ctx.drawImage(upcomingEventImage, data.Images[x].X, data.Images[x].Y, data.Images[x].W, data.Images[x].H)
+
+                                //if scaling is enabled
+                                if(data.Images[i].Scaling){
+
+                                    //check the height
+                                    while(canvas.height > upcomingEventImage.height){
+
+                                        upcomingEventImage.width += 1
+                                        upcomingEventImage.height += 1
+                                    }
+
+                                    //check the width
+                                    while(canvas.width > upcomingEventImage.width){
+
+                                        upcomingEventImage.width += 1
+                                        upcomingEventImage.height += 1
+                                    }
+
+                                    //check the height
+                                    while(canvas.height < upcomingEventImage.height){
+
+                                        upcomingEventImage.width -= 1
+                                        upcomingEventImage.height -= 1
+                                    }
+
+                                    //check the width
+                                    while(canvas.width < upcomingEventImage.width){
+
+                                        upcomingEventImage.width -= 1
+                                        upcomingEventImage.height -= 1
+                                    }
+
+                                    //drawimage
+                                    ctx.drawImage(upcomingEventImage, data.Images[x].X, data.Images[x].Y, upcomingEventImage.width, upcomingEventImage.height)
+
+                                }else{
+
+                                    //drawimage
+                                    ctx.drawImage(upcomingEventImage, data.Images[x].X, data.Images[x].Y, data.Images[x].W, data.Images[x].H)
+                                }
+                                
 
                                 //change the opacity back to 1
                                 ctx.globalAlpha = 1

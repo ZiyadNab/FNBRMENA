@@ -177,11 +177,11 @@ module.exports = {
                             if(data.Images[i].Status){
 
                                 //change the opacity from the database
-                                ctx.globalAlpha = data.Images[i].Opacity
-                                
+                                ctx.globalAlpha = data.Images[x].Opacity
+
                                 //add the image
-                                const upcomingEventImage = await Canvas.loadImage(data.Images[i].Image)
-                                ctx.drawImage(upcomingEventImage, data.Images[i].X, data.Images[i].Y, data.Images[i].W, data.Images[i].H)
+                                const upcomingEventImage = await Canvas.loadImage(data.Images[x].Image)
+                                ctx.drawImage(upcomingEventImage, data.Images[x].X, data.Images[x].Y, data.Images[x].W, data.Images[x].H)
 
                                 //change the opacity back to 1
                                 ctx.globalAlpha = 1

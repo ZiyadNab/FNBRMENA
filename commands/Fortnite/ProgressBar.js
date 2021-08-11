@@ -94,36 +94,44 @@ module.exports = {
                             //if scaling is enabled
                             if(data.Images[x].Scaling){
 
-                                //check the height
-                                while(canvas.height > upcomingEventImage.height){
+                                //inislizing img width and height
+                                let imgWidth = upcomingEventImage.width
+                                let imgHeight = upcomingEventImage.height
 
-                                    upcomingEventImage.width += 1
-                                    upcomingEventImage.height += 1
-                                }
+                                //if imgWidth > canvas.width then start decreasing
+                                if(imgWidth < canvas.width){
 
-                                //check the width
-                                while(canvas.width > upcomingEventImage.width){
+                                    while(imgWidth < canvas.width){
+                                        imgWidth += 1
+                                        imgHeight += 1
+                                    }
 
-                                    upcomingEventImage.width += 1
-                                    upcomingEventImage.height += 1
-                                }
+                                    if(imgHeight < canvas.height){
 
-                                //check the height
-                                while(canvas.height < upcomingEventImage.height){
+                                        while(imgHeight < canvas.height){
+                                            imgWidth += 1
+                                            imgHeight += 1
+                                        }
+                                    }
+                                    
+                                }else{
 
-                                    upcomingEventImage.width -= 1
-                                    upcomingEventImage.height -= 1
-                                }
+                                    while(imgWidth > canvas.width){
+                                        imgWidth -= 1
+                                        imgHeight -= 1
+                                    }
 
-                                //check the width
-                                while(canvas.width < upcomingEventImage.width){
+                                    if(imgHeight < canvas.height){
 
-                                    upcomingEventImage.width -= 1
-                                    upcomingEventImage.height -= 1
+                                        while(imgHeight < canvas.height){
+                                            imgWidth += 1
+                                            imgHeight += 1
+                                        }
+                                    }
                                 }
 
                                 //drawimage
-                                ctx.drawImage(upcomingEventImage, data.Images[x].X, data.Images[x].Y, upcomingEventImage.width, upcomingEventImage.height)
+                                ctx.drawImage(upcomingEventImage, data.Images[x].X, data.Images[x].Y, imgWidth, imgHeight)
 
                             }else{
 

@@ -21,14 +21,10 @@ module.exports = {
 
         //SectionsData index
         var sectionsIndex = 0
-        var grediantsIndex = 0
-        var customImagesIndex = 0
-        var backgroundLayerImageIndex = 0
+        var UpcomingEventsIndex = 0
         for(let i = 0; i < Object.keys(SectionsData).length; i++){
             if(Object.keys(SectionsData)[i] === 'Sections') sectionsIndex = i
-            if(Object.keys(SectionsData)[i] === 'Gradiants') grediantsIndex = i
-            if(Object.keys(SectionsData)[i] === 'customImages') customImagesIndex = i
-            if(Object.keys(SectionsData)[i] === 'backgroundLayerImage') backgroundLayerImageIndex = i
+            if(Object.keys(SectionsData)[i] === 'UpcomingEvents') UpcomingEventsIndex = i
         }
         
         //request data
@@ -156,81 +152,44 @@ module.exports = {
                 //create background grediant
                 const grediant = ctx.createLinearGradient(0, canvas.height, canvas.width, 0)
 
-                //background grediant colors
-                const backgroundGrediants = SectionsData[Object.keys(SectionsData)[grediantsIndex]]
-                if(backgroundGrediants.length === 2){
+                //get the upcoming events if there is one set to be active
+                const UpcomingEventsData = SectionsData[Object.keys(SectionsData)[UpcomingEventsIndex]]
+                for(let i = 0; i < Object.keys(SectionsData[Object.keys(SectionsData)[UpcomingEventsIndex]]).length; i++){
 
-                    //background grediant colors
-                    grediant.addColorStop(0, `#${backgroundGrediants[0]}`)
-                    grediant.addColorStop(1, `#${backgroundGrediants[1]}`)
+                    //constant to make the work easy
+                    const data = UpcomingEventsData[Object.keys(SectionsData[Object.keys(SectionsData)[UpcomingEventsIndex]])[i]]
 
-                }else if(backgroundGrediants.length === 3){
+                    //if the object is set to be active
+                    if(data.Status){
 
-                    //add the grediands
-                    grediant.addColorStop(0, `#${backgroundGrediants[0]}`)
-                    grediant.addColorStop(0.5, `#${backgroundGrediants[1]}`)
-                    grediant.addColorStop(1, `#${backgroundGrediants[2]}`)
-                }
+                        //loop throw every gradiants
+                        grediant.addColorStop(0, `#${data.Gradiants[0]}`)
+                        grediant.addColorStop(0, `#${data.Gradiants[1]}`)
 
-                //add the background color to ctx
-                ctx.fillStyle = grediant
+                        //add the background color to ctx
+                        ctx.fillStyle = grediant
 
-                //add the background
-                ctx.fillRect(0, 0, canvas.width, canvas.height)
+                        //add the background
+                        ctx.fillRect(0, 0, canvas.width, canvas.height)
 
-                //customImages
-                const customImagesData = SectionsData[Object.keys(SectionsData)[customImagesIndex]]
-                for(let i = 0; i < customImagesData.length; i++){
+                        //loop throw every image
+                        for(let x = 0; x < data.Images.length; x++){
 
-                    //if there is access to customImagesData
-                    if(customImagesData[i].Status){
+                            //if the index is set to be active
+                            if(data.Images[i].Status){
+                                console.log(data.Images[i].Image)
 
-                        //change the opacity back if i changed it from the database
-                        ctx.globalAlpha = customImagesData[i].Opacity
+                                //change the opacity from the database
+                                ctx.globalAlpha = data.Images[i].Opacity
 
-                        //if probe in set to be true
-                        if(customImagesData[i].probe){
+                                //add the image
+                                const upcomingEventImage = await Canvas.loadImage(data.Images[i].Image)
+                                ctx.drawImage(upcomingEventImage, data.Images[i].X, data.Images[i].Y, data.Images[i].W, data.Images[i].H)
 
-                            //image dimensions
-                            var dimensions = await probe(customImagesData[i].Image)
-
-                            //set the height
-                            var dimensionsH = dimensions.height
-                            var dimensionsW = dimensions.width
-
-                            //lowering the height
-                            if(dimensionsH > canvas.height){
-                                while(dimensionsH > canvas.height){
-
-                                    //decrease the height
-                                    dimensionsH -= 1
-                                    dimensionsW -= 0.75
-                                }
+                                //change the opacity back to 1
+                                ctx.globalAlpha = 1
                             }
-
-                            //increase the height
-                            if(dimensionsH < canvas.height){
-                                while(dimensionsH < canvas.height){
-
-                                    //increase the height
-                                    dimensionsH += 1
-                                    dimensionsW += 0.75
-                                }
-                            }
-
-                            //add the image
-                            const customImages = await Canvas.loadImage(customImagesData[i].Image)
-                            ctx.drawImage(customImages, customImagesData[i].X, customImagesData[i].Y, dimensionsW, dimensionsH)
-
-                        }else{
-
-                            //add the image
-                            const customImages = await Canvas.loadImage(customImagesData[i].Image)
-                            ctx.drawImage(customImages, customImagesData[i].X, customImagesData[i].Y, customImagesData[i].W, customImagesData[i].H)
                         }
-                            
-                        //change the opacity back if i changed it from the database
-                        ctx.globalAlpha = 1
                     }
                 }
 

@@ -36,12 +36,10 @@ module.exports = {
 
             //progressData index
             var index = 0
-            var grediantsIndex = 0
-            var customImagesIndex = 0
+            var UpcomingEventsIndex = 0
             for(let i = 0; i < Object.keys(progressData).length; i++){
                 if(Object.keys(progressData)[i] === 'progressData') index = i
-                if(Object.keys(progressData)[i] === 'Gradiants') grediantsIndex = i
-                if(Object.keys(progressData)[i] === 'customImages') customImagesIndex = i
+                if(Object.keys(SectionsData)[i] === 'UpcomingEvents') UpcomingEventsIndex = i
             }
 
             //get how many bars r set to true [ACTIVE]
@@ -63,83 +61,81 @@ module.exports = {
             //create background grediant
             const grediant = ctx.createLinearGradient(0, canvas.height, canvas.width, 0)
 
-            //background grediant colors
-            const backgroundGrediants = progressData[Object.keys(progressData)[grediantsIndex]]
-            if(backgroundGrediants.length === 2){
+            //get the upcoming events if there is one set to be active
+            const UpcomingEventsData = SectionsData[Object.keys(SectionsData)[UpcomingEventsIndex]]
+            for(let i = 0; i < Object.keys(SectionsData[Object.keys(SectionsData)[UpcomingEventsIndex]]).length; i++){
 
-                //add the grediands
-                grediant.addColorStop(0, `#${backgroundGrediants[0]}`)
-                grediant.addColorStop(1, `#${backgroundGrediants[1]}`)
-            }else if(backgroundGrediants.length === 3){
+                //constant to make the work easy
+                const data = UpcomingEventsData[Object.keys(SectionsData[Object.keys(SectionsData)[UpcomingEventsIndex]])[i]]
 
-                //add the grediands
-                grediant.addColorStop(0, `#${backgroundGrediants[0]}`)
-                grediant.addColorStop(0.5, `#${backgroundGrediants[1]}`)
-                grediant.addColorStop(1, `#${backgroundGrediants[2]}`)
-            }
+                //if the object is set to be active
+                if(data.Status){
 
-            //add the background color to ctx
-            ctx.fillStyle = grediant
+                    //loop throw every gradiants
+                    grediant.addColorStop(0, `#${data.Gradiants[0]}`)
+                    grediant.addColorStop(1, `#${data.Gradiants[1]}`)
 
-            //add the background
-            ctx.fillRect(0, 0, canvas.width, canvas.height)
+                    //add the background color to ctx
+                    ctx.fillStyle = grediant
+                    ctx.fillRect(0, 0, canvas.width, canvas.height)
 
-            //change the opacity
-            ctx.globalAlpha = 0.5
+                    //loop throw every image
+                    for(let x = 0; x < data.Images.length; x++){
 
-            //customImages
-            const customImagesData = progressData[Object.keys(progressData)[customImagesIndex]]
-            for(let i = 0; i < customImagesData.length; i++){
+                        //if the index is set to be active
+                        if(data.Images[i].Status){
 
-                //if there is access to customImagesData
-                if(customImagesData[i].Status){
+                            //change the opacity from the database
+                            ctx.globalAlpha = data.Images[x].Opacity
 
-                    //change the opacity from the database
-                    ctx.globalAlpha = customImagesData[i].Opacity
+                            //upload the image to canvas
+                            const upcomingEventImage = await Canvas.loadImage(data.Images[x].Image)
 
-                    //if probe in set to be true
-                    if(customImagesData[i].probe){
+                            //if scaling is enabled
+                            if(data.Images[x].Scaling){
 
-                        //image dimensions
-                        var dimensions = await probe(customImagesData[i].Image)
+                                //check the height
+                                while(canvas.height > upcomingEventImage.height){
 
-                        //set the height
-                        var dimensionsH = dimensions.height
-                        var dimensionsW = dimensions.width
+                                    upcomingEventImage.width += 1
+                                    upcomingEventImage.height += 1
+                                }
 
-                        //lowering the height
-                        if(dimensionsH > canvas.height){
-                            while(dimensionsH > canvas.height){
+                                //check the width
+                                while(canvas.width > upcomingEventImage.width){
 
-                                //decrease the height
-                                dimensionsH -= 1
-                                dimensionsW -= 0.75
+                                    upcomingEventImage.width += 1
+                                    upcomingEventImage.height += 1
+                                }
+
+                                //check the height
+                                while(canvas.height < upcomingEventImage.height){
+
+                                    upcomingEventImage.width -= 1
+                                    upcomingEventImage.height -= 1
+                                }
+
+                                //check the width
+                                while(canvas.width < upcomingEventImage.width){
+
+                                    upcomingEventImage.width -= 1
+                                    upcomingEventImage.height -= 1
+                                }
+
+                                //drawimage
+                                ctx.drawImage(upcomingEventImage, data.Images[x].X, data.Images[x].Y, upcomingEventImage.width, upcomingEventImage.height)
+
+                            }else{
+
+                                //drawimage
+                                ctx.drawImage(upcomingEventImage, data.Images[x].X, data.Images[x].Y, data.Images[x].W, data.Images[x].H)
                             }
+                            
+
+                            //change the opacity back to 1
+                            ctx.globalAlpha = 1
                         }
-
-                        //increase the height
-                        if(dimensionsH < canvas.height){
-                            while(dimensionsH < canvas.height){
-
-                                //increase the height
-                                dimensionsH += 1
-                                dimensionsW += 0.75
-                            }
-                        }
-
-                        //add the image
-                        const customImages = await Canvas.loadImage(customImagesData[i].Image)
-                        ctx.drawImage(customImages, customImagesData[i].X, customImagesData[i].Y, dimensionsW, dimensionsH)
-
-                    }else{
-
-                        //add the image
-                        const customImages = await Canvas.loadImage(customImagesData[i].Image)
-                        ctx.drawImage(customImages, customImagesData[i].X, customImagesData[i].Y, customImagesData[i].W, customImagesData[i].H)
                     }
-
-                    //change the opacity back
-                    ctx.globalAlpha = 1
                 }
             }
 

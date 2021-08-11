@@ -183,7 +183,7 @@ module.exports = {
                                 const upcomingEventImage = await Canvas.loadImage(data.Images[x].Image)
 
                                 //if scaling is enabled
-                                if(data.Images[i].Scaling){
+                                if(data.Images[x].Scaling){
 
                                     //check the height
                                     while(canvas.height > upcomingEventImage.height){

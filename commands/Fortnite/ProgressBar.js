@@ -83,7 +83,7 @@ module.exports = {
                     for(let x = 0; x < data.Images.length; x++){
 
                         //if the index is set to be active
-                        if(data.Images[i].Status){
+                        if(data.Images[x].Status){
 
                             //change the opacity from the database
                             ctx.globalAlpha = data.Images[x].Opacity

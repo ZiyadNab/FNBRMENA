@@ -164,12 +164,10 @@ module.exports = {
 
                         //loop throw every gradiants
                         grediant.addColorStop(0, `#${data.Gradiants[0]}`)
-                        grediant.addColorStop(0, `#${data.Gradiants[1]}`)
+                        grediant.addColorStop(1, `#${data.Gradiants[1]}`)
 
                         //add the background color to ctx
                         ctx.fillStyle = grediant
-
-                        //add the background
                         ctx.fillRect(0, 0, canvas.width, canvas.height)
 
                         //loop throw every image
@@ -177,11 +175,10 @@ module.exports = {
 
                             //if the index is set to be active
                             if(data.Images[i].Status){
-                                console.log(data.Images[i].Image)
 
                                 //change the opacity from the database
                                 ctx.globalAlpha = data.Images[i].Opacity
-
+                                
                                 //add the image
                                 const upcomingEventImage = await Canvas.loadImage(data.Images[i].Image)
                                 ctx.drawImage(upcomingEventImage, data.Images[i].X, data.Images[i].Y, data.Images[i].W, data.Images[i].H)

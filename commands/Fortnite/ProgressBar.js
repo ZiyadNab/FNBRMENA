@@ -39,7 +39,7 @@ module.exports = {
             var UpcomingEventsIndex = 0
             for(let i = 0; i < Object.keys(progressData).length; i++){
                 if(Object.keys(progressData)[i] === 'progressData') index = i
-                if(Object.keys(SectionsData)[i] === 'UpcomingEvents') UpcomingEventsIndex = i
+                if(Object.keys(progressData)[i] === 'UpcomingEvents') UpcomingEventsIndex = i
             }
 
             //get how many bars r set to true [ACTIVE]
@@ -62,11 +62,11 @@ module.exports = {
             const grediant = ctx.createLinearGradient(0, canvas.height, canvas.width, 0)
 
             //get the upcoming events if there is one set to be active
-            const UpcomingEventsData = SectionsData[Object.keys(SectionsData)[UpcomingEventsIndex]]
-            for(let i = 0; i < Object.keys(SectionsData[Object.keys(SectionsData)[UpcomingEventsIndex]]).length; i++){
+            const UpcomingEventsData = progressData[Object.keys(progressData)[UpcomingEventsIndex]]
+            for(let i = 0; i < Object.keys(progressData[Object.keys(progressData)[UpcomingEventsIndex]]).length; i++){
 
                 //constant to make the work easy
-                const data = UpcomingEventsData[Object.keys(SectionsData[Object.keys(SectionsData)[UpcomingEventsIndex]])[i]]
+                const data = UpcomingEventsData[Object.keys(progressData[Object.keys(progressData)[UpcomingEventsIndex]])[i]]
 
                 //if the object is set to be active
                 if(data.Status){

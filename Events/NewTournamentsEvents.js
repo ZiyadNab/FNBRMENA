@@ -184,7 +184,7 @@ module.exports = async (FNBRMENA, client, admin) => {
                     }
 
                     //if push is enabled
-                    if(true) ContentResponse[index] = []
+                    if(push) ContentResponse[index] = []
 
                     //storing tournament informations from the comp calendar endpoint
                     for(let i = 0; i < ContentTournamentsDATA.length; i++){

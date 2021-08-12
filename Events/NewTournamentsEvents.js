@@ -46,15 +46,11 @@ module.exports = async (FNBRMENA, client, admin) => {
                             const tournamentImage = await Canvas.loadImage(ContentTournamentsDATA[i].playlist_tile_image)
                             ctx.drawImage(tournamentImage, 0, 0 , canvas.width, canvas.height)
 
-                            //add fog
-                            const fog = await Canvas.loadImage('./assets/News/fog.png')
-                            ctx.drawImage(fog, 0, 0 , canvas.width, canvas.height)
-
                             //credits
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='left';
                             ctx.font = '50px Burbank Big Condensed'
-                            ctx.fillText("FNBRMENA", 15, 55)
+                            ctx.fillText("FNBRMENA", 10, 50)
                                 
                             //creat an embed
                             const tournamentINFO = new Discord.MessageEmbed()
@@ -66,10 +62,7 @@ module.exports = async (FNBRMENA, client, admin) => {
                             tournamentINFO.setAuthor(`${ContentTournamentsDATA[i].long_format_title}`, ContentTournamentsDATA[i].loading_screen_image)
 
                             //set description
-                            tournamentINFO.setDescription(`${ContentTournamentsDATA[i].flavor_description} ${ContentTournamentsDATA[i].details_description}`)
-
-                            //set image
-                            //tournamentINFO.setImage(ContentTournamentsDATA[i].playlist_tile_image)
+                            tournamentINFO.setDescription(decodeURI(`${ContentTournamentsDATA[i].flavor_description} ${ContentTournamentsDATA[i].details_description}`))
 
                             //set thumbnail
                             tournamentINFO.setThumbnail(ContentTournamentsDATA[i].poster_front_image)

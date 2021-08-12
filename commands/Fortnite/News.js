@@ -247,7 +247,7 @@ module.exports = {
 
                     //title
                     ctx.fillStyle = '#ffffff';
-                    if(lang === "en"){
+                    if(lang === "en" || lang === "es"){
                         ctx.textAlign = 'left';
                         ctx.font = `100px Burbank Big Condensed`;
                         ctx.fillText(title, x, y)
@@ -262,7 +262,7 @@ module.exports = {
 
                     //body
                     ctx.fillStyle = '#33edff';
-                    if(lang === "en"){
+                    if(lang === "en" || lang === "es"){
                         ctx.textAlign = 'left';
                         ctx.font = `46px Burbank Big Condensed`;
                     }else if(lang === "ar"){
@@ -286,7 +286,7 @@ module.exports = {
                     if(lang === "en") ctx.textAlign = 'right';
                     else if(lang === "ar") ctx.textAlign = 'left';
                     ctx.font = '75px Burbank Big Condensed'
-                    if(lang === "en") ctx.fillText("FNBRMENA", canvas.width - x, canvas.height - x)
+                    if(lang === "en" || lang === "es") ctx.fillText("FNBRMENA", canvas.width - x, canvas.height - x)
                     if(lang === "ar") ctx.fillText("FNBRMENA", x, canvas.height - x)
 
                     //add frame

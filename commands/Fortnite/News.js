@@ -48,11 +48,13 @@ module.exports = {
             if(lang === "en") list.setTitle(`Please choose your news type from the list below`)
             else if(lang === "ar") list.setTitle(`الرجاء اختيار نوع الأخبار من القائمه بالاسفل`)
             else if(lang === "es") list.setTitle(`Elija su tipo de noticia de la lista a continuación`)
+            else if(lang === "zh-CN") list.setTitle(`请从下面的列表中选择您的新闻类型`)
 
             //how many items where matchinh the user input?
             if(lang === "en") var string = `• 0: Battle Royale\n• 1: STW\n• 2: Creative`
             else if(lang === "ar") var string = `• 0: باتل رويال\n• 1: طور إنقاذ العالم\n• 2: طور الإبداعي`
             else if(lang === "es") var string = `• 0: Battle Royale\n• 1: STW\n• 2: Creative`
+            else if(lang === "zh-CN") var string = `• 0: Battle Royale\n• 1: STW\n• 2: Creative`
 
             //set Description
             list.setDescription(string)
@@ -68,6 +70,7 @@ module.exports = {
                 if(lang === "en") var reply = `please choose your news type, listening will be stopped after 20 seconds`
                 else if(lang === "ar") var reply = `الرجاء كتابة نوع الأخبار، راح يتوقف الامر بعد ٢٠ ثانية`
                 else if(lang === "es") var reply = `elija su tipo de noticia, la escucha se detendrá después de 20 segundos`
+                if(lang === "zh-CN") var reply = `请选择您的新闻类型，收听将在 20 秒后停止`
                 
                 await message.reply(reply)
                 .then( async notify => {
@@ -140,6 +143,7 @@ module.exports = {
             if(lang === "en") generating.setTitle(`Getting News ... ${loadingEmoji}`)
             if(lang === "ar") generating.setTitle(`جاري تحميل الاخبار ... ${loadingEmoji}`)
             if(lang === "es") generating.setTitle(`Recibiendo noticias ... ${loadingEmoji}`)
+            if(lang === "zh-CN") generating.setTitle(`正在获取新闻 ... ${loadingEmoji}`)
             message.channel.send(generating)
             .then( async msg => {
 
@@ -151,6 +155,7 @@ module.exports = {
                         if(lang === "en") ctx.font = `${fontSize -= 1}px Burbank Big Condensed`
                         else if(lang === "ar") ctx.font = `${fontSize -= 1}px Arabic`
                         else if(lang === "es") ctx.font = `${fontSize -= 1}px Burbank Big Condensed`
+                        else if(lang === "zh-CN") ctx.font = `${fontSize -= 1}px Burbank Big Condensed`
                     } while (ctx.measureText(text).width > 420)
                     return ctx.font;
                 }
@@ -247,7 +252,7 @@ module.exports = {
 
                     //title
                     ctx.fillStyle = '#ffffff';
-                    if(lang === "en" || lang === "es"){
+                    if(lang === "en" || lang === "es" || lang === "zh-CN"){
                         ctx.textAlign = 'left';
                         ctx.font = `100px Burbank Big Condensed`;
                         ctx.fillText(title, x, y)
@@ -262,7 +267,7 @@ module.exports = {
 
                     //body
                     ctx.fillStyle = '#33edff';
-                    if(lang === "en" || lang === "es"){
+                    if(lang === "en" || lang === "es" || lang === "zh-CN"){
                         ctx.textAlign = 'left';
                         ctx.font = `46px Burbank Big Condensed`;
                     }else if(lang === "ar"){
@@ -283,10 +288,10 @@ module.exports = {
 
                     //add the credits
                     ctx.fillStyle = '#ffffff';
-                    if(lang === "en") ctx.textAlign = 'right';
+                    if(lang === "en" || lang === "es" || lang === "zh-CN") ctx.textAlign = 'right';
                     else if(lang === "ar") ctx.textAlign = 'left';
                     ctx.font = '75px Burbank Big Condensed'
-                    if(lang === "en" || lang === "es") ctx.fillText("FNBRMENA", canvas.width - x, canvas.height - x)
+                    if(lang === "en" || lang === "es" || lang === "zh-CN") ctx.fillText("FNBRMENA", canvas.width - x, canvas.height - x)
                     if(lang === "ar") ctx.fillText("FNBRMENA", x, canvas.height - x)
 
                     //add frame

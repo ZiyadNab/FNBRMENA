@@ -84,7 +84,7 @@ module.exports = {
                             if(NewsTypes[collected.first().content] === NewsTypes[0])
                             data = await res.data.data.br.motds
                             if(NewsTypes[collected.first().content] === NewsTypes[1])
-                            data = await rres.data.data.stw.messages
+                            data = await res.data.data.stw.messages
                             if(NewsTypes[collected.first().content] === NewsTypes[2])
                             data = await res.data.data.creative.motds
                              
@@ -102,6 +102,7 @@ module.exports = {
                             
                         }
                     }).catch(err => {
+                        console.log(err)
 
                         //add an error
                         errorHandleing++
@@ -113,6 +114,7 @@ module.exports = {
                     })
                 })
             }).catch(err => {
+                console.log(err)
 
                 //add an error
                 errorHandleing++
@@ -184,9 +186,15 @@ module.exports = {
                     //add the top part
                     for(let t = 0; t < length; t++){
 
-                        if(data[t].tabTitle !== undefined || data[t].tabTitle !== null) var tabTitle = data[t].tabTitle
-                        else if(data[t].adspace !== undefined || data[t].adspace !== null) var tabTitle = data[t].adspace
-                        else var tabTitle = title
+                        if(data[t].tabTitle !== undefined){
+                            if(data[t].tabTitle !== null) var tabTitle = data[t].tabTitle
+                            else var tabTitle = title
+                        }else if(data[t].adspace !== undefined){
+                            if(data[t].adspace !== null) var tabTitle = data[t].adspace
+                            else var tabTitle = title
+                        }
+
+                        console.log(data[t].tabTitle, tabTitle)
 
                         //add Used
                         if(t === i){

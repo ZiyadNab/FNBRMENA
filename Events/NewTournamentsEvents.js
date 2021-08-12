@@ -96,18 +96,27 @@ module.exports = async (FNBRMENA, client, admin) => {
                                     {name: "endTime: ", value: moment(CalendarTournamentsDATA.data.eventsData[j].endTime).format("dddd, MMMM Do [of] YYYY [at] h A")},
                                 )
 
-                                //if there is a RoundType
-                                if(CalendarTournamentsDATA.data.eventsData[j].eventWindows[0].metadata.RoundType !== undefined){
+                                //add rounds
+                                for(let x = 0; x < CalendarTournamentsDATA.data.eventsData[j].eventWindows.length; x++){
 
-                                    //add round fields
-                                    tournamentINFO.addFields(
-                                        {name: `RoundType: `, value: CalendarTournamentsDATA.data.eventsData[j].eventWindows[0].metadata.RoundType},
-                                    )
-                                }
+                                    //round details
+                                    let roundDetails = `\`Round: ${x + 1}\n`
 
-                                if(CalendarTournamentsDATA.data.eventsData[j].eventWindows[0].requireAnyTokens.length !== 0){
+                                    //round type
+                                    if(CalendarTournamentsDATA.data.eventsData[j].eventWindows[x].metadata.RoundType !== undefined){
+                                        roundDetails += `Round Type: ${CalendarTournamentsDATA.data.eventsData[j].eventWindows[x].metadata.RoundType}\n`
+
+                                    }else roundDetails += `Round Type: Unspecified\n`
+
+                                    //round starts
+                                    roundDetails += `Round Starts: ${moment(CalendarTournamentsDATA.data.eventsData[j].eventWindows[x].beginTime).format("dddd, MMMM Do [of] YYYY [at] h A")}\n`
+
+                                    //round ends
+                                    roundDetails += `Round Ends: ${moment(CalendarTournamentsDATA.data.eventsData[j].eventWindows[x].endTime).format("dddd, MMMM Do [of] YYYY [at] h A")}\n\``
+
+                                    //add field for round number x
                                     tournamentINFO.addFields(
-                                        {name: `requireAnyTokens: `, value: CalendarTournamentsDATA.data.eventsData[j].eventWindows[0].requireAnyTokens},
+                                        {name: `Round Number ${x + 1}:`, value: roundDetails}
                                     )
                                 }
                             }else if(lang === "ar"){
@@ -119,18 +128,27 @@ module.exports = async (FNBRMENA, client, admin) => {
                                     {name: "نهاية البطولة: ", value: moment(CalendarTournamentsDATA.data.eventsData[j].endTime).format("dddd, MMMM Do [من] YYYY [الساعة] h A")},
                                 )
 
-                                //if there is a RoundType
-                                if(CalendarTournamentsDATA.data.eventsData[j].eventWindows[0].metadata.RoundType !== undefined){
+                                //add rounds
+                                for(let x = 0; x < CalendarTournamentsDATA.data.eventsData[j].eventWindows.length; x++){
 
-                                    //add round fields
-                                    tournamentINFO.addFields(
-                                        {name: `نوع الراوند: `, value: CalendarTournamentsDATA.data.eventsData[j].eventWindows[0].metadata.RoundType},
-                                    )
-                                }
+                                    //round details
+                                    let roundDetails = `راوند: ${x + 1}\n`
 
-                                if(CalendarTournamentsDATA.data.eventsData[j].eventWindows[0].requireAnyTokens.length !== 0){
+                                    //round type
+                                    if(CalendarTournamentsDATA.data.eventsData[j].eventWindows[x].metadata.RoundType !== undefined){
+                                        roundDetails += `نوع الراوند: ${CalendarTournamentsDATA.data.eventsData[j].eventWindows[x].metadata.RoundType}\n`
+
+                                    }else roundDetails += `نوع الراوند: غير معلوم\n`
+
+                                    //round starts
+                                    roundDetails += `بداية الراوند: ${moment(CalendarTournamentsDATA.data.eventsData[j].eventWindows[x].beginTime).format("dddd, MMMM Do [من] YYYY [الساعة] h A")}\n`
+
+                                    //round ends
+                                    roundDetails += `نهاية الراوند: ${moment(CalendarTournamentsDATA.data.eventsData[j].eventWindows[x].endTime).format("dddd, MMMM Do [من] YYYY [الساعة] h A")}\n`
+
+                                    //add field for round number x
                                     tournamentINFO.addFields(
-                                        {name: `متطلبات المشاركة: `, value: CalendarTournamentsDATA.data.eventsData[j].eventWindows[0].requireAnyTokens},
+                                        {name: `راوند رقم ${x + 1}:`, value: roundDetails}
                                     )
                                 }
                             }

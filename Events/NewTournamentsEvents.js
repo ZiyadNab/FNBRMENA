@@ -134,9 +134,10 @@ module.exports = async (FNBRMENA, client, admin) => {
         admin.database().ref("ERA's").child("Events").child("newtournaments").once('value', async function (data) {
 
             //store aceess
-            var status = data.val().Active
-            var lang = data.val().Lang
-            var push = data.val().Push
+            const status = data.val().Active
+            const lang = data.val().Lang
+            const push = data.val().Push.Status
+            const index = data.val().Push.Index
 
             //if the event is set to be true [ON]
             if(status){
@@ -161,7 +162,7 @@ module.exports = async (FNBRMENA, client, admin) => {
                     }
 
                     //if push is enabled
-                    if(push) ContentResponse[0] = []
+                    if(push) ContentResponse[index] = []
 
                     //storing tournament informations from the comp calendar endpoint
                     for(let i = 0; i < ContentTournamentsDATA.length; i++){

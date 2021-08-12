@@ -40,11 +40,11 @@ module.exports = async (FNBRMENA, client, admin) => {
 
                             //define the image
                             const tournamentImage = await Canvas.loadImage(ContentTournamentsDATA[i].playlist_tile_image)
-                            ctx.loadImage(tournamentImage, 0, 0 , canvas.width, canvas.height)
+                            ctx.drawImage(tournamentImage, 0, 0 , canvas.width, canvas.height)
 
                             //add fog
                             const fog = await Canvas.loadImage('./assets/News/fog.png')
-                            ctx.loadImage(fog, 0, 0 , canvas.width, canvas.height)
+                            ctx.drawImage(fog, 0, 0 , canvas.width, canvas.height)
 
                             //credits
                             ctx.fillStyle = '#ffffff';

@@ -1,9 +1,8 @@
-const axios = require('axios')
 const Discord = require('discord.js')
 const Canvas = require('canvas')
-const probe = require('probe-image-size')
 const config = require('../Coinfigs/config.json')
 const moment = require('moment')
+const probe = require('probe-image-size')
 
 module.exports = async (FNBRMENA, client, admin) => {
     const message = client.channels.cache.find(channel => channel.id === config.events.Tournament)
@@ -31,6 +30,27 @@ module.exports = async (FNBRMENA, client, admin) => {
 
                         //if there is an id match
                         if(CalendarTournamentsDATA.data.eventsData[j].displayDataId === ContentTournamentsDATA[i].tournament_display_id){
+
+                            //tournament image dimensions
+                            var dimensions = await probe(ContentTournamentsDATA[i].playlist_tile_image)
+
+                            //create canvas
+                            const canvas = Canvas.createCanvas(dimensions.width, dimensions.height)
+                            const ctx = canvas.getContext('2d')
+
+                            //define the image
+                            const tournamentImage = await Canvas.loadImage(ContentTournamentsDATA[i].playlist_tile_image)
+                            ctx.loadImage(tournamentImage, 0, 0 , canvas.width, canvas.height)
+
+                            //add fog
+                            const fog = await Canvas.loadImage('./assets/News/fog.png')
+                            ctx.loadImage(fog, 0, 0 , canvas.width, canvas.height)
+
+                            //credits
+                            ctx.fillStyle = '#ffffff';
+                            ctx.textAlign='left';
+                            ctx.font = '50px Burbank Big Condensed'
+                            ctx.fillText("FNBRMENA", 15, 55)
                                 
                             //creat an embed
                             const tournamentINFO = new Discord.MessageEmbed()
@@ -118,7 +138,9 @@ module.exports = async (FNBRMENA, client, admin) => {
                                 }
                             }
 
-                            //send the message
+                            //send the message  
+                            const att = new Discord.MessageAttachment(canvas.toBuffer(), `${CalendarTournamentsDATA.data.eventsData[j].displayDataId}.png`)
+                            await message.send(att)
                             await message.send(tournamentINFO)
                         }
                     }
@@ -162,7 +184,7 @@ module.exports = async (FNBRMENA, client, admin) => {
                     }
 
                     //if push is enabled
-                    if(push) ContentResponse[index] = []
+                    if(true) ContentResponse[index] = []
 
                     //storing tournament informations from the comp calendar endpoint
                     for(let i = 0; i < ContentTournamentsDATA.length; i++){
@@ -181,8 +203,8 @@ module.exports = async (FNBRMENA, client, admin) => {
                         }
 
                         //trun off push if enabled
-                        await admin.database().ref("ERA's").child("Events").child("newtournaments").update({
-                            Push: false
+                        await admin.database().ref("ERA's").child("Events").child("newtournaments").child("Push").update({
+                            Status: false
                         })
                     }
 

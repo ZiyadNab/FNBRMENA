@@ -31,6 +31,10 @@ module.exports = async (FNBRMENA, client, admin) => {
                         //if there is an id match
                         if(CalendarTournamentsDATA.data.eventsData[j].displayDataId === ContentTournamentsDATA[i].tournament_display_id){
 
+                            //registering fonts
+                            Canvas.registerFont('./assets/font/Lalezar-Regular.ttf', {family: 'Arabic',weight: "700",style: "bold"});
+                            Canvas.registerFont('./assets/font/BurbankBigCondensed-Black.otf' ,{family: 'Burbank Big Condensed',weight: "700",style: "bold"})
+
                             //tournament image dimensions
                             var dimensions = await probe(ContentTournamentsDATA[i].playlist_tile_image)
 
@@ -65,7 +69,7 @@ module.exports = async (FNBRMENA, client, admin) => {
                             tournamentINFO.setDescription(`${ContentTournamentsDATA[i].flavor_description} ${ContentTournamentsDATA[i].details_description}`)
 
                             //set image
-                            tournamentINFO.setImage(ContentTournamentsDATA[i].playlist_tile_image)
+                            //tournamentINFO.setImage(ContentTournamentsDATA[i].playlist_tile_image)
 
                             //set thumbnail
                             tournamentINFO.setThumbnail(ContentTournamentsDATA[i].poster_front_image)

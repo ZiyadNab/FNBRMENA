@@ -279,20 +279,14 @@ module.exports = (client, admin) => {
                 if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
                     let fontSize = 75;
                     do {
-                        if(lang === "en"){
-                            ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
-                        }else if(lang === "ar"){
-                            ctx.font = `${fontSize -= 1}px Arabic`;
-                        }
+                        if(lang === "en")ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
+                        else if(lang === "ar")ctx.font = `${fontSize -= 1}px Arabic`;
                     } while (ctx.measureText(text).width > 400);
                 }else{
                     let fontSize = 30;
                     do {
-                        if(lang === "en"){
-                            ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
-                        }else if(lang === "ar"){
-                            ctx.font = `${fontSize -= 1}px Arabic`;
-                        }
+                        if(lang === "en")ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
+                        else if(lang === "ar")ctx.font = `${fontSize -= 1}px Arabic`;
                     } while (ctx.measureText(text).width > 210);
                 }
                 return ctx.font;
@@ -343,34 +337,22 @@ module.exports = (client, admin) => {
                 ,vBucksH, CreditX, CreditY, CreditW, CreditH, textSize, BannerW, BannerH) => {
 
                 //skin informations
-                var name = type[i].displayName;
-                var price = type[i].price.finalPrice;
-                if(type[i].displayAssets.length !== 0){
-                    var image = type[i].displayAssets[0].url;
-                }else{
-                    var image = type[i].granted[0].images.icon
-                }
+                var name = type[i].displayName
+                var price = type[i].price.finalPrice
+                if(type[i].displayAssets.length !== 0) var image = type[i].displayAssets[0].url
+                else var image = type[i].granted[0].images.icon
+                if(type[i].series === null) var rarity = type[i].rarity.id
+                else  var rarity = type[i].series.id
                 var newItem = false
                 if(type[i].banner !== null){
-                    if(type[i].banner.id === "New"){
-                        newItem = true
-                    }
-                }
-                if(type[i].series === null){
-                    var rarity = type[i].rarity.id;
-                }else{
-                    var rarity = type[i].series.id
+                    if(type[i].banner.id === "New") newItem = true
                 }
                 var vbucks = "https://media.fortniteapi.io/images/652b99f7863db4ba398c40c326ac15a9/transparent.png";
 
                 //moment
-                var Now = moment();
-                var last
-                if(type[i].previousReleaseDate !== null){
-                    last = moment(type[i].previousReleaseDate);
-                }else{
-                    last = moment(type[i].firstReleaseDate)
-                }
+                var Now = moment()
+                if(type[i].previousReleaseDate !== null) var last = moment(type[i].previousReleaseDate);
+                else var last = moment(type[i].firstReleaseDate)
                 const day = Now.diff(last, 'days');
 
                 if(rarity === 'Legendary'){
@@ -389,11 +371,8 @@ module.exports = (client, admin) => {
                         ctx.fillStyle = '#ffffff';
                         ctx.textAlign='center';
                         ctx.font = applyText(canvas, name, type);
-                        if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
-                            ctx.fillText(name, (NameX + x), (y + NameY - 37))
-                        }else{
-                            ctx.fillText(name, (NameX + x), (y + NameY))
-                        }
+                        if(JSON.stringify(type) === JSON.stringify(LimitedTime)) ctx.fillText(name, (NameX + x), (y + NameY - 37))
+                        else ctx.fillText(name, (NameX + x), (y + NameY))
                         ctx.textAlign='left';
                         ctx.font = `${textSize}px Burbank Big Condensed`
                         ctx.fillText(price, (PriceX + x), (y + PriceY))
@@ -411,11 +390,8 @@ module.exports = (client, admin) => {
                         ctx.fillStyle = '#ffffff';
                         ctx.textAlign='center';
                         ctx.font = applyText(canvas, name, type);
-                        if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
-                            ctx.fillText(name, (NameX + x), (y + NameY - 30))
-                        }else{
-                            ctx.fillText(name, (NameX + x), (y + NameY))
-                        }
+                        if(JSON.stringify(type) === JSON.stringify(LimitedTime)) ctx.fillText(name, (NameX + x), (y + NameY - 30))
+                        else ctx.fillText(name, (NameX + x), (y + NameY))
                         ctx.textAlign='left';
                         ctx.font = `${textSize}px Arabic`
                         ctx.fillText(price, (PriceX + x), (y + PriceY))
@@ -426,8 +402,6 @@ module.exports = (client, admin) => {
                         const v = await Canvas.loadImage(vbucks);
                         ctx.drawImage(v, (vBucksX + x), (y + vBucksY), vBucksW, vBucksH);
                     }
-                    // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                    // ctx.drawImage(credit, (CreditX + x), (y + CreditY), CreditW, CreditH);
                 }else
                 if(rarity === 'Epic'){
                     //creating image
@@ -445,11 +419,8 @@ module.exports = (client, admin) => {
                         ctx.fillStyle = '#ffffff';
                         ctx.textAlign='center';
                         ctx.font = applyText(canvas, name, type);
-                        if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
-                            ctx.fillText(name, (NameX + x), (y + NameY - 37))
-                        }else{
-                            ctx.fillText(name, (NameX + x), (y + NameY))
-                        }
+                        if(JSON.stringify(type) === JSON.stringify(LimitedTime)) ctx.fillText(name, (NameX + x), (y + NameY - 37))
+                        else ctx.fillText(name, (NameX + x), (y + NameY))
                         ctx.textAlign='left';
                         ctx.font = `${textSize}px Burbank Big Condensed`
                         ctx.fillText(price, (PriceX + x), (y + PriceY))
@@ -467,11 +438,8 @@ module.exports = (client, admin) => {
                         ctx.fillStyle = '#ffffff';
                         ctx.textAlign='center';
                         ctx.font = applyText(canvas, name, type);
-                        if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
-                            ctx.fillText(name, (NameX + x), (y + NameY - 30))
-                        }else{
-                            ctx.fillText(name, (NameX + x), (y + NameY))
-                        }
+                        if(JSON.stringify(type) === JSON.stringify(LimitedTime)) ctx.fillText(name, (NameX + x), (y + NameY - 30))
+                        else ctx.fillText(name, (NameX + x), (y + NameY))
                         ctx.textAlign='left';
                         ctx.font = `${textSize}px Arabic`
                         ctx.fillText(price, (PriceX + x), (y + PriceY))
@@ -482,8 +450,6 @@ module.exports = (client, admin) => {
                         const v = await Canvas.loadImage(vbucks);
                         ctx.drawImage(v, (vBucksX + x), (y + vBucksY), vBucksW, vBucksH);
                     }
-                    // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                    // ctx.drawImage(credit, (CreditX + x), (y + CreditY), CreditW, CreditH);
                 }else
                 if(rarity === 'Rare'){
                     //creating image
@@ -501,11 +467,8 @@ module.exports = (client, admin) => {
                         ctx.fillStyle = '#ffffff';
                         ctx.textAlign='center';
                         ctx.font = applyText(canvas, name, type);
-                        if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
-                            ctx.fillText(name, (NameX + x), (y + NameY - 37))
-                        }else{
-                            ctx.fillText(name, (NameX + x), (y + NameY))
-                        }
+                        if(JSON.stringify(type) === JSON.stringify(LimitedTime)) ctx.fillText(name, (NameX + x), (y + NameY - 37))
+                        else ctx.fillText(name, (NameX + x), (y + NameY))
                         ctx.textAlign='left';
                         ctx.font = `${textSize}px Burbank Big Condensed`
                         ctx.fillText(price, (PriceX + x), (y + PriceY))
@@ -523,11 +486,8 @@ module.exports = (client, admin) => {
                         ctx.fillStyle = '#ffffff';
                         ctx.textAlign='center';
                         ctx.font = applyText(canvas, name, type);
-                        if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
-                            ctx.fillText(name, (NameX + x), (y + NameY - 30))
-                        }else{
-                            ctx.fillText(name, (NameX + x), (y + NameY))
-                        }
+                        if(JSON.stringify(type) === JSON.stringify(LimitedTime)) ctx.fillText(name, (NameX + x), (y + NameY - 30))
+                        else ctx.fillText(name, (NameX + x), (y + NameY))
                         ctx.textAlign='left';
                         ctx.font = `${textSize}px Arabic`
                         ctx.fillText(price, (PriceX + x), (y + PriceY))
@@ -538,8 +498,6 @@ module.exports = (client, admin) => {
                         const v = await Canvas.loadImage(vbucks);
                         ctx.drawImage(v, (vBucksX + x), (y + vBucksY), vBucksW, vBucksH);
                     }
-                    // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                    // ctx.drawImage(credit, (CreditX + x), (y + CreditY), CreditW, CreditH);
                 }else
                 if(rarity === 'Uncommon'){
                     //creating image
@@ -557,11 +515,8 @@ module.exports = (client, admin) => {
                         ctx.fillStyle = '#ffffff';
                         ctx.textAlign='center';
                         ctx.font = applyText(canvas, name, type);
-                        if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
-                            ctx.fillText(name, (NameX + x), (y + NameY - 37))
-                        }else{
-                            ctx.fillText(name, (NameX + x), (y + NameY))
-                        }
+                        if(JSON.stringify(type) === JSON.stringify(LimitedTime)) ctx.fillText(name, (NameX + x), (y + NameY - 37))
+                        else ctx.fillText(name, (NameX + x), (y + NameY))
                         ctx.textAlign='left';
                         ctx.font = `${textSize}px Burbank Big Condensed`
                         ctx.fillText(price, (PriceX + x), (y + PriceY))
@@ -579,11 +534,8 @@ module.exports = (client, admin) => {
                         ctx.fillStyle = '#ffffff';
                         ctx.textAlign='center';
                         ctx.font = applyText(canvas, name, type);
-                        if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
-                            ctx.fillText(name, (NameX + x), (y + NameY - 30))
-                        }else{
-                            ctx.fillText(name, (NameX + x), (y + NameY))
-                        }
+                        if(JSON.stringify(type) === JSON.stringify(LimitedTime)) ctx.fillText(name, (NameX + x), (y + NameY - 30))
+                        else ctx.fillText(name, (NameX + x), (y + NameY))
                         ctx.textAlign='left';
                         ctx.font = `${textSize}px Arabic`
                         ctx.fillText(price, (PriceX + x), (y + PriceY))
@@ -594,8 +546,6 @@ module.exports = (client, admin) => {
                         const v = await Canvas.loadImage(vbucks);
                         ctx.drawImage(v, (vBucksX + x), (y + vBucksY), vBucksW, vBucksH);
                     }
-                    // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                    // ctx.drawImage(credit, (CreditX + x), (y + CreditY), CreditW, CreditH);
                 }else
                 if(rarity === 'Common'){
                     //creating image
@@ -613,11 +563,8 @@ module.exports = (client, admin) => {
                         ctx.fillStyle = '#ffffff';
                         ctx.textAlign='center';
                         ctx.font = applyText(canvas, name, type);
-                        if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
-                            ctx.fillText(name, (NameX + x), (y + NameY - 37))
-                        }else{
-                            ctx.fillText(name, (NameX + x), (y + NameY))
-                        }
+                        if(JSON.stringify(type) === JSON.stringify(LimitedTime)) ctx.fillText(name, (NameX + x), (y + NameY - 37))
+                        else ctx.fillText(name, (NameX + x), (y + NameY))
                         ctx.textAlign='left';
                         ctx.font = `${textSize}px Burbank Big Condensed`
                         ctx.fillText(price, (PriceX + x), (y + PriceY))
@@ -635,11 +582,8 @@ module.exports = (client, admin) => {
                         ctx.fillStyle = '#ffffff';
                         ctx.textAlign='center';
                         ctx.font = applyText(canvas, name, type);
-                        if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
-                            ctx.fillText(name, (NameX + x), (y + NameY - 30))
-                        }else{
-                            ctx.fillText(name, (NameX + x), (y + NameY))
-                        }
+                        if(JSON.stringify(type) === JSON.stringify(LimitedTime)) ctx.fillText(name, (NameX + x), (y + NameY - 30))
+                        else ctx.fillText(name, (NameX + x), (y + NameY))
                         ctx.textAlign='left';
                         ctx.font = `${textSize}px Arabic`
                         ctx.fillText(price, (PriceX + x), (y + PriceY))
@@ -650,8 +594,6 @@ module.exports = (client, admin) => {
                         const v = await Canvas.loadImage(vbucks);
                         ctx.drawImage(v, (vBucksX + x), (y + vBucksY), vBucksW, vBucksH);
                     }
-                    // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                    // ctx.drawImage(credit, (CreditX + x), (y + CreditY), CreditW, CreditH);
                 }else
                 if(rarity === 'MarvelSeries'){
                     //creating image
@@ -669,11 +611,8 @@ module.exports = (client, admin) => {
                         ctx.fillStyle = '#ffffff';
                         ctx.textAlign='center';
                         ctx.font = applyText(canvas, name, type);
-                        if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
-                            ctx.fillText(name, (NameX + x), (y + NameY - 37))
-                        }else{
-                            ctx.fillText(name, (NameX + x), (y + NameY))
-                        }
+                        if(JSON.stringify(type) === JSON.stringify(LimitedTime)) ctx.fillText(name, (NameX + x), (y + NameY - 37))
+                        else ctx.fillText(name, (NameX + x), (y + NameY))
                         ctx.fillText(name, (NameX + x), (y + NameY))
                         ctx.textAlign='left';
                         ctx.font = `${textSize}px Burbank Big Condensed`
@@ -692,11 +631,8 @@ module.exports = (client, admin) => {
                         ctx.fillStyle = '#ffffff';
                         ctx.textAlign='center';
                         ctx.font = applyText(canvas, name, type);
-                        if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
-                            ctx.fillText(name, (NameX + x), (y + NameY - 30))
-                        }else{
-                            ctx.fillText(name, (NameX + x), (y + NameY))
-                        }
+                        if(JSON.stringify(type) === JSON.stringify(LimitedTime)) ctx.fillText(name, (NameX + x), (y + NameY - 30))
+                        else ctx.fillText(name, (NameX + x), (y + NameY))
                         ctx.textAlign='left';
                         ctx.font = `${textSize}px Arabic`
                         ctx.fillText(price, (PriceX + x), (y + PriceY))
@@ -724,11 +660,8 @@ module.exports = (client, admin) => {
                         ctx.fillStyle = '#ffffff';
                         ctx.textAlign='center';
                         ctx.font = applyText(canvas, name, type);
-                        if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
-                            ctx.fillText(name, (NameX + x), (y + NameY - 37))
-                        }else{
-                            ctx.fillText(name, (NameX + x), (y + NameY))
-                        }
+                        if(JSON.stringify(type) === JSON.stringify(LimitedTime)) ctx.fillText(name, (NameX + x), (y + NameY - 37))
+                        else ctx.fillText(name, (NameX + x), (y + NameY))
                         ctx.textAlign='left';
                         ctx.font = `${textSize}px Burbank Big Condensed`
                         ctx.fillText(price, (PriceX + x), (y + PriceY))
@@ -746,11 +679,8 @@ module.exports = (client, admin) => {
                         ctx.fillStyle = '#ffffff';
                         ctx.textAlign='center';
                         ctx.font = applyText(canvas, name, type);
-                        if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
-                            ctx.fillText(name, (NameX + x), (y + NameY - 30))
-                        }else{
-                            ctx.fillText(name, (NameX + x), (y + NameY))
-                        }
+                        if(JSON.stringify(type) === JSON.stringify(LimitedTime)) ctx.fillText(name, (NameX + x), (y + NameY - 30))
+                        else ctx.fillText(name, (NameX + x), (y + NameY))
                         ctx.textAlign='left';
                         ctx.font = `${textSize}px Arabic`
                         ctx.fillText(price, (PriceX + x), (y + PriceY))
@@ -761,8 +691,6 @@ module.exports = (client, admin) => {
                         const v = await Canvas.loadImage(vbucks);
                         ctx.drawImage(v, (vBucksX + x), (y + vBucksY), vBucksW, vBucksH);
                     }
-                    // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                    // ctx.drawImage(credit, (CreditX + x), (y + CreditY), CreditW, CreditH);
                 }else
                 if(rarity === 'CUBESeries'){
                     //creating image
@@ -780,11 +708,8 @@ module.exports = (client, admin) => {
                         ctx.fillStyle = '#ffffff';
                         ctx.textAlign='center';
                         ctx.font = applyText(canvas, name, type);
-                        if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
-                            ctx.fillText(name, (NameX + x), (y + NameY - 37))
-                        }else{
-                            ctx.fillText(name, (NameX + x), (y + NameY))
-                        }
+                        if(JSON.stringify(type) === JSON.stringify(LimitedTime)) ctx.fillText(name, (NameX + x), (y + NameY - 37))
+                        else ctx.fillText(name, (NameX + x), (y + NameY))
                         ctx.textAlign='left';
                         ctx.font = `${textSize}px Burbank Big Condensed`
                         ctx.fillText(price, (PriceX + x), (y + PriceY))
@@ -802,11 +727,8 @@ module.exports = (client, admin) => {
                         ctx.fillStyle = '#ffffff';
                         ctx.textAlign='center';
                         ctx.font = applyText(canvas, name, type);
-                        if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
-                            ctx.fillText(name, (NameX + x), (y + NameY - 30))
-                        }else{
-                            ctx.fillText(name, (NameX + x), (y + NameY))
-                        }
+                        if(JSON.stringify(type) === JSON.stringify(LimitedTime)) ctx.fillText(name, (NameX + x), (y + NameY - 30))
+                        else ctx.fillText(name, (NameX + x), (y + NameY))
                         ctx.textAlign='left';
                         ctx.font = `${textSize}px Arabic`
                         ctx.fillText(price, (PriceX + x), (y + PriceY))
@@ -817,8 +739,6 @@ module.exports = (client, admin) => {
                         const v = await Canvas.loadImage(vbucks);
                         ctx.drawImage(v, (vBucksX + x), (y + vBucksY), vBucksW, vBucksH);
                     }
-                    // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                    // ctx.drawImage(credit, (CreditX + x), (y + CreditY), CreditW, CreditH);
                 }else
                 if(rarity === 'CreatorCollabSeries'){
                     //creating image
@@ -836,11 +756,8 @@ module.exports = (client, admin) => {
                         ctx.fillStyle = '#ffffff';
                         ctx.textAlign='center';
                         ctx.font = applyText(canvas, name, type);
-                        if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
-                            ctx.fillText(name, (NameX + x), (y + NameY - 37))
-                        }else{
-                            ctx.fillText(name, (NameX + x), (y + NameY))
-                        }
+                        if(JSON.stringify(type) === JSON.stringify(LimitedTime)) ctx.fillText(name, (NameX + x), (y + NameY - 37))
+                        else ctx.fillText(name, (NameX + x), (y + NameY))
                         ctx.textAlign='left';
                         ctx.font = `${textSize}px Burbank Big Condensed`
                         ctx.fillText(price, (PriceX + x), (y + PriceY))
@@ -858,11 +775,8 @@ module.exports = (client, admin) => {
                         ctx.fillStyle = '#ffffff';
                         ctx.textAlign='center';
                         ctx.font = applyText(canvas, name, type);
-                        if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
-                            ctx.fillText(name, (NameX + x), (y + NameY - 30))
-                        }else{
-                            ctx.fillText(name, (NameX + x), (y + NameY))
-                        }
+                        if(JSON.stringify(type) === JSON.stringify(LimitedTime)) ctx.fillText(name, (NameX + x), (y + NameY - 30))
+                        else ctx.fillText(name, (NameX + x), (y + NameY))
                         ctx.textAlign='left';
                         ctx.font = `${textSize}px Arabic`
                         ctx.fillText(price, (PriceX + x), (y + PriceY))
@@ -873,8 +787,6 @@ module.exports = (client, admin) => {
                         const v = await Canvas.loadImage(vbucks);
                         ctx.drawImage(v, (vBucksX + x), (y + vBucksY), vBucksW, vBucksH);
                     }
-                    // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                    // ctx.drawImage(credit, (CreditX + x), (y + CreditY), CreditW, CreditH);
                 }else
                 if(rarity === 'ColumbusSeries'){
                     //creating image
@@ -892,11 +804,8 @@ module.exports = (client, admin) => {
                         ctx.fillStyle = '#ffffff';
                         ctx.textAlign='center';
                         ctx.font = applyText(canvas, name, type);
-                        if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
-                            ctx.fillText(name, (NameX + x), (y + NameY - 37))
-                        }else{
-                            ctx.fillText(name, (NameX + x), (y + NameY))
-                        }
+                        if(JSON.stringify(type) === JSON.stringify(LimitedTime)) ctx.fillText(name, (NameX + x), (y + NameY - 37))
+                        else ctx.fillText(name, (NameX + x), (y + NameY))
                         ctx.textAlign='left';
                         ctx.font = `${textSize}px Burbank Big Condensed`
                         ctx.fillText(price, (PriceX + x), (y + PriceY))
@@ -914,11 +823,8 @@ module.exports = (client, admin) => {
                         ctx.fillStyle = '#ffffff';
                         ctx.textAlign='center';
                         ctx.font = applyText(canvas, name, type);
-                        if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
-                            ctx.fillText(name, (NameX + x), (y + NameY - 30))
-                        }else{
-                            ctx.fillText(name, (NameX + x), (y + NameY))
-                        }
+                        if(JSON.stringify(type) === JSON.stringify(LimitedTime)) ctx.fillText(name, (NameX + x), (y + NameY - 30))
+                        else ctx.fillText(name, (NameX + x), (y + NameY))
                         ctx.textAlign='left';
                         ctx.font = `${textSize}px Arabic`
                         ctx.fillText(price, (PriceX + x), (y + PriceY))
@@ -929,8 +835,6 @@ module.exports = (client, admin) => {
                         const v = await Canvas.loadImage(vbucks);
                         ctx.drawImage(v, (vBucksX + x), (y + vBucksY), vBucksW, vBucksH);
                     }
-                    // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                    // ctx.drawImage(credit, (CreditX + x), (y + CreditY), CreditW, CreditH);
                 }else
                 if(rarity === 'ShadowSeries'){
                     //creating image
@@ -948,11 +852,8 @@ module.exports = (client, admin) => {
                         ctx.fillStyle = '#ffffff';
                         ctx.textAlign='center';
                         ctx.font = applyText(canvas, name, type);
-                        if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
-                            ctx.fillText(name, (NameX + x), (y + NameY - 37))
-                        }else{
-                            ctx.fillText(name, (NameX + x), (y + NameY))
-                        }
+                        if(JSON.stringify(type) === JSON.stringify(LimitedTime)) ctx.fillText(name, (NameX + x), (y + NameY - 37))
+                        else ctx.fillText(name, (NameX + x), (y + NameY))
                         ctx.textAlign='left';
                         ctx.font = `${textSize}px Burbank Big Condensed`
                         ctx.fillText(price, (PriceX + x), (y + PriceY))
@@ -970,11 +871,8 @@ module.exports = (client, admin) => {
                         ctx.fillStyle = '#ffffff';
                         ctx.textAlign='center';
                         ctx.font = applyText(canvas, name, type);
-                        if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
-                            ctx.fillText(name, (NameX + x), (y + NameY - 30))
-                        }else{
-                            ctx.fillText(name, (NameX + x), (y + NameY))
-                        }
+                        if(JSON.stringify(type) === JSON.stringify(LimitedTime)) ctx.fillText(name, (NameX + x), (y + NameY - 30))
+                        else ctx.fillText(name, (NameX + x), (y + NameY))
                         ctx.textAlign='left';
                         ctx.font = `${textSize}px Arabic`
                         ctx.fillText(price, (PriceX + x), (y + PriceY))
@@ -985,8 +883,6 @@ module.exports = (client, admin) => {
                         const v = await Canvas.loadImage(vbucks);
                         ctx.drawImage(v, (vBucksX + x), (y + vBucksY), vBucksW, vBucksH);
                     }
-                    // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                    // ctx.drawImage(credit, (CreditX + x), (y + CreditY), CreditW, CreditH);
                 }else
                 if(rarity === 'SlurpSeries'){
                     //creating image
@@ -1004,11 +900,8 @@ module.exports = (client, admin) => {
                         ctx.fillStyle = '#ffffff';
                         ctx.textAlign='center';
                         ctx.font = applyText(canvas, name, type);
-                        if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
-                            ctx.fillText(name, (NameX + x), (y + NameY - 37))
-                        }else{
-                            ctx.fillText(name, (NameX + x), (y + NameY))
-                        }
+                        if(JSON.stringify(type) === JSON.stringify(LimitedTime)) ctx.fillText(name, (NameX + x), (y + NameY - 37))
+                        else ctx.fillText(name, (NameX + x), (y + NameY))
                         ctx.textAlign='left';
                         ctx.font = `${textSize}px Burbank Big Condensed`
                         ctx.fillText(price, (PriceX + x), (y + PriceY))
@@ -1026,11 +919,8 @@ module.exports = (client, admin) => {
                         ctx.fillStyle = '#ffffff';
                         ctx.textAlign='center';
                         ctx.font = applyText(canvas, name, type);
-                        if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
-                            ctx.fillText(name, (NameX + x), (y + NameY - 30))
-                        }else{
-                            ctx.fillText(name, (NameX + x), (y + NameY))
-                        }
+                        if(JSON.stringify(type) === JSON.stringify(LimitedTime)) ctx.fillText(name, (NameX + x), (y + NameY - 30))
+                        else ctx.fillText(name, (NameX + x), (y + NameY))
                         ctx.textAlign='left';
                         ctx.font = `${textSize}px Arabic`
                         ctx.fillText(price, (PriceX + x), (y + PriceY))
@@ -1040,9 +930,7 @@ module.exports = (client, admin) => {
                         ctx.textAlign='left';
                         const v = await Canvas.loadImage(vbucks);
                         ctx.drawImage(v, (vBucksX + x), (y + vBucksY), vBucksW, vBucksH);
-                    }
-                    // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                    // ctx.drawImage(credit, (CreditX + x), (y + CreditY), CreditW, CreditH);  
+                    }  
                 }else
                 if(rarity === 'FrozenSeries'){
                     //creating image
@@ -1060,11 +948,8 @@ module.exports = (client, admin) => {
                         ctx.fillStyle = '#ffffff';
                         ctx.textAlign='center';
                         ctx.font = applyText(canvas, name, type);
-                        if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
-                            ctx.fillText(name, (NameX + x), (y + NameY - 37))
-                        }else{
-                            ctx.fillText(name, (NameX + x), (y + NameY))
-                        }
+                        if(JSON.stringify(type) === JSON.stringify(LimitedTime)) ctx.fillText(name, (NameX + x), (y + NameY - 37))
+                        else ctx.fillText(name, (NameX + x), (y + NameY))
                         ctx.textAlign='left';
                         ctx.font = `${textSize}px Burbank Big Condensed`
                         ctx.fillText(price, (PriceX + x), (y + PriceY))
@@ -1082,11 +967,8 @@ module.exports = (client, admin) => {
                         ctx.fillStyle = '#ffffff';
                         ctx.textAlign='center';
                         ctx.font = applyText(canvas, name, type);
-                        if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
-                            ctx.fillText(name, (NameX + x), (y + NameY - 30))
-                        }else{
-                            ctx.fillText(name, (NameX + x), (y + NameY))
-                        }
+                        if(JSON.stringify(type) === JSON.stringify(LimitedTime)) ctx.fillText(name, (NameX + x), (y + NameY - 30))
+                        else ctx.fillText(name, (NameX + x), (y + NameY))
                         ctx.textAlign='left';
                         ctx.font = `${textSize}px Arabic`
                         ctx.fillText(price, (PriceX + x), (y + PriceY))
@@ -1097,8 +979,6 @@ module.exports = (client, admin) => {
                         const v = await Canvas.loadImage(vbucks);
                         ctx.drawImage(v, (vBucksX + x), (y + vBucksY), vBucksW, vBucksH);
                     }
-                    // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                    // ctx.drawImage(credit, (CreditX + x), (y + CreditY), CreditW, CreditH);
                 }else
                 if(rarity === 'LavaSeries'){
                     //creating image
@@ -1116,11 +996,8 @@ module.exports = (client, admin) => {
                         ctx.fillStyle = '#ffffff';
                         ctx.textAlign='center';
                         ctx.font = applyText(canvas, name, type);
-                        if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
-                            ctx.fillText(name, (NameX + x), (y + NameY - 37))
-                        }else{
-                            ctx.fillText(name, (NameX + x), (y + NameY))
-                        }
+                        if(JSON.stringify(type) === JSON.stringify(LimitedTime)) ctx.fillText(name, (NameX + x), (y + NameY - 37))
+                        else ctx.fillText(name, (NameX + x), (y + NameY))
                         ctx.textAlign='left';
                         ctx.font = `${textSize}px Burbank Big Condensed`
                         ctx.fillText(price, (PriceX + x), (y + PriceY))
@@ -1138,11 +1015,8 @@ module.exports = (client, admin) => {
                         ctx.fillStyle = '#ffffff';
                         ctx.textAlign='center';
                         ctx.font = applyText(canvas, name, type);
-                        if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
-                            ctx.fillText(name, (NameX + x), (y + NameY - 30))
-                        }else{
-                            ctx.fillText(name, (NameX + x), (y + NameY))
-                        }
+                        if(JSON.stringify(type) === JSON.stringify(LimitedTime)) ctx.fillText(name, (NameX + x), (y + NameY - 30))
+                        else ctx.fillText(name, (NameX + x), (y + NameY))
                         ctx.textAlign='left';
                         ctx.font = `${textSize}px Arabic`
                         ctx.fillText(price, (PriceX + x), (y + PriceY))
@@ -1152,9 +1026,7 @@ module.exports = (client, admin) => {
                         ctx.textAlign='left';
                         const v = await Canvas.loadImage(vbucks);
                         ctx.drawImage(v, (vBucksX + x), (y + vBucksY), vBucksW, vBucksH);
-                    }
-                    // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                    // ctx.drawImage(credit, (CreditX + x), (y + CreditY), CreditW, CreditH);                            
+                    }                            
                 }else
                 if(rarity === 'PlatformSeries'){
                     //creating image
@@ -1172,11 +1044,8 @@ module.exports = (client, admin) => {
                         ctx.fillStyle = '#ffffff';
                         ctx.textAlign='center';
                         ctx.font = applyText(canvas, name, type);
-                        if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
-                            ctx.fillText(name, (NameX + x), (y + NameY - 37))
-                        }else{
-                            ctx.fillText(name, (NameX + x), (y + NameY))
-                        }
+                        if(JSON.stringify(type) === JSON.stringify(LimitedTime)) ctx.fillText(name, (NameX + x), (y + NameY - 37))
+                        else ctx.fillText(name, (NameX + x), (y + NameY))
                         ctx.textAlign='left';
                         ctx.font = `${textSize}px Burbank Big Condensed`
                         ctx.fillText(price, (PriceX + x), (y + PriceY))
@@ -1194,11 +1063,8 @@ module.exports = (client, admin) => {
                         ctx.fillStyle = '#ffffff';
                         ctx.textAlign='center';
                         ctx.font = applyText(canvas, name, type);
-                        if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
-                            ctx.fillText(name, (NameX + x), (y + NameY - 30))
-                        }else{
-                            ctx.fillText(name, (NameX + x), (y + NameY))
-                        }
+                        if(JSON.stringify(type) === JSON.stringify(LimitedTime)) ctx.fillText(name, (NameX + x), (y + NameY - 30))
+                        else ctx.fillText(name, (NameX + x), (y + NameY))
                         ctx.textAlign='left';
                         ctx.font = `${textSize}px Arabic`
                         ctx.fillText(price, (PriceX + x), (y + PriceY))
@@ -1209,8 +1075,6 @@ module.exports = (client, admin) => {
                         const v = await Canvas.loadImage(vbucks);
                         ctx.drawImage(v, (vBucksX + x), (y + vBucksY), vBucksW, vBucksH);
                     }
-                    // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                    // ctx.drawImage(credit, (CreditX + x), (y + CreditY), CreditW, CreditH);
                 }else{
                     //creating image
                     const skinholder = await Canvas.loadImage('./assets/Rarities/standard/common.png')
@@ -1227,11 +1091,8 @@ module.exports = (client, admin) => {
                         ctx.fillStyle = '#ffffff';
                         ctx.textAlign='center';
                         ctx.font = applyText(canvas, name, type);
-                        if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
-                            ctx.fillText(name, (NameX + x), (y + NameY - 37))
-                        }else{
-                            ctx.fillText(name, (NameX + x), (y + NameY))
-                        }
+                        if(JSON.stringify(type) === JSON.stringify(LimitedTime)) ctx.fillText(name, (NameX + x), (y + NameY - 37))
+                        else ctx.fillText(name, (NameX + x), (y + NameY))
                         ctx.textAlign='left';
                         ctx.font = `${textSize}px Burbank Big Condensed`
                         ctx.fillText(price, (PriceX + x), (y + PriceY))
@@ -1249,11 +1110,8 @@ module.exports = (client, admin) => {
                         ctx.fillStyle = '#ffffff';
                         ctx.textAlign='center';
                         ctx.font = applyText(canvas, name, type);
-                        if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
-                            ctx.fillText(name, (NameX + x), (y + NameY - 30))
-                        }else{
-                            ctx.fillText(name, (NameX + x), (y + NameY))
-                        }
+                        if(JSON.stringify(type) === JSON.stringify(LimitedTime)) ctx.fillText(name, (NameX + x), (y + NameY - 30))
+                        else ctx.fillText(name, (NameX + x), (y + NameY))
                         ctx.textAlign='left';
                         ctx.font = `${textSize}px Arabic`
                         ctx.fillText(price, (PriceX + x), (y + PriceY))
@@ -1264,8 +1122,6 @@ module.exports = (client, admin) => {
                         const v = await Canvas.loadImage(vbucks);
                         ctx.drawImage(v, (vBucksX + x), (y + vBucksY), vBucksW, vBucksH);
                     }
-                    // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
-                    // ctx.drawImage(credit, (CreditX + x), (y + CreditY), CreditW, CreditH);
                 }
                 return canvas, ctx
             }
@@ -1623,7 +1479,8 @@ module.exports = (client, admin) => {
                             remind.setColor('#00ffff')
 
                             //add image
-                            remind.setImage(res.item.displayAssets[0].background)
+                            if(res.item.images.background !== null) remind.setImage(res.item.images.background)
+                            else remind.setImage(res.item.images.icon)
 
                             //set title
                             if(snapshot.docs[i].data().lang === "en"){

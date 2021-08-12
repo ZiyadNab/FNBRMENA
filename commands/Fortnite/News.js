@@ -184,8 +184,8 @@ module.exports = {
                     //add the top part
                     for(let t = 0; t < length; t++){
 
-                        if(data[t].tabTitle !== undefined) var tabTitle = data[t].tabTitle
-                        else if(data[t].adspace !== undefined) var tabTitle = data[t].adspace
+                        if(data[t].tabTitle !== undefined || data[t].tabTitle !== null) var tabTitle = data[t].tabTitle
+                        else if(data[t].adspace !== undefined || data[t].adspace !== null) var tabTitle = data[t].adspace
                         else var tabTitle = title
 
                         //add Used

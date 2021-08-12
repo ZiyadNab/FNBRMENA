@@ -45,12 +45,14 @@ module.exports = {
             list.setColor(FNBRMENA.Colors("embed"))
 
             //set title
-            if(lang === "en") list.setTitle(`Please choose your item from the list below`)
-            else if(lang === "ar") list.setTitle(`الرجاء اختيار من القائمه بالاسفل`)
+            if(lang === "en") list.setTitle(`Please choose your news type from the list below`)
+            else if(lang === "ar") list.setTitle(`الرجاء اختيار نوع الأخبار من القائمه بالاسفل`)
+            else if(lang === "es") list.setTitle(`Elija su tipo de noticia de la lista a continuación`)
 
             //how many items where matchinh the user input?
             if(lang === "en") var string = `• 0: Battle Royale\n• 1: STW\n• 2: Creative`
             else if(lang === "ar") var string = `• 0: باتل رويال\n• 1: طور إنقاذ العالم\n• 2: طور الإبداعي`
+            else if(lang === "es") var string = `• 0: Battle Royale\n• 1: STW\n• 2: Creative`
 
             //set Description
             list.setDescription(string)
@@ -63,8 +65,9 @@ module.exports = {
                 const filter = async m => await m.author.id === message.author.id
 
                 //add the reply
-                if(lang === "en") var reply = `please choose your item, listening will be stopped after 20 seconds`
-                else if(lang === "ar") var reply = `الرجاء كتابة اسم العنصر، راح يتوقف الامر بعد ٢٠ ثانية`
+                if(lang === "en") var reply = `please choose your news type, listening will be stopped after 20 seconds`
+                else if(lang === "ar") var reply = `الرجاء كتابة نوع الأخبار، راح يتوقف الامر بعد ٢٠ ثانية`
+                else if(lang === "es") var reply = `elija su tipo de noticia, la escucha se detendrá después de 20 segundos`
                 
                 await message.reply(reply)
                 .then( async notify => {

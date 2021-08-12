@@ -147,6 +147,7 @@ module.exports = {
                     do {
                         if(lang === "en") ctx.font = `${fontSize -= 1}px Burbank Big Condensed`
                         else if(lang === "ar") ctx.font = `${fontSize -= 1}px Arabic`
+                        else if(lang === "es") ctx.font = `${fontSize -= 1}px Burbank Big Condensed`
                     } while (ctx.measureText(text).width > 420)
                     return ctx.font;
                 }
@@ -188,13 +189,11 @@ module.exports = {
 
                         if(data[t].tabTitle !== undefined){
                             if(data[t].tabTitle !== null) var tabTitle = data[t].tabTitle
-                            else var tabTitle = title
+                            else var tabTitle = data[t].title
                         }else if(data[t].adspace !== undefined){
                             if(data[t].adspace !== null) var tabTitle = data[t].adspace
-                            else var tabTitle = title
+                            else var tabTitle = data[t].title
                         }
-
-                        console.log(data[t].tabTitle, tabTitle)
 
                         //add Used
                         if(t === i){

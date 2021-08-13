@@ -1533,49 +1533,29 @@ module.exports = (client, admin) => {
                     //store shop data first time bot is active
                     if(number === 0){
 
-                        //loop throw every item displayname
-                        for(let i = 0; i < res.shop.length; i++){
-                            response[i] = await res.shop[i].displayName
-                        }
-
                         //store last updated
                         lastUpdate = await res.lastUpdate
                         number++
+                        
                     }
 
                     //if the client wants to pust data
-                    if(push === true){
-                        response = []
-                        lastUpdate = []
-                    }
+                    if(push === true) lastUpdate = []
 
                     //if shop date updated
                     if(JSON.stringify(res.lastUpdate) !== JSON.stringify(lastUpdate)){
 
-                        //store every item in the shop
-                        for(let i = 0; i < res.shop.length; i++){
-                            shop[i] = await res.shop[i].displayName
-                        }
+                        //call pring function
+                        Send(res, lang)
 
-                        //if there is a change is shop
-                        if(JSON.stringify(shop) !== JSON.stringify(response)){
+                        //store last updated
+                        lastUpdate = await res.lastUpdate
 
-                            //call pring function
-                            Send(res, lang)
+                        //trun off push if enabled
+                        admin.database().ref("ERA's").child("Events").child("itemshop").update({
+                            Push: false
+                        })
 
-                            //loop throw every item displayname
-                            for(let i = 0; i < res.shop.length; i++){
-                                response[i] = await res.shop[i].displayName
-                            }
-
-                            //store last updated
-                            lastUpdate = await res.lastUpdate
-
-                            //trun off push if enabled
-                            admin.database().ref("ERA's").child("Events").child("itemshop").update({
-                                Push: false
-                            })
-                        }
                     }
                 }).catch(err => {
                     console.log("The issue is in Itemshop Events ", err)

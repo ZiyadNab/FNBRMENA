@@ -432,9 +432,6 @@ module.exports = (FNBRMENA, client, admin) => {
                     //checking for deff
                     if(JSON.stringify(res.data.list[index].sections) !== JSON.stringify(response)){
 
-                        //call send function
-                        Send(res.data.list[index].sections, lang)
-
                         //store sections
                         for(let i = 0; i < res.data.list[index].sections.length; i++){
                             response[i] = await res.data.list[index].sections[i]
@@ -444,6 +441,10 @@ module.exports = (FNBRMENA, client, admin) => {
                         await admin.database().ref("ERA's").child("Events").child("section").update({
                             Push: false
                         })
+
+                        //call send function
+                        Send(res.data.list[index].sections, lang)
+                        
                     }
                 }).catch(err => {
                     console.log("The issue is in ShopSection Events ", err)
@@ -451,5 +452,5 @@ module.exports = (FNBRMENA, client, admin) => {
             }
         })
     }
-    setInterval(Section, 1 * 10000)
+    setInterval(Section, 1 * 20000)
 }

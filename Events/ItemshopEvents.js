@@ -1533,29 +1533,50 @@ module.exports = (client, admin) => {
                     //store shop data first time bot is active
                     if(number === 0){
 
+                        //loop throw every item displayname
+                        for(let i = 0; i < res.shop.length; i++){
+                            response[i] = await res.shop[i].displayName
+                        }
+
                         //store last updated
                         lastUpdate = await res.lastUpdate
                         number++
-                        
                     }
 
                     //if the client wants to pust data
-                    if(push === true) lastUpdate = []
+                    if(push === true){
+                        response = []
+                        lastUpdate = []
+                    }
 
                     //if shop date updated
                     if(JSON.stringify(res.lastUpdate) !== JSON.stringify(lastUpdate)){
 
-                        //call pring function
-                        Send(res, lang)
+                        //store every item in the shop
+                        for(let i = 0; i < res.shop.length; i++){
+                            shop[i] = await res.shop[i].displayName
+                        }
 
-                        //store last updated
-                        lastUpdate = await res.lastUpdate
+                        //if there is a change is shop
+                        if(JSON.stringify(shop) !== JSON.stringify(response)){
 
-                        //trun off push if enabled
-                        admin.database().ref("ERA's").child("Events").child("itemshop").update({
-                            Push: false
-                        })
+                            //loop throw every item displayname
+                            for(let i = 0; i < res.shop.length; i++){
+                                response[i] = await res.shop[i].displayName
+                            }
 
+                            //store last updated
+                            lastUpdate = await res.lastUpdate
+
+                            //trun off push if enabled
+                            admin.database().ref("ERA's").child("Events").child("itemshop").update({
+                                Push: false
+                            })
+
+                            //call pring function
+                            Send(res, lang)
+
+                        }
                     }
                 }).catch(err => {
                     console.log("The issue is in Itemshop Events ", err)
@@ -1563,5 +1584,5 @@ module.exports = (client, admin) => {
             }
         })
     }
-    setInterval(Itemshop, 1 * 20000)
+    setInterval(Itemshop, 1 * 40000)
 }

@@ -1519,12 +1519,12 @@ module.exports = (client, admin) => {
 
         //checking if the bot on or off
         admin.database().ref("ERA's").child("Events").child("itemshop").once('value', async function (data) {
-            var status = data.val().Active;
-            var lang = data.val().Lang;
+            var status = data.val().Active
+            var lang = data.val().Lang
             var push = data.val().Push
 
             //if the event is set to be true [ON]
-            if(status === true){
+            if(status){
                 
                 //request data
                 fortniteAPI.getDailyShopV2(options = {lang: lang})
@@ -1535,54 +1535,45 @@ module.exports = (client, admin) => {
 
                         //loop throw every item displayname
                         for(let i = 0; i < res.shop.length; i++){
-                            response[i] = await res.shop[i].displayName
+                            response[i] = await res.shop[i].mainId
                         }
-
-                        //store last updated
-                        lastUpdate = await res.lastUpdate
                         number++
                     }
 
                     //if the client wants to pust data
-                    if(push === true){
-                        response = []
-                        lastUpdate = []
+                    if(push) response = []
+
+                    //store every item mainId in the shop
+                    for(let i = 0; i < res.shop.length; i++){
+                        shop[i] = await res.shop[i].mainId
                     }
 
-                    //if shop date updated
-                    if(JSON.stringify(res.lastUpdate) !== JSON.stringify(lastUpdate)){
-
-                        //store every item in the shop
+                    //if there is a change is shop
+                    if(JSON.stringify(shop) !== JSON.stringify(response)){
+                        
+                        //loop throw every item mainId
                         for(let i = 0; i < res.shop.length; i++){
-                            shop[i] = await res.shop[i].displayName
+                            response[i] = await res.shop[i].mainId
                         }
 
-                        //if there is a change is shop
-                        if(JSON.stringify(shop) !== JSON.stringify(response)){
+                        //store last updated
+                        lastUpdate = await res.lastUpdate
 
-                            //loop throw every item displayname
-                            for(let i = 0; i < res.shop.length; i++){
-                                response[i] = await res.shop[i].displayName
-                            }
+                        //trun off push if enabled
+                        admin.database().ref("ERA's").child("Events").child("itemshop").update({
+                            Push: false
+                        })
 
-                            //store last updated
-                            lastUpdate = await res.lastUpdate
+                        //call pring function
+                        Send(res, lang)
 
-                            //trun off push if enabled
-                            admin.database().ref("ERA's").child("Events").child("itemshop").update({
-                                Push: false
-                            })
-
-                            //call pring function
-                            Send(res, lang)
-
-                        }
                     }
+
                 }).catch(err => {
                     console.log("The issue is in Itemshop Events ", err)
                 })
             }
         })
     }
-    setInterval(Itemshop, 1 * 40000)
+    setInterval(Itemshop, 1 * 30000)
 }

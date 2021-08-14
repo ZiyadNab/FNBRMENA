@@ -93,5 +93,5 @@ module.exports = (client, admin) => {
             }
         })
     }
-    setInterval(Server, 1 * 10000)
+    setInterval(Server, 1 * 20000)
 }

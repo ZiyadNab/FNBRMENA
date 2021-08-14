@@ -16,6 +16,7 @@ const Commands = require('./Events/Commands.js')
 const ItemshopEvents = require('./Events/ItemshopEvents')
 const axios = require('axios')
 const SubGameInfoEvents = require('./Events/SubGameInfoEvents.js')
+const AuthHandler = require('./Events/AuthHandler.js')
 
 class FNBRMENA {
 
@@ -383,6 +384,11 @@ class FNBRMENA {
         //return ShopSCommandsection access
         if(Type === "Commands"){
             Commands(Client, Admin, array)
+        }
+
+         //return Itemshop access
+         if(Type === "Auth"){
+            AuthHandler(FNBRMENA, Client, Admin)
         }
     }
 

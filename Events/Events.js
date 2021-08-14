@@ -19,5 +19,6 @@ module.exports = async (client, admin, array) => {
     FNBRMENA.Events(FNBRMENA, client, admin, array, "Servers")
     FNBRMENA.Events(FNBRMENA, client, admin, array, "UserJoined")
     FNBRMENA.Events(FNBRMENA, client, admin, array, "Commands")
+    FNBRMENA.Events(FNBRMENA, client, admin, array, "Auth")
 
 }

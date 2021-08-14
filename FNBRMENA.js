@@ -67,6 +67,26 @@ class FNBRMENA {
     /**
      * Return data about the crew
      * 
+     * @param {String} Headers
+     * @param {String} Body
+     * 
+     */
+     async Auth(Headers, Body){
+
+        //request token from epicgames servers
+        const token = await axios.post("https://account-public-service-prod.ol.epicgames.com/account/api/oauth/token", Body, { headers: Headers })
+        .then(res => {
+            return res
+        }).catch(err => {
+            return Promise.reject(err)
+        })
+        return token
+
+    }
+
+    /**
+     * Return data about the crew
+     * 
      * @param {String} Lang
      * @param {String} Type
      * @param {String} Name

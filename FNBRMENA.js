@@ -363,7 +363,7 @@ class FNBRMENA {
 
         //return Notice access
         if(Type === "Notice"){
-            NoticeEvents(Client, Admin)
+            NoticeEvents(FNBRMENA, Client, Admin)
         }
 
         //return Bundles access

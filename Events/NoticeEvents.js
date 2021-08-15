@@ -2,68 +2,71 @@ const axios = require('axios')
 const Discord = require('discord.js')
 const config = require('../Coinfigs/config.json')
 
-module.exports = (client, admin) => {
+module.exports = (FNBRMENA, client, admin) => {
     const message = client.channels.cache.find(channel => channel.id === config.events.Notice)
 
     //result
     var response = []
     var number = 0
 
-    const Section = async () => {
+    //handling notice events
+    const Notice = async () => {
 
         //checking if the bot on or off
         admin.database().ref("ERA's").child("Events").child("notice").once('value', async function (data) {
-            var status = data.val().Active;
-            var lang = data.val().Lang;
+            var status = data.val().Active
+            var lang = data.val().Lang
             var push = data.val().Push
 
             //if the event is set to be true [ON]
-            if(status === true){
+            if(status){
 
                 //request data
-                axios.get('https://fn-api.com/api/emergencyNotices?lang=' + lang)
+                await FNBRMENA.EpicContentEndpoint(lang)
                 .then(async res => {
+
+                    //constant to make work easy
+                    const emergencynotice = await res.data.emergencynoticev2.emergencynotices.emergencynotices
 
                     //store the data if the bot got restarted
                     if (number === 0) {
-                        for(let i = 0; i < res.data.data.length; i++){
-                            response[i] = await res.data.data[i]
+                        for(let i = 0; i < emergencynotice.length; i++){
+                            response[i] = await emergencynotice[i]
                         }
                         number++
                     }
 
                     //if the client wants to pust data
-                    if(push === true){
-                        response = []
-                    }
+                    if(push) response = []
 
                     //checking for deff
-                    if (JSON.stringify(res.data.data) !== JSON.stringify(response) && res.data.data.length !== 0) {
+                    if (JSON.stringify(emergencynotice) !== JSON.stringify(response) && emergencynotice.length !== 0) {
 
                         //create embed
                         const Notice = new Discord.MessageEmbed()
 
                         //add the color
-                        Notice.setColor('#00ffff')
+                        Notice.setColor(FNBRMENA.Colors("embed"))
                         
-                        for (let i = 0; i < res.data.data.length; i++) {
+                        //loop throw every notice
+                        for (let i = 0; i < emergencynotice.length; i++){
 
                             //if the notice not stored in response
-                            if(!response.includes(res.data.data[i])){
+                            if(!response.includes(emergencynotice[i])){
 
                                 //add title
-                                Notice.setTitle(res.data.data[i].title)
+                                Notice.setTitle(emergencynotice[i].title)
 
                                 //add description
-                                Notice.setDescription(res.data.data[i].body)
+                                Notice.setDescription(emergencynotice[i].body)
 
                                 //add platforms
-                                if(res.data.data[i].platforms !== undefined){
+                                if(emergencynotice[i].platforms !== undefined){
                                     var string = ""
-                                    for(let j = 0; j < res.data.data[i].platforms.length; j++){
+                                    for(let j = 0; j < emergencynotice[i].platforms.length; j++){
 
                                         //add strings
-                                        string += "` " + res.data.data[i].platforms[j] + " ` "
+                                        string += "` " + emergencynotice[i].platforms[j] + " ` "
                                     }
 
                                     //add platform feild
@@ -81,19 +84,16 @@ module.exports = (client, admin) => {
                                 }
 
                                 //playlists
-                                if(res.data.data[i].playlists !== undefined){
+                                if(emergencynotice[i].playlists !== undefined){
                                     var playlists = ""
-                                    for(let j = 0; j < res.data.data[i].playlists.length; j++){
+                                    for(let j = 0; j < emergencynotice[i].playlists.length; j++){
 
                                         //get data
-                                        const playlist = await axios.get(`https://fortnite-api.com/v1/playlists/${res.data.data[i].playlists[j]}?lang=${lang}`)
+                                        const playlist = await axios.get(`https://fortnite-api.com/v1/playlists/${emergencynotice[i].playlists[j]}?lang=${lang}`)
                                         
                                         //add the playlist name
-                                        if(playlist.data.data.subName === null){
-                                            playlists += "` " + playlist.data.data.name + " ` "
-                                        }else{
-                                            playlists += "` " + playlist.data.data.name + " - " + playlist.data.data.subName + " ` "
-                                        }
+                                        if(playlist.data.data.subName === null) playlists += "` " + playlist.data.data.name + " ` "
+                                        else playlists += "` " + playlist.data.data.name + " - " + playlist.data.data.subName + " ` "
                                     }
 
                                     if(lang === "en"){
@@ -110,12 +110,12 @@ module.exports = (client, admin) => {
                                 }
 
                                 //add gamemodes
-                                if(res.data.data[i].gamemodes !== undefined){
+                                if(emergencynotice[i].gamemodes !== undefined){
                                     var gamemodes = ""
-                                    for(let j = 0; j < res.data.data[i].gamemodes.length; j++){
+                                    for(let j = 0; j < emergencynotice[i].gamemodes.length; j++){
 
                                         //add gamemodes
-                                        gamemodes += "` " + res.data.data[i].gamemodes[j] + " ` "
+                                        gamemodes += "` " + emergencynotice[i].gamemodes[j] + " ` "
 
                                     }
 
@@ -135,11 +135,11 @@ module.exports = (client, admin) => {
                         }
 
                         //send
-                        message.send(Notice);
+                        message.send(Notice)
 
                         //store data
-                        for(let i = 0; i < res.data.data.length; i++){
-                            response[i] = await res.data.data[i]
+                        for(let i = 0; i < emergencynotice.length; i++){
+                            response[i] = await emergencynotice[i]
                         }
 
                         //trun off push if enabled
@@ -153,5 +153,5 @@ module.exports = (client, admin) => {
             }
         })
     }
-    setInterval(Section, 1 * 30000)
+    setInterval(Notice, 1 * 20000)
 }

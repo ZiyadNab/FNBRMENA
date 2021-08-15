@@ -2,6 +2,7 @@ const Data = require('../../FNBRMENA')
 const FNBRMENA = new Data()
 var wrap = require('word-wrap')
 const Canvas = require('canvas')
+const probe = require('probe-image-size')
 
 module.exports = {
     commands: 'playlist',
@@ -65,18 +66,18 @@ module.exports = {
                     else if(lang === "ar") var reply = `الرجاء كتابة اسم العنصر، راح يتوقف الامر بعد ٢٠ ثانية`
                     
                     await message.reply(reply)
-                    .then( async notify => {
+                    .then(async notify => {
 
                         //listen for user input
                         await message.channel.awaitMessages(filter, {max: 1, time: 20000})
-                        .then( async collected => {
-
-                            //delete messages
-                            await notify.delete()
-                            await list.delete()
+                        .then(async collected => {
 
                             //if the user chosen inside range
                             if(collected.first().content >= 0 && collected.first().content < res.data.modes.length){
+
+                                //delete messages
+                                await notify.delete()
+                                await list.delete()
 
                                 //change the item index
                                 num = collected.first().content
@@ -84,6 +85,10 @@ module.exports = {
 
                                 //add an error
                                 errorHandleing++
+
+                                //delete messages
+                                await notify.delete()
+                                await list.delete()
 
                                 //if user typed a number out of range
                                 const error = new Discord.MessageEmbed()
@@ -93,14 +98,15 @@ module.exports = {
                                 message.reply(error)
                                 
                             }
-                        }).catch(err => {
+                        }).catch(async err => {
+                            console.log(err)
 
                             //add an error
                             errorHandleing++
     
                             //if user took to long to excute the command
-                            notify.delete()
-                            choose.delete()
+                            await notify.delete()
+                            await list.delete()
     
                             const error = new Discord.MessageEmbed()
                             error.setColor(FNBRMENA.Colors("embed"))
@@ -108,7 +114,8 @@ module.exports = {
                             message.reply(error)
                         })
                     })
-                }).catch(err => {
+                }).catch(async err => {
+                    console.log(err)
 
                     //add an error
                     errorHandleing++
@@ -153,6 +160,13 @@ module.exports = {
                 message.channel.send(generating)
                 .then( async msg => {
 
+                    //playlist image dimensions
+                    if(image !== null) var dimensions = await probe(image)
+                    else var dimensions = {
+                        width: 1024,
+                        height: 512,
+                    }
+
                     //register fonts
                     Canvas.registerFont('./assets/font/Lalezar-Regular.ttf', {family: 'Arabic',weight: "700",style: "bold"});
                     Canvas.registerFont('./assets/font/BurbankBigCondensed-Black.otf' ,{family: 'Burbank Big Condensed',weight: "700",style: "bold"})
@@ -160,33 +174,27 @@ module.exports = {
                     //applytext
                     const applyTextDescription = (canvas, text) => {
                         const ctx = canvas.getContext('2d');
-                        let fontSize = 20;
+                        let fontSize = 10;
                         do {
-                            if(lang === "en"){
-                                ctx.font = `${fontSize -= 1}px Arial`;
-                            }else if(lang === "ar"){
-                                ctx.font = `${fontSize -= 1}px Arabic`;
-                            }
-                        } while (ctx.measureText(text).width > 1800);
+                            if(lang === "en") ctx.font = `${fontSize -= 1}px Arial`
+                            else if(lang === "ar") ctx.font = `${fontSize -= 1}px Arabic`
+                        } while (ctx.measureText(text).width > dimensions.width);
                         return ctx.font;
                     }
 
                     //applytext
                     const applyTextName = (canvas, text) => {
                         const ctx = canvas.getContext('2d')
-                        let fontSize = 100;
+                        let fontSize = 50;
                         do {
-                            if(lang === "en"){
-                                ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
-                            }else if(lang === "ar"){
-                                ctx.font = `${fontSize -= 1}px Arabic`;
-                            }
-                        } while (ctx.measureText(text).width > 1800);
+                            if(lang === "en") ctx.font = `${fontSize -= 1}px Burbank Big Condensed`
+                            else if(lang === "ar") ctx.font = `${fontSize -= 1}px Arabic`
+                        } while (ctx.measureText(text).width > dimensions.width);
                         return ctx.font;
                     }
 
                     //canvas
-                    const canvas = Canvas.createCanvas(1920, 1080);
+                    const canvas = Canvas.createCanvas(dimensions.width, dimensions.height);
                     const ctx = canvas.getContext('2d');
 
                     //background
@@ -198,26 +206,26 @@ module.exports = {
 
                         //add blue fog
                         const fog = await Canvas.loadImage('./assets/News/fog.png')
-                        ctx.drawImage(fog,0,0,1920,1080)
+                        ctx.drawImage(fog, 0, 0, canvas.width, canvas.height)
 
                     }else{
 
                         const background = await Canvas.loadImage('https://i.imgur.com/TN86zLu.png')
-                        ctx.drawImage(background, 0, 0, canvas.width, canvas.height)
+                        ctx.drawImage(background, 0, 0, 1024, 604)
 
                         //add blue fog
                         const fog = await Canvas.loadImage('./assets/News/fog.png')
-                        ctx.drawImage(fog, 0, 0, 1920, 1080)
+                        ctx.drawImage(fog, 0, 0, canvas.width, canvas.height)
 
                         //no img text
                         ctx.fillStyle = '#ffffff';
                         ctx.textAlign='center';
                         if(lang === "en"){
-                            ctx.font = '200px Burbank Big Condensed'
+                            ctx.font = '100px Burbank Big Condensed'
                             ctx.fillText("No images found!", canvas.width / 2, canvas.height / 2)
                         }
                         else{
-                            if(lang === "ar") ctx.font = '200px Arabic'
+                            if(lang === "ar") ctx.font = '100px Arabic'
                             ctx.fillText("لا يوجد صورة", canvas.width / 2, canvas.height / 2)
                         }
                     }
@@ -227,22 +235,22 @@ module.exports = {
                     ctx.drawImage(border, 0, 0, canvas.width, canvas.height)
 
                     //add the credits
-                    ctx.fillStyle = '#ffffff';
-                    ctx.textAlign = 'left';
-                    ctx.font = '75px Burbank Big Condensed'
-                    ctx.fillText("FNBRMENA", 25, 83)
+                    ctx.fillStyle = '#ffffff'
+                    ctx.textAlign = 'left'
+                    ctx.font = '35px Burbank Big Condensed'
+                    ctx.fillText("FNBRMENA", 13, 40)
 
                     //add the matchmaking image
                     if(matchmakingImage !== null){
                         const matchmaking = await Canvas.loadImage(matchmakingImage)
-                        ctx.drawImage(matchmaking, canvas.width - 90, 25, 65, 65)
+                        ctx.drawImage(matchmaking, canvas.width - 40, 15, 30, 30)
                     }
 
                     //add the name
                     ctx.fillStyle = '#ffffff';
                     ctx.textAlign = 'center';
                     ctx.font = applyTextName(canvas, name);
-                    ctx.fillText(name, canvas.width / 2, 900)
+                    ctx.fillText(name, canvas.width / 2, 420)
 
                     //split the description into lines
                     description = description.replace("\n", "")
@@ -254,14 +262,14 @@ module.exports = {
                     ctx.fillStyle = '#ffffff';
                     ctx.textAlign = 'center';
                     ctx.font = applyTextDescription(canvas, description[0])
-                    var lines = 960
+                    var lines = 450
 
                     //loop throw every line
                     for(let i = 0; i < description.length; i++){
 
                         ctx.fillText(description[i], canvas.width / 2, lines)
 
-                        lines += 25
+                        lines += 13
                     }
 
                     //creating embed

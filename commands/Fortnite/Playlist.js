@@ -167,6 +167,9 @@ module.exports = {
                         height: 512,
                     }
 
+                    dimensions.width = dimensions.width * 2
+                    dimensions.height = dimensions.height * 2
+
                     //register fonts
                     Canvas.registerFont('./assets/font/Lalezar-Regular.ttf', {family: 'Arabic',weight: "700",style: "bold"});
                     Canvas.registerFont('./assets/font/BurbankBigCondensed-Black.otf' ,{family: 'Burbank Big Condensed',weight: "700",style: "bold"})
@@ -174,22 +177,22 @@ module.exports = {
                     //applytext
                     const applyTextDescription = (canvas, text) => {
                         const ctx = canvas.getContext('2d');
-                        let fontSize = 10;
+                        let fontSize = 20;
                         do {
                             if(lang === "en") ctx.font = `${fontSize -= 1}px Arial`
                             else if(lang === "ar") ctx.font = `${fontSize -= 1}px Arabic`
-                        } while (ctx.measureText(text).width > dimensions.width);
+                        } while (ctx.measureText(text).width > dimensions.width)
                         return ctx.font;
                     }
 
                     //applytext
                     const applyTextName = (canvas, text) => {
                         const ctx = canvas.getContext('2d')
-                        let fontSize = 50;
+                        let fontSize = 100;
                         do {
                             if(lang === "en") ctx.font = `${fontSize -= 1}px Burbank Big Condensed`
                             else if(lang === "ar") ctx.font = `${fontSize -= 1}px Arabic`
-                        } while (ctx.measureText(text).width > dimensions.width);
+                        } while (ctx.measureText(text).width > dimensions.width)
                         return ctx.font;
                     }
 
@@ -211,7 +214,7 @@ module.exports = {
                     }else{
 
                         const background = await Canvas.loadImage('https://i.imgur.com/TN86zLu.png')
-                        ctx.drawImage(background, 0, 0, 1024, 604)
+                        ctx.drawImage(background, 0, 0, 1024 * 2, 604 * 2)
 
                         //add blue fog
                         const fog = await Canvas.loadImage('./assets/News/fog.png')
@@ -221,11 +224,11 @@ module.exports = {
                         ctx.fillStyle = '#ffffff';
                         ctx.textAlign='center';
                         if(lang === "en"){
-                            ctx.font = '100px Burbank Big Condensed'
+                            ctx.font = '200px Burbank Big Condensed'
                             ctx.fillText("No images found!", canvas.width / 2, canvas.height / 2)
                         }
                         else{
-                            if(lang === "ar") ctx.font = '100px Arabic'
+                            if(lang === "ar") ctx.font = '200px Arabic'
                             ctx.fillText("لا يوجد صورة", canvas.width / 2, canvas.height / 2)
                         }
                     }
@@ -237,24 +240,23 @@ module.exports = {
                     //add the credits
                     ctx.fillStyle = '#ffffff'
                     ctx.textAlign = 'left'
-                    ctx.font = '35px Burbank Big Condensed'
-                    ctx.fillText("FNBRMENA", 13, 40)
+                    ctx.font = '70px Burbank Big Condensed'
+                    ctx.fillText("FNBRMENA", 23, 80)
 
                     //add the matchmaking image
                     if(matchmakingImage !== null){
                         const matchmaking = await Canvas.loadImage(matchmakingImage)
-                        ctx.drawImage(matchmaking, canvas.width - 40, 15, 30, 30)
+                        ctx.drawImage(matchmaking, canvas.width - 80, 30, 60, 60)
                     }
 
                     //add the name
                     ctx.fillStyle = '#ffffff';
                     ctx.textAlign = 'center';
                     ctx.font = applyTextName(canvas, name);
-                    ctx.fillText(name, canvas.width / 2, 420)
+                    ctx.fillText(name, canvas.width / 2, 840)
 
                     //split the description into lines
-                    description = description.replace("\n", "")
-                    description = description.replace("\r", "")
+                    description = description.replace("\r\n\r", "")
                     description = wrap(description, {width: 150})
                     description = description.split(/\r\n|\r|\n/)
 
@@ -262,14 +264,14 @@ module.exports = {
                     ctx.fillStyle = '#ffffff';
                     ctx.textAlign = 'center';
                     ctx.font = applyTextDescription(canvas, description[0])
-                    var lines = 450
+                    var lines = 900
 
                     //loop throw every line
                     for(let i = 0; i < description.length; i++){
 
                         ctx.fillText(description[i], canvas.width / 2, lines)
 
-                        lines += 13
+                        lines += 20
                     }
 
                     //creating embed

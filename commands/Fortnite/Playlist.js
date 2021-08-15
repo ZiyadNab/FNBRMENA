@@ -241,7 +241,7 @@ module.exports = {
                     ctx.fillStyle = '#ffffff'
                     ctx.textAlign = 'left'
                     ctx.font = '70px Burbank Big Condensed'
-                    ctx.fillText("FNBRMENA", 23, 80)
+                    ctx.fillText("FNBRMENA", 25, 80)
 
                     //add the matchmaking image
                     if(matchmakingImage !== null){

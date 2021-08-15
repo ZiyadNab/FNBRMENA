@@ -332,7 +332,7 @@ class FNBRMENA {
 
         //return Set access
         if(Type === "Set"){
-            SetEvents(Client, Admin)
+            SetEvents(FNBRMENA, Client, Admin)
         }
 
         //return Set access

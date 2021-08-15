@@ -3,7 +3,7 @@ const Discord = require('discord.js')
 const key = require('../Coinfigs/config.json')
 const fortniteAPI = new FortniteAPI(key.apis.fortniteio);
 
-module.exports = (client, admin) => {
+module.exports = (FNBRMENA, client, admin) => {
     const message = client.channels.cache.find(channel => channel.id === key.events.Set)
 
     //result
@@ -11,18 +11,17 @@ module.exports = (client, admin) => {
     var names = []
     var number = 0
 
+    //handle sets
     const Set = async () => {
 
         //checking if the bot on or off
         admin.database().ref("ERA's").child("Events").child("set").once('value', async function (data) {
-
-            //store the data
-            var status = data.val().Active;
-            var lang = data.val().Lang;
+            var status = data.val().Active
+            var lang = data.val().Lang
             var push = data.val().Push
 
             //if the event is set to be true [ON]
-            if(status === true){
+            if(status){
 
                 //request data
                 fortniteAPI.listSets(options = {lang: lang})
@@ -46,8 +45,9 @@ module.exports = (client, admin) => {
                     if(JSON.stringify(res.sets) !== JSON.stringify(response)){
 
                         //inisilizing sets variavle
-                        var sets = ""
                         var counter = 0
+                        if(lang === "en") var sets = "New sets just got added\n"
+                        else if(lang === "ar") var sets = "تم اضافة مجموعات جديدة\n"
 
                         //loop throw every set
                         for(let i = 0; i < res.sets.length; i++){
@@ -60,18 +60,14 @@ module.exports = (client, admin) => {
                         }
 
                         //add title
-                        if(lang === "en") sets += '\n\n• ' + counter + ' Sets in total'
-                        else if(lang === "ar") sets += '\n\n• المجموع '+counter+' مجموعة'
+                        if(lang === "en") sets += `\n\n• ${counter} Set(s) in total`
+                        else if(lang === "ar") sets += `\n\n• المجموع ${counter} مجموعة`
 
                         //create embed
                         const setInfo = new Discord.MessageEmbed()
 
                         //add color
-                        setInfo.setColor('#00ffff')
-
-                        //set title
-                        if(lang === "en") setInfo.setTitle("All new sets in this update")
-                        else if(lang === "ar") setInfo.setTitle("جميع المجموعات الجديدة في التحديث الحالي")
+                        setInfo.setColor(FNBRMENA.Colors("embed"))
 
                         //set description
                         setInfo.setDescription(sets)
@@ -92,5 +88,5 @@ module.exports = (client, admin) => {
             }
         })
     }
-    setInterval(Set, 2 * 60000)
+    setInterval(Set, 2 * 10000)
 }

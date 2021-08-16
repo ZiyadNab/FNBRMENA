@@ -1,7 +1,6 @@
 const Data = require('../FNBRMENA')
 const FNBRMENA = new Data()
 const Discord = require('discord.js')
-const { hintEN } = require('./Fortnite/Bundles')
 
 const allCommands = {}
 
@@ -78,6 +77,9 @@ module.exports.listen = async (client, admin, distube) => {
             //get the command access
             const access = await FNBRMENA.Admin(admin, message, alias, "Command")
 
+            //checking if the bot on or off
+            const status = await FNBRMENA.Admin(admin, message, "", "Status")
+
             if(message.author.id === "325507145871130624"){
 
                 // Ensure we have the correct number of args
@@ -139,7 +141,6 @@ module.exports.listen = async (client, admin, distube) => {
       
             }else{
                 //checking if the bot on or off
-                const status = await FNBRMENA.Admin(admin, message, "", "Status")
                 if(status === "on"){
       
                     //checking if the command is active
@@ -153,16 +154,16 @@ module.exports.listen = async (client, admin, distube) => {
                             if(!member.hasPermission(permission)) {
                                 if(lang === "en"){
 
-                                    const PermErr = new Discord.MessageEmbed()
-                                    .setColor(FNBRMENA.Colors("embed"))
-                                    .setTitle(`${permissionError} ${errorEmoji} `)
-                                    message.channel.send(PermErr)
+                                    const permissionErr = new Discord.MessageEmbed()
+                                    permissionErr.setColor(FNBRMENA.Colors("embed"))
+                                    permissionErr.setTitle(`${permissionError} ${errorEmoji} `)
+                                    message.channel.send(permissionErr)
                                 }else if(lang === "ar"){
 
-                                    const PermErr = new Discord.MessageEmbed()
-                                    .setColor(FNBRMENA.Colors("embed"))
-                                    .setTitle(`عذرا ليس لديك صلاحية لهذا الامر ${errorEmoji}`)
-                                    message.channel.send(PermErr)
+                                    const permissionErr = new Discord.MessageEmbed()
+                                    permissionErr.setColor(FNBRMENA.Colors("embed"))
+                                    permissionErr.setTitle(`عذرا ليس لديك صلاحية لهذا الامر ${errorEmoji}`)
+                                    message.channel.send(permissionErr)
                                 }
                                 return
                             }
@@ -178,16 +179,16 @@ module.exports.listen = async (client, admin, distube) => {
                             if(!role || !member.roles.cache.has(role.id)){
                                 if(lang === "en"){
 
-                                    const RoleErr = new Discord.MessageEmbed()
-                                    .setColor(FNBRMENA.Colors("embed"))
-                                    .setTitle(`You must have the "${requiredRole}" role to use this command ${errorEmoji}`)
-                                    message.channel.send(RoleErr)
+                                    const roleErr = new Discord.MessageEmbed()
+                                    roleErr.setColor(FNBRMENA.Colors("embed"))
+                                    roleErr.setTitle(`You must have the "${requiredRole}" role to use this command ${errorEmoji}`)
+                                    message.channel.send(roleErr)
                                 }else if(lang === "ar"){
 
-                                    const RoleErrAR = new Discord.MessageEmbed()
-                                    .setColor(FNBRMENA.Colors("embed"))
-                                    .setTitle(`يجب عليك الحصول على رول "${requiredRole}" لأستخدام الامر ${errorEmoji}`)
-                                    message.channel.send(RoleErrAR)
+                                    const roleErr = new Discord.MessageEmbed()
+                                    roleErr.setColor(FNBRMENA.Colors("embed"))
+                                    roleErr.setTitle(`يجب عليك الحصول على رول "${requiredRole}" لأستخدام الامر ${errorEmoji}`)
+                                    message.channel.send(roleErr)
                                 }
                                 return
                             }
@@ -198,16 +199,16 @@ module.exports.listen = async (client, admin, distube) => {
                         if(cooldown > 0 && recentlyRan.includes(cooldownString)){
                             if(lang === "en"){
 
-                                const RoleErr = new Discord.MessageEmbed()
-                                .setColor(FNBRMENA.Colors("embed"))
-                                .setTitle(`You can't run this command too soon please wait ${cooldown} sec... ${errorEmoji}`)
-                                message.channel.send(RoleErr)
+                                const cooldownErr = new Discord.MessageEmbed()
+                                cooldownErr.setColor(FNBRMENA.Colors("embed"))
+                                cooldownErr.setTitle(`You can't run this command too soon please wait ${cooldown} sec... ${errorEmoji}`)
+                                message.channel.send(cooldownErr)
                             }else if(lang === "ar"){
 
-                                const RoleErrAR = new Discord.MessageEmbed()
-                                .setColor(FNBRMENA.Colors("embed"))
-                                .setTitle(`لا يمكنك استعمال الامر اكثر من مرا بنفس الوقت الرجاء انتظر ${cooldown} ثانية ${errorEmoji}`)
-                                message.channel.send(RoleErrAR)
+                                const cooldownErr = new Discord.MessageEmbed()
+                                cooldownErr.setColor(FNBRMENA.Colors("embed"))
+                                cooldownErr.setTitle(`لا يمكنك استعمال الامر اكثر من مرا بنفس الوقت الرجاء انتظر ${cooldown} ثانية ${errorEmoji}`)
+                                message.channel.send(cooldownErr)
                             }
                             return
                         }

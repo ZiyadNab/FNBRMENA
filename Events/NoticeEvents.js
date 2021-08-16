@@ -132,10 +132,10 @@ module.exports = (FNBRMENA, client, admin) => {
                                     }
                                 }
                             }
-                        }
 
-                        //send
-                        message.send(Notice)
+                            //send
+                            await message.send(Notice)
+                        }
 
                         //store data
                         for(let i = 0; i < emergencynotice.length; i++){

@@ -7,7 +7,13 @@ const fortniteAPI = new FortniteAPI(FNBRMENA.APIKeys("FortniteAPI.io"));
 
 module.exports = {
     commands: 'search',
-    expectedArgs: '[ Name of the cosmetic ]',
+    descriptionEN: 'Search any cosmetics and gets its data with an image.',
+    descriptionAR: 'ابحث عن أي عنصر باللعبة و احصل على معلوماتة.',
+    expectedArgsEN: 'ُTo start searching type the command then item name, id or (*) symbol.',
+    expectedArgsAR: 'للبدء اكتب الأمر ثم اسم العنصر او معرف الأي دي او رمز (*)',
+    hintEN: 'You can search by using name, id or (*) symbol where the symbol can be used to search for an item you dont know its name by just answering questions',
+    hintAR: 'يمكنك البحث من خلال الأسم او معرف الأي دي الخاص بالعنصر او يمكنك البحث من خلال رمز (*) و تستخدم النجمه في حال اذا ك فقط من خلال الأجابة على الأسئلة',
+    argsExample: ['Ninja', 'EID_Floss', '*'],
     minArgs: 1,
     maxArgs: null,
     cooldown: -1,

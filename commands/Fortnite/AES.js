@@ -11,7 +11,6 @@ var Fortnite = new FortniteAPI(config);
 
 module.exports = {
     commands: 'aes',
-    expectedArgs: '',
     minArgs: 0,
     maxArgs: 0,
     cooldown: -1,

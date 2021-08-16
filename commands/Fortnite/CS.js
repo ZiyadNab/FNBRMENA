@@ -12,6 +12,13 @@ var Fortnite = new FortniteAPI(config);
 
 module.exports = {
     commands: 'cs',
+    descriptionEN: 'Returns a list of all cosmetics that got added in a specific season by your choice.',
+    descriptionAR: 'أمر يسترجع لك جميع العناصر الي نزلت في موسم معين من اختيارك.',
+    expectedArgsEN: 'To get a list of cosmetice is a certain season. this of what season you need to extract then what type of cosmatics like Outfits, Emotes..., then use this command',
+    expectedArgsAR: 'للحصول على عناصر موسم معين يجب عليك اولا التفكير بالموسم و الفصل المراد استخراج العناصر منه ثم اختيار نوع العناصر مثل رقصات، سكنات... من بعذ ذلك استعمل الأمر لأستخراجهم',
+    hintEN: 'The first number represents the chapter and the second number represents the season (Without spaces between them)',
+    hintAR: 'الرقم الأول يمثل الشابتر. و الرقم الثاني يمثل الموسم (بدون مسافة بين الرقمين)',
+    argsExample: ['25', '19'],
     expectedArgs: '',
     minArgs: 1,
     maxArgs: 2,

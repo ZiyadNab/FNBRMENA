@@ -12,7 +12,6 @@ var Fortnite = new FortniteAPI(config);
 
 module.exports = {
     commands: 'combo',
-    expectedArgs: '',
     minArgs: 0,
     maxArgs: 0,
     cooldown: -1,

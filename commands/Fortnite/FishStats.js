@@ -15,7 +15,11 @@ var Fortnite = new fort(config);
 
 module.exports = {
     commands: 'fish',
-    expectedArgs: '[ Name of the EPICGAMES player ]',
+    descriptionEN: 'Use this command to extract the cought fishes this season.',
+    descriptionAR: 'أستعمل الأمر لأستخراج جميع السمك المسطاد خلال الموسم الحالي.',
+    expectedArgsEN: 'Use this command then type the use EPICGAMES displayname',
+    expectedArgsAR: 'أستعمل الأمر ثم اكتب اسم اي حساب شخص على منصة ايبك قيمز',
+    argsExample: ['Ninja', 'SypherPK'],
     minArgs: 1,
     maxArgs: null,
     cooldown: 10,
@@ -77,7 +81,7 @@ module.exports = {
 
                         //canvas
                         const canvas = Canvas.createCanvas(1920, 1080);
-                        const ctx = canvas.getContext('2d');
+                        const ctx = canvas.getContext('2d')
 
                         //creating an array on background images
                         var imagesList = [

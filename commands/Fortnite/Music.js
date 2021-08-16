@@ -5,7 +5,11 @@ const fortniteAPI = new FortniteAPI(FNBRMENA.APIKeys("FortniteAPI.io"));
 
 module.exports = {
     commands: 'music',
-    expectedArgs: '[ Name of the music pack ]',
+    descriptionEN: 'Use this command to get any music pack in a video form.',
+    descriptionAR: 'أستعمل الأمر لأستخراج فيديو لأي ميوزك لوبي بأختيارك.',
+    expectedArgsEN: 'Use this command then type the music name or the music id',
+    expectedArgsAR: 'أستعمل الأمر ثم اكتب اسم او اي دي الميوزك',
+    argsExample: ['The End\'', 'MusicPack_034_SXRocketEvent'],
     minArgs: 1,
     maxArgs: null,
     cooldown: -1,

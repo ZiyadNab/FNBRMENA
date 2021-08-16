@@ -5,7 +5,13 @@ const Canvas = require('canvas')
 
 module.exports = {
     commands: 'details',
-    expectedArgs: '[ Name of the cosmetic ]',
+    descriptionEN: 'A command gives you access to every single detail about a cosmetic e.g. Info, Styles, Grants',
+    descriptionAR: 'أمر يعطيك الصلاحية لجميع التفاصيل لأي عنصر مثل معلومات، ستايلات، تصريحات',
+    expectedArgsEN: 'Use the command then right after use any cosmetic in-game',
+    expectedArgsAR: 'فقط استعمل الأمر ثم اسم اي عنصر باللعبة',
+    hintEN: 'You will get 3 options:\n• Info: returns all the info of the searched cosmetic like shop history...\n• Styles: Returns all the styles of the searched cosmetics (Not all items supported).\n• Grants: Returns what you will get if you purchesed the item.',
+    hintAR: 'راح تحصل على ثلاث خيارات: \n• معلومات: يسترجع لك جميع المعلومات للعنصر مثل تاريخ متجر العناصر...\n• الستايلات: يسترجع لك جميع الستايلات للعنصر (ليس جميع العناصر مدعومة)\n• العناصر المعطاه: يسترجع لك جميع العناصر الي راح تحصل عليها في حال شرائك للعنصر',
+    argsExample: ['Ninja', 'Wildcat'],
     minArgs: 1,
     maxArgs: null,
     cooldown: -1,

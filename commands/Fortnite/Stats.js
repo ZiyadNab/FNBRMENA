@@ -20,7 +20,11 @@ var All
 
 module.exports = {
     commands: 'stats',
-    expectedArgs: '[ Name of the user in EPICGAMES ]',
+    descriptionEN: 'Use this command to extract the account stats.',
+    descriptionAR: 'أستعمل الأمر لأستخراج جميع احصائيات الحساب.',
+    expectedArgsEN: 'Use this command then type the use EPICGAMES displayname',
+    expectedArgsAR: 'أستعمل الأمر ثم اكتب اسم اي حساب شخص على منصة ايبك قيمز',
+    argsExample: ['Ninja', 'SypherPK'],
     minArgs: 1,
     maxArgs: null,
     cooldown: -1,

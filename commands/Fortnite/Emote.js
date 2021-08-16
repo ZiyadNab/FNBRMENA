@@ -5,7 +5,11 @@ const fortniteAPI = new FortniteAPI(FNBRMENA.APIKeys("FortniteAPI.io"));
 
 module.exports = {
     commands: 'emote',
-    expectedArgs: '[ Name of the emote ]',
+    descriptionEN: 'Use this command to get any emote in a video form.',
+    descriptionAR: 'أستعمل الأمر لأستخراج فيديو لأي رقصة بأختيارك.',
+    expectedArgsEN: 'Use this command then type the emote name or the emote id (Not all emote supported YET)',
+    expectedArgsAR: 'أستعمل الأمر ثم اكتب اسم او اي دي الرقصة (ليس جميع الرقصات مدعومة)',
+    argsExample: ['Fishin\'', 'EID_JellyFrog'],
     minArgs: 1,
     maxArgs: null,
     cooldown: -1,

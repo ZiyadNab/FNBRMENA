@@ -1,12 +1,16 @@
 const Data = require('../../FNBRMENA')
 const FNBRMENA = new Data()
-const FortniteAPI = require("fortniteapi.io-api");
-const fortniteAPI = new FortniteAPI(FNBRMENA.APIKeys("FortniteAPI.io"));
-const Canvas = require('canvas');
+const FortniteAPI = require("fortniteapi.io-api")
+const fortniteAPI = new FortniteAPI(FNBRMENA.APIKeys("FortniteAPI.io"))
+const Canvas = require('canvas')
 
 module.exports = {
     commands: 'battlepass',
-    expectedArgs: '[ Number of the season ]',
+    descriptionEN: 'A command that will return a picture of a battlepass of your choice from season 2 till current season.',
+    descriptionAR: 'أمر راح يسترجع لك صورة تحتوي على عناصر باتل باس بأختيارك من الموسم 2 الى الموسم الحالي.',
+    expectedArgsEN: 'To use the command you need to specifiy a season number from season 2 to latest season.',
+    expectedArgsAR: 'من اجل استخدام الأمر يجب عليك تحديد موسم معين من الموسم الثاني الى الموسم الحالي.',
+    argsExample: ['2', '14'],
     minArgs: 1,
     maxArgs: 1,
     cooldown: 40,

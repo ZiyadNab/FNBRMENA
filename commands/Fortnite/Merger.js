@@ -4,7 +4,13 @@ const Canvas = require('canvas');
 
 module.exports = {
     commands: 'merge',
-    expectedArgs: '[ Name of the cosmetics with + between everyone ]',
+    descriptionEN: 'Merge any cosmetics together in one image.',
+    descriptionAR: 'ادمج مجموعة من العناصر في صورة وحدة.',
+    expectedArgsEN: 'ُTo start merging type the command then the first item name and add (+) symbole and type another item then (+ symbol)... continue like this.',
+    expectedArgsAR: 'للبدء اكتب الأمر ثم اسم اول عنصر بعد ذلك اكتب علامة (+) ثم اسم العنصر التالي بعد ذلك علامة (+) و أستمر على هذا الحال حتى تنتهي',
+    hintEN: 'You can merge by using name, id or (*) symbol where the symbol can be used to merge lots of items is the same type once without typing each item name or if you wanna merge an item you dont know its name by just answering questions',
+    hintAR: 'يمكنك الدمج من خلال الأسم او معرف الأي دي الخاص بالعنصر او يمكنك الدمج من خلال رمز (*) و تستخدم النجمه في حال تريد دمج مجموعة عناصر من نوع معي فقط بضغطة زر بدلا من كتابة اسم العناصر جميعا او يمكنك استخدام النجمة اذا كان لديك عنصر لا تعرف اسمه',
+    argsExample: ['Ninja + Harley Quinn + Light Knives', 'Ninja + EID_Floss + Light Knives', 'Ninja + * + EID_Socks_XA9HM'],
     minArgs: 1,
     maxArgs: null,
     cooldown: 15,

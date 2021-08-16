@@ -6,7 +6,13 @@ const Canvas = require('canvas');
 
 module.exports = {
     commands: 'quests',
-    expectedArgs: '[ Name of the challenge ]',
+    descriptionEN: 'This command will extract any challengas from the files (even if its leaked).',
+    descriptionAR: 'الأمر هذا راح يستخرج لك اي تحدي من الملفات (حتى اذا كانت مسربة).',
+    expectedArgsEN: 'First think of what challenges you need to search about, then use this command with the challenge name or any word part of the name.',
+    expectedArgsAR: 'أولا فكر عن اي تحدي تريد استخراجة. ثم أستعمل هذا الأمر للبحث عن التحديات من خلال اسم التحدي او بأستخدام اي حرف من اسم التحدي.',
+    hintEN: 'You can search for a challenges with just one word you dont need to spell the challenge name correctly just type the words you know. e.g. search by (wee) that will give u a list of all the challenges contains word (wee) like Week 1 Challenges, Week 7 Challenges.',
+    hintAR: 'يمكنك البحث فقط بأسخدام حرف واحد لا تحتاج الى ان تكتب اسم التحدي بالكامل فقط اكتب الحروف الي تتذكرها من اسم التحدي. مثل البحث بأستخدام كلمة (wee) سوف تحصل على قائمة لجميع التحديات التي تبدأ بكلمة (wee) مثل تحديات الأسبوع الأول و الثاني...',
+    argsExample: ['Week 1 Epic Quests', 'Week', 'Legendary Quests', 'L'],
     minArgs: 1,
     maxArgs: null,
     cooldown: 15,

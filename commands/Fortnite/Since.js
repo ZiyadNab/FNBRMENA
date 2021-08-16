@@ -12,7 +12,11 @@ var Fortnite = new FortniteAPI(config);
 
 module.exports = {
     commands: 'since',
-    expectedArgs: '[ Number since the cosmetics last released ]',
+    descriptionEN: 'Returns an image contains all of the cosmetics that never released in days ago.',
+    descriptionAR: 'يسترجع لك الأمر صورة تحتوي على جميع العناصر التي لم ترجع خلال زمن معين.',
+    expectedArgsEN: 'To start type the command then number of days (must be more 250 days).',
+    expectedArgsAR: 'للبدء اكتب الأمر ثم رقم الأيام (يجب ان يكون اقل من 250 يوم)',
+    argsExample: ['500', '800'],
     minArgs: 1,
     maxArgs: null,
     cooldown: 120,

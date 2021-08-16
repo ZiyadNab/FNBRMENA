@@ -7,7 +7,6 @@ const Canvas = require('canvas');
 
 module.exports = {
     commands: 'itemshop',
-    expectedArgs: '',
     minArgs: 0,
     maxArgs: 0,
     cooldown: 30,

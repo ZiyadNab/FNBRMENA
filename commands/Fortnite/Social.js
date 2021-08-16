@@ -3,7 +3,6 @@ const FNBRMENA = new Data()
 
 module.exports = {
     commands: 'social',
-    expectedArgs: '<Social>',
     minArgs: 0,
     maxArgs: 0,
     cooldown: -1,

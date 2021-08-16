@@ -7,7 +7,11 @@ const fortniteAPI = new FortniteAPI(FNBRMENA.APIKeys("FortniteAPI.io"));
 
 module.exports = {
     commands: 'remind',
-    expectedArgs: '[ Name of the cosmetic ]',
+    descriptionEN: 'You can remind any item from the shop so he bot will tag you once the item has been released in the itemshop.',
+    descriptionAR: 'تقدر تخلي البوت يذكرك لأي عنصر من الشوب واذا نزل راح يحط لك تاق و يعلمك انه نزل.',
+    expectedArgsEN: 'ُTo get the bot reminds you just type the command then the item name.',
+    expectedArgsAR: 'عشان تخلي البوت يذكرك كل الي عليك تكتب الأمر ثمن اسم العنصر',
+    argsExample: ['Ninja', 'Harley Quinn'],
     minArgs: 1,
     maxArgs: null,
     cooldown: -1,

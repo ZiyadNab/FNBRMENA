@@ -6,7 +6,11 @@ const probe = require('probe-image-size')
 
 module.exports = {
     commands: 'playlist',
-    expectedArgs: '',
+    descriptionEN: 'Use this command to extract an image for any playlist of your choice with the playlist data',
+    descriptionAR: 'أستخدم الأمر لأستخراج صورةلأي طور باللعبة مع معلومات الطور',
+    expectedArgsEN: 'Use this command then type playlist name.',
+    expectedArgsAR: 'أستعمل الأمر ثم اكتب أسم الطور.',
+    argsExample: ['Solo', 'Pro 100'],
     minArgs: 1,
     maxArgs: null,
     cooldown: -1,

@@ -6,7 +6,6 @@ const Canvas = require('canvas')
 
 module.exports = {
     commands: 'progress',
-    expectedArgs: '',
     minArgs: 0,
     maxArgs: 0,
     cooldown: 15,
@@ -69,6 +68,7 @@ module.exports = {
                 const data = UpcomingEventsData[Object.keys(progressData[Object.keys(progressData)[UpcomingEventsIndex]])[i]]
 
                 //if the object is set to be active
+                console.log(data.Status)
                 if(data.Status){
 
                     //loop throw every gradiants

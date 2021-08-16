@@ -6,7 +6,6 @@ const Canvas = require('canvas');
 
 module.exports = {
     commands: 'poi',
-    expectedArgs: '',
     minArgs: 0,
     maxArgs: 0,
     cooldown: -1,

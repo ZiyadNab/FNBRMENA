@@ -1,6 +1,7 @@
 const Data = require('../FNBRMENA')
 const FNBRMENA = new Data()
 const Discord = require('discord.js')
+const { hintEN } = require('./Fortnite/Bundles')
 
 const allCommands = {}
 
@@ -40,17 +41,23 @@ module.exports.listen = async (client, admin, distube) => {
         const args = content.split(/[ ]+/)
 
         // Remove the command which is the first index
-        const name = args.shift().toLowerCase()
-        const alias = name.replace(prefix, '')
+        const commandUsed = args.shift().toLowerCase()
+        const alias = commandUsed.replace(prefix, '')
 
-        if(name.startsWith(prefix)){
-            const command = allCommands[name.replace(prefix,'')]
+        if(commandUsed.startsWith(prefix)){
+            const command = allCommands[commandUsed.replace(prefix,'')]
             if(!command){
                 return
             }
 
             const {
-                expectedArgs,
+                descriptionEN = 'There is no explaination for this command YET',
+                descriptionAR = 'لايوجد تعليمات على هذا الأمر للأن',
+                expectedArgsEN = 'Just use the command its self no arguments needed',
+                hintEN = false,
+                hintAR = false,
+                expectedArgsAR = 'فقط استعمل الأمر بدون اي شي اضافي',
+                argsExample = [false],
                 minArgs = 0,
                 maxArgs = null,
                 cooldown = -1,
@@ -61,28 +68,69 @@ module.exports.listen = async (client, admin, distube) => {
             // a command has been ran
             const errorEmoji = client.emojis.cache.get("836454225344856066")
             const checkEmoji = client.emojis.cache.get("836454263260971018")
-            const loadingEmoji = client.emojis.cache.get("862681584456433664")
+            const loadingEmoji = client.emojis.cache.get("862704096312819722")
+            const red = client.emojis.cache.get("855805718779002899")
+            const green = client.emojis.cache.get("855805718363111434")
 
             //get the user language from the database
             const lang = await FNBRMENA.Admin(admin, message, "", "Lang")
+
+            //get the command access
+            const access = await FNBRMENA.Admin(admin, message, alias, "Command")
 
             if(message.author.id === "325507145871130624"){
 
                 // Ensure we have the correct number of args
                 if(args.length < minArgs || (maxArgs !== null && args.length > maxArgs)){
+
+                    //inislizing discord embed
+                    const SyntaxError = new Discord.MessageEmbed()
+                    SyntaxError.setColor(FNBRMENA.Colors("embed"))
+
+                    //loop throw every argsExample array
+                    let Examples = `No examples for this command just use ${commandUsed}`
+                    let Symbol = ``
+                    for(const example of argsExample){
+                        if(example !== false) Examples += `${commandUsed} ${example}\n`
+                        if(lang === "en" && example !== false) Symbol += `(${example}) Symbol: The output chosen\n`
+                        else if(lang === "ar" && example !== false) Symbol += `رمز (${example}): تحديد نوع الأستخراج\n`
+                    }
+
                     if(lang === "en"){
 
-                        const SyntaxError = new Discord.MessageEmbed()
-                        SyntaxError.setColor(FNBRMENA.Colors("embed"))
-                        SyntaxError.setTitle(`Incorrect syntax! Use ${prefix}${alias} ${expectedArgs} ${errorEmoji}`)
-                        message.channel.send(SyntaxError)
-                    }else if (lang === "ar"){
+                        //set author, description and add feilds
+                        SyntaxError.setAuthor(`Syntax Error`)
+                        if(access === "true") SyntaxError.setDescription(`Command Used: ${alias}\nCommand Status: ${green}\n\n${descriptionEN}\n`)
+                        else SyntaxError.setDescription(`Command Used: ${alias}\nCommand Status: ${red}\n\n${descriptionEN}\n`)
+                        SyntaxError.addFields(
+                            {name: `Command guide:`, value: `\n\n\`${expectedArgsEN}\``},
+                            {name: `Examples:`, value: `\`${Examples}\``},
+                            {name: `ًWhere:`, value: `(${prefix}) Sign: The prefix\n(${alias}) Word: The command used\n${Symbol}`}
+                        )
 
-                        const SyntaxError = new Discord.MessageEmbed()
-                        SyntaxError.setColor(FNBRMENA.Colors("embed"))
-                        SyntaxError.setTitle(`غلط في عملية كتابة الامر الرجاء كتابة الامر بالشكل الصحيح \n${prefix}${alias} ${expectedArgs} ${errorEmoji}`)
-                        message.channel.send(SyntaxError)
+                        //add hints if there is a hint
+                        if(hintEN !== false) SyntaxError.addFields({name: `Hint:`, value: `\`${hintEN}\``})
+
+                    }else if(lang === "ar"){
+
+                        //set author, description and add feilds
+                        SyntaxError.setAuthor(`عملية خاطئة`)
+                        SyntaxError.setDescription(`الأمر المستعمل: ${alias}\nحالة الأمر: ${green}\n\n${descriptionAR}\n`)
+                        SyntaxError.addFields(
+                            {name: `ارشادات الأستخدام:`, value: `\n\n\`${expectedArgsAR}\``},
+                            {name: `أمثلة:`, value: `\`${Examples}\``},
+                            {name: `حيث أن:`, value: `علامة (${prefix}): تعني العلامة المسبوقة\nكلمة (${alias}): تعني الأمر المستعمل\n${Symbol}`}
+                        )
+
+                        //add hints if there is a hint
+                        if(hintAR !== false) SyntaxError.addFields({name: `تلميحة:`, value: `\`${hintAR}\``})
                     }
+
+                    //set thumbnail
+                    SyntaxError.setThumbnail('https://imgur.com/auAsgQN.png')
+
+                    //send the guide message
+                    message.channel.send(SyntaxError)
                     return
                 }
 
@@ -95,7 +143,6 @@ module.exports.listen = async (client, admin, distube) => {
                 if(status === "on"){
       
                     //checking if the command is active
-                    const access = await FNBRMENA.Admin(admin, message, alias, "Command")
                     if(access === "true"){
                         // A command has been ran
                 
@@ -128,7 +175,7 @@ module.exports.listen = async (client, admin, distube) => {
                         for(const requiredRole of roles) {
                             const role = guild.roles.cache.find((role) => role.name === requiredRole)
 
-                            if(!role || !member.roles.cache.has(role.id)) {
+                            if(!role || !member.roles.cache.has(role.id)){
                                 if(lang === "en"){
 
                                     const RoleErr = new Discord.MessageEmbed()
@@ -167,18 +214,55 @@ module.exports.listen = async (client, admin, distube) => {
 
                         // Ensure we have the correct number of args
                         if(args.length < minArgs || (maxArgs !== null && args.length > maxArgs)){
+
+                            //inislizing discord embed
+                            const SyntaxError = new Discord.MessageEmbed()
+                            SyntaxError.setColor(FNBRMENA.Colors("embed"))
+
+                            //loop throw every argsExample array
+                            let Examples = `No examples for this command just use ${commandUsed}`
+                            let Symbol = ``
+                            for(const example of argsExample){
+                                if(example !== false) Examples += `${commandUsed} ${example}\n`
+                                if(lang === "en" && example !== false) Symbol += `(${example}) Symbol: The output chosen\n`
+                                else if(lang === "ar" && example !== false) Symbol += `رمز (${example}): تحديد نوع الأستخراج\n`
+                            }
+
                             if(lang === "en"){
 
-                                const SyntaxError = new Discord.MessageEmbed()
-                                .setColor(FNBRMENA.Colors("embed"))
-                                .setTitle(`Incorrect syntax! Use ${prefix}${alias} ${expectedArgs} ${errorEmoji}`)
-                                message.channel.send(SyntaxError)
-                            }else if (lang === "ar"){
-                                const SyntaxErrorAR = new Discord.MessageEmbed()
-                                .setColor(FNBRMENA.Colors("embed"))
-                                .setTitle(`غلط في عملية كتابة الامر الرجاء كتابة الامر بالشكل الصحيح \n${prefix}${alias} ${expectedArgs} ${errorEmoji}`)
-                                message.channel.send(SyntaxErrorAR)
+                                //set author, description and add feilds
+                                SyntaxError.setAuthor(`Syntax Error`)
+                                if(access) SyntaxError.setDescription(`Command Used: ${alias}\nCommand Status: ${green}\n\n${descriptionEN}\n`)
+                                else SyntaxError.setDescription(`Command Used: ${alias}\nCommand Status: ${red}\n\n${descriptionEN}\n`)
+                                SyntaxError.addFields(
+                                    {name: `Command guide:`, value: `\n\n\`${expectedArgsEN}\``},
+                                    {name: `Examples:`, value: `\`${Examples}\``},
+                                    {name: `ًWhere:`, value: `(${prefix}) Sign: The prefix\n(${alias}) Word: The command used\n${Symbol}`}
+                                )
+
+                                //add hints if there is a hint
+                                if(hintEN !== false) SyntaxError.addFields({name: `Hint:`, value: `\`${hintEN}\``})
+
+                            }else if(lang === "ar"){
+
+                                //set author, description and add feilds
+                                SyntaxError.setAuthor(`عملية خاطئة`)
+                                SyntaxError.setDescription(`الأمر المستعمل: ${alias}\nحالة الأمر: ${green}\n\n${descriptionAR}\n`)
+                                SyntaxError.addFields(
+                                    {name: `ارشادات الأستخدام:`, value: `\n\n\`${expectedArgsAR}\``},
+                                    {name: `أمثلة:`, value: `\`${Examples}\``},
+                                    {name: `حيث أن:`, value: `علامة (${prefix}): تعني العلامة المسبوقة\nكلمة (${alias}): تعني الأمر المستعمل\n${Symbol}`}
+                                )
+
+                                //add hints if there is a hint
+                                if(hintAR !== false) SyntaxError.addFields({name: `تلميحة:`, value: `\`${hintAR}\``})
                             }
+
+                            //set thumbnail
+                            SyntaxError.setThumbnail('https://imgur.com/auAsgQN.png')
+
+                            //send the guide message
+                            message.channel.send(SyntaxError)
                             return
                         }
 

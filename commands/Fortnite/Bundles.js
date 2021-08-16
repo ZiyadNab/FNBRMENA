@@ -7,7 +7,13 @@ const fortniteAPI = new FortniteAPI(FNBRMENA.APIKeys("FortniteAPI.io"))
 
 module.exports = {
     commands: 'bundle',
-    expectedArgs: '[ Any words you remember from the bundle name ] ',
+    descriptionEN: 'By using this command you will be able to get all the informations about a bundle of your choice (Only real money bundles)',
+    descriptionAR: 'بأستعمال الأمر يمكنك استرجاع جميع المعلومات عن أي حزمة بأختيارك (فقط الحزم المالية)',
+    expectedArgsEN: 'To use the command you need to specifiy a bundle name or a bundle name that contains a specifiy word.',
+    expectedArgsAR: 'من اجل استخدام الأمر يجب عليك تحديد أسم الحزمة او اي حرف من اي حزمة',
+    hintEN: 'You can search for a bundle with just one word you dont need to spell the bundle name correctly just type the words you know. e.g. search by (der) that will give u a list of all the bundles contains word der like Derby Dynamo',
+    hintAR: 'يمكنك البحث فقط بأسخدام حرف واحد لا تحتاج الى ان تكتب اسم الحزمة بالكامل فقط اكتب الحروف الي تتذكرها من الحزمة. مثل البحث بأستخدام كلمة (der) سوف تحصل على قائمة لجميع الحزم التي تبدأ بكلمة der مثل Derby Dynamo',
+    argsExample: ['Derby Dynamo Challenge Pack', 'D'],
     minArgs: 1,
     maxArgs: null,
     cooldown: 10,

@@ -7,7 +7,6 @@ const moment = require('moment')
 
 module.exports = {
     commands: 'upcoming',
-    expectedArgs: '',
     minArgs: 0,
     maxArgs: 0,
     cooldown: 10,

@@ -11,7 +11,11 @@ var Fortnite = new FortniteAPI(config);
 
 module.exports = {
     commands: 'pak',
-    expectedArgs: '[ Pak Number ]',
+    descriptionEN: 'Use this command to extract all the cosmetics in a single pak file',
+    descriptionAR: 'أستخدم الأمر لأستخراج جميع العناصر المشفرة في ملف معين',
+    expectedArgsEN: 'Use this command then type pak file number.',
+    expectedArgsAR: 'أستعمل الأمر ثم اكتب رقم الملف.',
+    argsExample: ['1002', '1013'],
     minArgs: 1,
     maxArgs: 1,
     cooldown: 10,

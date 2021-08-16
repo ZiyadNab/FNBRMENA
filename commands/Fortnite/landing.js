@@ -7,7 +7,6 @@ const { MessageButton } = require('discord-buttons');
 
 module.exports = {
     commands: 'land',
-    expectedArgs: '',
     minArgs: 0,
     maxArgs: 0,
     cooldown: -1,

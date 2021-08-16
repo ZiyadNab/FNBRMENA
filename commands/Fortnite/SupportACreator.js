@@ -12,7 +12,11 @@ var Fortnite = new FortniteAPI(config);
 
 module.exports = {
     commands: 'sac',
-    expectedArgs: '[ Name of the SAC ]',
+    descriptionEN: 'Use this command to extract the support a creator data.',
+    descriptionAR: 'أستعمل الأمر لأستخراج معلومات كود الشوب.',
+    expectedArgsEN: 'Use this command then type the SAC name.',
+    expectedArgsAR: 'أستعمل الأمر ثم اكتب اسم كود الشوب.',
+    argsExample: ['AV2', 'AV2', 'AV2'],
     minArgs: 1,
     maxArgs: 1,
     cooldown: -1,

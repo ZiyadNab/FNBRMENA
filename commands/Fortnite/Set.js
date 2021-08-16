@@ -12,7 +12,11 @@ var Fortnite = new FortniteAPI(config);
 
 module.exports = {
     commands: 'set',
-    expectedArgs: '[ Name of the set ]',
+    descriptionEN: 'ُReturns an image contains all of the cosmetics in a set.',
+    descriptionAR: 'يسترجع لك الأمر صورة تحتوي على جميع العناصر في مجموعة معينة.',
+    expectedArgsEN: 'To start type the command then set name.',
+    expectedArgsAR: 'للبدء اكتب الأمر ثم اسم المجموعة',
+    argsExample: ['Storm Scavenger', 'Rick, C-137'],
     minArgs: 1,
     maxArgs: null,
     cooldown: 10,

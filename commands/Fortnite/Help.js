@@ -3,7 +3,6 @@ const FNBRMENA = new Data()
 
 module.exports = {
     commands: 'help',
-    expectedArgs: '',
     minArgs: 0,
     maxArgs: 0,
     cooldown: -1,

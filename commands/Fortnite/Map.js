@@ -14,7 +14,13 @@ var Fortnite = new fn(config);
 
 module.exports = {
     commands: 'map',
-    expectedArgs: '[ Blank or season verion ]',
+    descriptionEN: 'Returns a map image.',
+    descriptionAR: 'أمر يسترجع لك صورة الماب.',
+    expectedArgsEN: 'ُTo get the current map image use just the command, and if you want to get older map images type the season number from 1 till current season.',
+    expectedArgsAR: 'للحصول على صورة الماب فقط اكتب الأمر. للحصول علي صورة مابات قديمة اكتب رقم السيزون من السيزون 1 حتى السيزون الحالي',
+    hintEN: 'You can get a specific update map like season 3 chapter 2 you can get every map with seeing the water dries',
+    hintAR: 'يمكنك الحصول على ماب لتحديث معين على سبيل المثال الموسم الثالث شابتر تو تقدر تحصل على صور كل تحديث و تشوف الماء يجف مع كل صورة.',
+    argsExample: ['', '5', '13'],
     minArgs: 0,
     maxArgs: 1,
     cooldown: -1,

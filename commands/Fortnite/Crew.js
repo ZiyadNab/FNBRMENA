@@ -4,7 +4,11 @@ const Canvas = require('canvas');
 
 module.exports = {
     commands: 'crew',
-    expectedArgs: '[ The crew year and month number ]',
+    descriptionEN: 'Get any in-game crew with its data and advertising video.',
+    descriptionAR: 'احصل على اي حزمة طاقم فورت نايت مع جميع معلومات الحزمة ايضا مع الفيديو الأعلاني للحزمة.',
+    expectedArgsEN: 'Just use the command then after use the crew number of what you want',
+    expectedArgsAR: 'فقط أستعمل الأمر ثم اكتب رقم طاقم فورت نايت الي تريد استخراجة',
+    argsExample: ['1', '4', '8'],
     minArgs: 1,
     maxArgs: null,
     cooldown: 10,

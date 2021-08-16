@@ -6,7 +6,6 @@ const Canvas = require('canvas');
 
 module.exports = {
     commands: 'weapon',
-    expectedArgs: '[ Weapon ID ]',
     minArgs: 1,
     maxArgs: null,
     cooldown: 5,

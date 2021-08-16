@@ -33,6 +33,24 @@ module.exports.listen = async (client, admin, distube) => {
     client.on('message', async (message) => {
         const { member, content, guild } = message
 
+        //if a user used the bot in DM's
+        if(message.channel.type === 'dm' && message.content !== ""){
+
+            //inisilizing embed
+            const DM = new Discord.MessageEmbed()
+            DM.setColor(FNBRMENA.Colors('embed'))
+
+            //set title
+            DM.setTitle('New DM Message')
+            
+            //set description
+            DM.setDescription(`**User:** ${message.author.tag}\n**ID:** ${message.author.id}\n**User Language:** ${await FNBRMENA.Admin(admin, message, "", "Lang")}\n**Date:** ${new Date()}\n\n**Content:** \`\`\`bash\n"${message.content}"\`\`\``)
+
+            //send the message to the bot-logs channel
+            const logs = client.channels.cache.find(channel => channel.id === '876077567269023754')
+            logs.send(DM)
+        }
+
         //get the prefix from database
         const prefix = await FNBRMENA.Admin(admin, message, "", "Prefix")
 

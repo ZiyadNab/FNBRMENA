@@ -253,7 +253,7 @@ module.exports = {
                     ctx.fillStyle = '#ffffff';
                     ctx.textAlign = 'center';
                     ctx.font = applyTextName(canvas, name);
-                    ctx.fillText(name, canvas.width / 2, 840)
+                    ctx.fillText(name, canvas.width / 2, 855)
 
                     //split the description into lines
                     description = description.replace("\r\n\r", "")

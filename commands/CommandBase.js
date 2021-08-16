@@ -213,24 +213,22 @@ module.exports.listen = async (client, admin, distube) => {
                         }
 
                         // Ensure the use has not ran the command too frequently
-                        if(message.channel.type !== "dm"){
-                            let cooldownString = `${guild.id}-${message.author.id}-${alias}`
-                            if(cooldown > 0 && recentlyRan.includes(cooldownString)){
-                                if(lang === "en"){
+                        let cooldownString = `${guild.id}-${message.author.id}-${alias}`
+                        if(cooldown > 0 && recentlyRan.includes(cooldownString)){
+                            if(lang === "en"){
 
-                                    const cooldownErr = new Discord.MessageEmbed()
-                                    cooldownErr.setColor(FNBRMENA.Colors("embed"))
-                                    cooldownErr.setTitle(`You can't run this command too soon please wait ${cooldown} sec... ${errorEmoji}`)
-                                    message.channel.send(cooldownErr)
-                                }else if(lang === "ar"){
+                                const cooldownErr = new Discord.MessageEmbed()
+                                cooldownErr.setColor(FNBRMENA.Colors("embed"))
+                                cooldownErr.setTitle(`You can't run this command too soon please wait ${cooldown} sec... ${errorEmoji}`)
+                                message.channel.send(cooldownErr)
+                            }else if(lang === "ar"){
 
-                                    const cooldownErr = new Discord.MessageEmbed()
-                                    cooldownErr.setColor(FNBRMENA.Colors("embed"))
-                                    cooldownErr.setTitle(`لا يمكنك استعمال الامر اكثر من مرا بنفس الوقت الرجاء انتظر ${cooldown} ثانية ${errorEmoji}`)
-                                    message.channel.send(cooldownErr)
-                                }
-                                return
+                                const cooldownErr = new Discord.MessageEmbed()
+                                cooldownErr.setColor(FNBRMENA.Colors("embed"))
+                                cooldownErr.setTitle(`لا يمكنك استعمال الامر اكثر من مرا بنفس الوقت الرجاء انتظر ${cooldown} ثانية ${errorEmoji}`)
+                                message.channel.send(cooldownErr)
                             }
+                            return
                         }
 
                         // Ensure we have the correct number of args

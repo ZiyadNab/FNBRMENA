@@ -30,17 +30,17 @@ module.exports = {
             set: text,
             language: lang
         }
-
-        //generating text
-        const generating = new Discord.MessageEmbed()
-        generating.setColor(FNBRMENA.Colors("embed"))
-        if(lang === "en") generating.setTitle(`Searching for Cosmetics... ${loadingEmoji}`)
-        else if(lang === "ar") generating.setTitle(`جاري البحث عن عناصر... ${loadingEmoji}`)
-        message.channel.send(generating)
-        .then( async msg => {
         
-            Fortnite.CosmeticsSearchAll(query)
-            .then(async res => {
+        Fortnite.CosmeticsSearchAll(query)
+        .then(async res => {
+
+            //generating text
+            const generating = new Discord.MessageEmbed()
+            generating.setColor(FNBRMENA.Colors("embed"))
+            if(lang === "en") generating.setTitle(`Searching for Cosmetics... ${loadingEmoji}`)
+            else if(lang === "ar") generating.setTitle(`جاري البحث عن عناصر... ${loadingEmoji}`)
+            message.channel.send(generating)
+            .then( async msg => {
 
                 //variables
                 var width = 0
@@ -84,11 +84,8 @@ module.exports = {
                     const ctx = canvas.getContext('2d');
                     let fontSize = 40;
                     do {
-                        if(lang === "en"){
-                            ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
-                        }else if(lang === "ar"){
-                            ctx.font = `${fontSize -= 1}px Arabic`;
-                        }
+                        if(lang === "en") ctx.font = `${fontSize -= 1}px Burbank Big Condensed`
+                        else if(lang === "ar") ctx.font = `${fontSize -= 1}px Arabic`
                     } while (ctx.measureText(text).width > 420);
                     return ctx.font;
                 }
@@ -644,5 +641,5 @@ module.exports = {
 
             })
         })
-    },
+    }
 }

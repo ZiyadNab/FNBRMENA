@@ -13,7 +13,7 @@ module.exports = (client, admin) => {
     var response = []
     var shop = []
     var mainId = []
-    var lastUpdate = []
+    var UID = []
     var number = 0
 
     //pring shop image
@@ -1533,31 +1533,29 @@ module.exports = (client, admin) => {
                     //store shop data first time bot is active
                     if(number === 0){
 
-                        //loop throw every item displayname
-                        for(let i = 0; i < res.shop.length; i++){
-                            response[i] = await res.shop[i].mainId
-                        }
+                        // for(let i = 0; i < res.shop.length; i++){
+                        //     response[i] = await res.shop[i].mainId
+                        // }
+                        UID = await res.lastUpdate.uid
                         number++
                     }
 
                     //if the client wants to pust data
-                    if(push) response = []
+                    if(push) UID = []
 
                     //store every item mainId in the shop
-                    for(let i = 0; i < res.shop.length; i++){
-                        shop[i] = await res.shop[i].mainId
-                    }
+                    // for(let i = 0; i < res.shop.length; i++){
+                    //     shop[i] = await res.shop[i].mainId
+                    // }
 
                     //if there is a change is shop
-                    if(JSON.stringify(shop) !== JSON.stringify(response)){
+                    if(JSON.stringify(res.lastUpdate.uid) !== JSON.stringify(UID)){
                         
                         //loop throw every item mainId
-                        for(let i = 0; i < res.shop.length; i++){
-                            response[i] = await res.shop[i].mainId
-                        }
-
-                        //store last updated
-                        lastUpdate = await res.lastUpdate
+                        // for(let i = 0; i < res.shop.length; i++){
+                        //     response[i] = await res.shop[i].mainId
+                        // }
+                        UID = await res.lastUpdate.uid
 
                         //trun off push if enabled
                         admin.database().ref("ERA's").child("Events").child("itemshop").update({

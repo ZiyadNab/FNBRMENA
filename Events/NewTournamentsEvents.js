@@ -6,35 +6,50 @@ const probe = require('probe-image-size')
 
 module.exports = async (FNBRMENA, client, admin) => {
     const message = client.channels.cache.find(channel => channel.id === config.events.Tournament)
+    const logs = client.channels.cache.find(channel => channel.id === '839544462568980510')
 
     //result
     var ContentResponse = []
     var NewContentResponse = []
     var number = 0
+    var found = 0
 
     //handle sending the new tournament
     const Send = async (ContentTournamentsDATA, lang) => {
-        message.send("Content endpoint updated")
+
+        //inilize logs embed
+        const logsEmbed = new Discord.MessageEmbed()
+        logsEmbed.setColor(FNBRMENA.Colors("embed"))
+
+        //set title
+        logsEmbed.setTitle("New Tounament Added")
+        let tournamentLogsStrings = ``
 
         //a data has been changed
         for(let i = 0; i < ContentTournamentsDATA.length; i++){
 
             //if there is a new torunaments
             if(!ContentResponse.includes(ContentTournamentsDATA[i].tournament_display_id)){
-                message.send(`new tournament id is ${ContentTournamentsDATA[i].tournament_display_id}`)
 
-                message.send(`requesting calandar`)
+                //tournamet found or no
+                tournamentLogsStrings += `**Found in Content:** Yes\n`
+
                 //request more detailed data from calendar tournaments
                 await FNBRMENA.CompCalendarEndpoint(lang)
                 .then(async CalendarTournamentsDATA => {
-                    message.send(`trying to find the new trounament`)
 
                     //loop throw ever tournament CalendarTournamentsDATA
                     for(let j = 0; j < CalendarTournamentsDATA.data.eventsData.length; j++){
 
                         //if there is an id match
                         if(CalendarTournamentsDATA.data.eventsData[j].displayDataId === ContentTournamentsDATA[i].tournament_display_id){
-                            message.send(`found ${CalendarTournamentsDATA.data.eventsData[j].eventId}`)
+
+                            //found in calandar
+                            if(found === 0) tournamentLogsStrings += `**Found in Calandar:** Yes\n**Found At:** ${new Date()}\n**Regions:**`
+
+                            //add the regions
+                            tournamentLogsStrings += `\`${CalendarTournamentsDATA.data.eventsData[j].regions}\`\n`
+                            found++
 
                             //registering fonts
                             Canvas.registerFont('./assets/font/Lalezar-Regular.ttf', {family: 'Arabic',weight: "700",style: "bold"});
@@ -160,10 +175,20 @@ module.exports = async (FNBRMENA, client, admin) => {
 
                             //send the message  
                             const att = new Discord.MessageAttachment(canvas.toBuffer(), `${CalendarTournamentsDATA.data.eventsData[j].displayDataId}.png`)
-                            await message.send(att)
+                            //await message.send(att)
                             //await message.send(tournamentINFO)
                         }
                     }
+
+                    //not found in calandar YET
+                    if(found === 0) tournamentLogsStrings += `***Found in Calandar:*** No\n**Found At:** ${new Date()}\n`
+
+                    //add the tournament response
+                    tournamentLogsStrings += `How many tournaments found:** ${found}**\n\`\`\`yaml\n${ContentTournamentsDATA[i]}\`\`\``
+
+                    //send the message
+                    logs.send(tournamentLogsStrings)
+                    
                 })
             }
         }

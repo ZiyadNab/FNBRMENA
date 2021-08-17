@@ -108,10 +108,12 @@ module.exports.listen = async (client, admin, distube) => {
                     SyntaxError.setColor(FNBRMENA.Colors("embed"))
 
                     //loop throw every argsExample array
-                    let Examples = `No examples for this command just use ${commandUsed}`
+                    let Examples = ``
                     let Symbol = ``
                     for(const example of argsExample){
-                        if(example !== false) Examples += `${commandUsed} ${example}\n`
+                        if(example !== false){
+                            Examples += `${commandUsed} ${example}\n`
+                        } else Examples += `No examples for this command just use ${commandUsed}`
                         if(lang === "en" && example !== false) Symbol += `(${example}) Symbol: The output chosen\n`
                         else if(lang === "ar" && example !== false) Symbol += `رمز (${example}): تحديد نوع الأستخراج\n`
                     }
@@ -239,10 +241,12 @@ module.exports.listen = async (client, admin, distube) => {
                             SyntaxError.setColor(FNBRMENA.Colors("embed"))
 
                             //loop throw every argsExample array
-                            let Examples = `No examples for this command just use ${commandUsed}`
+                            let Examples = ``
                             let Symbol = ``
                             for(const example of argsExample){
-                                if(example !== false) Examples += `${commandUsed} ${example}\n`
+                                if(example !== false){
+                                    Examples += `${commandUsed} ${example}\n`
+                                } else Examples += `No examples for this command just use ${commandUsed}`
                                 if(lang === "en" && example !== false) Symbol += `(${example}) Symbol: The output chosen\n`
                                 else if(lang === "ar" && example !== false) Symbol += `رمز (${example}): تحديد نوع الأستخراج\n`
                             }

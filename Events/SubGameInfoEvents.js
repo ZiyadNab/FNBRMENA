@@ -7,8 +7,9 @@ module.exports = (FNBRMENA, client, admin) => {
     const message = client.channels.cache.find(channel => channel.id === config.events.Backgrounds)
 
     //result
-    var response = []
-    var lastModified = []
+    var BattleRoyaleDATA = []
+    var SaveTheWorldDATA = []
+    var CreativeDATA = []
     var number = 0
 
     //handle the blogs
@@ -33,17 +34,13 @@ module.exports = (FNBRMENA, client, admin) => {
                 await FNBRMENA.EpicContentEndpoint(lang)
                 .then(async res => {
 
-                    //constant response to make working easy
-                    const subgameinfoDATA = res.data.subgameinfo
-
                     //storing the first start up
                     if(number === 0){
 
                         //storing subgameinfo
-                        lastModified = await subgameinfoDATA.lastModified
-                        response[0] = await subgameinfoDATA.battleroyale
-                        response[1] = await subgameinfoDATA.savetheworld
-                        response[2] = await subgameinfoDATA.creative
+                        BattleRoyaleDATA = await res.data.subgameinfo.battleroyale
+                        SaveTheWorldDATA = await res.data.subgameinfo.savetheworld
+                        CreativeDATA = await res.data.subgameinfo.creative
 
                         //stop from storing again
                         number++
@@ -54,191 +51,120 @@ module.exports = (FNBRMENA, client, admin) => {
 
                         //if push is enabled for all
                         if(all){
-
-                            lastModified = ""
-
-                            //reset br
-                            response[0] = {
-                                subgame: "battleroyale"
-                            }
-
-                            //reset stw
-                            response[1] = {
-                                subgame: "savetheworld"
-                            }
-
-                            //reset creative
-                            response[2] = {
-                                subgame: "creative"
-                            }
-
-                        }else{
-
-                            //if push is enabled for battle royale
-                            if(battleroyale){
-                                lastModified = ""
-                                response[0] = {
-                                    subgame: "battleroyale"
-                                }
-                            }
-
-                            //if push is enabled for stw
-                            if(savetheworld){
-                                lastModified = ""
-                                response[1] = {
-                                    subgame: "savetheworld"
-                                }
-                            }
-
-                            //if push is enabled for creative
-                            if(creative){
-                                lastModified = ""
-                                response[2] = {
-                                    subgame: "creative"
-                                }
-                            }
+                            BattleRoyaleDATA = []
+                            SaveTheWorldDATA = []
+                            CreativeDATA = []
                         }
+                        //if push is enabled for battle royale
+                        if(battleroyale) BattleRoyaleDATA = []
+
+                        //if push is enabled for stw
+                        if(savetheworld) SaveTheWorldDATA = []
+
+                        //if push is enabled for creative
+                        if(creative) CreativeDATA = []
+
                     }
 
-                    //if the data was modified 
-                    if(subgameinfoDATA.lastModified !== lastModified){
-
-                        //registering fonts
-                        Canvas.registerFont('./assets/font/Lalezar-Regular.ttf', {family: 'Arabic',weight: "700"});
-                        Canvas.registerFont('./assets/font/BurbankBigCondensed-Black.otf' ,{family: 'Burbank Big Condensed',weight: "700"})
-
-                        //applytext
-                        const applyTextTitle = (canvas, text) => {
-                            const ctx = canvas.getContext('2d');
-                            let fontSize = 75;
-                            do {
-                                ctx.font = `${fontSize -= 1}px Burbank Big Condensed`
-
-                            } while (ctx.measureText(text).width > 450);
-                            return ctx.font;
-                        }
-
-                        //applytext
-                        const applyTextDescription = (canvas, text) => {
-                            const ctx = canvas.getContext('2d');
-                            let fontSize = 75;
-                            do {
-                                if(lang === "en") ctx.font = `${fontSize -= 1}px Burbank Big Condensed`
-                                else if(lang === "ar") ctx.font = `${fontSize -= 1}px Arabic`
-
-                            } while (ctx.measureText(text).width > 450);
-                            return ctx.font;
-                        }
-
-                        //a data has been changed
-                        for(let i = 0; i < response.length; i++){
-
-                            //check if the mode is battle royale
-                            if(response[i].subgame === "battleroyale"){
-
-                                //if the image is new
-                                if(subgameinfoDATA.battleroyale.image !== response[i].image){
-
-                                    //image dimensions
-                                    var dimensions = await probe(subgameinfoDATA.battleroyale.image)
-
-                                    //canvas
-                                    const canvas = Canvas.createCanvas(dimensions.width, dimensions.height);
-                                    const ctx = canvas.getContext('2d')
-
-                                    //add the image
-                                    const backgroundIMG = await Canvas.loadImage(subgameinfoDATA.battleroyale.image)
-                                    ctx.drawImage(backgroundIMG, 0, 0, canvas.width, canvas.height)
-
-                                    //credits
-                                    ctx.fillStyle = '#ffffff';
-                                    ctx.textAlign='left';
-                                    ctx.font = '40px Burbank Big Condensed'
-                                    ctx.fillText("FNBRMENA", 10, 40)
-
-                                    //attachments
-                                    const att = new Discord.MessageAttachment(canvas.toBuffer(), `${subgameinfoDATA.battleroyale.subgame}.png`)
-
-                                    //send the image
-                                    await message.send(`New ${subgameinfoDATA.battleroyale.title} gamemode image selector has been added`, att)
-                                }
-                            }
-
-                            //check if the mode is save the world
-                            if(response[i].subgame === "savetheworld"){
-
-                                //if the image is new
-                                if(subgameinfoDATA.savetheworld.image !== response[i].image){
-
-                                    //image dimensions
-                                    var dimensions = await probe(subgameinfoDATA.savetheworld.image)
-
-                                    //canvas
-                                    const canvas = Canvas.createCanvas(dimensions.width, dimensions.height);
-                                    const ctx = canvas.getContext('2d')
-
-                                    //add the image
-                                    const backgroundIMG = await Canvas.loadImage(subgameinfoDATA.savetheworld.image)
-                                    ctx.drawImage(backgroundIMG, 0, 0, canvas.width, canvas.height)
-
-                                    //credits
-                                    ctx.fillStyle = '#ffffff';
-                                    ctx.textAlign='left';
-                                    ctx.font = '40px Burbank Big Condensed'
-                                    ctx.fillText("FNBRMENA", 10, 40)
-
-                                    //attachments
-                                    const att = new Discord.MessageAttachment(canvas.toBuffer(), `${subgameinfoDATA.savetheworld.subgame}.png`)
-
-                                    //send the image
-                                    await message.send(`New ${subgameinfoDATA.savetheworld.title} gamemode image selector has been added`, att)
-                                }
-                            }
-
-                            //check if the mode is creative
-                            if(response[i].subgame === "creative"){
-
-                                //if the image is new
-                                if(subgameinfoDATA.creative.image !== response[i].image){
-
-                                    //image dimensions
-                                    var dimensions = await probe(subgameinfoDATA.creative.image)
-
-                                    //canvas
-                                    const canvas = Canvas.createCanvas(dimensions.width, dimensions.height);
-                                    const ctx = canvas.getContext('2d')
-
-                                    //add the image
-                                    const backgroundIMG = await Canvas.loadImage(subgameinfoDATA.creative.image)
-                                    ctx.drawImage(backgroundIMG, 0, 0, canvas.width, canvas.height)
-
-                                    //credits
-                                    ctx.fillStyle = '#ffffff';
-                                    ctx.textAlign='left';
-                                    ctx.font = '40px Burbank Big Condensed'
-                                    ctx.fillText("FNBRMENA", 10, 40)
-
-                                    //attachments
-                                    const att = new Discord.MessageAttachment(canvas.toBuffer(), `${subgameinfoDATA.creative.subgame}.png`)
-
-                                    //send the image
-                                    await message.send(`New ${subgameinfoDATA.creative.title} gamemode image selector has been added`, att)
-                                }
-                            }
-                        }
+                    //check if the mode is br
+                    if(JSON.stringify(res.data.subgameinfo.battleroyale) !== JSON.stringify(BattleRoyaleDATA)){
 
                         //storing subgameinfo
-                        lastModified = await subgameinfoDATA.lastModified
-                        response[0] = await subgameinfoDATA.battleroyale
-                        response[1] = await subgameinfoDATA.savetheworld
-                        response[2] = await subgameinfoDATA.creative
+                        BattleRoyaleDATA = await res.data.subgameinfo.battleroyale
 
-                        //trun off push if enabled
-                        await admin.database().ref("ERA's").child("Events").child("subgameinfo").child("Push").update({
-                            Push: false
-                        })
+                        //image dimensions
+                        var dimensions = await probe(res.data.subgameinfo.battleroyale.image)
+
+                        //canvas
+                        const canvas = Canvas.createCanvas(dimensions.width, dimensions.height);
+                        const ctx = canvas.getContext('2d')
+
+                        //add the image
+                        const backgroundIMG = await Canvas.loadImage(res.data.subgameinfo.battleroyale.image)
+                        ctx.drawImage(backgroundIMG, 0, 0, canvas.width, canvas.height)
+
+                        //credits
+                        ctx.fillStyle = '#ffffff';
+                        ctx.textAlign='left';
+                        ctx.font = '40px Burbank Big Condensed'
+                        ctx.fillText("FNBRMENA", 10, 40)
+
+                        //attachments
+                        const att = new Discord.MessageAttachment(canvas.toBuffer(), `${res.data.subgameinfo.battleroyale.subgame}.png`)
+
+                        //send the image
+                        await message.send(`New ${res.data.subgameinfo.battleroyale.title} gamemode image selector has been added`, att)
+
                     }
 
+                    //check if the mode is save the world
+                    if(JSON.stringify(res.data.subgameinfo.savetheworld) !== JSON.stringify(SaveTheWorldDATA)){
+
+                        //storing subgameinfo
+                        SaveTheWorldDATA = await res.data.subgameinfo.savetheworld
+
+                        //image dimensions
+                        var dimensions = await probe(res.data.subgameinfo.savetheworld.image)
+
+                        //canvas
+                        const canvas = Canvas.createCanvas(dimensions.width, dimensions.height);
+                        const ctx = canvas.getContext('2d')
+
+                        //add the image
+                        const backgroundIMG = await Canvas.loadImage(res.data.subgameinfo.savetheworld.image)
+                        ctx.drawImage(backgroundIMG, 0, 0, canvas.width, canvas.height)
+
+                        //credits
+                        ctx.fillStyle = '#ffffff';
+                        ctx.textAlign='left';
+                        ctx.font = '40px Burbank Big Condensed'
+                        ctx.fillText("FNBRMENA", 10, 40)
+
+                        //attachments
+                        const att = new Discord.MessageAttachment(canvas.toBuffer(), `${res.data.subgameinfo.savetheworld.subgame}.png`)
+
+                        //send the image
+                        await message.send(`New ${res.data.subgameinfo.savetheworld.title} gamemode image selector has been added`, att)
+
+                    }
+                    
+
+                    //check if the mode is creative
+                    if(JSON.stringify(res.data.subgameinfo.creative) !== JSON.stringify(CreativeDATA)){
+
+                        //storing subgameinfo
+                        CreativeDATA = await res.data.subgameinfo.creative
+
+                        //image dimensions
+                        var dimensions = await probe(res.data.subgameinfo.creative.image)
+
+                        //canvas
+                        const canvas = Canvas.createCanvas(dimensions.width, dimensions.height);
+                        const ctx = canvas.getContext('2d')
+
+                        //add the image
+                        const backgroundIMG = await Canvas.loadImage(res.data.subgameinfo.creative.image)
+                        ctx.drawImage(backgroundIMG, 0, 0, canvas.width, canvas.height)
+
+                        //credits
+                        ctx.fillStyle = '#ffffff';
+                        ctx.textAlign='left';
+                        ctx.font = '40px Burbank Big Condensed'
+                        ctx.fillText("FNBRMENA", 10, 40)
+
+                        //attachments
+                        const att = new Discord.MessageAttachment(canvas.toBuffer(), `${res.data.subgameinfo.creative.subgame}.png`)
+
+                        //send the image
+                        await message.send(`New ${res.data.subgameinfo.creative.title} gamemode image selector has been added`, att)
+
+                    }
+
+                    //trun off push if enabled
+                    await admin.database().ref("ERA's").child("Events").child("subgameinfo").child("Push").update({
+                        Push: false
+                    })
+                    
                 }).catch(err => {
                     console.log("The issue is in SubGameInfo Events ", err)
                 })

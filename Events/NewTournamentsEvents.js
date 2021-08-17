@@ -14,22 +14,27 @@ module.exports = async (FNBRMENA, client, admin) => {
 
     //handle sending the new tournament
     const Send = async (ContentTournamentsDATA, lang) => {
+        message.send("Content endpoint updated")
 
         //a data has been changed
         for(let i = 0; i < ContentTournamentsDATA.length; i++){
 
             //if there is a new torunaments
             if(!ContentResponse.includes(ContentTournamentsDATA[i].tournament_display_id)){
+                message.send(`new tournament id is ${ContentTournamentsDATA[i].tournament_display_id}`)
 
+                message.send(`requesting calandar`)
                 //request more detailed data from calendar tournaments
                 await FNBRMENA.CompCalendarEndpoint(lang)
                 .then(async CalendarTournamentsDATA => {
+                    message.send(`trying to find the new trounament`)
 
                     //loop throw ever tournament CalendarTournamentsDATA
                     for(let j = 0; j < CalendarTournamentsDATA.data.eventsData.length; j++){
 
                         //if there is an id match
                         if(CalendarTournamentsDATA.data.eventsData[j].displayDataId === ContentTournamentsDATA[i].tournament_display_id){
+                            message.send(`found ${CalendarTournamentsDATA.data.eventsData[j].eventId}`)
 
                             //registering fonts
                             Canvas.registerFont('./assets/font/Lalezar-Regular.ttf', {family: 'Arabic',weight: "700",style: "bold"});
@@ -156,7 +161,7 @@ module.exports = async (FNBRMENA, client, admin) => {
                             //send the message  
                             const att = new Discord.MessageAttachment(canvas.toBuffer(), `${CalendarTournamentsDATA.data.eventsData[j].displayDataId}.png`)
                             await message.send(att)
-                            await message.send(tournamentINFO)
+                            //await message.send(tournamentINFO)
                         }
                     }
                 })
@@ -210,7 +215,7 @@ module.exports = async (FNBRMENA, client, admin) => {
                     if(JSON.stringify(NewContentResponse) !== JSON.stringify(ContentResponse)){
 
                         //request send function
-                        Send(ContentTournamentsDATA, lang)
+                        await Send(ContentTournamentsDATA, lang)
 
                         //storing tournament information
                         for(let i = 0; i < ContentTournamentsDATA.length; i++){
@@ -230,5 +235,5 @@ module.exports = async (FNBRMENA, client, admin) => {
         })
     }
 
-    setInterval(NewTournaments, 1 * 20000)
+    setInterval(NewTournaments, 1 * 30000)
 }

@@ -6,7 +6,7 @@ const probe = require('probe-image-size')
 
 module.exports = async (FNBRMENA, client, admin) => {
     const message = client.channels.cache.find(channel => channel.id === config.events.Tournament)
-    const logs = client.channels.cache.find(channel => channel.id === '839544462568980510')
+    const logs = client.channels.cache.find(channel => channel.id === '876077567269023754')
 
     //result
     var ContentResponse = []
@@ -188,7 +188,7 @@ module.exports = async (FNBRMENA, client, admin) => {
 
                     //send the message
                     logs.send(tournamentLogsStrings)
-                    
+
                 })
             }
         }

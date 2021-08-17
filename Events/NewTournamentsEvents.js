@@ -45,7 +45,7 @@ module.exports = async (FNBRMENA, client, admin) => {
                         if(CalendarTournamentsDATA.data.eventsData[j].displayDataId === ContentTournamentsDATA[i].tournament_display_id){
 
                             //found in calandar
-                            if(found === 0) tournamentLogsStrings += `**Found in Calandar:** Yes\n**Found At:** ${new Date()}\n**Regions:**`
+                            if(found === 0) tournamentLogsStrings += `**Found in Calandar:** Yes\n**Found At:** ${new Date()}\n**Regions:**\n`
 
                             //add the regions
                             tournamentLogsStrings += `\`${CalendarTournamentsDATA.data.eventsData[j].regions}\`\n`
@@ -183,11 +183,19 @@ module.exports = async (FNBRMENA, client, admin) => {
                     //not found in calandar YET
                     if(found === 0) tournamentLogsStrings += `***Found in Calandar:*** No\n**Found At:** ${new Date()}\n`
 
+                    let string = "\`\`\`yaml\n"
+                    for(let p = 0; p < Object.keys(ContentTournamentsDATA[i]).length; p++){
+                        string += `${Object.keys(ContentTournamentsDATA[i])[p]}: ${Object.entries(ContentTournamentsDATA[i])[p][1]}\n`
+                    }
+                    string += "\`\`\`"
+
                     //add the tournament response
-                    tournamentLogsStrings += `How many tournaments found:** ${found}**\n\`\`\`yaml\n${ContentTournamentsDATA[i]}\`\`\``
+                    tournamentLogsStrings += `**How many tournaments found:** ${found}\n\n**Tournament Response**${string}`
+
+                    logsEmbed.setDescription(tournamentLogsStrings)
 
                     //send the message
-                    logs.send(tournamentLogsStrings)
+                    logs.send(logsEmbed)
 
                 })
             }

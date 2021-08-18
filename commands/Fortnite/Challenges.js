@@ -216,8 +216,8 @@ module.exports = {
                 ctx.drawImage(background, 0, 0, canvas.width, canvas.height)
 
                 //upper whare storing the credits and the challenges name
-                if(quest.toLowerCase().includes("legendary")) var card = await Canvas.loadImage('./assets/Challenges/legendary.png')
-                else var card = await Canvas.loadImage('./assets/Challenges/epic.png')
+                if(quest.toLowerCase().includes("legendary")) var upper = await Canvas.loadImage('./assets/Challenges/legendary.png')
+                else var upper = await Canvas.loadImage('./assets/Challenges/epic.png')
                 ctx.drawImage(upper, 0, 0, canvas.width, 150)
 
                 //adding credits

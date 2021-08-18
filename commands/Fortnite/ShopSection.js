@@ -185,43 +185,60 @@ module.exports = {
                                 if(data.Images[x].Scaling){
 
                                     //inislizing img width and height
-                                    let imgWidth = upcomingEventImage.width
-                                    let imgHeight = upcomingEventImage.height
+                                    let imgWidth = 0
+                                    let imgHeight = 0
 
                                     //if imgWidth > canvas.width then start decreasing
                                     if(imgWidth < canvas.width){
 
-                                        while(imgWidth < canvas.width){
-                                            imgWidth += canvas.width / canvas.height
-                                            imgHeight += 1
-                                        }
+                                        if(upcomingEventImage.width > upcomingEventImage.height){
 
-                                        if(imgHeight < canvas.height){
-    
-                                            while(imgHeight < canvas.height){
-                                                imgWidth += canvas.width / canvas.height
-                                                imgHeight += 1
-                                            }
+                                            //try to sixe up the image
+                                            let percentage = 1
+                                            while(upcomingEventImage.height * (0.01 * percentage) < canvas.height) percentage++
+
+                                            //change the width and height
+                                            imgHeight = upcomingEventImage.height * (0.01 * percentage)
+                                            imgWidth = upcomingEventImage.width * (0.01 * percentage)
+
+                                        }else if(upcomingEventImage.width < upcomingEventImage.height){
+
+                                            //try to sixe up the image
+                                            let percentage = 1
+                                            while(upcomingEventImage.width * (0.01 * percentage) < canvas.width) percentage++
+
+                                            //change the width and height
+                                            imgHeight = upcomingEventImage.height * (0.01 * percentage)
+                                            imgWidth = upcomingEventImage.width * (0.01 * percentage)
                                         }
                                         
                                     }else{
 
-                                        while(imgWidth > canvas.width){
-                                            imgWidth -= canvas.width / canvas.height
-                                            imgHeight -= 1
+                                        if(upcomingEventImage.width > upcomingEventImage.height){
+
+                                            //try to sixe up the image
+                                            let percentage = 10000
+                                            while(upcomingEventImage.height * (0.01 * percentage) < canvas.height) percentage--
+
+                                            //change the width and height
+                                            imgHeight = upcomingEventImage.height * (0.01 * percentage)
+                                            imgWidth = upcomingEventImage.width * (0.01 * percentage)
+
+                                        }else if(upcomingEventImage.width < upcomingEventImage.height){
+
+                                            //try to sixe up the image
+                                            let percentage = 1
+                                            while(upcomingEventImage.width * (0.01 * percentage) < canvas.width) percentage++
+
+                                            //change the width and height
+                                            imgHeight = upcomingEventImage.height * (0.01 * percentage)
+                                            imgWidth = upcomingEventImage.width * (0.01 * percentage)
                                         }
 
-                                        if(imgHeight < canvas.height){
-
-                                            while(imgHeight < canvas.height){
-                                                imgWidth += canvas.width / canvas.height
-                                                imgHeight += 1
-                                            }
-                                        }
                                     }
 
                                     //drawimage
-                                    ctx.drawImage(upcomingEventImage, data.Images[x].X, data.Images[x].Y, imgWidth, imgHeight)
+                                    ctx.drawImage(upcomingEventImage, canvas.width / 2, canvas.height / 2, imgWidth, imgHeight)
 
                                 }else{
 

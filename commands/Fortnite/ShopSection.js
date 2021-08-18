@@ -237,8 +237,11 @@ module.exports = {
 
                                     }
 
+                                    var xaxis = (canvas.width  - imgWidth) * 0.5
+                                    var yaxis = (canvas.height - imgHeight) * 0.5
+
                                     //drawimage
-                                    ctx.drawImage(upcomingEventImage, canvas.width / 2, canvas.height / 2, imgWidth, imgHeight)
+                                    ctx.drawImage(upcomingEventImage, xaxis, yaxis, imgWidth, imgHeight)
 
                                 }else{
 

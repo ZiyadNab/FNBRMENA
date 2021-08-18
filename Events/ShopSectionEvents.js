@@ -169,43 +169,45 @@ module.exports = (FNBRMENA, client, admin) => {
                             if(data.Images[x].Scaling){
 
                                 //inislizing img width and height
-                                let imgWidth = upcomingEventImage.width
-                                let imgHeight = upcomingEventImage.height
+                                let imgWidth = 0
+                                let imgHeight = 0
 
                                 //if imgWidth > canvas.width then start decreasing
                                 if(imgWidth < canvas.width){
 
-                                    while(imgWidth < canvas.width){
-                                        imgWidth += 1
-                                        imgHeight += 1
-                                    }
+                                    //try to sixe up the image
+                                    let percentage = 1
+                                    while(upcomingEventImage.height * (0.01 * percentage) <= canvas.height) percentage++
 
-                                    if(imgHeight < canvas.height){
+                                    //if width still low
+                                    if(upcomingEventImage.width * (0.01 * percentage) <= canvas.width)
+                                    while(upcomingEventImage.width * (0.01 * percentage) <= canvas.width) percentage++
 
-                                        while(imgHeight < canvas.height){
-                                            imgWidth += 1
-                                            imgHeight += 1
-                                        }
-                                    }
+                                    //change the width and height
+                                    imgHeight = upcomingEventImage.height * (0.01 * percentage)
+                                    imgWidth = upcomingEventImage.width * (0.01 * percentage)
                                     
                                 }else{
 
-                                    while(imgWidth > canvas.width){
-                                        imgWidth -= 1
-                                        imgHeight -= 1
-                                    }
+                                    //try to sixe up the image
+                                    let percentage = 1
+                                    while(upcomingEventImage.height * (0.01 * percentage) <= canvas.height) percentage--
 
-                                    if(imgHeight < canvas.height){
+                                    //if width still low
+                                    if(upcomingEventImage.width * (0.01 * percentage) <= canvas.width)
+                                    while(upcomingEventImage.width * (0.01 * percentage) <= canvas.width) percentage--
 
-                                        while(imgHeight < canvas.height){
-                                            imgWidth += 1
-                                            imgHeight += 1
-                                        }
-                                    }
+                                    //change the width and height
+                                    imgHeight = upcomingEventImage.height * (0.01 * percentage)
+                                    imgWidth = upcomingEventImage.width * (0.01 * percentage)
+
                                 }
 
+                                var xaxis = (canvas.width  - imgWidth) * 0.5
+                                var yaxis = (canvas.height - imgHeight) * 0.5
+
                                 //drawimage
-                                ctx.drawImage(upcomingEventImage, data.Images[x].X, data.Images[x].Y, imgWidth, imgHeight)
+                                ctx.drawImage(upcomingEventImage, xaxis, yaxis, imgWidth, imgHeight)
 
                             }else{
 

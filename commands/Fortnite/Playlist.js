@@ -164,16 +164,6 @@ module.exports = {
                 message.channel.send(generating)
                 .then( async msg => {
 
-                    //playlist image dimensions
-                    if(image !== null) var dimensions = await probe(image)
-                    else var dimensions = {
-                        width: 1024,
-                        height: 512,
-                    }
-
-                    dimensions.width = dimensions.width * 2
-                    dimensions.height = dimensions.height * 2
-
                     //register fonts
                     Canvas.registerFont('./assets/font/Lalezar-Regular.ttf', {family: 'Arabic',weight: "700",style: "bold"});
                     Canvas.registerFont('./assets/font/BurbankBigCondensed-Black.otf' ,{family: 'Burbank Big Condensed',weight: "700",style: "bold"})
@@ -185,7 +175,7 @@ module.exports = {
                         do {
                             if(lang === "en") ctx.font = `${fontSize -= 1}px Arial`
                             else if(lang === "ar") ctx.font = `${fontSize -= 1}px Arabic`
-                        } while (ctx.measureText(text).width > dimensions.width)
+                        } while (ctx.measureText(text).width > 2048)
                         return ctx.font;
                     }
 
@@ -196,13 +186,13 @@ module.exports = {
                         do {
                             if(lang === "en") ctx.font = `${fontSize -= 1}px Burbank Big Condensed`
                             else if(lang === "ar") ctx.font = `${fontSize -= 1}px Arabic`
-                        } while (ctx.measureText(text).width > dimensions.width)
+                        } while (ctx.measureText(text).width > 2048)
                         return ctx.font;
                     }
 
                     //canvas
-                    const canvas = Canvas.createCanvas(dimensions.width, dimensions.height);
-                    const ctx = canvas.getContext('2d');
+                    const canvas = Canvas.createCanvas(2048, 1024)
+                    const ctx = canvas.getContext('2d')
 
                     //background
                     if(image !== null){
@@ -382,8 +372,13 @@ module.exports = {
                     await message.channel.send(att)
                     message.channel.send(modeInfo)
                     msg.delete()
+
+                }).catch(err => {
+                    console.log(err)
                 })
             }
+        }).catch(err => {
+            console.log(err)
         })
     }
 }

@@ -185,38 +185,34 @@ module.exports = {
 
                 //applytext
                 const applyText = (canvas, text) => {
-                    const ctx = canvas.getContext('2d');
+                    const ctx = canvas.getContext('2d')
                     let fontSize = 100;
                     do {
-                        if(lang === "en"){
-                            ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
-                        }else if(lang === "ar"){
-                            ctx.font = `${fontSize -= 1}px Arabic`;
-                        }
-                    } while (ctx.measureText(text).width > width - 225);
+                        if(lang === "en") ctx.font = `${fontSize -= 1}px Burbank Big Condensed`
+                        else if(lang === "ar") ctx.font = `${fontSize -= 1}px Arabic`
+                    } while (ctx.measureText(text).width > width - 225)
                     return ctx.font;
                 }
 
                 //applytext
                 const applyTextRewards = (canvas, text) => {
-                    const ctx = canvas.getContext('2d');
+                    const ctx = canvas.getContext('2d')
                     let fontSize = 100;
                     do {
-                        if(lang === "en"){
-                            ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
-                        }else if(lang === "ar"){
-                            ctx.font = `${fontSize -= 1}px Arabic`;
-                        }
-                    } while (ctx.measureText(text).width > width - 1700);
+                        if(lang === "en") ctx.font = `${fontSize -= 1}px Burbank Big Condensed`
+                        else if(lang === "ar") ctx.font = `${fontSize -= 1}px Arabic`
+                        
+                    } while (ctx.measureText(text).width > width - 1700)
                     return ctx.font;
                 }
 
                 //create canvas
-                const canvas = Canvas.createCanvas(width, height);
-                const ctx = canvas.getContext('2d');
+                const canvas = Canvas.createCanvas(width, height)
+                const ctx = canvas.getContext('2d')
 
                 //background
-                const background = await Canvas.loadImage('./assets/Challenges/background.png')
+                if(quest.toLowerCase().includes("legendary")) var background = await Canvas.loadImage('./assets/Challenges/legend.png')
+                else var background = await Canvas.loadImage('./assets/Challenges/background.png')
                 ctx.drawImage(background, 0, 0, canvas.width, canvas.height)
 
                 //upper whare storing the credits and the challenges name
@@ -248,7 +244,8 @@ module.exports = {
                 for(let i = 0; i < found.quests.length; i++){
 
                     //add the card of the challenge
-                    const card = await Canvas.loadImage('./assets/Challenges/epic.png')
+                    if(quest.toLowerCase().includes("legendary")) var card = await Canvas.loadImage('./assets/Challenges/legendary.png')
+                    else var card = await Canvas.loadImage('./assets/Challenges/epic.png')
                     ctx.drawImage(card, x, y, w, h)
 
                     //english sheet

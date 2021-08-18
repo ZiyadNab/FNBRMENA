@@ -175,8 +175,8 @@ module.exports = async (FNBRMENA, client, admin) => {
 
                             //send the message  
                             const att = new Discord.MessageAttachment(canvas.toBuffer(), `${CalendarTournamentsDATA.data.eventsData[j].displayDataId}.png`)
-                            //await message.send(att)
-                            //await message.send(tournamentINFO)
+                            await message.send(att)
+                            await message.send(tournamentINFO)
                         }
                     }
 

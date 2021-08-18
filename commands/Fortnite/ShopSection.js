@@ -252,14 +252,14 @@ module.exports = {
                     ctx.fillStyle = '#ffffff';
                     ctx.textAlign='center';
                     ctx.font = '100px Burbank Big Condensed'
-                    ctx.fillText(date, canvas.width / 2, (canvas.height - 100))
+                    ctx.fillText(date, canvas.width / 2, (canvas.height - 70))
                 }else{
                     moment.locale("ar")
                     var date = moment().format("dddd, MMMM Do من YYYY")
                     ctx.fillStyle = '#ffffff';
                     ctx.textAlign='center';
                     ctx.font = '100px Arabic'
-                    ctx.fillText(date, canvas.width / 2, (canvas.height - 100))
+                    ctx.fillText(date, canvas.width / 2, (canvas.height - 70))
                 }
 
                 //section text

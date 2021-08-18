@@ -192,14 +192,14 @@ module.exports = {
                                     if(imgWidth < canvas.width){
 
                                         while(imgWidth < canvas.width){
-                                            imgWidth += 1
+                                            imgWidth += canvas.width / canvas.height
                                             imgHeight += 1
                                         }
 
                                         if(imgHeight < canvas.height){
     
                                             while(imgHeight < canvas.height){
-                                                imgWidth += 1
+                                                imgWidth += canvas.width / canvas.height
                                                 imgHeight += 1
                                             }
                                         }
@@ -207,14 +207,14 @@ module.exports = {
                                     }else{
 
                                         while(imgWidth > canvas.width){
-                                            imgWidth -= 1
+                                            imgWidth -= canvas.width / canvas.height
                                             imgHeight -= 1
                                         }
 
                                         if(imgHeight < canvas.height){
 
                                             while(imgHeight < canvas.height){
-                                                imgWidth += 1
+                                                imgWidth += canvas.width / canvas.height
                                                 imgHeight += 1
                                             }
                                         }

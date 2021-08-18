@@ -128,7 +128,7 @@ module.exports = {
                                         }
                                     }
                                 }
-xw
+                                
                                 //drawimage
                                 ctx.drawImage(upcomingEventImage, data.Images[x].X, data.Images[x].Y, imgWidth, imgHeight)
 

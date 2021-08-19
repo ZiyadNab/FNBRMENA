@@ -24,8 +24,6 @@ module.exports = {
         //data minpulator
         const prettySections = async (Sections) => {
 
-            console.log(Sections)
-
             //define pretty response and its requirments
             var Counter = 0
             var Pretty = []
@@ -85,7 +83,6 @@ module.exports = {
             }
 
             //return JSON array
-            console.log(Pretty)
             return Pretty
         }
 

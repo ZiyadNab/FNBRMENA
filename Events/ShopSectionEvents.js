@@ -13,25 +13,17 @@ module.exports = (FNBRMENA, client, admin) => {
     var number = 0
 
     //send the sections when a change has happend
-    const Send = async (SectionsResponse, lang) => {
+    const Send = async (sectionsResponse, lang) => {
 
         //get the sections data from database
         const SectionsData = await FNBRMENA.Admin(admin, message, "", "ShopSections")
 
-        //SectionsData index
-        var sectionsIndex = 0
-        var UpcomingEventsIndex = 0
-        for(let i = 0; i < Object.keys(SectionsData).length; i++){
-            if(Object.keys(SectionsData)[i] === 'Sections') sectionsIndex = i
-            if(Object.keys(SectionsData)[i] === 'UpcomingEvents') UpcomingEventsIndex = i
-        }
-
         //data minpulator
-        const JSONresponse = async (Sections) => {
+        const prettySections = async (Sections) => {
 
-            //define json response and its requirments
+            //define pretty response and its requirments
             var Counter = 0
-            var JSON = []
+            var Pretty = []
 
             //get the section tabs and add them to a string
             while(Sections.length !== 0){
@@ -47,7 +39,7 @@ module.exports = (FNBRMENA, client, admin) => {
                 while(i !== Sections.length){
 
                     //if there is another tab for the section at index 0
-                    if(firstIndex.displayName === Sections[i].displayName){
+                    if(Sections[i].sectionId.toLowerCase().includes(firstIndex.sectionId.toLowerCase())){
 
                         //remove the section from the section array
                         const index = Sections.indexOf(Sections[i])
@@ -60,12 +52,13 @@ module.exports = (FNBRMENA, client, admin) => {
                 }
 
                 //add the tabs string
-                if(firstIndex.displayName !== undefined){
+                if(firstIndex.sectionDisplayName !== undefined){
 
                     //add the data
-                    JSON[Counter] = {
-                        name: firstIndex.displayName,
-                        id: firstIndex.id,
+                    Pretty[Counter] = {
+                        name: firstIndex.sectionDisplayName,
+                        id: firstIndex.sectionId,
+                        landingPriority: firstIndex.landingPriority,
                         quantity: tabs
                     }
 
@@ -74,9 +67,10 @@ module.exports = (FNBRMENA, client, admin) => {
                 }else{
                     
                     //add the data
-                    JSON[Counter] = {
-                        name: firstIndex.id,
-                        id: firstIndex.id,
+                    Pretty[Counter] = {
+                        name: firstIndex.sectionId,
+                        id: firstIndex.sectionId,
+                        landingPriority: firstIndex.landingPriority,
                         quantity: tabs
                     }
 
@@ -86,11 +80,34 @@ module.exports = (FNBRMENA, client, admin) => {
             }
 
             //return JSON array
-            return JSON
+            return Pretty
+        }
+
+        const extractSections = async (sectionIDs) => {
+
+            //store all the object of an active section
+            let activeSectionsObj = []
+            let Counter = 0
+
+            //request content endpoint
+            await FNBRMENA.EpicContentEndpoint(lang)
+            .then(async res => {
+
+                //find the active sections
+                for(const sectionObj of res.data.shopSections.sectionList.sections){
+                    for(let i = 0; i < sectionIDs.length; i++){
+
+                        if(sectionObj.sectionId === sectionIDs[i]) activeSectionsObj[Counter++] = await sectionObj
+                    }
+                }
+            })
+
+            //get the sections as a pretty then return it
+            return await prettySections(activeSectionsObj)
         }
 
         //get the sections as a minpulated data
-        const sections = await JSONresponse(SectionsResponse)
+        let sections = await extractSections(sectionsResponse)
 
         //inisilizing values
         var width = 2000
@@ -134,6 +151,14 @@ module.exports = (FNBRMENA, client, admin) => {
 
             //create background grediant
             const grediant = ctx.createLinearGradient(0, canvas.height, canvas.width, 0)
+
+            //SectionsData index
+            var sectionsIndex = 0
+            var UpcomingEventsIndex = 0
+            for(let i = 0; i < Object.keys(SectionsData).length; i++){
+                if(Object.keys(SectionsData)[i] === 'Sections') sectionsIndex = i
+                if(Object.keys(SectionsData)[i] === 'UpcomingEvents') UpcomingEventsIndex = i
+            }
 
             //get the upcoming events if there is one set to be active
             const UpcomingEventsData = SectionsData[Object.keys(SectionsData)[UpcomingEventsIndex]]
@@ -386,10 +411,11 @@ module.exports = (FNBRMENA, client, admin) => {
     //handle the changes is sections response
     const Section = async () => {
 
+        //define the collection
+        const docRef = await admin.firestore().collection("authToken").doc("0").get()
+
         //checking if the bot on or off
         admin.database().ref("ERA's").child("Events").child("section").once('value', async function (data) {
-
-            //store access
             const status = data.val().Active
             const lang = data.val().Lang
             const push = data.val().Push
@@ -398,32 +424,18 @@ module.exports = (FNBRMENA, client, admin) => {
             if(status){
 
                 //request data
-                await FNBRMENA.Sections(lang, "Yes")
+                await FNBRMENA.EpicCalandar(docRef.data().accessToken.access_token)
                 .then(async res => {
 
-                    //get the index of current sections
-                    let index
-                    if(res.data.list.length === 1) index = 0
-                    else if(res.data.list.length === 2){
-
-                        //loop throw every list
-                        for(let i = 0; i < res.data.list.length; i++){
-                            
-                            //if the list has a tag NEXT
-                            if(res.data.list[i].apiTag === "next"){
-
-                                //get the index of next sections
-                                index = i
-                            }
-                        }
-                    }
+                    let sectionIndex = 0
+                    if(res.data.channels['client-events'].states.length === 2) sectionIndex = 1
 
                     //store the data if the bot got restarted
                     if(number === 0){
 
                         //store sections
-                        for(let i = 0; i < res.data.list[index].sections.length; i++){
-                            response[i] = await res.data.list[index].sections[i]
+                        for(let i = 0; i < Object.keys(res.data.channels['client-events'].states[sectionIndex].state.sectionStoreEnds).length; i++){
+                            response[i] = Object.keys(res.data.channels['client-events'].states[sectionIndex].state.sectionStoreEnds)[i]
                         }
                         number++
                     }
@@ -432,11 +444,11 @@ module.exports = (FNBRMENA, client, admin) => {
                     if(push) response = []
 
                     //checking for deff
-                    if(JSON.stringify(res.data.list[index].sections) !== JSON.stringify(response)){
+                    if(JSON.stringify(Object.keys(res.data.channels['client-events'].states[sectionIndex].state.sectionStoreEnds)) !== JSON.stringify(response)){
 
                         //store sections
-                        for(let i = 0; i < res.data.list[index].sections.length; i++){
-                            response[i] = await res.data.list[index].sections[i]
+                        for(let i = 0; i < Object.keys(res.data.channels['client-events'].states[sectionIndex].state.sectionStoreEnds).length; i++){
+                            response[i] = Object.keys(res.data.channels['client-events'].states[sectionIndex].state.sectionStoreEnds)[i]
                         }
 
                         //trun off push if enabled
@@ -445,7 +457,7 @@ module.exports = (FNBRMENA, client, admin) => {
                         })
 
                         //call send function
-                        Send(res.data.list[index].sections, lang)
+                        Send(Object.keys(res.data.channels['client-events'].states[sectionIndex].state.sectionStoreEnds), lang)
                         
                     }
                 }).catch(err => {
@@ -454,5 +466,5 @@ module.exports = (FNBRMENA, client, admin) => {
             }
         })
     }
-    setInterval(Section, 1 * 20000)
+    setInterval(Section, 1 * 15000)
 }

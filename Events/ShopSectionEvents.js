@@ -39,7 +39,8 @@ module.exports = (FNBRMENA, client, admin) => {
                 while(i !== Sections.length){
 
                     //if there is another tab for the section at index 0
-                    if(Sections[i].sectionId.toLowerCase().includes(firstIndex.sectionId.toLowerCase())){
+                    if(Sections[i].sectionId.toLowerCase().includes(firstIndex.sectionId.toLowerCase()) ||
+                    firstIndex.sectionDisplayName === Sections[i].sectionDisplayName){
 
                         //remove the section from the section array
                         const index = Sections.indexOf(Sections[i])

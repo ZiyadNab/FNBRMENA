@@ -23,6 +23,7 @@ module.exports = {
 
         //data minpulator
         const prettySections = async (Sections) => {
+            console.log(Sections)
 
             //define pretty response and its requirments
             var Counter = 0
@@ -42,7 +43,8 @@ module.exports = {
                 while(i !== Sections.length){
 
                     //if there is another tab for the section at index 0
-                    if(Sections[i].sectionId.toLowerCase().includes(firstIndex.sectionId.toLowerCase())){
+                    if(Sections[i].sectionId.toLowerCase().includes(firstIndex.sectionId.toLowerCase()) ||
+                    firstIndex.sectionDisplayName === Sections[i].sectionDisplayName){
 
                         //remove the section from the section array
                         const index = Sections.indexOf(Sections[i])
@@ -83,6 +85,7 @@ module.exports = {
             }
 
             //return JSON array
+            console.log(Pretty)
             return Pretty
         }
 

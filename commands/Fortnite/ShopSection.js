@@ -23,7 +23,6 @@ module.exports = {
 
         //data minpulator
         const prettySections = async (Sections) => {
-            console.log(Sections)
 
             //define pretty response and its requirments
             var Counter = 0
@@ -85,7 +84,6 @@ module.exports = {
             }
 
             //return JSON array
-            console.log(Pretty)
             return Pretty
         }
 
@@ -116,38 +114,6 @@ module.exports = {
         await FNBRMENA.EpicCalandar(docRef.data().accessToken.access_token)
         .then(async res => {
 
-            let sectionIndex = 0
-            if(res.data.channels['client-events'].states.length === 2) sectionIndex = 1
-
-            //get the sections as a minpulated data
-            let sections = await extractSections(Object.keys(res.data.channels['client-events'].states[sectionIndex].state.sectionStoreEnds))
-
-            //inisilizing values
-            var width = 2000
-            var height = 1100
-            var x = 250
-            var y = 550
-
-            //creating height
-            for(let i = 0; i < sections.length; i++){
-                height += 300
-            }
-
-            //registering fonts
-            Canvas.registerFont('./assets/font/Lalezar-Regular.ttf', {family: 'Arabic',weight: "700",style: "bold"});
-            Canvas.registerFont('./assets/font/BurbankBigCondensed-Black.otf' ,{family: 'Burbank Big Condensed',weight: "700",style: "bold"})
-
-            //applytext
-            const applyText = (canvas, text) => {
-                const ctx = canvas.getContext('2d')
-                let fontSize = 150
-                do {
-                    if(lang === "en") ctx.font = `${fontSize -= 1}px Burbank Big Condensed`
-                    else if(lang === "ar") ctx.font = `${fontSize -= 1}px Arabic`
-                } while (ctx.measureText(text).width > 1400)
-                return ctx.font
-            }
-
             //generating animation
             const generating = new Discord.MessageEmbed()
             generating.setColor(FNBRMENA.Colors("embed"))
@@ -155,6 +121,38 @@ module.exports = {
             else if(lang === "ar") generating.setTitle(`جاري تحميل الأقسام... ${loadingEmoji}`)
             message.channel.send(generating)
             .then( async msg => {
+
+                let sectionIndex = 0
+                if(res.data.channels['client-events'].states.length === 2) sectionIndex = 1
+
+                //get the sections as a minpulated data
+                let sections = await extractSections(Object.keys(res.data.channels['client-events'].states[sectionIndex].state.sectionStoreEnds))
+
+                //inisilizing values
+                var width = 2000
+                var height = 1100
+                var x = 250
+                var y = 550
+
+                //creating height
+                for(let i = 0; i < sections.length; i++){
+                    height += 300
+                }
+
+                //registering fonts
+                Canvas.registerFont('./assets/font/Lalezar-Regular.ttf', {family: 'Arabic',weight: "700",style: "bold"});
+                Canvas.registerFont('./assets/font/BurbankBigCondensed-Black.otf' ,{family: 'Burbank Big Condensed',weight: "700",style: "bold"})
+
+                //applytext
+                const applyText = (canvas, text) => {
+                    const ctx = canvas.getContext('2d')
+                    let fontSize = 150
+                    do {
+                        if(lang === "en") ctx.font = `${fontSize -= 1}px Burbank Big Condensed`
+                        else if(lang === "ar") ctx.font = `${fontSize -= 1}px Arabic`
+                    } while (ctx.measureText(text).width > 1400)
+                    return ctx.font
+                }
 
                 //creating canvas
                 const canvas = Canvas.createCanvas(width, height);

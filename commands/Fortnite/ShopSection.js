@@ -18,103 +18,112 @@ module.exports = {
         //get the sections data from database
         const SectionsData = await FNBRMENA.Admin(admin, message, "", "ShopSections")
 
-        //SectionsData index
-        var sectionsIndex = 0
-        var UpcomingEventsIndex = 0
-        for(let i = 0; i < Object.keys(SectionsData).length; i++){
-            if(Object.keys(SectionsData)[i] === 'Sections') sectionsIndex = i
-            if(Object.keys(SectionsData)[i] === 'UpcomingEvents') UpcomingEventsIndex = i
+        //define the collection
+        const docRef = await admin.firestore().collection("authToken").doc("0").get()
+
+        //data minpulator
+        const prettySections = async (Sections) => {
+
+            //define pretty response and its requirments
+            var Counter = 0
+            var Pretty = []
+
+            //get the section tabs and add them to a string
+            while(Sections.length !== 0){
+
+                //defined tabs and i index
+                var tabs = 0
+                var i = 0
+                
+                //see what is the index 0 is and how many tabs for the same section
+                const firstIndex = await Sections[0]
+
+                //loop throw all of the modified section
+                while(i !== Sections.length){
+
+                    //if there is another tab for the section at index 0
+                    if(firstIndex.sectionDisplayName === Sections[i].sectionDisplayName){
+
+                        //remove the section from the section array
+                        const index = Sections.indexOf(Sections[i])
+                        if(index > -1) Sections.splice(index, 1)
+
+                        //add new tab
+                        tabs++
+
+                    } else i++
+                }
+
+                //add the tabs string
+                if(firstIndex.sectionDisplayName !== undefined){
+
+                    //add the data
+                    Pretty[Counter] = {
+                        name: firstIndex.sectionDisplayName,
+                        id: firstIndex.sectionId,
+                        landingPriority: firstIndex.landingPriority,
+                        quantity: tabs
+                    }
+
+                    //change Counter index
+                    Counter++
+                }else{
+                    
+                    //add the data
+                    Pretty[Counter] = {
+                        name: firstIndex.sectionId,
+                        id: firstIndex.sectionId,
+                        landingPriority: firstIndex.landingPriority,
+                        quantity: tabs
+                    }
+
+                    //change Counter index
+                    Counter++
+                }
+            }
+
+            //return JSON array
+            return Pretty
+        }
+
+        const extractSections = async (sectionIDs) => {
+
+            //store all the object of an active section
+            let activeSectionsObj = []
+            let Counter = 0
+
+            //request content endpoint
+            await FNBRMENA.EpicContentEndpoint(lang)
+            .then(async res => {
+
+                //find the active sections
+                for(const sectionObj of res.data.shopSections.sectionList.sections){
+                    for(let i = 0; i < sectionIDs.length; i++){
+
+                        if(sectionObj.sectionId === sectionIDs[i]) activeSectionsObj[Counter++] = await sectionObj
+                    }
+                }
+            })
+
+            //get the sections as a pretty then return it
+            return await prettySections(activeSectionsObj)
         }
         
         //request data
-        FNBRMENA.Sections(lang, "Yes")
+        await FNBRMENA.EpicCalandar(docRef.data().accessToken.access_token)
         .then(async res => {
 
-            //data minpulator
-            const JSONresponse = async (Sections) => {
+            let sectionIndex = 0
+            if(res.data.channels['client-events'].states.length === 2) sectionIndex = 1
 
-                //define json response and its requirments
-                var Counter = 0
-                var JSON = []
-
-                //get the section tabs and add them to a string
-                while(Sections.length !== 0){
-
-                    //defined tabs and i index
-                    var tabs = 0
-                    var i = 0
-                    
-                    //see what is the index 0 is and how many tabs for the same section
-                    const firstIndex = await Sections[0]
-
-                    //loop throw all of the modified section
-                    while(i !== Sections.length){
-
-                        //if there is another tab for the section at index 0
-                        if(firstIndex.displayName === Sections[i].displayName){
-
-                            //remove the section from the section array
-                            const index = Sections.indexOf(Sections[i])
-                            if(index > -1) Sections.splice(index, 1)
-
-                            //add new tab
-                            tabs++
-
-                        } else i++
-                    }
-
-                    //add the tabs string
-                    if(firstIndex.displayName !== undefined){
-
-                        //add the data
-                        JSON[Counter] = {
-                            name: firstIndex.displayName,
-                            id: firstIndex.id,
-                            quantity: tabs
-                        }
-
-                        //change Counter index
-                        Counter++
-                    }else{
-                        
-                        //add the data
-                        JSON[Counter] = {
-                            name: firstIndex.id,
-                            id: firstIndex.id,
-                            quantity: tabs
-                        }
-
-                        //change Counter index
-                        Counter++
-                    }
-                }
-
-                //return JSON array
-                return JSON
-            }
             //get the sections as a minpulated data
-            let sections
-            if(res.data.list.length === 1) sections = await JSONresponse(res.data.list[0].sections)
-            else if(res.data.list.length === 2){
-
-                //loop throw every list
-                for(let i = 0; i < res.data.list.length; i++){
-                    
-                    //if the list has a tag NEXT
-                    if(res.data.list[i].apiTag === "next"){
-
-                        //get the sections as a minpulated data
-                        sections = await JSONresponse(res.data.list[i].sections)
-                    }
-                }
-            }
+            let sections = await extractSections(Object.keys(res.data.channels['client-events'].states[sectionIndex].state.sectionStoreEnds))
 
             //inisilizing values
             var width = 2000
             var height = 1100
             var x = 250
             var y = 550
-            var string = ""
 
             //creating height
             for(let i = 0; i < sections.length; i++){
@@ -127,13 +136,13 @@ module.exports = {
 
             //applytext
             const applyText = (canvas, text) => {
-                const ctx = canvas.getContext('2d');
-                let fontSize = 150;
+                const ctx = canvas.getContext('2d')
+                let fontSize = 150
                 do {
                     if(lang === "en") ctx.font = `${fontSize -= 1}px Burbank Big Condensed`
                     else if(lang === "ar") ctx.font = `${fontSize -= 1}px Arabic`
-                } while (ctx.measureText(text).width > 1400);
-                return ctx.font;
+                } while (ctx.measureText(text).width > 1400)
+                return ctx.font
             }
 
             //generating animation
@@ -150,6 +159,14 @@ module.exports = {
 
                 //create background grediant
                 const grediant = ctx.createLinearGradient(0, canvas.height, canvas.width, 0)
+
+                //SectionsData index
+                var sectionsIndex = 0
+                var UpcomingEventsIndex = 0
+                for(let i = 0; i < Object.keys(SectionsData).length; i++){
+                    if(Object.keys(SectionsData)[i] === 'Sections') sectionsIndex = i
+                    if(Object.keys(SectionsData)[i] === 'UpcomingEvents') UpcomingEventsIndex = i
+                }
 
                 //get the upcoming events if there is one set to be active
                 const UpcomingEventsData = SectionsData[Object.keys(SectionsData)[UpcomingEventsIndex]]
@@ -240,37 +257,35 @@ module.exports = {
                 }
 
                 //add FNBRMENA credit
-                ctx.fillStyle = '#ffffff';
-                ctx.textAlign='left';
+                ctx.fillStyle = '#ffffff'
+                ctx.textAlign='left'
                 ctx.font = '150px Burbank Big Condensed'
                 ctx.fillText("FNBRMENA", 33, 145)
 
                 //add the date
+                moment.locale(lang)
+                ctx.fillStyle = '#ffffff'
+                ctx.textAlign='center'
                 if(lang === "en"){
-                    moment.locale("en")
                     var date = moment().format("dddd, MMMM Do of YYYY")
-                    ctx.fillStyle = '#ffffff';
-                    ctx.textAlign='center';
                     ctx.font = '100px Burbank Big Condensed'
-                    ctx.fillText(date, canvas.width / 2, (canvas.height - 70))
                 }else{
-                    moment.locale("ar")
                     var date = moment().format("dddd, MMMM Do من YYYY")
-                    ctx.fillStyle = '#ffffff';
-                    ctx.textAlign='center';
                     ctx.font = '100px Arabic'
-                    ctx.fillText(date, canvas.width / 2, (canvas.height - 70))
                 }
 
+                //draw text
+                ctx.fillText(date, canvas.width / 2, (canvas.height - 50))
+
                 //section text
+                ctx.fillStyle = '#ffffff';
+                ctx.textAlign='center';
                 if(lang === "en"){
-                    ctx.fillStyle = '#ffffff';
-                    ctx.textAlign='center';
+
                     ctx.font = '150px Burbank Big Condensed'
                     ctx.fillText("Shop Sections", canvas.width / 2, y)
                 }else{
-                    ctx.fillStyle = '#ffffff';
-                    ctx.textAlign='center';
+                    
                     ctx.font = '150px Arabic'
                     ctx.fillText("أقسام الشوب", canvas.width / 2, y)
                 }
@@ -279,14 +294,15 @@ module.exports = {
                 y += 100
 
                 //add sections
-                for (let i = 0; i < sections.length; i++) {
+                var string = ``
+                for(let i = 0; i < sections.length; i++) {
 
                     if(sections[i].name !== null) var name = sections[i].name
                     else var name = sections[i].id
 
                     //add the section to the embed string
-                    if(lang === "en") string += "• " + (i + 1) + ": " + name + " | " + sections[i].quantity + " Tabs" + "\n" 
-                    else if(lang === "ar") string += "• " + (i + 1) + ": " + name + " | " + sections[i].quantity + " صفحة" + "\n" 
+                    if(lang === "en") string += `• ${(i + 1)}: ${name} | ${sections[i].quantity} Tabs\n`
+                    else if(lang === "ar") string += `• ${(i + 1)}: ${name} | ${sections[i].quantity} صفحة\n`
 
                     //grediant
                     const grd = ctx.createLinearGradient(x, y, x + 1500, y)
@@ -365,17 +381,12 @@ module.exports = {
                     ctx.fillText(i + 1, x - 120, y + 150)
 
                     //add the section name
-                    if(lang === "en"){
-                        ctx.fillStyle = '#ffffff';
-                        ctx.textAlign='center';
-                        applyText(canvas, name + " | " + sections[i].quantity + " Tabs")
-                        ctx.fillText(name + " | " + sections[i].quantity + " Tabs", x + 750, y + 140)
-                    }else if(lang === "ar"){
-                        ctx.fillStyle = '#ffffff';
-                        ctx.textAlign='center';
-                        applyText(canvas, name + " | " + sections[i].quantity + " صفحة")
-                        ctx.fillText(name + " | " + sections[i].quantity + " صفحة", x + 750, y + 140)
-                    }
+                    ctx.fillStyle = '#ffffff';
+                    ctx.textAlign='center';
+                    applyText(canvas, `${name} | ${sections[i].quantity} Tabs`)
+                    if(lang === "en") ctx.fillText(`${name} | ${sections[i].quantity} Tabs`, x + 750, y + 140)
+                    else if(lang === "ar") ctx.fillText(`${name} | ${sections[i].quantity} صفحة`, x + 750, y + 140)
+                    
 
                     //new line
                     y += 300
@@ -390,6 +401,7 @@ module.exports = {
                 //add description
                 SectionsEmbed.setDescription(string)
 
+                //send
                 const att = new Discord.MessageAttachment(canvas.toBuffer(), 'section.png')
                 await message.channel.send(att)
                 await message.channel.send(SectionsEmbed)

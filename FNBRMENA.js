@@ -118,6 +118,31 @@ class FNBRMENA {
     /**
      * Return data about the crew
      * 
+     * @param {Access} Token
+     * 
+     */
+     async EpicCalandar(Token){
+
+        //request header
+        const Headers = {
+            'Content-Type':'application/json',     
+            'Authorization': `bearer ${Token}`   
+        }
+
+        //request token from epicgames servers
+        const token = await axios.get("https://fortnite-public-service-prod11.ol.epicgames.com/fortnite/api/calendar/v1/timeline", { headers: Headers })
+        .then(res => {
+            return res
+        }).catch(err => {
+            return Promise.reject(err)
+        })
+        return token
+
+    }
+
+    /**
+     * Return data about the crew
+     * 
      * @param {String} Lang
      * 
      */

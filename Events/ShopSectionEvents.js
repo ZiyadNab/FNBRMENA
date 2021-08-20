@@ -428,8 +428,8 @@ module.exports = (FNBRMENA, client, admin) => {
                 await FNBRMENA.EpicCalandar(docRef.data().accessToken.access_token)
                 .then(async res => {
 
-                    let sectionIndex = 0
-                    if(res.data.channels['client-events'].states.length === 2) sectionIndex = 1
+                    if(res.data.channels['client-events'].states.length === 1) let sectionIndex = 0
+                    else if(res.data.channels['client-events'].states.length === 2) sectionIndex = 1
 
                     //store the data if the bot got restarted
                     if(number === 0){

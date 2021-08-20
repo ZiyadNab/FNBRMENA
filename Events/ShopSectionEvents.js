@@ -1,4 +1,3 @@
-const axios = require('axios')
 const Discord = require('discord.js')
 const config = require('../Coinfigs/config.json')
 const moment = require('moment')
@@ -115,7 +114,6 @@ module.exports = (FNBRMENA, client, admin) => {
         var height = 1200
         var x = 250
         var y = 550
-        var string = ""
 
         //creating height
         for(let i = 0; i < sections.length; i++){
@@ -256,31 +254,29 @@ module.exports = (FNBRMENA, client, admin) => {
             ctx.fillText("FNBRMENA", 33, 145)
 
             //add the date
+            moment.locale(lang)
+            ctx.fillStyle = '#ffffff'
+            ctx.textAlign='center'
             if(lang === "en"){
-                moment.locale("en")
                 var date = moment().format("dddd, MMMM Do of YYYY")
-                ctx.fillStyle = '#ffffff';
-                ctx.textAlign='center';
                 ctx.font = '100px Burbank Big Condensed'
-                ctx.fillText(date, canvas.width / 2, (canvas.height - 70))
             }else{
-                moment.locale("ar")
                 var date = moment().format("dddd, MMMM Do من YYYY")
-                ctx.fillStyle = '#ffffff';
-                ctx.textAlign='center';
                 ctx.font = '100px Arabic'
-                ctx.fillText(date, canvas.width / 2, (canvas.height - 70))
             }
 
+            //draw text
+            ctx.fillText(date, canvas.width / 2, (canvas.height - 50))
+
             //section text
+            ctx.fillStyle = '#ffffff';
+            ctx.textAlign='center';
             if(lang === "en"){
-                ctx.fillStyle = '#ffffff';
-                ctx.textAlign='center';
+
                 ctx.font = '150px Burbank Big Condensed'
                 ctx.fillText("Shop Sections", canvas.width / 2, y)
             }else{
-                ctx.fillStyle = '#ffffff';
-                ctx.textAlign='center';
+                
                 ctx.font = '150px Arabic'
                 ctx.fillText("أقسام الشوب", canvas.width / 2, y)
             }
@@ -289,14 +285,15 @@ module.exports = (FNBRMENA, client, admin) => {
             y += 100
 
             //add sections
+            var string = ""
             for (let i = 0; i < sections.length; i++) {
 
                 if(sections[i].name !== null) var name = sections[i].name
                 else var name = sections[i].id
 
                 //add the section to the embed string
-                if(lang === "en") string += "• " + (i + 1) + ": " + name + " | " + sections[i].quantity + " Tabs" + "\n" 
-                else if(lang === "ar") string += "• " + (i + 1) + ": " + name + " | " + sections[i].quantity + " صفحة" + "\n" 
+                if(lang === "en") string += `• ${(i + 1)}: ${name} | ${sections[i].quantity} Tabs\n`
+                else if(lang === "ar") string += `• ${(i + 1)}: ${name} | ${sections[i].quantity} صفحة\n`
 
                 //grediant
                 const grd = ctx.createLinearGradient(x, y, x + 1500, y)
@@ -369,23 +366,17 @@ module.exports = (FNBRMENA, client, admin) => {
                 }
 
                 //add the number of the section
-                ctx.fillStyle = grd;
-                ctx.textAlign='left';
+                ctx.fillStyle = grd
+                ctx.textAlign='left'
                 ctx.font = '150px Burbank Big Condensed'
                 ctx.fillText(i + 1, x - 120, y + 150)
 
                 //add the section name
-                if(lang === "en"){
-                    ctx.fillStyle = '#ffffff';
-                    ctx.textAlign='center';
-                    applyText(canvas, name + " | " + sections[i].quantity + " Tabs")
-                    ctx.fillText(name + " | " + sections[i].quantity + " Tabs", x + 750, y + 140)
-                }else if(lang === "ar"){
-                    ctx.fillStyle = '#ffffff';
-                    ctx.textAlign='center';
-                    applyText(canvas, name + " | " + sections[i].quantity + " صفحة")
-                    ctx.fillText(name + " | " + sections[i].quantity + " صفحة", x + 750, y + 140)
-                }
+                ctx.fillStyle = '#ffffff'
+                ctx.textAlign='center'
+                applyText(canvas, `${name} | ${sections[i].quantity} Tabs`)
+                if(lang === "en") ctx.fillText(`${name} | ${sections[i].quantity} Tabs`, x + 750, y + 140)
+                else if(lang === "ar") ctx.fillText(`${name} | ${sections[i].quantity} صفحة`, x + 750, y + 140)
 
                 //new line
                 y += 300
@@ -410,7 +401,7 @@ module.exports = (FNBRMENA, client, admin) => {
     }
 
     //handle the changes is sections response
-    const Section = async () => {
+    const Sections = async () => {
 
         //define the collection
         const docRef = await admin.firestore().collection("authToken").doc("0").get()
@@ -428,8 +419,8 @@ module.exports = (FNBRMENA, client, admin) => {
                 await FNBRMENA.EpicCalandar(docRef.data().accessToken.access_token)
                 .then(async res => {
 
-                    if(res.data.channels['client-events'].states.length === 1) let sectionIndex = 0
-                    else if(res.data.channels['client-events'].states.length === 2) sectionIndex = 1
+                    if(res.data.channels['client-events'].states.length === 1) var sectionIndex = 0
+                    else if(res.data.channels['client-events'].states.length === 2) var sectionIndex = 1
 
                     //store the data if the bot got restarted
                     if(number === 0){
@@ -467,5 +458,5 @@ module.exports = (FNBRMENA, client, admin) => {
             }
         })
     }
-    setInterval(Section, 1 * 15000)
+    setInterval(Sections, 1 * 15000)
 }

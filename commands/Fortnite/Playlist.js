@@ -182,7 +182,7 @@ module.exports = {
                     //applytext
                     const applyTextName = (canvas, text) => {
                         const ctx = canvas.getContext('2d')
-                        let fontSize = 100;
+                        let fontSize = 80;
                         do {
                             if(lang === "en") ctx.font = `${fontSize -= 1}px Burbank Big Condensed`
                             else if(lang === "ar") ctx.font = `${fontSize -= 1}px Arabic`
@@ -244,13 +244,16 @@ module.exports = {
                     }
 
                     //add the name
-                    ctx.fillStyle = '#ffffff';
-                    ctx.textAlign = 'center';
+                    ctx.fillStyle = '#ffffff'
+                    ctx.textAlign = 'center'
                     ctx.font = applyTextName(canvas, name);
-                    ctx.fillText(name, canvas.width / 2, 855)
+                    if(lang === "en") ctx.fillText(name, canvas.width / 2, 850)
+                    else if(lang === "ar") ctx.fillText(name, canvas.width / 2, 845)
 
                     //split the description into lines
-                    description = description.replace("\r\n\r", "")
+                    description = description.replace("\r\n\r\n", "")
+                    description = description.replace("\r\n\r\n", "")
+                    description = description.replace("\r\n", "")
                     description = wrap(description, {width: 150})
                     description = description.split(/\r\n|\r|\n/)
 

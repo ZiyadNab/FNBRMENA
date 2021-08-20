@@ -123,8 +123,8 @@ module.exports = {
             .then( async msg => {
 
                 //get the sections as a minpulated data
-                if(res.data.channels['client-events'].states.length === 1) let sections = await extractSections(Object.keys(res.data.channels['client-events'].states[0].state.sectionStoreEnds))
-                else if(res.data.channels['client-events'].states.length === 2) let sections = await extractSections(Object.keys(res.data.channels['client-events'].states[1].state.sectionStoreEnds))
+                if(res.data.channels['client-events'].states.length === 1) var sections = await extractSections(Object.keys(res.data.channels['client-events'].states[0].state.sectionStoreEnds))
+                else if(res.data.channels['client-events'].states.length === 2) var sections = await extractSections(Object.keys(res.data.channels['client-events'].states[1].state.sectionStoreEnds))
 
                 //inisilizing values
                 var width = 2000

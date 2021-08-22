@@ -248,8 +248,8 @@ module.exports = {
                                 description = description.replace("\r\n", "")
 
                                 //add introduces and set string
-                                if(res.data.items[num].introduction !== null) description += `\n${res.data.items[num].introduction.text}`
-                                if(res.data.items[num].set !== null) description += `\n${res.data.items[num].set.partOf}`
+                                if(res.data.items[0].introduction !== null) description += `\n${res.data.items[0].introduction.text}`
+                                if(res.data.items[0].set !== null) description += `\n${res.data.items[0].set.partOf}`
 
                                 //split every line
                                 description = description.split(/\r\n|\r|\n/)
@@ -951,7 +951,7 @@ module.exports = {
                         if(lang === "en"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
-                            ctx.font = applyTextName(canvas, name);
+                            ctx.font = applyTextName(canvas, vbucks + ' V-Bucks');
                             ctx.fillText(vbucks + ' V-Bucks', (512 + x), (y + 860))
                             ctx.font = applyTextDescription(canvas, 'Valuable currency used to purchase goods from the store.');
                             ctx.textAlign='center';
@@ -959,7 +959,7 @@ module.exports = {
                         }else if(lang === "ar"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
-                            ctx.font = applyTextName(canvas, name);
+                            ctx.font = applyTextName(canvas, vbucks + 'فيبوكس ');
                             ctx.fillText(vbucks + 'فيبوكس ', (512 + x), (y + 860))  
                             ctx.font = applyTextDescription(canvas, 'عملة ثمينة تُستخدَم لشراء البضائع من المتجر.');
                             ctx.textAlign='center';
@@ -983,7 +983,7 @@ module.exports = {
                             if(lang === "en"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
-                                ctx.font = applyTextName(canvas, name);
+                                ctx.font = applyTextName(canvas, found[0].name);
                                 ctx.fillText(found[0].name, (512 + x), (y + 860))
                                 ctx.font = applyTextDescription(canvas, `Additional quests for ${outfit}.`);
                                 ctx.textAlign='center';
@@ -991,7 +991,7 @@ module.exports = {
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
-                                ctx.font = applyTextName(canvas, name);
+                                ctx.font = applyTextName(canvas, found[0].name);
                                 ctx.fillText(found[0].name, (512 + x), (y + 860))  
                                 ctx.font = applyTextDescription(canvas, `مهام إضافية لـ ${outfit}.`);
                                 ctx.textAlign='center';

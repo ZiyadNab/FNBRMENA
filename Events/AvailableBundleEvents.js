@@ -160,8 +160,8 @@ module.exports = (client, admin) => {
                                             description = description.replace("\r\n", "")
 
                                             //add introduces and set string
-                                            if(res.data.items[num].introduction !== null) description += `\n${res.data.items[num].introduction.text}`
-                                            if(res.data.items[num].set !== null) description += `\n${res.data.items[num].set.partOf}`
+                                            if(res.item.introduction !== null) description += `\n${res.item.introduction.text}`
+                                            if(res.item.set !== null) description += `\n${res.item.set.partOf}`
 
                                             //split every line
                                             description = description.split(/\r\n|\r|\n/)
@@ -863,7 +863,7 @@ module.exports = (client, admin) => {
                                     if(lang === "en"){
                                         ctx.fillStyle = '#ffffff';
                                         ctx.textAlign='center';
-                                        ctx.font = applyTextName(canvas, name);
+                                        ctx.font = applyTextName(canvas, vbucks + ' V-Bucks');
                                         ctx.fillText(vbucks + ' V-Bucks', (512 + x), (y + 860))
                                         ctx.font = applyTextDescription(canvas, 'Valuable currency used to purchase goods from the store.');
                                         ctx.textAlign='center';
@@ -871,7 +871,7 @@ module.exports = (client, admin) => {
                                     }else if(lang === "ar"){
                                         ctx.fillStyle = '#ffffff';
                                         ctx.textAlign='center';
-                                        ctx.font = applyTextName(canvas, name);
+                                        ctx.font = applyTextName(canvas, vbucks + 'فيبوكس ');
                                         ctx.fillText(vbucks + 'فيبوكس ', (512 + x), (y + 860))  
                                         ctx.font = applyTextDescription(canvas, 'عملة ثمينة تُستخدَم لشراء البضائع من المتجر.');
                                         ctx.textAlign='center';
@@ -895,16 +895,16 @@ module.exports = (client, admin) => {
                                         if(lang === "en"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = applyTextName(canvas, name);
-                                            ctx.fillText(found[0].name, (512 + x), (y + 860))
+                                            ctx.font = applyTextName(canvas, `Additional quests for ${outfit}.`);
+                                            ctx.fillText(`Additional quests for ${outfit}.`, (512 + x), (y + 860))
                                             ctx.font = applyTextDescription(canvas, `Additional quests for ${outfit}.`);
                                             ctx.textAlign='center';
                                             ctx.fillText(`Additional quests for ${outfit}.`, (512 + x), (y + 930))
                                         }else if(lang === "ar"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = applyTextName(canvas, name);
-                                            ctx.fillText(found[0].name, (512 + x), (y + 860))  
+                                            ctx.font = applyTextName(canvas, `مهام إضافية لـ ${outfit}.`);
+                                            ctx.fillText(`مهام إضافية لـ ${outfit}.`, (512 + x), (y + 860))  
                                             ctx.font = applyTextDescription(canvas, `مهام إضافية لـ ${outfit}.`);
                                             ctx.textAlign='center';
                                             ctx.fillText(`مهام إضافية لـ ${outfit}.`, (512 + x), (y + 930))

@@ -1299,7 +1299,7 @@ module.exports = {
                                     descriptionY += 17
                                     for(let p = 1; p < description.length; p++){
                                         ctx.fillText(description[p], 256 + x, descriptionY)
-                                        descriptionY += 15
+                                        descriptionY += 10
                                     }
                                 }else if(lang === "ar"){
                                     ctx.fillStyle = '#ffffff';
@@ -1313,7 +1313,7 @@ module.exports = {
                                     descriptionY += 17
                                     for(let p = 1; p < description.length; p++){
                                         ctx.fillText(description[p], 256 + x, descriptionY)
-                                        descriptionY += 15
+                                        descriptionY += 10
                                     }
                                 }
                             }else if(rarity === "Epic"){
@@ -1336,7 +1336,7 @@ module.exports = {
                                     descriptionY += 17
                                     for(let p = 1; p < description.length; p++){
                                         ctx.fillText(description[p], 256 + x, descriptionY)
-                                        descriptionY += 15
+                                        descriptionY += 10
                                     }
                                 }else if(lang === "ar"){
                                     ctx.fillStyle = '#ffffff';
@@ -1350,7 +1350,7 @@ module.exports = {
                                     descriptionY += 17
                                     for(let p = 1; p < description.length; p++){
                                         ctx.fillText(description[p], 256 + x, descriptionY)
-                                        descriptionY += 15
+                                        descriptionY += 10
                                     }
                                 }
                             }else if(rarity === "Rare"){
@@ -1373,7 +1373,7 @@ module.exports = {
                                     descriptionY += 17
                                     for(let p = 1; p < description.length; p++){
                                         ctx.fillText(description[p], 256 + x, descriptionY)
-                                        descriptionY += 15
+                                        descriptionY += 10
                                     }
                                 }else if(lang === "ar"){
                                     ctx.fillStyle = '#ffffff';
@@ -1387,7 +1387,7 @@ module.exports = {
                                     descriptionY += 17
                                     for(let p = 1; p < description.length; p++){
                                         ctx.fillText(description[p], 256 + x, descriptionY)
-                                        descriptionY += 15
+                                        descriptionY += 10
                                     }
                                 }
                             }else if(rarity === "Uncommon"){
@@ -1410,7 +1410,7 @@ module.exports = {
                                     descriptionY += 17
                                     for(let p = 1; p < description.length; p++){
                                         ctx.fillText(description[p], 256 + x, descriptionY)
-                                        descriptionY += 15
+                                        descriptionY += 10
                                     }
                                 }else if(lang === "ar"){
                                     ctx.fillStyle = '#ffffff';
@@ -1424,7 +1424,7 @@ module.exports = {
                                     descriptionY += 17
                                     for(let p = 1; p < description.length; p++){
                                         ctx.fillText(description[p], 256 + x, descriptionY)
-                                        descriptionY += 15
+                                        descriptionY += 10
                                     }
                                 }
                             }else if(rarity === "Common"){
@@ -1447,7 +1447,7 @@ module.exports = {
                                     descriptionY += 17
                                     for(let p = 1; p < description.length; p++){
                                         ctx.fillText(description[p], 256 + x, descriptionY)
-                                        descriptionY += 15
+                                        descriptionY += 10
                                     }
                                 }else if(lang === "ar"){
                                     ctx.fillStyle = '#ffffff';
@@ -1461,7 +1461,7 @@ module.exports = {
                                     descriptionY += 17
                                     for(let p = 1; p < description.length; p++){
                                         ctx.fillText(description[p], 256 + x, descriptionY)
-                                        descriptionY += 15
+                                        descriptionY += 10
                                     }
                                 }
                             }else if(rarity === "MarvelSeries"){
@@ -1484,7 +1484,7 @@ module.exports = {
                                     descriptionY += 17
                                     for(let p = 1; p < description.length; p++){
                                         ctx.fillText(description[p], 256 + x, descriptionY)
-                                        descriptionY += 15
+                                        descriptionY += 10
                                     }
                                 }else if(lang === "ar"){
                                     ctx.fillStyle = '#ffffff';
@@ -1498,7 +1498,7 @@ module.exports = {
                                     descriptionY += 17
                                     for(let p = 1; p < description.length; p++){
                                         ctx.fillText(description[p], 256 + x, descriptionY)
-                                        descriptionY += 15
+                                        descriptionY += 10
                                     }
                                 }
                             }else if(rarity === "DCUSeries"){
@@ -1521,7 +1521,7 @@ module.exports = {
                                     descriptionY += 17
                                     for(let p = 1; p < description.length; p++){
                                         ctx.fillText(description[p], 256 + x, descriptionY)
-                                        descriptionY += 15
+                                        descriptionY += 10
                                     }
                                 }else if(lang === "ar"){
                                     ctx.fillStyle = '#ffffff';
@@ -1535,7 +1535,7 @@ module.exports = {
                                     descriptionY += 17
                                     for(let p = 1; p < description.length; p++){
                                         ctx.fillText(description[p], 256 + x, descriptionY)
-                                        descriptionY += 15
+                                        descriptionY += 10
                                     }
                                 }
                             }else if(rarity === "CUBESeries"){
@@ -1558,7 +1558,7 @@ module.exports = {
                                     descriptionY += 17
                                     for(let p = 1; p < description.length; p++){
                                         ctx.fillText(description[p], 256 + x, descriptionY)
-                                        descriptionY += 15
+                                        descriptionY += 10
                                     }
                                 }else if(lang === "ar"){
                                     ctx.fillStyle = '#ffffff';
@@ -1572,7 +1572,7 @@ module.exports = {
                                     descriptionY += 17
                                     for(let p = 1; p < description.length; p++){
                                         ctx.fillText(description[p], 256 + x, descriptionY)
-                                        descriptionY += 15
+                                        descriptionY += 10
                                     }
                                 }
                             }else if(rarity === "CreatorCollabSeries"){
@@ -1595,7 +1595,7 @@ module.exports = {
                                     descriptionY += 17
                                     for(let p = 1; p < description.length; p++){
                                         ctx.fillText(description[p], 256 + x, descriptionY)
-                                        descriptionY += 15
+                                        descriptionY += 10
                                     }
                                 }else if(lang === "ar"){
                                     ctx.fillStyle = '#ffffff';
@@ -1609,7 +1609,7 @@ module.exports = {
                                     descriptionY += 17
                                     for(let p = 1; p < description.length; p++){
                                         ctx.fillText(description[p], 256 + x, descriptionY)
-                                        descriptionY += 15
+                                        descriptionY += 10
                                     }
                                 }
                             }else if(rarity === "ColumbusSeries"){
@@ -1632,7 +1632,7 @@ module.exports = {
                                     descriptionY += 17
                                     for(let p = 1; p < description.length; p++){
                                         ctx.fillText(description[p], 256 + x, descriptionY)
-                                        descriptionY += 15
+                                        descriptionY += 10
                                     }
                                 }else if(lang === "ar"){
                                     ctx.fillStyle = '#ffffff';
@@ -1646,7 +1646,7 @@ module.exports = {
                                     descriptionY += 17
                                     for(let p = 1; p < description.length; p++){
                                         ctx.fillText(description[p], 256 + x, descriptionY)
-                                        descriptionY += 15
+                                        descriptionY += 10
                                     }
                                 }
                             }else if(rarity === "ShadowSeries"){
@@ -1669,7 +1669,7 @@ module.exports = {
                                     descriptionY += 17
                                     for(let p = 1; p < description.length; p++){
                                         ctx.fillText(description[p], 256 + x, descriptionY)
-                                        descriptionY += 15
+                                        descriptionY += 10
                                     }
                                 }else if(lang === "ar"){
                                     ctx.fillStyle = '#ffffff';
@@ -1683,7 +1683,7 @@ module.exports = {
                                     descriptionY += 17
                                     for(let p = 1; p < description.length; p++){
                                         ctx.fillText(description[p], 256 + x, descriptionY)
-                                        descriptionY += 15
+                                        descriptionY += 10
                                     }
                                 }
                             }else if(rarity === "SlurpSeries"){
@@ -1706,7 +1706,7 @@ module.exports = {
                                     descriptionY += 17
                                     for(let p = 1; p < description.length; p++){
                                         ctx.fillText(description[p], 256 + x, descriptionY)
-                                        descriptionY += 15
+                                        descriptionY += 10
                                     }
                                 }else if(lang === "ar"){
                                     ctx.fillStyle = '#ffffff';
@@ -1720,7 +1720,7 @@ module.exports = {
                                     descriptionY += 17
                                     for(let p = 1; p < description.length; p++){
                                         ctx.fillText(description[p], 256 + x, descriptionY)
-                                        descriptionY += 15
+                                        descriptionY += 10
                                     }
                                 }
                             }else if(rarity === "FrozenSeries"){
@@ -1743,7 +1743,7 @@ module.exports = {
                                     descriptionY += 17
                                     for(let p = 1; p < description.length; p++){
                                         ctx.fillText(description[p], 256 + x, descriptionY)
-                                        descriptionY += 15
+                                        descriptionY += 10
                                     }
                                 }else if(lang === "ar"){
                                     ctx.fillStyle = '#ffffff';
@@ -1757,7 +1757,7 @@ module.exports = {
                                     descriptionY += 17
                                     for(let p = 1; p < description.length; p++){
                                         ctx.fillText(description[p], 256 + x, descriptionY)
-                                        descriptionY += 15
+                                        descriptionY += 10
                                     }
                                 }
                             }else if(rarity === "LavaSeries"){
@@ -1780,7 +1780,7 @@ module.exports = {
                                     descriptionY += 17
                                     for(let p = 1; p < description.length; p++){
                                         ctx.fillText(description[p], 256 + x, descriptionY)
-                                        descriptionY += 15
+                                        descriptionY += 10
                                     }
                                 }else if(lang === "ar"){
                                     ctx.fillStyle = '#ffffff';
@@ -1794,7 +1794,7 @@ module.exports = {
                                     descriptionY += 17
                                     for(let p = 1; p < description.length; p++){
                                         ctx.fillText(description[p], 256 + x, descriptionY)
-                                        descriptionY += 15
+                                        descriptionY += 10
                                     }
                                 }
                             }else if(rarity === "PlatformSeries"){
@@ -1817,7 +1817,7 @@ module.exports = {
                                     descriptionY += 17
                                     for(let p = 1; p < description.length; p++){
                                         ctx.fillText(description[p], 256 + x, descriptionY)
-                                        descriptionY += 15
+                                        descriptionY += 10
                                     }
                                 }else if(lang === "ar"){
                                     ctx.fillStyle = '#ffffff';
@@ -1831,7 +1831,7 @@ module.exports = {
                                     descriptionY += 17
                                     for(let p = 1; p < description.length; p++){
                                         ctx.fillText(description[p], 256 + x, descriptionY)
-                                        descriptionY += 15
+                                        descriptionY += 10
                                     }
                                 }
                             }else{
@@ -1854,7 +1854,7 @@ module.exports = {
                                     descriptionY += 17
                                     for(let p = 1; p < description.length; p++){
                                         ctx.fillText(description[p], 256 + x, descriptionY)
-                                        descriptionY += 15
+                                        descriptionY += 10
                                     }
                                 }else if(lang === "ar"){
                                     ctx.fillStyle = '#ffffff';
@@ -1868,7 +1868,7 @@ module.exports = {
                                     descriptionY += 17
                                     for(let p = 1; p < description.length; p++){
                                         ctx.fillText(description[p], 256 + x, descriptionY)
-                                        descriptionY += 15
+                                        descriptionY += 10
                                     }
                                 }
                             }

@@ -1946,6 +1946,17 @@ module.exports = {
                             }
                         })
                     }
+                    try {
+                        const att = new Discord.MessageAttachment(canvas.toBuffer(), `${message.author.id}.png`)
+                        await message.channel.send(att)
+                        msg.delete()
+    
+                    } catch {
+                        const att = new Discord.MessageAttachment(canvas.toBuffer('image/jpeg', {quality: 0.5}), `${message.author.id}.png`)
+                        await message.channel.send(att)
+                        msg.delete()
+                        
+                    }
                 }else{
 
                     //canvas variables
@@ -2691,20 +2702,20 @@ module.exports = {
                                 x = 0;
                                 newline = 0;
                             }
+                            
                         })
                     }
-                }
-
-                try {
-                    const att = new Discord.MessageAttachment(canvas.toBuffer(), `${message.author.id}.png`)
-                    await message.channel.send(att)
-                    msg.delete()
-
-                } catch {
-                    const att = new Discord.MessageAttachment(canvas.toBuffer('image/jpeg', {quality: 0.5}), `${message.author.id}.png`)
-                    await message.channel.send(att)
-                    msg.delete()
-                    
+                    try {
+                        const att = new Discord.MessageAttachment(canvas.toBuffer(), `${message.author.id}.png`)
+                        await message.channel.send(att)
+                        msg.delete()
+    
+                    } catch {
+                        const att = new Discord.MessageAttachment(canvas.toBuffer('image/jpeg', {quality: 0.5}), `${message.author.id}.png`)
+                        await message.channel.send(att)
+                        msg.delete()
+                        
+                    }
                 }
             })
             

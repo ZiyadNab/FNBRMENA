@@ -22,16 +22,24 @@ module.exports = {
         const lang = await FNBRMENA.Admin(admin, message, "", "Lang")
 
         //aplyText
-        const applyText = (canvas, text) => {
+        const applyTextName = (canvas, text) => {
             const ctx = canvas.getContext('2d');
-            let fontSize = 36;
+            let fontSize = 92;
             do {
-                if(lang === "en"){
-                    ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
-                }else if(lang === "ar"){
-                    ctx.font = `${fontSize -= 1}px Arabic`;
-                }
-            } while (ctx.measureText(text).width > 420);
+                if(lang === "en") ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
+                else if(lang === "ar") ctx.font = `${fontSize -= 1}px Arabic`;
+            } while (ctx.measureText(text).width > 900);
+            return ctx.font;
+        };
+
+        //applytext
+        const applyTextDescription = (canvas, text) => {
+            const ctx = canvas.getContext('2d');
+            let fontSize = 35;
+            do {
+                if(lang === "en") ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
+                else if(lang === "ar") ctx.font = `${fontSize -= 1}px Arabic`;
+            } while (ctx.measureText(text).width > 840);
             return ctx.font;
         };
 
@@ -373,7 +381,7 @@ module.exports = {
                             .then( async msg => {
 
                                 //creating canvas
-                                const canvas = Canvas.createCanvas(512, 512);
+                                const canvas = Canvas.createCanvas(1024, 1024);
                                 const ctx = canvas.getContext('2d');
 
                                 //set the item info
@@ -385,430 +393,666 @@ module.exports = {
                                 if(res.data.items[num].series !== null) var rarity = res.data.items[num].series.id
                                 else var rarity = res.data.items[num].rarity.id
 
+                                //remove any lines
+                                let imgDescription = await description
+                                imgDescription = imgDescription.replace("\r\n", "")
+
+                                //add introduces and set string
+                                if(res.data.items[num].introduction !== null) imgDescription += `\n${res.data.items[num].introduction.text}`
+                                if(res.data.items[num].set !== null) imgDescription += `\n${res.data.items[num].set.partOf}`
+
+                                //split every line
+                                imgDescription = imgDescription.split(/\r\n|\r|\n/)
+
                                 //searching...
                                 if(rarity === "Legendary"){
                                     //creating image
                                     const skinholder = await Canvas.loadImage('./assets/Rarities/standard/legendary.png')
-                                    ctx.drawImage(skinholder, 0, 0, 512, 512)
+                                    ctx.drawImage(skinholder, 0, 0, 1024, 1024)
                                     const skin = await Canvas.loadImage(image);
-                                    ctx.drawImage(skin, 0, 0, 512, 512)
+                                    ctx.drawImage(skin, 0, 0, 1024, 1024)
                                     const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderLegendary.png')
-                                    ctx.drawImage(skinborder, 0, 0, 512, 512)
+                                    ctx.drawImage(skinborder, 0, 0, 1024, 1024)
                                     if(lang === "en"){
                                         ctx.fillStyle = '#ffffff';
                                         ctx.textAlign='center';
-                                        ctx.font = '46px Burbank Big Condensed'
-                                        ctx.fillText(name, 256, 430)
-                                        ctx.font = applyText(canvas, description);
-                                        ctx.fillText(description, 256, 470)
+                                        ctx.font = applyTextName(canvas, name)
+                                        ctx.fillText(name, 512, 850)
+                                        ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                        let descriptionY = 930
+                                        ctx.fillText(imgDescription[0], 512, descriptionY)
+                                        ctx.font = '15px Burbank Big Condensed'
+                                        descriptionY += 35
+                                        for(let x = 1; x < imgDescription.length; x++){
+                                            ctx.fillText(imgDescription[x], 512, descriptionY)
+                                            descriptionY += 15
+                                        }
                                     }else if(lang === "ar"){
                                         ctx.fillStyle = '#ffffff';
                                         ctx.textAlign='center';
-                                        ctx.font = '46px Arabic'
-                                        ctx.fillText(name, 256, 430)
-                                        ctx.font = applyText(canvas, description);
-                                        ctx.fillText(description, 256, 470)
+                                        ctx.font = applyTextName(canvas, name)
+                                        ctx.fillText(name, 512, 850)
+                                        ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                        let descriptionY = 930
+                                        ctx.fillText(imgDescription[0], 512, descriptionY)
+                                        ctx.font = '15px Arabic'
+                                        descriptionY += 35
+                                        for(let x = 1; x < imgDescription.length; x++){
+                                            ctx.fillText(imgDescription[x], 512, descriptionY)
+                                            descriptionY += 15
+                                        }
                                     }
                                 }else if(rarity === "Epic"){
                                     //creating image
                                     const skinholder = await Canvas.loadImage('./assets/Rarities/standard/epic.png')
-                                    ctx.drawImage(skinholder, 0, 0, 512, 512)
+                                    ctx.drawImage(skinholder, 0, 0, 1024, 1024)
                                     const skin = await Canvas.loadImage(image);
-                                    ctx.drawImage(skin, 0, 0, 512, 512)
+                                    ctx.drawImage(skin, 0, 0, 1024, 1024)
                                     const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderEpic.png')
-                                    ctx.drawImage(skinborder, 0, 0, 512, 512)
+                                    ctx.drawImage(skinborder, 0, 0, 1024, 1024)
                                     if(lang === "en"){
                                         ctx.fillStyle = '#ffffff';
                                         ctx.textAlign='center';
-                                        ctx.font = '46px Burbank Big Condensed'
-                                        ctx.fillText(name, 256, 430)
-                                        ctx.font = applyText(canvas, description);
-                                        ctx.fillText(description, 256, 470)
+                                        ctx.font = applyTextName(canvas, name)
+                                        ctx.fillText(name, 512, 850)
+                                        ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                        let descriptionY = 930
+                                        ctx.fillText(imgDescription[0], 512, descriptionY)
+                                        ctx.font = '15px Burbank Big Condensed'
+                                        descriptionY += 35
+                                        for(let x = 1; x < imgDescription.length; x++){
+                                            ctx.fillText(imgDescription[x], 512, descriptionY)
+                                            descriptionY += 15
+                                        }
                                     }else if(lang === "ar"){
                                         ctx.fillStyle = '#ffffff';
                                         ctx.textAlign='center';
-                                        ctx.font = '46px Arabic'
-                                        ctx.fillText(name, 256, 430)
-                                        ctx.font = applyText(canvas, description);
-                                        ctx.fillText(description, 256, 470)
+                                        ctx.font = applyTextName(canvas, name)
+                                        ctx.fillText(name, 512, 850)
+                                        ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                        let descriptionY = 930
+                                        ctx.fillText(imgDescription[0], 512, descriptionY)
+                                        ctx.font = '15px Arabic'
+                                        descriptionY += 35
+                                        for(let x = 1; x < imgDescription.length; x++){
+                                            ctx.fillText(imgDescription[x], 512, descriptionY)
+                                            descriptionY += 15
+                                        }
                                     }
                                 }else if(rarity === "Rare"){
                                     //creating image
                                     const skinholder = await Canvas.loadImage('./assets/Rarities/standard/rare.png')
-                                    ctx.drawImage(skinholder, 0, 0, 512, 512)
+                                    ctx.drawImage(skinholder, 0, 0, 1024, 1024)
                                     const skin = await Canvas.loadImage(image);
-                                    ctx.drawImage(skin, 0, 0, 512, 512)
+                                    ctx.drawImage(skin, 0, 0, 1024, 1024)
                                     const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderRare.png')
-                                    ctx.drawImage(skinborder, 0, 0, 512, 512)
+                                    ctx.drawImage(skinborder, 0, 0, 1024, 1024)
                                     if(lang === "en"){
                                         ctx.fillStyle = '#ffffff';
                                         ctx.textAlign='center';
-                                        ctx.font = '46px Burbank Big Condensed'
-                                        ctx.fillText(name, 256, 430)
-                                        ctx.font = applyText(canvas, description);
-                                        ctx.fillText(description, 256, 470)
+                                        ctx.font = applyTextName(canvas, name)
+                                        ctx.fillText(name, 512, 850)
+                                        ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                        let descriptionY = 930
+                                        ctx.fillText(imgDescription[0], 512, descriptionY)
+                                        ctx.font = '15px Burbank Big Condensed'
+                                        descriptionY += 35
+                                        for(let x = 1; x < imgDescription.length; x++){
+                                            ctx.fillText(imgDescription[x], 512, descriptionY)
+                                            descriptionY += 15
+                                        }
                                     }else if(lang === "ar"){
                                         ctx.fillStyle = '#ffffff';
                                         ctx.textAlign='center';
-                                        ctx.font = '46px Arabic'
-                                        ctx.fillText(name, 256, 430)
-                                        ctx.font = applyText(canvas, description);
-                                        ctx.fillText(description, 256, 470)
+                                        ctx.font = applyTextName(canvas, name)
+                                        ctx.fillText(name, 512, 850)
+                                        ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                        let descriptionY = 930
+                                        ctx.fillText(imgDescription[0], 512, descriptionY)
+                                        ctx.font = '15px Arabic'
+                                        descriptionY += 35
+                                        for(let x = 1; x < imgDescription.length; x++){
+                                            ctx.fillText(imgDescription[x], 512, descriptionY)
+                                            descriptionY += 15
+                                        }
                                     }
                                 }else if(rarity === "Uncommon"){
                                     //creating image
                                     const skinholder = await Canvas.loadImage('./assets/Rarities/standard/uncommon.png')
-                                    ctx.drawImage(skinholder, 0, 0, 512, 512)
+                                    ctx.drawImage(skinholder, 0, 0, 1024, 1024)
                                     const skin = await Canvas.loadImage(image);
-                                    ctx.drawImage(skin, 0, 0, 512, 512)
+                                    ctx.drawImage(skin, 0, 0, 1024, 1024)
                                     const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderUncommon.png')
-                                    ctx.drawImage(skinborder, 0, 0, 512, 512)
+                                    ctx.drawImage(skinborder, 0, 0, 1024, 1024)
                                     if(lang === "en"){
                                         ctx.fillStyle = '#ffffff';
                                         ctx.textAlign='center';
-                                        ctx.font = '46px Burbank Big Condensed'
-                                        ctx.fillText(name, 256, 430)
-                                        ctx.font = applyText(canvas, description);
-                                        ctx.fillText(description, 256, 470)
+                                        ctx.font = applyTextName(canvas, name)
+                                        ctx.fillText(name, 512, 850)
+                                        ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                        let descriptionY = 930
+                                        ctx.fillText(imgDescription[0], 512, descriptionY)
+                                        ctx.font = '15px Burbank Big Condensed'
+                                        descriptionY += 35
+                                        for(let x = 1; x < imgDescription.length; x++){
+                                            ctx.fillText(imgDescription[x], 512, descriptionY)
+                                            descriptionY += 15
+                                        }
                                     }else if(lang === "ar"){
                                         ctx.fillStyle = '#ffffff';
                                         ctx.textAlign='center';
-                                        ctx.font = '46px Arabic'
-                                        ctx.fillText(name, 256, 430)
-                                        ctx.font = applyText(canvas, description);
-                                        ctx.fillText(description, 256, 470)
+                                        ctx.font = applyTextName(canvas, name)
+                                        ctx.fillText(name, 512, 850)
+                                        ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                        let descriptionY = 930
+                                        ctx.fillText(imgDescription[0], 512, descriptionY)
+                                        ctx.font = '15px Arabic'
+                                        descriptionY += 35
+                                        for(let x = 1; x < imgDescription.length; x++){
+                                            ctx.fillText(imgDescription[x], 512, descriptionY)
+                                            descriptionY += 15
+                                        }
                                     }
                                 }else if(rarity === "Common"){
                                     //creating image
                                     const skinholder = await Canvas.loadImage('./assets/Rarities/standard/common.png')
-                                    ctx.drawImage(skinholder, 0, 0, 512, 512)
+                                    ctx.drawImage(skinholder, 0, 0, 1024, 1024)
                                     const skin = await Canvas.loadImage(image);
-                                    ctx.drawImage(skin, 0, 0, 512, 512)
+                                    ctx.drawImage(skin, 0, 0, 1024, 1024)
                                     const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderCommon.png')
-                                    ctx.drawImage(skinborder, 0, 0, 512, 512)
+                                    ctx.drawImage(skinborder, 0, 0, 1024, 1024)
                                     if(lang === "en"){
                                         ctx.fillStyle = '#ffffff';
                                         ctx.textAlign='center';
-                                        ctx.font = '46px Burbank Big Condensed'
-                                        ctx.fillText(name, 256, 430)
-                                        ctx.font = applyText(canvas, description);
-                                        ctx.fillText(description, 256, 470)
+                                        ctx.font = applyTextName(canvas, name)
+                                        ctx.fillText(name, 512, 850)
+                                        ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                        let descriptionY = 930
+                                        ctx.fillText(imgDescription[0], 512, descriptionY)
+                                        ctx.font = '15px Burbank Big Condensed'
+                                        descriptionY += 35
+                                        for(let x = 1; x < imgDescription.length; x++){
+                                            ctx.fillText(imgDescription[x], 512, descriptionY)
+                                            descriptionY += 15
+                                        }
                                     }else if(lang === "ar"){
                                         ctx.fillStyle = '#ffffff';
                                         ctx.textAlign='center';
-                                        ctx.font = '46px Arabic'
-                                        ctx.fillText(name, 256, 430)
-                                        ctx.font = applyText(canvas, description);
-                                        ctx.fillText(description, 256, 470)
+                                        ctx.font = applyTextName(canvas, name)
+                                        ctx.fillText(name, 512, 850)
+                                        ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                        let descriptionY = 930
+                                        ctx.fillText(imgDescription[0], 512, descriptionY)
+                                        ctx.font = '15px Arabic'
+                                        descriptionY += 35
+                                        for(let x = 1; x < imgDescription.length; x++){
+                                            ctx.fillText(imgDescription[x], 512, descriptionY)
+                                            descriptionY += 15
+                                        }
                                     }
                                 }else if(rarity === "MarvelSeries"){
                                     //creating image
                                     const skinholder = await Canvas.loadImage('./assets/Rarities/standard/marvel.png')
-                                    ctx.drawImage(skinholder, 0, 0, 512, 512)
+                                    ctx.drawImage(skinholder, 0, 0, 1024, 1024)
                                     const skin = await Canvas.loadImage(image);
-                                    ctx.drawImage(skin, 0, 0, 512, 512)
+                                    ctx.drawImage(skin, 0, 0, 1024, 1024)
                                     const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderMarvel.png')
-                                    ctx.drawImage(skinborder, 0, 0, 512, 512)
+                                    ctx.drawImage(skinborder, 0, 0, 1024, 1024)
                                     if(lang === "en"){
                                         ctx.fillStyle = '#ffffff';
                                         ctx.textAlign='center';
-                                        ctx.font = '46px Burbank Big Condensed'
-                                        ctx.fillText(name, 256, 430)
-                                        ctx.font = applyText(canvas, description);
-                                        ctx.fillText(description, 256, 470)
+                                        ctx.font = applyTextName(canvas, name)
+                                        ctx.fillText(name, 512, 850)
+                                        ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                        let descriptionY = 930
+                                        ctx.fillText(imgDescription[0], 512, descriptionY)
+                                        ctx.font = '15px Burbank Big Condensed'
+                                        descriptionY += 35
+                                        for(let x = 1; x < imgDescription.length; x++){
+                                            ctx.fillText(imgDescription[x], 512, descriptionY)
+                                            descriptionY += 15
+                                        }
                                     }else if(lang === "ar"){
                                         ctx.fillStyle = '#ffffff';
                                         ctx.textAlign='center';
-                                        ctx.font = '46px Arabic'
-                                        ctx.fillText(name, 256, 430)
-                                        ctx.font = applyText(canvas, description);
-                                        ctx.fillText(description, 256, 470)
+                                        ctx.font = applyTextName(canvas, name)
+                                        ctx.fillText(name, 512, 850)
+                                        ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                        let descriptionY = 930
+                                        ctx.fillText(imgDescription[0], 512, descriptionY)
+                                        ctx.font = '15px Arabic'
+                                        descriptionY += 35
+                                        for(let x = 1; x < imgDescription.length; x++){
+                                            ctx.fillText(imgDescription[x], 512, descriptionY)
+                                            descriptionY += 15
+                                        }
                                     }
                                 }else if(rarity === "DCUSeries"){
                                     //creating image
                                     const skinholder = await Canvas.loadImage('./assets/Rarities/standard/dc.png')
-                                    ctx.drawImage(skinholder, 0, 0, 512, 512)
+                                    ctx.drawImage(skinholder, 0, 0, 1024, 1024)
                                     const skin = await Canvas.loadImage(image);
-                                    ctx.drawImage(skin, 0, 0, 512, 512)
+                                    ctx.drawImage(skin, 0, 0, 1024, 1024)
                                     const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderDc.png')
-                                    ctx.drawImage(skinborder, 0, 0, 512, 512)
+                                    ctx.drawImage(skinborder, 0, 0, 1024, 1024)
                                     if(lang === "en"){
                                         ctx.fillStyle = '#ffffff';
                                         ctx.textAlign='center';
-                                        ctx.font = '46px Burbank Big Condensed'
-                                        ctx.fillText(name, 256, 430)
-                                        ctx.font = applyText(canvas, description);
-                                        ctx.fillText(description, 256, 470)
+                                        ctx.font = applyTextName(canvas, name)
+                                        ctx.fillText(name, 512, 850)
+                                        ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                        let descriptionY = 930
+                                        ctx.fillText(imgDescription[0], 512, descriptionY)
+                                        ctx.font = '15px Burbank Big Condensed'
+                                        descriptionY += 35
+                                        for(let x = 1; x < imgDescription.length; x++){
+                                            ctx.fillText(imgDescription[x], 512, descriptionY)
+                                            descriptionY += 15
+                                        }
                                     }else if(lang === "ar"){
                                         ctx.fillStyle = '#ffffff';
                                         ctx.textAlign='center';
-                                        ctx.font = '46px Arabic'
-                                        ctx.fillText(name, 256, 430)
-                                        ctx.font = applyText(canvas, description);
-                                        ctx.fillText(description, 256, 470)
+                                        ctx.font = applyTextName(canvas, name)
+                                        ctx.fillText(name, 512, 850)
+                                        ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                        let descriptionY = 930
+                                        ctx.fillText(imgDescription[0], 512, descriptionY)
+                                        ctx.font = '15px Arabic'
+                                        descriptionY += 35
+                                        for(let x = 1; x < imgDescription.length; x++){
+                                            ctx.fillText(imgDescription[x], 512, descriptionY)
+                                            descriptionY += 15
+                                        }
                                     }
                                 }else if(rarity === "CUBESeries"){
                                     //creating image
                                     const skinholder = await Canvas.loadImage('./assets/Rarities/standard/dark.png')
-                                    ctx.drawImage(skinholder, 0, 0, 512, 512)
+                                    ctx.drawImage(skinholder, 0, 0, 1024, 1024)
                                     const skin = await Canvas.loadImage(image);
-                                    ctx.drawImage(skin, 0, 0, 512, 512)
+                                    ctx.drawImage(skin, 0, 0, 1024, 1024)
                                     const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderDark.png')
-                                    ctx.drawImage(skinborder, 0, 0, 512, 512)
+                                    ctx.drawImage(skinborder, 0, 0, 1024, 1024)
                                     if(lang === "en"){
                                         ctx.fillStyle = '#ffffff';
                                         ctx.textAlign='center';
-                                        ctx.font = '46px Burbank Big Condensed'
-                                        ctx.fillText(name, 256, 430)
-                                        ctx.font = applyText(canvas, description);
-                                        ctx.fillText(description, 256, 470)
+                                        ctx.font = applyTextName(canvas, name)
+                                        ctx.fillText(name, 512, 850)
+                                        ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                        let descriptionY = 930
+                                        ctx.fillText(imgDescription[0], 512, descriptionY)
+                                        ctx.font = '15px Burbank Big Condensed'
+                                        descriptionY += 35
+                                        for(let x = 1; x < imgDescription.length; x++){
+                                            ctx.fillText(imgDescription[x], 512, descriptionY)
+                                            descriptionY += 15
+                                        }
                                     }else if(lang === "ar"){
                                         ctx.fillStyle = '#ffffff';
                                         ctx.textAlign='center';
-                                        ctx.font = '46px Arabic'
-                                        ctx.fillText(name, 256, 430)
-                                        ctx.font = applyText(canvas, description);
-                                        ctx.fillText(description, 256, 470)
+                                        ctx.font = applyTextName(canvas, name)
+                                        ctx.fillText(name, 512, 850)
+                                        ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                        let descriptionY = 930
+                                        ctx.fillText(imgDescription[0], 512, descriptionY)
+                                        ctx.font = '15px Arabic'
+                                        descriptionY += 35
+                                        for(let x = 1; x < imgDescription.length; x++){
+                                            ctx.fillText(imgDescription[x], 512, descriptionY)
+                                            descriptionY += 15
+                                        }
                                     }
                                 }else if(rarity === "CreatorCollabSeries"){
                                     //creating image
                                     const skinholder = await Canvas.loadImage('./assets/Rarities/standard/icon.png')
-                                    ctx.drawImage(skinholder, 0, 0, 512, 512)
+                                    ctx.drawImage(skinholder, 0, 0, 1024, 1024)
                                     const skin = await Canvas.loadImage(image);
-                                    ctx.drawImage(skin, 0, 0, 512, 512)
+                                    ctx.drawImage(skin, 0, 0, 1024, 1024)
                                     const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderIcon.png')
-                                    ctx.drawImage(skinborder, 0, 0, 512, 512)
+                                    ctx.drawImage(skinborder, 0, 0, 1024, 1024)
                                     if(lang === "en"){
                                         ctx.fillStyle = '#ffffff';
                                         ctx.textAlign='center';
-                                        ctx.font = '46px Burbank Big Condensed'
-                                        ctx.fillText(name, 256, 430)
-                                        ctx.font = applyText(canvas, description);
-                                        ctx.fillText(description, 256, 470)
+                                        ctx.font = applyTextName(canvas, name)
+                                        ctx.fillText(name, 512, 850)
+                                        ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                        let descriptionY = 930
+                                        ctx.fillText(imgDescription[0], 512, descriptionY)
+                                        ctx.font = '15px Burbank Big Condensed'
+                                        descriptionY += 35
+                                        for(let x = 1; x < imgDescription.length; x++){
+                                            ctx.fillText(imgDescription[x], 512, descriptionY)
+                                            descriptionY += 15
+                                        }
                                     }else if(lang === "ar"){
                                         ctx.fillStyle = '#ffffff';
                                         ctx.textAlign='center';
-                                        ctx.font = '46px Arabic'
-                                        ctx.fillText(name, 256, 430)
-                                        ctx.font = applyText(canvas, description);
-                                        ctx.fillText(description, 256, 470)
+                                        ctx.font = applyTextName(canvas, name)
+                                        ctx.fillText(name, 512, 850)
+                                        ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                        let descriptionY = 930
+                                        ctx.fillText(imgDescription[0], 512, descriptionY)
+                                        ctx.font = '15px Arabic'
+                                        descriptionY += 35
+                                        for(let x = 1; x < imgDescription.length; x++){
+                                            ctx.fillText(imgDescription[x], 512, descriptionY)
+                                            descriptionY += 15
+                                        }
                                     }
                                 }else if(rarity === "ColumbusSeries"){
                                     //creating image
                                     const skinholder = await Canvas.loadImage('./assets/Rarities/standard/starwars.png')
-                                    ctx.drawImage(skinholder, 0, 0, 512, 512)
+                                    ctx.drawImage(skinholder, 0, 0, 1024, 1024)
                                     const skin = await Canvas.loadImage(image);
-                                    ctx.drawImage(skin, 0, 0, 512, 512)
+                                    ctx.drawImage(skin, 0, 0, 1024, 1024)
                                     const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderStarwars.png')
-                                    ctx.drawImage(skinborder, 0, 0, 512, 512)
+                                    ctx.drawImage(skinborder, 0, 0, 1024, 1024)
                                     if(lang === "en"){
                                         ctx.fillStyle = '#ffffff';
                                         ctx.textAlign='center';
-                                        ctx.font = '46px Burbank Big Condensed'
-                                        ctx.fillText(name, 256, 430)
-                                        ctx.font = applyText(canvas, description);
-                                        ctx.fillText(description, 256, 470)
+                                        ctx.font = applyTextName(canvas, name)
+                                        ctx.fillText(name, 512, 850)
+                                        ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                        let descriptionY = 930
+                                        ctx.fillText(imgDescription[0], 512, descriptionY)
+                                        ctx.font = '15px Burbank Big Condensed'
+                                        descriptionY += 35
+                                        for(let x = 1; x < imgDescription.length; x++){
+                                            ctx.fillText(imgDescription[x], 512, descriptionY)
+                                            descriptionY += 15
+                                        }
                                     }else if(lang === "ar"){
                                         ctx.fillStyle = '#ffffff';
                                         ctx.textAlign='center';
-                                        ctx.font = '46px Arabic'
-                                        ctx.fillText(name, 256, 430)
-                                        ctx.font = applyText(canvas, description);
-                                        ctx.fillText(description, 256, 470)
+                                        ctx.font = applyTextName(canvas, name)
+                                        ctx.fillText(name, 512, 850)
+                                        ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                        let descriptionY = 930
+                                        ctx.fillText(imgDescription[0], 512, descriptionY)
+                                        ctx.font = '15px Arabic'
+                                        descriptionY += 35
+                                        for(let x = 1; x < imgDescription.length; x++){
+                                            ctx.fillText(imgDescription[x], 512, descriptionY)
+                                            descriptionY += 15
+                                        }
                                     }
                                 }else if(rarity === "ShadowSeries"){
                                     //creating image
                                     const skinholder = await Canvas.loadImage('./assets/Rarities/standard/shadow.png')
-                                    ctx.drawImage(skinholder, 0, 0, 512, 512)
+                                    ctx.drawImage(skinholder, 0, 0, 1024, 1024)
                                     const skin = await Canvas.loadImage(image);
-                                    ctx.drawImage(skin, 0, 0, 512, 512)
+                                    ctx.drawImage(skin, 0, 0, 1024, 1024)
                                     const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderShadow.png')
-                                    ctx.drawImage(skinborder, 0, 0, 512, 512)
+                                    ctx.drawImage(skinborder, 0, 0, 1024, 1024)
                                     if(lang === "en"){
                                         ctx.fillStyle = '#ffffff';
                                         ctx.textAlign='center';
-                                        ctx.font = '46px Burbank Big Condensed'
-                                        ctx.fillText(name, 256, 430)
-                                        ctx.font = applyText(canvas, description);
-                                        ctx.fillText(description, 256, 470)
+                                        ctx.font = applyTextName(canvas, name)
+                                        ctx.fillText(name, 512, 850)
+                                        ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                        let descriptionY = 930
+                                        ctx.fillText(imgDescription[0], 512, descriptionY)
+                                        ctx.font = '15px Burbank Big Condensed'
+                                        descriptionY += 35
+                                        for(let x = 1; x < imgDescription.length; x++){
+                                            ctx.fillText(imgDescription[x], 512, descriptionY)
+                                            descriptionY += 15
+                                        }
                                     }else if(lang === "ar"){
                                         ctx.fillStyle = '#ffffff';
                                         ctx.textAlign='center';
-                                        ctx.font = '46px Arabic'
-                                        ctx.fillText(name, 256, 430)
-                                        ctx.font = applyText(canvas, description);
-                                        ctx.fillText(description, 256, 470)
+                                        ctx.font = applyTextName(canvas, name)
+                                        ctx.fillText(name, 512, 850)
+                                        ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                        let descriptionY = 930
+                                        ctx.fillText(imgDescription[0], 512, descriptionY)
+                                        ctx.font = '15px Arabic'
+                                        descriptionY += 35
+                                        for(let x = 1; x < imgDescription.length; x++){
+                                            ctx.fillText(imgDescription[x], 512, descriptionY)
+                                            descriptionY += 15
+                                        }
                                     }
                                 }else if(rarity === "SlurpSeries"){
                                     //creating image
                                     const skinholder = await Canvas.loadImage('./assets/Rarities/standard/slurp.png')
-                                    ctx.drawImage(skinholder, 0, 0, 512, 512)
+                                    ctx.drawImage(skinholder, 0, 0, 1024, 1024)
                                     const skin = await Canvas.loadImage(image);
-                                    ctx.drawImage(skin, 0, 0, 512, 512)
+                                    ctx.drawImage(skin, 0, 0, 1024, 1024)
                                     const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderSlurp.png')
-                                    ctx.drawImage(skinborder, 0, 0, 512, 512)
+                                    ctx.drawImage(skinborder, 0, 0, 1024, 1024)
                                     if(lang === "en"){
                                         ctx.fillStyle = '#ffffff';
                                         ctx.textAlign='center';
-                                        ctx.font = '46px Burbank Big Condensed'
-                                        ctx.fillText(name, 256, 430)
-                                        ctx.font = applyText(canvas, description);
-                                        ctx.fillText(description, 256, 470)
+                                        ctx.font = applyTextName(canvas, name)
+                                        ctx.fillText(name, 512, 850)
+                                        ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                        let descriptionY = 930
+                                        ctx.fillText(imgDescription[0], 512, descriptionY)
+                                        ctx.font = '15px Burbank Big Condensed'
+                                        descriptionY += 35
+                                        for(let x = 1; x < imgDescription.length; x++){
+                                            ctx.fillText(imgDescription[x], 512, descriptionY)
+                                            descriptionY += 15
+                                        }
                                     }else if(lang === "ar"){
                                         ctx.fillStyle = '#ffffff';
                                         ctx.textAlign='center';
-                                        ctx.font = '46px Arabic'
-                                        ctx.fillText(name, 256, 430)
-                                        ctx.font = applyText(canvas, description);
-                                        ctx.fillText(description, 256, 470)
+                                        ctx.font = applyTextName(canvas, name)
+                                        ctx.fillText(name, 512, 850)
+                                        ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                        let descriptionY = 930
+                                        ctx.fillText(imgDescription[0], 512, descriptionY)
+                                        ctx.font = '15px Arabic'
+                                        descriptionY += 35
+                                        for(let x = 1; x < imgDescription.length; x++){
+                                            ctx.fillText(imgDescription[x], 512, descriptionY)
+                                            descriptionY += 15
+                                        }
                                     }
                                 }else if(rarity === "FrozenSeries"){
                                     //creating image
                                     const skinholder = await Canvas.loadImage('./assets/Rarities/standard/frozen.png')
-                                    ctx.drawImage(skinholder, 0, 0, 512, 512)
+                                    ctx.drawImage(skinholder, 0, 0, 1024, 1024)
                                     const skin = await Canvas.loadImage(image);
-                                    ctx.drawImage(skin, 0, 0, 512, 512)
+                                    ctx.drawImage(skin, 0, 0, 1024, 1024)
                                     const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderFrozen.png')
-                                    ctx.drawImage(skinborder, 0, 0, 512, 512)
+                                    ctx.drawImage(skinborder, 0, 0, 1024, 1024)
                                     if(lang === "en"){
                                         ctx.fillStyle = '#ffffff';
                                         ctx.textAlign='center';
-                                        ctx.font = '46px Burbank Big Condensed'
-                                        ctx.fillText(name, 256, 430)
-                                        ctx.font = applyText(canvas, description);
-                                        ctx.fillText(description, 256, 470)
+                                        ctx.font = applyTextName(canvas, name)
+                                        ctx.fillText(name, 512, 850)
+                                        ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                        let descriptionY = 930
+                                        ctx.fillText(imgDescription[0], 512, descriptionY)
+                                        ctx.font = '15px Burbank Big Condensed'
+                                        descriptionY += 35
+                                        for(let x = 1; x < imgDescription.length; x++){
+                                            ctx.fillText(imgDescription[x], 512, descriptionY)
+                                            descriptionY += 15
+                                        }
                                     }else if(lang === "ar"){
                                         ctx.fillStyle = '#ffffff';
                                         ctx.textAlign='center';
-                                        ctx.font = '46px Arabic'
-                                        ctx.fillText(name, 256, 430)
-                                        ctx.font = applyText(canvas, description);
-                                        ctx.fillText(description, 256, 470)
+                                        ctx.font = applyTextName(canvas, name)
+                                        ctx.fillText(name, 512, 850)
+                                        ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                        let descriptionY = 930
+                                        ctx.fillText(imgDescription[0], 512, descriptionY)
+                                        ctx.font = '15px Arabic'
+                                        descriptionY += 35
+                                        for(let x = 1; x < imgDescription.length; x++){
+                                            ctx.fillText(imgDescription[x], 512, descriptionY)
+                                            descriptionY += 15
+                                        }
                                     }
                                 }else if(rarity === "LavaSeries"){
                                     //creating image
                                     const skinholder = await Canvas.loadImage('./assets/Rarities/standard/lava.png')
-                                    ctx.drawImage(skinholder, 0, 0, 512, 512)
+                                    ctx.drawImage(skinholder, 0, 0, 1024, 1024)
                                     const skin = await Canvas.loadImage(image);
-                                    ctx.drawImage(skin, 0, 0, 512, 512)
+                                    ctx.drawImage(skin, 0, 0, 1024, 1024)
                                     const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderLava.png')
-                                    ctx.drawImage(skinborder, 0, 0, 512, 512)
+                                    ctx.drawImage(skinborder, 0, 0, 1024, 1024)
                                     if(lang === "en"){
                                         ctx.fillStyle = '#ffffff';
                                         ctx.textAlign='center';
-                                        ctx.font = '46px Burbank Big Condensed'
-                                        ctx.fillText(name, 256, 430)
-                                        ctx.font = applyText(canvas, description);
-                                        ctx.fillText(description, 256, 470)
+                                        ctx.font = applyTextName(canvas, name)
+                                        ctx.fillText(name, 512, 850)
+                                        ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                        let descriptionY = 930
+                                        ctx.fillText(imgDescription[0], 512, descriptionY)
+                                        ctx.font = '15px Burbank Big Condensed'
+                                        descriptionY += 35
+                                        for(let x = 1; x < imgDescription.length; x++){
+                                            ctx.fillText(imgDescription[x], 512, descriptionY)
+                                            descriptionY += 15
+                                        }
                                     }else if(lang === "ar"){
                                         ctx.fillStyle = '#ffffff';
                                         ctx.textAlign='center';
-                                        ctx.font = '46px Arabic'
-                                        ctx.fillText(name, 256, 430)
-                                        ctx.font = applyText(canvas, description);
-                                        ctx.fillText(description, 256, 470)
+                                        ctx.font = applyTextName(canvas, name)
+                                        ctx.fillText(name, 512, 850)
+                                        ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                        let descriptionY = 930
+                                        ctx.fillText(imgDescription[0], 512, descriptionY)
+                                        ctx.font = '15px Arabic'
+                                        descriptionY += 35
+                                        for(let x = 1; x < imgDescription.length; x++){
+                                            ctx.fillText(imgDescription[x], 512, descriptionY)
+                                            descriptionY += 15
+                                        }
                                     }
                                 }else if(rarity === "PlatformSeries"){
                                     //creating image
                                     const skinholder = await Canvas.loadImage('./assets/Rarities/standard/gaming.png')
-                                    ctx.drawImage(skinholder, 0, 0, 512, 512)
+                                    ctx.drawImage(skinholder, 0, 0, 1024, 1024)
                                     const skin = await Canvas.loadImage(image);
-                                    ctx.drawImage(skin, 0, 0, 512, 512)
+                                    ctx.drawImage(skin, 0, 0, 1024, 1024)
                                     const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderGaming.png')
-                                    ctx.drawImage(skinborder, 0, 0, 512, 512)
+                                    ctx.drawImage(skinborder, 0, 0, 1024, 1024)
                                     if(lang === "en"){
                                         ctx.fillStyle = '#ffffff';
                                         ctx.textAlign='center';
-                                        ctx.font = '46px Burbank Big Condensed'
-                                        ctx.fillText(name, 256, 430)
-                                        ctx.font = applyText(canvas, description);
-                                        ctx.fillText(description, 256, 470)
+                                        ctx.font = applyTextName(canvas, name)
+                                        ctx.fillText(name, 512, 850)
+                                        ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                        let descriptionY = 930
+                                        ctx.fillText(imgDescription[0], 512, descriptionY)
+                                        ctx.font = '15px Burbank Big Condensed'
+                                        descriptionY += 35
+                                        for(let x = 1; x < imgDescription.length; x++){
+                                            ctx.fillText(imgDescription[x], 512, descriptionY)
+                                            descriptionY += 15
+                                        }
                                     }else if(lang === "ar"){
                                         ctx.fillStyle = '#ffffff';
                                         ctx.textAlign='center';
-                                        ctx.font = '46px Arabic'
-                                        ctx.fillText(name, 256, 430)
-                                        ctx.font = applyText(canvas, description);
-                                        ctx.fillText(description, 256, 470)
+                                        ctx.font = applyTextName(canvas, name)
+                                        ctx.fillText(name, 512, 850)
+                                        ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                        let descriptionY = 930
+                                        ctx.fillText(imgDescription[0], 512, descriptionY)
+                                        ctx.font = '15px Arabic'
+                                        descriptionY += 35
+                                        for(let x = 1; x < imgDescription.length; x++){
+                                            ctx.fillText(imgDescription[x], 512, descriptionY)
+                                            descriptionY += 15
+                                        }
                                     }
                                 }else{
                                     //creating image
                                     const skinholder = await Canvas.loadImage('./assets/Rarities/standard/common.png')
-                                    ctx.drawImage(skinholder, 0, 0, 512, 512)
+                                    ctx.drawImage(skinholder, 0, 0, 1024, 1024)
                                     const skin = await Canvas.loadImage(image);
-                                    ctx.drawImage(skin, 0, 0, 512, 512)
+                                    ctx.drawImage(skin, 0, 0, 1024, 1024)
                                     const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderCommon.png')
-                                    ctx.drawImage(skinborder, 0, 0, 512, 512)
+                                    ctx.drawImage(skinborder, 0, 0, 1024, 1024)
                                     if(lang === "en"){
                                         ctx.fillStyle = '#ffffff';
                                         ctx.textAlign='center';
-                                        ctx.font = '46px Burbank Big Condensed'
-                                        ctx.fillText(name, 256, 430)
-                                        ctx.font = applyText(canvas, description);
-                                        ctx.fillText(description, 256, 470)
+                                        ctx.font = applyTextName(canvas, name)
+                                        ctx.fillText(name, 512, 850)
+                                        ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                        let descriptionY = 930
+                                        ctx.fillText(imgDescription[0], 512, descriptionY)
+                                        ctx.font = '15px Burbank Big Condensed'
+                                        descriptionY += 35
+                                        for(let x = 1; x < imgDescription.length; x++){
+                                            ctx.fillText(imgDescription[x], 512, descriptionY)
+                                            descriptionY += 15
+                                        }
                                     }else if(lang === "ar"){
                                         ctx.fillStyle = '#ffffff';
                                         ctx.textAlign='center';
-                                        ctx.font = '46px Arabic'
-                                        ctx.fillText(name, 256, 430)
-                                        ctx.font = applyText(canvas, description);
-                                        ctx.fillText(description, 256, 470)
+                                        ctx.font = applyTextName(canvas, name)
+                                        ctx.fillText(name, 512, 850)
+                                        ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                        let descriptionY = 930
+                                        ctx.fillText(imgDescription[0], 512, descriptionY)
+                                        ctx.font = '15px Arabic'
+                                        descriptionY += 35
+                                        for(let x = 1; x < imgDescription.length; x++){
+                                            ctx.fillText(imgDescription[x], 512, descriptionY)
+                                            descriptionY += 15
+                                        }
                                     }
                                 }
 
                                 //inilizing tags
-                                var y = 12
-                                var x = 467
+                                var y = 24
+                                var x = 934
 
-                                for(let p = 0; p < res.data.items[num].gameplayTags.length; p++){
+                                for(let i = 0; i < res.data.items[num].gameplayTags.length; i++){
+
                                     //if the item is animated
-                                    if(res.data.items[num].gameplayTags[p].includes('Animated')){
+                                    if(res.data.items[num].gameplayTags[i].includes('Animated')){
 
                                         //the itm is animated add the animated icon
                                         const skinholder = await Canvas.loadImage('./assets/Tags/T-Icon-Animated-64.png')
-                                        ctx.drawImage(skinholder, x, y, 30, 30)
+                                        ctx.drawImage(skinholder, x, y, 60, 60)
 
-                                        y += 40
+                                        y += 70
                                     }
 
-                                    //if the item is animated
-                                    if(res.data.items[num].gameplayTags[p].includes('Reactive')){
+                                    //if the item is reactive
+                                    if(res.data.items[num].gameplayTags[i].includes('Reactive')){
 
                                         //the itm is animated add the animated icon
                                         const skinholder = await Canvas.loadImage('./assets/Tags/T-Icon-Adaptive-64.png')
-                                        ctx.drawImage(skinholder, x, y, 30, 30)
+                                        ctx.drawImage(skinholder, x, y, 60, 60)
 
-                                        y += 40
+                                        y += 70
                                     }
 
-                                    //if the item is animated
-                                    if(res.data.items[num].gameplayTags[p].includes('Synced')){
+                                    //if the item is synced emote
+                                    if(res.data.items[num].gameplayTags[i].includes('Synced')){
 
                                         //the itm is animated add the animated icon
                                         const skinholder = await Canvas.loadImage('./assets/Tags/T-Icon-Synced-64x.png')
-                                        ctx.drawImage(skinholder, x, y, 30, 30)
+                                        ctx.drawImage(skinholder, x, y, 60, 60)
 
-                                        y += 40
+                                        y += 70
                                     }
 
-                                    //if the item is animated
-                                    if(res.data.items[num].gameplayTags[p].includes('Traversal')){
+                                    //if the item is traversal
+                                    if(res.data.items[num].gameplayTags[i].includes('Traversal')){
 
                                         //the itm is animated add the animated icon
                                         const skinholder = await Canvas.loadImage('./assets/Tags/T-Icon-Traversal-64.png')
-                                        ctx.drawImage(skinholder, x, y, 30, 30)
+                                        ctx.drawImage(skinholder, x, y, 60, 60)
 
-                                        y += 40
+                                        y += 70
                                     }
 
-                                    //if the item is animated
-                                    if(res.data.items[num].gameplayTags[p].includes('HasVariants') || res.data.items[num].gameplayTags[p].includes('HasUpgradeQuests')){
+                                    //if the item has styles
+                                    if(res.data.items[num].gameplayTags[i].includes('HasVariants') || res.data.items[num].gameplayTags[i].includes('HasUpgradeQuests')){
 
                                         //the itm is animated add the animated icon
                                         const skinholder = await Canvas.loadImage('./assets/Tags/T-Icon-Variant-64.png')
-                                        ctx.drawImage(skinholder, x, y, 30, 30)
+                                        ctx.drawImage(skinholder, x, y, 60, 60)
 
-                                        y += 40
+                                        y += 70
                                     }
                                 }
 
@@ -817,9 +1061,9 @@ module.exports = {
 
                                     //the itm is animated add the animated icon
                                     const skinholder = await Canvas.loadImage('./assets/Tags/mute.png')
-                                    ctx.drawImage(skinholder, x, y, 30, 30)
+                                    ctx.drawImage(skinholder, x, y, 60, 60)
 
-                                    y += 40
+                                    y += 70
                                 }
 
                                 //send the item picture
@@ -830,7 +1074,7 @@ module.exports = {
                                 for(let i = 0; i < styles.length; i ++){
 
                                     //creating canvas
-                                    const canvas = Canvas.createCanvas(512, 512);
+                                    const canvas = Canvas.createCanvas(1024, 1024);
                                     const ctx = canvas.getContext('2d');
 
                                     //set the item info
@@ -842,441 +1086,677 @@ module.exports = {
                                     if(styles[i].series !== null) var rarity = styles[i].series.id
                                     else var rarity = styles[i].rarity.id
 
+                                    //remove lines
+                                    let imgDescription = await description
+                                    imgDescription = imgDescription.replace("\r\n", "")
+    
+                                    //add introduces and set string
+                                    if(res.data.items[num].introduction !== null) imgDescription += `\n${res.data.items[num].introduction.text}`
+                                    if(res.data.items[num].set !== null) imgDescription += `\n${res.data.items[num].set.partOf}`
+    
+                                    //split every line
+                                    imgDescription = imgDescription.split(/\r\n|\r|\n/)
+    
                                     //searching...
                                     if(rarity === "Legendary"){
                                         //creating image
                                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/legendary.png')
-                                        ctx.drawImage(skinholder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinholder, 0, 0, 1024, 1024)
                                         const skin = await Canvas.loadImage(image);
-                                        ctx.drawImage(skin, 0, 0, 512, 512)
+                                        ctx.drawImage(skin, 0, 0, 1024, 1024)
                                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderLegendary.png')
-                                        ctx.drawImage(skinborder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinborder, 0, 0, 1024, 1024)
                                         if(lang === "en"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Burbank Big Condensed'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Burbank Big Condensed'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }else if(lang === "ar"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Arabic'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Arabic'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }
                                     }else if(rarity === "Epic"){
                                         //creating image
                                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/epic.png')
-                                        ctx.drawImage(skinholder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinholder, 0, 0, 1024, 1024)
                                         const skin = await Canvas.loadImage(image);
-                                        ctx.drawImage(skin, 0, 0, 512, 512)
+                                        ctx.drawImage(skin, 0, 0, 1024, 1024)
                                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderEpic.png')
-                                        ctx.drawImage(skinborder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinborder, 0, 0, 1024, 1024)
                                         if(lang === "en"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Burbank Big Condensed'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Burbank Big Condensed'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }else if(lang === "ar"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Arabic'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Arabic'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }
                                     }else if(rarity === "Rare"){
                                         //creating image
                                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/rare.png')
-                                        ctx.drawImage(skinholder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinholder, 0, 0, 1024, 1024)
                                         const skin = await Canvas.loadImage(image);
-                                        ctx.drawImage(skin, 0, 0, 512, 512)
+                                        ctx.drawImage(skin, 0, 0, 1024, 1024)
                                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderRare.png')
-                                        ctx.drawImage(skinborder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinborder, 0, 0, 1024, 1024)
                                         if(lang === "en"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Burbank Big Condensed'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Burbank Big Condensed'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }else if(lang === "ar"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Arabic'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Arabic'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }
                                     }else if(rarity === "Uncommon"){
                                         //creating image
                                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/uncommon.png')
-                                        ctx.drawImage(skinholder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinholder, 0, 0, 1024, 1024)
                                         const skin = await Canvas.loadImage(image);
-                                        ctx.drawImage(skin, 0, 0, 512, 512)
+                                        ctx.drawImage(skin, 0, 0, 1024, 1024)
                                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderUncommon.png')
-                                        ctx.drawImage(skinborder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinborder, 0, 0, 1024, 1024)
                                         if(lang === "en"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Burbank Big Condensed'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Burbank Big Condensed'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }else if(lang === "ar"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Arabic'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Arabic'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }
                                     }else if(rarity === "Common"){
                                         //creating image
                                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/common.png')
-                                        ctx.drawImage(skinholder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinholder, 0, 0, 1024, 1024)
                                         const skin = await Canvas.loadImage(image);
-                                        ctx.drawImage(skin, 0, 0, 512, 512)
+                                        ctx.drawImage(skin, 0, 0, 1024, 1024)
                                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderCommon.png')
-                                        ctx.drawImage(skinborder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinborder, 0, 0, 1024, 1024)
                                         if(lang === "en"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Burbank Big Condensed'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Burbank Big Condensed'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }else if(lang === "ar"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Arabic'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Arabic'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }
                                     }else if(rarity === "MarvelSeries"){
                                         //creating image
                                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/marvel.png')
-                                        ctx.drawImage(skinholder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinholder, 0, 0, 1024, 1024)
                                         const skin = await Canvas.loadImage(image);
-                                        ctx.drawImage(skin, 0, 0, 512, 512)
+                                        ctx.drawImage(skin, 0, 0, 1024, 1024)
                                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderMarvel.png')
-                                        ctx.drawImage(skinborder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinborder, 0, 0, 1024, 1024)
                                         if(lang === "en"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Burbank Big Condensed'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Burbank Big Condensed'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }else if(lang === "ar"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Arabic'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Arabic'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }
                                     }else if(rarity === "DCUSeries"){
                                         //creating image
                                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/dc.png')
-                                        ctx.drawImage(skinholder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinholder, 0, 0, 1024, 1024)
                                         const skin = await Canvas.loadImage(image);
-                                        ctx.drawImage(skin, 0, 0, 512, 512)
+                                        ctx.drawImage(skin, 0, 0, 1024, 1024)
                                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderDc.png')
-                                        ctx.drawImage(skinborder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinborder, 0, 0, 1024, 1024)
                                         if(lang === "en"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Burbank Big Condensed'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Burbank Big Condensed'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }else if(lang === "ar"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Arabic'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Arabic'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }
                                     }else if(rarity === "CUBESeries"){
                                         //creating image
                                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/dark.png')
-                                        ctx.drawImage(skinholder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinholder, 0, 0, 1024, 1024)
                                         const skin = await Canvas.loadImage(image);
-                                        ctx.drawImage(skin, 0, 0, 512, 512)
+                                        ctx.drawImage(skin, 0, 0, 1024, 1024)
                                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderDark.png')
-                                        ctx.drawImage(skinborder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinborder, 0, 0, 1024, 1024)
                                         if(lang === "en"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Burbank Big Condensed'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Burbank Big Condensed'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }else if(lang === "ar"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Arabic'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Arabic'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }
                                     }else if(rarity === "CreatorCollabSeries"){
                                         //creating image
                                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/icon.png')
-                                        ctx.drawImage(skinholder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinholder, 0, 0, 1024, 1024)
                                         const skin = await Canvas.loadImage(image);
-                                        ctx.drawImage(skin, 0, 0, 512, 512)
+                                        ctx.drawImage(skin, 0, 0, 1024, 1024)
                                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderIcon.png')
-                                        ctx.drawImage(skinborder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinborder, 0, 0, 1024, 1024)
                                         if(lang === "en"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Burbank Big Condensed'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Burbank Big Condensed'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }else if(lang === "ar"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Arabic'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Arabic'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }
                                     }else if(rarity === "ColumbusSeries"){
                                         //creating image
                                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/starwars.png')
-                                        ctx.drawImage(skinholder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinholder, 0, 0, 1024, 1024)
                                         const skin = await Canvas.loadImage(image);
-                                        ctx.drawImage(skin, 0, 0, 512, 512)
+                                        ctx.drawImage(skin, 0, 0, 1024, 1024)
                                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderStarwars.png')
-                                        ctx.drawImage(skinborder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinborder, 0, 0, 1024, 1024)
                                         if(lang === "en"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Burbank Big Condensed'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Burbank Big Condensed'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }else if(lang === "ar"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Arabic'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Arabic'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }
                                     }else if(rarity === "ShadowSeries"){
                                         //creating image
                                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/shadow.png')
-                                        ctx.drawImage(skinholder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinholder, 0, 0, 1024, 1024)
                                         const skin = await Canvas.loadImage(image);
-                                        ctx.drawImage(skin, 0, 0, 512, 512)
+                                        ctx.drawImage(skin, 0, 0, 1024, 1024)
                                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderShadow.png')
-                                        ctx.drawImage(skinborder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinborder, 0, 0, 1024, 1024)
                                         if(lang === "en"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Burbank Big Condensed'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Burbank Big Condensed'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }else if(lang === "ar"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Arabic'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Arabic'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }
                                     }else if(rarity === "SlurpSeries"){
                                         //creating image
                                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/slurp.png')
-                                        ctx.drawImage(skinholder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinholder, 0, 0, 1024, 1024)
                                         const skin = await Canvas.loadImage(image);
-                                        ctx.drawImage(skin, 0, 0, 512, 512)
+                                        ctx.drawImage(skin, 0, 0, 1024, 1024)
                                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderSlurp.png')
-                                        ctx.drawImage(skinborder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinborder, 0, 0, 1024, 1024)
                                         if(lang === "en"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Burbank Big Condensed'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Burbank Big Condensed'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }else if(lang === "ar"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Arabic'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Arabic'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }
                                     }else if(rarity === "FrozenSeries"){
                                         //creating image
                                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/frozen.png')
-                                        ctx.drawImage(skinholder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinholder, 0, 0, 1024, 1024)
                                         const skin = await Canvas.loadImage(image);
-                                        ctx.drawImage(skin, 0, 0, 512, 512)
+                                        ctx.drawImage(skin, 0, 0, 1024, 1024)
                                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderFrozen.png')
-                                        ctx.drawImage(skinborder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinborder, 0, 0, 1024, 1024)
                                         if(lang === "en"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Burbank Big Condensed'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Burbank Big Condensed'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }else if(lang === "ar"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Arabic'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Arabic'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }
                                     }else if(rarity === "LavaSeries"){
                                         //creating image
                                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/lava.png')
-                                        ctx.drawImage(skinholder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinholder, 0, 0, 1024, 1024)
                                         const skin = await Canvas.loadImage(image);
-                                        ctx.drawImage(skin, 0, 0, 512, 512)
+                                        ctx.drawImage(skin, 0, 0, 1024, 1024)
                                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderLava.png')
-                                        ctx.drawImage(skinborder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinborder, 0, 0, 1024, 1024)
                                         if(lang === "en"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Burbank Big Condensed'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Burbank Big Condensed'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }else if(lang === "ar"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Arabic'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Arabic'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }
                                     }else if(rarity === "PlatformSeries"){
                                         //creating image
                                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/gaming.png')
-                                        ctx.drawImage(skinholder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinholder, 0, 0, 1024, 1024)
                                         const skin = await Canvas.loadImage(image);
-                                        ctx.drawImage(skin, 0, 0, 512, 512)
+                                        ctx.drawImage(skin, 0, 0, 1024, 1024)
                                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderGaming.png')
-                                        ctx.drawImage(skinborder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinborder, 0, 0, 1024, 1024)
                                         if(lang === "en"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Burbank Big Condensed'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Burbank Big Condensed'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }else if(lang === "ar"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Arabic'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Arabic'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }
                                     }else{
                                         //creating image
                                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/common.png')
-                                        ctx.drawImage(skinholder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinholder, 0, 0, 1024, 1024)
                                         const skin = await Canvas.loadImage(image);
-                                        ctx.drawImage(skin, 0, 0, 512, 512)
+                                        ctx.drawImage(skin, 0, 0, 1024, 1024)
                                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderCommon.png')
-                                        ctx.drawImage(skinborder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinborder, 0, 0, 1024, 1024)
                                         if(lang === "en"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Burbank Big Condensed'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Burbank Big Condensed'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }else if(lang === "ar"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Arabic'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Arabic'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }
                                     }
-
+    
                                     //inilizing tags
-                                    var y = 12
-                                    var x = 467
-
-                                    for(let p = 0; p < res.data.items[num].gameplayTags.length; p++){
+                                    var y = 24
+                                    var x = 934
+    
+                                    for(let i = 0; i < res.data.items[num].gameplayTags.length; i++){
+    
                                         //if the item is animated
-                                        if(res.data.items[num].gameplayTags[p].includes('Animated')){
-
+                                        if(res.data.items[num].gameplayTags[i].includes('Animated')){
+    
                                             //the itm is animated add the animated icon
                                             const skinholder = await Canvas.loadImage('./assets/Tags/T-Icon-Animated-64.png')
-                                            ctx.drawImage(skinholder, x, y, 30, 30)
-
-                                            y += 40
+                                            ctx.drawImage(skinholder, x, y, 60, 60)
+    
+                                            y += 70
                                         }
-
-                                        //if the item is animated
-                                        if(res.data.items[num].gameplayTags[p].includes('Reactive')){
-
+    
+                                        //if the item is reactive
+                                        if(res.data.items[num].gameplayTags[i].includes('Reactive')){
+    
                                             //the itm is animated add the animated icon
                                             const skinholder = await Canvas.loadImage('./assets/Tags/T-Icon-Adaptive-64.png')
-                                            ctx.drawImage(skinholder, x, y, 30, 30)
-
-                                            y += 40
+                                            ctx.drawImage(skinholder, x, y, 60, 60)
+    
+                                            y += 70
                                         }
-
-                                        //if the item is animated
-                                        if(res.data.items[num].gameplayTags[p].includes('Synced')){
-
+    
+                                        //if the item is synced emote
+                                        if(res.data.items[num].gameplayTags[i].includes('Synced')){
+    
                                             //the itm is animated add the animated icon
                                             const skinholder = await Canvas.loadImage('./assets/Tags/T-Icon-Synced-64x.png')
-                                            ctx.drawImage(skinholder, x, y, 30, 30)
-
-                                            y += 40
+                                            ctx.drawImage(skinholder, x, y, 60, 60)
+    
+                                            y += 70
                                         }
-
-                                        //if the item is animated
-                                        if(res.data.items[num].gameplayTags[p].includes('Traversal')){
-
+    
+                                        //if the item is traversal
+                                        if(res.data.items[num].gameplayTags[i].includes('Traversal')){
+    
                                             //the itm is animated add the animated icon
                                             const skinholder = await Canvas.loadImage('./assets/Tags/T-Icon-Traversal-64.png')
-                                            ctx.drawImage(skinholder, x, y, 30, 30)
-
-                                            y += 40
+                                            ctx.drawImage(skinholder, x, y, 60, 60)
+    
+                                            y += 70
                                         }
-
-                                        //if the item is animated
-                                        if(res.data.items[num].gameplayTags[p].includes('HasVariants') || res.data.items[num].gameplayTags[p].includes('HasUpgradeQuests')){
-
+    
+                                        //if the item has styles
+                                        if(res.data.items[num].gameplayTags[i].includes('HasVariants') || res.data.items[num].gameplayTags[i].includes('HasUpgradeQuests')){
+    
                                             //the itm is animated add the animated icon
                                             const skinholder = await Canvas.loadImage('./assets/Tags/T-Icon-Variant-64.png')
-                                            ctx.drawImage(skinholder, x, y, 30, 30)
-
-                                            y += 40
+                                            ctx.drawImage(skinholder, x, y, 60, 60)
+    
+                                            y += 70
                                         }
                                     }
-
+    
                                     //if the item contains copyrited audio
                                     if(res.data.items[num].copyrightedAudio === true){
-
+    
                                         //the itm is animated add the animated icon
                                         const skinholder = await Canvas.loadImage('./assets/Tags/mute.png')
-                                        ctx.drawImage(skinholder, x, y, 30, 30)
-
-                                        y += 40
+                                        ctx.drawImage(skinholder, x, y, 60, 60)
+    
+                                        y += 70
                                     }
 
                                     //send the item picture
@@ -1302,7 +1782,7 @@ module.exports = {
                                 for(let i = 0; i < res.data.items[num].displayAssets.length; i ++){
 
                                     //creating canvas
-                                    const canvas = Canvas.createCanvas(512, 512);
+                                    const canvas = Canvas.createCanvas(1024, 1024);
                                     const ctx = canvas.getContext('2d');
 
                                     //set the item info
@@ -1314,441 +1794,677 @@ module.exports = {
                                     if(res.data.items[num].series !== null) var rarity = res.data.items[num].series.id
                                     else var rarity = res.data.items[num].rarity.id
 
+                                    //remove lines
+                                    let imgDescription = await description
+                                    imgDescription = imgDescription.replace("\r\n", "")
+    
+                                    //add introduces and set string
+                                    if(res.data.items[num].introduction !== null) imgDescription += `\n${res.data.items[num].introduction.text}`
+                                    if(res.data.items[num].set !== null) imgDescription += `\n${res.data.items[num].set.partOf}`
+    
+                                    //split every line
+                                    imgDescription = imgDescription.split(/\r\n|\r|\n/)
+    
                                     //searching...
                                     if(rarity === "Legendary"){
                                         //creating image
                                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/legendary.png')
-                                        ctx.drawImage(skinholder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinholder, 0, 0, 1024, 1024)
                                         const skin = await Canvas.loadImage(image);
-                                        ctx.drawImage(skin, 0, 0, 512, 512)
+                                        ctx.drawImage(skin, 0, 0, 1024, 1024)
                                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderLegendary.png')
-                                        ctx.drawImage(skinborder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinborder, 0, 0, 1024, 1024)
                                         if(lang === "en"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Burbank Big Condensed'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Burbank Big Condensed'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }else if(lang === "ar"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Arabic'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Arabic'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }
                                     }else if(rarity === "Epic"){
                                         //creating image
                                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/epic.png')
-                                        ctx.drawImage(skinholder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinholder, 0, 0, 1024, 1024)
                                         const skin = await Canvas.loadImage(image);
-                                        ctx.drawImage(skin, 0, 0, 512, 512)
+                                        ctx.drawImage(skin, 0, 0, 1024, 1024)
                                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderEpic.png')
-                                        ctx.drawImage(skinborder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinborder, 0, 0, 1024, 1024)
                                         if(lang === "en"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Burbank Big Condensed'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Burbank Big Condensed'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }else if(lang === "ar"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Arabic'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Arabic'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }
                                     }else if(rarity === "Rare"){
                                         //creating image
                                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/rare.png')
-                                        ctx.drawImage(skinholder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinholder, 0, 0, 1024, 1024)
                                         const skin = await Canvas.loadImage(image);
-                                        ctx.drawImage(skin, 0, 0, 512, 512)
+                                        ctx.drawImage(skin, 0, 0, 1024, 1024)
                                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderRare.png')
-                                        ctx.drawImage(skinborder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinborder, 0, 0, 1024, 1024)
                                         if(lang === "en"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Burbank Big Condensed'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Burbank Big Condensed'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }else if(lang === "ar"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Arabic'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Arabic'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }
                                     }else if(rarity === "Uncommon"){
                                         //creating image
                                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/uncommon.png')
-                                        ctx.drawImage(skinholder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinholder, 0, 0, 1024, 1024)
                                         const skin = await Canvas.loadImage(image);
-                                        ctx.drawImage(skin, 0, 0, 512, 512)
+                                        ctx.drawImage(skin, 0, 0, 1024, 1024)
                                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderUncommon.png')
-                                        ctx.drawImage(skinborder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinborder, 0, 0, 1024, 1024)
                                         if(lang === "en"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Burbank Big Condensed'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Burbank Big Condensed'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }else if(lang === "ar"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Arabic'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Arabic'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }
                                     }else if(rarity === "Common"){
                                         //creating image
                                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/common.png')
-                                        ctx.drawImage(skinholder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinholder, 0, 0, 1024, 1024)
                                         const skin = await Canvas.loadImage(image);
-                                        ctx.drawImage(skin, 0, 0, 512, 512)
+                                        ctx.drawImage(skin, 0, 0, 1024, 1024)
                                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderCommon.png')
-                                        ctx.drawImage(skinborder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinborder, 0, 0, 1024, 1024)
                                         if(lang === "en"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Burbank Big Condensed'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Burbank Big Condensed'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }else if(lang === "ar"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Arabic'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Arabic'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }
                                     }else if(rarity === "MarvelSeries"){
                                         //creating image
                                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/marvel.png')
-                                        ctx.drawImage(skinholder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinholder, 0, 0, 1024, 1024)
                                         const skin = await Canvas.loadImage(image);
-                                        ctx.drawImage(skin, 0, 0, 512, 512)
+                                        ctx.drawImage(skin, 0, 0, 1024, 1024)
                                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderMarvel.png')
-                                        ctx.drawImage(skinborder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinborder, 0, 0, 1024, 1024)
                                         if(lang === "en"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Burbank Big Condensed'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Burbank Big Condensed'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }else if(lang === "ar"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Arabic'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Arabic'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }
                                     }else if(rarity === "DCUSeries"){
                                         //creating image
                                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/dc.png')
-                                        ctx.drawImage(skinholder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinholder, 0, 0, 1024, 1024)
                                         const skin = await Canvas.loadImage(image);
-                                        ctx.drawImage(skin, 0, 0, 512, 512)
+                                        ctx.drawImage(skin, 0, 0, 1024, 1024)
                                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderDc.png')
-                                        ctx.drawImage(skinborder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinborder, 0, 0, 1024, 1024)
                                         if(lang === "en"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Burbank Big Condensed'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Burbank Big Condensed'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }else if(lang === "ar"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Arabic'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Arabic'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }
                                     }else if(rarity === "CUBESeries"){
                                         //creating image
                                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/dark.png')
-                                        ctx.drawImage(skinholder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinholder, 0, 0, 1024, 1024)
                                         const skin = await Canvas.loadImage(image);
-                                        ctx.drawImage(skin, 0, 0, 512, 512)
+                                        ctx.drawImage(skin, 0, 0, 1024, 1024)
                                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderDark.png')
-                                        ctx.drawImage(skinborder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinborder, 0, 0, 1024, 1024)
                                         if(lang === "en"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Burbank Big Condensed'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Burbank Big Condensed'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }else if(lang === "ar"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Arabic'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Arabic'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }
                                     }else if(rarity === "CreatorCollabSeries"){
                                         //creating image
                                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/icon.png')
-                                        ctx.drawImage(skinholder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinholder, 0, 0, 1024, 1024)
                                         const skin = await Canvas.loadImage(image);
-                                        ctx.drawImage(skin, 0, 0, 512, 512)
+                                        ctx.drawImage(skin, 0, 0, 1024, 1024)
                                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderIcon.png')
-                                        ctx.drawImage(skinborder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinborder, 0, 0, 1024, 1024)
                                         if(lang === "en"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Burbank Big Condensed'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Burbank Big Condensed'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }else if(lang === "ar"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Arabic'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Arabic'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }
                                     }else if(rarity === "ColumbusSeries"){
                                         //creating image
                                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/starwars.png')
-                                        ctx.drawImage(skinholder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinholder, 0, 0, 1024, 1024)
                                         const skin = await Canvas.loadImage(image);
-                                        ctx.drawImage(skin, 0, 0, 512, 512)
+                                        ctx.drawImage(skin, 0, 0, 1024, 1024)
                                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderStarwars.png')
-                                        ctx.drawImage(skinborder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinborder, 0, 0, 1024, 1024)
                                         if(lang === "en"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Burbank Big Condensed'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Burbank Big Condensed'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }else if(lang === "ar"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Arabic'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Arabic'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }
                                     }else if(rarity === "ShadowSeries"){
                                         //creating image
                                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/shadow.png')
-                                        ctx.drawImage(skinholder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinholder, 0, 0, 1024, 1024)
                                         const skin = await Canvas.loadImage(image);
-                                        ctx.drawImage(skin, 0, 0, 512, 512)
+                                        ctx.drawImage(skin, 0, 0, 1024, 1024)
                                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderShadow.png')
-                                        ctx.drawImage(skinborder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinborder, 0, 0, 1024, 1024)
                                         if(lang === "en"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Burbank Big Condensed'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Burbank Big Condensed'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }else if(lang === "ar"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Arabic'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Arabic'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }
                                     }else if(rarity === "SlurpSeries"){
                                         //creating image
                                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/slurp.png')
-                                        ctx.drawImage(skinholder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinholder, 0, 0, 1024, 1024)
                                         const skin = await Canvas.loadImage(image);
-                                        ctx.drawImage(skin, 0, 0, 512, 512)
+                                        ctx.drawImage(skin, 0, 0, 1024, 1024)
                                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderSlurp.png')
-                                        ctx.drawImage(skinborder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinborder, 0, 0, 1024, 1024)
                                         if(lang === "en"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Burbank Big Condensed'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Burbank Big Condensed'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }else if(lang === "ar"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Arabic'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Arabic'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }
                                     }else if(rarity === "FrozenSeries"){
                                         //creating image
                                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/frozen.png')
-                                        ctx.drawImage(skinholder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinholder, 0, 0, 1024, 1024)
                                         const skin = await Canvas.loadImage(image);
-                                        ctx.drawImage(skin, 0, 0, 512, 512)
+                                        ctx.drawImage(skin, 0, 0, 1024, 1024)
                                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderFrozen.png')
-                                        ctx.drawImage(skinborder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinborder, 0, 0, 1024, 1024)
                                         if(lang === "en"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Burbank Big Condensed'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Burbank Big Condensed'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }else if(lang === "ar"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Arabic'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Arabic'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }
                                     }else if(rarity === "LavaSeries"){
                                         //creating image
                                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/lava.png')
-                                        ctx.drawImage(skinholder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinholder, 0, 0, 1024, 1024)
                                         const skin = await Canvas.loadImage(image);
-                                        ctx.drawImage(skin, 0, 0, 512, 512)
+                                        ctx.drawImage(skin, 0, 0, 1024, 1024)
                                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderLava.png')
-                                        ctx.drawImage(skinborder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinborder, 0, 0, 1024, 1024)
                                         if(lang === "en"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Burbank Big Condensed'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Burbank Big Condensed'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }else if(lang === "ar"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Arabic'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Arabic'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }
                                     }else if(rarity === "PlatformSeries"){
                                         //creating image
                                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/gaming.png')
-                                        ctx.drawImage(skinholder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinholder, 0, 0, 1024, 1024)
                                         const skin = await Canvas.loadImage(image);
-                                        ctx.drawImage(skin, 0, 0, 512, 512)
+                                        ctx.drawImage(skin, 0, 0, 1024, 1024)
                                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderGaming.png')
-                                        ctx.drawImage(skinborder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinborder, 0, 0, 1024, 1024)
                                         if(lang === "en"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Burbank Big Condensed'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Burbank Big Condensed'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }else if(lang === "ar"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Arabic'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Arabic'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }
                                     }else{
                                         //creating image
                                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/common.png')
-                                        ctx.drawImage(skinholder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinholder, 0, 0, 1024, 1024)
                                         const skin = await Canvas.loadImage(image);
-                                        ctx.drawImage(skin, 0, 0, 512, 512)
+                                        ctx.drawImage(skin, 0, 0, 1024, 1024)
                                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderCommon.png')
-                                        ctx.drawImage(skinborder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinborder, 0, 0, 1024, 1024)
                                         if(lang === "en"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Burbank Big Condensed'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Burbank Big Condensed'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }else if(lang === "ar"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Arabic'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Arabic'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }
                                     }
-
+    
                                     //inilizing tags
-                                    var y = 12
-                                    var x = 467
-
-                                    for(let p = 0; p < res.data.items[num].gameplayTags.length; p++){
+                                    var y = 24
+                                    var x = 934
+    
+                                    for(let i = 0; i < res.data.items[num].gameplayTags.length; i++){
+    
                                         //if the item is animated
-                                        if(res.data.items[num].gameplayTags[p].includes('Animated')){
-
+                                        if(res.data.items[num].gameplayTags[i].includes('Animated')){
+    
                                             //the itm is animated add the animated icon
                                             const skinholder = await Canvas.loadImage('./assets/Tags/T-Icon-Animated-64.png')
-                                            ctx.drawImage(skinholder, x, y, 30, 30)
-
-                                            y += 40
+                                            ctx.drawImage(skinholder, x, y, 60, 60)
+    
+                                            y += 70
                                         }
-
-                                        //if the item is animated
-                                        if(res.data.items[num].gameplayTags[p].includes('Reactive')){
-
+    
+                                        //if the item is reactive
+                                        if(res.data.items[num].gameplayTags[i].includes('Reactive')){
+    
                                             //the itm is animated add the animated icon
                                             const skinholder = await Canvas.loadImage('./assets/Tags/T-Icon-Adaptive-64.png')
-                                            ctx.drawImage(skinholder, x, y, 30, 30)
-
-                                            y += 40
+                                            ctx.drawImage(skinholder, x, y, 60, 60)
+    
+                                            y += 70
                                         }
-
-                                        //if the item is animated
-                                        if(res.data.items[num].gameplayTags[p].includes('Synced')){
-
+    
+                                        //if the item is synced emote
+                                        if(res.data.items[num].gameplayTags[i].includes('Synced')){
+    
                                             //the itm is animated add the animated icon
                                             const skinholder = await Canvas.loadImage('./assets/Tags/T-Icon-Synced-64x.png')
-                                            ctx.drawImage(skinholder, x, y, 30, 30)
-
-                                            y += 40
+                                            ctx.drawImage(skinholder, x, y, 60, 60)
+    
+                                            y += 70
                                         }
-
-                                        //if the item is animated
-                                        if(res.data.items[num].gameplayTags[p].includes('Traversal')){
-
+    
+                                        //if the item is traversal
+                                        if(res.data.items[num].gameplayTags[i].includes('Traversal')){
+    
                                             //the itm is animated add the animated icon
                                             const skinholder = await Canvas.loadImage('./assets/Tags/T-Icon-Traversal-64.png')
-                                            ctx.drawImage(skinholder, x, y, 30, 30)
-
-                                            y += 40
+                                            ctx.drawImage(skinholder, x, y, 60, 60)
+    
+                                            y += 70
                                         }
-
-                                        //if the item is animated
-                                        if(res.data.items[num].gameplayTags[p].includes('HasVariants') || res.data.items[num].gameplayTags[p].includes('HasUpgradeQuests')){
-
+    
+                                        //if the item has styles
+                                        if(res.data.items[num].gameplayTags[i].includes('HasVariants') || res.data.items[num].gameplayTags[i].includes('HasUpgradeQuests')){
+    
                                             //the itm is animated add the animated icon
                                             const skinholder = await Canvas.loadImage('./assets/Tags/T-Icon-Variant-64.png')
-                                            ctx.drawImage(skinholder, x, y, 30, 30)
-
-                                            y += 40
+                                            ctx.drawImage(skinholder, x, y, 60, 60)
+    
+                                            y += 70
                                         }
                                     }
-
+    
                                     //if the item contains copyrited audio
                                     if(res.data.items[num].copyrightedAudio === true){
-
+    
                                         //the itm is animated add the animated icon
                                         const skinholder = await Canvas.loadImage('./assets/Tags/mute.png')
-                                        ctx.drawImage(skinholder, x, y, 30, 30)
-
-                                        y += 40
+                                        ctx.drawImage(skinholder, x, y, 60, 60)
+    
+                                        y += 70
                                     }
 
                                     //send the item picture
@@ -1784,7 +2500,7 @@ module.exports = {
                         .then( async msg => {
 
                             //creating canvas
-                            const canvas = Canvas.createCanvas(512, 512);
+                            const canvas = Canvas.createCanvas(1024, 1024);
                             const ctx = canvas.getContext('2d');
 
                             //set the item info
@@ -1796,430 +2512,666 @@ module.exports = {
                             if(res.data.items[num].series !== null) var rarity = res.data.items[num].series.id
                             else var rarity = res.data.items[num].rarity.id
 
+                            //remove lines
+                            let imgDescription = await description
+                            imgDescription = imgDescription.replace("\r\n", "")
+
+                            //add introduces and set string
+                            if(res.data.items[num].introduction !== null) imgDescription += `\n${res.data.items[num].introduction.text}`
+                            if(res.data.items[num].set !== null) imgDescription += `\n${res.data.items[num].set.partOf}`
+
+                            //split every line
+                            imgDescription = imgDescription.split(/\r\n|\r|\n/)
+
                             //searching...
                             if(rarity === "Legendary"){
                                 //creating image
                                 const skinholder = await Canvas.loadImage('./assets/Rarities/standard/legendary.png')
-                                ctx.drawImage(skinholder, 0, 0, 512, 512)
+                                ctx.drawImage(skinholder, 0, 0, 1024, 1024)
                                 const skin = await Canvas.loadImage(image);
-                                ctx.drawImage(skin, 0, 0, 512, 512)
+                                ctx.drawImage(skin, 0, 0, 1024, 1024)
                                 const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderLegendary.png')
-                                ctx.drawImage(skinborder, 0, 0, 512, 512)
+                                ctx.drawImage(skinborder, 0, 0, 1024, 1024)
                                 if(lang === "en"){
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
-                                    ctx.font = '46px Burbank Big Condensed'
-                                    ctx.fillText(name, 256, 430)
-                                    ctx.font = applyText(canvas, description);
-                                    ctx.fillText(description, 256, 470)
+                                    ctx.font = applyTextName(canvas, name)
+                                    ctx.fillText(name, 512, 850)
+                                    ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                    let descriptionY = 930
+                                    ctx.fillText(imgDescription[0], 512, descriptionY)
+                                    ctx.font = '15px Burbank Big Condensed'
+                                    descriptionY += 35
+                                    for(let x = 1; x < imgDescription.length; x++){
+                                        ctx.fillText(imgDescription[x], 512, descriptionY)
+                                        descriptionY += 15
+                                    }
                                 }else if(lang === "ar"){
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
-                                    ctx.font = '46px Arabic'
-                                    ctx.fillText(name, 256, 430)
-                                    ctx.font = applyText(canvas, description);
-                                    ctx.fillText(description, 256, 470)
+                                    ctx.font = applyTextName(canvas, name)
+                                    ctx.fillText(name, 512, 850)
+                                    ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                    let descriptionY = 930
+                                    ctx.fillText(imgDescription[0], 512, descriptionY)
+                                    ctx.font = '15px Arabic'
+                                    descriptionY += 35
+                                    for(let x = 1; x < imgDescription.length; x++){
+                                        ctx.fillText(imgDescription[x], 512, descriptionY)
+                                        descriptionY += 15
+                                    }
                                 }
                             }else if(rarity === "Epic"){
                                 //creating image
                                 const skinholder = await Canvas.loadImage('./assets/Rarities/standard/epic.png')
-                                ctx.drawImage(skinholder, 0, 0, 512, 512)
+                                ctx.drawImage(skinholder, 0, 0, 1024, 1024)
                                 const skin = await Canvas.loadImage(image);
-                                ctx.drawImage(skin, 0, 0, 512, 512)
+                                ctx.drawImage(skin, 0, 0, 1024, 1024)
                                 const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderEpic.png')
-                                ctx.drawImage(skinborder, 0, 0, 512, 512)
+                                ctx.drawImage(skinborder, 0, 0, 1024, 1024)
                                 if(lang === "en"){
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
-                                    ctx.font = '46px Burbank Big Condensed'
-                                    ctx.fillText(name, 256, 430)
-                                    ctx.font = applyText(canvas, description);
-                                    ctx.fillText(description, 256, 470)
+                                    ctx.font = applyTextName(canvas, name)
+                                    ctx.fillText(name, 512, 850)
+                                    ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                    let descriptionY = 930
+                                    ctx.fillText(imgDescription[0], 512, descriptionY)
+                                    ctx.font = '15px Burbank Big Condensed'
+                                    descriptionY += 35
+                                    for(let x = 1; x < imgDescription.length; x++){
+                                        ctx.fillText(imgDescription[x], 512, descriptionY)
+                                        descriptionY += 15
+                                    }
                                 }else if(lang === "ar"){
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
-                                    ctx.font = '46px Arabic'
-                                    ctx.fillText(name, 256, 430)
-                                    ctx.font = applyText(canvas, description);
-                                    ctx.fillText(description, 256, 470)
+                                    ctx.font = applyTextName(canvas, name)
+                                    ctx.fillText(name, 512, 850)
+                                    ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                    let descriptionY = 930
+                                    ctx.fillText(imgDescription[0], 512, descriptionY)
+                                    ctx.font = '15px Arabic'
+                                    descriptionY += 35
+                                    for(let x = 1; x < imgDescription.length; x++){
+                                        ctx.fillText(imgDescription[x], 512, descriptionY)
+                                        descriptionY += 15
+                                    }
                                 }
                             }else if(rarity === "Rare"){
                                 //creating image
                                 const skinholder = await Canvas.loadImage('./assets/Rarities/standard/rare.png')
-                                ctx.drawImage(skinholder, 0, 0, 512, 512)
+                                ctx.drawImage(skinholder, 0, 0, 1024, 1024)
                                 const skin = await Canvas.loadImage(image);
-                                ctx.drawImage(skin, 0, 0, 512, 512)
+                                ctx.drawImage(skin, 0, 0, 1024, 1024)
                                 const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderRare.png')
-                                ctx.drawImage(skinborder, 0, 0, 512, 512)
+                                ctx.drawImage(skinborder, 0, 0, 1024, 1024)
                                 if(lang === "en"){
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
-                                    ctx.font = '46px Burbank Big Condensed'
-                                    ctx.fillText(name, 256, 430)
-                                    ctx.font = applyText(canvas, description);
-                                    ctx.fillText(description, 256, 470)
+                                    ctx.font = applyTextName(canvas, name)
+                                    ctx.fillText(name, 512, 850)
+                                    ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                    let descriptionY = 930
+                                    ctx.fillText(imgDescription[0], 512, descriptionY)
+                                    ctx.font = '15px Burbank Big Condensed'
+                                    descriptionY += 35
+                                    for(let x = 1; x < imgDescription.length; x++){
+                                        ctx.fillText(imgDescription[x], 512, descriptionY)
+                                        descriptionY += 15
+                                    }
                                 }else if(lang === "ar"){
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
-                                    ctx.font = '46px Arabic'
-                                    ctx.fillText(name, 256, 430)
-                                    ctx.font = applyText(canvas, description);
-                                    ctx.fillText(description, 256, 470)
+                                    ctx.font = applyTextName(canvas, name)
+                                    ctx.fillText(name, 512, 850)
+                                    ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                    let descriptionY = 930
+                                    ctx.fillText(imgDescription[0], 512, descriptionY)
+                                    ctx.font = '15px Arabic'
+                                    descriptionY += 35
+                                    for(let x = 1; x < imgDescription.length; x++){
+                                        ctx.fillText(imgDescription[x], 512, descriptionY)
+                                        descriptionY += 15
+                                    }
                                 }
                             }else if(rarity === "Uncommon"){
                                 //creating image
                                 const skinholder = await Canvas.loadImage('./assets/Rarities/standard/uncommon.png')
-                                ctx.drawImage(skinholder, 0, 0, 512, 512)
+                                ctx.drawImage(skinholder, 0, 0, 1024, 1024)
                                 const skin = await Canvas.loadImage(image);
-                                ctx.drawImage(skin, 0, 0, 512, 512)
+                                ctx.drawImage(skin, 0, 0, 1024, 1024)
                                 const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderUncommon.png')
-                                ctx.drawImage(skinborder, 0, 0, 512, 512)
+                                ctx.drawImage(skinborder, 0, 0, 1024, 1024)
                                 if(lang === "en"){
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
-                                    ctx.font = '46px Burbank Big Condensed'
-                                    ctx.fillText(name, 256, 430)
-                                    ctx.font = applyText(canvas, description);
-                                    ctx.fillText(description, 256, 470)
+                                    ctx.font = applyTextName(canvas, name)
+                                    ctx.fillText(name, 512, 850)
+                                    ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                    let descriptionY = 930
+                                    ctx.fillText(imgDescription[0], 512, descriptionY)
+                                    ctx.font = '15px Burbank Big Condensed'
+                                    descriptionY += 35
+                                    for(let x = 1; x < imgDescription.length; x++){
+                                        ctx.fillText(imgDescription[x], 512, descriptionY)
+                                        descriptionY += 15
+                                    }
                                 }else if(lang === "ar"){
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
-                                    ctx.font = '46px Arabic'
-                                    ctx.fillText(name, 256, 430)
-                                    ctx.font = applyText(canvas, description);
-                                    ctx.fillText(description, 256, 470)
+                                    ctx.font = applyTextName(canvas, name)
+                                    ctx.fillText(name, 512, 850)
+                                    ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                    let descriptionY = 930
+                                    ctx.fillText(imgDescription[0], 512, descriptionY)
+                                    ctx.font = '15px Arabic'
+                                    descriptionY += 35
+                                    for(let x = 1; x < imgDescription.length; x++){
+                                        ctx.fillText(imgDescription[x], 512, descriptionY)
+                                        descriptionY += 15
+                                    }
                                 }
                             }else if(rarity === "Common"){
                                 //creating image
                                 const skinholder = await Canvas.loadImage('./assets/Rarities/standard/common.png')
-                                ctx.drawImage(skinholder, 0, 0, 512, 512)
+                                ctx.drawImage(skinholder, 0, 0, 1024, 1024)
                                 const skin = await Canvas.loadImage(image);
-                                ctx.drawImage(skin, 0, 0, 512, 512)
+                                ctx.drawImage(skin, 0, 0, 1024, 1024)
                                 const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderCommon.png')
-                                ctx.drawImage(skinborder, 0, 0, 512, 512)
+                                ctx.drawImage(skinborder, 0, 0, 1024, 1024)
                                 if(lang === "en"){
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
-                                    ctx.font = '46px Burbank Big Condensed'
-                                    ctx.fillText(name, 256, 430)
-                                    ctx.font = applyText(canvas, description);
-                                    ctx.fillText(description, 256, 470)
+                                    ctx.font = applyTextName(canvas, name)
+                                    ctx.fillText(name, 512, 850)
+                                    ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                    let descriptionY = 930
+                                    ctx.fillText(imgDescription[0], 512, descriptionY)
+                                    ctx.font = '15px Burbank Big Condensed'
+                                    descriptionY += 35
+                                    for(let x = 1; x < imgDescription.length; x++){
+                                        ctx.fillText(imgDescription[x], 512, descriptionY)
+                                        descriptionY += 15
+                                    }
                                 }else if(lang === "ar"){
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
-                                    ctx.font = '46px Arabic'
-                                    ctx.fillText(name, 256, 430)
-                                    ctx.font = applyText(canvas, description);
-                                    ctx.fillText(description, 256, 470)
+                                    ctx.font = applyTextName(canvas, name)
+                                    ctx.fillText(name, 512, 850)
+                                    ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                    let descriptionY = 930
+                                    ctx.fillText(imgDescription[0], 512, descriptionY)
+                                    ctx.font = '15px Arabic'
+                                    descriptionY += 35
+                                    for(let x = 1; x < imgDescription.length; x++){
+                                        ctx.fillText(imgDescription[x], 512, descriptionY)
+                                        descriptionY += 15
+                                    }
                                 }
                             }else if(rarity === "MarvelSeries"){
                                 //creating image
                                 const skinholder = await Canvas.loadImage('./assets/Rarities/standard/marvel.png')
-                                ctx.drawImage(skinholder, 0, 0, 512, 512)
+                                ctx.drawImage(skinholder, 0, 0, 1024, 1024)
                                 const skin = await Canvas.loadImage(image);
-                                ctx.drawImage(skin, 0, 0, 512, 512)
+                                ctx.drawImage(skin, 0, 0, 1024, 1024)
                                 const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderMarvel.png')
-                                ctx.drawImage(skinborder, 0, 0, 512, 512)
+                                ctx.drawImage(skinborder, 0, 0, 1024, 1024)
                                 if(lang === "en"){
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
-                                    ctx.font = '46px Burbank Big Condensed'
-                                    ctx.fillText(name, 256, 430)
-                                    ctx.font = applyText(canvas, description);
-                                    ctx.fillText(description, 256, 470)
+                                    ctx.font = applyTextName(canvas, name)
+                                    ctx.fillText(name, 512, 850)
+                                    ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                    let descriptionY = 930
+                                    ctx.fillText(imgDescription[0], 512, descriptionY)
+                                    ctx.font = '15px Burbank Big Condensed'
+                                    descriptionY += 35
+                                    for(let x = 1; x < imgDescription.length; x++){
+                                        ctx.fillText(imgDescription[x], 512, descriptionY)
+                                        descriptionY += 15
+                                    }
                                 }else if(lang === "ar"){
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
-                                    ctx.font = '46px Arabic'
-                                    ctx.fillText(name, 256, 430)
-                                    ctx.font = applyText(canvas, description);
-                                    ctx.fillText(description, 256, 470)
+                                    ctx.font = applyTextName(canvas, name)
+                                    ctx.fillText(name, 512, 850)
+                                    ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                    let descriptionY = 930
+                                    ctx.fillText(imgDescription[0], 512, descriptionY)
+                                    ctx.font = '15px Arabic'
+                                    descriptionY += 35
+                                    for(let x = 1; x < imgDescription.length; x++){
+                                        ctx.fillText(imgDescription[x], 512, descriptionY)
+                                        descriptionY += 15
+                                    }
                                 }
                             }else if(rarity === "DCUSeries"){
                                 //creating image
                                 const skinholder = await Canvas.loadImage('./assets/Rarities/standard/dc.png')
-                                ctx.drawImage(skinholder, 0, 0, 512, 512)
+                                ctx.drawImage(skinholder, 0, 0, 1024, 1024)
                                 const skin = await Canvas.loadImage(image);
-                                ctx.drawImage(skin, 0, 0, 512, 512)
+                                ctx.drawImage(skin, 0, 0, 1024, 1024)
                                 const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderDc.png')
-                                ctx.drawImage(skinborder, 0, 0, 512, 512)
+                                ctx.drawImage(skinborder, 0, 0, 1024, 1024)
                                 if(lang === "en"){
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
-                                    ctx.font = '46px Burbank Big Condensed'
-                                    ctx.fillText(name, 256, 430)
-                                    ctx.font = applyText(canvas, description);
-                                    ctx.fillText(description, 256, 470)
+                                    ctx.font = applyTextName(canvas, name)
+                                    ctx.fillText(name, 512, 850)
+                                    ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                    let descriptionY = 930
+                                    ctx.fillText(imgDescription[0], 512, descriptionY)
+                                    ctx.font = '15px Burbank Big Condensed'
+                                    descriptionY += 35
+                                    for(let x = 1; x < imgDescription.length; x++){
+                                        ctx.fillText(imgDescription[x], 512, descriptionY)
+                                        descriptionY += 15
+                                    }
                                 }else if(lang === "ar"){
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
-                                    ctx.font = '46px Arabic'
-                                    ctx.fillText(name, 256, 430)
-                                    ctx.font = applyText(canvas, description);
-                                    ctx.fillText(description, 256, 470)
+                                    ctx.font = applyTextName(canvas, name)
+                                    ctx.fillText(name, 512, 850)
+                                    ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                    let descriptionY = 930
+                                    ctx.fillText(imgDescription[0], 512, descriptionY)
+                                    ctx.font = '15px Arabic'
+                                    descriptionY += 35
+                                    for(let x = 1; x < imgDescription.length; x++){
+                                        ctx.fillText(imgDescription[x], 512, descriptionY)
+                                        descriptionY += 15
+                                    }
                                 }
                             }else if(rarity === "CUBESeries"){
                                 //creating image
                                 const skinholder = await Canvas.loadImage('./assets/Rarities/standard/dark.png')
-                                ctx.drawImage(skinholder, 0, 0, 512, 512)
+                                ctx.drawImage(skinholder, 0, 0, 1024, 1024)
                                 const skin = await Canvas.loadImage(image);
-                                ctx.drawImage(skin, 0, 0, 512, 512)
+                                ctx.drawImage(skin, 0, 0, 1024, 1024)
                                 const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderDark.png')
-                                ctx.drawImage(skinborder, 0, 0, 512, 512)
+                                ctx.drawImage(skinborder, 0, 0, 1024, 1024)
                                 if(lang === "en"){
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
-                                    ctx.font = '46px Burbank Big Condensed'
-                                    ctx.fillText(name, 256, 430)
-                                    ctx.font = applyText(canvas, description);
-                                    ctx.fillText(description, 256, 470)
+                                    ctx.font = applyTextName(canvas, name)
+                                    ctx.fillText(name, 512, 850)
+                                    ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                    let descriptionY = 930
+                                    ctx.fillText(imgDescription[0], 512, descriptionY)
+                                    ctx.font = '15px Burbank Big Condensed'
+                                    descriptionY += 35
+                                    for(let x = 1; x < imgDescription.length; x++){
+                                        ctx.fillText(imgDescription[x], 512, descriptionY)
+                                        descriptionY += 15
+                                    }
                                 }else if(lang === "ar"){
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
-                                    ctx.font = '46px Arabic'
-                                    ctx.fillText(name, 256, 430)
-                                    ctx.font = applyText(canvas, description);
-                                    ctx.fillText(description, 256, 470)
+                                    ctx.font = applyTextName(canvas, name)
+                                    ctx.fillText(name, 512, 850)
+                                    ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                    let descriptionY = 930
+                                    ctx.fillText(imgDescription[0], 512, descriptionY)
+                                    ctx.font = '15px Arabic'
+                                    descriptionY += 35
+                                    for(let x = 1; x < imgDescription.length; x++){
+                                        ctx.fillText(imgDescription[x], 512, descriptionY)
+                                        descriptionY += 15
+                                    }
                                 }
                             }else if(rarity === "CreatorCollabSeries"){
                                 //creating image
                                 const skinholder = await Canvas.loadImage('./assets/Rarities/standard/icon.png')
-                                ctx.drawImage(skinholder, 0, 0, 512, 512)
+                                ctx.drawImage(skinholder, 0, 0, 1024, 1024)
                                 const skin = await Canvas.loadImage(image);
-                                ctx.drawImage(skin, 0, 0, 512, 512)
+                                ctx.drawImage(skin, 0, 0, 1024, 1024)
                                 const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderIcon.png')
-                                ctx.drawImage(skinborder, 0, 0, 512, 512)
+                                ctx.drawImage(skinborder, 0, 0, 1024, 1024)
                                 if(lang === "en"){
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
-                                    ctx.font = '46px Burbank Big Condensed'
-                                    ctx.fillText(name, 256, 430)
-                                    ctx.font = applyText(canvas, description);
-                                    ctx.fillText(description, 256, 470)
+                                    ctx.font = applyTextName(canvas, name)
+                                    ctx.fillText(name, 512, 850)
+                                    ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                    let descriptionY = 930
+                                    ctx.fillText(imgDescription[0], 512, descriptionY)
+                                    ctx.font = '15px Burbank Big Condensed'
+                                    descriptionY += 35
+                                    for(let x = 1; x < imgDescription.length; x++){
+                                        ctx.fillText(imgDescription[x], 512, descriptionY)
+                                        descriptionY += 15
+                                    }
                                 }else if(lang === "ar"){
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
-                                    ctx.font = '46px Arabic'
-                                    ctx.fillText(name, 256, 430)
-                                    ctx.font = applyText(canvas, description);
-                                    ctx.fillText(description, 256, 470)
+                                    ctx.font = applyTextName(canvas, name)
+                                    ctx.fillText(name, 512, 850)
+                                    ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                    let descriptionY = 930
+                                    ctx.fillText(imgDescription[0], 512, descriptionY)
+                                    ctx.font = '15px Arabic'
+                                    descriptionY += 35
+                                    for(let x = 1; x < imgDescription.length; x++){
+                                        ctx.fillText(imgDescription[x], 512, descriptionY)
+                                        descriptionY += 15
+                                    }
                                 }
                             }else if(rarity === "ColumbusSeries"){
                                 //creating image
                                 const skinholder = await Canvas.loadImage('./assets/Rarities/standard/starwars.png')
-                                ctx.drawImage(skinholder, 0, 0, 512, 512)
+                                ctx.drawImage(skinholder, 0, 0, 1024, 1024)
                                 const skin = await Canvas.loadImage(image);
-                                ctx.drawImage(skin, 0, 0, 512, 512)
+                                ctx.drawImage(skin, 0, 0, 1024, 1024)
                                 const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderStarwars.png')
-                                ctx.drawImage(skinborder, 0, 0, 512, 512)
+                                ctx.drawImage(skinborder, 0, 0, 1024, 1024)
                                 if(lang === "en"){
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
-                                    ctx.font = '46px Burbank Big Condensed'
-                                    ctx.fillText(name, 256, 430)
-                                    ctx.font = applyText(canvas, description);
-                                    ctx.fillText(description, 256, 470)
+                                    ctx.font = applyTextName(canvas, name)
+                                    ctx.fillText(name, 512, 850)
+                                    ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                    let descriptionY = 930
+                                    ctx.fillText(imgDescription[0], 512, descriptionY)
+                                    ctx.font = '15px Burbank Big Condensed'
+                                    descriptionY += 35
+                                    for(let x = 1; x < imgDescription.length; x++){
+                                        ctx.fillText(imgDescription[x], 512, descriptionY)
+                                        descriptionY += 15
+                                    }
                                 }else if(lang === "ar"){
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
-                                    ctx.font = '46px Arabic'
-                                    ctx.fillText(name, 256, 430)
-                                    ctx.font = applyText(canvas, description);
-                                    ctx.fillText(description, 256, 470)
+                                    ctx.font = applyTextName(canvas, name)
+                                    ctx.fillText(name, 512, 850)
+                                    ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                    let descriptionY = 930
+                                    ctx.fillText(imgDescription[0], 512, descriptionY)
+                                    ctx.font = '15px Arabic'
+                                    descriptionY += 35
+                                    for(let x = 1; x < imgDescription.length; x++){
+                                        ctx.fillText(imgDescription[x], 512, descriptionY)
+                                        descriptionY += 15
+                                    }
                                 }
                             }else if(rarity === "ShadowSeries"){
                                 //creating image
                                 const skinholder = await Canvas.loadImage('./assets/Rarities/standard/shadow.png')
-                                ctx.drawImage(skinholder, 0, 0, 512, 512)
+                                ctx.drawImage(skinholder, 0, 0, 1024, 1024)
                                 const skin = await Canvas.loadImage(image);
-                                ctx.drawImage(skin, 0, 0, 512, 512)
+                                ctx.drawImage(skin, 0, 0, 1024, 1024)
                                 const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderShadow.png')
-                                ctx.drawImage(skinborder, 0, 0, 512, 512)
+                                ctx.drawImage(skinborder, 0, 0, 1024, 1024)
                                 if(lang === "en"){
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
-                                    ctx.font = '46px Burbank Big Condensed'
-                                    ctx.fillText(name, 256, 430)
-                                    ctx.font = applyText(canvas, description);
-                                    ctx.fillText(description, 256, 470)
+                                    ctx.font = applyTextName(canvas, name)
+                                    ctx.fillText(name, 512, 850)
+                                    ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                    let descriptionY = 930
+                                    ctx.fillText(imgDescription[0], 512, descriptionY)
+                                    ctx.font = '15px Burbank Big Condensed'
+                                    descriptionY += 35
+                                    for(let x = 1; x < imgDescription.length; x++){
+                                        ctx.fillText(imgDescription[x], 512, descriptionY)
+                                        descriptionY += 15
+                                    }
                                 }else if(lang === "ar"){
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
-                                    ctx.font = '46px Arabic'
-                                    ctx.fillText(name, 256, 430)
-                                    ctx.font = applyText(canvas, description);
-                                    ctx.fillText(description, 256, 470)
+                                    ctx.font = applyTextName(canvas, name)
+                                    ctx.fillText(name, 512, 850)
+                                    ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                    let descriptionY = 930
+                                    ctx.fillText(imgDescription[0], 512, descriptionY)
+                                    ctx.font = '15px Arabic'
+                                    descriptionY += 35
+                                    for(let x = 1; x < imgDescription.length; x++){
+                                        ctx.fillText(imgDescription[x], 512, descriptionY)
+                                        descriptionY += 15
+                                    }
                                 }
                             }else if(rarity === "SlurpSeries"){
                                 //creating image
                                 const skinholder = await Canvas.loadImage('./assets/Rarities/standard/slurp.png')
-                                ctx.drawImage(skinholder, 0, 0, 512, 512)
+                                ctx.drawImage(skinholder, 0, 0, 1024, 1024)
                                 const skin = await Canvas.loadImage(image);
-                                ctx.drawImage(skin, 0, 0, 512, 512)
+                                ctx.drawImage(skin, 0, 0, 1024, 1024)
                                 const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderSlurp.png')
-                                ctx.drawImage(skinborder, 0, 0, 512, 512)
+                                ctx.drawImage(skinborder, 0, 0, 1024, 1024)
                                 if(lang === "en"){
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
-                                    ctx.font = '46px Burbank Big Condensed'
-                                    ctx.fillText(name, 256, 430)
-                                    ctx.font = applyText(canvas, description);
-                                    ctx.fillText(description, 256, 470)
+                                    ctx.font = applyTextName(canvas, name)
+                                    ctx.fillText(name, 512, 850)
+                                    ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                    let descriptionY = 930
+                                    ctx.fillText(imgDescription[0], 512, descriptionY)
+                                    ctx.font = '15px Burbank Big Condensed'
+                                    descriptionY += 35
+                                    for(let x = 1; x < imgDescription.length; x++){
+                                        ctx.fillText(imgDescription[x], 512, descriptionY)
+                                        descriptionY += 15
+                                    }
                                 }else if(lang === "ar"){
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
-                                    ctx.font = '46px Arabic'
-                                    ctx.fillText(name, 256, 430)
-                                    ctx.font = applyText(canvas, description);
-                                    ctx.fillText(description, 256, 470)
+                                    ctx.font = applyTextName(canvas, name)
+                                    ctx.fillText(name, 512, 850)
+                                    ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                    let descriptionY = 930
+                                    ctx.fillText(imgDescription[0], 512, descriptionY)
+                                    ctx.font = '15px Arabic'
+                                    descriptionY += 35
+                                    for(let x = 1; x < imgDescription.length; x++){
+                                        ctx.fillText(imgDescription[x], 512, descriptionY)
+                                        descriptionY += 15
+                                    }
                                 }
                             }else if(rarity === "FrozenSeries"){
                                 //creating image
                                 const skinholder = await Canvas.loadImage('./assets/Rarities/standard/frozen.png')
-                                ctx.drawImage(skinholder, 0, 0, 512, 512)
+                                ctx.drawImage(skinholder, 0, 0, 1024, 1024)
                                 const skin = await Canvas.loadImage(image);
-                                ctx.drawImage(skin, 0, 0, 512, 512)
+                                ctx.drawImage(skin, 0, 0, 1024, 1024)
                                 const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderFrozen.png')
-                                ctx.drawImage(skinborder, 0, 0, 512, 512)
+                                ctx.drawImage(skinborder, 0, 0, 1024, 1024)
                                 if(lang === "en"){
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
-                                    ctx.font = '46px Burbank Big Condensed'
-                                    ctx.fillText(name, 256, 430)
-                                    ctx.font = applyText(canvas, description);
-                                    ctx.fillText(description, 256, 470)
+                                    ctx.font = applyTextName(canvas, name)
+                                    ctx.fillText(name, 512, 850)
+                                    ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                    let descriptionY = 930
+                                    ctx.fillText(imgDescription[0], 512, descriptionY)
+                                    ctx.font = '15px Burbank Big Condensed'
+                                    descriptionY += 35
+                                    for(let x = 1; x < imgDescription.length; x++){
+                                        ctx.fillText(imgDescription[x], 512, descriptionY)
+                                        descriptionY += 15
+                                    }
                                 }else if(lang === "ar"){
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
-                                    ctx.font = '46px Arabic'
-                                    ctx.fillText(name, 256, 430)
-                                    ctx.font = applyText(canvas, description);
-                                    ctx.fillText(description, 256, 470)
+                                    ctx.font = applyTextName(canvas, name)
+                                    ctx.fillText(name, 512, 850)
+                                    ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                    let descriptionY = 930
+                                    ctx.fillText(imgDescription[0], 512, descriptionY)
+                                    ctx.font = '15px Arabic'
+                                    descriptionY += 35
+                                    for(let x = 1; x < imgDescription.length; x++){
+                                        ctx.fillText(imgDescription[x], 512, descriptionY)
+                                        descriptionY += 15
+                                    }
                                 }
                             }else if(rarity === "LavaSeries"){
                                 //creating image
                                 const skinholder = await Canvas.loadImage('./assets/Rarities/standard/lava.png')
-                                ctx.drawImage(skinholder, 0, 0, 512, 512)
+                                ctx.drawImage(skinholder, 0, 0, 1024, 1024)
                                 const skin = await Canvas.loadImage(image);
-                                ctx.drawImage(skin, 0, 0, 512, 512)
+                                ctx.drawImage(skin, 0, 0, 1024, 1024)
                                 const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderLava.png')
-                                ctx.drawImage(skinborder, 0, 0, 512, 512)
+                                ctx.drawImage(skinborder, 0, 0, 1024, 1024)
                                 if(lang === "en"){
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
-                                    ctx.font = '46px Burbank Big Condensed'
-                                    ctx.fillText(name, 256, 430)
-                                    ctx.font = applyText(canvas, description);
-                                    ctx.fillText(description, 256, 470)
+                                    ctx.font = applyTextName(canvas, name)
+                                    ctx.fillText(name, 512, 850)
+                                    ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                    let descriptionY = 930
+                                    ctx.fillText(imgDescription[0], 512, descriptionY)
+                                    ctx.font = '15px Burbank Big Condensed'
+                                    descriptionY += 35
+                                    for(let x = 1; x < imgDescription.length; x++){
+                                        ctx.fillText(imgDescription[x], 512, descriptionY)
+                                        descriptionY += 15
+                                    }
                                 }else if(lang === "ar"){
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
-                                    ctx.font = '46px Arabic'
-                                    ctx.fillText(name, 256, 430)
-                                    ctx.font = applyText(canvas, description);
-                                    ctx.fillText(description, 256, 470)
+                                    ctx.font = applyTextName(canvas, name)
+                                    ctx.fillText(name, 512, 850)
+                                    ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                    let descriptionY = 930
+                                    ctx.fillText(imgDescription[0], 512, descriptionY)
+                                    ctx.font = '15px Arabic'
+                                    descriptionY += 35
+                                    for(let x = 1; x < imgDescription.length; x++){
+                                        ctx.fillText(imgDescription[x], 512, descriptionY)
+                                        descriptionY += 15
+                                    }
                                 }
                             }else if(rarity === "PlatformSeries"){
                                 //creating image
                                 const skinholder = await Canvas.loadImage('./assets/Rarities/standard/gaming.png')
-                                ctx.drawImage(skinholder, 0, 0, 512, 512)
+                                ctx.drawImage(skinholder, 0, 0, 1024, 1024)
                                 const skin = await Canvas.loadImage(image);
-                                ctx.drawImage(skin, 0, 0, 512, 512)
+                                ctx.drawImage(skin, 0, 0, 1024, 1024)
                                 const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderGaming.png')
-                                ctx.drawImage(skinborder, 0, 0, 512, 512)
+                                ctx.drawImage(skinborder, 0, 0, 1024, 1024)
                                 if(lang === "en"){
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
-                                    ctx.font = '46px Burbank Big Condensed'
-                                    ctx.fillText(name, 256, 430)
-                                    ctx.font = applyText(canvas, description);
-                                    ctx.fillText(description, 256, 470)
+                                    ctx.font = applyTextName(canvas, name)
+                                    ctx.fillText(name, 512, 850)
+                                    ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                    let descriptionY = 930
+                                    ctx.fillText(imgDescription[0], 512, descriptionY)
+                                    ctx.font = '15px Burbank Big Condensed'
+                                    descriptionY += 35
+                                    for(let x = 1; x < imgDescription.length; x++){
+                                        ctx.fillText(imgDescription[x], 512, descriptionY)
+                                        descriptionY += 15
+                                    }
                                 }else if(lang === "ar"){
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
-                                    ctx.font = '46px Arabic'
-                                    ctx.fillText(name, 256, 430)
-                                    ctx.font = applyText(canvas, description);
-                                    ctx.fillText(description, 256, 470)
+                                    ctx.font = applyTextName(canvas, name)
+                                    ctx.fillText(name, 512, 850)
+                                    ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                    let descriptionY = 930
+                                    ctx.fillText(imgDescription[0], 512, descriptionY)
+                                    ctx.font = '15px Arabic'
+                                    descriptionY += 35
+                                    for(let x = 1; x < imgDescription.length; x++){
+                                        ctx.fillText(imgDescription[x], 512, descriptionY)
+                                        descriptionY += 15
+                                    }
                                 }
                             }else{
                                 //creating image
                                 const skinholder = await Canvas.loadImage('./assets/Rarities/standard/common.png')
-                                ctx.drawImage(skinholder, 0, 0, 512, 512)
+                                ctx.drawImage(skinholder, 0, 0, 1024, 1024)
                                 const skin = await Canvas.loadImage(image);
-                                ctx.drawImage(skin, 0, 0, 512, 512)
+                                ctx.drawImage(skin, 0, 0, 1024, 1024)
                                 const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderCommon.png')
-                                ctx.drawImage(skinborder, 0, 0, 512, 512)
+                                ctx.drawImage(skinborder, 0, 0, 1024, 1024)
                                 if(lang === "en"){
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
-                                    ctx.font = '46px Burbank Big Condensed'
-                                    ctx.fillText(name, 256, 430)
-                                    ctx.font = applyText(canvas, description);
-                                    ctx.fillText(description, 256, 470)
+                                    ctx.font = applyTextName(canvas, name)
+                                    ctx.fillText(name, 512, 850)
+                                    ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                    let descriptionY = 930
+                                    ctx.fillText(imgDescription[0], 512, descriptionY)
+                                    ctx.font = '15px Burbank Big Condensed'
+                                    descriptionY += 35
+                                    for(let x = 1; x < imgDescription.length; x++){
+                                        ctx.fillText(imgDescription[x], 512, descriptionY)
+                                        descriptionY += 15
+                                    }
                                 }else if(lang === "ar"){
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='center';
-                                    ctx.font = '46px Arabic'
-                                    ctx.fillText(name, 256, 430)
-                                    ctx.font = applyText(canvas, description);
-                                    ctx.fillText(description, 256, 470)
+                                    ctx.font = applyTextName(canvas, name)
+                                    ctx.fillText(name, 512, 850)
+                                    ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                    let descriptionY = 930
+                                    ctx.fillText(imgDescription[0], 512, descriptionY)
+                                    ctx.font = '15px Arabic'
+                                    descriptionY += 35
+                                    for(let x = 1; x < imgDescription.length; x++){
+                                        ctx.fillText(imgDescription[x], 512, descriptionY)
+                                        descriptionY += 15
+                                    }
                                 }
                             }
 
                             //inilizing tags
-                            var y = 12
-                            var x = 467
+                            var y = 24
+                            var x = 934
 
-                            for(let p = 0; p < res.data.items[num].gameplayTags.length; p++){
+                            for(let i = 0; i < res.data.items[num].gameplayTags.length; i++){
+
                                 //if the item is animated
-                                if(res.data.items[num].gameplayTags[p].includes('Animated')){
+                                if(res.data.items[num].gameplayTags[i].includes('Animated')){
 
                                     //the itm is animated add the animated icon
                                     const skinholder = await Canvas.loadImage('./assets/Tags/T-Icon-Animated-64.png')
-                                    ctx.drawImage(skinholder, x, y, 30, 30)
+                                    ctx.drawImage(skinholder, x, y, 60, 60)
 
-                                    y += 40
+                                    y += 70
                                 }
 
-                                //if the item is animated
-                                if(res.data.items[num].gameplayTags[p].includes('Reactive')){
+                                //if the item is reactive
+                                if(res.data.items[num].gameplayTags[i].includes('Reactive')){
 
                                     //the itm is animated add the animated icon
                                     const skinholder = await Canvas.loadImage('./assets/Tags/T-Icon-Adaptive-64.png')
-                                    ctx.drawImage(skinholder, x, y, 30, 30)
+                                    ctx.drawImage(skinholder, x, y, 60, 60)
 
-                                    y += 40
+                                    y += 70
                                 }
 
-                                //if the item is animated
-                                if(res.data.items[num].gameplayTags[p].includes('Synced')){
+                                //if the item is synced emote
+                                if(res.data.items[num].gameplayTags[i].includes('Synced')){
 
                                     //the itm is animated add the animated icon
                                     const skinholder = await Canvas.loadImage('./assets/Tags/T-Icon-Synced-64x.png')
-                                    ctx.drawImage(skinholder, x, y, 30, 30)
+                                    ctx.drawImage(skinholder, x, y, 60, 60)
 
-                                    y += 40
+                                    y += 70
                                 }
 
-                                //if the item is animated
-                                if(res.data.items[num].gameplayTags[p].includes('Traversal')){
+                                //if the item is traversal
+                                if(res.data.items[num].gameplayTags[i].includes('Traversal')){
 
                                     //the itm is animated add the animated icon
                                     const skinholder = await Canvas.loadImage('./assets/Tags/T-Icon-Traversal-64.png')
-                                    ctx.drawImage(skinholder, x, y, 30, 30)
+                                    ctx.drawImage(skinholder, x, y, 60, 60)
 
-                                    y += 40
+                                    y += 70
                                 }
 
-                                //if the item is animated
-                                if(res.data.items[num].gameplayTags[p].includes('HasVariants') || res.data.items[num].gameplayTags[p].includes('HasUpgradeQuests')){
+                                //if the item has styles
+                                if(res.data.items[num].gameplayTags[i].includes('HasVariants') || res.data.items[num].gameplayTags[i].includes('HasUpgradeQuests')){
 
                                     //the itm is animated add the animated icon
                                     const skinholder = await Canvas.loadImage('./assets/Tags/T-Icon-Variant-64.png')
-                                    ctx.drawImage(skinholder, x, y, 30, 30)
+                                    ctx.drawImage(skinholder, x, y, 60, 60)
 
-                                    y += 40
+                                    y += 70
                                 }
                             }
 
@@ -2228,9 +3180,9 @@ module.exports = {
 
                                 //the itm is animated add the animated icon
                                 const skinholder = await Canvas.loadImage('./assets/Tags/mute.png')
-                                ctx.drawImage(skinholder, x, y, 30, 30)
+                                ctx.drawImage(skinholder, x, y, 60, 60)
 
-                                y += 40
+                                y += 70
                             }
 
                             //send the item picture
@@ -2257,441 +3209,677 @@ module.exports = {
                                     if(res.data.items[0].series !== null) var rarity = res.data.items[num].series.id
                                     else var rarity = res.data.items[0].rarity.id
 
+                                    //remove lines
+                                    let imgDescription = await description
+                                    imgDescription = imgDescription.replace("\r\n", "")
+    
+                                    //add introduces and set string
+                                    if(res.data.items[num].introduction !== null) imgDescription += `\n${res.data.items[num].introduction.text}`
+                                    if(res.data.items[num].set !== null) imgDescription += `\n${res.data.items[num].set.partOf}`
+    
+                                    //split every line
+                                    imgDescription = imgDescription.split(/\r\n|\r|\n/)
+    
                                     //searching...
                                     if(rarity === "Legendary"){
                                         //creating image
                                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/legendary.png')
-                                        ctx.drawImage(skinholder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinholder, 0, 0, 1024, 1024)
                                         const skin = await Canvas.loadImage(image);
-                                        ctx.drawImage(skin, 0, 0, 512, 512)
+                                        ctx.drawImage(skin, 0, 0, 1024, 1024)
                                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderLegendary.png')
-                                        ctx.drawImage(skinborder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinborder, 0, 0, 1024, 1024)
                                         if(lang === "en"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Burbank Big Condensed'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Burbank Big Condensed'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }else if(lang === "ar"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Arabic'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Arabic'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }
                                     }else if(rarity === "Epic"){
                                         //creating image
                                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/epic.png')
-                                        ctx.drawImage(skinholder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinholder, 0, 0, 1024, 1024)
                                         const skin = await Canvas.loadImage(image);
-                                        ctx.drawImage(skin, 0, 0, 512, 512)
+                                        ctx.drawImage(skin, 0, 0, 1024, 1024)
                                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderEpic.png')
-                                        ctx.drawImage(skinborder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinborder, 0, 0, 1024, 1024)
                                         if(lang === "en"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Burbank Big Condensed'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Burbank Big Condensed'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }else if(lang === "ar"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Arabic'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Arabic'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }
                                     }else if(rarity === "Rare"){
                                         //creating image
                                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/rare.png')
-                                        ctx.drawImage(skinholder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinholder, 0, 0, 1024, 1024)
                                         const skin = await Canvas.loadImage(image);
-                                        ctx.drawImage(skin, 0, 0, 512, 512)
+                                        ctx.drawImage(skin, 0, 0, 1024, 1024)
                                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderRare.png')
-                                        ctx.drawImage(skinborder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinborder, 0, 0, 1024, 1024)
                                         if(lang === "en"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Burbank Big Condensed'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Burbank Big Condensed'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }else if(lang === "ar"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Arabic'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Arabic'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }
                                     }else if(rarity === "Uncommon"){
                                         //creating image
                                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/uncommon.png')
-                                        ctx.drawImage(skinholder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinholder, 0, 0, 1024, 1024)
                                         const skin = await Canvas.loadImage(image);
-                                        ctx.drawImage(skin, 0, 0, 512, 512)
+                                        ctx.drawImage(skin, 0, 0, 1024, 1024)
                                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderUncommon.png')
-                                        ctx.drawImage(skinborder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinborder, 0, 0, 1024, 1024)
                                         if(lang === "en"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Burbank Big Condensed'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Burbank Big Condensed'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }else if(lang === "ar"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Arabic'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Arabic'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }
                                     }else if(rarity === "Common"){
                                         //creating image
                                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/common.png')
-                                        ctx.drawImage(skinholder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinholder, 0, 0, 1024, 1024)
                                         const skin = await Canvas.loadImage(image);
-                                        ctx.drawImage(skin, 0, 0, 512, 512)
+                                        ctx.drawImage(skin, 0, 0, 1024, 1024)
                                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderCommon.png')
-                                        ctx.drawImage(skinborder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinborder, 0, 0, 1024, 1024)
                                         if(lang === "en"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Burbank Big Condensed'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Burbank Big Condensed'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }else if(lang === "ar"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Arabic'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Arabic'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }
                                     }else if(rarity === "MarvelSeries"){
                                         //creating image
                                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/marvel.png')
-                                        ctx.drawImage(skinholder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinholder, 0, 0, 1024, 1024)
                                         const skin = await Canvas.loadImage(image);
-                                        ctx.drawImage(skin, 0, 0, 512, 512)
+                                        ctx.drawImage(skin, 0, 0, 1024, 1024)
                                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderMarvel.png')
-                                        ctx.drawImage(skinborder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinborder, 0, 0, 1024, 1024)
                                         if(lang === "en"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Burbank Big Condensed'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Burbank Big Condensed'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }else if(lang === "ar"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Arabic'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Arabic'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }
                                     }else if(rarity === "DCUSeries"){
                                         //creating image
                                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/dc.png')
-                                        ctx.drawImage(skinholder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinholder, 0, 0, 1024, 1024)
                                         const skin = await Canvas.loadImage(image);
-                                        ctx.drawImage(skin, 0, 0, 512, 512)
+                                        ctx.drawImage(skin, 0, 0, 1024, 1024)
                                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderDc.png')
-                                        ctx.drawImage(skinborder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinborder, 0, 0, 1024, 1024)
                                         if(lang === "en"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Burbank Big Condensed'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Burbank Big Condensed'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }else if(lang === "ar"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Arabic'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Arabic'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }
                                     }else if(rarity === "CUBESeries"){
                                         //creating image
                                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/dark.png')
-                                        ctx.drawImage(skinholder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinholder, 0, 0, 1024, 1024)
                                         const skin = await Canvas.loadImage(image);
-                                        ctx.drawImage(skin, 0, 0, 512, 512)
+                                        ctx.drawImage(skin, 0, 0, 1024, 1024)
                                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderDark.png')
-                                        ctx.drawImage(skinborder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinborder, 0, 0, 1024, 1024)
                                         if(lang === "en"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Burbank Big Condensed'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Burbank Big Condensed'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }else if(lang === "ar"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Arabic'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Arabic'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }
                                     }else if(rarity === "CreatorCollabSeries"){
                                         //creating image
                                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/icon.png')
-                                        ctx.drawImage(skinholder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinholder, 0, 0, 1024, 1024)
                                         const skin = await Canvas.loadImage(image);
-                                        ctx.drawImage(skin, 0, 0, 512, 512)
+                                        ctx.drawImage(skin, 0, 0, 1024, 1024)
                                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderIcon.png')
-                                        ctx.drawImage(skinborder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinborder, 0, 0, 1024, 1024)
                                         if(lang === "en"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Burbank Big Condensed'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Burbank Big Condensed'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }else if(lang === "ar"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Arabic'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Arabic'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }
                                     }else if(rarity === "ColumbusSeries"){
                                         //creating image
                                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/starwars.png')
-                                        ctx.drawImage(skinholder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinholder, 0, 0, 1024, 1024)
                                         const skin = await Canvas.loadImage(image);
-                                        ctx.drawImage(skin, 0, 0, 512, 512)
+                                        ctx.drawImage(skin, 0, 0, 1024, 1024)
                                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderStarwars.png')
-                                        ctx.drawImage(skinborder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinborder, 0, 0, 1024, 1024)
                                         if(lang === "en"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Burbank Big Condensed'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Burbank Big Condensed'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }else if(lang === "ar"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Arabic'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Arabic'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }
                                     }else if(rarity === "ShadowSeries"){
                                         //creating image
                                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/shadow.png')
-                                        ctx.drawImage(skinholder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinholder, 0, 0, 1024, 1024)
                                         const skin = await Canvas.loadImage(image);
-                                        ctx.drawImage(skin, 0, 0, 512, 512)
+                                        ctx.drawImage(skin, 0, 0, 1024, 1024)
                                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderShadow.png')
-                                        ctx.drawImage(skinborder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinborder, 0, 0, 1024, 1024)
                                         if(lang === "en"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Burbank Big Condensed'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Burbank Big Condensed'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }else if(lang === "ar"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Arabic'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Arabic'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }
                                     }else if(rarity === "SlurpSeries"){
                                         //creating image
                                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/slurp.png')
-                                        ctx.drawImage(skinholder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinholder, 0, 0, 1024, 1024)
                                         const skin = await Canvas.loadImage(image);
-                                        ctx.drawImage(skin, 0, 0, 512, 512)
+                                        ctx.drawImage(skin, 0, 0, 1024, 1024)
                                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderSlurp.png')
-                                        ctx.drawImage(skinborder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinborder, 0, 0, 1024, 1024)
                                         if(lang === "en"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Burbank Big Condensed'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Burbank Big Condensed'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }else if(lang === "ar"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Arabic'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Arabic'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }
                                     }else if(rarity === "FrozenSeries"){
                                         //creating image
                                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/frozen.png')
-                                        ctx.drawImage(skinholder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinholder, 0, 0, 1024, 1024)
                                         const skin = await Canvas.loadImage(image);
-                                        ctx.drawImage(skin, 0, 0, 512, 512)
+                                        ctx.drawImage(skin, 0, 0, 1024, 1024)
                                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderFrozen.png')
-                                        ctx.drawImage(skinborder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinborder, 0, 0, 1024, 1024)
                                         if(lang === "en"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Burbank Big Condensed'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Burbank Big Condensed'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }else if(lang === "ar"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Arabic'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Arabic'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }
                                     }else if(rarity === "LavaSeries"){
                                         //creating image
                                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/lava.png')
-                                        ctx.drawImage(skinholder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinholder, 0, 0, 1024, 1024)
                                         const skin = await Canvas.loadImage(image);
-                                        ctx.drawImage(skin, 0, 0, 512, 512)
+                                        ctx.drawImage(skin, 0, 0, 1024, 1024)
                                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderLava.png')
-                                        ctx.drawImage(skinborder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinborder, 0, 0, 1024, 1024)
                                         if(lang === "en"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Burbank Big Condensed'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Burbank Big Condensed'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }else if(lang === "ar"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Arabic'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Arabic'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }
                                     }else if(rarity === "PlatformSeries"){
                                         //creating image
                                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/gaming.png')
-                                        ctx.drawImage(skinholder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinholder, 0, 0, 1024, 1024)
                                         const skin = await Canvas.loadImage(image);
-                                        ctx.drawImage(skin, 0, 0, 512, 512)
+                                        ctx.drawImage(skin, 0, 0, 1024, 1024)
                                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderGaming.png')
-                                        ctx.drawImage(skinborder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinborder, 0, 0, 1024, 1024)
                                         if(lang === "en"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Burbank Big Condensed'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Burbank Big Condensed'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }else if(lang === "ar"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Arabic'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Arabic'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }
                                     }else{
                                         //creating image
                                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/common.png')
-                                        ctx.drawImage(skinholder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinholder, 0, 0, 1024, 1024)
                                         const skin = await Canvas.loadImage(image);
-                                        ctx.drawImage(skin, 0, 0, 512, 512)
+                                        ctx.drawImage(skin, 0, 0, 1024, 1024)
                                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderCommon.png')
-                                        ctx.drawImage(skinborder, 0, 0, 512, 512)
+                                        ctx.drawImage(skinborder, 0, 0, 1024, 1024)
                                         if(lang === "en"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Burbank Big Condensed'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Burbank Big Condensed'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }else if(lang === "ar"){
                                             ctx.fillStyle = '#ffffff';
                                             ctx.textAlign='center';
-                                            ctx.font = '46px Arabic'
-                                            ctx.fillText(name, 256, 430)
-                                            ctx.font = applyText(canvas, description);
-                                            ctx.fillText(description, 256, 470)
+                                            ctx.font = applyTextName(canvas, name)
+                                            ctx.fillText(name, 512, 850)
+                                            ctx.font = applyTextDescription(canvas, imgDescription[0]);
+                                            let descriptionY = 930
+                                            ctx.fillText(imgDescription[0], 512, descriptionY)
+                                            ctx.font = '15px Arabic'
+                                            descriptionY += 35
+                                            for(let x = 1; x < imgDescription.length; x++){
+                                                ctx.fillText(imgDescription[x], 512, descriptionY)
+                                                descriptionY += 15
+                                            }
                                         }
                                     }
-
+    
                                     //inilizing tags
-                                    var y = 12
-                                    var x = 467
-
-                                    for(let p = 0; p < res.data.items[num].gameplayTags.length; p++){
+                                    var y = 24
+                                    var x = 934
+    
+                                    for(let i = 0; i < res.data.items[num].gameplayTags.length; i++){
+    
                                         //if the item is animated
-                                        if(res.data.items[num].gameplayTags[p].includes('Animated')){
-
+                                        if(res.data.items[num].gameplayTags[i].includes('Animated')){
+    
                                             //the itm is animated add the animated icon
                                             const skinholder = await Canvas.loadImage('./assets/Tags/T-Icon-Animated-64.png')
-                                            ctx.drawImage(skinholder, x, y, 30, 30)
-
-                                            y += 40
+                                            ctx.drawImage(skinholder, x, y, 60, 60)
+    
+                                            y += 70
                                         }
-
-                                        //if the item is animated
-                                        if(res.data.items[num].gameplayTags[p].includes('Reactive')){
-
+    
+                                        //if the item is reactive
+                                        if(res.data.items[num].gameplayTags[i].includes('Reactive')){
+    
                                             //the itm is animated add the animated icon
                                             const skinholder = await Canvas.loadImage('./assets/Tags/T-Icon-Adaptive-64.png')
-                                            ctx.drawImage(skinholder, x, y, 30, 30)
-
-                                            y += 40
+                                            ctx.drawImage(skinholder, x, y, 60, 60)
+    
+                                            y += 70
                                         }
-
-                                        //if the item is animated
-                                        if(res.data.items[num].gameplayTags[p].includes('Synced')){
-
+    
+                                        //if the item is synced emote
+                                        if(res.data.items[num].gameplayTags[i].includes('Synced')){
+    
                                             //the itm is animated add the animated icon
                                             const skinholder = await Canvas.loadImage('./assets/Tags/T-Icon-Synced-64x.png')
-                                            ctx.drawImage(skinholder, x, y, 30, 30)
-
-                                            y += 40
+                                            ctx.drawImage(skinholder, x, y, 60, 60)
+    
+                                            y += 70
                                         }
-
-                                        //if the item is animated
-                                        if(res.data.items[num].gameplayTags[p].includes('Traversal')){
-
+    
+                                        //if the item is traversal
+                                        if(res.data.items[num].gameplayTags[i].includes('Traversal')){
+    
                                             //the itm is animated add the animated icon
                                             const skinholder = await Canvas.loadImage('./assets/Tags/T-Icon-Traversal-64.png')
-                                            ctx.drawImage(skinholder, x, y, 30, 30)
-
-                                            y += 40
+                                            ctx.drawImage(skinholder, x, y, 60, 60)
+    
+                                            y += 70
                                         }
-
-                                        //if the item is animated
-                                        if(res.data.items[num].gameplayTags[p].includes('HasVariants') || res.data.items[num].gameplayTags[p].includes('HasUpgradeQuests')){
-
+    
+                                        //if the item has styles
+                                        if(res.data.items[num].gameplayTags[i].includes('HasVariants') || res.data.items[num].gameplayTags[i].includes('HasUpgradeQuests')){
+    
                                             //the itm is animated add the animated icon
                                             const skinholder = await Canvas.loadImage('./assets/Tags/T-Icon-Variant-64.png')
-                                            ctx.drawImage(skinholder, x, y, 30, 30)
-
-                                            y += 40
+                                            ctx.drawImage(skinholder, x, y, 60, 60)
+    
+                                            y += 70
                                         }
                                     }
-
+    
                                     //if the item contains copyrited audio
                                     if(res.data.items[num].copyrightedAudio === true){
-
+    
                                         //the itm is animated add the animated icon
                                         const skinholder = await Canvas.loadImage('./assets/Tags/mute.png')
-                                        ctx.drawImage(skinholder, x, y, 30, 30)
-
-                                        y += 40
+                                        ctx.drawImage(skinholder, x, y, 60, 60)
+    
+                                        y += 70
                                     }
 
                                     //send the item picture
@@ -2702,10 +3890,7 @@ module.exports = {
                             }
                             msg.delete()
                         })
-
-                    
-                    
-                    
+                        
                     }else if(details[detailsIndex] === "grants" && res.data.items[num].grants.length === 0 && errorHandleing === 0){
 
                         //if the item doesn't have any grants

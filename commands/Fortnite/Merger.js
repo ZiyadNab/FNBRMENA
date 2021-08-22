@@ -1177,29 +1177,29 @@ module.exports = {
                 Canvas.registerFont('./assets/font/Lalezar-Regular.ttf', {family: 'Arabic',weight: "400",style: "bold"});
                 Canvas.registerFont('./assets/font/BurbankBigCondensed-Black.otf' ,{family: 'Burbank Big Condensed',weight: "400",style: "bold"})
 
-                //aplyText
-                const applyTextName = (canvas, text) => {
-                    const ctx = canvas.getContext('2d');
-                    let fontSize = 46;
-                    do {
-                        if(lang === "en") ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
-                        else if(lang === "ar") ctx.font = `${fontSize -= 1}px Arabic`;
-                    } while (ctx.measureText(text).width > 900);
-                    return ctx.font;
-                };
-
-                //applytext
-                const applyTextDescription = (canvas, text) => {
-                    const ctx = canvas.getContext('2d');
-                    let fontSize = 17;
-                    do {
-                        if(lang === "en") ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
-                        else if(lang === "ar") ctx.font = `${fontSize -= 1}px Arabic`;
-                    } while (ctx.measureText(text).width > 840);
-                    return ctx.font;
-                };
-
                 if(names.length > 20){
+
+                    //aplyText
+                    const applyTextName = (canvas, text) => {
+                        const ctx = canvas.getContext('2d');
+                        let fontSize = 46;
+                        do {
+                            if(lang === "en") ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
+                            else if(lang === "ar") ctx.font = `${fontSize -= 1}px Arabic`;
+                        } while (ctx.measureText(text).width > 900);
+                        return ctx.font;
+                    };
+
+                    //applytext
+                    const applyTextDescription = (canvas, text) => {
+                        const ctx = canvas.getContext('2d');
+                        let fontSize = 17;
+                        do {
+                            if(lang === "en") ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
+                            else if(lang === "ar") ctx.font = `${fontSize -= 1}px Arabic`;
+                        } while (ctx.measureText(text).width > 840);
+                        return ctx.font;
+                    };
 
                     //canvas variables
                     var width = 0
@@ -1958,6 +1958,28 @@ module.exports = {
                         
                     }
                 }else{
+
+                    //aplyText
+                    const applyTextName = (canvas, text) => {
+                        const ctx = canvas.getContext('2d');
+                        let fontSize = 92;
+                        do {
+                            if(lang === "en") ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
+                            else if(lang === "ar") ctx.font = `${fontSize -= 1}px Arabic`;
+                        } while (ctx.measureText(text).width > 900);
+                        return ctx.font;
+                    };
+
+                    //applytext
+                    const applyTextDescription = (canvas, text) => {
+                        const ctx = canvas.getContext('2d');
+                        let fontSize = 35;
+                        do {
+                            if(lang === "en") ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
+                            else if(lang === "ar") ctx.font = `${fontSize -= 1}px Arabic`;
+                        } while (ctx.measureText(text).width > 840);
+                        return ctx.font;
+                    };
 
                     //canvas variables
                     var width = 0

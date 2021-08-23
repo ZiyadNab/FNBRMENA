@@ -26,9 +26,14 @@ module.exports = {
         //error handleing
         var errorHandleing = 0
 
+        //setting up type
+        let type = 'Name'
+        if(text.includes("_")) type = "Id"
+
         //request data
-        FNBRMENA.PlayList(lang, "Name", text)
+        FNBRMENA.PlayList(lang, type, text)
         .then(async res => {
+            console.log(res.data)
 
             //if there is more than 1 playlist found
             if(res.data.modes.length > 1){
@@ -48,7 +53,8 @@ module.exports = {
                 for(let i = 0; i < res.data.modes.length; i++){
 
                     //store the name to the string
-                    string += `• ${i}: ${res.data.modes[i].name} | ${res.data.modes[i].team}\n`
+                    if(res.data.modes[i].team.length !== 0) string += `• ${i}: ${res.data.modes[i].name} | ${res.data.modes[i].team}\n`
+                    else string += `• ${i}: ${res.data.modes[i].name} | Playlist_${res.data.modes[i].id}\n`
                 }
 
                 //how many items where matchinh the user input?
@@ -359,6 +365,7 @@ module.exports = {
                             {name: "Plalist Type", value: gameType},
                             {name: "Max Team Size", value: res.data.modes[num].maxTeamSize},
                             {name: "is Large Team?", value: largeTeam},
+                            {name: "is Large Team?", value: res.data.modes[num].id},
                         )
                     }else if(lang === "ar"){
 
@@ -367,6 +374,7 @@ module.exports = {
                             {name: "نوع الطور", value: gameType},
                             {name: "اعلى عدد مسموح", value: res.data.modes[num].maxTeamSize},
                             {name: "هل هو طور كبير؟", value: largeTeam},
+                            {name: "معرف الطور", value: res.data.modes[num].id},
                         )
                     }
 

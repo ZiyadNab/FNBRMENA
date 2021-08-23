@@ -86,7 +86,7 @@ class FNBRMENA {
     }
 
     /**
-     * Return data about the crew
+     * Return data about the playlist
      * 
      * @param {String} Lang
      * @param {String} Type
@@ -95,12 +95,21 @@ class FNBRMENA {
      */
      async PlayList(Lang, Type, Name){
 
-        if(Type === "All") //return the crew data
+        if(Type === "All") //return all the playlists data
         return await axios.get(`https://fortniteapi.io/v1/game/modes?lang=${Lang}`, { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
 
-        if(Type === "Name") //return the crew data
+        if(Type === "Name") //return the playlist by name data
         return await axios.get(`https://fortniteapi.io/v1/game/modes?lang=${Lang}&name=${Name}`, { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
 
+        if(Type === "Id"){
+            const playlist = await axios.get(`https://fortniteapi.io/v1/game/modes?lang=${Lang}`, { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
+
+            const playlistIDs = await playlist.data.modes.filter(found => {
+                if(`playlist_${found.id.toLowerCase()}` === Name.toLowerCase()) return found.id
+            })
+
+            return {data: {modes: playlistIDs}}
+        } //return the playlist by id data
     }
 
     /**

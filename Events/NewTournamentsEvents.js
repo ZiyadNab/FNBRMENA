@@ -207,8 +207,6 @@ module.exports = async (FNBRMENA, client, admin) => {
 
         //checking if the bot on or off
         admin.database().ref("ERA's").child("Events").child("newtournaments").once('value', async function (data) {
-
-            //store aceess
             const status = data.val().Active
             const lang = data.val().Lang
             const push = data.val().Push.Status

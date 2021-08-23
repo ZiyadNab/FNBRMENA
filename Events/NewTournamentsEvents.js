@@ -12,7 +12,6 @@ module.exports = async (FNBRMENA, client, admin) => {
     var CalendarResponse = []
     var NewCalendarResponse = []
     var number = 0
-    var found = 0
 
     //handle sending the new tournament
     const Send = async (CalendarTournamentsDATA, lang) => {
@@ -24,6 +23,7 @@ module.exports = async (FNBRMENA, client, admin) => {
         //set title
         logsEmbed.setTitle("New Tounament Added")
         let tournamentLogsStrings = ``
+        let found = 0
 
         //a data has been changed
         for(let i = 0; i < CalendarTournamentsDATA.length; i++){
@@ -105,7 +105,7 @@ module.exports = async (FNBRMENA, client, admin) => {
                                 //add platforms
                                 platforms += "` " + await CalendarTournamentsDATA[i].platforms[x] + " ` "
                             }
-
+                            
                             //change moment language
                             moment.locale(lang)
 
@@ -198,7 +198,7 @@ module.exports = async (FNBRMENA, client, admin) => {
                     logsEmbed.setDescription(tournamentLogsStrings)
 
                     //send the message
-                    logs.send(logsEmbed)
+                    await logs.send(logsEmbed)
 
                 })
             }
@@ -216,7 +216,7 @@ module.exports = async (FNBRMENA, client, admin) => {
             const Id = data.val().Push.Id
 
             //if the event is set to be true [ON]
-            if(status){
+            if(true){
 
                 //request data
                 await FNBRMENA.CompCalendarEndpoint(lang)

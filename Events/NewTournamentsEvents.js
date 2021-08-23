@@ -216,7 +216,7 @@ module.exports = async (FNBRMENA, client, admin) => {
             const Id = data.val().Push.Id
 
             //if the event is set to be true [ON]
-            if(true){
+            if(status){
 
                 //request data
                 await FNBRMENA.CompCalendarEndpoint(lang)

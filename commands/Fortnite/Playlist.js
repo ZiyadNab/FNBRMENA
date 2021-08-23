@@ -259,6 +259,9 @@ module.exports = {
                     //split the description into lines
                     description = description.replace("\r\n\r\n", "")
                     description = description.replace("\r\n\r\n", "")
+                    description = description.replace("\r\n\r\n", "")
+                    description = description.replace("\r\n", "")
+                    description = description.replace("\r\n", "")
                     description = description.replace("\r\n", "")
                     description = wrap(description, {width: 150})
                     description = description.split(/\r\n|\r|\n/)
@@ -365,7 +368,7 @@ module.exports = {
                             {name: "Plalist Type", value: gameType},
                             {name: "Max Team Size", value: res.data.modes[num].maxTeamSize},
                             {name: "is Large Team?", value: largeTeam},
-                            {name: "is Large Team?", value: res.data.modes[num].id},
+                            {name: "is Large Team?", value: `Playlist_${res.data.modes[num].id}`},
                         )
                     }else if(lang === "ar"){
 
@@ -374,7 +377,7 @@ module.exports = {
                             {name: "نوع الطور", value: gameType},
                             {name: "اعلى عدد مسموح", value: res.data.modes[num].maxTeamSize},
                             {name: "هل هو طور كبير؟", value: largeTeam},
-                            {name: "معرف الطور", value: res.data.modes[num].id},
+                            {name: "معرف الطور", value: `Playlist_${res.data.modes[num].id}`},
                         )
                     }
 

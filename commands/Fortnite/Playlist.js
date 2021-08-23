@@ -33,7 +33,6 @@ module.exports = {
         //request data
         FNBRMENA.PlayList(lang, type, text)
         .then(async res => {
-            console.log(res.data)
 
             //if there is more than 1 playlist found
             if(res.data.modes.length > 1){
@@ -368,7 +367,7 @@ module.exports = {
                             {name: "Plalist Type", value: gameType},
                             {name: "Max Team Size", value: res.data.modes[num].maxTeamSize},
                             {name: "is Large Team?", value: largeTeam},
-                            {name: "is Large Team?", value: `Playlist_${res.data.modes[num].id}`},
+                            {name: "Playlist ID", value: `Playlist_${res.data.modes[num].id}`},
                         )
                     }else if(lang === "ar"){
 

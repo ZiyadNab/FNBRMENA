@@ -100,7 +100,7 @@ module.exports = {
                 if(tierIndex !== -1){
 
                     //set title
-                    if(TierData.page !== null){
+                    if(await TierData.page !== null){
                         if(lang === "en") await tierDataEmbed.setAuthor(`${res.displayInfo.chapterSeason} | Page ${TierData.page}`, TierData.item.images.icon)
                         else if(lang === "ar") await tierDataEmbed.setAuthor(`${res.displayInfo.chapterSeason} | صفحة ${TierData.page}`, TierData.item.images.icon)
                     }else{

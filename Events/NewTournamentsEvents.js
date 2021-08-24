@@ -6,7 +6,7 @@ const probe = require('probe-image-size')
 
 module.exports = async (FNBRMENA, client, admin) => {
     const message = client.channels.cache.find(channel => channel.id === config.events.Tournament)
-    const logs = client.channels.cache.find(channel => channel.id === '876077567269023754')
+    const logs = client.channels.cache.find(channel => channel.id === '839544462568980510')
 
     //result
     var CalendarResponse = []
@@ -16,23 +16,11 @@ module.exports = async (FNBRMENA, client, admin) => {
     //handle sending the new tournament
     const Send = async (CalendarTournamentsDATA, lang) => {
 
-        //inilize logs embed
-        const logsEmbed = new Discord.MessageEmbed()
-        logsEmbed.setColor(FNBRMENA.Colors("embed"))
-
-        //set title
-        logsEmbed.setTitle("New Tounament Added")
-        let tournamentLogsStrings = ``
-        let found = 0
-
         //a data has been changed
         for(let i = 0; i < CalendarTournamentsDATA.length; i++){
 
             //if there is a new torunaments
             if(!CalendarResponse.includes(CalendarTournamentsDATA[i])){
-
-                //tournamet found or no
-                tournamentLogsStrings += `**Found in Calendar:** Yes\n`
 
                 //request more detailed data from calendar tournaments
                 await FNBRMENA.EpicContentEndpoint(lang)
@@ -46,13 +34,6 @@ module.exports = async (FNBRMENA, client, admin) => {
 
                         //if there is an id match
                         if(ContentTournamentsDATA[j].tournament_display_id === CalendarTournamentsDATA[i].displayDataId){
-
-                            //found in calandar
-                            if(found === 0) tournamentLogsStrings += `**Found in Content:** Yes\n**Found At:** ${new Date()}\n**Regions:**\n`
-
-                            //add the regions
-                            tournamentLogsStrings += `\`${CalendarTournamentsDATA[i].regions}\`\n`
-                            found++
 
                             //registering fonts
                             Canvas.registerFont('./assets/font/Lalezar-Regular.ttf', {family: 'Arabic',weight: "700",style: "bold"});
@@ -91,21 +72,27 @@ module.exports = async (FNBRMENA, client, admin) => {
                             tournamentINFO.setThumbnail(ContentTournamentsDATA[j].poster_front_image)
 
                             //regions
-                            var regions = ""
-                            for(let x = 0; x < CalendarTournamentsDATA[i].regions.length; x++){
+                            var regions = ``
+                            if(CalendarTournamentsDATA[i].regions.length !== 0){
+                                for(let x = 0; x < CalendarTournamentsDATA[i].regions.length; x++){
 
-                                //add regions
-                                regions += "` " + await CalendarTournamentsDATA[i].regions[x] + " ` "
-                            }
+                                    //add regions
+                                    regions += `\`${await CalendarTournamentsDATA[i].regions[x]}\``
+                                }
+                            }else if(lang === "en") platforms += `\`No data is available\``
+                            else if(lang === "ar") platforms += `\`لا يوجد معلومات متاحة\``
 
                             //platforms
-                            var platforms = ""
-                            for(let x = 0; x < CalendarTournamentsDATA[i].platforms.length; x++){
+                            var platforms = ``
+                            if(CalendarTournamentsDATA[i].platforms.length !== 0){
+                                for(let x = 0; x < CalendarTournamentsDATA[i].platforms.length; x++){
 
-                                //add platforms
-                                platforms += "` " + await CalendarTournamentsDATA[i].platforms[x] + " ` "
-                            }
-                            
+                                    //add platforms
+                                    platforms += `\`${await CalendarTournamentsDATA[i].platforms[x]}\``
+                                }
+                            }else if(lang === "en") platforms += `\`No data is available\``
+                            else if(lang === "ar") platforms += `\`لا يوجد معلومات متاحة\``
+
                             //change moment language
                             moment.locale(lang)
 
@@ -182,24 +169,6 @@ module.exports = async (FNBRMENA, client, admin) => {
                             await message.send(tournamentINFO)
                         }
                     }
-
-                    //not found in calandar YET
-                    if(found === 0) tournamentLogsStrings += `***Found in Calandar:*** No\n**Found At:** ${new Date()}\n`
-
-                    let string = "\`\`\`yaml\n"
-                    for(let p = 0; p < Object.keys(CalendarTournamentsDATA[i]).length; p++){
-                        string += `${Object.keys(CalendarTournamentsDATA[i])[p]}: ${Object.entries(CalendarTournamentsDATA[i])[p][1]}\n`
-                    }
-                    string += "\`\`\`"
-
-                    //add the tournament response
-                    tournamentLogsStrings += `**How many tournaments found:** ${found}\n\n**Tournament Response**${string}`
-
-                    logsEmbed.setDescription(tournamentLogsStrings)
-
-                    //send the message
-                    await logs.send(logsEmbed)
-
                 })
             }
         }
@@ -216,7 +185,7 @@ module.exports = async (FNBRMENA, client, admin) => {
             const Id = data.val().Push.Id
 
             //if the event is set to be true [ON]
-            if(status){
+            if(true){
 
                 //request data
                 await FNBRMENA.CompCalendarEndpoint(lang)

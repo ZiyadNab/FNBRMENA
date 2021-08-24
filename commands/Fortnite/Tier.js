@@ -332,8 +332,8 @@ module.exports = {
                         sendTierDataViewer.delete()
                         return
                     }
-                }).catch(err => {
-                    console.log(err)
+                }).catch(async err => {
+                    await sendTierDataViewer.delete()
                 })
             }
 

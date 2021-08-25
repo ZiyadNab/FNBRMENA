@@ -151,11 +151,10 @@ module.exports = {
         await msgReact.react('◀️')
         await msgReact.react('▶️')
         await msgReact.react('⏭️')
-        await msgReact.react('🛑')
         const filter = (reaction, user) => {
-            return ['⏮️','◀️', '▶️','⏭️','🛑'].includes(reaction.emoji.name) && user.id === message.author.id;
+            return ['⏮️','◀️', '▶️','⏭️'].includes(reaction.emoji.name) && user.id === message.author.id;
         };
-        const collected = await msgReact.createReactionCollector(filter, {time: 3 * 60000, errors: ['time']})
+        const collected = await msgReact.createReactionCollector(filter, {time: 1 * 10000, errors: ['time']})
         collected.on("collect", collect => {
 
             const reaction = collect
@@ -383,6 +382,7 @@ module.exports = {
 
                     //list the next page
                     for(let i = index; i < newPage; i++){
+
                         //get commands from the en array
                         firstPage.addFields(
                             CommandsAR[i]
@@ -391,11 +391,9 @@ module.exports = {
                 }
                 msgReact.edit(firstPage)
             }
-            if(reaction.emoji.name === '🛑'){
-                msgReact.delete()
-            }
-        }).catch(err => {
-            msgReact.delete()
+        })
+        collected.on('end', async () => {
+            await msgReact.delete()
         })
     }
 }

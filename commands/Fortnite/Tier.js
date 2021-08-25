@@ -108,7 +108,10 @@ module.exports = {
 
                     //inisilizing tierDATA
                     const tierDataEmbed = new Discord.MessageEmbed()
-                    tierDataEmbed.setColor(FNBRMENA.Colors(TierData.item.series.id))
+                    if(TierData !== undefined){
+                        if(TierData.item.series !== null) tierDataEmbed.setColor(FNBRMENA.Colors(TierData.item.series.id))
+                        else tierDataEmbed.setColor(FNBRMENA.Colors(TierData.item.rarity.id))
+                    }else tierDataEmbed.setColor(FNBRMENA.Colors("embed"))
 
                     //if the index is not -1
                     if(tierIndex !== -1){
@@ -209,6 +212,7 @@ module.exports = {
                             )
                         }
                     }else{
+
                         //set description
                         if(lang === "en") tierDataEmbed.setDescription(`You are the the last page please use backward or stop button to continue ${errorEmoji}`)
                         else if(lang === "ar") tierDataEmbed.setDescription(`انت الأن في اخر صفحه الرجاء استعمال زر الرجوع او الإيقاف للأستمرار ${errorEmoji}`)

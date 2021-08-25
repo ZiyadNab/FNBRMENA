@@ -190,7 +190,7 @@ module.exports = {
                     do {
                         if(lang === "en") ctx.font = `${fontSize -= 1}px Burbank Big Condensed`
                         else if(lang === "ar") ctx.font = `${fontSize -= 1}px Arabic`
-                    } while (ctx.measureText(text).width > width - 225)
+                    } while (ctx.measureText(text).width > 3000)
                     return ctx.font;
                 }
 
@@ -202,7 +202,7 @@ module.exports = {
                         if(lang === "en") ctx.font = `${fontSize -= 1}px Burbank Big Condensed`
                         else if(lang === "ar") ctx.font = `${fontSize -= 1}px Arabic`
                         
-                    } while (ctx.measureText(text).width > width - 1700)
+                    } while (ctx.measureText(text).width > 2600)
                     return ctx.font;
                 }
 
@@ -434,7 +434,7 @@ module.exports = {
                         ctx.fillStyle = '#ffffff';
                         ctx.textAlign='left';
                         if(found.quests[i].reward.items.length !== 0) ctx.font = applyTextRewards(canvas, found.quests[i].name)
-                        else if(found.quests[i].reward.items.length === 0) ctx.font = applyText(canvas, found.quests[i].name)
+                        else ctx.font = applyText(canvas, found.quests[i].name)
                         ctx.fillText(found.quests[i].name, x + 37, y + 115)
 
                         //add progress bar
@@ -678,7 +678,7 @@ module.exports = {
                         ctx.fillStyle = '#ffffff';
                         ctx.textAlign='right';
                         if(found.quests[i].reward.items.length !== 0) ctx.font = applyTextRewards(canvas, found.quests[i].name)
-                        else if(found.quests[i].reward.items.length === 0) ctx.font = applyText(canvas, found.quests[i].name)
+                        else ctx.font = applyText(canvas, found.quests[i].name)
                         ctx.fillText(found.quests[i].name, x - 25, y + 115)
 
                         //add progress bar

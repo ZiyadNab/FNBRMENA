@@ -108,7 +108,7 @@ module.exports = {
 
                     //inisilizing tierDATA
                     const tierDataEmbed = new Discord.MessageEmbed()
-                    tierDataEmbed.setColor(FNBRMENA.Colors("embed"))
+                    tierDataEmbed.setColor(FNBRMENA.Colors(TierData.item.series.id))
 
                     //if the index is not -1
                     if(tierIndex !== -1){

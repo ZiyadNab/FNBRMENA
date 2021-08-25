@@ -14,7 +14,7 @@ module.exports = {
     hintAR: 'يمكنك اضافة + ثم رقم المستى للبداية.\nعلى سبيل المثال: tier 2 + 68 راح يعطيك عنصر بلاك نيات من سيزون 2',
     argsExample: ['2', '14'],
     minArgs: 1,
-    maxArgs: 1,
+    maxArgs: null,
     cooldown: 40,
     permissionError: 'Sorry you do not have acccess to this command',
     callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji) => {

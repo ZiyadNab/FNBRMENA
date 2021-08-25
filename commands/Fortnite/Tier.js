@@ -227,7 +227,7 @@ module.exports = {
                         //back 20 button clicked
                         if(collected.first().id === "BACK20"){
 
-                            if(tierIndex === -1) tierIndex = res.rewards.length + 1
+                            if(tierIndex === -1) tierIndex = res.rewards.length
 
                             //if there is no more tiers
                             if(tierIndex - 20 > 0){
@@ -256,7 +256,7 @@ module.exports = {
                         //back button clicked
                         if(collected.first().id === "BACK"){
 
-                            if(tierIndex === -1) tierIndex = res.rewards.length + 1
+                            if(tierIndex === -1) tierIndex = res.rewards.length
 
                             //if there is no more tiers
                             if(tierIndex - 1 > 0){
@@ -289,14 +289,17 @@ module.exports = {
                             //if there is no more tiers
                             if(tierIndex + 1 < res.rewards.length){
 
-                                //move to the next index
-                                tierIndex++
+                                if(tierIndex !== -1){
+                                    
+                                    //move to the next index
+                                    tierIndex++
 
-                                //delete the start message
-                                await sendTierDataViewer.delete()
+                                    //delete the start message
+                                    await sendTierDataViewer.delete()
 
-                                //call the tierViewer function
-                                await tierViewer()
+                                    //call the tierViewer function
+                                    await tierViewer()
+                                }
 
                             }else{
 
@@ -317,14 +320,17 @@ module.exports = {
                             //if there is no more tiers
                             if(tierIndex + 20 < res.rewards.length){
 
-                                //move to the next index
-                                tierIndex += 20
+                                if(tierIndex !== -1){
 
-                                //delete the start message
-                                await sendTierDataViewer.delete()
+                                    //move to the next index
+                                    tierIndex += 20
 
-                                //call the tierViewer function
-                                await tierViewer()
+                                    //delete the start message
+                                    await sendTierDataViewer.delete()
+
+                                    //call the tierViewer function
+                                    await tierViewer()
+                                }
 
                             }else{
 

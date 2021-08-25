@@ -121,8 +121,8 @@ module.exports = {
                             if(lang === "en") await tierDataEmbed.setAuthor(`${res.displayInfo.chapterSeason} | Page ${TierData.page}`, TierData.item.images.icon)
                             else if(lang === "ar") await tierDataEmbed.setAuthor(`${res.displayInfo.chapterSeason} | صفحة ${TierData.page}`, TierData.item.images.icon)
                         }else{
-                            if(lang === "en") await tierDataEmbed.setAuthor(`${res.displayInfo.chapterSeason} | Tier ${tierIndex}`, TierData.item.images.icon)
-                            else if(lang === "ar") await tierDataEmbed.setAuthor(`${res.displayInfo.chapterSeason} | مستوى ${tierIndex}`, TierData.item.images.icon)
+                            if(lang === "en") await tierDataEmbed.setAuthor(`${res.displayInfo.chapterSeason} | Tier ${TierData.tier}`, TierData.item.images.icon)
+                            else if(lang === "ar") await tierDataEmbed.setAuthor(`${res.displayInfo.chapterSeason} | مستوى ${TierData.tier}`, TierData.item.images.icon)
                         }
                         
                         //set title

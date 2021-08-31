@@ -307,9 +307,13 @@ module.exports = {
             //adding the gradiant
             var grd = ctx.createLinearGradient(x, 1500, x + 1500, 3000)
 
+            //if there is finished string
+            let finishedStringEN = `Will be available soon...`
+            let finishedStringAR = `سوف تتاح قريبا...`
+
             //calling the object
             await CreatingObj(grd, x, y, gone, left, length, crewPercent, 
-                ['FF0064', 'FF0008'], crew)
+                ['FF0064', 'FF0008'], crew, finishedStringEN, finishedStringAR)
 
             try {
                 const att = new Discord.MessageAttachment(canvas.toBuffer(), 'progress.png')

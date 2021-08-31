@@ -86,6 +86,26 @@ class FNBRMENA {
     }
 
     /**
+     * Return data about the crew
+     * 
+     * @param {String} SessionID
+     * @example
+     * FNBRMENA.Replays(text)
+     * .then(async res => {
+     * 
+     *        //you will get a response weather the requested data has been found or not
+     * 
+     * })
+     * 
+     */
+     async Replays(SessionID){
+
+        //request the datat and return the response
+        return await axios.get(`https://fortniteapi.io/v1/events/replay?session=${SessionID}`, { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
+
+    }
+
+    /**
      * Return data about the playlist
      * 
      * @param {String} Lang

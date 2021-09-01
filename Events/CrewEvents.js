@@ -157,7 +157,7 @@ module.exports = (FNBRMENA, client, admin) => {
                                 description = description.replace("\r\n", "")
 
                                 //request more data
-                                const data = await FNBRMENA.Search(lang, "id", crew.rewards[i].item.id)
+                                const data = await FNBRMENA.Search(lang, "id", res[0].rewards[i].item.id)
 
                                 //add introduces and set string
                                 if(data.data.items[0].introduction !== null) description += `\n${data.data.items[0].introduction.text}`

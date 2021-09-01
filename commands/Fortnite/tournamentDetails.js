@@ -144,10 +144,10 @@ module.exports = {
                             //chenge the color to white
                             ctx.fillStyle = '#ffffff'
                             ctx.textAlign='center'
-                            ctx.font = '50px Burbank Big Condensed'
+                            ctx.font = '70px Burbank Big Condensed'
 
                             //first thing draw the user rank
-                            ctx.fillText(i + 1, x + 85, y + 60)
+                            ctx.fillText(i + 1, x + 85, y + 75)
 
                             y += 90 + 20
 

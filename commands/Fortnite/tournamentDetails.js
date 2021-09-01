@@ -154,11 +154,16 @@ module.exports = {
 
                             //chenge the color to white
                             ctx.fillStyle = '#ffffff'
-                            ctx.textAlign='left'
-                            ctx.font = '70px Burbank Big Condensed'
+                            ctx.textAlign='center'
+                            ctx.font = '45px Burbank Big Condensed'
 
                             //first thing draw the user rank
-                            ctx.fillText(i + 1, x + 60, y + 70)
+                            var rankNumber = i + 1
+                            if(rankNumber.toString().split('').pop() === "1") rankNumber += `st`
+                            else if(rankNumber.toString().split('').pop() === "2") rankNumber += `nd`
+                            else if(rankNumber.toString().split('').pop() === "3") rankNumber += `rd`
+                            else rankNumber += `th`
+                            ctx.fillText(rankNumber, x + 85, y + 55)
 
                             //store all the participating players
                             var playersNames = `${res.data.session.results[i].teamAccountNames[0].name}`
@@ -168,7 +173,7 @@ module.exports = {
 
                             //draw the players names
                             await applyText(canvas, playersNames)
-                            ctx.fillText(playersNames, x + 140, y + 75)
+                            ctx.fillText(playersNames, x + 600, y + 75)
 
                             y += 90 + 20
 

@@ -407,7 +407,7 @@ class FNBRMENA {
 
         //return ShopSection access
         if(Type === "Crew"){
-            Crew(Client, Admin)
+            Crew(FNBRMENA, Client, Admin)
         }
 
         //return ShopSection access

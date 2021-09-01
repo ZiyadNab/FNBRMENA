@@ -3,7 +3,7 @@ const Discord = require('discord.js')
 const Canvas = require('canvas')
 const config = require('../Coinfigs/config.json')
 
-module.exports = (client, admin) => {
+module.exports = (FNBRMENA, client, admin) => {
     const message = client.channels.cache.find(channel => channel.id === config.events.Crew)
 
     var data = []
@@ -49,7 +49,7 @@ module.exports = (client, admin) => {
 
                         //send the generating message
                         const generating = new Discord.MessageEmbed()
-                        generating.setColor('#00ffff')
+                        generating.setColor(FNBRMENA.Colors('embed'))
                         const emoji = client.emojis.cache.get("862704096312819722")
                         if(lang === "en") generating.setTitle(`Loading the crew information ${emoji}`)
                         else if(lang === "ar") generating.setTitle(`جاري تحميل بيانات طاقم فورت نايت ${emoji}`)
@@ -64,7 +64,7 @@ module.exports = (client, admin) => {
                             const crewData = new Discord.MessageEmbed()
 
                             //add color
-                            crewData.setColor('#00ffff')
+                            crewData.setColor(FNBRMENA.Colors('embed'))
 
                             //set title
                             if(lang === "en") crewData.setTitle(`The Fortnite Crew for month ${month} of ${year}`)

@@ -63,7 +63,7 @@ module.exports = {
 
                     //hieght, x, y and numberOfRanks measures
                     let height = 480 + 160;
-                    let numberOfRanks = 10;
+                    let numberOfRanks = 15;
                     var x = 150;
                     var y = 480;
 
@@ -139,6 +139,15 @@ module.exports = {
 
                     //add the sideways lines for the stats [language matters]
                     x += 40
+
+                    //add the line tags
+                    ctx.fillStyle = '#ffffff'
+                    ctx.textAlign='center'
+                    ctx.font = '50px Burbank Big Condensed'
+                    ctx.fillText(`Matchs`, 1315, 400)
+                    ctx.fillText(`Kills`, 1550, 400)
+                    ctx.fillText(`Victories`, 1780, 400)
+                    ctx.fillText(`Points`, 2025, 400)
 
                     //add the color to ctx
                     if(searchedContentTournamentObj[0].secondary_color !== searchedContentTournamentObj[0].shadow_color) ctx.fillStyle = `#${searchedContentTournamentObj[0].secondary_color}`;

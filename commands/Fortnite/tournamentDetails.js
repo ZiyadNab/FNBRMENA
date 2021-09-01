@@ -21,8 +21,18 @@ module.exports = {
         //get the user language from the database
         const lang = await FNBRMENA.Admin(admin, message, "", "Lang");
 
+        //if the user added a numberOfRanks
+        let numberOfRanks = 10;
+        if(text.includes("+")){
+
+            //extract the season from the text string
+            var windowID = text.substring(0, text.indexOf("+"))
+            numberOfRanks = text.substring(text.indexOf("+") + 1, text.length).trim()
+
+        }else var windowID = text
+
         //request data by the windowID
-        FNBRMENA.tournamentSessions(text)
+        FNBRMENA.tournamentSessions(windowID)
         .then(async res => {
 
             //if the windowID is valid
@@ -61,9 +71,8 @@ module.exports = {
                     //start working with the data
                     //...
 
-                    //hieght, x, y and numberOfRanks measures
+                    //hieght, x and y measures
                     let height = 480 + 160;
-                    let numberOfRanks = 50;
                     var x = 150;
                     var y = 480;
 

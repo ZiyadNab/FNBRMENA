@@ -71,6 +71,17 @@ module.exports = {
                         height += 90 + 20;
                     }
 
+                    //applytext
+                    const applyText = (canvas, text) => {
+                        const ctx = canvas.getContext('2d')
+                        let fontSize = 70
+                        do {
+                            if(lang === "en") ctx.font = `${fontSize -= 1}px Burbank Big Condensed`
+                            else if(lang === "ar") ctx.font = `${fontSize -= 1}px Arabic`
+                        } while (ctx.measureText(text).width > 1050)
+                        return ctx.font
+                    }
+
                     //registering fonts
                     Canvas.registerFont('./assets/font/Lalezar-Regular.ttf', {family: 'Arabic',weight: "700",style: "bold"});
                     Canvas.registerFont('./assets/font/BurbankBigCondensed-Black.otf' ,{family: 'Burbank Big Condensed',weight: "700",style: "bold"});
@@ -147,7 +158,17 @@ module.exports = {
                             ctx.font = '70px Burbank Big Condensed'
 
                             //first thing draw the user rank
-                            ctx.fillText(i + 1, x + 85, y + 75)
+                            ctx.fillText(i + 1, x + 85, y + 70)
+
+                            //store all the participating players
+                            var playersNames = `${res.data.session.results[i].teamAccountNames[0].name}`
+                            for(let p = 1; p < res.data.session.results[i].teamAccountNames.length; p++){
+                                playersNames += ` - ${res.data.session.results[i].teamAccountNames[p].name}`
+                            }
+
+                            //draw the players names
+                            await applyText(canvas, playersNames)
+                            ctx.fillText(playersNames, x + 130, y + 75)
 
                             y += 90 + 20
 

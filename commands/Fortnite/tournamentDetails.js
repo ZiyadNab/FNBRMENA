@@ -105,6 +105,12 @@ module.exports = {
                     //add the background color to ctx
                     ctx.fillStyle = grediant;
                     ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                    //add the tournament name
+                    ctx.fillStyle = '#ffffff'
+                    ctx.textAlign='left'
+                    ctx.font = '150px Burbank Big Condensed'
+                    ctx.fillText(`${searchedContentTournamentObj[0].long_format_title} | ${res.data.session.region}`, 20, 155)
                     
                     //loop throw every top ${numberOfRanks} number
                     for(let i = 0; i < numberOfRanks; i++){
@@ -121,63 +127,83 @@ module.exports = {
                     } y = 480
 
                     //add the sideways lines for the stats [language matters]
-                    if(lang === "en"){
+                    x += 40
 
-                        //change the x value
-                        x += 40
+                    //add the color to ctx
+                    ctx.fillStyle = `#${searchedContentTournamentObj[0].secondary_color}`;
+
+                    //draw the line
+                    ctx.fillRect(x, (y - 40), 90, (canvas.height - y) + 40);
+
+                    //change the x value
+                    x += 1050
+
+                    //loop throw 4 indexes
+                    for(let i = 0; i < 4; i++){
 
                         //add the color to ctx
                         ctx.fillStyle = `#${searchedContentTournamentObj[0].secondary_color}`;
 
                         //draw the line
-                        ctx.fillRect(x, (y - 40), 90, (canvas.height - y) + 40);
+                        ctx.fillRect(x, (y - 40), 140, (canvas.height - y) + 40);
 
                         //change the x value
-                        x += 1050
+                        x += 100 + 140
 
-                        //loop throw 4 indexes
-                        for(let i = 0; i < 4; i++){
+                    } x = 150
 
-                            //add the color to ctx
-                            ctx.fillStyle = `#${searchedContentTournamentObj[0].secondary_color}`;
+                    //add the ppl data
+                    for(let i = 0; i < numberOfRanks; i++){
 
-                            //draw the line
-                            ctx.fillRect(x, (y - 40), 140, (canvas.height - y) + 40);
+                        //chenge the color to white
+                        ctx.fillStyle = '#ffffff'
+                        ctx.textAlign='center'
+                        ctx.font = '45px Burbank Big Condensed'
 
-                            //change the x value
-                            x += 100 + 140
+                        //first thing draw the user rank
+                        var rankNumber = i + 1
+                        if(rankNumber.toString().split('').pop() === "1") rankNumber += `st`
+                        else if(rankNumber.toString().split('').pop() === "2") rankNumber += `nd`
+                        else if(rankNumber.toString().split('').pop() === "3") rankNumber += `rd`
+                        else rankNumber += `th`
+                        ctx.fillText(rankNumber, x + 85, y + 60)
 
-                        } x = 150
-
-                        //add the ppl data
-                        for(let i = 0; i < numberOfRanks; i++){
-
-                            //chenge the color to white
-                            ctx.fillStyle = '#ffffff'
-                            ctx.textAlign='center'
-                            ctx.font = '45px Burbank Big Condensed'
-
-                            //first thing draw the user rank
-                            var rankNumber = i + 1
-                            if(rankNumber.toString().split('').pop() === "1") rankNumber += `st`
-                            else if(rankNumber.toString().split('').pop() === "2") rankNumber += `nd`
-                            else if(rankNumber.toString().split('').pop() === "3") rankNumber += `rd`
-                            else rankNumber += `th`
-                            ctx.fillText(rankNumber, x + 85, y + 55)
-
-                            //store all the participating players
-                            var playersNames = `${res.data.session.results[i].teamAccountNames[0].name}`
-                            for(let p = 1; p < res.data.session.results[i].teamAccountNames.length; p++){
-                                playersNames += ` - ${res.data.session.results[i].teamAccountNames[p].name}`
-                            }
-
-                            //draw the players names
-                            await applyText(canvas, playersNames)
-                            ctx.fillText(playersNames, x + 600, y + 75)
-
-                            y += 90 + 20
-
+                        //store all the participating players
+                        var playersNames = `${res.data.session.results[i].teamAccountNames[0].name}`
+                        for(let p = 1; p < res.data.session.results[i].teamAccountNames.length; p++){
+                            playersNames += ` - ${res.data.session.results[i].teamAccountNames[p].name}`
                         }
+
+                        //draw the players names
+                        await applyText(canvas, playersNames)
+                        ctx.fillText(playersNames, x + 600, y + 60)
+
+                        //draw the match played for a team
+                        ctx.font = '47px Burbank Big Condensed'
+                        ctx.fillText(`${res.data.session.results[i].sessionHistory.length}/${res.data.session.matchCap}`, x + 1157, y + 60)
+
+                        //draw the kiils for a team
+                        var teamKills = 0
+                        for(let p = 0; p < res.data.session.results[i].sessionHistory.length; p++){
+                            teamKills += res.data.session.results[i].sessionHistory[p].trackedStats.TEAM_ELIMS_STAT_INDEX
+                        } ctx.fillText(`${teamKills}`, x + 1400, y + 60)
+
+                        //draw the victory royales for a team
+                        var victoryRoyale = 0
+                        for(let p = 0; p < res.data.session.results[i].sessionHistory.length; p++){
+                            victoryRoyale += res.data.session.results[i].sessionHistory[p].trackedStats.VICTORY_ROYALE_STAT
+                        } ctx.fillText(`${victoryRoyale}`, x + 1640, y + 60)
+
+                        //draw team points
+                        ctx.fillText(`${res.data.session.results[i].pointsEarned}`, x + 1880, y + 60)
+
+                        //get team id (first 5 digit of the id)
+                        var teamIDs = ``
+                        for(let p = 0; p < res.data.session.results[i].teamAccountNames.length; p++){
+                            teamIDs += `${res.data.session.results[i].teamAccountNames[p].id.substring(0, 5)}`
+                        }
+                        ctx.fillText(teamIDs, x + 2225, y + 60)
+                        y += 90 + 20
 
                     }
 

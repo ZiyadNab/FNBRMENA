@@ -27,6 +27,7 @@
     "jimp": "^0.16.1",
     "lodash.isequal": "^4.5.0",
     "moment": "^2.29.1",
+    "moment-timezone": "^0.5.33",
     "probe-image-size": "^7.2.1",
     "word-wrap": "^1.2.3"
   }

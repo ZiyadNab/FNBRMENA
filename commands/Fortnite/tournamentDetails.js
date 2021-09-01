@@ -106,12 +106,12 @@ module.exports = {
                     //add the background color to ctx
                     ctx.fillStyle = grediant;
                     ctx.fillRect(0, 0, canvas.width, canvas.height);
-                    ctx.fillText(`FNBRMENA`, canvas.width - 30, 80)
 
                     //add the credits
                     ctx.fillStyle = '#ffffff'
                     ctx.textAlign='right'
                     ctx.font = '75px Burbank Big Condensed'
+                    ctx.fillText(`FNBRMENA`, canvas.width - 30, 80)
 
                     //add the tournament name and its data
                     ctx.fillStyle = '#ffffff'

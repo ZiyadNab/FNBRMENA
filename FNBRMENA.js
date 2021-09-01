@@ -224,6 +224,16 @@ class FNBRMENA {
 
     /**
      * 
+     * @param {String} windowID 
+     */
+     async tournamentSessions(windowID){
+
+        //return the items
+        return await axios.get(`https://fortniteapi.io/v1/events/window?windowId=${windowID}`, { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
+    }
+
+    /**
+     * 
      * @param {String} Lang 
      */
      async EpicContentEndpoint(Lang){

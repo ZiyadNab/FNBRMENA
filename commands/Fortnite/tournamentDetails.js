@@ -50,20 +50,20 @@ module.exports = {
                     };
                 };
 
-                    //loading message
-                    const generating = new Discord.MessageEmbed();
-                    generating.setColor(FNBRMENA.Colors("embed"));
-                    if(lang === "en") generating.setTitle(`Loading ${searchedContentTournamentObj[0].long_format_title} results... ${loadingEmoji}`);
-                    if(lang === "ar") generating.setTitle(`جاري تحميل احصائيات بطولة ${searchedContentTournamentObj[0].long_format_title}... ${loadingEmoji}`);
-                    message.channel.send(generating)
-                    .then( async msg => {
+                //loading message
+                const generating = new Discord.MessageEmbed();
+                generating.setColor(FNBRMENA.Colors("embed"));
+                if(lang === "en") generating.setTitle(`Loading ${searchedContentTournamentObj[0].long_format_title} results... ${loadingEmoji}`);
+                if(lang === "ar") generating.setTitle(`جاري تحميل احصائيات بطولة ${searchedContentTournamentObj[0].long_format_title}... ${loadingEmoji}`);
+                message.channel.send(generating)
+                .then( async msg => {
 
                     //start working with the data
                     //...
 
                     //hieght, x, y and numberOfRanks measures
                     let height = 480 + 160;
-                    let numberOfRanks = 15;
+                    let numberOfRanks = 10;
                     var x = 150;
                     var y = 480;
 
@@ -143,11 +143,11 @@ module.exports = {
                     //add the line tags
                     ctx.fillStyle = '#ffffff'
                     ctx.textAlign='center'
-                    ctx.font = '50px Burbank Big Condensed'
-                    ctx.fillText(`Matchs`, 1315, 400)
+                    ctx.font = '60px Burbank Big Condensed'
+                    ctx.fillText(`Matchs`, 1310, 400)
                     ctx.fillText(`Kills`, 1550, 400)
-                    ctx.fillText(`Victories`, 1780, 400)
-                    ctx.fillText(`Points`, 2025, 400)
+                    ctx.fillText(`Victories`, 1790, 400)
+                    ctx.fillText(`Points`, 2035, 400)
 
                     //add the color to ctx
                     if(searchedContentTournamentObj[0].secondary_color !== searchedContentTournamentObj[0].shadow_color) ctx.fillStyle = `#${searchedContentTournamentObj[0].secondary_color}`;

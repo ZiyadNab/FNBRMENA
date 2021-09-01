@@ -106,6 +106,12 @@ module.exports = {
                     //add the background color to ctx
                     ctx.fillStyle = grediant;
                     ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    ctx.fillText(`FNBRMENA`, canvas.width - 30, 80)
+
+                    //add the credits
+                    ctx.fillStyle = '#ffffff'
+                    ctx.textAlign='right'
+                    ctx.font = '75px Burbank Big Condensed'
 
                     //add the tournament name and its data
                     ctx.fillStyle = '#ffffff'
@@ -113,10 +119,9 @@ module.exports = {
                     ctx.font = '150px Burbank Big Condensed'
                     ctx.fillText(`${searchedContentTournamentObj[0].long_format_title} | ${res.data.session.region}`, 30, 155)
                     ctx.font = '48px Burbank Big Condensed'
-                    ctx.fillText(`Match Cap: ${res.data.session.matchCap}`, 30, 220)
                     if(res.data.session.finished) var Finished = `Yes, it did`
                     else var Finished = `No, it didn't`
-                    ctx.fillText(`Starts: ${moment(res.data.session.beginTime).format("MMMM Do [of] YYYY [at] h A")},\nEnds: ${moment(res.data.session.endTime).format("MMMM Do [of] YYYY [at] h A")}\nFinished: ${Finished}`, 30, 275)
+                    ctx.fillText(`Match Cap: ${res.data.session.matchCap}\nStarts: ${moment(res.data.session.beginTime).format("MMMM Do [of] YYYY [at] h A")},\nEnds: ${moment(res.data.session.endTime).format("MMMM Do [of] YYYY [at] h A")}\nFinished: ${Finished}`, 30, 220)
                     
                     //loop throw every top ${numberOfRanks} number
                     for(let i = 0; i < numberOfRanks; i++){

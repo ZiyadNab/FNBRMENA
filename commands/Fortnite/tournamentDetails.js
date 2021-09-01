@@ -78,7 +78,7 @@ module.exports = {
                         do {
                             if(lang === "en") ctx.font = `${fontSize -= 1}px Burbank Big Condensed`
                             else if(lang === "ar") ctx.font = `${fontSize -= 1}px Arabic`
-                        } while (ctx.measureText(text).width > 1050)
+                        } while (ctx.measureText(text).width > 900)
                         return ctx.font
                     }
 
@@ -154,11 +154,11 @@ module.exports = {
 
                             //chenge the color to white
                             ctx.fillStyle = '#ffffff'
-                            ctx.textAlign='center'
+                            ctx.textAlign='left'
                             ctx.font = '70px Burbank Big Condensed'
 
                             //first thing draw the user rank
-                            ctx.fillText(i + 1, x + 85, y + 70)
+                            ctx.fillText(i + 1, x + 60, y + 70)
 
                             //store all the participating players
                             var playersNames = `${res.data.session.results[i].teamAccountNames[0].name}`
@@ -168,7 +168,7 @@ module.exports = {
 
                             //draw the players names
                             await applyText(canvas, playersNames)
-                            ctx.fillText(playersNames, x + 130, y + 75)
+                            ctx.fillText(playersNames, x + 140, y + 75)
 
                             y += 90 + 20
 

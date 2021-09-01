@@ -169,10 +169,10 @@ module.exports = async (FNBRMENA, client, admin) => {
                                                     roundDetails += `Round Starts: ${moment.tz(CalendarTournamentsDATA[i].eventWindows[x].beginTime, "America/Los_Angeles").format("dddd, MMMM Do [of] YYYY [at] h A")}\n`
 
                                                     //round ends
-                                                    roundDetails += `Round Ends: ${moment.tz(CalendarTournamentsDATA[i].eventWindows[x].endTime, "America/Los_Angeles").format("dddd, MMMM Do [of] YYYY [at] h A")}\n\``
+                                                    roundDetails += `Round Ends: ${moment.tz(CalendarTournamentsDATA[i].eventWindows[x].endTime, "America/Los_Angeles").format("dddd, MMMM Do [of] YYYY [at] h A")}\n`
 
                                                     //window id
-                                                    roundDetails += `\`Window ID: ${CalendarTournamentsDATA[i].eventWindows[x].eventWindowId}\n\``
+                                                    roundDetails += `Window ID: ${CalendarTournamentsDATA[i].eventWindows[x].eventWindowId}\n\``
 
                                                     //add field for round number x
                                                     tournamentINFO.addFields(
@@ -207,7 +207,7 @@ module.exports = async (FNBRMENA, client, admin) => {
                                                     roundDetails += `نهاية الراوند: ${moment.tz(CalendarTournamentsDATA[i].eventWindows[x].endTime, "America/Los_Angeles").format("dddd, MMMM Do [من] YYYY [الساعة] h A")}\n`
 
                                                     //window id
-                                                    roundDetails += `\`معرف الصفحة: ${CalendarTournamentsDATA[i].eventWindows[x].eventWindowId}\n\``
+                                                    roundDetails += `معرف الصفحة: ${CalendarTournamentsDATA[i].eventWindows[x].eventWindowId}\n\``
 
                                                     //add field for round number x
                                                     tournamentINFO.addFields(

@@ -63,7 +63,7 @@ module.exports = {
 
                     //hieght, x, y and numberOfRanks measures
                     let height = 480 + 160;
-                    let numberOfRanks = 15;
+                    let numberOfRanks = 50;
                     var x = 150;
                     var y = 480;
 

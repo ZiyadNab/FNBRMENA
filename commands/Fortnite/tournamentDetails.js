@@ -137,7 +137,7 @@ module.exports = {
 
                     //add the color to ctx
                     if(searchedContentTournamentObj[0].secondary_color !== searchedContentTournamentObj[0].shadow_color) ctx.fillStyle = `#${searchedContentTournamentObj[0].secondary_color}`;
-                    else ctx.fillStyle = `#${searchedContentTournamentObj[0].primary_color}`;
+                    else ctx.fillStyle = `#${searchedContentTournamentObj[0].background_right_color}`;
 
                     //draw the line
                     ctx.fillRect(x, (y - 40), 90, (canvas.height - y) + 40);

@@ -4,7 +4,7 @@ const moment = require('moment');
 const Canvas = require('canvas');
 
 module.exports = {
-    commands: 'tournament',
+    commands: ['tournament', 'tour'],
     descriptionEN: 'A command that will return a tier of any season\'s information of a battlepass of your choice from season 2 till current season.',
     descriptionAR: 'أمر راح يسترجع لك معلومات اي تاير من عناصر الباتل باس بإختيارك من الموسم 2 الى الموسم الحالي.',
     expectedArgsEN: 'To use the command you need to specifiy a season number from season 2 to latest season.',

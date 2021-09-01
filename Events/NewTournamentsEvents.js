@@ -148,8 +148,8 @@ module.exports = async (FNBRMENA, client, admin) => {
                                                     {name: "Regions: ", value: regions},
                                                     {name: "Platforms: ", value: platforms},
                                                     {name: "Date: ", value: ContentTournamentsDATA[j].schedule_info, inline: true},
-                                                    {name: "beginTime: ", value: moment(CalendarTournamentsDATA[i].beginTime).format("dddd, MMMM Do [of] YYYY [at] h A")},
-                                                    {name: "endTime: ", value: moment(CalendarTournamentsDATA[i].endTime).format("dddd, MMMM Do [of] YYYY [at] h A")},
+                                                    {name: "beginTime: ", value: moment.tz(CalendarTournamentsDATA[i].beginTime, "America/Los_Angeles").format("dddd, MMMM Do [of] YYYY [at] h A")},
+                                                    {name: "endTime: ", value: moment.tz(CalendarTournamentsDATA[i].endTime, "America/Los_Angeles").format("dddd, MMMM Do [of] YYYY [at] h A")},
                                                 )
 
                                                 //add rounds
@@ -165,10 +165,13 @@ module.exports = async (FNBRMENA, client, admin) => {
                                                     }else roundDetails += `Round Type: Unspecified\n`
 
                                                     //round starts
-                                                    roundDetails += `Round Starts: ${moment(CalendarTournamentsDATA[i].eventWindows[x].beginTime).format("dddd, MMMM Do [of] YYYY [at] h A")}\n`
+                                                    roundDetails += `Round Starts: ${moment.tz(CalendarTournamentsDATA[i].eventWindows[x].beginTime, "America/Los_Angeles").format("dddd, MMMM Do [of] YYYY [at] h A")}\n`
 
                                                     //round ends
-                                                    roundDetails += `Round Ends: ${moment(CalendarTournamentsDATA[i].eventWindows[x].endTime).format("dddd, MMMM Do [of] YYYY [at] h A")}\n\``
+                                                    roundDetails += `Round Ends: ${moment.tz(CalendarTournamentsDATA[i].eventWindows[x].endTime, "America/Los_Angeles").format("dddd, MMMM Do [of] YYYY [at] h A")}\n\``
+
+                                                    //window id
+                                                    roundDetails += `Window ID: ${CalendarTournamentsDATA[i].eventWindows[x].eventWindowId}\n\``
 
                                                     //add field for round number x
                                                     tournamentINFO.addFields(
@@ -180,8 +183,8 @@ module.exports = async (FNBRMENA, client, admin) => {
                                                     {name: "المناطق: ", value: regions},
                                                     {name: "المنصات: ", value: platforms},
                                                     {name: "التاريخ: ", value: ContentTournamentsDATA[j].schedule_info, inline: true},
-                                                    {name: "بداية البطولة: ", value: moment(CalendarTournamentsDATA[i].beginTime).format("dddd, MMMM Do [من] YYYY [الساعة] h A")},
-                                                    {name: "نهاية البطولة: ", value: moment(CalendarTournamentsDATA[i].endTime).format("dddd, MMMM Do [من] YYYY [الساعة] h A")},
+                                                    {name: "بداية البطولة: ", value: moment.tz(CalendarTournamentsDATA[i].beginTime, "America/Los_Angeles").format("dddd, MMMM Do [من] YYYY [الساعة] h A")},
+                                                    {name: "نهاية البطولة: ", value: moment.tz(CalendarTournamentsDATA[i].endTime, "America/Los_Angeles").format("dddd, MMMM Do [من] YYYY [الساعة] h A")},
                                                 )
 
                                                 //add rounds
@@ -197,10 +200,13 @@ module.exports = async (FNBRMENA, client, admin) => {
                                                     }else roundDetails += `نوع الراوند: غير معلوم\n`
 
                                                     //round starts
-                                                    roundDetails += `بداية الراوند: ${moment(CalendarTournamentsDATA[i].eventWindows[x].beginTime).format("dddd, MMMM Do [من] YYYY [الساعة] h A")}\n`
+                                                    roundDetails += `بداية الراوند: ${moment.tz(CalendarTournamentsDATA[i].eventWindows[x].beginTime, "America/Los_Angeles").format("dddd, MMMM Do [من] YYYY [الساعة] h A")}\n`
 
                                                     //round ends
-                                                    roundDetails += `نهاية الراوند: ${moment(CalendarTournamentsDATA[i].eventWindows[x].endTime).format("dddd, MMMM Do [من] YYYY [الساعة] h A")}\n`
+                                                    roundDetails += `نهاية الراوند: ${moment.tz(CalendarTournamentsDATA[i].eventWindows[x].endTime, "America/Los_Angeles").format("dddd, MMMM Do [من] YYYY [الساعة] h A")}\n`
+
+                                                    //window id
+                                                    roundDetails += `معرف الصفحة: ${CalendarTournamentsDATA[i].eventWindows[x].eventWindowId}\n\``
 
                                                     //add field for round number x
                                                     tournamentINFO.addFields(

@@ -114,7 +114,9 @@ module.exports = {
                     ctx.fillText(`${searchedContentTournamentObj[0].long_format_title} | ${res.data.session.region}`, 30, 155)
                     ctx.font = '48px Burbank Big Condensed'
                     ctx.fillText(`Match Cap: ${res.data.session.matchCap}`, 30, 220)
-                    ctx.fillText(`Starts: ${moment(res.data.session.beginTime).format("MMMM Do [of] YYYY [at] h A")},\nEnds: ${moment(res.data.session.endTime).format("MMMM Do [of] YYYY [at] h A")}`, 30, 275)
+                    if(res.data.session.finished) var Finished = `Yes, it did`
+                    else var Finished = `No, it didn't`
+                    ctx.fillText(`Starts: ${moment(res.data.session.beginTime).format("MMMM Do [of] YYYY [at] h A")},\nEnds: ${moment(res.data.session.endTime).format("MMMM Do [of] YYYY [at] h A")}\nFinished: ${Finished}`, 30, 275)
                     
                     //loop throw every top ${numberOfRanks} number
                     for(let i = 0; i < numberOfRanks; i++){

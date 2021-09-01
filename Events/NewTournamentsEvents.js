@@ -2,6 +2,7 @@ const Discord = require('discord.js')
 const Canvas = require('canvas')
 const config = require('../Coinfigs/config.json')
 const moment = require('moment')
+const tz = require('moment-timezone')
 const probe = require('probe-image-size')
 
 module.exports = async (FNBRMENA, client, admin) => {

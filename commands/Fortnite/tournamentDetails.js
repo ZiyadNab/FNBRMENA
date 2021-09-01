@@ -136,7 +136,8 @@ module.exports = {
                     x += 40
 
                     //add the color to ctx
-                    ctx.fillStyle = `#${searchedContentTournamentObj[0].secondary_color}`;
+                    if(searchedContentTournamentObj[0].secondary_color !== searchedContentTournamentObj[0].shadow_color) ctx.fillStyle = `#${searchedContentTournamentObj[0].secondary_color}`;
+                    else ctx.fillStyle = `#${searchedContentTournamentObj[0].primary_color}`;
 
                     //draw the line
                     ctx.fillRect(x, (y - 40), 90, (canvas.height - y) + 40);
@@ -146,9 +147,6 @@ module.exports = {
 
                     //loop throw 4 indexes
                     for(let i = 0; i < 4; i++){
-
-                        //add the color to ctx
-                        ctx.fillStyle = `#${searchedContentTournamentObj[0].secondary_color}`;
 
                         //draw the line
                         ctx.fillRect(x, (y - 40), 140, (canvas.height - y) + 40);

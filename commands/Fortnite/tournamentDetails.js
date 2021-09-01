@@ -1,6 +1,7 @@
-const Data = require('../../FNBRMENA')
-const FNBRMENA = new Data()
-const Canvas = require('canvas')
+const Data = require('../../FNBRMENA');
+const FNBRMENA = new Data();
+const moment = require('moment');
+const Canvas = require('canvas');
 
 module.exports = {
     commands: 'tournament',
@@ -106,11 +107,14 @@ module.exports = {
                     ctx.fillStyle = grediant;
                     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-                    //add the tournament name
+                    //add the tournament name and its data
                     ctx.fillStyle = '#ffffff'
                     ctx.textAlign='left'
                     ctx.font = '150px Burbank Big Condensed'
-                    ctx.fillText(`${searchedContentTournamentObj[0].long_format_title} | ${res.data.session.region}`, 20, 155)
+                    ctx.fillText(`${searchedContentTournamentObj[0].long_format_title} | ${res.data.session.region}`, 30, 155)
+                    ctx.font = '48px Burbank Big Condensed'
+                    ctx.fillText(`Match Cap: ${res.data.session.matchCap}`, 30, 220)
+                    ctx.fillText(`Starts: ${moment(res.data.session.beginTime).format("MMMM Do [of] YYYY [at] h A")},\nEnds: ${moment(res.data.session.endTime).format("MMMM Do [of] YYYY [at] h A")}`, 30, 275)
                     
                     //loop throw every top ${numberOfRanks} number
                     for(let i = 0; i < numberOfRanks; i++){

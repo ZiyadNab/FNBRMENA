@@ -176,6 +176,9 @@ module.exports = {
                     if(searchedContentTournamentObj[0].secondary_color !== searchedContentTournamentObj[0].shadow_color) ctx.fillStyle = `#${searchedContentTournamentObj[0].secondary_color}`;
                     else ctx.fillStyle = `#${searchedContentTournamentObj[0].background_right_color}`;
 
+                    //change the opacity to 0.5
+                    ctx.globalAlpha = 0.5
+
                     //draw the line
                     ctx.fillRect(x, (y - 40), 90, (canvas.height - y) + 40);
 
@@ -192,6 +195,9 @@ module.exports = {
                         x += 100 + 140
 
                     } x = 150
+
+                    //change the opacity back to 1
+                    ctx.globalAlpha = 1
 
                     //add the ppl data
                     for(let i = 0; i < numberOfRanks; i++){

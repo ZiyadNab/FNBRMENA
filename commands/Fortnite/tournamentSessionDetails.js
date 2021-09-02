@@ -134,7 +134,7 @@ module.exports = {
                         finished += `The tournament has been finished`
                     }else if(moment(res.data.session.beginTime).diff(moment()) >= 0 && moment(res.data.session.endTime).diff(moment()) >= 0){
 
-                        if(moment(res.data.session.beginTime).diff(moment(), "hours") <= 24) finished += `The tournament will start after ${moment(res.data.session.beginTime).diff(moment(), "hours")}:${moment(res.data.session.beginTime).diff(moment(), "minutes")} hours`
+                        if(moment(res.data.session.beginTime).diff(moment(), "hours") <= 24) finished += `The tournament will start after ${moment(res.data.session.beginTime).diff(moment(), "hours")} hours`
                         else finished += `The tournament will start after ${moment(res.data.session.beginTime).diff(moment(), "days")} days and ${moment(res.data.session.beginTime).diff(moment(), "hours")} hours`
                     }
 

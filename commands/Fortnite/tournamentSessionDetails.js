@@ -123,16 +123,29 @@ module.exports = {
                     ctx.font = '75px Burbank Big Condensed'
                     ctx.fillText(`FNBRMENA`, canvas.width - 30, 80)
 
+                    //if the tournament is live or not
+                    var finished = ``
+                    const red = client.emojis.cache.get("855805718779002899")
+                    if(moment(res.data.session.beginTime).diff(moment()) <= 0 && moment(res.data.session.endTime).diff(moment()) >= 0){
+
+                        finished += `The current data is live at the moment (updates 10 minutes) ${red}`
+                    }else if(moment(res.data.session.beginTime).diff(moment()) <= 0 && moment(res.data.session.endTime).diff(moment()) <= 0){
+
+                        finished += `The tournament has been finished`
+                    }else if(moment(res.data.session.beginTime).diff(moment()) >= 0 && moment(res.data.session.endTime).diff(moment()) >= 0){
+
+                        if(moment(res.data.session.beginTime).diff(moment(), "hours") <= 24) finished += `The tournament will start after ${moment(res.data.session.beginTime).diff(moment(), "hours")} hours`
+                        else finished += `The tournament will start after ${moment(res.data.session.beginTime).diff(moment(), "days").format("DDD")} days and ${moment(res.data.session.beginTime).diff(moment(), "hours")} hours`
+                    }
+
                     //add the tournament name and its data
                     ctx.fillStyle = '#ffffff'
                     ctx.textAlign='left'
                     ctx.font = '150px Burbank Big Condensed'
                     ctx.fillText(`${searchedContentTournamentObj[0].long_format_title} | ${res.data.session.region}`, 30, 155)
                     ctx.font = '48px Burbank Big Condensed'
-                    if(res.data.session.finished) var Finished = `Yes, it did`
-                    else var Finished = `No, it didn't`
-                    ctx.fillText(`Match Cap: ${res.data.session.matchCap}\nStarts: ${moment.tz(res.data.session.beginTime, "America/Los_Angeles").format("MMMM Do [of] YYYY [at] h A")},\nEnds: ${moment.tz(res.data.session.endTime, "America/Los_Angeles").format("MMMM Do [of] YYYY [at] h A")}\nFinished: ${Finished}`, 30, 220)
-                    
+                    ctx.fillText(`Match Cap: ${res.data.session.matchCap}\nStarts: ${moment.tz(res.data.session.beginTime, "America/Los_Angeles").format("MMMM Do [of] YYYY [at] h A")},\nEnds: ${moment.tz(res.data.session.endTime, "America/Los_Angeles").format("MMMM Do [of] YYYY [at] h A")}\nStatus: ${finished}`, 30, 220)
+
                     //loop throw every top ${numberOfRanks} number
                     for(let i = 0; i < numberOfRanks; i++){
 

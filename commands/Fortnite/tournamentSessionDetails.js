@@ -40,10 +40,10 @@ module.exports = {
             if(res.data.result){
                 
                 //get the actual tornament id from Comp Calendar Endpoint
-                const calendarEndpointResponse = await FNBRMENA.CompCalendarEndpoint(lang);
+                const calendarEndpointResponse = await FNBRMENA.CompCalendarEndpoint("en");
 
                 //get the actual tornament id from Content Endpoint
-                const contentEndpointResponse = await FNBRMENA.EpicContentEndpoint(lang);
+                const contentEndpointResponse = await FNBRMENA.EpicContentEndpoint("en");
 
                 //loop and find the object that matches the given eventId to get extended data
                 let searchedCalendarTournamentObj = []
@@ -321,9 +321,53 @@ module.exports = {
 
                     }
 
+                    //inislizing embed
+                    const sessionInfo = new Discord.MessageEmbed()
+                    sessionInfo.setColor(FNBRMENA.Colors("embed"))
+
+                    //if there is scoring
+                    let placements = `\``
+                    let ELIMs = `\``
+                    if(res.data.session.rules.scoring !== null){
+
+                        //loop throw the rules field
+                        for(let i = 0; i < res.data.session.rules.scoring.length; i++){
+
+                            //loop threw scoring
+                            for(let r = 0; r < res.data.session.rules.scoring[i].rewardTiers.length; r++){
+    
+                                //if the rewardTier is placement
+                                if(res.data.session.rules.scoring[i].trackedStat === 'PLACEMENT_STAT_INDEX') placements += `Top ${res.data.session.rules.scoring[i].rewardTiers[r].keyValue}: ${res.data.session.rules.scoring[i].rewardTiers[r].pointsEarned} Points\n`
+                                if(res.data.session.rules.scoring[i].trackedStat === 'TEAM_ELIMS_STAT_INDEX') ELIMs += `${res.data.session.rules.scoring[i].rewardTiers[r].keyValue} Kill: ${res.data.session.rules.scoring[i].rewardTiers[r].pointsEarned} Points\n`
+    
+                            }
+                        }
+                    } ELIMs += `\``, placements += `\``
+
+                    //if there is payout
+                    if(res.data.session.payout !== null){
+
+                        //loop threw payouts
+                        for(let p = 0; p < res.data.session.payout.length; p++){
+
+                            //loop throw ranks
+                            let Payouts = `\``
+                            for(let r = 0; r < res.data.session.payout[p].ranks[0].payouts.length; r++){
+                                Payouts += `Reward Number: ${r + 1}\nReward Type: ${res.data.session.payout[p].ranks[0].payouts[r].rewardType}\nReward: ${res.data.session.payout[p].ranks[0].payouts[r].value}\nQuantity: ${res.data.session.payout[p].ranks[0].payouts[r].quantity}\n\n`
+                            }
+
+                            //add field
+                            Payouts += `\``
+                            sessionInfo.addFields(
+                                {name: `Top ${res.data.session.payout[p].ranks[0].threshold} will get:\n`, value: Payouts}
+                            )
+                        }
+                    }
+
                     //send
                     const att = new Discord.MessageAttachment(canvas.toBuffer(), `${res.data.session.windowId}.png`);
                     await message.channel.send(att);
+                    await message.channel.send(sessionInfo)
                     msg.delete();
                     
                 })

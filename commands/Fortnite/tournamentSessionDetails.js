@@ -128,14 +128,21 @@ module.exports = {
                     const red = client.emojis.cache.get("855805718779002899")
                     if(moment(res.data.session.beginTime).diff(moment()) <= 0 && moment(res.data.session.endTime).diff(moment()) >= 0){
 
-                        finished += `The current data is live at the moment (updates 10 minutes) ${red}`
+                        const diff = moment(res.data.session.endTime).diff(moment())
+                        const diffDuration = moment.duration(diff)
+                        finished += `The current data is live at the moment (updates 10 minutes) ${red}\nTime Remaining: ${diffDuration.hours()}:${diffDuration.minutes()} hours`
                     }else if(moment(res.data.session.beginTime).diff(moment()) <= 0 && moment(res.data.session.endTime).diff(moment()) <= 0){
 
-                        finished += `The tournament has been finished`
+                        const diff = moment(moment()).diff(res.data.session.endTime)
+                        const diffDuration = moment.duration(diff)
+                        if(diffDuration.days() === 0) finished += `Tournament has finished ${diffDuration.hours()} hours ago`
+                        else finished += `Tournament has finished ${diffDuration.days()} day(s) and ${diffDuration.hours()} hour(s) ago`
                     }else if(moment(res.data.session.beginTime).diff(moment()) >= 0 && moment(res.data.session.endTime).diff(moment()) >= 0){
 
-                        if(moment(res.data.session.beginTime).diff(moment(), "hours") <= 24) finished += `The tournament will start after ${moment(res.data.session.beginTime).diff(moment(), "hours")} hours`
-                        else finished += `The tournament will start after ${moment(res.data.session.beginTime).diff(moment(), "days")} days and ${moment(res.data.session.beginTime).diff(moment(), "hours")} hours`
+                        const diff = moment(res.data.session.beginTime).diff(moment())
+                        const diffDuration = moment.duration(diff)
+                        if(diffDuration.days() === 0) finished += `Tournament will start after ${diffDuration.hours()}:${diffDuration.minutes()} hours`
+                        else finished += `Tournament will start after ${diffDuration.days()} day(s) and ${diffDuration.hours()} hour(s)`
                     }
 
                     //add the tournament name and its data
@@ -144,7 +151,7 @@ module.exports = {
                     ctx.font = '150px Burbank Big Condensed'
                     ctx.fillText(`${searchedContentTournamentObj[0].long_format_title} | ${res.data.session.region}`, 30, 155)
                     ctx.font = '48px Burbank Big Condensed'
-                    ctx.fillText(`Match Cap: ${res.data.session.matchCap}\nStarts: ${moment.tz(res.data.session.beginTime, "America/Los_Angeles").format("MMMM Do [of] YYYY [at] h A")},\nEnds: ${moment.tz(res.data.session.endTime, "America/Los_Angeles").format("MMMM Do [of] YYYY [at] h A")}\nStatus: ${finished}`, 30, 220)
+                    ctx.fillText(`Match Cap: ${res.data.session.matchCap}\nStarts: ${moment.tz(res.data.session.beginTime, "America/Los_Angeles").format("MMMM Do [of] YYYY [at] h A")} PST,\nEnds: ${moment.tz(res.data.session.endTime, "America/Los_Angeles").format("MMMM Do [of] YYYY [at] h A")} PST\nStatus: ${finished}`, 30, 220)
 
                     //loop throw every top ${numberOfRanks} number
                     for(let i = 0; i < numberOfRanks; i++){

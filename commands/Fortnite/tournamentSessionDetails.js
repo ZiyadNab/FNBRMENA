@@ -135,8 +135,9 @@ module.exports = {
 
                         const diff = moment(moment()).diff(res.data.session.endTime)
                         const diffDuration = moment.duration(diff)
-                        if(diffDuration.days() === 0) finished += `Tournament has finished ${diffDuration.hours()} hours ago`
-                        else finished += `Tournament has finished ${diffDuration.days()} day(s) and ${diffDuration.hours()} hour(s) ago`
+                        if(diffDuration.years() !== 0) finished += `Tournament has finished ${diffDuration.years()} year(s) and ${diffDuration.days()} day(s) ago`
+                        else if(diffDuration.days() !== 0) finished += `Tournament has finished ${diffDuration.days()} day(s) and ${diffDuration.hours()} hour(s) ago`
+                        else finished += `Tournament has finished ${diffDuration.hours()} hours ago`
                     }else if(moment(res.data.session.beginTime).diff(moment()) >= 0 && moment(res.data.session.endTime).diff(moment()) >= 0){
 
                         const diff = moment(res.data.session.beginTime).diff(moment())

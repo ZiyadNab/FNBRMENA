@@ -196,42 +196,101 @@ module.exports = {
                         else rankNumber += `th`
                         ctx.fillText(rankNumber, x + 85, y + 60)
 
-                        //store all the participating players
-                        var playersNames = `${res.data.session.results[i].teamAccountNames[0].name}`
-                        for(let p = 1; p < res.data.session.results[i].teamAccountNames.length; p++){
-                            playersNames += ` - ${res.data.session.results[i].teamAccountNames[p].name}`
+                        //team names
+                        if(res.data.session.results !== null){
+                            //store all the participating players
+                            var playersNames = `${res.data.session.results[i].teamAccountNames[0].name}`
+                            for(let p = 1; p < res.data.session.results[i].teamAccountNames.length; p++){
+                                playersNames += ` - ${res.data.session.results[i].teamAccountNames[p].name}`
+                            }
+
+                            //draw the players names
+                            await applyText(canvas, playersNames)
+                            ctx.fillText(playersNames, x + 600, y + 60)
+
+                        }else if(lang === "en"){
+
+                            //no data available
+                            var playersNames = `No data added yet...`
+
+                            //draw the players names
+                            ctx.font = '45px Burbank Big Condensed'
+                            await applyText(canvas, playersNames)
+                            ctx.fillText(playersNames, x + 600, y + 60)
+
+                        }else if(lang === "ar"){
+
+                            //no data available
+                            var playersNames = `لم تتم اضافة المعلومات حتى الأن...`
+
+                            //draw the players names
+                            ctx.font = '45px Arabic'
+                            await applyText(canvas, playersNames)
+                            ctx.fillText(playersNames, x + 600, y + 60)
                         }
 
-                        //draw the players names
-                        await applyText(canvas, playersNames)
-                        ctx.fillText(playersNames, x + 600, y + 60)
+                        //team game played
+                        if(res.data.session.results !== null){
+                            //draw the match played for a team
+                            ctx.font = '47px Burbank Big Condensed'
+                            ctx.fillText(`${res.data.session.results[i].sessionHistory.length}/${res.data.session.matchCap}`, x + 1157, y + 60)
+                        }else ctx.fillText(`0/${res.data.session.matchCap}`, x + 1157, y + 60)
 
-                        //draw the match played for a team
-                        ctx.font = '47px Burbank Big Condensed'
-                        ctx.fillText(`${res.data.session.results[i].sessionHistory.length}/${res.data.session.matchCap}`, x + 1157, y + 60)
-
-                        //draw the kiils for a team
+                        //team kills
                         var teamKills = 0
-                        for(let p = 0; p < res.data.session.results[i].sessionHistory.length; p++){
-                            teamKills += res.data.session.results[i].sessionHistory[p].trackedStats.TEAM_ELIMS_STAT_INDEX
+                        if(res.data.session.results !== null){
+
+                            //draw the kiils for a team
+                            for(let p = 0; p < res.data.session.results[i].sessionHistory.length; p++){
+                                teamKills += res.data.session.results[i].sessionHistory[p].trackedStats.TEAM_ELIMS_STAT_INDEX
+                            }
                         } ctx.fillText(`${teamKills}`, x + 1400, y + 60)
 
-                        //draw the victory royales for a team
+                        //victory royales
                         var victoryRoyale = 0
-                        for(let p = 0; p < res.data.session.results[i].sessionHistory.length; p++){
-                            victoryRoyale += res.data.session.results[i].sessionHistory[p].trackedStats.VICTORY_ROYALE_STAT
+                        if(res.data.session.results !== null){
+
+                            //draw the victory royales for a team
+                            for(let p = 0; p < res.data.session.results[i].sessionHistory.length; p++){
+                                victoryRoyale += res.data.session.results[i].sessionHistory[p].trackedStats.VICTORY_ROYALE_STAT
+                            } 
                         } ctx.fillText(`${victoryRoyale}`, x + 1640, y + 60)
 
-                        //draw team points
-                        ctx.fillText(`${res.data.session.results[i].pointsEarned}`, x + 1880, y + 60)
+                        //team points
+                        if(res.data.session.results !== null){
 
-                        //get team id (first 5 digit of the id)
-                        var teamIDs = ``
-                        for(let p = 0; p < res.data.session.results[i].teamAccountNames.length; p++){
-                            teamIDs += `${res.data.session.results[i].teamAccountNames[p].id.substring(0, 5)}`
-                        }
-                        ctx.fillText(teamIDs, x + 2225, y + 60)
-                        y += 90 + 20
+                            //draw team points
+                            ctx.fillText(`${res.data.session.results[i].pointsEarned}`, x + 1880, y + 60)
+                        } else ctx.fillText(`0`, x + 1880, y + 60)
+
+                        //team ids
+                        if(res.data.session.results !== null){
+
+                            //get team id (first 5 digit of the id)
+                            var teamIDs = ``
+                            for(let p = 0; p < res.data.session.results[i].teamAccountNames.length; p++){
+                                teamIDs += `${res.data.session.results[i].teamAccountNames[p].id.substring(0, 5)}`
+                            } ctx.fillText(teamIDs, x + 2225, y + 60)
+                            
+                        }else if(lang === "en"){
+
+                            //no data available
+                            var teamIDs = `No data...`
+
+                            //draw the players names
+                            ctx.font = '45px Burbank Big Condensed'
+                            ctx.fillText(teamIDs, x + 2225, y + 60)
+
+                        }else if(lang === "ar"){
+
+                            //no data available
+                            var teamIDs = `لا يوجد معلومات...`
+
+                            //draw the players names
+                            ctx.font = '45px Arabic'
+                            ctx.fillText(teamIDs, x + 2225, y + 60)
+
+                        } y += 90 + 20
 
                     }
 
@@ -241,6 +300,15 @@ module.exports = {
                     msg.delete();
                     
                 })
+
+            }else{
+
+                //no session has been found
+                const Err = new Discord.MessageEmbed()
+                Err.setColor(FNBRMENA.Colors("embed"))
+                if(lang === "en") Err.setTitle(`No session has been found check your window id and try again ${errorEmoji}`)
+                else if(lang === "ar") Err.setTitle(`لا يمكنني العثور على جلسة الرجاء التأكد من كتابة معرف البطولة بشكل صحيح ${errorEmoji}`)
+                message.channel.send(Err)
             }
         })
     }

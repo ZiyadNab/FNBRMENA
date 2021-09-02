@@ -1,17 +1,18 @@
 const Data = require('../../FNBRMENA');
 const FNBRMENA = new Data();
 const moment = require('moment');
+const tz = require('moment-timezone');
 const Canvas = require('canvas');
 
 module.exports = {
-    commands: ['tournament', 'tour'],
-    descriptionEN: 'A command that will return a tier of any season\'s information of a battlepass of your choice from season 2 till current season.',
-    descriptionAR: 'أمر راح يسترجع لك معلومات اي تاير من عناصر الباتل باس بإختيارك من الموسم 2 الى الموسم الحالي.',
-    expectedArgsEN: 'To use the command you need to specifiy a season number from season 2 to latest season.',
-    expectedArgsAR: 'من اجل استخدام الأمر يجب عليك تحديد موسم معين من الموسم الثاني الى الموسم الحالي.',
-    hintEN: 'You can add + then type any tier to start with. \nFor example: tier 2 + 68 that will give you the black knight from season 2',
-    hintAR: 'يمكنك اضافة + ثم رقم المستى للبداية.\nعلى سبيل المثال: tier 2 + 68 راح يعطيك عنصر بلاك نيات من سيزون 2',
-    argsExample: ['2', '14'],
+    commands: ['result', 'res'],
+    descriptionEN: 'A command that will return a top 10 or more in any tournament of your choice',
+    descriptionAR: 'أمر راح يسترجع لك معلومات الأوائل لأي بطولة بأختيارك.',
+    expectedArgsEN: 'To use the command you need to specifiy a tournament window id (you can find it in tournament channel or ask the mods to give you any window id u need).',
+    expectedArgsAR: 'من اجل استخدام الأمر يجب عليك تحديد معرف البطولة لجولة معينة (يمكنك الحصول عليها في شات tournament او اطلب من اي مشرف المعرف الي تحتاجه).',
+    hintEN: 'You can add + then type how many ranks you need. \nFor example: result WorldCup_Duos_Finals + 68 that will give you top 68',
+    hintAR: 'يمكنك اضافة + ثم عدد الأوائل.\nعلى سبيل المثال: result WorldCup_Duos_Finals + 68 راح يعطيك صوره تحتوي على توب 68',
+    argsExample: ['WorldCup_Duos_Finals', 'S17_GalaxyCup_ME_Event1 + 25'],
     minArgs: 1,
     maxArgs: null,
     cooldown: 40,
@@ -130,7 +131,7 @@ module.exports = {
                     ctx.font = '48px Burbank Big Condensed'
                     if(res.data.session.finished) var Finished = `Yes, it did`
                     else var Finished = `No, it didn't`
-                    ctx.fillText(`Match Cap: ${res.data.session.matchCap}\nStarts: ${moment(res.data.session.beginTime).format("MMMM Do [of] YYYY [at] h A")},\nEnds: ${moment(res.data.session.endTime).format("MMMM Do [of] YYYY [at] h A")}\nFinished: ${Finished}`, 30, 220)
+                    ctx.fillText(`Match Cap: ${res.data.session.matchCap}\nStarts: ${moment.tz(res.data.session.beginTime, "America/Los_Angeles").format("MMMM Do [of] YYYY [at] h A")},\nEnds: ${moment.tz(res.data.session.endTime, "America/Los_Angeles").format("MMMM Do [of] YYYY [at] h A")}\nFinished: ${Finished}`, 30, 220)
                     
                     //loop throw every top ${numberOfRanks} number
                     for(let i = 0; i < numberOfRanks; i++){

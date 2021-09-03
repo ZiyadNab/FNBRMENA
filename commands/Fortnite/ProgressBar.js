@@ -302,7 +302,7 @@ module.exports = {
             var left = Ends.diff(Now, "days")
             const length = left + gone
             var crewPercent = (gone / length) * 3000
-            const crew = await Canvas.loadImage('https://imgur.com/7Sp9z5H')
+            const crew = await Canvas.loadImage('https://imgur.com/7Sp9z5H.png')
 
             //adding the gradiant
             var grd = ctx.createLinearGradient(x, 1500, x + 1500, 3000)

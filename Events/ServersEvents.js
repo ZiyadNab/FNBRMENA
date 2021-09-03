@@ -23,11 +23,11 @@ module.exports = (client, admin) => {
             if(status){
 
                 //request the token
-                const token = await axios.get('https://api.nitestats.com/v1/epic/bearer')
+                const docRef = await admin.firestore().collection("authToken").doc("0").get()
 
                 //request data
                 await axios.get('http://lightswitch-public-service-prod.ol.epicgames.com/lightswitch/api/service/fortnite/status',
-                {headers: {'Content-Type': 'application/json','Authorization': `Bearer ${token.data.accessToken}`}})
+                {headers: {'Content-Type': 'application/json','Authorization': `Bearer ${docRef.data().accessToken.access_token}`}})
                 .then(async res => {
 
                     if(number === 0){

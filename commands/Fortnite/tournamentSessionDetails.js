@@ -353,7 +353,7 @@ module.exports = {
                                 var Payouts = ``
                                 for(let s = 0; s < res.data.session.payout[p].ranks[r].payouts.length; s++){
                                     if(lang === "en") Payouts += `\`Reward Number: ${s + 1}\nReward Type: ${res.data.session.payout[p].ranks[r].payouts[s].rewardType}\nReward: ${res.data.session.payout[p].ranks[r].payouts[s].quantity}x ${res.data.session.payout[p].ranks[r].payouts[s].value}\`\n\n`
-                                    else if(lang === "ar") Payouts += `\`رقم الجائزة: ${s + 1}\nنوع الجائزة: ${res.data.session.payout[p].ranks[r].payouts[s].rewardType}\الجائزة: ${res.data.session.payout[p].ranks[r].payouts[s].quantity}x ${res.data.session.payout[p].ranks[r].payouts[s].value}\`\n\n`
+                                    else if(lang === "ar") Payouts += `\`رقم الجائزة: ${s + 1}\nنوع الجائزة: ${res.data.session.payout[p].ranks[r].payouts[s].rewardType}\nالجائزة: ${res.data.session.payout[p].ranks[r].payouts[s].quantity}x ${res.data.session.payout[p].ranks[r].payouts[s].value}\`\n\n`
                                 }
 
                                 //add field

@@ -333,9 +333,45 @@ module.exports = {
 
                     }
 
+                    // //inislizing embed
+                    const sessionInfo = new Discord.MessageEmbed()
+                    sessionInfo.setColor(searchedContentTournamentObj[0].background_left_color)
+
+                    //if there is payout
+                    if(res.data.session.payout !== null){
+
+                        //loop threw payouts
+                        for(let p = 0; p < res.data.session.payout.length; p++){
+
+                            //loop throw ranks
+                            for(let r = 0; r < res.data.session.payout[p].ranks.length; r++){
+
+                                //loop throw payouts
+                                var Payouts = ``
+                                for(let s = 0; s < res.data.session.payout[p].ranks[r].payouts.length; s++){
+                                    if(lang === "en") Payouts += `\`Reward Number: ${s + 1}\nReward Type: ${res.data.session.payout[p].ranks[r].payouts[s].rewardType}\nReward: ${res.data.session.payout[p].ranks[r].payouts[s].quantity}x ${res.data.session.payout[p].ranks[r].payouts[s].value}\`\n\n`
+                                    else if(lang === "ar") Payouts += `\`رقم الجائزة: ${s + 1}\nنوع الجائزة: ${res.data.session.payout[p].ranks[r].payouts[s].rewardType}\الجائزة: ${res.data.session.payout[p].ranks[r].payouts[s].quantity}x ${res.data.session.payout[p].ranks[r].payouts[s].value}\`\n\n`
+                                }
+
+                                //add field
+                                Payouts += `\n`
+                                if(lang === "en"){
+                                    sessionInfo.addFields(
+                                        {name: `Top ${res.data.session.payout[p].ranks[r].threshold} will get:\n`, value: Payouts}
+                                    )
+                                }else if(lang === "ar"){
+                                    sessionInfo.addFields(
+                                        {name: `أول ${res.data.session.payout[p].ranks[r].threshold} راح يحصلون على:\n`, value: Payouts}
+                                    )
+                                }
+                            }
+                        }
+                    }
+
                     //send
                     const att = new Discord.MessageAttachment(canvas.toBuffer(), `${res.data.session.windowId}.png`);
                     await message.channel.send(att);
+                    await message.channel.send(sessionInfo);
                     msg.delete();
                     
                 })

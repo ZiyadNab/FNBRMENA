@@ -22,6 +22,9 @@ module.exports = {
         //get the user language from the database
         const lang = await FNBRMENA.Admin(admin, message, "", "Lang");
 
+        //change moment language
+        moment.locale("en");
+
         //if the user added a numberOfRanks
         let numberOfRanks = 10;
         if(text.includes("+")){

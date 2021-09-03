@@ -129,7 +129,7 @@ module.exports = {
 
                         const diff = moment(res.data.session.endTime).diff(moment())
                         const diffDuration = moment.duration(diff)
-                        if(diffDuration.minutes() > 9) finished += `The current data is live at the moment, Time Remaining: 0${diffDuration.hours()}:${diffDuration.minutes()} hours`
+                        if(diffDuration.minutes() > 9) finished += `The current data is live at the moment,\nTime Remaining: 0${diffDuration.hours()}:${diffDuration.minutes()} hours`
                         else finished += `The current data is live at the moment,\nTime Remaining: 0${diffDuration.hours()}:0${diffDuration.minutes()} hours`
                     }else if(moment(res.data.session.beginTime).diff(moment()) <= 0 && moment(res.data.session.endTime).diff(moment()) <= 0){
 
@@ -372,12 +372,12 @@ module.exports = {
                         await message.channel.send(att);
                         await message.channel.send(sessionInfo);
                         msg.delete();
-                        
+
                     }else{
+
                         //send
                         const att = new Discord.MessageAttachment(canvas.toBuffer(), `${res.data.session.windowId}.png`);
                         await message.channel.send(att);
-                        await message.channel.send(sessionInfo);
                         msg.delete();
                     }
                 })

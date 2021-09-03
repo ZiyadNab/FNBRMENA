@@ -270,7 +270,7 @@ module.exports = {
                     var grd = ctx.createLinearGradient(x, 1500, x + 1500, 3000)
 
                     //get the object image
-                    const objectIcon = await Canvas.loadImage(`./assets/Bar/${data.Path}.png`)
+                    const objectIcon = await Canvas.loadImage(data.Image)
 
                     //inisilizing gone, left & objectPercent
                     const gone = Now.diff(moment(data.Starts), "days") 
@@ -302,7 +302,7 @@ module.exports = {
             var left = Ends.diff(Now, "days")
             const length = left + gone
             var crewPercent = (gone / length) * 3000
-            const crew = await Canvas.loadImage('./assets/Bar/crewEN.png')
+            const crew = await Canvas.loadImage('https://imgur.com/7Sp9z5H')
 
             //adding the gradiant
             var grd = ctx.createLinearGradient(x, 1500, x + 1500, 3000)

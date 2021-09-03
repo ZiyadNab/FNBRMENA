@@ -125,12 +125,12 @@ module.exports = {
 
                     //if the tournament is live or not
                     var finished = ``
-                    const red = client.emojis.cache.get("855805718779002899")
                     if(moment(res.data.session.beginTime).diff(moment()) <= 0 && moment(res.data.session.endTime).diff(moment()) >= 0){
 
                         const diff = moment(res.data.session.endTime).diff(moment())
                         const diffDuration = moment.duration(diff)
-                        finished += `The current data is live at the moment (updates 10 minutes) ${red}\nTime Remaining: ${diffDuration.hours()}:${diffDuration.minutes()} hours`
+                        if(diffDuration.minutes() > 9) finished += `The current data is live at the moment, Time Remaining: 0${diffDuration.hours()}:${diffDuration.minutes()} hours`
+                        else finished += `The current data is live at the moment, Time Remaining: 0${diffDuration.hours()}:0${diffDuration.minutes()} hours`
                     }else if(moment(res.data.session.beginTime).diff(moment()) <= 0 && moment(res.data.session.endTime).diff(moment()) <= 0){
 
                         const diff = moment(moment()).diff(res.data.session.endTime)
@@ -338,7 +338,7 @@ module.exports = {
                     sessionInfo.setColor(searchedContentTournamentObj[0].background_left_color)
 
                     //if there is payout
-                    if(res.data.session.payout !== null){
+                    if(res.data.session.payout !== null && res.data.session.payout.length !== 0){
 
                         //loop threw payouts
                         for(let p = 0; p < res.data.session.payout.length; p++){

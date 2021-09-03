@@ -167,7 +167,7 @@ module.exports = {
                 else if(lang === "ar") ctx.font = '60px Arabic'
 
                 //objectIcon
-                ctx.drawImage(objectIcon, x - 220, y - 20, 210, 210)
+                if(objectIcon !== 'no data') ctx.drawImage(objectIcon, x - 220, y - 20, 210, 210)
 
                 //add the line background color to ctx
                 ctx.fillStyle = "white"
@@ -270,7 +270,8 @@ module.exports = {
                     var grd = ctx.createLinearGradient(x, 1500, x + 1500, 3000)
 
                     //get the object image
-                    const objectIcon = await Canvas.loadImage(data.Image)
+                    if(data.Image.includes('/')) var objectIcon = await Canvas.loadImage(data.Image)
+                    else var objectIcon = 'no data'
 
                     //inisilizing gone, left & objectPercent
                     const gone = Now.diff(moment(data.Starts), "days") 

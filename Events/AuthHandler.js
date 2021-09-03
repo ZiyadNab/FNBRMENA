@@ -74,7 +74,24 @@ module.exports = async (FNBRMENA, client, admin) => {
                             message.send(success)
 
                         }).catch(async err => {
-                            console.log(err.response.data)
+                            
+                            let string = "\`\`\`yaml\n"
+                            for(let i = 0; i < Object.keys(err.response.data).length; i++){
+                                string += `${Object.keys(err.response.data)[i]}: ${Object.entries(err.response.data)[i][1]}\n`
+                            }
+                            string += "\`\`\`"
+
+                            //faild to create new access token
+                            const faild = new Discord.MessageEmbed()
+
+                            //set color
+                            faild.setColor(FNBRMENA.Colors("embed"))
+
+                            //set description
+                            faild.setDescription(`An error has occurred while creating a new access token:\n\n${string}`)
+
+                            //send
+                            message.send(faild)
                         })
 
                     }).catch(async err => {

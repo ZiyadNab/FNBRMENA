@@ -130,7 +130,7 @@ module.exports = {
                         const diff = moment(res.data.session.endTime).diff(moment())
                         const diffDuration = moment.duration(diff)
                         if(diffDuration.minutes() > 9) finished += `The current data is live at the moment, Time Remaining: 0${diffDuration.hours()}:${diffDuration.minutes()} hours`
-                        else finished += `The current data is live at the moment, Time Remaining: 0${diffDuration.hours()}:0${diffDuration.minutes()} hours`
+                        else finished += `The current data is live at the moment,\nTime Remaining: 0${diffDuration.hours()}:0${diffDuration.minutes()} hours`
                     }else if(moment(res.data.session.beginTime).diff(moment()) <= 0 && moment(res.data.session.endTime).diff(moment()) <= 0){
 
                         const diff = moment(moment()).diff(res.data.session.endTime)
@@ -333,12 +333,12 @@ module.exports = {
 
                     }
 
-                    // //inislizing embed
-                    const sessionInfo = new Discord.MessageEmbed()
-                    sessionInfo.setColor(searchedContentTournamentObj[0].background_left_color)
-
                     //if there is payout
                     if(res.data.session.payout !== null && res.data.session.payout.length !== 0){
+
+                        //inislizing embed
+                        const sessionInfo = new Discord.MessageEmbed()
+                        sessionInfo.setColor(searchedContentTournamentObj[0].background_left_color)
 
                         //loop threw payouts
                         for(let p = 0; p < res.data.session.payout.length; p++){
@@ -366,14 +366,20 @@ module.exports = {
                                 }
                             }
                         }
-                    }
 
-                    //send
-                    const att = new Discord.MessageAttachment(canvas.toBuffer(), `${res.data.session.windowId}.png`);
-                    await message.channel.send(att);
-                    await message.channel.send(sessionInfo);
-                    msg.delete();
-                    
+                        //send
+                        const att = new Discord.MessageAttachment(canvas.toBuffer(), `${res.data.session.windowId}.png`);
+                        await message.channel.send(att);
+                        await message.channel.send(sessionInfo);
+                        msg.delete();
+                        
+                    }else{
+                        //send
+                        const att = new Discord.MessageAttachment(canvas.toBuffer(), `${res.data.session.windowId}.png`);
+                        await message.channel.send(att);
+                        await message.channel.send(sessionInfo);
+                        msg.delete();
+                    }
                 })
 
             }else{

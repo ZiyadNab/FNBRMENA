@@ -38,34 +38,33 @@ module.exports = {
                     //send the generating message
                     const generating = new Discord.MessageEmbed()
                     generating.setColor(FNBRMENA.Colors("embed"))
-                    if(lang === "en") generating.setTitle(`Loading the emote information ${loadingEmoji}`)
-                    else if(lang === "ar") generating.setTitle(`جاري تحميل بيانات الرقصة ${loadingEmoji}`)
+                    if(lang === "en") generating.setTitle(`Loading the ${res.data.items[0].name}... ${loadingEmoji}`)
+                    else if(lang === "ar") generating.setTitle(`جاري تحميل بيانات ${res.data.items[0].name}... ${loadingEmoji}`)
                     message.channel.send(generating)
                     .then( async msg => {
 
-                        //send attatchment
-                        const att = await new Discord.MessageAttachment(res.data.items[0].video)
+                        try{
+                            //send attatchment
+                            const att = await new Discord.MessageAttachment(res.data.items[0].video)
 
-                        //send the emote video
-                        await message.channel.send(att)
-                        msg.delete()
+                            //send the emote video
+                            await message.channel.send(att)
+                            msg.delete()
+
+                        }catch{
+
+                            //send the emote video
+                            await message.channel.send(res.data.items[0].video)
+                            msg.delete()
+                        }
                     })
                 }else{
 
                     //create embed
                     const err = new Discord.MessageEmbed()
-
-                    //add the color
                     err.setColor(FNBRMENA.Colors("embed"))
-
-                    //set the title
-                    if(lang === "en"){
-                        err.setTitle(`There is no video for this emote yet ${errorEmoji}`)
-                    }else if(lang === "ar"){
-                        err.setTitle(`لا يوجد فيديو للرقصة حاليا ${errorEmoji}`)
-                    }
-
-                    //send the error message
+                    if(lang === "en") err.setTitle(`There is no video for ${res.data.items[0].name} yet ${errorEmoji}`)
+                    else if(lang === "ar") err.setTitle(`لا يوجد فيديو لرقصة ${res.data.items[0].name} ${errorEmoji}`)
                     message.channel.send(err)
                 }
             }else{
@@ -81,6 +80,12 @@ module.exports = {
 
         }).catch(err => {
 
+            //request error
+            const Err = new Discord.MessageEmbed()
+            Err.setColor(FNBRMENA.Colors("embed"))
+            if(lang === "en") Err.setTitle(`An error happened while getting the data please try again later. ${errorEmoji}`)
+            else if(lang === "ar") Err.setTitle(`عذرا. لقد حدث مشكلة اثناء استخراج البيانات الرجاء المحاولةة لاحقا ${errorEmoji}`)
+            message.channel.send(Err)
         })
     }
 }

@@ -119,10 +119,10 @@ module.exports = {
                             //collection
                             if(lang === "en"){
                                 ctx.font = '200px Burbank Big Condensed'
-                                ctx.fillText("Fish Collection", canvas.width / 2, 180)
+                                ctx.fillText("Fish Collection", canvas.width / 2, 190)
                             }else if(lang === "ar"){
                                 ctx.font = '200px Arabic'
-                                ctx.fillText("احصائيات السمك", canvas.width / 2, 180)
+                                ctx.fillText("احصائيات السمك", canvas.width / 2, 190)
                             }
 
                             //finding his last season stats

@@ -92,11 +92,11 @@ module.exports = {
 
                             //background
                             const background = await Canvas.loadImage(imagesList[randomImage])
-                            ctx.drawImage(background, 0, 0, canvas.width, canvas.width)
+                            ctx.drawImage(background, 0, 0, canvas.width, canvas.height)
 
                             //add blue fog
                             const fog = await Canvas.loadImage('./assets/News/fog.png')
-                            ctx.drawImage(fog, 0, 0, canvas.width, canvas.width)
+                            ctx.drawImage(fog, 0, 0, canvas.width, canvas.height)
 
                             //credits
                             ctx.fillStyle = '#ffffff';

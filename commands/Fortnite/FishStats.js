@@ -27,7 +27,7 @@ module.exports = {
         if(text.includes("+")){
 
             //extract the music pack from the text string
-            var playerTag = text.substring(0, text.indexOf("+"))
+            var playerTag = text.substring(0, text.indexOf("+")).trim()
             season = text.substring(text.indexOf("+") + 1, text.length).trim()
  
         } else var playerTag = text
@@ -237,6 +237,17 @@ module.exports = {
                             //font color
                             ctx.fillStyle = '#ffffff';
 
+                            //season number
+                            if(lang === "en"){
+                                ctx.textAlign='left';
+                                ctx.font = '40px Burbank Big Condensed'
+                                ctx.fillText(`Season: ${listFish.data.season}`, 50, canvas.height - 250)
+                            }else if(lang === "ar"){
+                                ctx.textAlign='right';
+                                ctx.font = '40px Arabic'
+                                ctx.fillText(`الموسم: ${listFish.data.season}`, canvas.width - 50, canvas.height - 250)
+                            }
+
                             //name of the epic games user account
                             if(lang === "en"){
                                 ctx.textAlign='left';
@@ -256,7 +267,7 @@ module.exports = {
                             }else if(lang === "ar"){
                                 ctx.textAlign='right';
                                 ctx.font = '40px Arabic'
-                                ctx.fillText(`لفل الحساب: ${level.data.data.battlePass.level.data}`, canvas.width - 50, canvas.height - 150)
+                                ctx.fillText(`لفل الحساب: ${level.data.data.battlePass.level}`, canvas.width - 50, canvas.height - 150)
                             }
 
                             //counter
@@ -284,8 +295,8 @@ module.exports = {
                             else if(lang === "ar") Err.setTitle(`الموسم ${season} غير صحيح الرجاء ادخال رقم موسم صحيح ${errorEmoji}`)
                             message.reply(Err)
                         }
-                    })
-                })
+                    }).catch(err => console.log(err))
+                }).catch(err => console.log(err))
                 
             }else{
                 const Err = new Discord.MessageEmbed()

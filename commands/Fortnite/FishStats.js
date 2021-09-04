@@ -241,44 +241,44 @@ module.exports = {
                             if(lang === "en"){
                                 ctx.textAlign='left';
                                 ctx.font = '40px Burbank Big Condensed'
-                                ctx.fillText(`Season: ${listFish.data.season}`, 50, canvas.height - 250)
+                                ctx.fillText(`Season: ${listFish.data.season}`, 50, canvas.height - 200)
                             }else if(lang === "ar"){
                                 ctx.textAlign='right';
                                 ctx.font = '40px Arabic'
-                                ctx.fillText(`الموسم: ${listFish.data.season}`, canvas.width - 50, canvas.height - 250)
+                                ctx.fillText(`الموسم: ${listFish.data.season}`, canvas.width - 50, canvas.height - 200)
                             }
 
                             //name of the epic games user account
                             if(lang === "en"){
                                 ctx.textAlign='left';
                                 ctx.font = '40px Burbank Big Condensed'
-                                ctx.fillText(`Account Name: ${level.data.data.account.name}`, 50, canvas.height - 200)
+                                ctx.fillText(`Account Name: ${level.data.data.account.name}`, 50, canvas.height - 150)
                             }else if(lang === "ar"){
                                 ctx.textAlign='right';
                                 ctx.font = '40px Arabic'
-                                ctx.fillText(`اسم الحساب: ${level.data.data.account.name}`, canvas.width - 50, canvas.height - 200)
+                                ctx.fillText(`اسم الحساب: ${level.data.data.account.name}`, canvas.width - 50, canvas.height - 150)
                             }
 
                             //account level
                             if(lang === "en"){
                                 ctx.textAlign='left';
                                 ctx.font = '40px Burbank Big Condensed'
-                                ctx.fillText(`Account Level: ${level.data.data.battlePass.level}`, 50, canvas.height - 150)
+                                ctx.fillText(`Account Level: ${level.data.data.battlePass.level}`, 50, canvas.height - 100)
                             }else if(lang === "ar"){
                                 ctx.textAlign='right';
                                 ctx.font = '40px Arabic'
-                                ctx.fillText(`لفل الحساب: ${level.data.data.battlePass.level}`, canvas.width - 50, canvas.height - 150)
+                                ctx.fillText(`لفل الحساب: ${level.data.data.battlePass.level}`, canvas.width - 50, canvas.height - 100)
                             }
 
                             //counter
                             if(lang === "en"){
                                 ctx.textAlign='left';
                                 ctx.font = '40px Burbank Big Condensed'
-                                ctx.fillText(`Fish Caught: ${counter}/${listFish.data.fish.length}`, 50, canvas.height - 100)
+                                ctx.fillText(`Fish Caught: ${counter}/${listFish.data.fish.length}`, 50, canvas.height - 50)
                             }else if(lang === "ar"){
                                 ctx.textAlign='right';
                                 ctx.font = '40px Arabic'
-                                ctx.fillText(`عدد السمك المصطاده: ${counter}/${listFish.data.fish.length}`, canvas.width - 50, canvas.height - 100)
+                                ctx.fillText(`عدد السمك المصطاده: ${counter}/${listFish.data.fish.length}`, canvas.width - 50, canvas.height - 50)
                             }
 
                             //send the fish stats picture

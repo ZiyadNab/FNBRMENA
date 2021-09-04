@@ -86,6 +86,68 @@ class FNBRMENA {
     }
 
     /**
+     * Return the fish history
+     * 
+     * @param {String} Season
+     * @param {String} Lang
+     * @example
+     * FNBRMENA.listFish(Season, Lang)
+     * .then(async res => {
+     * 
+     *        //you will get a response weather the requested data has been found or not
+     * 
+     * })
+     * 
+     */
+     async listFish(Season, Lang){
+
+        //request the data and return the response
+        return await axios.get(`https://fortniteapi.io/v1/loot/fish?lang=${Lang}&season=${Season}`, { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
+
+    }
+
+    /**
+     * Return the user fish history
+     * 
+     * @param {String} playerID
+     * @param {String} Lang
+     * @example
+     * FNBRMENA.getPlayerFishStats(playerID, Lang)
+     * .then(async res => {
+     * 
+     *        //you will get a response weather the requested data has been found or not
+     * 
+     * })
+     * 
+     */
+     async getPlayerFishStats(playerID, Lang){
+
+        //request the data and return the response
+        return await axios.get(`https://fortniteapi.io/v1/stats/fish?accountId=${playerID}&lang=${Lang}`, { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
+
+    }
+
+    /**
+     * Return searched user ID
+     * 
+     * @param {String} PlayerTag
+     * @example
+     * FNBRMENA.getAccountIdByUsername(PlayerTag)
+     * .then(async res => {
+     * 
+     *        //you will get a response weather the requested data has been found or not
+     * 
+     * })
+     * 
+     */
+     async getAccountIdByUsername(playerTag){
+
+        //request the data and return the response
+        return await axios.get(`https://fortniteapi.io/v1/lookup?username=${playerTag}`, { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
+
+    }
+
+    /**
      * Return data about the crew
      * 
      * @param {String} SessionID

@@ -119,10 +119,10 @@ module.exports = {
                             //collection
                             if(lang === "en"){
                                 ctx.font = '200px Burbank Big Condensed'
-                                ctx.fillText("Fish Collection", canvas.width / 2, 190)
+                                ctx.fillText("Fish Collection", canvas.width / 2, 200)
                             }else if(lang === "ar"){
                                 ctx.font = '200px Arabic'
-                                ctx.fillText("احصائيات السمك", canvas.width / 2, 190)
+                                ctx.fillText("احصائيات السمك", canvas.width / 2, 200)
                             }
 
                             //finding his last season stats
@@ -241,33 +241,33 @@ module.exports = {
                             if(lang === "en"){
                                 ctx.textAlign='left';
                                 ctx.font = '40px Burbank Big Condensed'
-                                ctx.fillText(`Season: ${listFish.data.season}`, 50, canvas.height - 200)
+                                ctx.fillText(`Season: ${listFish.data.season}`, 50, canvas.height - 170)
                             }else if(lang === "ar"){
                                 ctx.textAlign='right';
                                 ctx.font = '40px Arabic'
-                                ctx.fillText(`الموسم: ${listFish.data.season}`, canvas.width - 50, canvas.height - 200)
+                                ctx.fillText(`الموسم: ${listFish.data.season}`, canvas.width - 50, canvas.height - 170)
                             }
 
                             //name of the epic games user account
                             if(lang === "en"){
                                 ctx.textAlign='left';
                                 ctx.font = '40px Burbank Big Condensed'
-                                ctx.fillText(`Account Name: ${level.data.data.account.name}`, 50, canvas.height - 150)
+                                ctx.fillText(`Account Name: ${level.data.data.account.name}`, 50, canvas.height - 130)
                             }else if(lang === "ar"){
                                 ctx.textAlign='right';
                                 ctx.font = '40px Arabic'
-                                ctx.fillText(`اسم الحساب: ${level.data.data.account.name}`, canvas.width - 50, canvas.height - 150)
+                                ctx.fillText(`اسم الحساب: ${level.data.data.account.name}`, canvas.width - 50, canvas.height - 130)
                             }
 
                             //account level
                             if(lang === "en"){
                                 ctx.textAlign='left';
                                 ctx.font = '40px Burbank Big Condensed'
-                                ctx.fillText(`Account Level: ${level.data.data.battlePass.level}`, 50, canvas.height - 100)
+                                ctx.fillText(`Account Level: ${level.data.data.battlePass.level}`, 50, canvas.height - 90)
                             }else if(lang === "ar"){
                                 ctx.textAlign='right';
                                 ctx.font = '40px Arabic'
-                                ctx.fillText(`لفل الحساب: ${level.data.data.battlePass.level}`, canvas.width - 50, canvas.height - 100)
+                                ctx.fillText(`لفل الحساب: ${level.data.data.battlePass.level}`, canvas.width - 50, canvas.height - 90)
                             }
 
                             //counter

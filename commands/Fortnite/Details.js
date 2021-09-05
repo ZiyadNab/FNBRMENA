@@ -370,7 +370,6 @@ module.exports = {
                             }
                         }
 
-                        console.log(styles)
                         //if there is a style in the files
                         if(styles.length !== 0){
 
@@ -1081,7 +1080,7 @@ module.exports = {
 
                                     //set the item info
                                     var name = styles[i].name
-                                    if(res.data.items[num].description !== "") var description = res.data.items[num].description
+                                    if(styles[i].description !== "") var description = styles[i].description
                                     else if(lang === "en") var description = "There is no description to this item"
                                     else if(lang === "ar") var description = "لا يوجد وصف للعنصر"
                                     var image = styles[i].images.icon

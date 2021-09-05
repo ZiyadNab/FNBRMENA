@@ -20,7 +20,7 @@ module.exports = {
         var num = 0
 
         //request crew data
-        FNBRMENA.Crew(lang)
+        FNBRMENA.Crew("list", lang)
         .then(async res => {
 
             //create embed
@@ -30,9 +30,9 @@ module.exports = {
             crewEmbed.setColor(FNBRMENA.Colors("embed"))
 
             //create and fill a string of names
-            var str = ""
-            for(let i = 0; i < res.data.length; i++){
-                str += `• ${i}: ${res.data[i].rewards[0].item.name}\n`
+            var str = ``
+            for(let i = 0; i < res.data.history.length; i++){
+                str += `• ${i}: ${res.data.history[i].rewards[0].item.name}\n`
             }
 
             //add description
@@ -62,7 +62,7 @@ module.exports = {
                         notify.delete()
 
                         //if the user input in range
-                        if(await collected.first().content >= 0 && collected.first().content < res.data.length){
+                        if(await collected.first().content >= 0 && collected.first().content < res.data.history.length){
 
                             //store user input
                             num = await collected.first().content
@@ -99,9 +99,12 @@ module.exports = {
                 })
             })
 
+            //ensure that yet still no errors 
             if(handleErrors === 0){
 
-                if(res.data[num] !== undefined){
+                //if the num index is a valid index
+                if(res.data.history[num] !== undefined){
+
                     //send the generating message
                     const generating = new Discord.MessageEmbed()
                     generating.setColor(FNBRMENA.Colors("embed"))
@@ -110,9 +113,9 @@ module.exports = {
                     message.channel.send(generating)
                     .then( async msg => {
 
-                        var year = res.data[num].date.substring(0, 4)
-                        var month = res.data[num].date.substring(5, 7)
-                        var day = res.data[num].date.substring(8, 10)
+                        var year = res.data.history[num].date.substring(0, 4)
+                        var month = res.data.history[num].date.substring(5, 7)
+                        var day = res.data.history[num].date.substring(8, 10)
 
                         //the crew data has been found lets cread an embed
                         const crewData = new Discord.MessageEmbed()
@@ -125,13 +128,13 @@ module.exports = {
                         else if(lang === "ar") crewData.setTitle(`حزمة طاقم فورت نايت لشهر ${month} سنه ${year}`)
 
                         //add url
-                        crewData.setURL(res.data[num].video)
+                        crewData.setURL(res.data.history[num].video)
 
                         //add image
-                        crewData.setImage(res.data[num].images.apiRender)
+                        crewData.setImage(res.data.history[num].images.apiRender)
 
                         //creating length
-                        var length = res.data[num].rewards.length
+                        var length = res.data.history[num].rewards.length
 
                         //variables
                         var width = 0
@@ -147,7 +150,7 @@ module.exports = {
                         else if(length > 50 && length < 70) length = length / 7
                         else length = length / 10
 
-                        if (length % 2 !== 0){
+                        if(length % 2 !== 0){
                             length += 1;
                             length = length | 0
                         }
@@ -156,7 +159,7 @@ module.exports = {
                         width += (length * 1024) + (length * 10) - 10
 
                         //creating height
-                        for(let i = 0; i < res.data[num].rewards.length; i++){
+                        for(let i = 0; i < res.data.history[num].rewards.length; i++){
                             
                             if(newline === length){
                                 height += 1024 + 10
@@ -202,26 +205,23 @@ module.exports = {
                         //add the background
                         ctx.fillRect(0, 0, canvas.width, canvas.height)
 
-                        //res.dataet newline
+                        //res.data.historyet newline
                         newline = 0
 
                         //items
-                        for(let i = 0; i < res.data[num].rewards.length; i++){
+                        for(let i = 0; i < res.data.history[num].rewards.length; i++){
 
-                            var name = res.data[num].rewards[i].item.name
-                            var description = res.data[num].rewards[i].item.description
-                            if(res.data[num].rewards[i].item.series !== null) var rarity = res.data[num].rewards[i].item.series.id
-                            else var rarity = res.data[num].rewards[i].item.rarity.id
-                            if(res.data[num].rewards[i].item.images.featured !== null && res.data[num].rewards[i].item.type.id !== "loadingscreen")
-                            var image = res.data[num].rewards[i].item.images.featured
-                            else var image = res.data[num].rewards[i].item.images.icon
+                            var name = res.data.history[num].rewards[i].item.name
+                            var description = res.data.history[num].rewards[i].item.description
+                            if(res.data.history[num].rewards[i].item.series !== null) var rarity = res.data.history[num].rewards[i].item.series.id
+                            else var rarity = res.data.history[num].rewards[i].item.rarity.id
+                            if(res.data.history[num].rewards[i].item.images.featured !== null && res.data.history[num].rewards[i].item.type.id !== "loadingscreen")
+                            var image = res.data.history[num].rewards[i].item.images.featured
+                            else var image = res.data.history[num].rewards[i].item.images.icon
                             newline++
 
                             //remove any lines
                             description = description.replace("\r\n", "")
-
-                            //request more data
-                            const data = await FNBRMENA.Search(lang, "id", res.data[num].rewards[i].item.id)
 
                             //add introduces and set string
                             if(data.data.items[0].introduction !== null) description += `\n${data.data.items[0].introduction.text}`

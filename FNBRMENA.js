@@ -152,7 +152,7 @@ class FNBRMENA {
     }
 
     /**
-     * Return data about the crew
+     * Return data about the tournaments sessions
      * 
      * @param {String} SessionID
      * @example
@@ -166,8 +166,33 @@ class FNBRMENA {
      */
      async Replays(SessionID){
 
-        //request the datat and return the response
+        //request the data and return the response
         return await axios.get(`https://fortniteapi.io/v1/events/replay?session=${SessionID}`, { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
+
+    }
+
+    /**
+     * Return data about the crew
+     * 
+     * @param {String} Type
+     * @param {String} Lang
+     * @example
+     * FNBRMENA.Crew(text)
+     * .then(async res => {
+     * 
+     *        //you will get a response weather the requested data has been found or not
+     * 
+     * })
+     * 
+     */
+     async Crew(Type, Lang){
+
+        //request the data and return the response
+        if(Type === "list") //return all the crew data
+        return await axios.get(`https://fortniteapi.io/v2/crew/history?lang=${Lang}`, { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
+
+        else if(Type === "active") //return the active crew
+        return await axios.get(`https://fortniteapi.io/v2/crew?lang=${Lang}`, { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
 
     }
 
@@ -279,16 +304,6 @@ class FNBRMENA {
 
         //return the crew data
         return await axios.get(`https://fortniteapi.io/v1/game/modes?lang=${Lang}&enabled=true`, { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
-    }
-
-    /**
-     * Return data about the crew
-     * 
-     * @param {String} Lang
-     * 
-     */
-    async Crew(Lang){
-        return await axios.get(`https://fortniteapi.io/v2/game/crew?lang=${Lang}`, { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
     }
 
     /**

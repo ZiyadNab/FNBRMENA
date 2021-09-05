@@ -142,7 +142,7 @@ module.exports = {
                                 //defined catchedFish
                                 var catchedFish = []
 
-                                if(res.data.stats[statSeasonIndex].season !== undefined){
+                                if(res.data.stats.length !== 0){
                                     if(listFish.data.season === res.data.stats[statSeasonIndex].season){
 
                                         //loop throw evry fish that the user owns

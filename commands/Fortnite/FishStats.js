@@ -124,10 +124,12 @@ module.exports = {
 
                             //finding his last season stats
                             var statSeasonIndex = 0
-                            for(let seasonIndex = 0; seasonIndex < res.data.stats.length; seasonIndex++){
-                                if(await listFish.data.season === res.data.stats[seasonIndex].season){
-                                    statSeasonIndex = seasonIndex
-                                    break
+                            if(res.data.stats.length !== 0){
+                                for(let seasonIndex = 0; seasonIndex < res.data.stats.length; seasonIndex++){
+                                    if(await listFish.data.season === res.data.stats[seasonIndex].season){
+                                        statSeasonIndex = seasonIndex
+                                        break
+                                    }
                                 }
                             }
                             
@@ -140,12 +142,14 @@ module.exports = {
                                 //defined catchedFish
                                 var catchedFish = []
 
-                                if(listFish.data.season === res.data.stats[statSeasonIndex].season){
+                                if(res.data.stats[statSeasonIndex].season !== undefined){
+                                    if(listFish.data.season === res.data.stats[statSeasonIndex].season){
 
-                                    //loop throw evry fish that the user owns
-                                    catchedFish = res.data.stats[statSeasonIndex].fish.filter(found => {
-                                        return found.type.toLowerCase() === listFish.data.fish[j].id.toLowerCase()
-                                    })
+                                        //loop throw evry fish that the user owns
+                                        catchedFish = res.data.stats[statSeasonIndex].fish.filter(found => {
+                                            return found.type.toLowerCase() === listFish.data.fish[j].id.toLowerCase()
+                                        })
+                                    }
                                 }
 
                                 //if we found a hit

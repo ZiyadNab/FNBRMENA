@@ -1,8 +1,6 @@
-const axios = require('axios')
 const Discord = require('discord.js')
 const config = require('../Coinfigs/config.json')
 const moment = require('moment')
-const probe = require('probe-image-size')
 const Canvas = require('canvas')
 
 
@@ -17,11 +15,9 @@ module.exports = (FNBRMENA, client, admin) => {
 
         //checking if the bot on or off
         admin.database().ref("ERA's").child("Events").child("section").once('value', async function (data) {
-
-            //store access
-            var status = data.val().Active
-            var lang = data.val().Lang
-            var push = data.val().Push
+            const status = data.val().Active
+            const lang = data.val().Lang
+            const push = data.val().Push
 
             //if the event is set to be true [ON]
             if(status){
@@ -31,21 +27,8 @@ module.exports = (FNBRMENA, client, admin) => {
                 .then(async res => {
 
                     //get the index of current sections
-                    let index
-                    if(res.data.list.length === 1) index = 0
-                    else if(res.data.list.length === 2){
-
-                        //loop throw every list
-                        for(let i = 0; i < res.data.list.length; i++){
-                            
-                            //if the list has a tag NEXT
-                            if(res.data.list[i].apiTag === "next"){
-
-                                //get the index of next sections
-                                index = i
-                            }
-                        }
-                    }
+                    if(res.data.list.length === 1) var index = 0
+                    else if(res.data.list.length === 2) var index = 1
 
                     //store the data if the bot got restarted
                     if(number === 0){
@@ -70,14 +53,6 @@ module.exports = (FNBRMENA, client, admin) => {
                         
                         //get the sections data from database
                         const SectionsData = await FNBRMENA.Admin(admin, message, "", "ShopSections")
-
-                        //SectionsData index
-                        var sectionsIndex = 0
-                        var UpcomingEventsIndex = 0
-                        for(let i = 0; i < Object.keys(SectionsData).length; i++){
-                            if(Object.keys(SectionsData)[i] === 'Sections') sectionsIndex = i
-                            if(Object.keys(SectionsData)[i] === 'UpcomingEvents') UpcomingEventsIndex = i
-                        }
 
                         //data minpulator
                         const JSONresponse = async (Sections) => {
@@ -150,7 +125,6 @@ module.exports = (FNBRMENA, client, admin) => {
                         var height = 1200
                         var x = 250
                         var y = 550
-                        var string = ""
 
                         //creating height
                         for(let i = 0; i < sections.length; i++){
@@ -188,6 +162,14 @@ module.exports = (FNBRMENA, client, admin) => {
                             //create background grediant
                             const grediant = ctx.createLinearGradient(0, canvas.height, canvas.width, 0)
 
+                            //SectionsData index
+                            var sectionsIndex = 0
+                            var UpcomingEventsIndex = 0
+                            for(let i = 0; i < Object.keys(SectionsData).length; i++){
+                                if(Object.keys(SectionsData)[i] === 'Sections') sectionsIndex = i
+                                if(Object.keys(SectionsData)[i] === 'UpcomingEvents') UpcomingEventsIndex = i
+                            }
+
                             //get the upcoming events if there is one set to be active
                             const UpcomingEventsData = SectionsData[Object.keys(SectionsData)[UpcomingEventsIndex]]
                             for(let i = 0; i < Object.keys(SectionsData[Object.keys(SectionsData)[UpcomingEventsIndex]]).length; i++){
@@ -222,43 +204,45 @@ module.exports = (FNBRMENA, client, admin) => {
                                             if(data.Images[x].Scaling){
 
                                                 //inislizing img width and height
-                                                let imgWidth = upcomingEventImage.width
-                                                let imgHeight = upcomingEventImage.height
+                                                let imgWidth = 0
+                                                let imgHeight = 0
 
                                                 //if imgWidth > canvas.width then start decreasing
                                                 if(imgWidth < canvas.width){
 
-                                                    while(imgWidth < canvas.width){
-                                                        imgWidth += 1
-                                                        imgHeight += 1
-                                                    }
+                                                    //try to sixe up the image
+                                                    let percentage = 1
+                                                    while(upcomingEventImage.height * (0.01 * percentage) <= canvas.height) percentage++
 
-                                                    if(imgHeight < canvas.height){
-                
-                                                        while(imgHeight < canvas.height){
-                                                            imgWidth += 1
-                                                            imgHeight += 1
-                                                        }
-                                                    }
+                                                    //if width still low
+                                                    if(upcomingEventImage.width * (0.01 * percentage) <= canvas.width)
+                                                    while(upcomingEventImage.width * (0.01 * percentage) <= canvas.width) percentage++
+
+                                                    //change the width and height
+                                                    imgHeight = upcomingEventImage.height * (0.01 * percentage)
+                                                    imgWidth = upcomingEventImage.width * (0.01 * percentage)
                                                     
                                                 }else{
 
-                                                    while(imgWidth > canvas.width){
-                                                        imgWidth -= 1
-                                                        imgHeight -= 1
-                                                    }
+                                                    //try to sixe up the image
+                                                    let percentage = 1
+                                                    while(upcomingEventImage.height * (0.01 * percentage) <= canvas.height) percentage--
 
-                                                    if(imgHeight < canvas.height){
+                                                    //if width still low
+                                                    if(upcomingEventImage.width * (0.01 * percentage) <= canvas.width)
+                                                    while(upcomingEventImage.width * (0.01 * percentage) <= canvas.width) percentage--
 
-                                                        while(imgHeight < canvas.height){
-                                                            imgWidth += 1
-                                                            imgHeight += 1
-                                                        }
-                                                    }
+                                                    //change the width and height
+                                                    imgHeight = upcomingEventImage.height * (0.01 * percentage)
+                                                    imgWidth = upcomingEventImage.width * (0.01 * percentage)
+
                                                 }
 
+                                                var xaxis = (canvas.width  - imgWidth) * 0.5
+                                                var yaxis = (canvas.height - imgHeight) * 0.5
+
                                                 //drawimage
-                                                ctx.drawImage(upcomingEventImage, data.Images[x].X, data.Images[x].Y, imgWidth, imgHeight)
+                                                ctx.drawImage(upcomingEventImage, xaxis, yaxis, imgWidth, imgHeight)
 
                                             }else{
 
@@ -281,31 +265,25 @@ module.exports = (FNBRMENA, client, admin) => {
                             ctx.fillText("FNBRMENA", 33, 145)
 
                             //add the date
+                            moment.locale(lang)
+                            ctx.fillStyle = '#ffffff'
+                            ctx.textAlign='center'
                             if(lang === "en"){
-                                moment.locale("en")
                                 var date = moment().format("dddd, MMMM Do of YYYY")
-                                ctx.fillStyle = '#ffffff';
-                                ctx.textAlign='center';
                                 ctx.font = '100px Burbank Big Condensed'
-                                ctx.fillText(date, canvas.width / 2, (canvas.height - 100))
                             }else{
-                                moment.locale("ar")
                                 var date = moment().format("dddd, MMMM Do من YYYY")
-                                ctx.fillStyle = '#ffffff';
-                                ctx.textAlign='center';
                                 ctx.font = '100px Arabic'
-                                ctx.fillText(date, canvas.width / 2, (canvas.height - 100))
-                            }
+
+                            } ctx.fillText(date, canvas.width / 2, (canvas.height - 50))
 
                             //section text
                             if(lang === "en"){
-                                ctx.fillStyle = '#ffffff';
-                                ctx.textAlign='center';
+
                                 ctx.font = '150px Burbank Big Condensed'
                                 ctx.fillText("Shop Sections", canvas.width / 2, y)
                             }else{
-                                ctx.fillStyle = '#ffffff';
-                                ctx.textAlign='center';
+                                
                                 ctx.font = '150px Arabic'
                                 ctx.fillText("أقسام الشوب", canvas.width / 2, y)
                             }
@@ -314,14 +292,15 @@ module.exports = (FNBRMENA, client, admin) => {
                             y += 100
 
                             //add sections
+                            var string = ``
                             for (let i = 0; i < sections.length; i++) {
 
                                 if(sections[i].name !== null) var name = sections[i].name
                                 else var name = sections[i].id
 
                                 //add the section to the embed string
-                                if(lang === "en") string += "• " + (i + 1) + ": " + name + " | " + sections[i].quantity + " Tabs" + "\n" 
-                                else if(lang === "ar") string += "• " + (i + 1) + ": " + name + " | " + sections[i].quantity + " صفحة" + "\n" 
+                                if(lang === "en") string += `• ${(i + 1)}: ${name} | ${sections[i].quantity} Tabs\n`
+                                else if(lang === "ar") string += `• ${(i + 1)}: ${name} | ${sections[i].quantity} صفحة\n`
 
                                 //grediant
                                 const grd = ctx.createLinearGradient(x, y, x + 1500, y)
@@ -400,14 +379,12 @@ module.exports = (FNBRMENA, client, admin) => {
                                 ctx.fillText(i + 1, x - 120, y + 150)
 
                                 //add the section name
+                                ctx.fillStyle = '#ffffff';
+                                ctx.textAlign='center';
                                 if(lang === "en"){
-                                    ctx.fillStyle = '#ffffff';
-                                    ctx.textAlign='center';
                                     applyText(canvas, name + " | " + sections[i].quantity + " Tabs")
                                     ctx.fillText(name + " | " + sections[i].quantity + " Tabs", x + 750, y + 140)
                                 }else if(lang === "ar"){
-                                    ctx.fillStyle = '#ffffff';
-                                    ctx.textAlign='center';
                                     applyText(canvas, name + " | " + sections[i].quantity + " صفحة")
                                     ctx.fillText(name + " | " + sections[i].quantity + " صفحة", x + 750, y + 140)
                                 }

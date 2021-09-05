@@ -15,116 +15,89 @@ module.exports = {
         //get the user language from the database
         const lang = await FNBRMENA.Admin(admin, message, "", "Lang")
 
-        //get the sections data from database
-        const SectionsData = await FNBRMENA.Admin(admin, message, "", "ShopSections")
+        //generating animation
+        const generating = new Discord.MessageEmbed()
+        generating.setColor(FNBRMENA.Colors("embed"))
+        if(lang === "en") generating.setTitle(`Loading sections... ${loadingEmoji}`)
+        else if(lang === "ar") generating.setTitle(`جاري تحميل الأقسام... ${loadingEmoji}`)
+        message.channel.send(generating)
+        .then( async msg => {
+            
+            //get the sections data from database
+            const SectionsData = await FNBRMENA.Admin(admin, message, "", "ShopSections")
 
-        //define the collection
-        const docRef = await admin.firestore().collection("authToken").doc("0").get()
+            //data minpulator
+            const JSONresponse = async (Sections) => {
 
-        //data minpulator
-        const prettySections = async (Sections) => {
+                //define json response and its requirments
+                var Counter = 0
+                var JSON = []
 
-            //define pretty response and its requirments
-            var Counter = 0
-            var Pretty = []
+                //get the section tabs and add them to a string
+                while(Sections.length !== 0){
 
-            //get the section tabs and add them to a string
-            while(Sections.length !== 0){
-
-                //defined tabs and i index
-                var tabs = 0
-                var i = 0
-                
-                //see what is the index 0 is and how many tabs for the same section
-                const firstIndex = await Sections[0]
-
-                //loop throw all of the modified section
-                while(i !== Sections.length){
-
-                    //if there is another tab for the section at index 0
-                    if(Sections[i].sectionId.toLowerCase().includes(firstIndex.sectionId.toLowerCase()) ||
-                    firstIndex.sectionDisplayName === Sections[i].sectionDisplayName){
-
-                        //remove the section from the section array
-                        const index = Sections.indexOf(Sections[i])
-                        if(index > -1) Sections.splice(index, 1)
-
-                        //add new tab
-                        tabs++
-
-                    } else i++
-                }
-
-                //add the tabs string
-                if(firstIndex.sectionDisplayName !== undefined){
-
-                    //add the data
-                    Pretty[Counter] = {
-                        name: firstIndex.sectionDisplayName,
-                        id: firstIndex.sectionId,
-                        landingPriority: firstIndex.landingPriority,
-                        quantity: tabs
-                    }
-
-                    //change Counter index
-                    Counter++
-                }else{
+                    //defined tabs and i index
+                    var tabs = 0
+                    var i = 0
                     
-                    //add the data
-                    Pretty[Counter] = {
-                        name: firstIndex.sectionId,
-                        id: firstIndex.sectionId,
-                        landingPriority: firstIndex.landingPriority,
-                        quantity: tabs
+                    //see what is the index 0 is and how many tabs for the same section
+                    const firstIndex = await Sections[0]
+
+                    //loop throw all of the modified section
+                    while(i !== Sections.length){
+
+                        //if there is another tab for the section at index 0
+                        if(firstIndex.displayName === Sections[i].displayName){
+
+                            //remove the section from the section array
+                            const index = Sections.indexOf(Sections[i])
+                            if(index > -1) Sections.splice(index, 1)
+
+                            //add new tab
+                            tabs++
+
+                        } else i++
                     }
 
-                    //change Counter index
-                    Counter++
+                    //add the tabs string
+                    if(firstIndex.displayName !== undefined){
+
+                        //add the data
+                        JSON[Counter] = {
+                            name: firstIndex.displayName,
+                            id: firstIndex.id,
+                            quantity: tabs
+                        }
+
+                        //change Counter index
+                        Counter++
+                    }else{
+                        
+                        //add the data
+                        JSON[Counter] = {
+                            name: firstIndex.id,
+                            id: firstIndex.id,
+                            quantity: tabs
+                        }
+
+                        //change Counter index
+                        Counter++
+                    }
                 }
+
+                //return JSON array
+                return JSON
             }
-
-            //return JSON array
-            return Pretty
-        }
-
-        const extractSections = async (sectionIDs) => {
-
-            //store all the object of an active section
-            let activeSectionsObj = []
-            let Counter = 0
-
-            //request content endpoint
-            await FNBRMENA.EpicContentEndpoint(lang)
+            
+            //request data
+            await FNBRMENA.Sections(lang, "Yes")
             .then(async res => {
 
-                //find the active sections
-                for(const sectionObj of res.data.shopSections.sectionList.sections){
-                    for(let i = 0; i < sectionIDs.length; i++){
-
-                        if(sectionObj.sectionId === sectionIDs[i]) activeSectionsObj[Counter++] = await sectionObj
-                    }
-                }
-            })
-
-            //get the sections as a pretty then return it
-            return await prettySections(activeSectionsObj)
-        }
-        
-        //request data
-        await FNBRMENA.EpicCalandar(docRef.data().accessToken.access_token)
-        .then(async res => {
-
-            //generating animation
-            const generating = new Discord.MessageEmbed()
-            generating.setColor(FNBRMENA.Colors("embed"))
-            if(lang === "en") generating.setTitle(`Loading sections... ${loadingEmoji}`)
-            else if(lang === "ar") generating.setTitle(`جاري تحميل الأقسام... ${loadingEmoji}`)
-            message.channel.send(generating)
-            .then( async msg => {
-
                 //get the sections as a minpulated data
-                if(res.data.channels['client-events'].states.length === 1) var sections = await extractSections(Object.keys(res.data.channels['client-events'].states[0].state.sectionStoreEnds))
-                else if(res.data.channels['client-events'].states.length === 2) var sections = await extractSections(Object.keys(res.data.channels['client-events'].states[1].state.sectionStoreEnds))
+                if(res.data.list.length === 1) //get the sections as a minpulated data
+                var sections = await JSONresponse(res.data.list[0].sections)
+                else if(res.data.list.length === 2) //get the sections as a minpulated data
+                var sections = await JSONresponse(res.data.list[1].sections)
 
                 //inisilizing values
                 var width = 2000
@@ -271,10 +244,8 @@ module.exports = {
                 }else{
                     var date = moment().format("dddd, MMMM Do من YYYY")
                     ctx.font = '100px Arabic'
-                }
 
-                //draw text
-                ctx.fillText(date, canvas.width / 2, (canvas.height - 50))
+                } ctx.fillText(date, canvas.width / 2, (canvas.height - 50))
 
                 //section text
                 ctx.fillStyle = '#ffffff';
@@ -374,18 +345,21 @@ module.exports = {
                     }
 
                     //add the number of the section
-                    ctx.fillStyle = grd;
-                    ctx.textAlign='left';
+                    ctx.fillStyle = grd
+                    ctx.textAlign='left'
                     ctx.font = '150px Burbank Big Condensed'
                     ctx.fillText(i + 1, x - 120, y + 150)
 
                     //add the section name
                     ctx.fillStyle = '#ffffff';
                     ctx.textAlign='center';
-                    applyText(canvas, `${name} | ${sections[i].quantity} Tabs`)
-                    if(lang === "en") ctx.fillText(`${name} | ${sections[i].quantity} Tabs`, x + 750, y + 140)
-                    else if(lang === "ar") ctx.fillText(`${name} | ${sections[i].quantity} صفحة`, x + 750, y + 140)
-                    
+                    if(lang === "en"){
+                        applyText(canvas, name + " | " + sections[i].quantity + " Tabs")
+                        ctx.fillText(name + " | " + sections[i].quantity + " Tabs", x + 750, y + 140)
+                    }else if(lang === "ar"){
+                        applyText(canvas, name + " | " + sections[i].quantity + " صفحة")
+                        ctx.fillText(name + " | " + sections[i].quantity + " صفحة", x + 750, y + 140)
+                    }
 
                     //new line
                     y += 300

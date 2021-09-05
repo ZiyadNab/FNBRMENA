@@ -159,8 +159,8 @@ module.exports = {
             var y = 450
 
             //creating progress object
-            const CreatingObj = async (grd, x, y, gone, left, length, objectPercent, colors, objectIcon,
-                finishedStringEN, finishedStringAR) => {
+            const CreatingObj = async (grd, x, y, gone, goneText, left, leftText, length, objectPercent, 
+                colors, objectIcon, finishedStringEN, finishedStringAR) => {
 
                 //font
                 if(lang === "en") ctx.font = '60px Burbank Big Condensed'
@@ -178,20 +178,14 @@ module.exports = {
                 //gone
                 ctx.fillRect(x, y + 180, objectPercent, 25)
 
-                //gone text
+                //gone & left text
                 ctx.fillStyle = '#ffffff';
                 ctx.textAlign='center';
-                if(lang === "en") ctx.fillText(`${gone} Days gone`, x + (objectPercent / 2), y + 270)
-                else if(lang === "ar") ctx.fillText(`${gone} يوم مضى`, x + (objectPercent / 2), y + 270)
+                ctx.fillText(`${goneText}`, x + (objectPercent / 2), y + 270)
+                ctx.fillText(`${leftText}`, x + objectPercent + ((3000 - objectPercent) / 2), y - 80)
 
                 //left
                 ctx.fillRect(x + objectPercent, y - 50, 3000 - objectPercent, 25)
-
-                //left text
-                ctx.fillStyle = '#ffffff';
-                ctx.textAlign='center';
-                if(lang === "en") ctx.fillText(`${left} Days left`, x + objectPercent + ((3000 - objectPercent) / 2), y - 80)
-                else if(lang === "ar") ctx.fillText(`${left} يوم متبقي`, x + objectPercent + ((3000 - objectPercent) / 2), y - 80)
 
                 //objectPercent progress grediant colors
                 if(colors.length === 2){
@@ -274,10 +268,56 @@ module.exports = {
                     else var objectIcon = 'no data'
 
                     //inisilizing gone, left & objectPercent
-                    const gone = Now.diff(moment(data.Starts), "days") 
-                    const left = moment(data.Ends).diff(Now, "days")
+                    const gone = Now.diff(moment(data.Starts)) 
+                    const left = moment(data.Ends).diff(Now)
                     const length = gone + left
                     const objectPercent = (gone / length) * 3000
+                    console.log(moment.duration(gone).days())
+
+                    if(lang === "en") var goneText = `${moment.duration(gone).days()} Days gone`
+                    else if(lang === "ar") var goneText = `${moment.duration(gone).days()} يوم مضى`
+                    if(lang === "en") var leftText = `${moment.duration(left).days()} Days left`
+                    else if(lang === "ar") var leftText = `${moment.duration(left).days()} يوم متبقي`
+
+                    //formating left
+                    if(moment.duration(left).days() === 1){
+                        if(moment.duration(left).hours() > 9) leftText += `0${moment.duration(left).days()}:${moment.duration(left).hours()}`
+                        else leftText += `0${moment.duration(left).days()}:0${moment.duration(left).hours()}`
+
+                    }else if(moment.duration(left).days() < 1){
+
+                        if(moment.duration(left).hours() > 9){
+                            if(moment.duration(left).minutes() > 9) leftText = `${moment.duration(left).hours()}:${moment.duration(left).minutes()}`
+                            else leftText = `${moment.duration(left).hours()}:0${moment.duration(left).minutes()}`
+                        }else{
+                            if(moment.duration(left).minutes() > 9) leftText = `0${moment.duration(left).hours()}:${moment.duration(left).minutes()}`
+                            else leftText = `${moment.duration(left).hours()}:0${moment.duration(left).minutes()}`
+                        }
+
+                        //add ending text
+                        if(lang === "en") leftText += ` Hours left`
+                        else if(lang === "ar") leftText += ` ساعة متبقي`
+                    }
+
+                    //formating gone
+                    if(moment.duration(gone).days() === 1){
+                        if(moment.duration(gone).hours() > 9) goneText += `0${moment.duration(gone).days()}:${moment.duration(gone).hours()}`
+                        else goneText += `0${moment.duration(gone).days()}:0${moment.duration(gone).hours()}`
+
+                    }else if(moment.duration(gone).days() < 1){
+                        console.log(11)
+                        if(moment.duration(gone).hours() > 9){
+                            if(moment.duration(gone).minutes() > 9) goneText = `${moment.duration(gone).hours()}:${moment.duration(gone).minutes()}`
+                            else goneText = `${moment.duration(gone).hours()}:0${moment.duration(gone).minutes()}`
+                        }else{
+                            if(moment.duration(gone).minutes() > 9) goneText = `0${moment.duration(gone).hours()}:${moment.duration(gone).minutes()}`
+                            else goneText = `${moment.duration(gone).hours()}:0${moment.duration(gone).minutes()}`
+                        }
+
+                        //add ending text
+                        if(lang === "en") goneText += ` Hours gone`
+                        else if(lang === "ar") goneText += ` ساعة مضى`
+                    }
 
                     //if there is finished string
                     let finishedStringEN = null
@@ -288,7 +328,7 @@ module.exports = {
                     }
 
                     //calling the object
-                    await CreatingObj(grd, x, y, gone, left, length, objectPercent, 
+                    await CreatingObj(grd, x, y, gone, goneText, left, leftText, length, objectPercent, 
                         data.Colors, objectIcon, finishedStringEN, finishedStringAR)
 
                     y += 420
@@ -305,6 +345,51 @@ module.exports = {
             var crewPercent = (gone / length) * 3000
             const crew = await Canvas.loadImage('https://imgur.com/7Sp9z5H.png')
 
+            if(lang === "en") var goneText = `${gone} Days gone`
+            else if(lang === "ar") var goneText = `${gone} يوم مضى`
+            if(lang === "en") var leftText = `${left} Days left`
+            else if(lang === "ar") var leftText = `${left} يوم متبقي`
+
+            //formating left
+            if(moment.duration(leftText).days() === 1){
+                if(moment.duration(left).hours() > 9) leftText += `0${moment.duration(left).days()}:${moment.duration(left).hours()}`
+                else leftText += `0${moment.duration(left).days()}:0${moment.duration(left).hours()}`
+
+            }else if(moment.duration(leftText).days() < 1){
+
+                if(moment.duration(left).hours() > 9){
+                    if(moment.duration(left).minutes() > 9) leftText = `${moment.duration(leftText).hours()}:${moment.duration(leftText).minutes()}`
+                    else leftText = `${moment.duration(leftText).hours()}:0${moment.duration(leftText).minutes()}`
+                }else{
+                    if(moment.duration(left).minutes() > 9) leftText = `0${moment.duration(leftText).hours()}:${moment.duration(leftText).minutes()}`
+                    else leftText = `${moment.duration(leftText).hours()}:0${moment.duration(leftText).minutes()}`
+                }
+
+                //add ending text
+                if(lang === "en") leftText += ` Hours left`
+                else if(lang === "ar") leftText += ` ساعة متبقي`
+            }
+
+            //formating gone
+            if(moment.duration(goneText).days() === 1){
+                if(moment.duration(gone).hours() > 9) goneText += `0${moment.duration(goneText).days()}:${moment.duration(goneText).hours()}`
+                else goneText += `0${moment.duration(goneText).days()}:0${moment.duration(goneText).hours()}`
+
+            }else if(moment.duration(goneText).days() < 1){
+                
+                if(moment.duration(gone).hours() > 9){
+                    if(moment.duration(gone).minutes() > 9) goneText = `${moment.duration(goneText).hours()}:${moment.duration(goneText).minutes()}`
+                    else goneText = `${moment.duration(goneText).hours()}:0${moment.duration(goneText).minutes()}`
+                }else{
+                    if(moment.duration(gone).minutes() > 9) goneText = `0${moment.duration(goneText).hours()}:${moment.duration(goneText).minutes()}`
+                    else goneText = `${moment.duration(goneText).hours()}:0${moment.duration(goneText).minutes()}`
+                }
+
+                //add ending text
+                if(lang === "en") goneText += ` Hours gone`
+                else if(lang === "ar") goneText += ` ساعة مضى`
+            }
+
             //adding the gradiant
             var grd = ctx.createLinearGradient(x, 1500, x + 1500, 3000)
 
@@ -313,7 +398,7 @@ module.exports = {
             let finishedStringAR = `سوف تتاح قريبا...`
 
             //calling the object
-            await CreatingObj(grd, x, y, gone, left, length, crewPercent, 
+            await CreatingObj(grd, x, y, gone, goneText, left, leftText, length, crewPercent, 
                 ['FF0064', 'FF0008'], crew, finishedStringEN, finishedStringAR)
 
             try {

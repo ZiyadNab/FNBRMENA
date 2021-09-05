@@ -37,7 +37,7 @@ module.exports = {
         .then(async playerID => {
 
             //if the user name is valid
-            if(playerID.data.result === true){
+            if(playerID.data.result){
 
                 //get player fish stats
                 FNBRMENA.getPlayerFishStats(playerID.data.account_id, lang)
@@ -56,9 +56,6 @@ module.exports = {
                             else if(lang === "ar") generating.setTitle(`جاري تحميل بيانات اللاعب... ${loadingEmoji}`)
                             message.channel.send(generating)
                             .then( async msg => {
-
-                            //account level
-                            const level = await FNBRMENA.Stats(playerTag, "epic", "lifetime")
 
                             //variables
                             var x = 50
@@ -260,16 +257,35 @@ module.exports = {
                             }
 
                             //account level
-                            if(lang === "en"){
-                                ctx.textAlign='left';
-                                ctx.font = '40px Burbank Big Condensed'
-                                ctx.fillText(`Account Level: ${level.data.data.battlePass.level}`, 50, canvas.height - 90)
-                            }else if(lang === "ar"){
-                                ctx.textAlign='right';
-                                ctx.font = '40px Arabic'
-                                ctx.fillText(`لفل الحساب: ${level.data.data.battlePass.level}`, canvas.width - 50, canvas.height - 90)
-                            }
+                            try {
 
+                                //request user lvl
+                                const level = await FNBRMENA.Stats(playerTag, "epic", "lifetime")
+
+                                //display account level
+                                if(lang === "en"){
+                                    ctx.textAlign='left';
+                                    ctx.font = '40px Burbank Big Condensed'
+                                    ctx.fillText(`Account Level: ${level.data.data.battlePass.level}`, 50, canvas.height - 90)
+                                }else if(lang === "ar"){
+                                    ctx.textAlign='right';
+                                    ctx.font = '40px Arabic'
+                                    ctx.fillText(`لفل الحساب: ${level.data.data.battlePass.level}`, canvas.width - 50, canvas.height - 90)
+                                }
+
+                            }catch{
+
+                                //errr private data
+                                if(lang === "en"){
+                                    ctx.textAlign='left';
+                                    ctx.font = '40px Burbank Big Condensed'
+                                    ctx.fillText(`Account Level: The account data is private`, 50, canvas.height - 90)
+                                }else if(lang === "ar"){
+                                    ctx.textAlign='right';
+                                    ctx.font = '40px Arabic'
+                                    ctx.fillText(`لفل الحساب: معلوات الحساب خاصة وليست عامة`, canvas.width - 50, canvas.height - 90)
+                                }
+                            }
                             //counter
                             if(lang === "en"){
                                 ctx.textAlign='left';
@@ -286,7 +302,14 @@ module.exports = {
                             await message.channel.send(att)
                             msg.delete()
 
-                        }).catch(err => console.log(err))
+                        }).catch(err => {
+                            
+                            const Err = new Discord.MessageEmbed()
+                            Err.setColor(FNBRMENA.Colors("embed"))
+                            if(lang === "en") Err.setTitle(`There was an error while getting data please try again later ${errorEmoji}`)
+                            else if(lang === "ar") Err.setTitle(`يوجد مشكلة اثناء تحضير البيانات الرجاء المحاولة مرا اخرى ${errorEmoji}`)
+                            message.reply(Err)
+                        })
                     }else{
 
                         //season error
@@ -296,7 +319,14 @@ module.exports = {
                         else if(lang === "ar") Err.setTitle(`الموسم ${season} غير صحيح الرجاء ادخال رقم موسم صحيح ${errorEmoji}`)
                         message.reply(Err)
                     }
-                }).catch(err => console.log(err))
+                }).catch(err => {
+
+                    const Err = new Discord.MessageEmbed()
+                    Err.setColor(FNBRMENA.Colors("embed"))
+                    if(lang === "en") Err.setTitle(`There was an error while getting data please try again later ${errorEmoji}`)
+                    else if(lang === "ar") Err.setTitle(`يوجد مشكلة اثناء تحضير البيانات الرجاء المحاولة مرا اخرى ${errorEmoji}`)
+                    message.reply(Err)
+                })
                 
             }else{
                 const Err = new Discord.MessageEmbed()

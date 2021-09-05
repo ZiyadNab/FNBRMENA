@@ -363,8 +363,7 @@ module.exports = {
                         var Counter = 0
                         for(let i = 0; i < cosmeticvariants.data.items.length; i++){
                             if(await cosmeticvariants.data.items[i].description.includes(res.data.items[num].name.trim()) &&
-                            cosmeticvariants.data.items[i].rarity.id === res.data.items[num].rarity.id &&
-                            cosmeticvariants.data.items[i].added.date === res.data.items[num].added.date){
+                            cosmeticvariants.data.items[i].rarity.id === res.data.items[num].rarity.id){
 
                                 styles[Counter] = await cosmeticvariants.data.items[i]
                                 Counter++

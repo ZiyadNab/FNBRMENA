@@ -38,27 +38,27 @@ module.exports = {
 
             //if the user name is valid
             if(playerID.data.result === true){
-            
-                //loading message
-                const generating = new Discord.MessageEmbed()
-                generating.setColor(FNBRMENA.Colors("embed"))
-                if(lang === "en") generating.setTitle(`Getting Player fish info... ${loadingEmoji}`)
-                else if(lang === "ar") generating.setTitle(`جاري تحميل بيانات اللاعب... ${loadingEmoji}`)
-                message.channel.send(generating)
-                .then( async msg => {
 
-                    //get player fish stats
-                    FNBRMENA.getPlayerFishStats(playerID.data.account_id, lang)
-                    .then(async res => {
+                //get player fish stats
+                FNBRMENA.getPlayerFishStats(playerID.data.account_id, lang)
+                .then(async res => {
 
-                        //all fishes
-                        const listFish = await FNBRMENA.listFish(season, lang)
+                    //all fishes
+                    const listFish = await FNBRMENA.listFish(season, lang)
 
                         //if the user entered a season that still yet not started
                         if(listFish.data.fish.length !== 0){
 
+                            //loading message
+                            const generating = new Discord.MessageEmbed()
+                            generating.setColor(FNBRMENA.Colors("embed"))
+                            if(lang === "en") generating.setTitle(`Getting Player fish info... ${loadingEmoji}`)
+                            else if(lang === "ar") generating.setTitle(`جاري تحميل بيانات اللاعب... ${loadingEmoji}`)
+                            message.channel.send(generating)
+                            .then( async msg => {
+
                             //account level
-                            const level = await axios.get(`https://fortnite-api.com/v2/stats/br/v2?name=${playerTag}&accountType=epic&timeWindow=lifetime`)
+                            const level = await FNBRMENA.Stats(playerTag, "epic", "lifetime")
 
                             //variables
                             var x = 50
@@ -286,16 +286,16 @@ module.exports = {
                             await message.channel.send(att)
                             msg.delete()
 
-                        }else{
+                        }).catch(err => console.log(err))
+                    }else{
 
-                            //season error
-                            const Err = new Discord.MessageEmbed()
-                            Err.setColor(FNBRMENA.Colors("embed"))
-                            if(lang === "en") Err.setTitle(`The season ${season} is wrong season please type a valid season number ${errorEmoji}`)
-                            else if(lang === "ar") Err.setTitle(`الموسم ${season} غير صحيح الرجاء ادخال رقم موسم صحيح ${errorEmoji}`)
-                            message.reply(Err)
-                        }
-                    }).catch(err => console.log(err))
+                        //season error
+                        const Err = new Discord.MessageEmbed()
+                        Err.setColor(FNBRMENA.Colors("embed"))
+                        if(lang === "en") Err.setTitle(`The season ${season} is wrong season please type a valid season number ${errorEmoji}`)
+                        else if(lang === "ar") Err.setTitle(`الموسم ${season} غير صحيح الرجاء ادخال رقم موسم صحيح ${errorEmoji}`)
+                        message.reply(Err)
+                    }
                 }).catch(err => console.log(err))
                 
             }else{

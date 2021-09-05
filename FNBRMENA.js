@@ -142,8 +142,12 @@ class FNBRMENA {
      */
      async getAccountIdByUsername(playerTag){
 
+        var Url = `https://fortniteapi.io/v1/lookup?username=${playerTag}`
+        Url = decodeURI(Url);
+        Url = encodeURI(Url);
+
         //request the data and return the response
-        return await axios.get(`https://fortniteapi.io/v1/lookup?username=${playerTag}`, { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
+        return await axios.get(Url, { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
 
     }
 
@@ -164,6 +168,28 @@ class FNBRMENA {
 
         //request the datat and return the response
         return await axios.get(`https://fortniteapi.io/v1/events/replay?session=${SessionID}`, { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
+
+    }
+
+    /**
+     * Return data about the user stats
+     * 
+     * @param {String} playerTag
+     * @param {String} Platform
+     * @param {String} Period
+     * @example
+     * FNBRMENA.Stats(playerTag, Platform, Period)
+     * .then(async res => {
+     * 
+     *        //you will get a response weather the requested data has been found or not
+     * 
+     * })
+     * 
+     */
+     async Stats(playerTag, Platform, Period){
+
+        //request the data and return the response
+        return await axios.get(encodeURI(`https://fortnite-api.com/v2/stats/br/v2?name=${playerTag}&accountType=${Platform}&timeWindow=${Period}`))
 
     }
 

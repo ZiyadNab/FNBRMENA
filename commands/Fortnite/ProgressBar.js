@@ -268,55 +268,38 @@ module.exports = {
                     else var objectIcon = 'no data'
 
                     //inisilizing gone, left & objectPercent
-                    const gone = Now.diff(moment(data.Starts)) 
-                    const left = moment(data.Ends).diff(Now)
+                    const gone = Now.diff(moment(data.Starts), 'days')
+                    const left = moment(data.Ends).diff(Now, 'days')
                     const length = gone + left
                     const objectPercent = (gone / length) * 3000
-                    console.log(moment.duration(gone).days())
 
-                    if(lang === "en") var goneText = `${moment.duration(gone).days()} Days gone`
-                    else if(lang === "ar") var goneText = `${moment.duration(gone).days()} يوم مضى`
-                    if(lang === "en") var leftText = `${moment.duration(left).days()} Days left`
-                    else if(lang === "ar") var leftText = `${moment.duration(left).days()} يوم متبقي`
+                    if(lang === "en") var goneText = `${gone} Days gone`
+                    else if(lang === "ar") var goneText = `${gone} يوم مضى`
+                    if(lang === "en") var leftText = `${left} Days left`
+                    else if(lang === "ar") var leftText = `${left} يوم متبقي`
 
                     //formating left
-                    if(moment.duration(left).days() === 1){
-                        if(moment.duration(left).hours() > 9) leftText += `0${moment.duration(left).days()}:${moment.duration(left).hours()}`
-                        else leftText += `0${moment.duration(left).days()}:0${moment.duration(left).hours()}`
+                    if(moment.duration(moment(data.Ends).diff(Now)).days() === 1){
+                        if(lang === "en") leftText += `0${moment.duration(moment(data.Ends).diff(Now)).days()} day and ${moment.duration(moment(data.Ends).diff(Now)).hours()} hours left`
+                        else if(lang === "ar") leftText += `0${moment.duration(moment(data.Ends).diff(Now)).days()} يوم و ${moment.duration(moment(data.Ends).diff(Now)).hours()} ساعة مضت`
 
-                    }else if(moment.duration(left).days() < 1){
+                    }else if(moment.duration(moment(data.Ends).diff(Now)).days() < 1){
 
-                        if(moment.duration(left).hours() > 9){
-                            if(moment.duration(left).minutes() > 9) leftText = `${moment.duration(left).hours()}:${moment.duration(left).minutes()}`
-                            else leftText = `${moment.duration(left).hours()}:0${moment.duration(left).minutes()}`
-                        }else{
-                            if(moment.duration(left).minutes() > 9) leftText = `0${moment.duration(left).hours()}:${moment.duration(left).minutes()}`
-                            else leftText = `${moment.duration(left).hours()}:0${moment.duration(left).minutes()}`
-                        }
-
-                        //add ending text
-                        if(lang === "en") leftText += ` Hours left`
-                        else if(lang === "ar") leftText += ` ساعة متبقي`
+                        //if only hours left
+                        if(lang === "en") leftText = `${moment.duration(moment(data.Ends).diff(Now)).hours()} hours and ${moment.duration(moment(data.Ends).diff(Now)).minutes()} minuets left`
+                        else if(lang === "ar") leftText = `${moment.duration(moment(data.Ends).diff(Now)).hours()} ساعة و ${moment.duration(moment(data.Ends).diff(Now)).minutes()} دقيقة متبيقة`
                     }
 
                     //formating gone
-                    if(moment.duration(gone).days() === 1){
-                        if(moment.duration(gone).hours() > 9) goneText += `0${moment.duration(gone).days()}:${moment.duration(gone).hours()}`
-                        else goneText += `0${moment.duration(gone).days()}:0${moment.duration(gone).hours()}`
+                    if(moment.duration(Now.diff(moment(data.Starts))).days() === 1){
+                        if(lang === "en") leftText += `0${moment.duration(Now.diff(moment(data.Starts))).days()} day and ${moment.duration(Now.diff(moment(data.Starts))).hours()} hours left`
+                        else if(lang === "ar") leftText += `0${moment.duration(Now.diff(moment(data.Starts))).days()} يوم و ${moment.duration(Now.diff(moment(data.Starts))).hours()} ساعة مضت`
 
-                    }else if(moment.duration(gone).days() < 1){
-                        console.log(11)
-                        if(moment.duration(gone).hours() > 9){
-                            if(moment.duration(gone).minutes() > 9) goneText = `${moment.duration(gone).hours()}:${moment.duration(gone).minutes()}`
-                            else goneText = `${moment.duration(gone).hours()}:0${moment.duration(gone).minutes()}`
-                        }else{
-                            if(moment.duration(gone).minutes() > 9) goneText = `0${moment.duration(gone).hours()}:${moment.duration(gone).minutes()}`
-                            else goneText = `${moment.duration(gone).hours()}:0${moment.duration(gone).minutes()}`
-                        }
-
-                        //add ending text
-                        if(lang === "en") goneText += ` Hours gone`
-                        else if(lang === "ar") goneText += ` ساعة مضى`
+                    }else if(moment.duration(Now.diff(moment(data.Starts))).days() < 1){
+                        
+                        //if only hours gone
+                        if(lang === "en") goneText = `${moment.duration(Now.diff(moment(data.Starts))).hours()} hours and ${moment.duration(Now.diff(moment(data.Starts))).minutes()} minuets gone`
+                        else if(lang === "ar") goneText = `${moment.duration(Now.diff(moment(data.Starts))).hours()} ساعة و ${moment.duration(Now.diff(moment(data.Starts))).minutes()} دقيقة مضت`
                     }
 
                     //if there is finished string
@@ -351,43 +334,27 @@ module.exports = {
             else if(lang === "ar") var leftText = `${left} يوم متبقي`
 
             //formating left
-            if(moment.duration(leftText).days() === 1){
-                if(moment.duration(left).hours() > 9) leftText += `0${moment.duration(left).days()}:${moment.duration(left).hours()}`
-                else leftText += `0${moment.duration(left).days()}:0${moment.duration(left).hours()}`
+            if(moment.duration(Ends.diff(Now)).days() === 1){
+                if(lang === "en") leftText += `0${moment.duration(Ends.diff(Now)).days()} day and ${moment.duration(Ends.diff(Now)).hours()} hours left`
+                else if(lang === "ar") leftText += `0${moment.duration(Ends.diff(Now)).days()} يوم و ${moment.duration(Ends.diff(Now)).hours()} ساعة مضت`
 
-            }else if(moment.duration(leftText).days() < 1){
+            }else if(moment.duration(Ends.diff(Now)).days() < 1){
 
-                if(moment.duration(left).hours() > 9){
-                    if(moment.duration(left).minutes() > 9) leftText = `${moment.duration(leftText).hours()}:${moment.duration(leftText).minutes()}`
-                    else leftText = `${moment.duration(leftText).hours()}:0${moment.duration(leftText).minutes()}`
-                }else{
-                    if(moment.duration(left).minutes() > 9) leftText = `0${moment.duration(leftText).hours()}:${moment.duration(leftText).minutes()}`
-                    else leftText = `${moment.duration(leftText).hours()}:0${moment.duration(leftText).minutes()}`
-                }
-
-                //add ending text
-                if(lang === "en") leftText += ` Hours left`
-                else if(lang === "ar") leftText += ` ساعة متبقي`
+                //if only hours left
+                if(lang === "en") leftText = `${moment.duration(Ends.diff(Now)).hours()} hours and ${moment.duration(Ends.diff(Now)).minutes()} minuets left`
+                else if(lang === "ar") leftText = `${moment.duration(Ends.diff(Now)).hours()} ساعة و ${moment.duration(Ends.diff(Now)).minutes()} دقيقة متبيقة`
             }
 
             //formating gone
-            if(moment.duration(goneText).days() === 1){
-                if(moment.duration(gone).hours() > 9) goneText += `0${moment.duration(goneText).days()}:${moment.duration(goneText).hours()}`
-                else goneText += `0${moment.duration(goneText).days()}:0${moment.duration(goneText).hours()}`
+            if(moment.duration(Now.diff(Starts)).days() === 1){
+                if(lang === "en") goneText += `0${moment.duration(Now.diff(Starts)).days()} day and ${moment.duration(Now.diff(Starts)).hours()} hours left`
+                else if(lang === "ar") goneText += `0${moment.duration(Now.diff(Starts)).days()} يوم و ${moment.duration(Now.diff(Starts)).hours()} ساعة مضت`
 
-            }else if(moment.duration(goneText).days() < 1){
+            }else if(moment.duration(Now.diff(Starts)).days() < 1){
                 
-                if(moment.duration(gone).hours() > 9){
-                    if(moment.duration(gone).minutes() > 9) goneText = `${moment.duration(goneText).hours()}:${moment.duration(goneText).minutes()}`
-                    else goneText = `${moment.duration(goneText).hours()}:0${moment.duration(goneText).minutes()}`
-                }else{
-                    if(moment.duration(gone).minutes() > 9) goneText = `0${moment.duration(goneText).hours()}:${moment.duration(goneText).minutes()}`
-                    else goneText = `${moment.duration(goneText).hours()}:0${moment.duration(goneText).minutes()}`
-                }
-
-                //add ending text
-                if(lang === "en") goneText += ` Hours gone`
-                else if(lang === "ar") goneText += ` ساعة مضى`
+                //if only hours gone
+                if(lang === "en") goneText = `${moment.duration(Now.diff(Starts)).hours()} hours and ${moment.duration(Now.diff(Starts)).minutes()} minuets gone`
+                else if(lang === "ar") goneText = `${moment.duration(Now.diff(Starts)).hours()} ساعة و ${moment.duration(Now.diff(Starts)).minutes()} دقيقة مضت`
             }
 
             //adding the gradiant

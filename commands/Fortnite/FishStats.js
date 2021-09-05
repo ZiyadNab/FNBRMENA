@@ -32,30 +32,30 @@ module.exports = {
  
         } else var playerTag = text
 
-        //get the user id by name
-        FNBRMENA.getAccountIdByUsername(playerTag)
-        .then(async playerID => {
+        //loading message
+        const generating = new Discord.MessageEmbed()
+        generating.setColor(FNBRMENA.Colors("embed"))
+        if(lang === "en") generating.setTitle(`Getting Player fish info... ${loadingEmoji}`)
+        else if(lang === "ar") generating.setTitle(`جاري تحميل بيانات اللاعب... ${loadingEmoji}`)
+        message.channel.send(generating)
+        .then( async msg => {
 
-            //if the user name is valid
-            if(playerID.data.result){
+            //get the user id by name
+            FNBRMENA.getAccountIdByUsername(playerTag)
+            .then(async playerID => {
 
-                //get player fish stats
-                FNBRMENA.getPlayerFishStats(playerID.data.account_id, lang)
-                .then(async res => {
+                //if the user name is valid
+                if(playerID.data.result){
 
-                    //all fishes
-                    const listFish = await FNBRMENA.listFish(season, lang)
+                    //get player fish stats
+                    FNBRMENA.getPlayerFishStats(playerID.data.account_id, lang)
+                    .then(async res => {
+
+                        //all fishes
+                        const listFish = await FNBRMENA.listFish(season, lang)
 
                         //if the user entered a season that still yet not started
                         if(listFish.data.fish.length !== 0){
-
-                            //loading message
-                            const generating = new Discord.MessageEmbed()
-                            generating.setColor(FNBRMENA.Colors("embed"))
-                            if(lang === "en") generating.setTitle(`Getting Player fish info... ${loadingEmoji}`)
-                            else if(lang === "ar") generating.setTitle(`جاري تحميل بيانات اللاعب... ${loadingEmoji}`)
-                            message.channel.send(generating)
-                            .then( async msg => {
 
                             //variables
                             var x = 50
@@ -245,22 +245,22 @@ module.exports = {
                                 ctx.fillText(`الموسم: ${listFish.data.season}`, canvas.width - 50, canvas.height - 170)
                             }
 
-                            //name of the epic games user account
-                            if(lang === "en"){
-                                ctx.textAlign='left';
-                                ctx.font = '40px Burbank Big Condensed'
-                                ctx.fillText(`Account Name: ${level.data.data.account.name}`, 50, canvas.height - 130)
-                            }else if(lang === "ar"){
-                                ctx.textAlign='right';
-                                ctx.font = '40px Arabic'
-                                ctx.fillText(`اسم الحساب: ${level.data.data.account.name}`, canvas.width - 50, canvas.height - 130)
-                            }
-
                             //account level
                             try {
 
                                 //request user lvl
                                 const level = await FNBRMENA.Stats(playerTag, "epic", "lifetime")
+
+                                //name of the epic games user account
+                                if(lang === "en"){
+                                    ctx.textAlign='left';
+                                    ctx.font = '40px Burbank Big Condensed'
+                                    ctx.fillText(`Account Name: ${level.data.data.account.name}`, 50, canvas.height - 130)
+                                }else if(lang === "ar"){
+                                    ctx.textAlign='right';
+                                    ctx.font = '40px Arabic'
+                                    ctx.fillText(`اسم الحساب: ${level.data.data.account.name}`, canvas.width - 50, canvas.height - 130)
+                                }
 
                                 //display account level
                                 if(lang === "en"){
@@ -274,6 +274,17 @@ module.exports = {
                                 }
 
                             }catch{
+
+                                //name of the epic games user account
+                                if(lang === "en"){
+                                    ctx.textAlign='left';
+                                    ctx.font = '40px Burbank Big Condensed'
+                                    ctx.fillText(`Account Name: ${playerTag}`, 50, canvas.height - 130)
+                                }else if(lang === "ar"){
+                                    ctx.textAlign='right';
+                                    ctx.font = '40px Arabic'
+                                    ctx.fillText(`اسم الحساب: ${playerTag}`, canvas.width - 50, canvas.height - 130)
+                                }
 
                                 //errr private data
                                 if(lang === "en"){
@@ -301,40 +312,45 @@ module.exports = {
                             const att = new Discord.MessageAttachment(canvas.toBuffer(), `${playerID.data.account_id}.png`)
                             await message.channel.send(att)
                             msg.delete()
+                        }else{
 
-                        }).catch(err => {
-                            
+                            //season error
                             const Err = new Discord.MessageEmbed()
+                            msg.delete()
                             Err.setColor(FNBRMENA.Colors("embed"))
-                            if(lang === "en") Err.setTitle(`There was an error while getting data please try again later ${errorEmoji}`)
-                            else if(lang === "ar") Err.setTitle(`يوجد مشكلة اثناء تحضير البيانات الرجاء المحاولة مرا اخرى ${errorEmoji}`)
+                            if(lang === "en") Err.setTitle(`The season ${season} is wrong season please type a valid season number ${errorEmoji}`)
+                            else if(lang === "ar") Err.setTitle(`الموسم ${season} غير صحيح الرجاء ادخال رقم موسم صحيح ${errorEmoji}`)
                             message.reply(Err)
-                        })
-                    }else{
-
-                        //season error
+                        }
+                    }).catch(err => {
+                            
+                        console.log(err)
+                        msg.delete()
                         const Err = new Discord.MessageEmbed()
                         Err.setColor(FNBRMENA.Colors("embed"))
-                        if(lang === "en") Err.setTitle(`The season ${season} is wrong season please type a valid season number ${errorEmoji}`)
-                        else if(lang === "ar") Err.setTitle(`الموسم ${season} غير صحيح الرجاء ادخال رقم موسم صحيح ${errorEmoji}`)
+                        if(lang === "en") Err.setTitle(`There was an error while getting data please try again later ${errorEmoji}`)
+                        else if(lang === "ar") Err.setTitle(`يوجد مشكلة اثناء تحضير البيانات الرجاء المحاولة مرا اخرى ${errorEmoji}`)
                         message.reply(Err)
-                    }
-                }).catch(err => {
+                    })
+                }else{
 
                     const Err = new Discord.MessageEmbed()
+                    msg.delete()
                     Err.setColor(FNBRMENA.Colors("embed"))
-                    if(lang === "en") Err.setTitle(`There was an error while getting data please try again later ${errorEmoji}`)
-                    else if(lang === "ar") Err.setTitle(`يوجد مشكلة اثناء تحضير البيانات الرجاء المحاولة مرا اخرى ${errorEmoji}`)
+                    if(lang === "en") Err.setTitle(`There is no account with this name check your speling and try again ${errorEmoji}`)
+                    else if(lang === "ar") Err.setTitle(`لا يمكنني العثور على الحساب الرجاء التأكد من كتابة الاسم بشكل صحيح ${errorEmoji}`)
                     message.reply(Err)
-                })
-                
-            }else{
+                }
+            }).catch(err => {
+
+                console.log(err)
+                msg.delete()
                 const Err = new Discord.MessageEmbed()
                 Err.setColor(FNBRMENA.Colors("embed"))
-                if(lang === "en") Err.setTitle(`There is no account with this name check your speling and try again ${errorEmoji}`)
-                else if(lang === "ar") Err.setTitle(`لا يمكنني العثور على الحساب الرجاء التأكد من كتابة الاسم بشكل صحيح ${errorEmoji}`)
+                if(lang === "en") Err.setTitle(`There was an error while getting data please try again later ${errorEmoji}`)
+                else if(lang === "ar") Err.setTitle(`يوجد مشكلة اثناء تحضير البيانات الرجاء المحاولة مرا اخرى ${errorEmoji}`)
                 message.reply(Err)
-            }
+            })
         })
     }
 }

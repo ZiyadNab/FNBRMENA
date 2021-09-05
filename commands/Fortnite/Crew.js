@@ -223,6 +223,9 @@ module.exports = {
                             //remove any lines
                             description = description.replace("\r\n", "")
 
+                            //request more data
+                            const data = await FNBRMENA.Search(lang, "id", res.data.history[num].rewards[i].item.id)
+
                             //add introduces and set string
                             if(data.data.items[0].introduction !== null) description += `\n${data.data.items[0].introduction.text}`
                             if(data.data.items[0].set !== null) description += `\n${data.data.items[0].set.partOf}`

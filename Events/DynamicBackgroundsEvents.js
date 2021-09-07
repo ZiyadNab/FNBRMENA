@@ -51,7 +51,7 @@ module.exports = (FNBRMENA, client, admin) => {
                     }
 
                     //if push is enabled
-                    if(true){
+                    if(push){
                         lastModified = ""
                         for(let i = 0; i < response.length; i++) if(response[i].key === key) response[i] = []
                     }

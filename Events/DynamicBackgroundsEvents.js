@@ -60,7 +60,6 @@ module.exports = (FNBRMENA, client, admin) => {
 
                     //if the data was modified 
                     if(res.data.dynamicbackgrounds.lastModified !== lastModified){
-                        console.log("joined")
 
                         //a data has been changed
                         for(let i = 0; i < backgroundsDATA.length; i++){

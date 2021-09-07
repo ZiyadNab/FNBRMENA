@@ -115,7 +115,7 @@ module.exports = (FNBRMENA, client, admin) => {
 
                         //trun off push if enabled
                         await admin.database().ref("ERA's").child("Events").child("dynamicbackgrounds").child("Push").update({
-                            Statu: false
+                            Status: false
                         })
                     }
 

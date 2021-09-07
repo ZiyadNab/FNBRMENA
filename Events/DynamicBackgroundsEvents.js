@@ -1,7 +1,5 @@
-const axios = require('axios')
 const Discord = require('discord.js')
 const Canvas = require('canvas')
-const probe = require('probe-image-size')
 const config = require('../Coinfigs/config.json')
 
 module.exports = (FNBRMENA, client, admin) => {
@@ -53,7 +51,7 @@ module.exports = (FNBRMENA, client, admin) => {
                     }
 
                     //if push is enabled
-                    if(push){
+                    if(true){
                         lastModified = ""
                         for(let i = 0; i < response.length; i++) if(response[i].key === key) response[i] = []
                     }
@@ -74,15 +72,12 @@ module.exports = (FNBRMENA, client, admin) => {
                                     Canvas.registerFont('./assets/font/Lalezar-Regular.ttf', {family: 'Arabic',weight: "700"});
                                     Canvas.registerFont('./assets/font/BurbankBigCondensed-Black.otf' ,{family: 'Burbank Big Condensed',weight: "700"})
 
-                                    //image dimensions
-                                    var dimensions = await probe(backgroundsDATA[i].backgroundimage)
-
                                     //canvas
-                                    const canvas = Canvas.createCanvas(dimensions.width, dimensions.height);
+                                    const backgroundIMG = await Canvas.loadImage(backgroundsDATA[i].backgroundimage)
+                                    const canvas = Canvas.createCanvas(backgroundIMG.width, backgroundIMG.height);
                                     const ctx = canvas.getContext('2d')
 
-                                    //add the image
-                                    const backgroundIMG = await Canvas.loadImage(backgroundsDATA[i].backgroundimage)
+                                    //draw the image
                                     ctx.drawImage(backgroundIMG, 0, 0, canvas.width, canvas.height)
 
                                     //credits

@@ -18,11 +18,10 @@ module.exports = (FNBRMENA, client, admin) => {
 
         //checking if the bot on or off
         admin.database().ref("ERA's").child("Events").child("dynamicbackgrounds").once('value', async function (data) {
-
-            //store aceess
             const status = data.val().Active
             const lang = data.val().Lang
-            const push = data.val().Push
+            const push = data.val().Push.Status
+            const key = data.val().Push.Key
 
             //if the event is set to be true [ON]
             if(status){
@@ -56,11 +55,12 @@ module.exports = (FNBRMENA, client, admin) => {
                     //if push is enabled
                     if(push){
                         lastModified = ""
-                        response = []
+                        for(let i = 0; i < response.length; i++) if(response[i].key === key) response[i] = []
                     }
 
                     //if the data was modified 
                     if(res.data.dynamicbackgrounds.lastModified !== lastModified){
+                        console.log("joined")
 
                         //a data has been changed
                         for(let i = 0; i < backgroundsDATA.length; i++){
@@ -69,7 +69,7 @@ module.exports = (FNBRMENA, client, admin) => {
                             if(backgroundsDATA[i].backgroundimage !== undefined){
 
                                 //if the image is new
-                                if(!response.includes(backgroundsDATA[i])){
+                                if(!JSON.stringify(response).includes(JSON.stringify(backgroundsDATA[i]))){
 
                                     //registering fonts
                                     Canvas.registerFont('./assets/font/Lalezar-Regular.ttf', {family: 'Arabic',weight: "700"});
@@ -89,8 +89,8 @@ module.exports = (FNBRMENA, client, admin) => {
                                     //credits
                                     ctx.fillStyle = '#ffffff';
                                     ctx.textAlign='left';
-                                    ctx.font = '50px Burbank Big Condensed'
-                                    ctx.fillText("FNBRMENA", 15, 55)
+                                    ctx.font = '50px Burbank Big Condensed';
+                                    ctx.fillText("FNBRMENA", 15, 55);
 
                                     //attachments
                                     const att = new Discord.MessageAttachment(canvas.toBuffer(), `${backgroundsDATA[i].stage}.png`)
@@ -114,8 +114,8 @@ module.exports = (FNBRMENA, client, admin) => {
                         }
 
                         //trun off push if enabled
-                        await admin.database().ref("ERA's").child("Events").child("dynamicbackgrounds").update({
-                            Push: false
+                        await admin.database().ref("ERA's").child("Events").child("dynamicbackgrounds").child("Push").update({
+                            Statu: false
                         })
                     }
 

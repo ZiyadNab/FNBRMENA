@@ -1,7 +1,7 @@
 const Data = require('../../FNBRMENA')
 const FNBRMENA = new Data()
 const moment = require('moment')
-const probe = require('probe-image-size')
+require('moment-timezone')
 const Canvas = require('canvas')
 
 module.exports = {
@@ -14,6 +14,9 @@ module.exports = {
 
         //get the user language from the database
         const lang = await FNBRMENA.Admin(admin, message, "", "Lang")
+
+        //get the user timezone from the database
+        const timezone = await FNBRMENA.Admin(admin, message, "", "Timezone")
 
         //generating animation
         const generating = new Discord.MessageEmbed()
@@ -239,10 +242,10 @@ module.exports = {
                 ctx.fillStyle = '#ffffff'
                 ctx.textAlign='center'
                 if(lang === "en"){
-                    var date = moment().format("dddd, MMMM Do of YYYY")
+                    var date = moment.tz(moment(), timezone).format("dddd, MMMM Do of YYYY")
                     ctx.font = '100px Burbank Big Condensed'
                 }else{
-                    var date = moment().format("dddd, MMMM Do من YYYY")
+                    var date = moment.tz(moment(), timezone).format("dddd, MMMM Do من YYYY")
                     ctx.font = '100px Arabic'
 
                 } ctx.fillText(date, canvas.width / 2, (canvas.height - 50))

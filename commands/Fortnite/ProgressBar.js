@@ -1,7 +1,7 @@
 const Data = require('../../FNBRMENA')
 const FNBRMENA = new Data()
 const moment = require('moment')
-const probe = require('probe-image-size')
+require('moment-timezone')
 const Canvas = require('canvas')
 
 module.exports = {
@@ -14,6 +14,9 @@ module.exports = {
 
         //get the user language from the database
         const lang = await FNBRMENA.Admin(admin, message, "", "Lang")
+
+        //get the user timezone from the database
+        const timezone = await FNBRMENA.Admin(admin, message, "", "Timezone")
 
         //request progress data
         const progressData = await FNBRMENA.Admin(admin, message, "", "Progress")
@@ -251,9 +254,6 @@ module.exports = {
 
             }
 
-            //adding the gradiant
-            const grd = ctx.createLinearGradient(0, canvas.height / 2, canvas.width, canvas.height / 2)
-
             //loop throw every progress
             for(let i = 0; i < Object.keys(progressData[Object.keys(progressData)[index]]).length; i ++){
 
@@ -267,9 +267,12 @@ module.exports = {
                     if(data.Image.includes('/')) var objectIcon = await Canvas.loadImage(data.Image)
                     else var objectIcon = 'no data'
 
+                    //adding the gradiant
+                    const grd = ctx.createLinearGradient(x, 1500, x + 1500, 3000)
+
                     //inisilizing starts and ends durations
-                    const durationEnds = moment.duration(moment(data.Ends).diff(Now))
-                    const durationStarts = moment.duration(Now.diff(moment(data.Starts)))
+                    const durationEnds = moment.duration(moment.tz(data.Ends, timezone).diff(moment.tz(Now, timezone)))
+                    const durationStarts = moment.duration(moment.tz(Now, timezone).diff(moment.tz(data.Starts, timezone)))
 
                     //Get days and subtract from duration
                     const leftDays = Number(durationEnds.asDays().toString().substring(0, durationEnds.asDays().toString().indexOf(".")))
@@ -330,14 +333,16 @@ module.exports = {
             const Starts = moment(Now.format("YYYY") + "-" + Now.format("MM") + "-01")
             const crew = await Canvas.loadImage('https://imgur.com/7Sp9z5H.png')
 
+            //adding the gradiant
+            const grd = ctx.createLinearGradient(x, 1500, x + 1500, 3000)
+
             //inisilizing starts and ends durations
-            const durationEnds = moment.duration(moment(Ends).diff(Now))
-            const durationStarts = moment.duration(Now.diff(moment(Starts)))
+            const durationEnds = moment.duration(moment.tz(Ends, timezone).diff(moment.tz(Now, timezone)))
+            const durationStarts = moment.duration(moment.tz(Now, timezone).diff(moment.tz(Starts, timezone)))
 
             //Get days and subtract from duration
             const leftDays = Number(durationEnds.asDays().toString().substring(0, durationEnds.asDays().toString().indexOf(".")))
             const goneDays = Number(durationStarts.asDays().toString().substring(0, durationStarts.asDays().toString().indexOf(".")))
-            console.log(leftDays, goneDays)
 
             if(lang === "en") var goneText = `${goneDays} Days gone`
             else if(lang === "ar") var goneText = `${goneDays} يوم مضى`

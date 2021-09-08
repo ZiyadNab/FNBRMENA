@@ -6,7 +6,8 @@ module.exports = async (client, admin) => {
                 id: member.user.id,
                 name: member.user.username,
                 discriminator: member.user.discriminator,
-                lang: "en"
+                lang: "en",
+                timezone: "America/Los_Angeles"
             })
         }
     }) 

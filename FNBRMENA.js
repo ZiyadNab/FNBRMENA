@@ -621,6 +621,17 @@ class FNBRMENA {
             return prefix
         }
 
+        //get the user timezone
+        if(Type === "Timezone"){
+            var Timezone = await Admin.database().ref("ERA's").child("Users").child(Message.author.id).once('value')
+            .then(async data => {
+                return data.val().timezone;
+            })
+            
+            if(Timezone !== undefined) return Timezone
+            else return "America/Los_Angeles"
+        }
+
         //get the user language
         if(Type === "Lang"){
             var Lang = await Admin.database().ref("ERA's").child("Users").child(Message.author.id).once('value')

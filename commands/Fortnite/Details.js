@@ -3194,7 +3194,7 @@ module.exports = {
                             for(let i = 0; i < res.data.items[num].grants.length; i++){
 
                                 //creating canvas
-                                const canvas = Canvas.createCanvas(512, 512);
+                                const canvas = Canvas.createCanvas(1024, 1024);
                                 const ctx = canvas.getContext('2d');
 
                                 //request data

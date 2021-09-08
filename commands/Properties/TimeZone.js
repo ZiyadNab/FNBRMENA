@@ -130,8 +130,8 @@ module.exports = {
                 //create sucess embed
                 const confirmed = new Discord.MessageEmbed()
                 confirmed.setColor(FNBRMENA.Colors("embed"))
-                if(lang === "en") confirmed.setTitle(`You have successfully changed your timezone to ${timezone[num]} ${errorEmoji}`)
-                else if(lang === "ar") confirmed.setTitle(`تم تغير زمن المنطقة الخاص بط بنجاح الي ${timezone[num]} ${errorEmoji}`)
+                if(lang === "en") confirmed.setTitle(`You have successfully changed your timezone to ${timezone[num]} ${checkEmoji}`)
+                else if(lang === "ar") confirmed.setTitle(`تم تغير زمن المنطقة الخاص بط بنجاح الي ${timezone[num]} ${checkEmoji}`)
                 message.channel.send(confirmed)
             }
 

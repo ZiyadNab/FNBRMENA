@@ -329,16 +329,16 @@ module.exports = {
             }
 
             //Crew Object
-            const Ends = moment(`${Now.format("YYYY")}-${moment().add(1, 'months').format("MM")}-01`)
-            const Starts = moment(Now.format("YYYY") + "-" + Now.format("MM") + "-01")
+            const Ends = moment.tz(moment(`${Now.format("YYYY")}-${moment().add(1, 'months').format("MM")}-01`), timezone)
+            const Starts = moment.tz(moment(Now.format("YYYY") + "-" + Now.format("MM") + "-01"), timezone)
             const crew = await Canvas.loadImage('https://imgur.com/7Sp9z5H.png')
 
             //adding the gradiant
             const grd = ctx.createLinearGradient(x, 1500, x + 1500, 3000)
 
             //inisilizing starts and ends durations
-            const durationEnds = moment.duration(moment.tz(Ends, timezone).diff(moment.tz(Now, timezone)))
-            const durationStarts = moment.duration(moment.tz(Now, timezone).diff(moment.tz(Starts, timezone)))
+            const durationEnds = moment.duration(Ends.diff(Now))
+            const durationStarts = moment.duration(Now.diff(Starts))
 
             //Get days and subtract from duration
             const leftDays = Number(durationEnds.asDays().toString().substring(0, durationEnds.asDays().toString().indexOf(".")))

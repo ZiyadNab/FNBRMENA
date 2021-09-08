@@ -26,7 +26,7 @@ module.exports = {
         message.channel.send(generating)
         .then( async msg => {
 
-            //setting up moment js
+            //inislizing moment
             const Now = moment()
 
             //registering fonts
@@ -251,6 +251,9 @@ module.exports = {
 
             }
 
+            //adding the gradiant
+            const grd = ctx.createLinearGradient(0, canvas.height / 2, canvas.width, canvas.height / 2)
+
             //loop throw every progress
             for(let i = 0; i < Object.keys(progressData[Object.keys(progressData)[index]]).length; i ++){
 
@@ -260,46 +263,45 @@ module.exports = {
                 //if the bar is set to active
                 if(data.Status){
 
-                    //adding the gradiant
-                    var grd = ctx.createLinearGradient(x, 1500, x + 1500, 3000)
-
                     //get the object image
                     if(data.Image.includes('/')) var objectIcon = await Canvas.loadImage(data.Image)
                     else var objectIcon = 'no data'
 
-                    //inisilizing gone, left & objectPercent
-                    const gone = Now.diff(moment(data.Starts), 'days')
-                    const left = moment(data.Ends).diff(Now, 'days')
-                    const length = gone + left
-                    const objectPercent = (gone / length) * 3000
+                    //inisilizing starts and ends durations
+                    const durationEnds = moment.duration(moment(data.Ends).diff(Now))
+                    const durationStarts = moment.duration(Now.diff(moment(data.Starts)))
 
-                    if(lang === "en") var goneText = `${gone} Days gone`
-                    else if(lang === "ar") var goneText = `${gone} يوم مضى`
-                    if(lang === "en") var leftText = `${left} Days left`
-                    else if(lang === "ar") var leftText = `${left} يوم متبقي`
+                    //Get days and subtract from duration
+                    const leftDays = Number(durationEnds.asDays().toString().substring(0, durationEnds.asDays().toString().indexOf(".")))
+                    const goneDays = Number(durationStarts.asDays().toString().substring(0, durationStarts.asDays().toString().indexOf(".")))
+
+                    if(lang === "en") var goneText = `${goneDays} Days gone`
+                    else if(lang === "ar") var goneText = `${goneDays} يوم مضى`
+                    if(lang === "en") var leftText = `${leftDays} Days left`
+                    else if(lang === "ar") var leftText = `${leftDays} يوم متبقي`
 
                     //formating left
-                    if(moment.duration(moment(data.Ends).diff(Now)).days() <= 10 && moment.duration(moment(data.Ends).diff(Now)).days() >= 1){
-                        if(lang === "en") leftText = `0${moment.duration(moment(data.Ends).diff(Now)).days()} day and ${moment.duration(moment(data.Ends).diff(Now)).hours()} hours left`
-                        else if(lang === "ar") leftText = `0${moment.duration(moment(data.Ends).diff(Now)).days()} يوم و ${moment.duration(moment(data.Ends).diff(Now)).hours()} ساعة مضت`
+                    if(leftDays <= 10 && leftDays >= 1){
+                        if(lang === "en") leftText = `${leftDays} day and ${durationEnds.hours()} hours left`
+                        else if(lang === "ar") leftText = `${leftDays} يوم و ${durationEnds.hours()} ساعة مضت`
 
-                    }else if(moment.duration(moment(data.Ends).diff(Now)).days() < 1){
+                    }else if(leftDays < 1){
 
                         //if only hours left
-                        if(lang === "en") leftText = `${moment.duration(moment(data.Ends).diff(Now)).hours()} hours and ${moment.duration(moment(data.Ends).diff(Now)).minutes()} minuets left`
-                        else if(lang === "ar") leftText = `${moment.duration(moment(data.Ends).diff(Now)).hours()} ساعة و ${moment.duration(moment(data.Ends).diff(Now)).minutes()} دقيقة متبيقة`
+                        if(lang === "en") leftText = `${durationEnds.hours()} hours and ${durationEnds.minutes()} minuets left`
+                        else if(lang === "ar") leftText = `${durationEnds.hours()} ساعة و ${durationEnds.minutes()} دقيقة متبيقة`
                     }
 
                     //formating gone
-                    if(moment.duration(Now.diff(moment(data.Starts))).days() <= 10 && moment.duration(Now.diff(moment(data.Starts))).days() >= 1){
-                        if(lang === "en") leftText = `0${moment.duration(Now.diff(moment(data.Starts))).days()} day and ${moment.duration(Now.diff(moment(data.Starts))).hours()} hours left`
-                        else if(lang === "ar") leftText = `0${moment.duration(Now.diff(moment(data.Starts))).days()} يوم و ${moment.duration(Now.diff(moment(data.Starts))).hours()} ساعة مضت`
+                    if(goneDays <= 10 && goneDays >= 1){
+                        if(lang === "en") goneText = `${goneDays} day and ${durationStarts.hours()} hours left`
+                        else if(lang === "ar") goneText = `${goneDays} يوم و ${durationStarts.hours()} ساعة مضت`
 
-                    }else if(moment.duration(Now.diff(moment(data.Starts))).days() < 1){
+                    }else if(goneDays < 1){
                         
                         //if only hours gone
-                        if(lang === "en") goneText = `${moment.duration(Now.diff(moment(data.Starts))).hours()} hours and ${moment.duration(Now.diff(moment(data.Starts))).minutes()} minuets gone`
-                        else if(lang === "ar") goneText = `${moment.duration(Now.diff(moment(data.Starts))).hours()} ساعة و ${moment.duration(Now.diff(moment(data.Starts))).minutes()} دقيقة مضت`
+                        if(lang === "en") goneText = `${durationStarts.hours()} hours and ${durationStarts.minutes()} minuets gone`
+                        else if(lang === "ar") goneText = `${durationStarts.hours()} ساعة و ${durationStarts.minutes()} دقيقة مضت`
                     }
 
                     //if there is finished string
@@ -310,9 +312,13 @@ module.exports = {
                         finishedStringAR = data.finishedString.AR
                     }
 
+                    //get object length and percentage
+                    const length = goneDays + leftDays
+                    const objectPercent = (goneDays / length) * 3000
+
                     //calling the object
-                    await CreatingObj(grd, x, y, gone, goneText, left, leftText, length, objectPercent, 
-                        data.Colors, objectIcon, finishedStringEN, finishedStringAR)
+                    await CreatingObj(grd, x, y, goneDays, goneText, leftDays, leftText, length, objectPercent, 
+                       data.Colors, objectIcon, finishedStringEN, finishedStringAR)
 
                     y += 420
 
@@ -322,52 +328,60 @@ module.exports = {
             //Crew Object
             const Ends = moment(`${Now.format("YYYY")}-${moment().add(1, 'months').format("MM")}-01`)
             const Starts = moment(Now.format("YYYY") + "-" + Now.format("MM") + "-01")
-            var gone = Now.diff(Starts, "days")
-            var left = Ends.diff(Now, "days")
-            const length = left + gone
-            var crewPercent = (gone / length) * 3000
             const crew = await Canvas.loadImage('https://imgur.com/7Sp9z5H.png')
 
-            if(lang === "en") var goneText = `${gone} Days gone`
-            else if(lang === "ar") var goneText = `${gone} يوم مضى`
-            if(lang === "en") var leftText = `${left} Days left`
-            else if(lang === "ar") var leftText = `${left} يوم متبقي`
+            //inisilizing starts and ends durations
+            const durationEnds = moment.duration(moment(Ends).diff(Now))
+            const durationStarts = moment.duration(Now.diff(moment(Starts)))
+
+            //Get days and subtract from duration
+            const leftDays = Number(durationEnds.asDays().toString().substring(0, durationEnds.asDays().toString().indexOf(".")))
+            const goneDays = Number(durationStarts.asDays().toString().substring(0, durationStarts.asDays().toString().indexOf(".")))
+            console.log(leftDays, goneDays)
+
+            if(lang === "en") var goneText = `${goneDays} Days gone`
+            else if(lang === "ar") var goneText = `${goneDays} يوم مضى`
+            if(lang === "en") var leftText = `${leftDays} Days left`
+            else if(lang === "ar") var leftText = `${leftDays} يوم متبقي`
 
             //formating left
-            if(moment.duration(Ends.diff(Now)).days() <= 10 && moment.duration(Ends.diff(Now)).days() >= 1){
-                if(lang === "en") leftText = `0${moment.duration(Ends.diff(Now)).days()} day and ${moment.duration(Ends.diff(Now)).hours()} hours left`
-                else if(lang === "ar") leftText = `0${moment.duration(Ends.diff(Now)).days()} يوم و ${moment.duration(Ends.diff(Now)).hours()} ساعة مضت`
+            if(leftDays <= 10 && leftDays >= 1){
+                if(lang === "en") leftText = `${leftDays} day and ${durationEnds.hours()} hours left`
+                else if(lang === "ar") leftText = `${leftDays} يوم و ${durationEnds.hours()} ساعة مضت`
 
-            }else if(moment.duration(Ends.diff(Now)).days() < 1){
+            }else if(leftDays < 1){
 
                 //if only hours left
-                if(lang === "en") leftText = `${moment.duration(Ends.diff(Now)).hours()} hours and ${moment.duration(Ends.diff(Now)).minutes()} minuets left`
-                else if(lang === "ar") leftText = `${moment.duration(Ends.diff(Now)).hours()} ساعة و ${moment.duration(Ends.diff(Now)).minutes()} دقيقة متبيقة`
+                if(lang === "en") leftText = `${durationEnds.hours()} hours and ${durationEnds.minutes()} minuets left`
+                else if(lang === "ar") leftText = `${durationEnds.hours()} ساعة و ${durationEnds.minutes()} دقيقة متبيقة`
             }
 
             //formating gone
-            if(moment.duration(Now.diff(Starts)).days() <= 10 && moment.duration(Now.diff(Starts)).days() >= 1){
-                if(lang === "en") goneText = `0${moment.duration(Now.diff(Starts)).days()} day and ${moment.duration(Now.diff(Starts)).hours()} hours left`
-                else if(lang === "ar") goneText = `0${moment.duration(Now.diff(Starts)).days()} يوم و ${moment.duration(Now.diff(Starts)).hours()} ساعة مضت`
+            if(goneDays <= 10 && goneDays >= 1){
+                if(lang === "en") goneText = `${goneDays} day and ${durationStarts.hours()} hours left`
+                else if(lang === "ar") goneText = `${goneDays} يوم و ${durationStarts.hours()} ساعة مضت`
 
-            }else if(moment.duration(Now.diff(Starts)).days() < 1){
+            }else if(goneDays < 1){
                 
                 //if only hours gone
-                if(lang === "en") goneText = `${moment.duration(Now.diff(Starts)).hours()} hours and ${moment.duration(Now.diff(Starts)).minutes()} minuets gone`
-                else if(lang === "ar") goneText = `${moment.duration(Now.diff(Starts)).hours()} ساعة و ${moment.duration(Now.diff(Starts)).minutes()} دقيقة مضت`
+                if(lang === "en") goneText = `${durationStarts.hours()} hours and ${durationStarts.minutes()} minuets gone`
+                else if(lang === "ar") goneText = `${durationStarts.hours()} ساعة و ${durationStarts.minutes()} دقيقة مضت`
             }
-
-            //adding the gradiant
-            var grd = ctx.createLinearGradient(x, 1500, x + 1500, 3000)
 
             //if there is finished string
             let finishedStringEN = `Will be available soon...`
             let finishedStringAR = `سوف تتاح قريبا...`
 
+            //get object length and percentage
+            const length = leftDays + goneDays
+            const crewPercent = (goneDays / length) * 3000
+
             //calling the object
-            await CreatingObj(grd, x, y, gone, goneText, left, leftText, length, crewPercent, 
+            await CreatingObj(grd, x, y, goneDays, goneText, leftDays, leftText, length, crewPercent, 
                 ['FF0064', 'FF0008'], crew, finishedStringEN, finishedStringAR)
 
+
+            //send the message
             try {
                 const att = new Discord.MessageAttachment(canvas.toBuffer(), 'progress.png')
                 await message.channel.send(att)

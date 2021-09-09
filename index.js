@@ -89,6 +89,7 @@ client.on('ready', async () => {
   const baseFile = 'CommandBase.js'
   const commandBase = require(`./commands/${baseFile}`)
   const Array = []
+  const commandsData = []
 
   //read all commands
   const readCommands = (dir) => {
@@ -108,7 +109,7 @@ client.on('ready', async () => {
   //excute
   readCommands('commands')
   commandBase.listen(client, admin, disTube)
-  Events(client, admin, Array)
+  Events(client, admin, commandsData)
   
 })
 

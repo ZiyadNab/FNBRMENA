@@ -219,6 +219,150 @@ class FNBRMENA {
     }
 
     /**
+     * Return data about the new cosmetice after an update
+     * 
+     * @param {String} Lang
+     * @example
+     * FNBRMENA.Stats(Lang)
+     * .then(async res => {
+     * 
+     *        //you will get a response weather the requested data has been found or not
+     * 
+     * })
+     * 
+     */
+     async CosmeticsNew(Lang){
+
+        //request the data and return the response
+        return await axios.get(encodeURI(`https://fortnite-api.com/v2/cosmetics/br/new?language=${Lang}`))
+
+    }
+
+    /**
+     * Return data about searched sac
+     * 
+     * @param {String} playerTag
+     * @param {String} Platform
+     * @param {String} Period
+     * @example
+     * FNBRMENA.CreatorCodeSearch(SAC)
+     * .then(async res => {
+     * 
+     *        //you will get a response weather the requested data has been found or not
+     * 
+     * })
+     * 
+     */
+     async CreatorCodeSearch(SAC){
+
+        //request the data and return the response
+        return await axios.get(encodeURI(`https://fortnite-api.com/v2/creatorcode/search?name=${SAC}`))
+
+    }
+
+    /**
+     * Return data about the battlepass
+     * 
+     * @param {String} Lang
+     * @param {String} Season
+     * @example
+     * FNBRMENA.getBattlepassRewards(Lang, Season)
+     * .then(async res => {
+     * 
+     *        //you will get a response weather the requested data has been found or not
+     * 
+     * })
+     * 
+     */
+     async getBattlepassRewards(Lang, Season){
+
+        //request the data and return the response
+        return await axios.get(encodeURI(`https://fortniteapi.io/v2/battlepass?lang=en&season=${Season}&lang=${Lang}`), { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
+
+    }
+
+    /**
+     * Return data about the bundles
+     * 
+     * @param {String} Lang
+     * @example
+     * FNBRMENA.getBundles(Lang)
+     * .then(async res => {
+     * 
+     *        //you will get a response weather the requested data has been found or not
+     * 
+     * })
+     * 
+     */
+     async getBundles(Lang){
+
+        //request the data and return the response
+        return await axios.get(encodeURI(`https://fortniteapi.io/v2/bundles?lang=${Lang}`), { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
+
+    }
+
+    /**
+     * Return data about the itemshop
+     * 
+     * @param {String} Lang
+     * @example
+     * FNBRMENA.itemshop(Lang)
+     * .then(async res => {
+     * 
+     *        //you will get a response weather the requested data has been found or not
+     * 
+     * })
+     * 
+     */
+     async itemshop(Lang){
+
+        //request the data and return the response
+        return await axios.get(encodeURI(`https://fortniteapi.io/v2/shop?lang=${Lang}`), { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
+
+    }
+
+    /**
+     * Return data about the listCurrentPOI
+     * 
+     * @param {String} Lang
+     * @example
+     * FNBRMENA.listCurrentPOI(Lang)
+     * .then(async res => {
+     * 
+     *        //you will get a response weather the requested data has been found or not
+     * 
+     * })
+     * 
+     */
+     async listCurrentPOI(Lang){
+
+        //request the data and return the response
+        return await axios.get(encodeURI(`https://fortniteapi.io/v2/game/poi?lang=${Lang}`), { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
+
+    }
+
+    /**
+     * Return data about the quests
+     * 
+     * @param {String} Lang
+     * @param {String} Season
+     * @example
+     * FNBRMENA.listChallenges(Season, Lang)
+     * .then(async res => {
+     * 
+     *        //you will get a response weather the requested data has been found or not
+     * 
+     * })
+     * 
+     */
+     async listChallenges(Season, Lang){
+
+        //request the data and return the response
+        return await axios.get(encodeURI(`https://fortniteapi.io/v2/challenges?season=${Season}&lang=${Lang}`), { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
+
+    }
+
+    /**
      * Return data about the playlist
      * 
      * @param {String} Lang
@@ -283,6 +427,17 @@ class FNBRMENA {
     }
 
     /**
+     * Return data about the mapio
+     * 
+     * 
+     */
+     async MapIO(){
+
+        //return the crew data
+        return await axios.get(`https://fortniteapi.io/v1/maps/list`, { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
+    }
+
+    /**
      * Return data about the crew
      * 
      * @param {String} Lang
@@ -292,6 +447,17 @@ class FNBRMENA {
 
         //return the crew data
         return await axios.get(`https://fortnite-api.com/v1/map?language=${Lang}`)
+    }
+
+    /**
+     * Return data about the current aes
+     * 
+     * 
+     */
+     async AES(){
+
+        //return the crew data
+        return await axios.get(`https://fortnite-api.com/v2/aes`)
     }
 
     /**
@@ -470,11 +636,11 @@ class FNBRMENA {
      * 
      * @param {String} [Client]
      * @param {String} [Admin]
-     * @param {String} [array]
+     * @param {String} [commandsData]
      * @param {String} [Type]
      * 
     */
-    Events(FNBRMENA, Client, Admin, array, Type){
+    Events(FNBRMENA, Client, Admin, commandsData, Type){
         
         //return Blogposts access
         if(Type === "Blogposts"){
@@ -550,7 +716,7 @@ class FNBRMENA {
 
         //return ShopSCommandsection access
         if(Type === "Commands"){
-            Commands(Client, Admin, array)
+            Commands(Client, Admin, commandsData)
         }
 
          //return Itemshop access
@@ -611,6 +777,9 @@ class FNBRMENA {
      * 
      */
     async Admin(Admin, Message, Alias, Type){
+
+        //seeting up the db firestore
+        var db = await Admin.firestore()
         
         //get the prefix from the database
         if(Type === "Prefix"){
@@ -652,35 +821,27 @@ class FNBRMENA {
 
         //get the command status
         if(Type === "Command"){
-            var status = await Admin.database().ref("ERA's").child("Commands").child(Alias).child("Active").once('value')
+            var status = await db.collection("Commands").doc(Alias).get()
             .then(async data => {
-                return data.val().Status;
+                return data.data().commandStatus;
             })
             return status
         }
 
         //check perms for an a command
         if(Type === "Perms"){
-            var perms = await Admin.database().ref("ERA's").child("Commands").child(Alias).child("Perms").child("0").once('value')
+            var perms = await db.collection("Commands").doc(Alias).get()
             .then(async data => {
-                if(data.val() !== null){
-                    return perms = data.val()
-                }else{
-                    return []
-                }
+                return data.data().permissions
             })
             return perms
         }
 
         //check roles for an a command
         if(Type === "Roles"){
-            var roles = await Admin.database().ref("ERA's").child("Commands").child(Alias).child("Roles").child("0").once('value')
+            var roles = await db.collection("Commands").doc(Alias).get()
             .then(async data => {
-                if(data.val() !== null){
-                    return roles = data.val()
-                }else{
-                    return []
-                }
+                return data.data().roles
             })
             return roles
         }

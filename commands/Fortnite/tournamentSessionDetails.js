@@ -1,11 +1,10 @@
-const Data = require('../../FNBRMENA');
-const FNBRMENA = new Data();
 const moment = require('moment');
-const tz = require('moment-timezone');
+require('moment-timezone');
 const Canvas = require('canvas');
 
 module.exports = {
     commands: ['result', 'res'],
+    type: 'Fortnite',
     descriptionEN: 'A command that will return a top 10 or more in any tournament of your choice',
     descriptionAR: 'أمر راح يسترجع لك معلومات الأوائل لأي بطولة بأختيارك.',
     expectedArgsEN: 'To use the command you need to specifiy a tournament window id (you can find it in tournament channel or ask the mods to give you any window id u need).',
@@ -17,7 +16,7 @@ module.exports = {
     maxArgs: null,
     cooldown: 40,
     permissionError: 'Sorry you do not have acccess to this command',
-    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji) => {
+    callback: async (FNBRMENA, message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji, greenStatus, redStatus) => {
 
         //get the user language from the database
         const lang = await FNBRMENA.Admin(admin, message, "", "Lang");

@@ -1,9 +1,7 @@
-const Data = require('../../FNBRMENA')
-const FNBRMENA = new Data()
 const Canvas = require('canvas');
 const FortniteAPI = require("fortnite-api-com");
 const config = {
-  apikey: FNBRMENA.APIKeys("FortniteAPI.com"),
+  apikey: "a7eabb1fa5a6e59cbcda3a6885d42f02be0d76ea",
   language: "en",
   debug: true
 };
@@ -12,11 +10,12 @@ var Fortnite = new FortniteAPI(config);
 
 module.exports = {
     commands: 'combo',
+    type: 'Fortnite',
     minArgs: 0,
     maxArgs: 0,
     cooldown: -1,
     permissionError: 'Sorry you do not have acccess to this command',
-    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji) => {
+    callback: async (FNBRMENA, message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji, greenStatus, redStatus) => {
 
         //get the user language from the database
         const lang = await FNBRMENA.Admin(admin, message, "", "Lang")

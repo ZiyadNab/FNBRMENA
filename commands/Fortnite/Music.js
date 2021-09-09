@@ -1,10 +1,6 @@
-const Data = require('../../FNBRMENA')
-const FNBRMENA = new Data()
-const FortniteAPI = require("fortniteapi.io-api");
-const fortniteAPI = new FortniteAPI(FNBRMENA.APIKeys("FortniteAPI.io"));
-
 module.exports = {
     commands: 'music',
+    type: 'Fortnite',
     descriptionEN: 'Use this command to get any music pack in a video form.',
     descriptionAR: 'أستعمل الأمر لأستخراج فيديو لأي ميوزك لوبي بأختيارك.',
     expectedArgsEN: 'Use this command then type the music name or the music id',
@@ -14,7 +10,7 @@ module.exports = {
     maxArgs: null,
     cooldown: -1,
     permissionError: 'Sorry you do not have acccess to this command',
-    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji) => {
+    callback: async (FNBRMENA, message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji, greenStatus, redStatus) => {
 
         //get the user language from the database
         const lang = await FNBRMENA.Admin(admin, message, "", "Lang")

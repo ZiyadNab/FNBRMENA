@@ -1,22 +1,19 @@
-const Data = require('../../FNBRMENA')
-const FNBRMENA = new Data()
-const FortniteAPI = require("fortniteapi.io-api");
-const fortniteAPI = new FortniteAPI(FNBRMENA.APIKeys("FortniteAPI.io"));
 const Canvas = require('canvas');
 const { MessageButton } = require('discord-buttons');
 
 module.exports = {
     commands: 'land',
+    type: 'Fortnite',
     minArgs: 0,
     maxArgs: 0,
     cooldown: -1,
     permissionError: 'Sorry you do not have acccess to this command',
-    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji) => {
+    callback: async (FNBRMENA, message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji, greenStatus, redStatus) => {
 
         //get the user language from the database
         const lang = await FNBRMENA.Admin(admin, message, "", "Lang")
 
-        fortniteAPI.listCurrentPOI(options = {lang: lang})
+        FNBRMENA.listCurrentPOI(lang)
         .then(async res => {
 
             //variables
@@ -69,14 +66,15 @@ module.exports = {
                 //generating animation
                 const generating = new Discord.MessageEmbed()
                 generating.setColor(FNBRMENA.Colors("embed"))
-                generating.setTitle(`${loading} ${res.list.length} ${loadingEmoji}`)
+                generating.setTitle(`${loading} ${res.data.list.length} ${loadingEmoji}`)
                 message.channel.send(generating)
                 .then( async msg => {
+                    
                     //creating embed
                     const picked = new Discord.MessageEmbed()
 
                     //get a random number
-                    var randomImage = Math.floor(Math.random() * res.list.length)
+                    var randomImage = Math.floor(Math.random() * res.data.list.length)
                     
                     //create the color
                     await picked.setColor(FNBRMENA.Colors("embed"))
@@ -90,9 +88,9 @@ module.exports = {
 
                     //set description
                     if(lang === "en"){
-                        await picked.setDescription("you are gonna land at **" + res.list[randomImage].name + "**")
+                        await picked.setDescription("you are gonna land at **" + res.data.list[randomImage].name + "**")
                     }else if(lang === "ar"){
-                        await picked.setDescription("راح تنزل في منطقة **" + res.list[randomImage].name + "**")
+                        await picked.setDescription("راح تنزل في منطقة **" + res.data.list[randomImage].name + "**")
                     }
 
                     //Registering fonts
@@ -104,7 +102,7 @@ module.exports = {
                     const ctx = canvas.getContext('2d');
 
                     //background
-                    const background = await Canvas.loadImage(res.list[randomImage].images[0].url)
+                    const background = await Canvas.loadImage(res.data.list[randomImage].images[0].url)
                     ctx.drawImage(background, 0, 0, 1920, 1080)
 
                     //add blue fog
@@ -118,7 +116,7 @@ module.exports = {
                     ctx.fillText("FNBRMENA", 15, 55)
 
                     //encoding...
-                    const att = new Discord.MessageAttachment(canvas.toBuffer(), res.list[randomImage].name + '.png')
+                    const att = new Discord.MessageAttachment(canvas.toBuffer(), res.data.list[randomImage].name + '.png')
 
                     //set the image
                     await picked.attachFiles([att])

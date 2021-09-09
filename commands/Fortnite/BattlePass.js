@@ -1,11 +1,8 @@
-const Data = require('../../FNBRMENA')
-const FNBRMENA = new Data()
-const FortniteAPI = require("fortniteapi.io-api")
-const fortniteAPI = new FortniteAPI(FNBRMENA.APIKeys("FortniteAPI.io"))
 const Canvas = require('canvas')
 
 module.exports = {
     commands: 'battlepass',
+    type: 'Fortnite',
     descriptionEN: 'A command that will return a picture of a battlepass of your choice from season 2 till current season.',
     descriptionAR: 'أمر راح يسترجع لك صورة تحتوي على عناصر باتل باس بأختيارك من الموسم 2 الى الموسم الحالي.',
     expectedArgsEN: 'To use the command you need to specifiy a season number from season 2 to latest season.',
@@ -15,17 +12,17 @@ module.exports = {
     maxArgs: 1,
     cooldown: 40,
     permissionError: 'Sorry you do not have acccess to this command',
-    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji) => {
+    callback: async (FNBRMENA, message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji, greenStatus, redStatus) => {
 
         //get the user language from the database
         const lang = await FNBRMENA.Admin(admin, message, "", "Lang")
 
         //request data
-        fortniteAPI.getBattlepassRewards(season = args, options = {lang: lang})
+        FNBRMENA.getBattlepassRewards(lang, args)
             .then(async res => {
                 
                 // generating animation
-                var length = res.rewards.length;
+                var length = res.data.rewards.length;
                 const generating = new Discord.MessageEmbed()
                 generating.setColor(FNBRMENA.Colors("embed"))
                 if(lang === "en") generating.setTitle(`Loading a total ${length} cosmetics please wait... ${loadingEmoji}`)
@@ -81,9 +78,9 @@ module.exports = {
                     ctx.textAlign='right';
                     if(lang === "en") ctx.font = '100px Burbank Big Condensed'
                     else if (lang === "ar") ctx.font = '100px Arabic'
-                    ctx.fillText(res.displayInfo.chapterSeason, (canvas.width - 25), 107)
+                    ctx.fillText(res.data.displayInfo.chapterSeason, (canvas.width - 25), 107)
 
-                    //reseting new line
+                    //res.dataeting new line
                     newline = 0
 
                     //loop throw every item
@@ -93,11 +90,11 @@ module.exports = {
                         newline += 1
 
                         //variables
-                        if(res.rewards[i].price === null) var tier = res.rewards[i].tier
-                        else var tier = res.rewards[i].price.amount
-                        var image = res.rewards[i].item.images.icon
-                        if(res.rewards[i].item.series === null) var rarity = res.rewards[i].item.rarity.id
-                        else var rarity = res.rewards[i].item.series.id
+                        if(res.data.rewards[i].price === null) var tier = res.data.rewards[i].tier
+                        else var tier = res.data.rewards[i].price.amount
+                        var image = res.data.rewards[i].item.images.icon
+                        if(res.data.rewards[i].item.series === null) var rarity = res.data.rewards[i].item.rarity.id
+                        else var rarity = res.data.rewards[i].item.series.id
 
                         //searching...
                         if(rarity === "Legendary"){
@@ -110,7 +107,7 @@ module.exports = {
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '60px Burbank Big Condensed'
-                            if(res.rewards[i].price === null) ctx.fillText(tier, (x + 107), (y + 275))
+                            if(res.data.rewards[i].price === null) ctx.fillText(tier, (x + 107), (y + 275))
                             else {
                                 const holder = await Canvas.loadImage('./assets/battlepass/star.png')
                                 ctx.drawImage(holder, x + 100, y + 220, 60, 60)
@@ -127,7 +124,7 @@ module.exports = {
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '60px Burbank Big Condensed'
-                            if(res.rewards[i].price === null) ctx.fillText(tier, (x + 107), (y + 275))
+                            if(res.data.rewards[i].price === null) ctx.fillText(tier, (x + 107), (y + 275))
                             else {
                                 const holder = await Canvas.loadImage('./assets/battlepass/star.png')
                                 ctx.drawImage(holder, x + 100, y + 220, 60, 60)
@@ -144,7 +141,7 @@ module.exports = {
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '60px Burbank Big Condensed'
-                            if(res.rewards[i].price === null) ctx.fillText(tier, (x + 107), (y + 275))
+                            if(res.data.rewards[i].price === null) ctx.fillText(tier, (x + 107), (y + 275))
                             else {
                                 const holder = await Canvas.loadImage('./assets/battlepass/star.png')
                                 ctx.drawImage(holder, x + 100, y + 220, 60, 60)
@@ -161,7 +158,7 @@ module.exports = {
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '60px Burbank Big Condensed'
-                            if(res.rewards[i].price === null) ctx.fillText(tier, (x + 107), (y + 275))
+                            if(res.data.rewards[i].price === null) ctx.fillText(tier, (x + 107), (y + 275))
                             else {
                                 const holder = await Canvas.loadImage('./assets/battlepass/star.png')
                                 ctx.drawImage(holder, x + 100, y + 220, 60, 60)
@@ -178,7 +175,7 @@ module.exports = {
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '60px Burbank Big Condensed'
-                            if(res.rewards[i].price === null) ctx.fillText(tier, (x + 107), (y + 275))
+                            if(res.data.rewards[i].price === null) ctx.fillText(tier, (x + 107), (y + 275))
                             else {
                                 const holder = await Canvas.loadImage('./assets/battlepass/star.png')
                                 ctx.drawImage(holder, x + 100, y + 220, 60, 60)
@@ -195,7 +192,7 @@ module.exports = {
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '60px Burbank Big Condensed'
-                            if(res.rewards[i].price === null) ctx.fillText(tier, (x + 107), (y + 275))
+                            if(res.data.rewards[i].price === null) ctx.fillText(tier, (x + 107), (y + 275))
                             else {
                                 const holder = await Canvas.loadImage('./assets/battlepass/star.png')
                                 ctx.drawImage(holder, x + 100, y + 220, 60, 60)
@@ -212,7 +209,7 @@ module.exports = {
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '60px Burbank Big Condensed'
-                            if(res.rewards[i].price === null) ctx.fillText(tier, (x + 107), (y + 275))
+                            if(res.data.rewards[i].price === null) ctx.fillText(tier, (x + 107), (y + 275))
                             else {
                                 const holder = await Canvas.loadImage('./assets/battlepass/star.png')
                                 ctx.drawImage(holder, x + 100, y + 220, 60, 60)
@@ -229,7 +226,7 @@ module.exports = {
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '60px Burbank Big Condensed'
-                            if(res.rewards[i].price === null) ctx.fillText(tier, (x + 107), (y + 275))
+                            if(res.data.rewards[i].price === null) ctx.fillText(tier, (x + 107), (y + 275))
                             else {
                                 const holder = await Canvas.loadImage('./assets/battlepass/star.png')
                                 ctx.drawImage(holder, x + 100, y + 220, 60, 60)
@@ -246,7 +243,7 @@ module.exports = {
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '60px Burbank Big Condensed'
-                            if(res.rewards[i].price === null) ctx.fillText(tier, (x + 107), (y + 275))
+                            if(res.data.rewards[i].price === null) ctx.fillText(tier, (x + 107), (y + 275))
                             else {
                                 const holder = await Canvas.loadImage('./assets/battlepass/star.png')
                                 ctx.drawImage(holder, x + 100, y + 220, 60, 60)
@@ -263,7 +260,7 @@ module.exports = {
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '60px Burbank Big Condensed'
-                            if(res.rewards[i].price === null) ctx.fillText(tier, (x + 107), (y + 275))
+                            if(res.data.rewards[i].price === null) ctx.fillText(tier, (x + 107), (y + 275))
                             else {
                                 const holder = await Canvas.loadImage('./assets/battlepass/star.png')
                                 ctx.drawImage(holder, x + 100, y + 220, 60, 60)
@@ -280,7 +277,7 @@ module.exports = {
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '60px Burbank Big Condensed'
-                            if(res.rewards[i].price === null) ctx.fillText(tier, (x + 107), (y + 275))
+                            if(res.data.rewards[i].price === null) ctx.fillText(tier, (x + 107), (y + 275))
                             else {
                                 const holder = await Canvas.loadImage('./assets/battlepass/star.png')
                                 ctx.drawImage(holder, x + 100, y + 220, 60, 60)
@@ -297,7 +294,7 @@ module.exports = {
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '60px Burbank Big Condensed'
-                            if(res.rewards[i].price === null) ctx.fillText(tier, (x + 107), (y + 275))
+                            if(res.data.rewards[i].price === null) ctx.fillText(tier, (x + 107), (y + 275))
                             else {
                                 const holder = await Canvas.loadImage('./assets/battlepass/star.png')
                                 ctx.drawImage(holder, x + 100, y + 220, 60, 60)
@@ -314,7 +311,7 @@ module.exports = {
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '60px Burbank Big Condensed'
-                            if(res.rewards[i].price === null) ctx.fillText(tier, (x + 107), (y + 275))
+                            if(res.data.rewards[i].price === null) ctx.fillText(tier, (x + 107), (y + 275))
                             else {
                                 const holder = await Canvas.loadImage('./assets/battlepass/star.png')
                                 ctx.drawImage(holder, x + 100, y + 220, 60, 60)
@@ -331,7 +328,7 @@ module.exports = {
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '60px Burbank Big Condensed'
-                            if(res.rewards[i].price === null) ctx.fillText(tier, (x + 107), (y + 275))
+                            if(res.data.rewards[i].price === null) ctx.fillText(tier, (x + 107), (y + 275))
                             else {
                                 const holder = await Canvas.loadImage('./assets/battlepass/star.png')
                                 ctx.drawImage(holder, x + 100, y + 220, 60, 60)
@@ -348,7 +345,7 @@ module.exports = {
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '60px Burbank Big Condensed'
-                            if(res.rewards[i].price === null) ctx.fillText(tier, (x + 107), (y + 275))
+                            if(res.data.rewards[i].price === null) ctx.fillText(tier, (x + 107), (y + 275))
                             else {
                                 const holder = await Canvas.loadImage('./assets/battlepass/star.png')
                                 ctx.drawImage(holder, x + 100, y + 220, 60, 60)
@@ -364,7 +361,7 @@ module.exports = {
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '60px Burbank Big Condensed'
-                            if(res.rewards[i].price === null) ctx.fillText(tier, (x + 107), (y + 275))
+                            if(res.data.rewards[i].price === null) ctx.fillText(tier, (x + 107), (y + 275))
                             else {
                                 const holder = await Canvas.loadImage('./assets/battlepass/star.png')
                                 ctx.drawImage(holder, x + 100, y + 220, 60, 60)
@@ -382,17 +379,17 @@ module.exports = {
                     }
 
                     //send the pic
-                    const att = new Discord.MessageAttachment(canvas.toBuffer(), `season${res.season}.png`)
+                    const att = new Discord.MessageAttachment(canvas.toBuffer(), `season${res.data.season}.png`)
                     await message.channel.send(att)
 
                     //loop throw every item and store the paid and unpaid items
                     for(let i = 0; i < length; i++){
 
                         //if the item is paid
-                        if(res.rewards[i].battlepass === 'paid') paid += 1
+                        if(res.data.rewards[i].battlepass === 'paid') paid += 1
 
                         //if the item is free
-                        if(res.rewards[i].battlepass === 'free') free += 1
+                        if(res.data.rewards[i].battlepass === 'free') free += 1
                     }
 
                     //create info embed
@@ -405,7 +402,7 @@ module.exports = {
                     if(lang === "en"){
 
                         //set the title
-                        info.setTitle(`Season ${res.displayInfo.chapterSeason} battlepass details`)
+                        info.setTitle(`Season ${res.data.displayInfo.chapterSeason} battlepass details`)
 
                         //add the fields
                         info.addFields(
@@ -417,7 +414,7 @@ module.exports = {
                     }else if(lang === "ar"){
 
                         //set the title
-                        info.setTitle(`سيزون ${res.displayInfo.chapterSeason} معلومات الباتل باس`)
+                        info.setTitle(`سيزون ${res.data.displayInfo.chapterSeason} معلومات الباتل باس`)
 
                         //add the fields
                         info.addFields(
@@ -431,7 +428,7 @@ module.exports = {
                     message.channel.send(info)
 
                     //get the battlepass videos
-                    for(let i = 0; i < res.videos.length; i++){
+                    for(let i = 0; i < res.data.videos.length; i++){
 
                         //create the videos embed
                         const embed = new Discord.MessageEmbed()
@@ -440,7 +437,7 @@ module.exports = {
                         embed.setColor(FNBRMENA.Colors("embed"))
 
                         //if the video is a battlepass trailer
-                        if(res.videos[i].type === "bp"){
+                        if(res.data.videos[i].type === "bp"){
 
                             if(lang === "en") embed.setTitle("Battlepass Trailer")
                             else if(lang === "ar") embed.setTitle("عرض الباتل باس")
@@ -448,7 +445,7 @@ module.exports = {
                         }else
 
                         //if the video is a season story trailer
-                        if(res.videos[i].type === "trailer"){
+                        if(res.data.videos[i].type === "trailer"){
 
                             if(lang === "en") embed.setTitle("Season Trailer")
                             else if(lang === "ar") embed.setTitle("عرض السيزون")
@@ -456,7 +453,7 @@ module.exports = {
                         }
 
                         //set the url
-                        embed.setURL(res.videos[i].url)
+                        embed.setURL(res.data.videos[i].url)
 
                         //send the message
                         message.channel.send(embed)

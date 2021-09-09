@@ -1,16 +1,13 @@
-const Data = require('../../FNBRMENA')
-const FNBRMENA = new Data()
 const moment = require('moment')
-const FortniteAPI = require("fortniteapi.io-api");
-const fortniteAPI = new FortniteAPI(FNBRMENA.APIKeys("FortniteAPI.io"));
 
 module.exports = {
     commands: 'reminders',
+    type: 'Fortnite',
     minArgs: 0,
     maxArgs: 0,
     cooldown: -1,
     permissionError: 'Sorry you do not have acccess to this command',
-    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji) => {
+    callback: async (FNBRMENA, message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji, greenStatus, redStatus) => {
 
         //get the user language from the database
         const lang = await FNBRMENA.Admin(admin, message, "", "Lang")
@@ -46,7 +43,7 @@ module.exports = {
                     if(await snapshot.docs[i].data().id === message.author.id){
 
                         //get the item name
-                        await fortniteAPI.getItemDetails(itemId = snapshot.docs[i].data().mainId, options = {lang: lang})
+                        await FNBRMENA.Search(lang, "id", snapshot.docs[i].data().mainId)
                         .then(async res => {
 
                             //long client has been waiting for

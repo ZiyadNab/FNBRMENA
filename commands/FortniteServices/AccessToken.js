@@ -1,21 +1,17 @@
-const Data = require('../../FNBRMENA')
-const FNBRMENA = new Data()
 const axios = require('axios')
 var querystring = require('querystring');
-const FortniteAPI = require("fortniteapi.io-api");
 const key = require('../../Coinfigs/config.json')
-const fortniteAPI = new FortniteAPI(FNBRMENA.APIKeys("FortniteAPI.io"));
 const Canvas = require('canvas');
 const moment = require('moment');
 
 module.exports = {
     commands: 'token',
-    expectedArgs: '[ Auth Code ]',
+    type: 'Fortnite Srvices',
     minArgs: 1,
     maxArgs: 1,
     cooldown: 40,
     permissionError: 'Sorry you do not have acccess to this command',
-    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji) => {
+    callback: async (FNBRMENA, message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji, greenStatus, redStatus) => {
 
         //get the user language from the database
         const lang = await FNBRMENA.Admin(admin, message, "", "Lang")
@@ -32,7 +28,7 @@ module.exports = {
             const data = querystring.stringify({'grant_type':'authorization_code', 'code': auth})
 
             //request token from epicgames servers
-            const response = await axios.post("https://account-public-service-prod.ol.epicgames.com/account/api/oauth/token",data,{headers: header})
+            const response = await axios.post("https://account-public-service-prod.ol.epicgames.com/account/api/oauth/token", data, {headers: header})
             .then(res => {
                 return res.data
             })

@@ -1,11 +1,9 @@
-const Data = require('../../FNBRMENA');
-const FNBRMENA = new Data();
 const moment = require('moment');
 const Canvas = require('canvas');
-const axios = require('axios');
 
 module.exports = {
     commands: 'fish',
+    type: 'Fortnite',
     descriptionEN: 'Use this command to extract the cought fishes this season.',
     descriptionAR: 'أستعمل الأمر لأستخراج جميع السمك المسطاد خلال الموسم الحالي.',
     expectedArgsEN: 'Use this command then type the use EPICGAMES displayname',
@@ -15,7 +13,7 @@ module.exports = {
     maxArgs: null,
     cooldown: 10,
     permissionError: 'Sorry you do not have acccess to this command',
-    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji) => {
+    callback: async (FNBRMENA, message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji, greenStatus, redStatus) => {
 
         //get the user language from the database
         const lang = await FNBRMENA.Admin(admin, message, "", "Lang")

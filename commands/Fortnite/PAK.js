@@ -1,16 +1,15 @@
-const Data = require('../../FNBRMENA')
-const FNBRMENA = new Data()
 const Canvas = require('canvas');
 const FortniteAPI = require("fortnite-api-com");
 const config = {
-  apikey: FNBRMENA.APIKeys("FortniteAPI.com"),
-  language: "en",
-  debug: true
+    apikey: "a7eabb1fa5a6e59cbcda3a6885d42f02be0d76ea",
+    language: "en",
+    debug: true
 };
 var Fortnite = new FortniteAPI(config);
 
 module.exports = {
     commands: 'pak',
+    type: 'Fortnite',
     descriptionEN: 'Use this command to extract all the cosmetics in a single pak file',
     descriptionAR: 'أستخدم الأمر لأستخراج جميع العناصر المشفرة في ملف معين',
     expectedArgsEN: 'Use this command then type pak file number.',
@@ -20,7 +19,7 @@ module.exports = {
     maxArgs: 1,
     cooldown: 10,
     permissionError: 'Sorry you do not have acccess to this command',
-    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji) => {
+    callback: async (FNBRMENA, message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji, greenStatus, redStatus) => {
 
         //get the user language from the database
         const lang = await FNBRMENA.Admin(admin, message, "", "Lang")
@@ -29,7 +28,7 @@ module.exports = {
         var query = {
             dynamicPakId: text,
             language: lang
-          };
+        };
 
         //request data
         Fortnite.CosmeticsSearchAll(query)

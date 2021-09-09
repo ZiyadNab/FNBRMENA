@@ -1,22 +1,19 @@
-const Data = require('../../FNBRMENA')
-const FNBRMENA = new Data()
-const FortniteAPI = require("fortniteapi.io-api");
-const fortniteAPI = new FortniteAPI(FNBRMENA.APIKeys("FortniteAPI.io"));
 const Canvas = require('canvas');
 
 module.exports = {
     commands: 'poi',
+    type: 'Fortnite',
     minArgs: 0,
     maxArgs: 0,
     cooldown: -1,
     permissionError: 'Sorry you do not have acccess to this command',
-    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji) => {
+    callback: async (FNBRMENA, message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji, greenStatus, redStatus) => {
 
         //get the user language from the database
         const lang = await FNBRMENA.Admin(admin, message, "", "Lang")
 
         //request data
-        fortniteAPI.listCurrentPOI(options = {lang: lang})
+        FNBRMENA.listCurrentPOI(options = {lang: lang})
         .then(async res => {
 
             //creating embed
@@ -31,8 +28,8 @@ module.exports = {
 
             //get every poi name and its data to list
             var str = ""
-            for(let i = 0; i < res.list.length; i++){
-                str += "• " + i + " " + res.list[i].name +"\n"
+            for(let i = 0; i < res.data.list.length; i++){
+                str += "• " + i + " " + res.data.list[i].name +"\n"
             }
 
             place.setDescription(str)
@@ -61,13 +58,13 @@ module.exports = {
                         notify.delete()
 
                         //listen for user input
-                        if(collected.first().content >= 0 && collected.first().content < res.list.length){
+                        if(collected.first().content >= 0 && collected.first().content < res.data.list.length){
 
                             //generating animation
                             const generating = new Discord.MessageEmbed()
                             generating.setColor(FNBRMENA.Colors("embed"))
-                            if(lang === "en") generating.setTitle(`Getting the image for ${res.list[collected.first().content].name} ${loadingEmoji}`)
-                            else if(lang === "ar") generating.setTitle(`جاري البحث عن صور ${res.list[collected.first().content].name} ${loadingEmoji}`)
+                            if(lang === "en") generating.setTitle(`Getting the image for ${res.data.list[collected.first().content].name} ${loadingEmoji}`)
+                            else if(lang === "ar") generating.setTitle(`جاري البحث عن صور ${res.data.list[collected.first().content].name} ${loadingEmoji}`)
                             message.channel.send(generating)
                             .then( async msg => {
 
@@ -87,7 +84,7 @@ module.exports = {
                                 msg.edit(creating)
 
                                 //background
-                                const background = await Canvas.loadImage(res.list[collected.first().content].images[0].url)
+                                const background = await Canvas.loadImage(res.data.list[collected.first().content].images[0].url)
                                 ctx.drawImage(background, 0, 0, 1920, 1080)
 
                                 //add blue fog
@@ -101,7 +98,7 @@ module.exports = {
                                 ctx.fillText("FNBRMENA", 15, 55)
 
                                 //send the picture
-                                const att = new Discord.MessageAttachment(canvas.toBuffer(), res.list[collected.first().content].name+'.png')
+                                const att = new Discord.MessageAttachment(canvas.toBuffer(), res.data.list[collected.first().content].name+'.png')
                                 await message.channel.send(att)
                                 msg.delete()
                             })

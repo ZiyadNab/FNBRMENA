@@ -1,11 +1,9 @@
-const Data = require('../../FNBRMENA')
-const FNBRMENA = new Data()
 var wrap = require('word-wrap')
 const Canvas = require('canvas')
-const probe = require('probe-image-size')
 
 module.exports = {
     commands: 'playlist',
+    type: 'Fortnite',
     descriptionEN: 'Use this command to extract an image for any playlist of your choice with the playlist data',
     descriptionAR: 'أستخدم الأمر لأستخراج صورةلأي طور باللعبة مع معلومات الطور',
     expectedArgsEN: 'Use this command then type playlist name.',
@@ -15,7 +13,7 @@ module.exports = {
     maxArgs: null,
     cooldown: -1,
     permissionError: 'Sorry you do not have acccess to this command',
-    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji) => {
+    callback: async (FNBRMENA, message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji, greenStatus, redStatus) => {
         
         //get the user language from the database
         const lang = await FNBRMENA.Admin(admin, message, "", "Lang")

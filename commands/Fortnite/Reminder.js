@@ -1,12 +1,9 @@
-const Data = require('../../FNBRMENA')
-const FNBRMENA = new Data()
 const Canvas = require('canvas')
 const moment = require('moment')
-const FortniteAPI = require("fortniteapi.io-api");
-const fortniteAPI = new FortniteAPI(FNBRMENA.APIKeys("FortniteAPI.io"));
 
 module.exports = {
     commands: 'remind',
+    type: 'Fortnite',
     descriptionEN: 'You can remind any item from the shop so he bot will tag you once the item has been released in the itemshop.',
     descriptionAR: 'تقدر تخلي البوت يذكرك لأي عنصر من الشوب واذا نزل راح يحط لك تاق و يعلمك انه نزل.',
     expectedArgsEN: 'ُTo get the bot reminds you just type the command then the item name.',
@@ -16,7 +13,7 @@ module.exports = {
     maxArgs: null,
     cooldown: -1,
     permissionError: 'Sorry you do not have acccess to this command',
-    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji) => {
+    callback: async (FNBRMENA, message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji, greenStatus, redStatus) => {
 
         //get the user language from the database
         const lang = await FNBRMENA.Admin(admin, message, "", "Lang")

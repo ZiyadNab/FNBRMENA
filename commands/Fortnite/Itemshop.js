@@ -1,29 +1,26 @@
-const Data = require('../../FNBRMENA')
-const FNBRMENA = new Data()
-const FortniteAPI = require("fortniteapi.io-api");
 const moment = require('moment')
-const fortniteAPI = new FortniteAPI(FNBRMENA.APIKeys("FortniteAPI.io"));
 const Canvas = require('canvas');
 
 module.exports = {
     commands: 'itemshop',
+    type: 'Fortnite',
     minArgs: 0,
     maxArgs: 0,
     cooldown: 30,
     permissionError: 'Sorry you do not have acccess to this command',
-    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji) => {
+    callback: async (FNBRMENA, message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji, greenStatus, redStatus) => {
 
         //get the user language from the database
         const lang = await FNBRMENA.Admin(admin, message, "", "Lang")
 
-        fortniteAPI.getDailyShopV2(options = {lang: lang})
+        FNBRMENA.itemshop(lang)
         .then(async res => {
 
             //generating animation
             const generating = new Discord.MessageEmbed()
             generating.setColor(FNBRMENA.Colors("embed"))
-            if(lang === "en") generating.setTitle(`Loading a total ${res.shop.length} cosmetics please wait... ${loadingEmoji}`)
-            else if(lang === "ar") generating.setTitle(`تحميل جميع العناصر بمجموع ${res.shop.length} عنصر الرجاء الانتظار... ${loadingEmoji}`)
+            if(lang === "en") generating.setTitle(`Loading a total ${res.data.shop.length} cosmetics please wait... ${loadingEmoji}`)
+            else if(lang === "ar") generating.setTitle(`تحميل جميع العناصر بمجموع ${res.data.shop.length} عنصر الرجاء الانتظار... ${loadingEmoji}`)
             message.channel.send(generating)
             .then( async msg => {
 
@@ -40,30 +37,30 @@ module.exports = {
                 var LimitedTimeIndex = 0
 
                 //storing items into there arrays
-                for(let i = 0; i < res.shop.length; i++){
+                for(let i = 0; i < res.data.shop.length; i++){
 
                     //if its an a Featured item
-                    if(res.shop[i].section.id === "Featured" || res.shop[i].section.id === "Featured2" || res.shop[i].section.id === "Featured3"){
-                        Featured[FeaturedIndex] = res.shop[i]
+                    if(res.data.shop[i].section.id === "Featured" || res.data.shop[i].section.id === "Featured2" || res.data.shop[i].section.id === "Featured3"){
+                        Featured[FeaturedIndex] = res.data.shop[i]
                         //changing its index
                         FeaturedIndex++
                     }else
                     
                     //if its an a Daily item
-                    if(res.shop[i].section.id === "Daily"){
-                        Daily[DailyIndex] = res.shop[i]
+                    if(res.data.shop[i].section.id === "Daily"){
+                        Daily[DailyIndex] = res.data.shop[i]
                         DailyIndex++
                     }else
                     
                     //if its an a LimitedTime item
-                    if(res.shop[i].section.id === "LimitedTime"){
-                        LimitedTime[LimitedTimeIndex] = res.shop[i]
+                    if(res.data.shop[i].section.id === "LimitedTime"){
+                        LimitedTime[LimitedTimeIndex] = res.data.shop[i]
                         LimitedTimeIndex++
                     }else
 
                     //if its other items then store it here 
                     {
-                        SpecialFeatured[SpecialFeaturedIndex] = res.shop[i]
+                        SpecialFeatured[SpecialFeaturedIndex] = res.data.shop[i]
                         SpecialFeaturedIndex++
                     }
                 }
@@ -247,7 +244,7 @@ module.exports = {
                                     Lines++;
                                 }
                             }
-                        } else if(res.daily.length % 3 === 0){
+                        } else if(res.data.daily.length % 3 === 0){
                             height += 762
                             for(let i = 0; i < LimitedTime.length; i++){
                                 if(3 === Lines){
@@ -322,14 +319,14 @@ module.exports = {
                 var date
                 if(lang === "en"){
                     moment.locale("en")
-                    date = moment(res.lastUpdate.date).format("dddd, MMMM Do of YYYY")
+                    date = moment(res.data.lastUpdate.date).format("dddd, MMMM Do of YYYY")
                     ctx.fillStyle = '#ffffff';
                     ctx.textAlign='center';
                     ctx.font = `100px Burbank Big Condensed`
                     ctx.fillText(date, (width / 2), (height - 50))
                 }else if(lang === "ar"){
                     moment.locale("ar")
-                    date = moment(res.lastUpdate.date).format("dddd, MMMM Do من YYYY")
+                    date = moment(res.data.lastUpdate.date).format("dddd, MMMM Do من YYYY")
                     ctx.fillStyle = '#ffffff';
                     ctx.textAlign='center';
                     ctx.font = `100px Arabic`
@@ -1571,7 +1568,7 @@ module.exports = {
                 else if(lang === "ar") sending.setTitle(`جاري ارسال الصورة الرجاء الانتظار ${loadingEmoji}`)
                 msg.edit(sending)
 
-                const att = new Discord.MessageAttachment(canvas.toBuffer(), res.lastUpdate.uid + '.png')
+                const att = new Discord.MessageAttachment(canvas.toBuffer(), res.data.lastUpdate.uid + '.png')
                 await message.channel.send(att)
                 msg.delete()
             })

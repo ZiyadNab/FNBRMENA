@@ -1,15 +1,13 @@
-const Data = require('../../FNBRMENA')
-const FNBRMENA = new Data()
 const moment = require('moment')
 require('moment-timezone')
 
 module.exports = {
     commands: 'timezone',
-    expectedArgs: '',
+    type: 'User Data',
     minArgs: 1,
     maxArgs: 1,
     permissionError: 'Sorry you do not have acccess to this command',
-    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji) => {
+    callback: async (FNBRMENA, message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji, greenStatus, redStatus) => {
 
         //get the user language from the database
         const lang = await FNBRMENA.Admin(admin, message, "", "Lang")

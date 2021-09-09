@@ -1,9 +1,8 @@
-const Data = require('../../FNBRMENA')
-const FNBRMENA = new Data()
 const Canvas = require('canvas');
 
 module.exports = {
     commands: 'merge',
+    type: 'Fortnite',
     descriptionEN: 'Merge any cosmetics together in one image.',
     descriptionAR: 'ادمج مجموعة من العناصر في صورة وحدة.',
     expectedArgsEN: 'ُTo start merging type the command then the first item name and add (+) symbole and type another item then (+ symbol)... continue like this.',
@@ -15,7 +14,7 @@ module.exports = {
     maxArgs: null,
     cooldown: 15,
     permissionError: 'Sorry you do not have acccess to this command',
-    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji) => {
+    callback: async (FNBRMENA, message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji, greenStatus, redStatus) => {
 
         //get the user language from the database
         const lang = await FNBRMENA.Admin(admin, message, "", "Lang")

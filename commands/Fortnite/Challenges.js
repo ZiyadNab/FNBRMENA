@@ -1,11 +1,8 @@
-const Data = require('../../FNBRMENA')
-const FNBRMENA = new Data()
-const FortniteAPI = require("fortniteapi.io-api");
-const fortniteAPI = new FortniteAPI(FNBRMENA.APIKeys("FortniteAPI.io"));
 const Canvas = require('canvas');
 
 module.exports = {
     commands: 'quests',
+    type: 'Fortnite',
     descriptionEN: 'This command will extract any challengas from the files (even if its leaked).',
     descriptionAR: 'الأمر هذا راح يستخرج لك اي تحدي من الملفات (حتى اذا كانت مسربة).',
     expectedArgsEN: 'First think of what challenges you need to search about, then use this command with the challenge name or any word part of the name.',
@@ -17,19 +14,19 @@ module.exports = {
     maxArgs: null,
     cooldown: 15,
     permissionError: 'Sorry you do not have acccess to this command',
-    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji) => {
+    callback: async (FNBRMENA, message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji, greenStatus, redStatus) => {
 
         //get the user language from the database
         const lang = await FNBRMENA.Admin(admin, message, "", "Lang")
 
-        const quest = await fortniteAPI.listChallenges()
+        const quest = await FNBRMENA.listChallenges("current", "en")
         .then(async res => {
 
             //inisilizing number
             var num = null
 
             //get the challenges by name
-            const challenge = await res.bundles.filter(collected => {
+            const challenge = await res.data.bundles.filter(collected => {
                 return collected.name.toLowerCase().includes(text.toLowerCase())
             })
 
@@ -149,11 +146,11 @@ module.exports = {
         if(quest){
 
             //search again by user language and use the data to create an image
-            const found = await fortniteAPI.listChallenges(season = 'current', options = {lang: lang})
+            const found = await FNBRMENA.listChallenges("current", lang)
             .then(async res => {
 
                 //filter to get the quests data by user language
-                const dataSheet = await res.bundles.filter(collected => {
+                const dataSheet = await res.data.bundles.filter(collected => {
                     return collected.id === quest
                 })
 

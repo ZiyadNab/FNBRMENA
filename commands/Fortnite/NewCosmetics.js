@@ -1,28 +1,19 @@
-const Data = require('../../FNBRMENA')
-const FNBRMENA = new Data()
-const FortniteAPI = require("fortnite-api-com");
 const Canvas = require('canvas');
-const config = {
-  apikey: FNBRMENA.APIKeys("FortniteAPI.com"),
-  language: "en",
-  debug: true
-};
-
-var Fortnite = new FortniteAPI(config);
 
 module.exports = {
     commands: 'new',
+    type: 'Fortnite',
     minArgs: 0,
     maxArgs: 0,
     cooldown: 15,
     permissionError: 'Sorry you do not have acccess to this command',
-    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji) => {
+    callback: async (FNBRMENA, message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji, greenStatus, redStatus) => {
 
         //get the user language from the database
         const lang = await FNBRMENA.Admin(admin, message, "", "Lang")
 
         //requesting data
-        Fortnite.CosmeticsNew(lang)
+        FNBRMENA.CosmeticsNew(lang)
         .then(async res => {
 
             //variables
@@ -35,13 +26,13 @@ module.exports = {
             //generating animation
             const generating = new Discord.MessageEmbed()
             generating.setColor(FNBRMENA.Colors("embed"))
-            if(lang === "en") generating.setTitle(`Loading a total ${res.data.items.length} cosmetics please wait... ${loadingEmoji}`)
-            else if(lang === "ar") generating.setTitle(`تحميل جميع العناصر بمجموع ${res.data.items.length} عنصر الرجاء الانتظار... ${loadingEmoji}`)
+            if(lang === "en") generating.setTitle(`Loading a total ${res.data.data.items.length} cosmetics please wait... ${loadingEmoji}`)
+            else if(lang === "ar") generating.setTitle(`تحميل جميع العناصر بمجموع ${res.data.data.items.length} عنصر الرجاء الانتظار... ${loadingEmoji}`)
             message.channel.send(generating)
             .then( async msg => {
 
                 //creating length
-                var length = res.data.items.length
+                var length = res.data.data.items.length
                 
                 if(length <= 2) length = length
                 else if(length > 2 && length <= 4) length = length / 2
@@ -59,7 +50,7 @@ module.exports = {
                 width = (length * 1024) + (length * 10) - 10
 
                 //creating height
-                for(let i = 0; i < res.data.items.length; i++){
+                for(let i = 0; i < res.data.data.items.length; i++){
                     if(newline === length){
                         height += 1024 + 10
                         newline = 0
@@ -105,22 +96,22 @@ module.exports = {
                 newline = 0
 
                 //loop throw every item
-                for(let i = 0; i < res.data.items.length; i++){
+                for(let i = 0; i < res.data.data.items.length; i++){
 
                     //skin informations
-                    var name = res.data.items[i].name
-                    var description = res.data.items[i].description
-                    if(res.data.items[i].images.icon === null) var image = res.data.items[i].images.smallIcon
-                    else var image = res.data.items[i].images.icon
-                    var rarity = res.data.items[i].rarity.value
+                    var name = res.data.data.items[i].name
+                    var description = res.data.data.items[i].description
+                    if(res.data.data.items[i].images.icon === null) var image = res.data.data.items[i].images.smallIcon
+                    else var image = res.data.data.items[i].images.icon
+                    var rarity = res.data.data.items[i].rarity.value
                     newline = newline + 1;
 
                     //remove any lines
                     description = description.replace("\r\n", "")
 
                     //add introduces and set string
-                    if(res.data.items[i].introduction !== null) description += `\n${res.data.items[i].introduction.text}`
-                    if(res.data.items[i].set !== null) description += `\n${res.data.items[i].set.text}`
+                    if(res.data.data.items[i].introduction !== null) description += `\n${res.data.data.items[i].introduction.text}`
+                    if(res.data.data.items[i].set !== null) description += `\n${res.data.data.items[i].set.text}`
 
                     //split every line
                     description = description.split(/\r\n|\r|\n/)
@@ -721,13 +712,13 @@ module.exports = {
                     }
 
                     //adding tags
-                    if(res.data.items[i].gameplayTags !== null){
+                    if(res.data.data.items[i].gameplayTags !== null){
 
                         var yTags = y
-                        for(let g = 0; g < res.data.items[i].gameplayTags.length; g++){
+                        for(let g = 0; g < res.data.data.items[i].gameplayTags.length; g++){
 
                             //if the item is animated
-                            if(res.data.items[i].gameplayTags[g].includes('Animated')){
+                            if(res.data.data.items[i].gameplayTags[g].includes('Animated')){
 
                                 //the itm is animated add the animated icon
                                 const skinholder = await Canvas.loadImage('./assets/Tags/T-Icon-Animated-64.png')
@@ -737,7 +728,7 @@ module.exports = {
                             }
 
                             //if the item is reactive
-                            if(res.data.items[i].gameplayTags[g].includes('Reactive')){
+                            if(res.data.data.items[i].gameplayTags[g].includes('Reactive')){
 
                                 //the itm is animated add the animated icon
                                 const skinholder = await Canvas.loadImage('./assets/Tags/T-Icon-Adaptive-64.png')
@@ -747,7 +738,7 @@ module.exports = {
                             }
 
                             //if the item is synced emote
-                            if(res.data.items[i].gameplayTags[g].includes('Synced')){
+                            if(res.data.data.items[i].gameplayTags[g].includes('Synced')){
 
                                 //the itm is animated add the animated icon
                                 const skinholder = await Canvas.loadImage('./assets/Tags/T-Icon-Synced-64x.png')
@@ -757,7 +748,7 @@ module.exports = {
                             }
 
                             //if the item is traversal
-                            if(res.data.items[i].gameplayTags[g].includes('Traversal')){
+                            if(res.data.data.items[i].gameplayTags[g].includes('Traversal')){
 
                                 //the itm is animated add the animated icon
                                 const skinholder = await Canvas.loadImage('./assets/Tags/T-Icon-Traversal-64.png')
@@ -767,7 +758,7 @@ module.exports = {
                             }
 
                             //if the item has styles
-                            if(res.data.items[i].gameplayTags[g].includes('HasVariants') || res.data.items[i].gameplayTags[g].includes('HasUpgradeQuests')){
+                            if(res.data.data.items[i].gameplayTags[g].includes('HasVariants') || res.data.data.items[i].gameplayTags[g].includes('HasUpgradeQuests')){
 
                                 //the itm is animated add the animated icon
                                 const skinholder = await Canvas.loadImage('./assets/Tags/T-Icon-Variant-64.png')

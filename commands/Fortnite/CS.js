@@ -1,9 +1,7 @@
-const Data = require('../../FNBRMENA')
-const FNBRMENA = new Data()
 const Canvas = require('canvas');
 const FortniteAPI = require("fortnite-api-com");
 const config = {
-  apikey: FNBRMENA.APIKeys("FortniteAPI.com"),
+  apikey: "a7eabb1fa5a6e59cbcda3a6885d42f02be0d76ea",
   language: "en",
   debug: true
 };
@@ -12,6 +10,7 @@ var Fortnite = new FortniteAPI(config);
 
 module.exports = {
     commands: 'cs',
+    type: 'Fortnite',
     descriptionEN: 'Returns a list of all cosmetics that got added in a specific season by your choice.',
     descriptionAR: 'أمر يسترجع لك جميع العناصر الي نزلت في موسم معين من اختيارك.',
     expectedArgsEN: 'To get a list of cosmetice is a certain season. this of what season you need to extract then what type of cosmatics like Outfits, Emotes..., then use this command',
@@ -24,7 +23,7 @@ module.exports = {
     maxArgs: 2,
     cooldown: 60,
     permissionError: 'Sorry you do not have acccess to this command',
-    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji) => {
+    callback: async (FNBRMENA, message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji, greenStatus, redStatus) => {
 
         //get the user language from the database
         const lang = await FNBRMENA.Admin(admin, message, "", "Lang")

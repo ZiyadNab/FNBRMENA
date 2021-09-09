@@ -1,13 +1,3 @@
-const Data = require('../../FNBRMENA')
-const FNBRMENA = new Data()
-const FortniteAPI = require("fortnite-api-com");
-const Canvas = require('canvas');
-const config = {
-  apikey: FNBRMENA.APIKeys("FortniteAPI.com"),
-  language: "en",
-  debug: true
-};
-var Fortnite = new FortniteAPI(config);
 var query
 var platform
 var Solo
@@ -16,10 +6,9 @@ var Trio
 var Squad
 var All
 
-
-
 module.exports = {
     commands: 'stats',
+    type: 'Fortnite',
     descriptionEN: 'Use this command to extract the account stats.',
     descriptionAR: 'أستعمل الأمر لأستخراج جميع احصائيات الحساب.',
     expectedArgsEN: 'Use this command then type the use EPICGAMES displayname',
@@ -29,21 +18,15 @@ module.exports = {
     maxArgs: null,
     cooldown: -1,
     permissionError: 'Sorry you do not have acccess to this command',
-    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji) => {
+    callback: async (FNBRMENA, message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji, greenStatus, redStatus) => {
 
         //get the user language from the database
         const lang = await FNBRMENA.Admin(admin, message, "", "Lang")
 
-        query = {
-            name: text,
-            accountType:"epic",
-            timeWindow: "lifetime"
-        };
-
-        Fortnite.BRStats(query)
-            .then( async res =>{
+        FNBRMENA.Stats(text, "epic", "lifetime")
+            .then(async res =>{
                 
-            if(!res.error){
+            if(!res.data.error){
 
             const p = new Discord.MessageEmbed()
             p.setColor(FNBRMENA.Colors("embed"))
@@ -77,35 +60,35 @@ module.exports = {
                 const reaction = collected.first();
                     if(reaction.emoji.name === '1️⃣'){
                         platform = "All"
-                        All = res.data.stats.all.overall
-                        Solo = res.data.stats.all.solo
-                        Duo = res.data.stats.all.duo
-                        Trio = res.data.stats.all.trio
-                        Squad = res.data.stats.all.squad
+                        All = res.data.data.stats.all.overall
+                        Solo = res.data.data.stats.all.solo
+                        Duo = res.data.data.stats.all.duo
+                        Trio = res.data.data.stats.all.trio
+                        Squad = res.data.data.stats.all.squad
                     }
                     if(reaction.emoji.name === '2️⃣'){
                         platform = "KB/M"
-                        All = res.data.stats.keyboardMouse.overall
-                        Solo = res.data.stats.keyboardMouse.solo
-                        Duo = res.data.stats.keyboardMouse.duo
-                        Trio = res.data.stats.keyboardMouse.trio
-                        Squad = res.data.stats.keyboardMouse.squad
+                        All = res.data.data.stats.keyboardMouse.overall
+                        Solo = res.data.data.stats.keyboardMouse.solo
+                        Duo = res.data.data.stats.keyboardMouse.duo
+                        Trio = res.data.data.stats.keyboardMouse.trio
+                        Squad = res.data.data.stats.keyboardMouse.squad
                     }
                     if(reaction.emoji.name === '3️⃣'){
                         platform = "CONT Playaa"
-                        All = res.data.stats.gamepad.overall
-                        Solo = res.data.stats.gamepad.solo
-                        Duo = res.data.stats.gamepad.duo
-                        Trio = res.data.stats.gamepad.trio
-                        Squad = res.data.stats.gamepad.squad
+                        All = res.data.data.stats.gamepad.overall
+                        Solo = res.data.data.stats.gamepad.solo
+                        Duo = res.data.data.stats.gamepad.duo
+                        Trio = res.data.data.stats.gamepad.trio
+                        Squad = res.data.data.stats.gamepad.squad
                     }
                     if(reaction.emoji.name === '4️⃣'){
                         platform = "MOBILE"
-                        All = res.data.stats.touch.overall
-                        Solo = res.data.stats.touch.solo
-                        Duo = res.data.stats.touch.duo
-                        Trio = res.data.stats.touch.trio
-                        Squad = res.data.stats.touch.squad
+                        All = res.data.data.stats.touch.overall
+                        Solo = res.data.data.stats.touch.solo
+                        Duo = res.data.data.stats.touch.duo
+                        Trio = res.data.data.stats.touch.trio
+                        Squad = res.data.data.stats.touch.squad
                     }
                 }).catch(err => {
                     if(lang === "en"){
@@ -146,7 +129,7 @@ module.exports = {
                     ctx.drawImage(background, 0, 0, canvas.width, canvas.height)
 
                     //name
-                    const playerName = "Player Name: " + res.data.account.name
+                    const playerName = "Player Name: " + res.data.data.account.name
                     ctx.fillStyle = '#ffffff';
                     ctx.textAlign='left';
                     ctx.font = 'normal 180px Burbank Big Condensed'
@@ -163,7 +146,7 @@ module.exports = {
                     ctx.fillStyle = '#ffffff';
                     ctx.textAlign='left';
                     ctx.font = 'normal 180px Burbank Big Condensed'
-                    ctx.fillText("lvl: " + res.data.battlePass.level, (diff + 250), 230)
+                    ctx.fillText("lvl: " + res.data.data.battlePass.level, (diff + 250), 230)
 
                     //platform
                     ctx.fillStyle = '#ffffff';
@@ -346,7 +329,7 @@ module.exports = {
                     }
 
                     //sending
-                    const att = new Discord.MessageAttachment(canvas.toBuffer(), res.username + ".png")
+                    const att = new Discord.MessageAttachment(canvas.toBuffer(), res.data.username + ".png")
                     await message.channel.send(att)
                     msg.delete()
                 })

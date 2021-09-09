@@ -1,10 +1,9 @@
-const Data = require('../../FNBRMENA');
-const FNBRMENA = new Data();
 const moment = require('moment');
 const Canvas = require('canvas');
 
 module.exports = {
     commands: 'search',
+    type: 'Fortnite',
     descriptionEN: 'Search any cosmetics and gets its data with an image.',
     descriptionAR: 'ابحث عن أي عنصر باللعبة و احصل على معلوماتة.',
     expectedArgsEN: 'ُTo start searching type the command then item name, id or (*) symbol.',
@@ -16,7 +15,7 @@ module.exports = {
     maxArgs: null,
     cooldown: -1,
     permissionError: 'Sorry you do not have acccess to this command',
-    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji) => {
+    callback: async (FNBRMENA, message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji, greenStatus, redStatus) => {
 
         //get the user language from the database
         const lang = await FNBRMENA.Admin(admin, message, "", "Lang")

@@ -1,11 +1,8 @@
-const Data = require('../../FNBRMENA')
-const FNBRMENA = new Data()
-const FortniteAPI = require("fortniteapi.io-api")
-const fortniteAPI = new FortniteAPI(FNBRMENA.APIKeys("FortniteAPI.io"))
 const { MessageButton } = require('discord-buttons');
 
 module.exports = {
     commands: 'tier',
+    type: 'Fortnite',
     descriptionEN: 'A command that will return a tier of any season\'s information of a battlepass of your choice from season 2 till current season.',
     descriptionAR: 'أمر راح يسترجع لك معلومات اي تاير من عناصر الباتل باس بإختيارك من الموسم 2 الى الموسم الحالي.',
     expectedArgsEN: 'To use the command you need to specifiy a season number from season 2 to latest season.',
@@ -17,7 +14,7 @@ module.exports = {
     maxArgs: null,
     cooldown: 40,
     permissionError: 'Sorry you do not have acccess to this command',
-    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji) => {
+    callback: async (FNBRMENA, message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji, greenStatus, redStatus) => {
 
         //get the user language from the database
         const lang = await FNBRMENA.Admin(admin, message, "", "Lang")
@@ -39,11 +36,11 @@ module.exports = {
         }else var season = text
 
         //request data
-        fortniteAPI.getBattlepassRewards(season = season, options = {lang: lang})
+        FNBRMENA.getBattlepassRewards(lang, season)
         .then(async res => {
 
             //if the started index above the rewards length
-            if(Number(tierIndex) < res.rewards.length){
+            if(Number(tierIndex) < res.data.rewards.length){
 
                 //inisilizing next tier button
                 const NEXT = new MessageButton()
@@ -104,7 +101,7 @@ module.exports = {
                 const tierViewer = async () => {
 
                     //get tier data by filtering
-                    const TierData = res.rewards[tierIndex]
+                    const TierData = res.data.rewards[tierIndex]
 
                     //inisilizing tierDATA
                     const tierDataEmbed = new Discord.MessageEmbed()
@@ -118,11 +115,11 @@ module.exports = {
 
                         //set title
                         if(await TierData.page !== null){
-                            if(lang === "en") await tierDataEmbed.setAuthor(`${res.displayInfo.chapterSeason} | Page ${TierData.page}`, TierData.item.images.icon)
-                            else if(lang === "ar") await tierDataEmbed.setAuthor(`${res.displayInfo.chapterSeason} | صفحة ${TierData.page}`, TierData.item.images.icon)
+                            if(lang === "en") await tierDataEmbed.setAuthor(`${res.data.displayInfo.chapterSeason} | Page ${TierData.page}`, TierData.item.images.icon)
+                            else if(lang === "ar") await tierDataEmbed.setAuthor(`${res.data.displayInfo.chapterSeason} | صفحة ${TierData.page}`, TierData.item.images.icon)
                         }else{
-                            if(lang === "en") await tierDataEmbed.setAuthor(`${res.displayInfo.chapterSeason} | Tier ${TierData.tier}`, TierData.item.images.icon)
-                            else if(lang === "ar") await tierDataEmbed.setAuthor(`${res.displayInfo.chapterSeason} | مستوى ${TierData.tier}`, TierData.item.images.icon)
+                            if(lang === "en") await tierDataEmbed.setAuthor(`${res.data.displayInfo.chapterSeason} | Tier ${TierData.tier}`, TierData.item.images.icon)
+                            else if(lang === "ar") await tierDataEmbed.setAuthor(`${res.data.displayInfo.chapterSeason} | مستوى ${TierData.tier}`, TierData.item.images.icon)
                         }
                         
                         //set title
@@ -231,7 +228,7 @@ module.exports = {
                         //back 20 button clicked
                         if(collected.first().id === "BACK20"){
 
-                            if(tierIndex === -1) tierIndex = res.rewards.length
+                            if(tierIndex === -1) tierIndex = res.data.rewards.length
 
                             //if there is no more tiers
                             if(tierIndex - 20 > 0){
@@ -260,7 +257,7 @@ module.exports = {
                         //back button clicked
                         if(collected.first().id === "BACK"){
 
-                            if(tierIndex === -1) tierIndex = res.rewards.length
+                            if(tierIndex === -1) tierIndex = res.data.rewards.length
 
                             //if there is no more tiers
                             if(tierIndex - 1 > 0){
@@ -291,7 +288,7 @@ module.exports = {
                         if(collected.first().id === "NEXT"){
 
                             //if there is no more tiers
-                            if(tierIndex + 1 < res.rewards.length){
+                            if(tierIndex + 1 < res.data.rewards.length){
 
                                 if(tierIndex !== -1){
                                     
@@ -322,7 +319,7 @@ module.exports = {
                         if(collected.first().id === "SKIP20"){
 
                             //if there is no more tiers
-                            if(tierIndex + 20 < res.rewards.length){
+                            if(tierIndex + 20 < res.data.rewards.length){
 
                                 if(tierIndex !== -1){
 

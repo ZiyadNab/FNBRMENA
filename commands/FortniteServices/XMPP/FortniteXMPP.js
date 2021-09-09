@@ -1,17 +1,15 @@
-const Data = require('../../../FNBRMENA')
-const FNBRMENA = new Data()
 const moment = require('moment')
 const { Client } = require('fnbr')
 const HandleServicesCommands = require('../../../XMPPReceiver/HandleServicesCommands.js')
 
 module.exports = {
     commands: 'activate',
-    expectedArgs: '',
+    type: 'Fortnite Srvices',
     minArgs: null,
     maxArgs: null,
     cooldown: 120,
     permissionError: 'Sorry you do not have acccess to this command',
-    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji) => {
+    callback: async (FNBRMENA, message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji, greenStatus, redStatus) => {
 
         //get the user language from the database
         const lang = await FNBRMENA.Admin(admin, message, "", "Lang")

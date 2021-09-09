@@ -1,14 +1,11 @@
-const Data = require("../../FNBRMENA")
-const FNBRMENA = new Data()
-
 module.exports = {
     commands: 'zolan',
-    expectedArgs: '',
+    type: 'Fun',
     minArgs: null,
     maxArgs: null,
     cooldown: -1,
     permissionError: 'Sorry you do not have acccess to this command',
-    callback: (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji) => {
+    callback: (FNBRMENA, message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji, greenStatus, redStatus) => {
 
         if(message.author.id === "670067434278879235" || message.author.id === "325507145871130624"){
             if(text.includes("edit title")){

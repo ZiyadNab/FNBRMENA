@@ -1,10 +1,8 @@
-const Data = require('../../FNBRMENA')
-const FNBRMENA = new Data()
-const moment = require('moment')
 const Canvas = require('canvas')
 
 module.exports = {
     commands: 'details',
+    type: 'Fortnite',
     descriptionEN: 'A command gives you access to every single detail about a cosmetic e.g. Info, Styles, Grants',
     descriptionAR: 'أمر يعطيك الصلاحية لجميع التفاصيل لأي عنصر مثل معلومات، ستايلات، تصريحات',
     expectedArgsEN: 'Use the command then right after use any cosmetic in-game',
@@ -16,7 +14,7 @@ module.exports = {
     maxArgs: null,
     cooldown: -1,
     permissionError: 'Sorry you do not have acccess to this command',
-    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji) => {
+    callback: async (FNBRMENA, message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji, greenStatus, redStatus) => {
 
         //get the user language from the database
         const lang = await FNBRMENA.Admin(admin, message, "", "Lang")

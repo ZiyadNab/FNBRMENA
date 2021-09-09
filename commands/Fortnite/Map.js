@@ -1,19 +1,8 @@
-const Data = require('../../FNBRMENA')
-const FNBRMENA = new Data()
 const Canvas = require('canvas');
-const FortniteAPI = require("fortniteapi.io-api");
-const fortniteAPI = new FortniteAPI(FNBRMENA.APIKeys("FortniteAPI.io"));
-const fn = require("fortnite-api-com");
-const config = {
-    apikey: FNBRMENA.APIKeys("FortniteAPI.com"),
-    language: "en",
-    debug: true
-};
-  
-var Fortnite = new fn(config);
 
 module.exports = {
     commands: 'map',
+    type: 'Fortnite',
     descriptionEN: 'Returns a map image.',
     descriptionAR: 'أمر يسترجع لك صورة الماب.',
     expectedArgsEN: 'ُTo get the current map image use just the command, and if you want to get older map images type the season number from 1 till current season.',
@@ -25,7 +14,7 @@ module.exports = {
     maxArgs: 1,
     cooldown: -1,
     permissionError: 'Sorry you do not have acccess to this command',
-    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji) => {
+    callback: async (FNBRMENA, message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji, greenStatus, redStatus) => {
 
         //get the user language from the database
         const lang = await FNBRMENA.Admin(admin, message, "", "Lang")
@@ -42,12 +31,12 @@ module.exports = {
             .then( async gen => {
 
                 //request data
-                Fortnite.BRMap(lang)
+                FNBRMENA.Map(lang)
                 .then(async res => {
 
                     //get the image data
-                    if(res.data.images.pois === null) var image = res.data.images.blank
-                    else var image = res.data.images.pois
+                    if(res.data.data.images.pois === null) var image = res.data.data.images.blank
+                    else var image = res.data.data.images.pois
 
                     //registering font
                     Canvas.registerFont('./assets/font/BurbankBigCondensed-Black.otf' ,{family: 'Burbank Big Condensed',weight: "700",style: "bold"})
@@ -75,7 +64,7 @@ module.exports = {
         }else{
 
             //request data
-            fortniteAPI.listPreviousMaps()
+            fortniteAPI.MapIO()
             .then(async res => {
 
                 //check if user entered a valid season that has images
@@ -83,13 +72,13 @@ module.exports = {
                 var counter = 0
 
                 //loop throw every map abaliable
-                for(let i = 0; i < res.maps.length; i++){
+                for(let i = 0; i < res.data.maps.length; i++){
 
                     //if the season still didn't exists in the season array
-                    if(!season.includes(res.maps[i].patchVersion.substring(0, res.maps[i].patchVersion.indexOf(".")))){
+                    if(!season.includes(res.data.maps[i].patchVersion.substring(0, res.data.maps[i].patchVersion.indexOf(".")))){
 
                         //store the season in the array
-                        season[counter] = await res.maps[i].patchVersion.substring(0, res.maps[i].patchVersion.indexOf("."))
+                        season[counter] = await res.data.maps[i].patchVersion.substring(0, res.data.maps[i].patchVersion.indexOf("."))
 
                         //change the index
                         counter++
@@ -118,14 +107,14 @@ module.exports = {
                     counter = 0
 
                     //loop throw every patch
-                    for(let i = 0; i < res.maps.length; i++){
+                    for(let i = 0; i < res.data.maps.length; i++){
 
                         //if the patch matches the season
-                        if(res.maps[i].patchVersion.startsWith(text)){
-                            var patch = await res.maps[i].patchVersion.substring(0, res.maps[i].patchVersion.indexOf("."))
+                        if(res.data.maps[i].patchVersion.startsWith(text)){
+                            var patch = await res.data.maps[i].patchVersion.substring(0, res.data.maps[i].patchVersion.indexOf("."))
                             if(text.length === patch.length){
-                                str += "• " + counter + ": " + res.maps[i].patchVersion + "\n"
-                                season[counter] = res.maps[i]
+                                str += "• " + counter + ": " + res.data.maps[i].patchVersion + "\n"
+                                season[counter] = res.data.maps[i]
                                 counter++
                             }
                         }
@@ -188,7 +177,7 @@ module.exports = {
                                         ctx.drawImage(credit, 50, 1850, 550, 150);
 
                                         //send the fish stats picture
-                                        const att = new Discord.MessageAttachment(canvas.toBuffer(), res.maps[collected.first().content].patchVersion + '.png')
+                                        const att = new Discord.MessageAttachment(canvas.toBuffer(), res.data.maps[collected.first().content].patchVersion + '.png')
                                         await message.channel.send(att)
                                         gen.delete()
                                     })

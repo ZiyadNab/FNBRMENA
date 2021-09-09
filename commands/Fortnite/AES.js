@@ -1,27 +1,17 @@
-const Data = require('../../FNBRMENA')
-const FNBRMENA = new Data()
-const FortniteAPI = require("fortnite-api-com");
-const config = {
-  apikey: FNBRMENA.APIKeys("FortniteAPI.com"),
-  language: "en",
-  debug: true
-};
-
-var Fortnite = new FortniteAPI(config);
-
 module.exports = {
     commands: 'aes',
+    type: 'Fortnite',
     minArgs: 0,
     maxArgs: 0,
     cooldown: -1,
     permissionError: 'Sorry you do not have acccess to this command',
-    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji) => {
+    callback: async (FNBRMENA, message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji, greenStatus, redStatus) => {
         
         //get the user language from the database
         const lang = await FNBRMENA.Admin(admin, message, "", "Lang")
 
         //request dat
-        Fortnite.AES("en")
+        FNBRMENA.AES()
         .then( async res => {
 
             //inisilizing data
@@ -37,18 +27,18 @@ module.exports = {
             .then( async msg => {
 
                 //loop throw every pak file
-                for(let i = 0; i < res.data.dynamicKeys.length; i++){
+                for(let i = 0; i < res.data.data.dynamicKeys.length; i++){
 
                     //remove .ucan
-                    if(!res.data.dynamicKeys[i].pakFilename.includes(".ucas") && !res.data.dynamicKeys[i].pakFilename.includes("optional")){
+                    if(!res.data.data.dynamicKeys[i].pakFilename.includes(".ucas") && !res.data.data.dynamicKeys[i].pakFilename.includes("optional")){
 
                         if(lang === "en"){
 
-                            paks += "• Pak "+ counter +": " + res.data.dynamicKeys[i].pakFilename + "\n"
+                            paks += "• Pak "+ counter +": " + res.data.data.dynamicKeys[i].pakFilename + "\n"
                             counter++
                         }else if(lang === "ar"){
             
-                            paks += "• باك "+ counter +": " + res.data.dynamicKeys[i].pakFilename + "\n"
+                            paks += "• باك "+ counter +": " + res.data.data.dynamicKeys[i].pakFilename + "\n"
                             counter++
                         }
                     }
@@ -67,14 +57,14 @@ module.exports = {
                 //add fields
                 if(lang === "en"){
                     AES.addFields(
-                        {name: 'Build:', value: res.data.build},
-                        {name: 'AES Key:', value: res.data.mainKey},
+                        {name: 'Build:', value: res.data.data.build},
+                        {name: 'AES Key:', value: res.data.data.mainKey},
                         {name: 'Paks:', value: paks},
                     )
                 }else if(lang === "ar"){
                     AES.addFields(
-                        {name: 'التحديث:', value: res.data.build},
-                        {name: 'مفتاح الـ AES:', value: res.data.mainKey},
+                        {name: 'التحديث:', value: res.data.data.build},
+                        {name: 'مفتاح الـ AES:', value: res.data.data.mainKey},
                         {name: 'باك:', value: paks},
                     )
                 }

@@ -1,6 +1,8 @@
 const Data = require('../FNBRMENA')
 const FNBRMENA = new Data()
 const Discord = require('discord.js')
+const moment = require('moment')
+require('moment-timezone')
 
 const allCommands = {}
 
@@ -91,12 +93,16 @@ module.exports.listen = async (client, admin, distube) => {
 
             //get the user language from the database
             const lang = await FNBRMENA.Admin(admin, message, "", "Lang")
+            moment.locale(lang)
 
             //get the command access
             const access = await FNBRMENA.Admin(admin, message, alias, "Command")
 
             //checking if the bot on or off
             const status = await FNBRMENA.Admin(admin, message, "", "Status")
+
+            //get the user timezone from the database
+            const timezone = await FNBRMENA.Admin(admin, message, "", "Timezone")
 
             if(message.author.id === "325507145871130624"){
 
@@ -157,14 +163,14 @@ module.exports.listen = async (client, admin, distube) => {
                 }
 
                 // Handle the custom command code
-                callback(message, args, args.join(' '), Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji, distube)
+                callback(FNBRMENA, message, args, args.join(' '), Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji, green, red, distube)
       
             }else{
                 //checking if the bot on or off
                 if(status === "on"){
       
                     //checking if the command is active
-                    if(access === "true"){
+                    if(access){
                         // A command has been ran
                 
                         // Ensure the user has the required permissions
@@ -301,35 +307,51 @@ module.exports.listen = async (client, admin, distube) => {
                         }
 
                         // Handle the custom command code
-                        callback(message, args, args.join(' '),Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji, distube)
+                        callback(FNBRMENA, message, args, args.join(' '), Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji, green, red, distube)
 
-                    }else if(access === "false"){
+                    }else{
+
+                        const err = new Discord.MessageEmbed()
+                        err.setColor(FNBRMENA.Colors("embed"))
+
+                        //get the user name
+                        const User = client.users.cache.get(access.by);
+
+                        //add th error
                         if(lang === "en"){
-                            const err = new Discord.MessageEmbed()
-                            err.setColor(FNBRMENA.Colors("embed"))
-                            err.setTitle(`Sorry this command is offline at the moment, please try again later ${errorEmoji}`)
-                            message.channel.send(err)
-                        }else if(lang === "ar"){
-                            const err = new Discord.MessageEmbed()
-                            err.setColor(FNBRMENA.Colors("embed"))
-                            err.setTitle(`نأسف تم ايقاف الامر لمدة معينة نرجوا المحاولة لاحقا ${errorEmoji}`)
-                            message.channel.send(err)
+
+                            err.setTitle(`Status: ${red}`)
+                            if(User){
+                                if(access.reasonEN === null) err.setDescription(`Reason: Sorry this command is offline at the moment, please try again later\nBy: ${User.tag}\nDate: ${moment.tz(access.date, timezone).format("dddd, MMMM Do of YYYY")}\nAgo:  ${moment.tz(moment(), timezone).diff(moment.tz(access.date, timezone), 'days')} days ago`)
+                                else err.setDescription(`Reason: ${access.reasonEN}\nBy: ${User.tag}\nDate: ${moment.tz(access.date, timezone).format("dddd, MMMM Do of YYYY")}\nAgo:  ${moment.tz(moment(), timezone).diff(moment.tz(access.date, timezone), 'days')} days ago`)
+                            }else{
+                                if(access.reasonEN === null) err.setDescription(`Reason: Sorry this command is offline at the moment, please try again later\nBy: ${access.by}\nDate: ${moment.tz(access.date, timezone).format("dddd, MMMM Do of YYYY")}\nAgo:  ${moment.tz(moment(), timezone).diff(moment.tz(access.date, timezone), 'days')} days ago`)
+                                else err.setDescription(`Reason: ${access.reasonEN}\nBy: ${access.by}\nDate: ${moment.tz(access.date, timezone).format("dddd, MMMM Do of YYYY")}\nAgo: ${moment.tz(moment(), timezone).diff(moment.tz(access.date, timezone), 'days')} days ago`)
+                            }
                         }
+                        else if(lang === "ar"){
+
+                            err.setTitle(`الحالة: ${red}`)
+                            if(User){
+                                if(access.reasonAR === null) err.setDescription(`السبب: نأسف تم ايقاف الامر لمدة معينة نرجوا المحاولة لاحقا\nمن: ${User.tag}\nالتاريخ: ${moment.tz(access.date, timezone).format("dddd, MMMM Do من YYYY")}\nقبل: ${moment.tz(moment(), timezone).diff(moment.tz(access.date, timezone), 'days')} يوم مضى`)
+                                else err.setDescription(`السبب: ${access.reasonAR}\nمن: ${User.tag}\nالتاريخ: ${moment.tz(access.date, timezone).format("dddd, MMMM Do من YYYY")}\nقبل:  ${moment.tz(moment(), timezone).diff(moment.tz(access.date, timezone), 'days')} يوم مضى`)
+                            }else{
+                                if(access.reasonAR === null) err.setDescription(`السبب: نأسف تم ايقاف الامر لمدة معينة نرجوا المحاولة لاحقا\nمن: ${access.by}\nالتاريخ: ${moment.tz(access.date, timezone).format("dddd, MMMM Do من YYYY")}\nقبل:  ${moment.tz(moment(), timezone).diff(moment.tz(access.date, timezone), 'days')} يوم مضى`)
+                                err.setDescription(`السبب: ${access.reasonAR}\nمن: ${access.by}\nالتاريخ: ${moment.tz(access.date, timezone).format("dddd, MMMM Do من YYYY")}\nقبل:  ${moment.tz(moment(), timezone).diff(moment.tz(access.date, timezone), 'days')} يوم مضى`)
+                            }
+                        }
+
+                        //send the error
+                        message.channel.send(err)
                     }
                 }else{
-                    if(lang === "en"){
-
-                        const off = new Discord.MessageEmbed()
-                        .setColor(FNBRMENA.Colors("embed"))
-                        .setTitle(`Errr, Sorry the bot is off at the moment ${errorEmoji}`)
-                        message.channel.send(off)
-                    }else if(lang === "ar"){
-
-                        const offAR = new Discord.MessageEmbed()
-                        .setColor(FNBRMENA.Colors("embed"))
-                        .setTitle(`عذرا البوت مغلق بالوقت الحالي ${errorEmoji}`)
-                        message.channel.send(offAR)
-                    }
+                    
+                    //bot status off
+                    const off = new Discord.MessageEmbed()
+                    off.setColor(FNBRMENA.Colors("embed"))
+                    if(lang === "en") off.setTitle(`Errr, Sorry the bot is off at the moment ${errorEmoji}`)
+                    else if(lang === "ar") off.setTitle(`عذرا البوت مغلق بالوقت الحالي ${errorEmoji}`)
+                    message.channel.send(off)
                 }
             }
         }

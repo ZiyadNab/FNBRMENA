@@ -154,7 +154,7 @@ module.exports = {
         const filter = (reaction, user) => {
             return ['⏮️','◀️', '▶️','⏭️'].includes(reaction.emoji.name) && user.id === message.author.id;
         };
-        const collected = await msgReact.createReactionCollector(filter, {time: 1 * 10000, errors: ['time']})
+        const collected = await msgReact.createReactionCollector(filter, {time: 2.5 * 60000, errors: ['time']})
         collected.on("collect", collect => {
 
             const reaction = collect

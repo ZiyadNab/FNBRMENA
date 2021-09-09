@@ -20,7 +20,7 @@ module.exports = {
 
         //filter
         const timezone = moment.tz.names().filter(city => {
-            if(city.toLowerCase().includes(text)) return city
+            if(city.toLowerCase().includes(text)) return city.toLowerCase()
         })
 
         //check if its found or not

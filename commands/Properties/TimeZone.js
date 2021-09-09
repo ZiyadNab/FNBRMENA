@@ -68,7 +68,7 @@ module.exports = {
                             notify.delete()
 
                             //if the user input in range
-                            if(await collected.first().content >= 0 && collected.first().content < res.data.history.length){
+                            if(await collected.first().content >= 0 && collected.first().content < timezone.length){
 
                                 //store user input
                                 num = await collected.first().content

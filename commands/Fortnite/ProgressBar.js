@@ -285,8 +285,8 @@ module.exports = {
 
                     //formating left
                     if(leftDays <= 10 && leftDays >= 1){
-                        if(lang === "en") leftText = `${leftDays} day and ${durationEnds.hours()} hours left`
-                        else if(lang === "ar") leftText = `${leftDays} يوم و ${durationEnds.hours()} ساعة مضت`
+                        if(lang === "en") leftText = `${leftDays} day(s) and ${durationEnds.hours()} hours left`
+                        else if(lang === "ar") leftText = `${leftDays} يوم و ${durationEnds.hours()} ساعة متبقية`
 
                     }else if(leftDays < 1){
 
@@ -297,7 +297,7 @@ module.exports = {
 
                     //formating gone
                     if(goneDays <= 10 && goneDays >= 1){
-                        if(lang === "en") goneText = `${goneDays} day and ${durationStarts.hours()} hours left`
+                        if(lang === "en") goneText = `${goneDays} day(s) and ${durationStarts.hours()} hours gone`
                         else if(lang === "ar") goneText = `${goneDays} يوم و ${durationStarts.hours()} ساعة مضت`
 
                     }else if(goneDays < 1){
@@ -351,8 +351,8 @@ module.exports = {
 
             //formating left
             if(leftDays <= 10 && leftDays >= 1){
-                if(lang === "en") leftText = `${leftDays} day and ${durationEnds.hours()} hours left`
-                else if(lang === "ar") leftText = `${leftDays} يوم و ${durationEnds.hours()} ساعة مضت`
+                if(lang === "en") leftText = `${leftDays} day(s) and ${durationEnds.hours()} hours left`
+                else if(lang === "ar") leftText = `${leftDays} يوم و ${durationEnds.hours()} ساعة متبقية`
 
             }else if(leftDays < 1){
 
@@ -363,7 +363,7 @@ module.exports = {
 
             //formating gone
             if(goneDays <= 10 && goneDays >= 1){
-                if(lang === "en") goneText = `${goneDays} day and ${durationStarts.hours()} hours left`
+                if(lang === "en") goneText = `${goneDays} day(s) and ${durationStarts.hours()} hours gone`
                 else if(lang === "ar") goneText = `${goneDays} يوم و ${durationStarts.hours()} ساعة مضت`
 
             }else if(goneDays < 1){

@@ -325,22 +325,22 @@ module.exports.listen = async (client, admin, distube) => {
 
                             err.setTitle(`Status: ${red}`)
                             if(User){
-                                if(access.reasonEN === null) err.setDescription(`Reason: Sorry this command is offline at the moment, please try again later\nBy: ${User.tag}\nDate: ${moment.tz(access.date, timezone).format("dddd, MMMM Do of YYYY")}\nAgo:  ${moment.tz(moment(), timezone).diff(moment.tz(access.date, timezone), 'days')} days ago`)
-                                else err.setDescription(`Reason: ${access.reasonEN}\nBy: ${User.tag}\nDate: ${moment.tz(access.date, timezone).format("dddd, MMMM Do of YYYY")}\nAgo:  ${moment.tz(moment(), timezone).diff(moment.tz(access.date, timezone), 'days')} days ago`)
+                                if(access.reasonEN === null) err.setDescription(`Reason: \`Sorry this command is offline at the moment, please try again later\`\nBy: \`${User.tag}\`\nDate: \`${moment.tz(access.date, timezone).format("dddd, MMMM Do of YYYY")}\`\nAgo:  \`${moment.tz(moment(), timezone).diff(moment.tz(access.date, timezone), 'days')} days ago\``)
+                                else err.setDescription(`Reason: \`${access.reasonEN}\`\nBy: \`${User.tag}\`\nDate: \`${moment.tz(access.date, timezone).format("dddd, MMMM Do of YYYY")}\`\nAgo:  \`${moment.tz(moment(), timezone).diff(moment.tz(access.date, timezone), 'days')} days ago\``)
                             }else{
-                                if(access.reasonEN === null) err.setDescription(`Reason: Sorry this command is offline at the moment, please try again later\nBy: ${access.by}\nDate: ${moment.tz(access.date, timezone).format("dddd, MMMM Do of YYYY")}\nAgo:  ${moment.tz(moment(), timezone).diff(moment.tz(access.date, timezone), 'days')} days ago`)
-                                else err.setDescription(`Reason: ${access.reasonEN}\nBy: ${access.by}\nDate: ${moment.tz(access.date, timezone).format("dddd, MMMM Do of YYYY")}\nAgo: ${moment.tz(moment(), timezone).diff(moment.tz(access.date, timezone), 'days')} days ago`)
+                                if(access.reasonEN === null) err.setDescription(`Reason: \`Sorry this command is offline at the moment, please try again later\`\nBy: \`${access.by}\`\nDate: \`${moment.tz(access.date, timezone).format("dddd, MMMM Do of YYYY")}\`\nAgo:  \`${moment.tz(moment(), timezone).diff(moment.tz(access.date, timezone), 'days')} days ago\``)
+                                else err.setDescription(`Reason: \`${access.reasonEN}\`\nBy: \`${access.by}\`\nDate: \`${moment.tz(access.date, timezone).format("dddd, MMMM Do of YYYY")}\`\nAgo: \`${moment.tz(moment(), timezone).diff(moment.tz(access.date, timezone), 'days')} days ago\``)
                             }
                         }
                         else if(lang === "ar"){
 
                             err.setTitle(`الحالة: ${red}`)
                             if(User){
-                                if(access.reasonAR === null) err.setDescription(`السبب: نأسف تم ايقاف الامر لمدة معينة نرجوا المحاولة لاحقا\nمن: ${User.tag}\nالتاريخ: ${moment.tz(access.date, timezone).format("dddd, MMMM Do من YYYY")}\nقبل: ${moment.tz(moment(), timezone).diff(moment.tz(access.date, timezone), 'days')} يوم مضى`)
-                                else err.setDescription(`السبب: ${access.reasonAR}\nمن: ${User.tag}\nالتاريخ: ${moment.tz(access.date, timezone).format("dddd, MMMM Do من YYYY")}\nقبل:  ${moment.tz(moment(), timezone).diff(moment.tz(access.date, timezone), 'days')} يوم مضى`)
+                                if(access.reasonAR === null) err.setDescription(`\`السبب: \`نأسف تم ايقاف الامر لمدة معينة نرجوا المحاولة لاحقا\nمن: \`${User.tag}\`\nالتاريخ: \`${moment.tz(access.date, timezone).format("dddd, MMMM Do من YYYY")}\`\nقبل: \`${moment.tz(moment(), timezone).diff(moment.tz(access.date, timezone), 'days')} يوم مضى\``)
+                                else err.setDescription(`السبب: \`${access.reasonAR}\`\nمن: \`${User.tag}\`\nالتاريخ: \`${moment.tz(access.date, timezone).format("dddd, MMMM Do من YYYY")}\`\nقبل:  \`${moment.tz(moment(), timezone).diff(moment.tz(access.date, timezone), 'days')} يوم مضى\``)
                             }else{
-                                if(access.reasonAR === null) err.setDescription(`السبب: نأسف تم ايقاف الامر لمدة معينة نرجوا المحاولة لاحقا\nمن: ${access.by}\nالتاريخ: ${moment.tz(access.date, timezone).format("dddd, MMMM Do من YYYY")}\nقبل:  ${moment.tz(moment(), timezone).diff(moment.tz(access.date, timezone), 'days')} يوم مضى`)
-                                err.setDescription(`السبب: ${access.reasonAR}\nمن: ${access.by}\nالتاريخ: ${moment.tz(access.date, timezone).format("dddd, MMMM Do من YYYY")}\nقبل:  ${moment.tz(moment(), timezone).diff(moment.tz(access.date, timezone), 'days')} يوم مضى`)
+                                if(access.reasonAR === null) err.setDescription(`\`السبب: \`نأسف تم ايقاف الامر لمدة معينة نرجوا المحاولة لاحقا\nمن: \`${access.by}\`\nالتاريخ: \`${moment.tz(access.date, timezone).format("dddd, MMMM Do من YYYY")}\`\nقبل: \`${moment.tz(moment(), timezone).diff(moment.tz(access.date, timezone), 'days')} يوم مضى\``)
+                                err.setDescription(`السبب: \`${access.reasonAR}\`\nمن: \`${access.by}\`\nالتاريخ: \`${moment.tz(access.date, timezone).format("dddd, MMMM Do من YYYY")}\`\nقبل:  \`${moment.tz(moment(), timezone).diff(moment.tz(access.date, timezone), 'days')} يوم مضى\``)
                             }
                         }
 

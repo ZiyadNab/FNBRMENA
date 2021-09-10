@@ -104,7 +104,7 @@ module.exports.listen = async (client, admin, distube) => {
             //get the user timezone from the database
             const timezone = await FNBRMENA.Admin(admin, message, "", "Timezone")
 
-            if(message.author.id === "325507145871130624"){
+            if(member.roles.cache.has("756479266316746763")){
 
                 // Ensure we have the correct number of args
                 if(args.length < minArgs || (maxArgs !== null && args.length > maxArgs)){

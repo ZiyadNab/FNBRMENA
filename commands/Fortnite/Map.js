@@ -64,7 +64,7 @@ module.exports = {
         }else{
 
             //request data
-            fortniteAPI.MapIO()
+            FNBRMENA.MapIO()
             .then(async res => {
 
                 //check if user entered a valid season that has images

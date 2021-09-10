@@ -11,6 +11,7 @@ module.exports = {
 
         //get the user language from the database
         const lang = await FNBRMENA.Admin(admin, message, "", "Lang")
+        moment.locale("en")
 
         //inislizing data
         const Command = args[0]

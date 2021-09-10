@@ -1,3 +1,5 @@
+const moment = require('moment')
+
 module.exports = {
     commands: 'command',
     type: 'Administrators Only',
@@ -7,74 +9,111 @@ module.exports = {
     permissionError: 'Sorry you do not have acccess to this command',
     callback: async (FNBRMENA, message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji, greenStatus, redStatus) => {
 
-        //command
-        var command = args[0]
-        //removing the command from the agrs elements
-        args.shift()
-
-        //TRUE or FALSE
-        var boolean = args[0]
-        //removing the boolean from the agrs elements
-        args.shift()
-
         //get the user language from the database
         const lang = await FNBRMENA.Admin(admin, message, "", "Lang")
 
-        //check if the command exists
-        admin.database().ref("ERA's").child("Commands").child(command).once('value', async data => {
+        //inislizing data
+        const Command = args[0]
+        if(args[1] === "true") var Status = true
+        else if(args[1] === "false") var Status = false
+        var reasonEN = null
+        var reasonAR = null
 
-            //if statment
-            if (await data.exists()) {
+        //if reasonEN and AR included
+        if(text.includes("-")){
+            reasonEN = text.substring(text.indexOf("-") + 1, text.lastIndexOf("-")).trim()
+            reasonAR = text.substring(text.lastIndexOf("-") + 1, text.length).trim()
+        }
 
-                //check if the user enterd a true or false 
-                if (boolean === "true" || boolean === "false") {
+        //seeting up the db firestore
+        var db = await admin.firestore()
 
-                    //changing the status of the command
-                    await admin.database().ref("ERA's").child("Commands").child(command).child("Active").update({
-                        Status: boolean
-                    })
+        //commands collection
+        const commandData = await db.collection("Commands").doc(Command).get()
 
-                    //creating success embed
-                    const status = new Discord.MessageEmbed()
-                    status.setColor(FNBRMENA.Colors("embed"))
-                    if (boolean === "true") {
-                        if (lang === "en") {
-                            status.setTitle(`The ${command} command is Enabled ${checkEmoji}`)
-                        } else if (lang === "ar") {
-                            status.setTitle(`تم تفعيل امر ${command} بنجاح ${checkEmoji}`)
+        //check if the command data exists or not
+        if(commandData.exists){
+
+            //check if the user typed true and false truly
+            if(Status === true || Status === false){
+
+                //check if the user added a reason or not
+                if(text.includes("+")){
+                    if((text.match(/-/g) || []).length === 2){
+
+                        //setting up the updated data
+                        const updatedData = {
+                            commandStatus: {
+                                Status: Status,
+                                by: message.author.id,
+                                date: moment().format(),
+                                reasonEN: reasonEN,
+                                reasonAR: reasonAR,
+                            }
                         }
-                    } else if (boolean === "false") {
-                        if (lang === "en") {
-                            status.setTitle(`The ${command} command is Disabled ${checkEmoji}`)
-                        } else if (lang === "ar") {
-                            status.setTitle(`تم ايقاف امر ${command} بنجاح ${checkEmoji}`)
+
+                        //update the data
+                        await db.collection("Commands").doc(Command).update(updatedData)
+
+                        
+                        //success
+                        const success = new Discord.MessageEmbed()
+                        success.setColor(FNBRMENA.Colors("embed"))
+                        if(lang === "en") success.setTitle(`The ${Command} status has been changed to ${Status} successfully ${checkEmoji}`)
+                        else if(lang === "ar") success.setTitle(`تم تغير حالة أمر ${Command} الى ${Status} بنجاح ${checkEmoji}`)
+                        message.channel.send(success)
+
+                    }else{
+
+                        //reason error
+                        const err = new Discord.MessageEmbed()
+                        err.setColor(FNBRMENA.Colors("embed"))
+                        if(lang === "en") err.setTitle(`Make sure to provide reasons in both languages ${errorEmoji}`)
+                        else if(lang === "ar") err.setTitle(`تأكد بأنك لقت كتبت الأسباب في اللغتين ${errorEmoji}`)
+                        message.channel.send(err)
+                    }
+                }else{
+
+                    //setting up the updated data
+                    const updatedData = {
+                        commandStatus: {
+                            Status: Status,
+                            by: message.author.id,
+                            date: moment().format(),
+                            reasonEN: reasonEN,
+                            reasonAR: reasonAR,
                         }
                     }
-                    //sending the embed
-                    message.channel.send(status)
-                } else {
 
-                    //there is a typo in TRUE or FALSE
-                    const err = new Discord.MessageEmbed()
-                    err.setColor(FNBRMENA.Colors("embed"))
-                    if (lang === "en") {
-                        err.setTitle(`Make sure that you enter TRUE to enable the command or FALSE to disable it etherwise it will throw an error ${errorEmoji}`)
-                    } else if (lang === "ar") {
-                        err.setTitle(`الرجاء التأكد من كتابة TRUE ام FALSE بشكل صحيح ${errorEmoji}`)
-                    }
-                    message.channel.send(err)
+                    //update the data
+                    await db.collection("Commands").doc(Command).update(updatedData)
+
+                    
+                    //success
+                    const success = new Discord.MessageEmbed()
+                    success.setColor(FNBRMENA.Colors("embed"))
+                    if(lang === "en") success.setTitle(`The ${Command} status has been changed to ${Status} successfully ${checkEmoji}`)
+                    else if(lang === "ar") success.setTitle(`تم تغير حالة أمر ${Command} الى ${Status} بنجاح ${checkEmoji}`)
+                    message.channel.send(success)
+                    
                 }
-            } else {
-                //there is a typo in the command
-                const error = new Discord.MessageEmbed()
-                error.setColor(FNBRMENA.Colors("embed"))
-                if (lang === "en") {
-                    error.setTitle(`Make sure that you have entered a valid command ${errorEmoji}`)
-                } else if (lang === "ar") {
-                    error.setTitle(`الرجاء التأكد من كتابة الامر بشكل صحيح ${errorEmoji}`)
-                }
-                message.channel.send(error)
+            }else{
+
+                //status error
+                const err = new Discord.MessageEmbed()
+                err.setColor(FNBRMENA.Colors("embed"))
+                if(lang === "en") err.setTitle(`Please make sure to type TRUE or FALSE exactly ${errorEmoji}`)
+                else if(lang === "ar") err.setTitle(`تأكد بأنك لقد كتبت TRUE او FALSE بشكل صحيح ${errorEmoji}`)
+                message.channel.send(err)
             }
-        })
-    },
+        }else{
+
+            //no command has been found
+            const err = new Discord.MessageEmbed()
+            err.setColor(FNBRMENA.Colors("embed"))
+            if(lang === "en") err.setTitle(`No such a command named ${Command} has been found! ${errorEmoji}`)
+            else if(lang === "ar") err.setTitle(`لا يمكنني العثور على أمر ${Command} ${errorEmoji}`)
+            message.channel.send(err)
+        }
+    }
 }

@@ -128,7 +128,7 @@ module.exports.listen = async (client, admin, distube) => {
 
                         //set author, description and add feilds
                         SyntaxError.setAuthor(`Syntax Error`)
-                        if(access === "true") SyntaxError.setDescription(`Command Used: ${alias}\nCommand Status: ${green}\n\n${descriptionEN}\n`)
+                        if(access.Status) SyntaxError.setDescription(`Command Used: ${alias}\nCommand Status: ${green}\n\n${descriptionEN}\n`)
                         else SyntaxError.setDescription(`Command Used: ${alias}\nCommand Status: ${red}\n\n${descriptionEN}\n`)
                         SyntaxError.addFields(
                             {name: `Command guide:`, value: `\n\n\`${expectedArgsEN}\``},
@@ -143,7 +143,8 @@ module.exports.listen = async (client, admin, distube) => {
 
                         //set author, description and add feilds
                         SyntaxError.setAuthor(`عملية خاطئة`)
-                        SyntaxError.setDescription(`الأمر المستعمل: ${alias}\nحالة الأمر: ${green}\n\n${descriptionAR}\n`)
+                        if(access.Status) SyntaxError.setDescription(`الأمر المستعمل: ${alias}\nحالة الأمر: ${green}\n\n${descriptionAR}\n`)
+                        else SyntaxError.setDescription(`الأمر المستعمل: ${alias}\nحالة الأمر: ${red}\n\n${descriptionAR}\n`)
                         SyntaxError.addFields(
                             {name: `ارشادات الأستخدام:`, value: `\n\n\`${expectedArgsAR}\``},
                             {name: `أمثلة:`, value: `\`${Examples}\``},
@@ -170,7 +171,8 @@ module.exports.listen = async (client, admin, distube) => {
                 if(status === "on"){
       
                     //checking if the command is active
-                    if(access){
+                    if(access.Status){
+
                         // A command has been ran
                 
                         // Ensure the user has the required permissions
@@ -261,7 +263,7 @@ module.exports.listen = async (client, admin, distube) => {
 
                                 //set author, description and add feilds
                                 SyntaxError.setAuthor(`Syntax Error`)
-                                if(access) SyntaxError.setDescription(`Command Used: ${alias}\nCommand Status: ${green}\n\n${descriptionEN}\n`)
+                                if(access.Status) SyntaxError.setDescription(`Command Used: ${alias}\nCommand Status: ${green}\n\n${descriptionEN}\n`)
                                 else SyntaxError.setDescription(`Command Used: ${alias}\nCommand Status: ${red}\n\n${descriptionEN}\n`)
                                 SyntaxError.addFields(
                                     {name: `Command guide:`, value: `\n\n\`${expectedArgsEN}\``},
@@ -276,7 +278,8 @@ module.exports.listen = async (client, admin, distube) => {
 
                                 //set author, description and add feilds
                                 SyntaxError.setAuthor(`عملية خاطئة`)
-                                SyntaxError.setDescription(`الأمر المستعمل: ${alias}\nحالة الأمر: ${green}\n\n${descriptionAR}\n`)
+                                if(access.Status) SyntaxError.setDescription(`الأمر المستعمل: ${alias}\nحالة الأمر: ${green}\n\n${descriptionAR}\n`)
+                                else SyntaxError.setDescription(`الأمر المستعمل: ${alias}\nحالة الأمر: ${red}\n\n${descriptionAR}\n`)
                                 SyntaxError.addFields(
                                     {name: `ارشادات الأستخدام:`, value: `\n\n\`${expectedArgsAR}\``},
                                     {name: `أمثلة:`, value: `\`${Examples}\``},

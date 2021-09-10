@@ -1,14 +1,11 @@
-const Data = require('../../FNBRMENA')
-const FNBRMENA = new Data()
-
 module.exports = {
     commands: 'status',
-    expectedArgs: '[ ON or OFF ]',
+    type: 'Administrators Only',
     minArgs: 1,
     maxArgs: 1,
     cooldown: -1,
     permissionError: 'Sorry you do not have acccess to this command',
-    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji) => {
+    callback: async (FNBRMENA, message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji, greenStatus, redStatus) => {
         
         //get the user language from the database
         const lang = await FNBRMENA.Admin(admin, message, "", "Lang")

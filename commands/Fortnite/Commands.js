@@ -46,7 +46,7 @@ module.exports = {
                 }else if(lang === "ar"){
 
                     Commands.push({name: `حالة الأمر: ${Status}`, value: `الأمر: \`${data.data().Aliases}\`
-                    وصف الأمر: \`${data.data().commandData.descriptionEN}\`
+                    وصف الأمر: \`${data.data().commandData.descriptionAR}\`
                     العد التنازلي: \`${data.data().commandData.cooldown}s\`
                     نوع الأمر: \`${data.data().commandData.type}\``})
                 }

@@ -1,14 +1,11 @@
-const Data = require('../../FNBRMENA')
-const FNBRMENA = new Data()
-
 module.exports = {
     commands: 'command',
-    expectedArgs: '[ Nmae of the command, True or False ]',
+    type: 'Administrators Only',
     minArgs: 2,
     maxArgs: null,
     cooldown: -1,
     permissionError: 'Sorry you do not have acccess to this command',
-    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji) => {
+    callback: async (FNBRMENA, message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji, greenStatus, redStatus) => {
 
         //command
         var command = args[0]

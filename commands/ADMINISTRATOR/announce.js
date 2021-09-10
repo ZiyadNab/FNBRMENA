@@ -1,15 +1,13 @@
 const config = require('../../Coinfigs/config.json')
-const Data = require('../../FNBRMENA')
-const FNBRMENA = new Data()
 
 module.exports = {
     commands: 'announce',
-    expectedArgs: '[ Announce statment ]',
+    type: 'Administrators Only',
     minArgs: 1,
     maxArgs: null,
     cooldown: -1,
     permissionError: 'Sorry you do not have acccess to this command',
-    callback: (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji) => {
+    callback: (FNBRMENA, message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji, greenStatus, redStatus) => {
         admin.database().ref("ERA's").child("Users").child(message.author.id).once('value', async function (data) {
             var lang = data.val().lang
 

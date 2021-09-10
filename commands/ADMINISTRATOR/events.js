@@ -1,21 +1,14 @@
-const Data = require('../../FNBRMENA')
-const FNBRMENA = new Data()
-
 module.exports = {
     commands: 'events',
-    expectedArgs: '',
+    type: 'Administrators Only',
     minArgs: 0,
     maxArgs: 0,
     cooldown: -1,
     permissionError: 'Sorry you do not have acccess to this command',
-    callback: async (message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji) => {
+    callback: async (FNBRMENA, message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji, greenStatus, redStatus) => {
 
         //get the user language from the database
         const lang = await FNBRMENA.Admin(admin, message, "", "Lang")
-
-        //inilizing data
-        const red = client.emojis.cache.get("855805718779002899")
-        const green = client.emojis.cache.get("855805718363111434")
 
         //ask the user what status should be placed
         const method = new Discord.MessageEmbed()
@@ -76,9 +69,9 @@ module.exports = {
 
                             //active ?
                             if(res[Object.keys(res)[i]].Active === true){
-                                str += `Active: ${green} \n`
+                                str += `Active: ${greenStatus} \n`
                             }else{
-                                str += `Active: ${red} \n`
+                                str += `Active: ${redStatus} \n`
                             }
 
                             //lang
@@ -97,9 +90,9 @@ module.exports = {
 
                             //active ?
                             if(res[Object.keys(res)[i]].Active === true){
-                                str += `الحالة: ${green} \n`
+                                str += `الحالة: ${greenStatus} \n`
                             }else{
-                                str += `الحالة: ${red} \n`
+                                str += `الحالة: ${redStatus} \n`
                             }
 
                             //lang

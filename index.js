@@ -101,6 +101,7 @@ client.on('ready', async () => {
       } else if (file !== baseFile) {
         const option = require(path.join(__dirname, dir, file))
         Array.push(option.commands)
+        commandsData.push(option)
         commandBase(option)
       }
     }

@@ -362,7 +362,7 @@ module.exports = {
                                     else var hideIfNotOwned = `لا الستايل ليس مخفي`
 
                                     info.addFields(
-                                        {name: `الستايل رقم ${i + 1}`, value: `الأسم: \`${res.data.items[num].styles[i].name}\`\nهل الستايل مخفي: \`${isDefault}\`\nمخفي اذا ما تملك الستايل: \`${hideIfNotOwned}\`\nالقناة: \`${res.data.items[num].styles[i].channel}\`\nالإشعارات: \`${res.data.items[num].styles[i].tag}\``}
+                                        {name: `الستايل رقم ${i + 1}`, value: `الأسم: \`${res.data.items[num].styles[i].name}\`\nهل الستايل أساسي: \`${isDefault}\`\nمخفي اذا ما تملك الستايل: \`${hideIfNotOwned}\`\nالقناة: \`${res.data.items[num].styles[i].channel}\`\nالإشعارات: \`${res.data.items[num].styles[i].tag}\``}
                                     )
                                 }
                             }else info.addFields({name:`الستايلات`, value: `\`لا يوجد ستايلات لـ ${res.data.items[num].name}\``})

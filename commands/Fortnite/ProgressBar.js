@@ -162,7 +162,7 @@ module.exports = {
 
             //creating progress object
             const CreatingObj = async (grd, x, y, gone, goneText, left, leftText, length, objectPercent, 
-                colors, objectIcon, finishedStringEN, finishedStringAR) => {
+                colors, objectIcon, finishedStringEN, finishedStringAR, previewDay) => {
 
                 //font
                 if(lang === "en") ctx.font = '60px Burbank Big Condensed'
@@ -210,7 +210,7 @@ module.exports = {
                 ctx.fillRect(x, y, objectPercent, 150)
 
                 //add the finishedString if the progress at 100%
-                if(left <= 0){
+                if(left <= previewDay){
 
                     //check language
                     if(lang === "en" && finishedStringEN !== null){
@@ -309,9 +309,11 @@ module.exports = {
                     //if there is finished string
                     let finishedStringEN = null
                     let finishedStringAR = null
+                    let previewDay = 0
                     if(data.finishedString !== undefined){
-                        finishedStringEN = data.finishedString.EN
-                        finishedStringAR = data.finishedString.AR
+                        finishedStringEN = data.finishedString.finishedStringEN
+                        finishedStringAR = data.finishedString.finishedStringAR
+                        if(data.finishedString.DayOfPreview !== undefined) previewDay = data.finishedString.DayOfPreview
                     }
 
                     //get object length and percentage
@@ -320,7 +322,7 @@ module.exports = {
 
                     //calling the object
                     await CreatingObj(grd, x, y, goneDays, goneText, leftDays, leftText, length, objectPercent, 
-                       data.Colors, objectIcon, finishedStringEN, finishedStringAR)
+                       data.Colors, objectIcon, finishedStringEN, finishedStringAR, previewDay)
 
                     y += 420
 
@@ -328,8 +330,8 @@ module.exports = {
             }
 
             //Crew Object
-            const Ends = moment.tz(moment(`${Now.format("YYYY")}-${moment().add(1, 'months').format("MM")}-01`), timezone)
-            const Starts = moment.tz(moment(Now.format("YYYY") + "-" + Now.format("MM") + "-01"), timezone)
+            const Ends = moment.tz(moment(`${Now.format("YYYY")}-${moment().add(1, 'months').format("MM")}-01T00:00:00.000Z`), timezone)
+            const Starts = moment.tz(moment(`${Now.format("YYYY")}-${Now.format("MM")}-01T00:00:00.000Z`), timezone)
             const crew = await Canvas.loadImage('https://imgur.com/7Sp9z5H.png')
 
             //adding the gradiant
@@ -375,6 +377,7 @@ module.exports = {
             //if there is finished string
             let finishedStringEN = `Will be available soon...`
             let finishedStringAR = `سوف تتاح قريبا...`
+            let previewDay = 0
 
             //get object length and percentage
             const length = leftDays + goneDays
@@ -382,7 +385,7 @@ module.exports = {
 
             //calling the object
             await CreatingObj(grd, x, y, goneDays, goneText, leftDays, leftText, length, crewPercent, 
-                ['FF0064', 'FF0008'], crew, finishedStringEN, finishedStringAR)
+                ['FF0064', 'FF0008'], crew, finishedStringEN, finishedStringAR, previewDay)
 
 
             //send the message

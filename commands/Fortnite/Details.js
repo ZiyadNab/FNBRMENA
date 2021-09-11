@@ -257,91 +257,128 @@ module.exports = {
                         else var rarityName = res.data.items[num].series.name
 
                         //set
-                        if(res.data.items[num].set !== null) var set = res.data.items[num].set.partOf
-                        else if(lang === "en") var set = `There is no set for ${res.data.items[num].name} ${res.data.items[num].type.name}`
-                        else if(lang === "ar") var set = `لا يوجد مجموعة ${res.data.items[num].type.name} ${res.data.items[num].name}`
+                        if(res.data.items[num].set !== null) var set = `\`${res.data.items[num].set.partOf}\``
+                        else if(lang === "en") var set = `There is no set for \`${res.data.items[num].name} ${res.data.items[num].type.name}\``
+                        else if(lang === "ar") var set = `لا يوجد مجموعة \`${res.data.items[num].type.name} ${res.data.items[num].name}\``
 
                         //Introduction
-                        if(res.data.items[num].introduction !== null) var introduction = res.data.items[num].introduction.text
-                        else if(lang === "en") var introduction = `There is no introduction for ${res.data.items[num].name} ${res.data.items[num].type.name} yet`
-                        else if(lang === "ar") var introduction = `لم يتم تقديم ${res.data.items[num].type.name} ${res.data.items[num].name} بعد`
+                        if(res.data.items[num].introduction !== null) var introduction = `\`${res.data.items[num].introduction.text}\``
+                        else if(lang === "en") var introduction = `There is no introduction for \`${res.data.items[num].name} ${res.data.items[num].type.name}\` yet`
+                        else if(lang === "ar") var introduction = `لم يتم تقديم \`${res.data.items[num].type.name} ${res.data.items[num].name}\` بعد`
 
                         //Description
-                        if(res.data.items[num].description !== "") var description = res.data.items[num].description
-                        else if(lang === "en") var description = `There is no description for ${res.data.items[num].name} ${res.data.items[num].type.name}`
-                        else if(lang === "ar") var description = `لا يوجد وصف ${res.data.items[num].type.name} ${res.data.items[num].name}`
+                        if(res.data.items[num].description !== "") var description = `\`${res.data.items[num].description}\``
+                        else if(lang === "en") var description = `There is no description for \`${res.data.items[num].name} ${res.data.items[num].type.name}\``
+                        else if(lang === "ar") var description = `لا يوجد وصف \`${res.data.items[num].type.name} ${res.data.items[num].name}\``
 
                         if(lang === "en"){
                             
                             //add id, name, description, rarity, introduction and added
                             info.addFields(
-                                {name: "ID", value: res.data.items[num].id, inline: true},
-                                {name: "Name", value: res.data.items[num].name, inline: true},
+                                {name: "ID", value: `\`${res.data.items[num].id}\``, inline: true},
+                                {name: "Name", value: `\`${res.data.items[num].name}\``, inline: true},
                                 {name: "Description", value: description, inline: true},
-                                {name: "Rarity", value: `${rarityID} \n ${rarityName}`, inline: true},
+                                {name: "Rarity", value: `ID: \`${rarityID}\`\nName: \`${rarityName}\``, inline: true},
                                 {name: "Set", value: set, inline: true},
                                 {name: "Introduction", value: introduction, inline: true},
-                                {name: "Added", value: `Date: ${res.data.items[num].added.date} \nVersion: ${res.data.items[num].added.version}`, inline: true},
-                                {name: "Price", value: res.data.items[num].price, inline: true},
-                                {name: "Ractive", value: res.data.items[num].reactive, inline: true},
-                                {name: "Copyrightd", value: res.data.items[num].copyrightedAudio, inline: true},
-                                {name: "Upcoming", value: res.data.items[num].upcoming, inline: true},
+                                {name: "Added", value: `Date: \`${res.data.items[num].added.date}\`\nVersion: \`${res.data.items[num].added.version}\``, inline: true},
+                                {name: "Dates", value: `Release Date: \`${res.data.items[num].releaseDate}\`\nLast Appearance: \`${res.data.items[num].lastAppearance}\``, inline: true},
+                                {name: "Price", value: `\`${res.data.items[num].price}\``, inline: true},
+                                {name: "Ractive", value: `\`${res.data.items[num].reactive}\``, inline: true},
+                                {name: "Copyrightd", value: `\`${res.data.items[num].copyrightedAudio}\``, inline: true},
+                                {name: "Upcoming", value: `\`${res.data.items[num].upcoming}\``, inline: true},
                             )
 
                             //if the item is from the battlepass
-                            if(res.data.items[num].battlepass !== null) info.addFields({name: "Battlepass", value: `${res.data.items[num].battlepass.displayText.chapterSeason} \n Tier: ${res.data.items[num].battlepass.tier} \nType: ${res.data.items[num].battlepass.type}`, inline: true})
+                            if(res.data.items[num].battlepass !== null) info.addFields({name: "Battlepass", value: `\`${res.data.items[num].battlepass.displayText.chapterSeason}\`\nTier: \`${res.data.items[num].battlepass.tier}\`\n\`Type: ${res.data.items[num].battlepass.type}\``, inline: true})
 
                             //if the item is not from the itemshop
-                            else info.addFields({name: "Battlepass", value: `The ${res.data.items[num].name} ${res.data.items[num].type.name} is not from the battlepass`, inline: true})
+                            else info.addFields({name: "Battlepass", value: `The \`${res.data.items[num].name} ${res.data.items[num].type.name}\` is not from the battlepass`, inline: true})
+
+                            //add styles
+                            if(res.data.items[num].styles.length !== 0){
+                                for(let i = 0; i < res.data.items[num].styles.length; i++){
+
+                                    //is style default
+                                    if(res.data.items[num].styles[i].isDefault) var isDefault = `Yes, it is default`
+                                    else var isDefault = `No, it is not default`
+
+                                    //is hideIfNotOwned
+                                    if(res.data.items[num].styles[i].hideIfNotOwned) var hideIfNotOwned = `Yes, it is hidden if you don't own the style`
+                                    else var hideIfNotOwned = `No, it is not hidden`
+
+                                    info.addFields(
+                                        {name: `Style ${i + 1}`, value: `Name: \`${res.data.items[num].styles[i].name}\`\nisDefault: \`${isDefault}\`\nhideIfNotOwned: \`${hideIfNotOwned}\`\nChannel: \`${res.data.items[num].styles[i].channel}\`\nTag: \`${res.data.items[num].styles[i].tag}\``}
+                                    )
+                                }
+                            }else info.addFields({name:`Styles`, value: `\`No styles for ${res.data.items[num].name}\``})
 
                             //if the item has a shop history
                             if(res.data.items[num].shopHistory !== null) info.addFields({name: "Shop History", value: res.data.items[num].shopHistory, inline: true})
 
                             //if the item has a shop history but not released yet
-                            else if(res.data.items[num].gameplayTags.includes("Cosmetics.Source.ItemShop")) info.addFields({name: "Shop History", value: `the ${res.data.items[num].name} ${res.data.items[num].type.name} has not released yet`, inline: true})
+                            else if(res.data.items[num].gameplayTags.includes("Cosmetics.Source.ItemShop")) info.addFields({name: "Shop History", value: `the \`${res.data.items[num].name} ${res.data.items[num].type.name}\` has not released yet`, inline: true})
 
                             //if the item is not from the item shop
-                            else info.addFields({name: "Shop History", value: `the ${res.data.items[num].name} ${res.data.items[num].type.name} is not an itemshop item`, inline: true})
+                            else info.addFields({name: "Shop History", value: `the \`${res.data.items[num].name} ${res.data.items[num].type.name}\` is not an itemshop item`, inline: true})
 
                             //add gameplay tags
                             if(res.data.items[num].gameplayTags.length > 0) info.addFields({name: "Gameplay Tags", value: res.data.items[num].gameplayTags, inline: true})
-                            else info.addFields({name: "Gameplay Tags", value: `There is no GameplayTags for ${res.data.items[num].name} ${res.data.items[num].type.name}`, inline: true})
+                            else info.addFields({name: "Gameplay Tags", value: `There is no GameplayTags for \`${res.data.items[num].name} ${res.data.items[num].type.name}\``, inline: true})
                             
                         }else if(lang === "ar"){
 
                             //add id, name, description, rarity, introduction and added
                             info.addFields(
-                                {name: "الأي دي", value: res.data.items[num].id, inline: true},
-                                {name: "الأسم", value: res.data.items[num].name, inline: true},
+                                {name: "الأي دي", value: `\`${res.data.items[num].id}\``, inline: true},
+                                {name: "الأسم", value: `\`${res.data.items[num].name}\``, inline: true},
                                 {name: "الوصف", value: description, inline: true},
-                                {name: "الندرة", value: `${rarityID} \n ${rarityName}`, inline: true},
+                                {name: "الندرة", value: `المعرف:\` ${rarityID}\`\nالأسم: \`${rarityName}\``, inline: true},
                                 {name: "المجموعة", value: set, inline: true},
                                 {name: "تم تقديمة", value: introduction, inline: true},
-                                {name: "تم اضافته", value: `التاريخ: ${res.data.items[num].added.date} \التحديث: ${res.data.items[num].added.version}`, inline: true},
-                                {name: "السعر", value: res.data.items[num].price, inline: true},
-                                {name: "متفاعل", value: res.data.items[num].reactive, inline: true},
-                                {name: "يحتوي على حقوق الطبع و النشر", value: res.data.items[num].copyrightedAudio, inline: true},
-                                {name: "عنصر قادم بالمستقبل", value: res.data.items[num].upcoming, inline: true},
+                                {name: "تم اضافته", value: `التاريخ: \`${res.data.items[num].added.date}\`\nالتحديث: \`${res.data.items[num].added.version}\``, inline: true},
+                                {name: "السعر", value: `\`${res.data.items[num].price}\``, inline: true},
+                                {name: "متفاعل", value: `\`${res.data.items[num].reactive}\``, inline: true},
+                                {name: "يحتوي على حقوق الطبع و النشر", value: `\`${res.data.items[num].copyrightedAudio}\``, inline: true},
+                                {name: "عنصر قادم بالمستقبل", value: `\`${res.data.items[num].upcoming}\``, inline: true},
                             )
 
                             //if the item is from the battlepass
-                            if(res.data.items[num].battlepass !== null) info.addFields({name: "باتل باس", value: `${res.data.items[num].battlepass.displayText.chapterSeason} \n التاير: ${res.data.items[num].battlepass.tier} \النوع: ${res.data.items[num].battlepass.type}`, inline: true})
+                            if(res.data.items[num].battlepass !== null) info.addFields({name: "باتل باس", value: `\`${res.data.items[num].battlepass.displayText.chapterSeason}\`\n التاير: \`${res.data.items[num].battlepass.tier}\`\nالنوع: \`${res.data.items[num].battlepass.type}\``, inline: true})
 
                             //if the item is not from the itemshop
-                            else info.addFields({name: "باتل باس", value: `${res.data.items[num].type.name} ${res.data.items[num].name} ليس من الباتل باس`, inline: true})
+                            else info.addFields({name: "باتل باس", value: `\`${res.data.items[num].type.name} ${res.data.items[num].name}\` ليس من الباتل باس`, inline: true})
+
+                            //add styles
+                            if(res.data.items[num].styles.length !== 0){
+                                for(let i = 0; i < res.data.items[num].styles.length; i++){
+
+                                    //is style default
+                                    if(res.data.items[num].styles[i].isDefault) var isDefault = `نعم الستايل أساسي`
+                                    else var isDefault = `لا الستايل ليس أساسي`
+
+                                    //is hideIfNotOwned
+                                    if(res.data.items[num].styles[i].hideIfNotOwned) var hideIfNotOwned = `نعم اذا ما تملك الستايل ماراح تقدر تستعملة`
+                                    else var hideIfNotOwned = `لا الستايل ليس مخفي`
+
+                                    info.addFields(
+                                        {name: `الستايل رقم ${i + 1}`, value: `الأسم: \`${res.data.items[num].styles[i].name}\`\nهل الستايل مخفي: \`${isDefault}\`\nمخفي اذا ما تملك الستايل: \`${hideIfNotOwned}\`\nالقناة: \`${res.data.items[num].styles[i].channel}\`\nالإشعارات: \`${res.data.items[num].styles[i].tag}\``}
+                                    )
+                                }
+                            }else info.addFields({name:`الستايلات`, value: `\`لا يوجد ستايلات لـ ${res.data.items[num].name}\``})
 
                             //if the item has a shop history
                             if(res.data.items[num].shopHistory !== null) info.addFields({name: "تاريخ الشوب", value: res.data.items[num].shopHistory, inline: true})
 
                             //if the item has a shop history but not released yet
-                            else if(res.data.items[num].gameplayTags.includes("Cosmetics.Source.ItemShop")) info.addFields({name: "تاريخ الشوب", value: `${res.data.items[num].type.name} ${res.data.items[num].name} لم يتم نزوله بعد`, inline: true})
+                            else if(res.data.items[num].gameplayTags.includes("Cosmetics.Source.ItemShop")) info.addFields({name: "تاريخ الشوب", value: `\`${res.data.items[num].type.name} ${res.data.items[num].name}\` لم يتم نزوله بعد`, inline: true})
 
                             //if the item is not from the item shop
-                            else info.addFields({name: "تاريخ الشوب", value: `${res.data.items[num].type.name} ${res.data.items[num].name} ليس عنصر ايتم شوب`, inline: true})
+                            else info.addFields({name: "تاريخ الشوب", value: `\`${res.data.items[num].type.name} ${res.data.items[num].name}\` ليس عنصر ايتم شوب`, inline: true})
 
                             //add gameplay tags
                             if(res.data.items[num].gameplayTags.length > 0) info.addFields({name: "العلامات", value: res.data.items[num].gameplayTags, inline: true})
-                            else info.addFields({name: "العلامات", value: `لا يوجد علامات لعنصر ${res.data.items[num].type.name} ${res.data.items[num].name}`, inline: true})
+                            else info.addFields({name: "العلامات", value: `لا يوجد علامات لعنصر \`${res.data.items[num].type.name} ${res.data.items[num].name}\``, inline: true})
                             
                             
                         }

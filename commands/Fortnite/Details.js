@@ -271,6 +271,16 @@ module.exports = {
                         else if(lang === "en") var description = `There is no description for \`${res.data.items[num].name} ${res.data.items[num].type.name}\``
                         else if(lang === "ar") var description = `لا يوجد وصف \`${res.data.items[num].type.name} ${res.data.items[num].name}\``
 
+                        //releaseDate
+                        if(res.data.items[num].releaseDate !== null) var releaseDate = `\`${res.data.items[num].releaseDate}\``
+                        else if(lang === "en") var releaseDate = `\`No dates available\``
+                        else if(lang === "ar") var releaseDate = `\`لا يوجد تواريخ\``
+
+                        //lastAppearance
+                        if(res.data.items[num].lastAppearance !== null) var lastAppearance = `\`${res.data.items[num].lastAppearance}\``
+                        else if(lang === "en") var lastAppearance = `\`No dates available\``
+                        else if(lang === "ar") var lastAppearance = `\`لا يوجد تواريخ\``
+
                         if(lang === "en"){
                             
                             //add id, name, description, rarity, introduction and added
@@ -282,7 +292,7 @@ module.exports = {
                                 {name: "Set", value: set, inline: true},
                                 {name: "Introduction", value: introduction, inline: true},
                                 {name: "Added", value: `Date: \`${res.data.items[num].added.date}\`\nVersion: \`${res.data.items[num].added.version}\``, inline: true},
-                                {name: "Dates", value: `Release Date: \`${res.data.items[num].releaseDate}\`\nLast Appearance: \`${res.data.items[num].lastAppearance}\``, inline: true},
+                                {name: "Dates", value: `Release Date: ${releaseDate}\nLast Appearance: ${lastAppearance}`, inline: true},
                                 {name: "Price", value: `\`${res.data.items[num].price}\``, inline: true},
                                 {name: "Ractive", value: `\`${res.data.items[num].reactive}\``, inline: true},
                                 {name: "Copyrightd", value: `\`${res.data.items[num].copyrightedAudio}\``, inline: true},
@@ -337,6 +347,7 @@ module.exports = {
                                 {name: "المجموعة", value: set, inline: true},
                                 {name: "تم تقديمة", value: introduction, inline: true},
                                 {name: "تم اضافته", value: `التاريخ: \`${res.data.items[num].added.date}\`\nالتحديث: \`${res.data.items[num].added.version}\``, inline: true},
+                                {name: "تواريخ", value: `اول ظهور: ${releaseDate}\nأخر ظهور: ${lastAppearance}`, inline: true},
                                 {name: "السعر", value: `\`${res.data.items[num].price}\``, inline: true},
                                 {name: "متفاعل", value: `\`${res.data.items[num].reactive}\``, inline: true},
                                 {name: "يحتوي على حقوق الطبع و النشر", value: `\`${res.data.items[num].copyrightedAudio}\``, inline: true},

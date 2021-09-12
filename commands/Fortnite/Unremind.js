@@ -55,10 +55,10 @@ module.exports = {
                             const day = Now.diff(long, 'days')
                             
                             //add every reminder to the array
-                            if(lang === "en") string += "• " + counter + ": " + await res.item.name + " | Days Waiting: " + day + "\n"
-                            else if(lang === "ar") string += "• " + counter + ": " + await res.item.name + " | الايام المنتظرة: " + day + "\n"
-                            names[counter] = await res.item.name
-                            ids[counter] = await res.item.id
+                            if(lang === "en") string += "• " + counter + ": " + await res.data.items[0].name + " | Days Waiting: " + day + "\n"
+                            else if(lang === "ar") string += "• " + counter + ": " + await res.data.items[0].name + " | الايام المنتظرة: " + day + "\n"
+                            names[counter] = await res.data.items[0].name
+                            ids[counter] = await res.data.items[0].id
                             counter++
 
                         })

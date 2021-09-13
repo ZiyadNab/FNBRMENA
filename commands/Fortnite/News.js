@@ -101,7 +101,6 @@ module.exports = {
                             
                         }
                     }).catch(err => {
-                        console.log(err)
 
                         //add an error
                         errorHandleing++
@@ -113,7 +112,6 @@ module.exports = {
                     })
                 })
             }).catch(err => {
-                console.log(err)
 
                 //add an error
                 errorHandleing++
@@ -139,13 +137,13 @@ module.exports = {
             .then( async msg => {
 
                 //aplyText
-                const applyText = (canvas, text) => {
+                const applyText = (canvas, text, layout) => {
                     const ctx = canvas.getContext('2d')
                     let fontSize = 60
                     do {
                         if(lang === "en") ctx.font = `${fontSize -= 1}px Burbank Big Condensed`
                         else if(lang === "ar") ctx.font = `${fontSize -= 1}px Arabic`
-                    } while (ctx.measureText(text).width > 420)
+                    } while (ctx.measureText(text).width > layout)
                     return ctx.font;
                 }
 
@@ -202,7 +200,7 @@ module.exports = {
                             //add the tab text
                             ctx.fillStyle = '#ffffff'
                             ctx.textAlign='center'
-                            ctx.font = applyText(canvas, tabTitle)
+                            ctx.font = applyText(canvas, tabTitle, layout)
                             ctx.fillText(tabTitle, ((layout / 2) + z), 66)
 
                             //change the z value

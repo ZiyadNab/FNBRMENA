@@ -14,9 +14,9 @@ module.exports = (FNBRMENA, client, admin) => {
 
         //checking if the bot on or off
         admin.database().ref("ERA's").child("Events").child("notice").once('value', async function (data) {
-            var status = data.val().Active
-            var lang = data.val().Lang
-            var push = data.val().Push
+            const status = data.val().Active
+            const lang = data.val().Lang
+            const push = data.val().Push
 
             //if the event is set to be true [ON]
             if(status){
@@ -30,9 +30,7 @@ module.exports = (FNBRMENA, client, admin) => {
 
                     //store the data if the bot got restarted
                     if (number === 0) {
-                        for(let i = 0; i < emergencynotice.length; i++){
-                            response[i] = await emergencynotice[i]
-                        }
+                        response = await emergencynotice
                         number++
                     }
 
@@ -41,32 +39,26 @@ module.exports = (FNBRMENA, client, admin) => {
 
                     //checking for deff
                     if (JSON.stringify(emergencynotice) !== JSON.stringify(response) && emergencynotice.length !== 0) {
-
-                        //create embed
-                        const Notice = new Discord.MessageEmbed()
-
-                        //add the color
-                        Notice.setColor(FNBRMENA.Colors("embed"))
                         
                         //loop throw every notice
                         for (let i = 0; i < emergencynotice.length; i++){
 
                             //if the notice not stored in response
-                            if(!response.includes(emergencynotice[i])){
+                            if(!JSON.stringify(response).includes(JSON.stringify(emergencynotice[i]))){
 
-                                //add title
+                                //inisilizing embed
+                                const Notice = new Discord.MessageEmbed()
+                                Notice.setColor(FNBRMENA.Colors("embed"))
                                 Notice.setTitle(emergencynotice[i].title)
-
-                                //add description
                                 Notice.setDescription(emergencynotice[i].body)
 
                                 //add platforms
                                 if(emergencynotice[i].platforms !== undefined){
-                                    var string = ""
+                                    var string = ``
                                     for(let j = 0; j < emergencynotice[i].platforms.length; j++){
 
                                         //add strings
-                                        string += "` " + emergencynotice[i].platforms[j] + " ` "
+                                        string += `\`${emergencynotice[i].platforms[j]}\` `
                                     }
 
                                     //add platform feild
@@ -85,15 +77,15 @@ module.exports = (FNBRMENA, client, admin) => {
 
                                 //playlists
                                 if(emergencynotice[i].playlists !== undefined){
-                                    var playlists = ""
+                                    var playlists = ``
                                     for(let j = 0; j < emergencynotice[i].playlists.length; j++){
 
                                         //get data
                                         const playlist = await axios.get(`https://fortnite-api.com/v1/playlists/${emergencynotice[i].playlists[j]}?lang=${lang}`)
                                         
                                         //add the playlist name
-                                        if(playlist.data.data.subName === null) playlists += "` " + playlist.data.data.name + " ` "
-                                        else playlists += "` " + playlist.data.data.name + " - " + playlist.data.data.subName + " ` "
+                                        if(playlist.data.data.subName === null) playlists += `${playlist.data.data.name} `
+                                        else playlists += `\`${playlist.data.data.name}-${playlist.data.data.subName}\` `
                                     }
 
                                     if(lang === "en"){
@@ -111,11 +103,11 @@ module.exports = (FNBRMENA, client, admin) => {
 
                                 //add gamemodes
                                 if(emergencynotice[i].gamemodes !== undefined){
-                                    var gamemodes = ""
+                                    var gamemodes = ``
                                     for(let j = 0; j < emergencynotice[i].gamemodes.length; j++){
 
                                         //add gamemodes
-                                        gamemodes += "` " + emergencynotice[i].gamemodes[j] + " ` "
+                                        gamemodes += `\`${emergencynotice[i].gamemodes[j]}\` `
 
                                     }
 
@@ -131,16 +123,14 @@ module.exports = (FNBRMENA, client, admin) => {
                                         })
                                     }
                                 }
-                            }
 
-                            //send
-                            await message.send(Notice)
+                                //send
+                                await message.send(Notice)
+                            }
                         }
 
                         //store data
-                        for(let i = 0; i < emergencynotice.length; i++){
-                            response[i] = await emergencynotice[i]
-                        }
+                        response = await emergencynotice
 
                         //trun off push if enabled
                         admin.database().ref("ERA's").child("Events").child("notice").update({

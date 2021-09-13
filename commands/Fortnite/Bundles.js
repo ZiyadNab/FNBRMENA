@@ -230,6 +230,7 @@ module.exports = {
 
                             //request data
                             await FNBRMENA.Search(lang, "id", found[0].granted[i].templateId)
+                            .then(async res => {
 
                                 //skin informations
                                 var name = res.data.items[0].name;

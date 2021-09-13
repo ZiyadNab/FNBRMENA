@@ -1014,8 +1014,8 @@ module.exports = {
                     if(lang === "en"){
 
                         //if the bundle is available
-                        if(found[0].available) bundle.addFields({name: "Available", value: "Yes!"})
-                        else bundle.addFields({name: "Available", value: "No!"})
+                        if(found[0].available) bundle.addFields({name: "Available", value: `\`Yes!\``})
+                        else bundle.addFields({name: "Available", value: `\`No!\``})
 
                         //available since
                         if(found[0].viewableDate !== null) bundle.addFields({name: "Available Since", value: `\`${moment(found[0].viewableDate).format("dddd, MMMM Do of YYYY")}\``})
@@ -1028,8 +1028,8 @@ module.exports = {
                     }else if(lang === "ar"){
 
                         //if the bundle is available
-                        if(found[0].available) bundle.addFields({name: "متاحة للشراء", value: "نعم!"})
-                        else bundle.addFields({name: "متاحة للشراء", value: "لا!"})
+                        if(found[0].available) bundle.addFields({name: "متاحة للشراء", value: `\`نعم!\``})
+                        else bundle.addFields({name: "متاحة للشراء", value: `\`لا!\``})
 
                         //available since
                         if(found[0].viewableDate !== null) bundle.addFields({name: "متاحة منذ", value: `\`${moment(found[0].viewableDate).format("dddd, MMMM Do of YYYY")}\``})
@@ -1047,12 +1047,12 @@ module.exports = {
                         //add prices
                         for(let i = 0; i < found[0].prices.length; i++){
                             bundle.addFields(
-                                {name: found[0].prices[i].paymentCurrencyCode, value: found[0].prices[i].paymentCurrencyAmountNatural + found[0].prices[i].paymentCurrencySymbol, inline: true}
+                                {name: found[0].prices[i].paymentCurrencyCode, value: `\`${found[0].prices[i].paymentCurrencyAmountNatural} ${found[0].prices[i].paymentCurrencySymbol}\``, inline: true}
                             )
                         }
 
-                    }else if(lang === "en") bundle.addFields({name: 'Prices', value: 'There is no prices yet'})
-                    else if(lang === "ar") bundle.addFields({name: 'الاسعار', value: 'لا يوجد اسعار حاليا'})
+                    }else if(lang === "en") bundle.addFields({name: 'Prices', value: `\`There is no prices yet\``})
+                    else if(lang === "ar") bundle.addFields({name: 'الاسعار', value: `\`لا يوجد اسعار حاليا\``})
                     
 
                     //tumbnail and image

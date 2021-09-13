@@ -133,7 +133,7 @@ module.exports = {
                             ctx.font = applyTextDescription(canvas, description[0]);
                             let descriptionY = 465 + y
                             ctx.fillText(description[0], 256 + x, descriptionY)
-                            ctx.font = '15px Burbank Big Condensed'
+                            ctx.font = '8px Burbank Big Condensed'
                             descriptionY += 17
                             for(let p = 1; p < description.length; p++){
                                 ctx.fillText(description[p], 256 + x, descriptionY)
@@ -147,7 +147,7 @@ module.exports = {
                             ctx.font = applyTextDescription(canvas, description[0]);
                             let descriptionY = 465 + y
                             ctx.fillText(description[0], 256 + x, descriptionY)
-                            ctx.font = '15px Arabic'
+                            ctx.font = '8px Arabic'
                             descriptionY += 17
                             for(let p = 1; p < description.length; p++){
                                 ctx.fillText(description[p], 256 + x, descriptionY)
@@ -170,7 +170,7 @@ module.exports = {
                             ctx.font = applyTextDescription(canvas, description[0]);
                             let descriptionY = 465 + y
                             ctx.fillText(description[0], 256 + x, descriptionY)
-                            ctx.font = '15px Burbank Big Condensed'
+                            ctx.font = '8px Burbank Big Condensed'
                             descriptionY += 17
                             for(let p = 1; p < description.length; p++){
                                 ctx.fillText(description[p], 256 + x, descriptionY)
@@ -184,7 +184,7 @@ module.exports = {
                             ctx.font = applyTextDescription(canvas, description[0]);
                             let descriptionY = 465 + y
                             ctx.fillText(description[0], 256 + x, descriptionY)
-                            ctx.font = '15px Arabic'
+                            ctx.font = '8px Arabic'
                             descriptionY += 17
                             for(let p = 1; p < description.length; p++){
                                 ctx.fillText(description[p], 256 + x, descriptionY)
@@ -207,7 +207,7 @@ module.exports = {
                             ctx.font = applyTextDescription(canvas, description[0]);
                             let descriptionY = 465 + y
                             ctx.fillText(description[0], 256 + x, descriptionY)
-                            ctx.font = '15px Burbank Big Condensed'
+                            ctx.font = '8px Burbank Big Condensed'
                             descriptionY += 17
                             for(let p = 1; p < description.length; p++){
                                 ctx.fillText(description[p], 256 + x, descriptionY)
@@ -221,7 +221,7 @@ module.exports = {
                             ctx.font = applyTextDescription(canvas, description[0]);
                             let descriptionY = 465 + y
                             ctx.fillText(description[0], 256 + x, descriptionY)
-                            ctx.font = '15px Arabic'
+                            ctx.font = '8px Arabic'
                             descriptionY += 17
                             for(let p = 1; p < description.length; p++){
                                 ctx.fillText(description[p], 256 + x, descriptionY)
@@ -244,7 +244,7 @@ module.exports = {
                             ctx.font = applyTextDescription(canvas, description[0]);
                             let descriptionY = 465 + y
                             ctx.fillText(description[0], 256 + x, descriptionY)
-                            ctx.font = '15px Burbank Big Condensed'
+                            ctx.font = '8px Burbank Big Condensed'
                             descriptionY += 17
                             for(let p = 1; p < description.length; p++){
                                 ctx.fillText(description[p], 256 + x, descriptionY)
@@ -258,7 +258,7 @@ module.exports = {
                             ctx.font = applyTextDescription(canvas, description[0]);
                             let descriptionY = 465 + y
                             ctx.fillText(description[0], 256 + x, descriptionY)
-                            ctx.font = '15px Arabic'
+                            ctx.font = '8px Arabic'
                             descriptionY += 17
                             for(let p = 1; p < description.length; p++){
                                 ctx.fillText(description[p], 256 + x, descriptionY)
@@ -281,7 +281,7 @@ module.exports = {
                             ctx.font = applyTextDescription(canvas, description[0]);
                             let descriptionY = 465 + y
                             ctx.fillText(description[0], 256 + x, descriptionY)
-                            ctx.font = '15px Burbank Big Condensed'
+                            ctx.font = '8px Burbank Big Condensed'
                             descriptionY += 17
                             for(let p = 1; p < description.length; p++){
                                 ctx.fillText(description[p], 256 + x, descriptionY)
@@ -295,7 +295,7 @@ module.exports = {
                             ctx.font = applyTextDescription(canvas, description[0]);
                             let descriptionY = 465 + y
                             ctx.fillText(description[0], 256 + x, descriptionY)
-                            ctx.font = '15px Arabic'
+                            ctx.font = '8px Arabic'
                             descriptionY += 17
                             for(let p = 1; p < description.length; p++){
                                 ctx.fillText(description[p], 256 + x, descriptionY)
@@ -318,7 +318,7 @@ module.exports = {
                              ctx.font = applyTextDescription(canvas, description[0]);
                              let descriptionY = 465 + y
                              ctx.fillText(description[0], 256 + x, descriptionY)
-                             ctx.font = '15px Burbank Big Condensed'
+                             ctx.font = '8px Burbank Big Condensed'
                              descriptionY += 17
                              for(let p = 1; p < description.length; p++){
                                  ctx.fillText(description[p], 256 + x, descriptionY)
@@ -332,7 +332,7 @@ module.exports = {
                              ctx.font = applyTextDescription(canvas, description[0]);
                              let descriptionY = 465 + y
                              ctx.fillText(description[0], 256 + x, descriptionY)
-                             ctx.font = '15px Arabic'
+                             ctx.font = '8px Arabic'
                              descriptionY += 17
                              for(let p = 1; p < description.length; p++){
                                  ctx.fillText(description[p], 256 + x, descriptionY)
@@ -355,7 +355,7 @@ module.exports = {
                             ctx.font = applyTextDescription(canvas, description[0]);
                             let descriptionY = 465 + y
                             ctx.fillText(description[0], 256 + x, descriptionY)
-                            ctx.font = '15px Burbank Big Condensed'
+                            ctx.font = '8px Burbank Big Condensed'
                             descriptionY += 17
                             for(let p = 1; p < description.length; p++){
                                 ctx.fillText(description[p], 256 + x, descriptionY)
@@ -369,7 +369,7 @@ module.exports = {
                             ctx.font = applyTextDescription(canvas, description[0]);
                             let descriptionY = 465 + y
                             ctx.fillText(description[0], 256 + x, descriptionY)
-                            ctx.font = '15px Arabic'
+                            ctx.font = '8px Arabic'
                             descriptionY += 17
                             for(let p = 1; p < description.length; p++){
                                 ctx.fillText(description[p], 256 + x, descriptionY)
@@ -392,7 +392,7 @@ module.exports = {
                             ctx.font = applyTextDescription(canvas, description[0]);
                             let descriptionY = 465 + y
                             ctx.fillText(description[0], 256 + x, descriptionY)
-                            ctx.font = '15px Burbank Big Condensed'
+                            ctx.font = '8px Burbank Big Condensed'
                             descriptionY += 17
                             for(let p = 1; p < description.length; p++){
                                 ctx.fillText(description[p], 256 + x, descriptionY)
@@ -406,7 +406,7 @@ module.exports = {
                             ctx.font = applyTextDescription(canvas, description[0]);
                             let descriptionY = 465 + y
                             ctx.fillText(description[0], 256 + x, descriptionY)
-                            ctx.font = '15px Arabic'
+                            ctx.font = '8px Arabic'
                             descriptionY += 17
                             for(let p = 1; p < description.length; p++){
                                 ctx.fillText(description[p], 256 + x, descriptionY)
@@ -429,7 +429,7 @@ module.exports = {
                             ctx.font = applyTextDescription(canvas, description[0]);
                             let descriptionY = 465 + y
                             ctx.fillText(description[0], 256 + x, descriptionY)
-                            ctx.font = '15px Burbank Big Condensed'
+                            ctx.font = '8px Burbank Big Condensed'
                             descriptionY += 17
                             for(let p = 1; p < description.length; p++){
                                 ctx.fillText(description[p], 256 + x, descriptionY)
@@ -443,7 +443,7 @@ module.exports = {
                             ctx.font = applyTextDescription(canvas, description[0]);
                             let descriptionY = 465 + y
                             ctx.fillText(description[0], 256 + x, descriptionY)
-                            ctx.font = '15px Arabic'
+                            ctx.font = '8px Arabic'
                             descriptionY += 17
                             for(let p = 1; p < description.length; p++){
                                 ctx.fillText(description[p], 256 + x, descriptionY)
@@ -466,7 +466,7 @@ module.exports = {
                             ctx.font = applyTextDescription(canvas, description[0]);
                             let descriptionY = 465 + y
                             ctx.fillText(description[0], 256 + x, descriptionY)
-                            ctx.font = '15px Burbank Big Condensed'
+                            ctx.font = '8px Burbank Big Condensed'
                             descriptionY += 17
                             for(let p = 1; p < description.length; p++){
                                 ctx.fillText(description[p], 256 + x, descriptionY)
@@ -480,7 +480,7 @@ module.exports = {
                             ctx.font = applyTextDescription(canvas, description[0]);
                             let descriptionY = 465 + y
                             ctx.fillText(description[0], 256 + x, descriptionY)
-                            ctx.font = '15px Arabic'
+                            ctx.font = '8px Arabic'
                             descriptionY += 17
                             for(let p = 1; p < description.length; p++){
                                 ctx.fillText(description[p], 256 + x, descriptionY)
@@ -503,7 +503,7 @@ module.exports = {
                             ctx.font = applyTextDescription(canvas, description[0]);
                             let descriptionY = 465 + y
                             ctx.fillText(description[0], 256 + x, descriptionY)
-                            ctx.font = '15px Burbank Big Condensed'
+                            ctx.font = '8px Burbank Big Condensed'
                             descriptionY += 17
                             for(let p = 1; p < description.length; p++){
                                 ctx.fillText(description[p], 256 + x, descriptionY)
@@ -517,7 +517,7 @@ module.exports = {
                             ctx.font = applyTextDescription(canvas, description[0]);
                             let descriptionY = 465 + y
                             ctx.fillText(description[0], 256 + x, descriptionY)
-                            ctx.font = '15px Arabic'
+                            ctx.font = '8px Arabic'
                             descriptionY += 17
                             for(let p = 1; p < description.length; p++){
                                 ctx.fillText(description[p], 256 + x, descriptionY)
@@ -540,7 +540,7 @@ module.exports = {
                             ctx.font = applyTextDescription(canvas, description[0]);
                             let descriptionY = 465 + y
                             ctx.fillText(description[0], 256 + x, descriptionY)
-                            ctx.font = '15px Burbank Big Condensed'
+                            ctx.font = '8px Burbank Big Condensed'
                             descriptionY += 17
                             for(let p = 1; p < description.length; p++){
                                 ctx.fillText(description[p], 256 + x, descriptionY)
@@ -554,7 +554,7 @@ module.exports = {
                             ctx.font = applyTextDescription(canvas, description[0]);
                             let descriptionY = 465 + y
                             ctx.fillText(description[0], 256 + x, descriptionY)
-                            ctx.font = '15px Arabic'
+                            ctx.font = '8px Arabic'
                             descriptionY += 17
                             for(let p = 1; p < description.length; p++){
                                 ctx.fillText(description[p], 256 + x, descriptionY)
@@ -577,7 +577,7 @@ module.exports = {
                             ctx.font = applyTextDescription(canvas, description[0]);
                             let descriptionY = 465 + y
                             ctx.fillText(description[0], 256 + x, descriptionY)
-                            ctx.font = '15px Burbank Big Condensed'
+                            ctx.font = '8px Burbank Big Condensed'
                             descriptionY += 17
                             for(let p = 1; p < description.length; p++){
                                 ctx.fillText(description[p], 256 + x, descriptionY)
@@ -591,7 +591,7 @@ module.exports = {
                             ctx.font = applyTextDescription(canvas, description[0]);
                             let descriptionY = 465 + y
                             ctx.fillText(description[0], 256 + x, descriptionY)
-                            ctx.font = '15px Arabic'
+                            ctx.font = '8px Arabic'
                             descriptionY += 17
                             for(let p = 1; p < description.length; p++){
                                 ctx.fillText(description[p], 256 + x, descriptionY)
@@ -614,7 +614,7 @@ module.exports = {
                             ctx.font = applyTextDescription(canvas, description[0]);
                             let descriptionY = 465 + y
                             ctx.fillText(description[0], 256 + x, descriptionY)
-                            ctx.font = '15px Burbank Big Condensed'
+                            ctx.font = '8px Burbank Big Condensed'
                             descriptionY += 17
                             for(let p = 1; p < description.length; p++){
                                 ctx.fillText(description[p], 256 + x, descriptionY)
@@ -628,7 +628,7 @@ module.exports = {
                             ctx.font = applyTextDescription(canvas, description[0]);
                             let descriptionY = 465 + y
                             ctx.fillText(description[0], 256 + x, descriptionY)
-                            ctx.font = '15px Arabic'
+                            ctx.font = '8px Arabic'
                             descriptionY += 17
                             for(let p = 1; p < description.length; p++){
                                 ctx.fillText(description[p], 256 + x, descriptionY)
@@ -651,7 +651,7 @@ module.exports = {
                             ctx.font = applyTextDescription(canvas, description[0]);
                             let descriptionY = 465 + y
                             ctx.fillText(description[0], 256 + x, descriptionY)
-                            ctx.font = '15px Burbank Big Condensed'
+                            ctx.font = '8px Burbank Big Condensed'
                             descriptionY += 17
                             for(let p = 1; p < description.length; p++){
                                 ctx.fillText(description[p], 256 + x, descriptionY)
@@ -665,7 +665,7 @@ module.exports = {
                             ctx.font = applyTextDescription(canvas, description[0]);
                             let descriptionY = 465 + y
                             ctx.fillText(description[0], 256 + x, descriptionY)
-                            ctx.font = '15px Arabic'
+                            ctx.font = '8px Arabic'
                             descriptionY += 17
                             for(let p = 1; p < description.length; p++){
                                 ctx.fillText(description[p], 256 + x, descriptionY)
@@ -688,7 +688,7 @@ module.exports = {
                             ctx.font = applyTextDescription(canvas, description[0]);
                             let descriptionY = 465 + y
                             ctx.fillText(description[0], 256 + x, descriptionY)
-                            ctx.font = '15px Burbank Big Condensed'
+                            ctx.font = '8px Burbank Big Condensed'
                             descriptionY += 17
                             for(let p = 1; p < description.length; p++){
                                 ctx.fillText(description[p], 256 + x, descriptionY)
@@ -702,7 +702,7 @@ module.exports = {
                             ctx.font = applyTextDescription(canvas, description[0]);
                             let descriptionY = 465 + y
                             ctx.fillText(description[0], 256 + x, descriptionY)
-                            ctx.font = '15px Arabic'
+                            ctx.font = '8px Arabic'
                             descriptionY += 17
                             for(let p = 1; p < description.length; p++){
                                 ctx.fillText(description[p], 256 + x, descriptionY)

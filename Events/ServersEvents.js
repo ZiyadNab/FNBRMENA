@@ -59,7 +59,7 @@ module.exports = (client, admin) => {
                         var string = ""
                         if(res.data.allowedActions.length !== 0){
                             for(let i = 0; i < res.data.allowedActions.length; i++){
-                                string += `\`${res.data.allowedActions[i]}\n\``
+                                string += `\`${res.data.allowedActions[i]}\`\n`
                             }
                         }else string += `\`No data\``
 

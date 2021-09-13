@@ -143,7 +143,7 @@ module.exports = {
                     do {
                         if(lang === "en") ctx.font = `${fontSize -= 1}px Burbank Big Condensed`
                         else if(lang === "ar") ctx.font = `${fontSize -= 1}px Arabic`
-                    } while (ctx.measureText(text).width > layout)
+                    } while (ctx.measureText(text).width > layout - 40)
                     return ctx.font;
                 }
 

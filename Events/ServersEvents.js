@@ -53,17 +53,15 @@ module.exports = (client, admin) => {
                         servers.setColor('#00ffff')
                         
                         //add title
-                        servers.setTitle('Fortnite servers are ' + res.data.status + '!')
+                        servers.setTitle(`Fortnite servers are \`${res.data.status}\`!`)
 
                         //description string
                         var string = ""
                         if(res.data.allowedActions.length !== 0){
                             for(let i = 0; i < res.data.allowedActions.length; i++){
-                                string += `\`${res.data.data.allowedActions[i]}\n\``
+                                string += `\`${res.data.allowedActions[i]}\n\``
                             }
-                        }else{
-                            string += `\`No data\``
-                        }
+                        }else string += `\`No data\``
 
                         //add description
                         servers.setDescription(res.data.message + '\n\n**Allowed Actions**\n' + string)

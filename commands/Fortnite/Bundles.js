@@ -1032,11 +1032,11 @@ module.exports = {
                         else bundle.addFields({name: "متاحة للشراء", value: `\`لا!\``})
 
                         //available since
-                        if(found[0].viewableDate !== null) bundle.addFields({name: "متاحة منذ", value: `\`${moment(found[0].viewableDate).format("dddd, MMMM Do of YYYY")}\``})
+                        if(found[0].viewableDate !== null) bundle.addFields({name: "متاحة منذ", value: `\`${moment(found[0].viewableDate).format("dddd, MMMM Do من YYYY")}\``})
                         else bundle.addFields({name: "متاحة منذ", value:`\`لا يوجد تاريخ معلوم حتى الان!\``})
 
                         //if there is no expire date
-                        if(found[0].expiryDate !== null) bundle.addFields({name: "سوف تغادر في", value: `\`${moment(found[0].expiryDate).format("dddd, MMMM Do of YYYY")}\``})
+                        if(found[0].expiryDate !== null) bundle.addFields({name: "سوف تغادر في", value: `\`${moment(found[0].expiryDate).format("dddd, MMMM Do من YYYY")}\``})
                         else bundle.addFields({name: "سوف تغادر في", value: `\`لا يوجد تاريخ معلوم حتى الان!\``})
 
                     }

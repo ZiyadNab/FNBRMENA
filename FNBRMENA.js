@@ -277,7 +277,7 @@ class FNBRMENA {
      async getBattlepassRewards(Lang, Season){
 
         //request the data and return the response
-        return await axios.get(encodeURI(`https://fortniteapi.io/v2/battlepass?lang=en&season=${Season}&lang=${Lang}`), { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
+        return await axios.get(encodeURI(`https://fortniteapi.io/v2/battlepass?lang=${Lang}&season=${Season}`), { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
 
     }
 

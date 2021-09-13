@@ -1013,117 +1013,47 @@ module.exports = {
                     moment.locale(lang)
                     if(lang === "en"){
 
-                        //if there is no expire date
-                        if(found[0].expiryDate !== null){
+                        //if the bundle is available
+                        if(found[0].available) bundle.addFields({name: "Available", value: "Yes!"})
+                        else bundle.addFields({name: "Available", value: "No!"})
 
-                            //if the bundle is available
-                            if(found[0].available === true){
-                                bundle.addFields(
-                                    {name: "Available", value: "Yes!"},
-                                    {name: "Available Since", value: moment(found[0].viewableDate).format("dddd, MMMM Do of YYYY")},
-                                    {name: "Will be gone at", value: moment(found[0].expiryDate).format("dddd, MMMM Do of YYYY")}
-                                )
-                            }else{
-                                bundle.addFields(
-                                    {name: "Available", value: "No!"},
-                                    {name: "Available since", value: moment(found[0].viewableDate).format("dddd, MMMM Do of YYYY")},
-                                    {name: "Gone since", value: moment(found[0].expiryDate).format("dddd, MMMM Do of YYYY")}
-                                )
-                            }
-                        }else{
-                            if(found[0].available === true){
-                                bundle.addFields(
-                                    {name: "Available", value: "Yes!"},
-                                    {name: "Available Since", value: moment(found[0].viewableDate).format("dddd, MMMM Do of YYYY")},
-                                    {name: "Will be gone at", value: "Not yet known"}
-                                )
-                            }else{
-                                bundle.addFields(
-                                    {name: "Available", value: "No!"},
-                                    {name: "Available since", value: moment(found[0].viewableDate).format("dddd, MMMM Do of YYYY")},
-                                    {name: "Gone since", value: "Not yet known"}
-                                )
-                            }
-                        }
+                        //available since
+                        if(found[0].viewableDate !== null) bundle.addFields({name: "Available Since", value: `\`${moment(found[0].viewableDate).format("dddd, MMMM Do of YYYY")}\``})
+                        else bundle.addFields({name: "Available Since", value:`\`Not known yet!\``})
+
+                        //if there is no expire date
+                        if(found[0].expiryDate !== null) bundle.addFields({name: "Will be gone at", value: `\`${moment(found[0].expiryDate).format("dddd, MMMM Do of YYYY")}\``})
+                        else bundle.addFields({name: "Will be gone at", value: `\`Not known yet!\``})
+                                
                     }else if(lang === "ar"){
 
-                        //if there is no expire date
-                        if(found[0].expiryDate !== null){
+                        //if the bundle is available
+                        if(found[0].available) bundle.addFields({name: "متاحة للشراء", value: "نعم!"})
+                        else bundle.addFields({name: "متاحة للشراء", value: "لا!"})
 
-                            //if the bundle is available
-                            if(found[0].available === true){
-                                bundle.addFields(
-                                    {name: "متاحة للشراء", value: "نعم"},
-                                    {name: "متاحة منذ", value: moment(found[0].viewableDate).format("dddd, MMMM Do من YYYY")},
-                                    {name: "سوف تغادر في", value: moment(found[0].expiryDate).format("dddd, MMMM Do من YYYY")}
-                                )
-                            }else{
-                                bundle.addFields(
-                                    {name: "متاحة للشراء", value: "لا",},
-                                    {name: "متاحة منذ", value: moment(found[0].viewableDate).format("dddd, MMMM Do من YYYY")},
-                                    {name: "غادرت منذ", value: moment(found[0].expiryDate).format("dddd, MMMM Do من YYYY")}
-                                )
-                            }
-                        }else{
-                            if(found[0].available === true){
-                                bundle.addFields(
-                                    {name: "متاحة للشراء", value: "نعم"},
-                                    {name: "متاحة منذ", value: moment(found[0].viewableDate).format("dddd, MMMM Do من YYYY")},
-                                    {name: "سوف تغادر في", value: "لا يوجد تاريخ معلوم حتى الان"}
-                                )
-                            }else{
-                                bundle.addFields(
-                                    {name: "متاحة للشراء", value: "لا",},
-                                    {name: "متاحة منذ", value: moment(found[0].viewableDate).format("dddd, MMMM Do من YYYY")},
-                                    {name: "غادرت منذ", value: "لا يوجد تاريخ معلوم حتى الان"}
-                                )
-                            }
-                        }
+                        //available since
+                        if(found[0].viewableDate !== null) bundle.addFields({name: "متاحة منذ", value: `\`${moment(found[0].viewableDate).format("dddd, MMMM Do of YYYY")}\``})
+                        else bundle.addFields({name: "متاحة منذ", value:`\`لا يوجد تاريخ معلوم حتى الان!\``})
+
+                        //if there is no expire date
+                        if(found[0].expiryDate !== null) bundle.addFields({name: "سوف تغادر في", value: `\`${moment(found[0].expiryDate).format("dddd, MMMM Do of YYYY")}\``})
+                        else bundle.addFields({name: "سوف تغادر في", value: `\`لا يوجد تاريخ معلوم حتى الان!\``})
+
                     }
 
+                    //check if there is prices
                     if(found[0].prices.length !== 0){
 
-                        //add cutsom prices SAR
-                        var pricesSA = {
-                            "paymentCurrencyCode": "SAR",
-                            "paymentCurrencySymbol": "SR",
-                            "paymentCurrencyAmountNatural": parseFloat(found[0].prices[1].paymentCurrencyAmountNatural * 3.75).toFixed(2)
-                        }
-
-                        //add sar
-                        bundle.addFields(
-                            {name: pricesSA.paymentCurrencyCode, value: pricesSA.paymentCurrencyAmountNatural + pricesSA.paymentCurrencySymbol, inline: true}
-                        )
-
-                        //add cutsom prices KWD
-                        var pricesKWD = {
-                            "paymentCurrencyCode": "KWD",
-                            "paymentCurrencySymbol": "KD",
-                            "paymentCurrencyAmountNatural": parseFloat(found[0].prices[1].paymentCurrencyAmountNatural * 0.30).toFixed(2)
-                        }
-
-                        //add kwd
-                        bundle.addFields(
-                            {name: pricesKWD.paymentCurrencyCode, value: pricesKWD.paymentCurrencyAmountNatural + pricesKWD.paymentCurrencySymbol, inline: true}
-                        )
-
-                        //prices
-                        for(let i = 0; i < found[0].prices.length - 1; i++){
+                        //add prices
+                        for(let i = 0; i < found[0].prices.length; i++){
                             bundle.addFields(
                                 {name: found[0].prices[i].paymentCurrencyCode, value: found[0].prices[i].paymentCurrencyAmountNatural + found[0].prices[i].paymentCurrencySymbol, inline: true}
                             )
                         }
-                    }else{
-                        if(lang === "en"){
-                            bundle.addFields(
-                                {name: 'Prices', value: 'There is no prices yet'}
-                            )
-                        }else if(lang === "ar"){
-                            bundle.addFields(
-                                {name: 'الاسعار', value: 'لا يوجد اسعار حاليا'}
-                            )
-                        }
-                    }
+
+                    }else if(lang === "en") bundle.addFields({name: 'Prices', value: 'There is no prices yet'})
+                    else if(lang === "ar") bundle.addFields({name: 'الاسعار', value: 'لا يوجد اسعار حاليا'})
+                    
 
                     //tumbnail and image
                     if(found[0].displayAssets.length !== 0){
@@ -1179,7 +1109,7 @@ module.exports = {
                         }
                     }
 
-                    const att = new Discord.MessageAttachment(canvas.toBuffer(), offerID + '.png')
+                    const att = new Discord.MessageAttachment(canvas.toBuffer(), `${offerID}.png`)
                     await message.channel.send(att)
                     message.channel.send(bundle)
                     msg.delete()

@@ -217,7 +217,7 @@ module.exports = {
                             //add the tab text
                             ctx.fillStyle = '#ffffff'
                             ctx.textAlign='center'
-                            ctx.font = applyText(canvas, tabTitle)
+                            ctx.font = applyText(canvas, tabTitle, layout)
                             ctx.fillText(tabTitle, ((layout / 2) + z), 66)
                             
 

@@ -422,7 +422,7 @@ module.exports = {
                         }
 
                         //if there is a style in the files
-                        if(styles.length !== 0){
+                        if(styles.length > 1){
 
                             //getting item data loading
                             const generating = new Discord.MessageEmbed()

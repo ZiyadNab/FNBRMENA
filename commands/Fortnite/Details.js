@@ -440,21 +440,21 @@ module.exports = {
                                     const ctx = canvas.getContext('2d');
 
                                     //set the item info
-                                    var name = res.data.items[num].name
-                                    if(res.data.items[num].description !== "") var description = res.data.items[num].description
+                                    var name = styles[i].name
+                                    if(styles[i].description !== "") var description = styles[i].description
                                     else if(lang === "en") var description = "There is no description to this item"
                                     else if(lang === "ar") var description = "لا يوجد وصف للعنصر"
-                                    var image = res.data.items[num].images.icon
-                                    if(res.data.items[num].series !== null) var rarity = res.data.items[num].series.id
-                                    else var rarity = res.data.items[num].rarity.id
+                                    var image = styles[i].images.icon
+                                    if(styles[i].series !== null) var rarity = styles[i].series.id
+                                    else var rarity = styles[i].rarity.id
 
                                     //remove any lines
                                     let imgDescription = await description
                                     imgDescription = imgDescription.replace("\r\n", "")
 
                                     //add introduces and set string
-                                    if(res.data.items[num].introduction !== null) imgDescription += `\n${res.data.items[num].introduction.text}`
-                                    if(res.data.items[num].set !== null) imgDescription += `\n${res.data.items[num].set.partOf}`
+                                    if(styles[i].introduction !== null) imgDescription += `\n${styles[i].introduction.text}`
+                                    if(styles[i].set !== null) imgDescription += `\n${styles[i].set.partOf}`
 
                                     //split every line
                                     imgDescription = imgDescription.split(/\r\n|\r|\n/)
@@ -1058,10 +1058,10 @@ module.exports = {
                                     var y = 24
                                     var x = 934
     
-                                    for(let i = 0; i < res.data.items[num].gameplayTags.length; i++){
+                                    for(let g = 0; g < styles[i].gameplayTags.length; g++){
     
                                         //if the item is animated
-                                        if(res.data.items[num].gameplayTags[i].includes('Animated')){
+                                        if(styles[i].gameplayTags[g].includes('Animated')){
     
                                             //the itm is animated add the animated icon
                                             const skinholder = await Canvas.loadImage('./assets/Tags/T-Icon-Animated-64.png')
@@ -1071,7 +1071,7 @@ module.exports = {
                                         }
     
                                         //if the item is reactive
-                                        if(res.data.items[num].gameplayTags[i].includes('Reactive')){
+                                        if(styles[i].gameplayTags[g].includes('Reactive')){
     
                                             //the itm is animated add the animated icon
                                             const skinholder = await Canvas.loadImage('./assets/Tags/T-Icon-Adaptive-64.png')
@@ -1081,7 +1081,7 @@ module.exports = {
                                         }
     
                                         //if the item is synced emote
-                                        if(res.data.items[num].gameplayTags[i].includes('Synced')){
+                                        if(styles[i].gameplayTags[g].includes('Synced')){
     
                                             //the itm is animated add the animated icon
                                             const skinholder = await Canvas.loadImage('./assets/Tags/T-Icon-Synced-64x.png')
@@ -1091,7 +1091,7 @@ module.exports = {
                                         }
     
                                         //if the item is traversal
-                                        if(res.data.items[num].gameplayTags[i].includes('Traversal')){
+                                        if(styles[i].gameplayTags[g].includes('Traversal')){
     
                                             //the itm is animated add the animated icon
                                             const skinholder = await Canvas.loadImage('./assets/Tags/T-Icon-Traversal-64.png')
@@ -1101,7 +1101,7 @@ module.exports = {
                                         }
     
                                         //if the item has styles
-                                        if(res.data.items[num].gameplayTags[i].includes('HasVariants') || res.data.items[num].gameplayTags[i].includes('HasUpgradeQuests')){
+                                        if(styles[i].gameplayTags[g].includes('HasVariants') || styles[i].gameplayTags[g].includes('HasUpgradeQuests')){
     
                                             //the itm is animated add the animated icon
                                             const skinholder = await Canvas.loadImage('./assets/Tags/T-Icon-Variant-64.png')
@@ -1112,7 +1112,7 @@ module.exports = {
                                     }
     
                                     //if the item contains copyrited audio
-                                    if(res.data.items[num].copyrightedAudio === true){
+                                    if(styles[i].copyrightedAudio === true){
     
                                         //the itm is animated add the animated icon
                                         const skinholder = await Canvas.loadImage('./assets/Tags/mute.png')
@@ -1122,7 +1122,7 @@ module.exports = {
                                     }
 
                                     //send the item picture
-                                    const att = new Discord.MessageAttachment(canvas.toBuffer(), styles[i].id + '.png')
+                                    const att = new Discord.MessageAttachment(canvas.toBuffer(), `${styles[i].id}.png`)
                                     await message.channel.send(att)
                                 }
 
@@ -2505,10 +2505,10 @@ module.exports = {
                                 var y = 24
                                 var x = 934
 
-                                for(let i = 0; i < res.data.items[num].gameplayTags.length; i++){
+                                for(let g = 0; g < grants[g].gameplayTags.length; g++){
 
                                     //if the item is animated
-                                    if(res.data.items[num].gameplayTags[i].includes('Animated')){
+                                    if(grants[i].gameplayTags[g].includes('Animated')){
 
                                         //the itm is animated add the animated icon
                                         const skinholder = await Canvas.loadImage('./assets/Tags/T-Icon-Animated-64.png')
@@ -2518,7 +2518,7 @@ module.exports = {
                                     }
 
                                     //if the item is reactive
-                                    if(res.data.items[num].gameplayTags[i].includes('Reactive')){
+                                    if(grants[i].gameplayTags[g].includes('Reactive')){
 
                                         //the itm is animated add the animated icon
                                         const skinholder = await Canvas.loadImage('./assets/Tags/T-Icon-Adaptive-64.png')
@@ -2528,7 +2528,7 @@ module.exports = {
                                     }
 
                                     //if the item is synced emote
-                                    if(res.data.items[num].gameplayTags[i].includes('Synced')){
+                                    if(grants[i].gameplayTags[g].includes('Synced')){
 
                                         //the itm is animated add the animated icon
                                         const skinholder = await Canvas.loadImage('./assets/Tags/T-Icon-Synced-64x.png')
@@ -2538,7 +2538,7 @@ module.exports = {
                                     }
 
                                     //if the item is traversal
-                                    if(res.data.items[num].gameplayTags[i].includes('Traversal')){
+                                    if(grants[i].gameplayTags[g].includes('Traversal')){
 
                                         //the itm is animated add the animated icon
                                         const skinholder = await Canvas.loadImage('./assets/Tags/T-Icon-Traversal-64.png')
@@ -2548,7 +2548,7 @@ module.exports = {
                                     }
 
                                     //if the item has styles
-                                    if(res.data.items[num].gameplayTags[i].includes('HasVariants') || res.data.items[num].gameplayTags[i].includes('HasUpgradeQuests')){
+                                    if(grants[i].gameplayTags[g].includes('HasVariants') || grants[i].gameplayTags[g].includes('HasUpgradeQuests')){
 
                                         //the itm is animated add the animated icon
                                         const skinholder = await Canvas.loadImage('./assets/Tags/T-Icon-Variant-64.png')
@@ -2559,7 +2559,7 @@ module.exports = {
                                 }
 
                                 //if the item contains copyrited audio
-                                if(res.data.items[num].copyrightedAudio === true){
+                                if(grants[i].copyrightedAudio === true){
 
                                     //the itm is animated add the animated icon
                                     const skinholder = await Canvas.loadImage('./assets/Tags/mute.png')
@@ -2569,7 +2569,7 @@ module.exports = {
                                 }
 
                                 //send the item picture
-                                const att = new Discord.MessageAttachment(canvas.toBuffer(), res.data.items[0].id + '.png')
+                                const att = new Discord.MessageAttachment(canvas.toBuffer(), `${grants[i].id}.png`)
                                 await message.channel.send(att)
 
                             } msg.delete()

@@ -1875,10 +1875,11 @@ module.exports = {
                                 await FNBRMENA.SearchByType(lang, res.data.items[num].grants[i].id, res.data.items[num].grants[i].type.id, "id")
                                 .then(async res => {
 
-                                    grants[Counter++] = await res.data.items[i]
+                                    grants[Counter++] = await res.data.items
                                 })
                             }
 
+                            //console.log(grants)
                             //loop throw every grant
                             for(let i = 0; i < grants.length; i++){
 

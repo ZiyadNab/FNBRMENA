@@ -1862,26 +1862,25 @@ module.exports = {
                         .then( async msg => {
                             
                             //create grants variable
-                            var grants = []
+                            const grants = []
 
                             //add the actual searched outfit
-                            grants[0] = res.data.items[num]
+                            grants.push(res.data.items[num])
 
                             //loop throw every grant
-                            var Counter = 1
                             for(let i = 0; i < res.data.items[num].grants.length; i++){
 
                                 //get the item details
                                 await FNBRMENA.SearchByType(lang, res.data.items[num].grants[i].id, res.data.items[num].grants[i].type.id, "id")
                                 .then(async res => {
 
-                                    grants[Counter++] = await res.data.items
+                                    grants.push(res.data.items[0])
                                 })
                             }
 
-                            //console.log(grants)
                             //loop throw every grant
                             for(let i = 0; i < grants.length; i++){
+                                console.log(grants[i])
 
                                 //creating canvas
                                 const canvas = Canvas.createCanvas(1024, 1024);

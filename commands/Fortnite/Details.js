@@ -1880,8 +1880,7 @@ module.exports = {
 
                             //loop throw every grant
                             for(let i = 0; i < grants.length; i++){
-                                console.log(grants[i])
-
+                                
                                 //creating canvas
                                 const canvas = Canvas.createCanvas(1024, 1024);
                                 const ctx = canvas.getContext('2d');

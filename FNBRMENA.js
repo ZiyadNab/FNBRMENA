@@ -363,6 +363,26 @@ class FNBRMENA {
     }
 
     /**
+     * Return data about the quests
+     * 
+     * @param {String} Coordinates MAP/RAW
+     * @example
+     * FNBRMENA.listLocations(Coordinates)
+     * .then(async res => {
+     * 
+     *        //you will get a response weather the requested data has been found or not
+     * 
+     * })
+     * 
+     */
+     async listLocations(Coordinates){
+
+        //request the data and return the response
+        return await axios.get(`https://fortniteapi.io/v2/maps/items/list?coordinates=${Coordinates}`, { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
+
+    }
+
+    /**
      * Return data about the playlist
      * 
      * @param {String} Lang

@@ -124,8 +124,8 @@ module.exports = {
                 //generating animation
                 const generating = new Discord.MessageEmbed()
                 generating.setColor(FNBRMENA.Colors("embed"))
-                if(lang === "en") generating.setTitle(`Loading a total ${res.data.npc.length} ${loadingEmoji}`)
-                else if(lang === "ar") generating.setTitle(`تحميل جميع العناصر بمجموع ${res.data.npc.length} ${loadingEmoji}`)
+                if(lang === "en") generating.setTitle(`Loading a total ${Coordinates.length} location ${loadingEmoji}`)
+                else if(lang === "ar") generating.setTitle(`تحميل جميع الأماكن بمجموع ${Coordinates.length} ${loadingEmoji}`)
                 message.channel.send(generating)
                 .then( async msg => {
                 
@@ -156,6 +156,7 @@ module.exports = {
 
                     const att = new Discord.MessageAttachment(canvas.toBuffer(), `${itemsCanBeListed[num]}.png`)
                     await message.channel.send(att)
+                    msg.delete()
                 })
             }
         })

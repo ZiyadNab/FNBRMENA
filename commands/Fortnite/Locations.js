@@ -21,6 +21,26 @@ module.exports = {
         //list of items images
         const Images = {
             campfire: "https://imgur.com/ei8lsec.png",
+            chest: "https://imgur.com/lFIYkhD.png",
+            bush: "https://imgur.com/zH9GT7P.png",
+            safe: "https://imgur.com/mtv7uX5.png",
+            ammo_box: "https://imgur.com/HgjvWuS.png",
+            vending_machine: "https://imgur.com/LoQ4waq.png",
+            upgrade_station: "https://imgur.com/Te6BsPy.png",
+            payphone: "",
+            turret_donation_board: "",
+            fireflies: "",
+            fishing_rod_barrel: "",
+            slurp: "",
+            vehicle: "",
+            gas_pump: "",
+            off_road_tire: "",
+            bounty_board: "",
+            supply_chest: "",
+            icebox: "",
+            zipline: "",
+            rainbow_ink: "",
+            floorloot: "",
         }
 
         //request data

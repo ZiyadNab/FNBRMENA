@@ -40,11 +40,11 @@ module.exports = {
                     var free = 0
 
                     //width
-                    width += (5 * 107) + (5 * 37) + 37
+                    width += (10 * 107) + (10 * 37) + 37
 
                     //height
                     for(let i = 0; i < length; i++){
-                        if(5 === newline){
+                        if(10 === newline){
                             height += 107 + 37
                             newline = 0
                         }
@@ -371,7 +371,7 @@ module.exports = {
 
                         //x, y
                         x += 37 + 107
-                        if(5 === newline){
+                        if(10 === newline){
                             x = 62
                             y += 107 + 37
                             newline = 0

@@ -190,7 +190,7 @@ module.exports = {
                     const ctx = canvas.getContext('2d');
 
                     //create grediant background
-                    await backgroundInisilizer(ctx, canvas)
+                    await backgroundInisilizer(ctx, canvas, res)
                     
                     await randomOutfit(ctx, canvas)
 

@@ -26,7 +26,7 @@ module.exports = {
         ]
 
         //backgroundInisilizer function
-        const backgroundInisilizer = async (ctx, canvas) => {
+        const backgroundInisilizer = async (ctx, canvas, res) => {
 
             //list of colors
             const listOfColors = [
@@ -52,6 +52,49 @@ module.exports = {
             ctx.translate(-3650, -0);
             ctx.fillRect(3650, -100, 1000, canvas.height + 200); //left hand side
             ctx.restore()
+
+            //add the xp process
+            ctx.fillStyle = '#96fe7e';
+            ctx.globalAlpha = 0.5
+            ctx.fillRect(0, 926, 60, 1234)
+            ctx.globalAlpha = 1
+            ctx.fillStyle = '#00ff00';
+            ctx.fillRect(0, canvas.height - (res.data.data.battlePass.progress / 100) * 1234, 60, (res.data.data.battlePass.progress / 100) * 1234)
+
+            //add the credits
+            ctx.fillStyle = '#ffffff';
+            ctx.textAlign='left';
+            ctx.font = '100px Burbank Big Condensed'
+            ctx.fillText("FNBRMENA", 30, 110)
+
+            //add the xp bar pin and lvl
+            const pin = await Canvas.loadImage('https://imgur.com/LNmg342.png')
+            ctx.drawImage(pin, 65, (canvas.height - (res.data.data.battlePass.progress / 100) * 1234) - 25, 50, 50)
+            if(lang === "en"){
+                ctx.font = '50px Burbank Big Condensed'
+                ctx.fillText(`${res.data.data.battlePass.level} lvl`, 120, (canvas.height - (res.data.data.battlePass.progress / 100) * 1234) + 10)
+            }else{
+                ctx.font = '50px Arabic'
+                ctx.fillText(`${res.data.data.battlePass.level} لفل`, 120, (canvas.height - (res.data.data.battlePass.progress / 100) * 1234) + 10)
+            }
+        }
+
+        //randomOutfit function
+        const randomOutfit = async (ctx, canvas) => {
+
+            //request data
+            await FNBRMENA.Search(lang, "custom", "gameplayTags=Cosmetics.Source.ItemShop&type=outfit")
+            .then(async listOfOutfits => {
+
+                do {
+                    var randomImage = Math.floor(Math.random() * listOfOutfits.data.items.length)
+
+                } while(listOfOutfits.data.items[randomImage].images.featured === null)
+
+                //outfit img
+                const outfitIMG = await Canvas.loadImage(listOfOutfits.data.items[randomImage].images.featured)
+                ctx.drawImage(outfitIMG, canvas.width - 1250, 300, 1860, 1860)
+            })
         }
 
         //create an embed
@@ -148,24 +191,8 @@ module.exports = {
 
                     //create grediant background
                     await backgroundInisilizer(ctx, canvas)
-
-                    //add the credits
-                    ctx.fillStyle = '#ffffff';
-                    ctx.textAlign='left';
-                    ctx.font = '100px Burbank Big Condensed'
-                    ctx.fillText("FNBRMENA", 25, 110)
-
-                    //add the xp process
-                    ctx.fillStyle = '#96fe7e';
-                    ctx.globalAlpha = 0.5
-                    ctx.fillRect(0, 926, 60, 1234)
-                    ctx.globalAlpha = 1
-                    ctx.fillStyle = '#00ff00';
-                    ctx.fillRect(0, canvas.height - (res.data.data.battlePass.progress / 100) * 1234, 60, (res.data.data.battlePass.progress / 100) * 1234)
-
-                    //add the xp bar
-                    const pin = await Canvas.loadImage('https://imgur.com/LNmg342.png')
-                    ctx.drawImage(pin, 65, (canvas.height - (res.data.data.battlePass.progress / 100) * 1234) + 25, 50, 50)
+                    
+                    await randomOutfit(ctx, canvas)
 
                     //send the stats message
                     const att = new Discord.MessageAttachment(canvas.toBuffer(), `${res.data.data.account.name}.png`)

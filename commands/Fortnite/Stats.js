@@ -138,6 +138,10 @@ module.exports = {
                 message.reply(generating)
                 .then(async msg => {
 
+                    //registering fonts
+                    Canvas.registerFont('./assets/font/Lalezar-Regular.ttf', {family: 'Arabic',weight: "700",style: "bold"});
+                    Canvas.registerFont('./assets/font/BurbankBigCondensed-Black.otf' ,{family: 'Burbank Big Condensed',weight: "700",style: "bold"})
+
                     //creating canvas
                     const canvas = Canvas.createCanvas(3840, 2160);
                     const ctx = canvas.getContext('2d');

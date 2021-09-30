@@ -152,8 +152,8 @@ module.exports = {
                     //add the credits
                     ctx.fillStyle = '#ffffff';
                     ctx.textAlign='left';
-                    ctx.font = '50px Burbank Big Condensed'
-                    ctx.fillText("FNBRMENA", 15, 55)
+                    ctx.font = '100px Burbank Big Condensed'
+                    ctx.fillText("FNBRMENA", 25, 110)
 
                     //add the xp process
                     ctx.fillStyle = '#96fe7e';

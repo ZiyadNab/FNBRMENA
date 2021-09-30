@@ -1,10 +1,4 @@
-var query
-var platform
-var Solo
-var Duo
-var Trio
-var Squad
-var All
+const Canvas = require('canvas')
 
 module.exports = {
     commands: 'stats',
@@ -23,331 +17,182 @@ module.exports = {
         //get the user language from the database
         const lang = await FNBRMENA.Admin(admin, message, "", "Lang")
 
-        FNBRMENA.Stats(text, "epic", "lifetime")
-            .then(async res =>{
-                
-            if(!res.data.error){
+        //define variables
+        var num = 0
+        const platforms = [
+            'epic',
+            'psn',
+            'xbl'
+        ]
 
-            const p = new Discord.MessageEmbed()
-            p.setColor(FNBRMENA.Colors("embed"))
-            if(lang === "en"){
-                p.setTitle('Choose a method')
-                p.addFields(
-                    {name: 'All', value: 'React to Number :one:'},
-                    {name: 'KB/M', value: 'React to Number :two:'},
-                    {name: 'Controller', value: 'React to Number :three:'},
-                    {name: 'Mobile', value: 'React to Number :four:'},
-                )
-            }else if(lang === "ar"){
-                p.setTitle('اختر طريقة')
-                p.addFields(
-                    {name: 'جميع المنصات', value: 'اختر رقم :one:'},
-                    {name: 'كيبورد و ماوس', value: 'اختر رقم :two:'},
-                    {name: 'كونترولر', value: 'اختر رقم :three:'},
-                    {name: 'جوال', value: 'اختر رقم :four:'},
-                )
-            }
-            const msgReact = await message.channel.send(p)
-            await msgReact.react('1️⃣')
-            await msgReact.react('2️⃣')
-            await msgReact.react('3️⃣')
-            await msgReact.react('4️⃣')
-            const filter = (reaction, user) => {
-            return ['1️⃣', '2️⃣', '3️⃣', '4️⃣'].includes(reaction.emoji.name) && user.id === message.author.id;
-            };
-            await msgReact.awaitReactions(filter, { max: 1, time: 60000, errors: ['time'] })
-            .then( async collected => {
-                const reaction = collected.first();
-                    if(reaction.emoji.name === '1️⃣'){
-                        platform = "All"
-                        All = res.data.data.stats.all.overall
-                        Solo = res.data.data.stats.all.solo
-                        Duo = res.data.data.stats.all.duo
-                        Trio = res.data.data.stats.all.trio
-                        Squad = res.data.data.stats.all.squad
-                    }
-                    if(reaction.emoji.name === '2️⃣'){
-                        platform = "KB/M"
-                        All = res.data.data.stats.keyboardMouse.overall
-                        Solo = res.data.data.stats.keyboardMouse.solo
-                        Duo = res.data.data.stats.keyboardMouse.duo
-                        Trio = res.data.data.stats.keyboardMouse.trio
-                        Squad = res.data.data.stats.keyboardMouse.squad
-                    }
-                    if(reaction.emoji.name === '3️⃣'){
-                        platform = "CONT Playaa"
-                        All = res.data.data.stats.gamepad.overall
-                        Solo = res.data.data.stats.gamepad.solo
-                        Duo = res.data.data.stats.gamepad.duo
-                        Trio = res.data.data.stats.gamepad.trio
-                        Squad = res.data.data.stats.gamepad.squad
-                    }
-                    if(reaction.emoji.name === '4️⃣'){
-                        platform = "MOBILE"
-                        All = res.data.data.stats.touch.overall
-                        Solo = res.data.data.stats.touch.solo
-                        Duo = res.data.data.stats.touch.duo
-                        Trio = res.data.data.stats.touch.trio
-                        Squad = res.data.data.stats.touch.squad
-                    }
-                }).catch(err => {
-                    if(lang === "en"){
-                        msgReact.delete()
-                        const error = new Discord.MessageEmbed()
-                        .setColor(FNBRMENA.Colors("embed"))
-                        .setTitle(`Sorry we canceled your process becuase no method has been selected ${errorEmoji}`)
-                        message.reply(error)
-                    }else if(lang === "ar"){
-                        msgReact.delete()
-                        const error = new Discord.MessageEmbed()
-                        .setColor(FNBRMENA.Colors("embed"))
-                        .setTitle(`تم ايقاف الامر بسبب عدم اختيارك لطريقة ${errorEmoji}`)
-                        message.reply(error)
-                    }
-                })
-                msgReact.delete()
+        //backgroundInisilizer function
+        const backgroundInisilizer = async (ctx, canvas) => {
 
-                var loading = ''
-                if(lang === "en"){
-                    loading = "Getting Player Stats info ..."
-                }else if(lang === "ar"){
-                    loading = "جاري تحميل بيانات اللاعب ..."
+            //list of colors
+            const listOfColors = [
+                '00e7ff,0006ff',
+            ]
+
+            //get random color
+            var randomImage = Math.floor(Math.random() * listOfColors.length)
+
+            const backgroundGRD = ctx.createLinearGradient(0, canvas.height, canvas.width, 0)
+            backgroundGRD.addColorStop(0, `#${listOfColors[randomImage].substring(0, listOfColors[randomImage].indexOf(','))}`)
+            backgroundGRD.addColorStop(1, `#${listOfColors[randomImage].substring(listOfColors[randomImage].indexOf(',') + 1, listOfColors[randomImage].length)}`)
+            ctx.fillStyle = backgroundGRD
+            ctx.fillRect(0, 0, canvas.width, canvas.height) //background
+
+            const leftHandSideGRD = ctx.createLinearGradient(3300, canvas.height + 200, 5000, 0)
+            leftHandSideGRD.addColorStop(0, `#${listOfColors[randomImage].substring(0, listOfColors[randomImage].indexOf(','))}`)
+            leftHandSideGRD.addColorStop(1, `#${listOfColors[randomImage].substring(listOfColors[randomImage].indexOf(',') + 1, listOfColors[randomImage].length)}`)
+            ctx.fillStyle = leftHandSideGRD
+            ctx.save()
+            ctx.translate(3650, 0);
+            ctx.rotate(Math.PI / 19);
+            ctx.translate(-3650, -0);
+            ctx.fillRect(3650, -100, 1000, canvas.height + 200); //left hand side
+            ctx.restore()
+        }
+
+        //create an embed
+        const choosePlatform = new Discord.MessageEmbed()
+        choosePlatform.setColor(FNBRMENA.Colors("embed"))
+        if(lang === "en"){
+            choosePlatform.setTitle(`Please specify your search types`)
+            choosePlatform.setDescription(`0: Epicgames\n1: Playstation\n2: XBOX`)
+        }else if(lang === "ar"){
+            choosePlatform.setTitle(`الرجاء اختيار نوع عملية البحث`)
+            choosePlatform.setDescription(`0: ايبك قيمز\n1: بلايستيشن\n2: اكسبوكس`)
+        }
+
+        //filtering
+        const filter = async m => await m.author.id === message.author.id
+
+        //add the reply
+        if(lang === "en") var reply = "please choose from above list the command will stop listen in 20 sec"
+        else if(lang === "ar") var reply = "الرجاء الاختيار من القائمة بالاعلى، سوف ينتهي الامر خلال ٢٠ ثانية"
+
+        //send the message
+        const access = await message.reply(reply,choosePlatform)
+        .then(async notify => {
+
+            //await messages
+            return await message.channel.awaitMessages({filter, max: 1, time: 20000, errors: ['time']})
+            .then(async collected => {
+
+                //delete messages
+                notify.delete()
+
+                if(collected.first().content >= 0 && collected.first().content < platforms.length){
+                    num = collected.first().content
+                    return true
+                }else{
+
+                    //create out of range embed
+                    const outOfRangeError = new Discord.MessageEmbed()
+                    outOfRangeError.setColor(FNBRMENA.Colors("embed"))
+                    outOfRangeError.setTitle(`${FNBRMENA.Errors("outOfRange", lang)} ${errorEmoji}`)
+                    await message.reply(outOfRangeError)
+                    return false
                 }
 
+            }).catch(async err => {
+
+                //error hapeened
+                notify.delete()
+
+                //time has passed
+                const timeError = new Discord.MessageEmbed()
+                timeError.setColor(FNBRMENA.Colors("embed"))
+                timeError.setTitle(`${FNBRMENA.Errors("Time", lang)} ${errorEmoji}`)
+                await message.reply(timeError)
+
+                return false
+            })
+        }).catch(async err => {
+
+            //request entry too large error
+            if(err instanceof DiscordAPIError){
+                const requestEntryTooLargeError = new Discord.MessageEmbed()
+                requestEntryTooLargeError.setColor(FNBRMENA.Colors("embed"))
+                if(lang === "en") requestEntryTooLargeError.setTitle(`Request entry too large ${errorEmoji}`)
+                else if(lang === "ar") requestEntryTooLargeError.setTitle(`تم تخطي الكميه المحدودة ${errorEmoji}`)
+                await message.reply(requestEntryTooLargeError)
+
+            }
+            return false
+
+        })
+
+        //if the access is true
+        if(access){
+
+            await FNBRMENA.Stats(text, platforms[num], "lifetime")
+            .then(async res =>{
+
+                //generating message
                 const generating = new Discord.MessageEmbed()
                 generating.setColor(FNBRMENA.Colors("embed"))
-                generating.setTitle(`${loading} ${loadingEmoji}`)
-                message.channel.send(generating)
-                .then( async msg => {
+                if(lang === "en") generating.setTitle(`Loading item data... ${loadingEmoji}`)
+                else if(lang === "ar") generating.setTitle(`تحميل معلومات العنصر... ${loadingEmoji}`)
+                message.reply(generating)
+                .then(async msg => {
 
-                    Canvas.registerFont('./assets/font/BurbankBigCondensed-Black.otf' ,{family: 'Burbank Big Condensed',weight: "700",style: "bold"})
-                    const canvas = Canvas.createCanvas(3500, 2200);
+                    //creating canvas
+                    const canvas = Canvas.createCanvas(3840, 2160);
                     const ctx = canvas.getContext('2d');
-                                                
-                    // creating the background
-                    const background = await Canvas.loadImage('./assets/Stats/stats.png')
-                    ctx.drawImage(background, 0, 0, canvas.width, canvas.height)
 
-                    //name
-                    const playerName = "Player Name: " + res.data.data.account.name
+                    //create grediant background
+                    await backgroundInisilizer(ctx, canvas)
+
+                    //add the credits
                     ctx.fillStyle = '#ffffff';
                     ctx.textAlign='left';
-                    ctx.font = 'normal 180px Burbank Big Condensed'
-                    ctx.fillText(playerName, 100, 230)
+                    ctx.font = '50px Burbank Big Condensed'
+                    ctx.fillText("FNBRMENA", 15, 55)
 
-                    //|
-                    const diff = ctx.measureText(playerName).width
-                    ctx.fillStyle = '#ffffff';
-                    ctx.textAlign='left';
-                    ctx.font = 'normal 210px Burbank Big Condensed'
-                    ctx.fillText("|", (diff + 150), 230)
+                    //add the xp process
+                    ctx.fillStyle = '#96fe7e';
+                    ctx.globalAlpha = 0.5
+                    ctx.fillRect(0, 926, 60, 1234)
+                    ctx.globalAlpha = 1
+                    ctx.fillStyle = '#00ff00';
+                    ctx.fillRect(0, canvas.height - (res.data.data.battlePass.progress / 100) * 1234, 60, (res.data.data.battlePass.progress / 100) * 1234)
 
-                    //lvl
-                    ctx.fillStyle = '#ffffff';
-                    ctx.textAlign='left';
-                    ctx.font = 'normal 180px Burbank Big Condensed'
-                    ctx.fillText("lvl: " + res.data.data.battlePass.level, (diff + 250), 230)
+                    //add the xp bar
+                    const pin = await Canvas.loadImage('https://imgur.com/LNmg342.png')
+                    ctx.drawImage(pin, 65, (canvas.height - (res.data.data.battlePass.progress / 100) * 1234) + 25, 50, 50)
 
-                    //platform
-                    ctx.fillStyle = '#ffffff';
-                    ctx.textAlign='right';
-                    ctx.font = 'normal 200px Burbank Big Condensed'
-                    ctx.fillText(platform, 3400, 230)
-
-                    //all
-
-                    //matches
-                    ctx.fillStyle = '#ffffff';
-                    ctx.textAlign='left';
-                    ctx.font = 'normal 120px Burbank Big Condensed'
-                    ctx.fillText(All.matches, 740, 900)
-
-                    //wins
-                    ctx.fillStyle = '#ffffff';
-                    ctx.textAlign='left';
-                    ctx.font = 'normal 120px Burbank Big Condensed'
-                    ctx.fillText(All.wins, 580, 1100)
-
-                    //kd
-                    ctx.fillStyle = '#ffffff';
-                    ctx.textAlign='left';
-                    ctx.font = 'normal 120px Burbank Big Condensed'
-                    ctx.fillText(All.kd +"%", 520, 1310)
-
-                    //kills
-                    ctx.fillStyle = '#ffffff';
-                    ctx.textAlign='left';
-                    ctx.font = 'normal 120px Burbank Big Condensed'
-                    ctx.fillText(All.kills, 555, 1525)
-
-                    //deaths
-                    ctx.fillStyle = '#ffffff';
-                    ctx.textAlign='left';
-                    ctx.font = 'normal 120px Burbank Big Condensed'
-                    ctx.fillText(All.deaths, 665, 1730)
-
-                    //deaths
-                    ctx.fillStyle = '#ffffff';
-                    ctx.textAlign='left';
-                    ctx.font = 'normal 120px Burbank Big Condensed'
-                    ctx.fillText(All.winRate + "%", 680, 1915)
-
-                    if(Solo !== null){
-                        //solo
-
-                        //wins
-                        ctx.fillStyle = '#ffffff';
-                        ctx.textAlign='center';
-                        ctx.font = 'normal 100px Burbank Big Condensed'
-                        ctx.fillText(Solo.wins, 1550, 690)
-
-                        //matches
-                        ctx.fillStyle = '#ffffff';
-                        ctx.textAlign='center';
-                        ctx.font = 'normal 100px Burbank Big Condensed'
-                        ctx.fillText(Solo.matches, 1930, 690)
-
-                        //kills
-                        ctx.fillStyle = '#ffffff';
-                        ctx.textAlign='center';
-                        ctx.font = 'normal 100px Burbank Big Condensed'
-                        ctx.fillText(Solo.kills, 2330, 690)
-
-                        //kd
-                        ctx.fillStyle = '#ffffff';
-                        ctx.textAlign='center';
-                        ctx.font = 'normal 100px Burbank Big Condensed'
-                        ctx.fillText(Solo.kd +"%", 2725, 690)
-
-                        //deaths
-                        ctx.fillStyle = '#ffffff';
-                        ctx.textAlign='center';
-                        ctx.font = 'normal 100px Burbank Big Condensed'
-                        ctx.fillText(Solo.deaths, 3100, 690)
-                    }
-
-                    if(Duo !== null){
-                        //duo
-
-                        //wins
-                        ctx.fillStyle = '#ffffff';
-                        ctx.textAlign='center';
-                        ctx.font = 'normal 100px Burbank Big Condensed'
-                        ctx.fillText(Duo.wins, 1550, 1120)
-
-                        //matches
-                        ctx.fillStyle = '#ffffff';
-                        ctx.textAlign='center';
-                        ctx.font = 'normal 100px Burbank Big Condensed'
-                        ctx.fillText(Duo.matches, 1930, 1120)
-
-                        //kills
-                        ctx.fillStyle = '#ffffff';
-                        ctx.textAlign='center';
-                        ctx.font = 'normal 100px Burbank Big Condensed'
-                        ctx.fillText(Duo.kills, 2330, 1120)
-
-                        //kd
-                        ctx.fillStyle = '#ffffff';
-                        ctx.textAlign='center';
-                        ctx.font = 'normal 100px Burbank Big Condensed'
-                        ctx.fillText(Duo.kd +"%", 2725, 1120)
-
-                        //deaths
-                        ctx.fillStyle = '#ffffff';
-                        ctx.textAlign='center';
-                        ctx.font = 'normal 100px Burbank Big Condensed'
-                        ctx.fillText(Duo.deaths, 3100, 1120)
-                    }
-
-                    if(Trio !== null){
-                        //trio
-
-                        //wins
-                        ctx.fillStyle = '#ffffff';
-                        ctx.textAlign='center';
-                        ctx.font = 'normal 100px Burbank Big Condensed'
-                        ctx.fillText(Trio.wins, 1550, 1560)
-
-                        //matches
-                        ctx.fillStyle = '#ffffff';
-                        ctx.textAlign='center';
-                        ctx.font = 'normal 100px Burbank Big Condensed'
-                        ctx.fillText(Trio.matches, 1930, 1560)
-
-                        //kills
-                        ctx.fillStyle = '#ffffff';
-                        ctx.textAlign='center';
-                        ctx.font = 'normal 100px Burbank Big Condensed'
-                        ctx.fillText(Trio.kills, 2330, 1560)
-
-                        //kd
-                        ctx.fillStyle = '#ffffff';
-                        ctx.textAlign='center';
-                        ctx.font = 'normal 100px Burbank Big Condensed'
-                        ctx.fillText(Trio.kd +"%", 2725, 1560)
-
-                        //deaths
-                        ctx.fillStyle = '#ffffff';
-                        ctx.textAlign='center';
-                        ctx.font = 'normal 100px Burbank Big Condensed'
-                        ctx.fillText(Trio.deaths, 3100, 1560)
-                    }
-
-                    if(Squad !== null){
-                        //squad
-
-                        //wins
-                        ctx.fillStyle = '#ffffff';
-                        ctx.textAlign='center';
-                        ctx.font = 'normal 100px Burbank Big Condensed'
-                        ctx.fillText(Squad.wins, 1550, 2010)
-
-                        //matches
-                        ctx.fillStyle = '#ffffff';
-                        ctx.textAlign='center';
-                        ctx.font = 'normal 100px Burbank Big Condensed'
-                        ctx.fillText(Squad.matches, 1930, 2010)
-
-                        //kills
-                        ctx.fillStyle = '#ffffff';
-                        ctx.textAlign='center';
-                        ctx.font = 'normal 100px Burbank Big Condensed'
-                        ctx.fillText(Squad.kills, 2330, 2010)
-
-                        //kd
-                        ctx.fillStyle = '#ffffff';
-                        ctx.textAlign='center';
-                        ctx.font = 'normal 100px Burbank Big Condensed'
-                        ctx.fillText(Squad.kd +"%", 2725, 2010)
-
-                        //deaths
-                        ctx.fillStyle = '#ffffff';
-                        ctx.textAlign='center';
-                        ctx.font = 'normal 100px Burbank Big Condensed'
-                        ctx.fillText(Squad.deaths, 3100, 2010)
-                    }
-
-                    //sending
-                    const att = new Discord.MessageAttachment(canvas.toBuffer(), res.data.username + ".png")
-                    await message.channel.send(att)
+                    //send the stats message
+                    const att = new Discord.MessageAttachment(canvas.toBuffer(), `${res.data.data.account.name}.png`)
+                    await message.reply(att)
                     msg.delete()
+
                 })
-            }else{
-                if(lang === "en"){
-                    const error = new Discord.MessageEmbed()
-                    .setColor(FNBRMENA.Colors("embed"))
-                    .setTitle(`Make sure that you have entered an EPICGAMES username ${errorEmoji}`)
-                    message.channel.send(error)
-                }else if(lang === "ar"){
-                    const error = new Discord.MessageEmbed()
-                    .setColor(FNBRMENA.Colors("embed"))
-                    .setTitle(`تأكد ان الاسم المكتوب هو اسم حساب من ايبك قيمز ${errorEmoji}`)
-                    message.channel.send(error)
-                }
-            }
-        }).catch(err => {
             
-        })
+            }).catch(async err => {
+                if(err.response.data.status === 404){
+
+                    //epic games string
+                    if(platforms[num] === "epic" && lang === "en") var usedPlatform = 'Epicgames'
+                    else if(platforms[num] === "epic" && lang === "ar") var usedPlatform = 'ايبك قيمز'
+
+                    //psn string
+                    if(platforms[num] === "psn" && lang === "en") var usedPlatform = 'Playstation'
+                    else if(platforms[num] === "psn" && lang === "ar") var usedPlatform = 'بلايستيشن'
+
+                    //xbl string
+                    if(platforms[num] === "xbl" && lang === "en") var usedPlatform = 'XBOX'
+                    else if(platforms[num] === "xbl" && lang === "ar") var usedPlatform = 'اكسبوكس'
+
+                    const noUserHasBeenFoundError = new Discord.MessageEmbed()
+                    noUserHasBeenFoundError.setColor(FNBRMENA.Colors("embed"))
+                    if(lang === "en") noUserHasBeenFoundError.setTitle(`Can't find ${text} in ${usedPlatform} platform. Please try again ${errorEmoji}`)
+                    else if(lang === "ar") noUserHasBeenFoundError.setTitle(`لا يمكنني العثور على حساب ${text} في منصه ${usedPlatform}. حاول مجددا ${errorEmoji}`)
+                    await message.reply(noUserHasBeenFoundError)
+
+                }
+            })
+        }
     }
 }

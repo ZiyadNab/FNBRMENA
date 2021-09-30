@@ -77,7 +77,7 @@ module.exports = {
         .then(async notify => {
 
             //await messages
-            return await message.channel.awaitMessages({filter, max: 1, time: 20000, errors: ['time']})
+            return await message.channel.awaitMessages(filter, {max: 1, time: 20000})
             .then(async collected => {
 
                 //delete messages

@@ -83,14 +83,13 @@ module.exports = {
         const randomOutfit = async (ctx, canvas) => {
 
             //request data
-            await FNBRMENA.Search(lang, "custom", "gameplayTags=Cosmetics.Source.ItemShop&type=outfit")
+            await FNBRMENA.Search(lang, "custom", "gameplayTags=Cosmetics.Source.ItemShop&type=outfit&images.featured=*png")
             .then(async listOfOutfits => {
 
                 do {
                     var randomImage = Math.floor(Math.random() * listOfOutfits.data.items.length)
 
-                } while(listOfOutfits.data.items[randomImage].images.featured === null &&
-                    listOfOutfits.data.items[randomImage].builtInEmote !== null &&
+                } while(listOfOutfits.data.items[randomImage].builtInEmote !== null &&
                     listOfOutfits.data.items[randomImage].styles.length > 2)
 
                 //outfit img

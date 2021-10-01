@@ -231,8 +231,11 @@ module.exports = {
 
                 await lineBoarders(x += 100, y)
                 if(statsData[i].minutesPlayed !== undefined){
-                    applyText(canvas, `${(statsData[i].minutesPlayed / 60)}`.substring(0, `${(statsData[i].minutesPlayed / 60)}`.indexOf('.')))
-                    ctx.fillText(`${(statsData[i].minutesPlayed / 60)}`.substring(0, `${(statsData[i].minutesPlayed / 60)}`.indexOf('.')), x += 190, y + 97) //add the hours plays
+                    var hours = `${statsData[i].minutesPlayed / 60}`
+                    if(hours.includes('.')) hours = hours.substring(0, `${(statsData[i].minutesPlayed / 60)}`.indexOf('.'))
+
+                    applyText(canvas, hours)
+                    ctx.fillText(`${hours}`, x += 190, y + 97) //add the hours plays
                 }else ctx.fillText('?', x += 190, y + 97) //add the hours plays
 
                 await lineBoarders(x += 100, y)
@@ -389,7 +392,7 @@ module.exports = {
                 })
             
             }).catch(async err => {
-                
+
                 if(err.response.data.status === 404){
 
                     //epic games string

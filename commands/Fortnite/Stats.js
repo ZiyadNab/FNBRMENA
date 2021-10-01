@@ -132,6 +132,17 @@ module.exports = {
             statsData.push(res.data.data.stats.all.squad)
             statsData.push(res.data.data.stats.all.ltm)
 
+            //line boarders
+            const lineBoarders = async (x, y) => {
+
+                ctx.fillStyle = `#${listOfColors[randomImage].substring(listOfColors[randomImage].indexOf(',') + 1, listOfColors[randomImage].length)}`
+                ctx.globalAlpha = 0.6
+                ctx.fillRect(x, y, 90, 150)
+                ctx.globalAlpha = 1
+                ctx.fillStyle = '#ffffff';
+
+            }
+
             //loop throw every stat
             for(let i = 0; i < statsData.length; i++){
 
@@ -156,30 +167,47 @@ module.exports = {
                 }
 
                 ctx.font = '80px Burbank Big Condensed'
-                ctx.fillText(statsData[i].wins, x += 285, y + 97) //add the wins
-                ctx.fillText(statsData[i].winRate, x += 285, y + 97) //add the wins rate
-                ctx.fillText(statsData[i].matches, x += 285, y + 97) //add the matches
-                ctx.fillText(statsData[i].kills, x += 285, y + 97) //add the kills
-                ctx.fillText(statsData[i].kd, x += 285, y + 97) //add the kd
-                ctx.fillText(statsData[i].deaths, x += 285, y + 97) //add the deaths
-                ctx.fillText(`${(statsData[i].minutesPlayed / 60)}`.substring(0, `${(statsData[i].minutesPlayed / 60)}`.indexOf('.')), x += 285, y + 97) //add the hours plays
-                if(statsData[i].top3 !== undefined) ctx.fillText(statsData[i].top3, x += 285, y + 97) //add the top3
-                else ctx.fillText('?', x += 285, y + 97) //add the top3
-                if(statsData[i].top5 !== undefined) ctx.fillText(statsData[i].top5, x += 285, y + 97) //add the top5
-                else ctx.fillText('?', x += 285, y + 97) //add the top5
-                if(statsData[i].top10 !== undefined) ctx.fillText(statsData[i].top10, x += 285, y + 97) //add the top10
-                else ctx.fillText('?', x += 285, y + 97) //add the top10
+                await lineBoarders(x += 150, y)
+                ctx.fillText(statsData[i].wins, x += 180, y + 97) //add the wins
+                await lineBoarders(x += 90, y)
+                ctx.fillText(statsData[i].winRate, x += 180, y + 97) //add the wins rate
+                await lineBoarders(x += 90, y)
+                ctx.fillText(statsData[i].matches, x += 180, y + 97) //add the matches
+                await lineBoarders(x += 90, y)
+                ctx.fillText(statsData[i].kills, x += 180, y + 97) //add the kills
+                await lineBoarders(x += 90, y)
+                ctx.fillText(statsData[i].kd, x += 180, y + 97) //add the kd
+                await lineBoarders(x += 90, y)
+                ctx.fillText(statsData[i].deaths, x += 180, y + 97) //add the deaths
+                await lineBoarders(x += 90, y)
+                ctx.fillText(`${(statsData[i].minutesPlayed / 60)}`.substring(0, `${(statsData[i].minutesPlayed / 60)}`.indexOf('.')), x += 180, y + 97) //add the hours plays
+                await lineBoarders(x += 90, y)
+                if(statsData[i].top3 !== undefined) ctx.fillText(statsData[i].top3, x += 180, y + 97) //add the top3
+                else ctx.fillText('?', x += 180, y + 97) //add the top3
+                await lineBoarders(x += 90, y)
+                if(statsData[i].top5 !== undefined) ctx.fillText(statsData[i].top5, x += 180, y + 97) //add the top5
+                else ctx.fillText('?', x += 180, y + 97) //add the top5
+                await lineBoarders(x += 90, y)
+                if(statsData[i].top10 !== undefined) ctx.fillText(statsData[i].top10, x += 180, y + 97) //add the top10
+                else ctx.fillText('?', x += 180, y + 97) //add the top10
+                await lineBoarders(x += 90, y)
+                if(statsData[i].top25 !== undefined) ctx.fillText(statsData[i].top25, x += 180, y + 97) //add the top25
+                else ctx.fillText('?', x += 180, y + 97) //add the top25
+                await lineBoarders(x += 90, y)
                 if(statsData[i].lastModified !== undefined){
                     moment.locale(lang)
+                    const lastModified = moment.duration(moment.tz(moment(), timezone).diff(moment.tz(moment(statsData[i].lastModified), timezone)))
                     if(lang === "en"){
                         ctx.font = '80px Burbank Big Condensed'
-                        ctx.fillText(`${moment.duration(moment.tz(moment(statsData[i].lastModified), timezone)).asDays()} days ago`, x += 285, y + 97) //add the lastModified
+                        if(lastModified.days() >= 1) ctx.fillText(`${lastModified.days()} days ago`, x += 300, y + 97) //add the lastModified
+                        else ctx.fillText(`${lastModified.hours()} hours ago`, x += 300, y + 97) //add the lastModified
                     }else if(lang === "ar"){
                         ctx.font = '80px Arabic'
-                        ctx.fillText(`${moment.duration(moment.tz(moment(statsData[i].lastModified), timezone)).asDays()} يوم مضي`, x += 285, y + 97) //add the lastModified
+                        if(lastModified.days() >= 1) ctx.fillText(`${lastModified.days()} يوم مضى`, x += 300, y + 97) //add the lastModified
+                        else ctx.fillText(`${lastModified.hours()} ساعة مضت`, x += 300, y + 97) //add the lastModified
                     }
                 }
-                else ctx.fillText('?', x += 285, y + 97) //add the lastModified
+                else ctx.fillText('?', x += 180, y + 97) //add the lastModified
 
                 //ctx.fillStyle = `#${listOfColors[randomImage].substring(listOfColors[randomImage].indexOf(',') + 1, listOfColors[randomImage].length)}`
 
@@ -278,7 +306,7 @@ module.exports = {
                     Canvas.registerFont('./assets/font/BurbankBigCondensed-Black.otf' ,{family: 'Burbank Big Condensed',weight: "700",style: "bold"})
 
                     //creating canvas
-                    const canvas = Canvas.createCanvas(4700, 2160);
+                    const canvas = Canvas.createCanvas(4785, 2160);
                     const ctx = canvas.getContext('2d');
 
                     //create grediant background

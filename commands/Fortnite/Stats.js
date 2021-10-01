@@ -165,19 +165,18 @@ module.exports = {
                 ctx.fillText(`${(statsData[i].minutesPlayed / 60)}`.substring(0, `${(statsData[i].minutesPlayed / 60)}`.indexOf('.')), x += 285, y + 97) //add the hours plays
                 if(statsData[i].top3 !== undefined) ctx.fillText(statsData[i].top3, x += 285, y + 97) //add the top3
                 else ctx.fillText('?', x += 285, y + 97) //add the top3
-                // if(statsData[i].top5 !== undefined) ctx.fillText(statsData[i].top5, x += 285, y + 97) //add the top5
-                // else ctx.fillText('?', x += 285, y + 97) //add the top5
+                if(statsData[i].top5 !== undefined) ctx.fillText(statsData[i].top5, x += 285, y + 97) //add the top5
+                else ctx.fillText('?', x += 285, y + 97) //add the top5
                 if(statsData[i].top10 !== undefined) ctx.fillText(statsData[i].top10, x += 285, y + 97) //add the top10
                 else ctx.fillText('?', x += 285, y + 97) //add the top10
                 if(statsData[i].lastModified !== undefined){
                     moment.locale(lang)
-                    ctx.textAlign='left';
                     if(lang === "en"){
                         ctx.font = '80px Burbank Big Condensed'
-                        ctx.fillText(moment.tz(moment(statsData[i].lastModified), timezone).format("dddd, MMMM Do of YYYY"), x += 285, y + 97) //add the lastModified
+                        ctx.fillText(`${moment.duration(moment.tz(moment(statsData[i].lastModified), timezone)).asDays()} days ago`, x += 285, y + 97) //add the lastModified
                     }else if(lang === "ar"){
                         ctx.font = '80px Arabic'
-                        ctx.fillText(moment.tz(moment(statsData[i].lastModified), timezone).format("dddd, MMMM Do من YYYY"), x += 285, y + 97) //add the lastModified
+                        ctx.fillText(`${moment.duration(moment.tz(moment(statsData[i].lastModified), timezone)).asDays()} يوم مضي`, x += 285, y + 97) //add the lastModified
                     }
                 }
                 else ctx.fillText('?', x += 285, y + 97) //add the lastModified

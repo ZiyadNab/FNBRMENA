@@ -389,6 +389,7 @@ module.exports = {
                 })
             
             }).catch(async err => {
+                
                 if(err.response.data.status === 404){
 
                     //epic games string
@@ -408,6 +409,16 @@ module.exports = {
                     if(lang === "en") noUserHasBeenFoundError.setTitle(`Can't find ${text} in ${usedPlatform} platform. Please try again ${errorEmoji}`)
                     else if(lang === "ar") noUserHasBeenFoundError.setTitle(`لا يمكنني العثور على حساب ${text} في منصه ${usedPlatform}. حاول مجددا ${errorEmoji}`)
                     await message.reply(noUserHasBeenFoundError)
+
+                }
+
+                if(err.response.data.status === 403){
+
+                    const theUserAccountIsPrivate = new Discord.MessageEmbed()
+                    theUserAccountIsPrivate.setColor(FNBRMENA.Colors("embed"))
+                    if(lang === "en") theUserAccountIsPrivate.setTitle(`Can't get access to ${text} because the user account is private. ${errorEmoji}`)
+                    else if(lang === "ar") theUserAccountIsPrivate.setTitle(`لا يمكنني الحصول على صلاحية إحصائيات ${text} بسبب ان الحساب خاص. ${errorEmoji}`)
+                    await message.reply(theUserAccountIsPrivate)
 
                 }
             })

@@ -147,11 +147,16 @@ module.exports = {
             const statsData = []
 
             //push add, solo, duo, squads and LTM's
-            statsData.push(res.data.data.stats.all.overall)
-            statsData.push(res.data.data.stats.all.solo)
-            statsData.push(res.data.data.stats.all.duo)
-            statsData.push(res.data.data.stats.all.squad)
-            statsData.push(res.data.data.stats.all.ltm)
+            if(res.data.data.stats.all.overall !== undefined) statsData.push(res.data.data.stats.all.overall)
+            else statsData.push({ })
+            if(res.data.data.stats.all.solo !== undefined) statsData.push(res.data.data.stats.all.solo)
+            else statsData.push({ })
+            if(res.data.data.stats.all.duo !== undefined) statsData.push(res.data.data.stats.all.duo)
+            else statsData.push({ })
+            if(res.data.data.stats.all.squad !== undefined) statsData.push(res.data.data.stats.all.squad)
+            else statsData.push({ })
+            if(res.data.data.stats.all.ltm !== undefined) statsData.push(res.data.data.stats.all.ltm)
+            else statsData.push({ })
 
             //line boarders
             const lineBoarders = async (x, y) => {

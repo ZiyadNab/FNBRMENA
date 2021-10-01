@@ -126,7 +126,7 @@ module.exports = {
                 let fontSize = 80
                 do {
                     ctx.font = `${fontSize -= 1}px Burbank Big Condensed`
-                } while (ctx.measureText(text).width > 1400)
+                } while (ctx.measureText(text).width > 180)
                 return ctx.font
             }
 
@@ -223,12 +223,12 @@ module.exports = {
                     const lastModified = moment.duration(moment.tz(moment(), timezone).diff(moment.tz(moment(statsData[i].lastModified), timezone)))
                     if(lang === "en"){
                         ctx.font = '80px Burbank Big Condensed'
-                        if(lastModified.days() >= 1) ctx.fillText(`${lastModified.days()} days ago`, x += 300, y + 97) //add the lastModified
-                        else ctx.fillText(`${lastModified.hours()} hours ago`, x += 300, y + 97) //add the lastModified
+                        if(lastModified.days() >= 1) ctx.fillText(`${lastModified.days()} days ago`, x += 315, y + 97) //add the lastModified
+                        else ctx.fillText(`${lastModified.hours()} hours ago`, x += 315, y + 97) //add the lastModified
                     }else if(lang === "ar"){
                         ctx.font = '80px Arabic'
-                        if(lastModified.days() >= 1) ctx.fillText(`${lastModified.days()} يوم مضى`, x += 300, y + 97) //add the lastModified
-                        else ctx.fillText(`${lastModified.hours()} ساعة مضت`, x += 300, y + 97) //add the lastModified
+                        if(lastModified.days() >= 1) ctx.fillText(`${lastModified.days()} يوم مضى`, x += 315, y + 97) //add the lastModified
+                        else ctx.fillText(`${lastModified.hours()} ساعة مضت`, x += 315, y + 97) //add the lastModified
                     }
                 }
                 else ctx.fillText('?', x += 180, y + 97) //add the lastModified

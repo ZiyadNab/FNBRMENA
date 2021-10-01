@@ -90,7 +90,8 @@ module.exports = {
                     var randomImage = Math.floor(Math.random() * listOfOutfits.data.items.length)
 
                 } while(listOfOutfits.data.items[randomImage].images.featured === null &&
-                    listOfOutfits.data.items[randomImage].builtInEmote !== null)
+                    listOfOutfits.data.items[randomImage].builtInEmote !== null &&
+                    listOfOutfits.data.items[randomImage].styles.length > 2)
 
                 //outfit img
                 const outfitIMG = await Canvas.loadImage(listOfOutfits.data.items[randomImage].images.featured)

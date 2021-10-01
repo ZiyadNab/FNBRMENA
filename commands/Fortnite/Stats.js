@@ -120,6 +120,16 @@ module.exports = {
         //boardDrawer function
         const boardDrawer = async (ctx, canvas, res, statsType) => {
 
+            //applytext
+            const applyText = (canvas, text) => {
+                const ctx = canvas.getContext('2d')
+                let fontSize = 80
+                do {
+                    ctx.font = `${fontSize -= 1}px Burbank Big Condensed`
+                } while (ctx.measureText(text).width > 1400)
+                return ctx.font
+            }
+
             //define x, y and data array
             var x = 500
             var y = 500
@@ -166,33 +176,47 @@ module.exports = {
                     ctx.fillText(listOfTypes[i + 5], x, y + 97)
                 }
 
-                ctx.font = '80px Burbank Big Condensed'
                 await lineBoarders(x += 150, y)
+                applyText(canvas, statsData[i].wins)
                 ctx.fillText(statsData[i].wins, x += 180, y + 97) //add the wins
                 await lineBoarders(x += 90, y)
+                applyText(canvas, statsData[i].winRate)
                 ctx.fillText(statsData[i].winRate, x += 180, y + 97) //add the wins rate
                 await lineBoarders(x += 90, y)
+                applyText(canvas, statsData[i].matches)
                 ctx.fillText(statsData[i].matches, x += 180, y + 97) //add the matches
                 await lineBoarders(x += 90, y)
+                applyText(canvas, statsData[i].kills)
                 ctx.fillText(statsData[i].kills, x += 180, y + 97) //add the kills
                 await lineBoarders(x += 90, y)
+                applyText(canvas, statsData[i].kd)
                 ctx.fillText(statsData[i].kd, x += 180, y + 97) //add the kd
                 await lineBoarders(x += 90, y)
+                applyText(canvas, statsData[i].deaths)
                 ctx.fillText(statsData[i].deaths, x += 180, y + 97) //add the deaths
                 await lineBoarders(x += 90, y)
+                applyText(canvas, `${(statsData[i].minutesPlayed / 60)}`.substring(0, `${(statsData[i].minutesPlayed / 60)}`.indexOf('.')))
                 ctx.fillText(`${(statsData[i].minutesPlayed / 60)}`.substring(0, `${(statsData[i].minutesPlayed / 60)}`.indexOf('.')), x += 180, y + 97) //add the hours plays
                 await lineBoarders(x += 90, y)
-                if(statsData[i].top3 !== undefined) ctx.fillText(statsData[i].top3, x += 180, y + 97) //add the top3
-                else ctx.fillText('?', x += 180, y + 97) //add the top3
+                if(statsData[i].top3 !== undefined){
+                    applyText(canvas, statsData[i].top3)
+                    ctx.fillText(statsData[i].top3, x += 180, y + 97) //add the top3
+                }else ctx.fillText('?', x += 180, y + 97) //add the top3
                 await lineBoarders(x += 90, y)
-                if(statsData[i].top5 !== undefined) ctx.fillText(statsData[i].top5, x += 180, y + 97) //add the top5
-                else ctx.fillText('?', x += 180, y + 97) //add the top5
+                if(statsData[i].top5 !== undefined){
+                    applyText(canvas, statsData[i].top5)
+                    ctx.fillText(statsData[i].top5, x += 180, y + 97) //add the top5
+                }else ctx.fillText('?', x += 180, y + 97) //add the top5
                 await lineBoarders(x += 90, y)
-                if(statsData[i].top10 !== undefined) ctx.fillText(statsData[i].top10, x += 180, y + 97) //add the top10
-                else ctx.fillText('?', x += 180, y + 97) //add the top10
+                if(statsData[i].top10 !== undefined){
+                    applyText(canvas, statsData[i].top10)
+                    ctx.fillText(statsData[i].top10, x += 180, y + 97) //add the top10
+                }else ctx.fillText('?', x += 180, y + 97) //add the top10
                 await lineBoarders(x += 90, y)
-                if(statsData[i].top25 !== undefined) ctx.fillText(statsData[i].top25, x += 180, y + 97) //add the top25
-                else ctx.fillText('?', x += 180, y + 97) //add the top25
+                if(statsData[i].top25 !== undefined){
+                    applyText(canvas, statsData[i].top25)
+                    ctx.fillText(statsData[i].top25, x += 180, y + 97) //add the top25
+                }else ctx.fillText('?', x += 180, y + 97) //add the top25
                 await lineBoarders(x += 90, y)
                 if(statsData[i].lastModified !== undefined){
                     moment.locale(lang)
@@ -208,8 +232,6 @@ module.exports = {
                     }
                 }
                 else ctx.fillText('?', x += 180, y + 97) //add the lastModified
-
-                //ctx.fillStyle = `#${listOfColors[randomImage].substring(listOfColors[randomImage].indexOf(',') + 1, listOfColors[randomImage].length)}`
 
                 y += 150 + 113
                 x = 500

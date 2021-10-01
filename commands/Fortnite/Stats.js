@@ -84,7 +84,7 @@ module.exports = {
             ctx.fillStyle = '#ffffff';
             ctx.textAlign='left';
             ctx.font = '100px Burbank Big Condensed'
-            ctx.fillText("FNBRMENA", 30, 110)
+            ctx.fillText(`FNBRMENA | ${res.data.data.account.name}`, 30, 110)
 
             //add the xp bar pin and lvl
             const pin = await Canvas.loadImage('https://imgur.com/LNmg342.png')
@@ -159,7 +159,7 @@ module.exports = {
                 //set and draw lines color
                 ctx.fillStyle = `#${listOfColors[randomImage].substring(0, listOfColors[randomImage].indexOf(','))}`
                 ctx.globalAlpha = 0.6
-                ctx.fillRect(x, y, 3985, 150)
+                ctx.fillRect(x, y, 4000, 150)
                 ctx.globalAlpha = 1
 
                 //change x value

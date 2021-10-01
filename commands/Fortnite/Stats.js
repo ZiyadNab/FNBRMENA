@@ -1,4 +1,6 @@
 const Canvas = require('canvas')
+const moment = require('moment')
+require('moment-timezone')
 
 module.exports = {
     commands: 'stats',
@@ -16,6 +18,9 @@ module.exports = {
 
         //get the user language from the database
         const lang = await FNBRMENA.Admin(admin, message, "", "Lang")
+
+        //get the user timezone from the database
+        const timezone = await FNBRMENA.Admin(admin, message, "", "Timezone")
 
         //define variables
         var num = 0

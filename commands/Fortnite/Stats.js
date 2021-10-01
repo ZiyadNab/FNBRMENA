@@ -42,15 +42,15 @@ module.exports = {
             ctx.fillStyle = backgroundGRD
             ctx.fillRect(0, 0, canvas.width, canvas.height) //background
 
-            const leftHandSideGRD = ctx.createLinearGradient(3300, canvas.height + 200, 5000, 0)
+            const leftHandSideGRD = ctx.createLinearGradient(3300, canvas.height + 200, canvas.width + 1000, 0)
             leftHandSideGRD.addColorStop(0, `#${listOfColors[randomImage].substring(0, listOfColors[randomImage].indexOf(','))}`)
             leftHandSideGRD.addColorStop(1, `#${listOfColors[randomImage].substring(listOfColors[randomImage].indexOf(',') + 1, listOfColors[randomImage].length)}`)
             ctx.fillStyle = leftHandSideGRD
             ctx.save()
-            ctx.translate(3650, 0);
+            ctx.translate(canvas.width - 190, 0);
             ctx.rotate(Math.PI / 19);
-            ctx.translate(-3650, -0);
-            ctx.fillRect(3650, -100, 1000, canvas.height + 200); //left hand side
+            ctx.translate(-(canvas.width - 190), -0);
+            ctx.fillRect(canvas.width - 190, -100, 1000, canvas.height + 200); //left hand side
             ctx.restore()
 
             //add the xp process
@@ -71,11 +71,11 @@ module.exports = {
             const pin = await Canvas.loadImage('https://imgur.com/LNmg342.png')
             ctx.drawImage(pin, 65, (canvas.height - (res.data.data.battlePass.progress / 100) * 1234) - 25, 50, 50)
             if(lang === "en"){
-                ctx.font = '50px Burbank Big Condensed'
-                ctx.fillText(`${res.data.data.battlePass.level} lvl`, 120, (canvas.height - (res.data.data.battlePass.progress / 100) * 1234) + 10)
+                ctx.font = '70px Burbank Big Condensed'
+                ctx.fillText(`${res.data.data.battlePass.level} lvl`, 120, (canvas.height - (res.data.data.battlePass.progress / 100) * 1234) + 15)
             }else{
-                ctx.font = '50px Arabic'
-                ctx.fillText(`${res.data.data.battlePass.level} لفل`, 120, (canvas.height - (res.data.data.battlePass.progress / 100) * 1234) + 10)
+                ctx.font = '70px Arabic'
+                ctx.fillText(`${res.data.data.battlePass.level} لفل`, 120, (canvas.height - (res.data.data.battlePass.progress / 100) * 1234) + 15)
             }
         }
 
@@ -89,7 +89,8 @@ module.exports = {
                 do {
                     var randomImage = Math.floor(Math.random() * listOfOutfits.data.items.length)
 
-                } while(listOfOutfits.data.items[randomImage].images.featured === null)
+                } while(listOfOutfits.data.items[randomImage].images.featured === null &&
+                    listOfOutfits.data.items[randomImage].builtInEmote !== null)
 
                 //outfit img
                 const outfitIMG = await Canvas.loadImage(listOfOutfits.data.items[randomImage].images.featured)
@@ -186,7 +187,7 @@ module.exports = {
                     Canvas.registerFont('./assets/font/BurbankBigCondensed-Black.otf' ,{family: 'Burbank Big Condensed',weight: "700",style: "bold"})
 
                     //creating canvas
-                    const canvas = Canvas.createCanvas(3840, 2160);
+                    const canvas = Canvas.createCanvas(4700, 2160);
                     const ctx = canvas.getContext('2d');
 
                     //create grediant background

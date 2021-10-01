@@ -25,16 +25,30 @@ module.exports = {
             'xbl'
         ]
 
+        //list of colors
+        const listOfColors = [
+            '00e7ff,0006ff',
+        ]
+
+        //list of types
+        const listOfTypes = [
+            'All',
+            'Solo',
+            'Duo',
+            'Squads',
+            'LTMs',
+            'الكل',
+            'سولو',
+            'دو',
+            'سكواد',
+            'اطوار'
+        ]
+
+        //get random color
+        var randomImage = Math.floor(Math.random() * listOfColors.length)
+
         //backgroundInisilizer function
         const backgroundInisilizer = async (ctx, canvas, res) => {
-
-            //list of colors
-            const listOfColors = [
-                '00e7ff,0006ff',
-            ]
-
-            //get random color
-            var randomImage = Math.floor(Math.random() * listOfColors.length)
 
             const backgroundGRD = ctx.createLinearGradient(0, canvas.height, canvas.width, 0)
             backgroundGRD.addColorStop(0, `#${listOfColors[randomImage].substring(0, listOfColors[randomImage].indexOf(','))}`)
@@ -96,6 +110,78 @@ module.exports = {
                 const outfitIMG = await Canvas.loadImage(listOfOutfits.data.items[randomImage].images.featured)
                 ctx.drawImage(outfitIMG, canvas.width - 1250, 300, 1860, 1860)
             })
+        }
+
+        //boardDrawer function
+        const boardDrawer = async (ctx, canvas, res, statsType) => {
+
+            //define x, y and data array
+            var x = 500
+            var y = 500
+            const statsData = []
+
+            //push add, solo, duo, squads and LTM's
+            statsData.push(res.data.data.stats.all.overall)
+            statsData.push(res.data.data.stats.all.solo)
+            statsData.push(res.data.data.stats.all.duo)
+            statsData.push(res.data.data.stats.all.squad)
+            statsData.push(res.data.data.stats.all.ltm)
+
+            //loop throw every stat
+            for(let i = 0; i < statsData.length; i++){
+
+                //set and draw lines color
+                ctx.fillStyle = `#${listOfColors[randomImage].substring(0, listOfColors[randomImage].indexOf(','))}`
+                ctx.globalAlpha = 0.6
+                ctx.fillRect(x, y, 3785, 150)
+                ctx.globalAlpha = 1
+
+                //change x value
+                x += 130
+
+                //add the modes
+                ctx.fillStyle = '#ffffff';
+                ctx.textAlign='center';
+                if(lang === "en"){
+                    ctx.font = '97px Burbank Big Condensed'
+                    ctx.fillText(listOfTypes[i], x, y + 97)
+                }else if(lang === "ar"){
+                    ctx.font = '97px Arabic'
+                    ctx.fillText(listOfTypes[i + 5], x, y + 97)
+                }
+
+                ctx.font = '80px Burbank Big Condensed'
+                ctx.fillText(statsData[i].wins, x += 285, y + 97) //add the wins
+                ctx.fillText(statsData[i].winRate, x += 285, y + 97) //add the wins rate
+                ctx.fillText(statsData[i].matches, x += 285, y + 97) //add the matches
+                ctx.fillText(statsData[i].kills, x += 285, y + 97) //add the kills
+                ctx.fillText(statsData[i].kd, x += 285, y + 97) //add the kd
+                ctx.fillText(statsData[i].deaths, x += 285, y + 97) //add the deaths
+                ctx.fillText(`${(statsData[i].minutesPlayed / 60)}`.substring(0, `${(statsData[i].minutesPlayed / 60)}`.indexOf('.')), x += 285, y + 97) //add the hours plays
+                if(statsData[i].top3 !== undefined) ctx.fillText(statsData[i].top3, x += 285, y + 97) //add the top3
+                else ctx.fillText('?', x += 285, y + 97) //add the top3
+                if(statsData[i].top5 !== undefined) ctx.fillText(statsData[i].top10, x += 285, y + 97) //add the top5
+                else ctx.fillText('?', x += 285, y + 97) //add the top5
+                if(statsData[i].top10 !== undefined) ctx.fillText(statsData[i].top10, x += 285, y + 97) //add the top10
+                else ctx.fillText('?', x += 285, y + 97) //add the top10
+                if(statsData[i].lastModified !== undefined){
+                    moment.locale(lang)
+                    if(lang === "en"){
+                        ctx.font = '80px Burbank Big Condensed'
+                        ctx.fillText(moment.tz(moment(statsData[i].lastModified), timezone).format("dddd, MMMM Do of YYYY"), x += 285, y + 97) //add the lastModified
+                    }else if(lang === "ar"){
+                        ctx.font = '80px Arabic'
+                        ctx.fillText(moment.tz(moment(statsData[i].lastModified), timezone).format("dddd, MMMM Do من YYYY"), x += 285, y + 97) //add the lastModified
+                    }
+                }
+                else ctx.fillText('?', x += 285, y + 97) //add the lastModified
+
+                //ctx.fillStyle = `#${listOfColors[randomImage].substring(listOfColors[randomImage].indexOf(',') + 1, listOfColors[randomImage].length)}`
+
+                y += 150 + 113
+                x = 500
+
+            }
         }
 
         //create an embed
@@ -194,6 +280,9 @@ module.exports = {
                     await backgroundInisilizer(ctx, canvas, res)
                     
                     await randomOutfit(ctx, canvas)
+
+                    //board drawer
+                    await boardDrawer(ctx, canvas, res, "all")
 
                     //send the stats message
                     const att = new Discord.MessageAttachment(canvas.toBuffer(), `${res.data.data.account.name}.png`)

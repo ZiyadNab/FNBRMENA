@@ -33,6 +33,11 @@ module.exports = {
         //list of colors
         const listOfColors = [
             '00e7ff,0006ff',
+            'FF00F3,9700FF',
+            '23FF00,116F02',
+            'FF0000,8C0000',
+            '00FFAA,01764F'
+            
         ]
 
         //list of types
@@ -174,49 +179,75 @@ module.exports = {
                 }else if(lang === "ar"){
                     ctx.font = '97px Arabic'
                     ctx.fillText(listOfTypes[i + 5], x, y + 97)
-                }
 
+                }
+                
                 await lineBoarders(x += 150, y)
-                applyText(canvas, statsData[i].wins)
-                ctx.fillText(statsData[i].wins, x += 190, y + 97) //add the wins
+                if(statsData[i].wins !== undefined){
+                    applyText(canvas, statsData[i].wins)
+                    ctx.fillText(statsData[i].wins, x += 190, y + 97) //add the wins
+                }else ctx.fillText('?', x += 190, y + 97) //add the wins
+
                 await lineBoarders(x += 100, y)
-                applyText(canvas, statsData[i].winRate)
-                ctx.fillText(statsData[i].winRate, x += 190, y + 97) //add the wins rate
+                if(statsData[i].winRate !== undefined){
+                    applyText(canvas, statsData[i].winRate)
+                    ctx.fillText(statsData[i].winRate, x += 190, y + 97) //add the wins rate
+                }else ctx.fillText('?', x += 190, y + 97) //add the wins rate
+
                 await lineBoarders(x += 100, y)
-                applyText(canvas, statsData[i].matches)
-                ctx.fillText(statsData[i].matches, x += 190, y + 97) //add the matches
+                if(statsData[i].matches !== undefined){
+                    applyText(canvas, statsData[i].matches)
+                    ctx.fillText(statsData[i].matches, x += 190, y + 97) //add the matches
+                }else ctx.fillText('?', x += 190, y + 97) //add the matches
+
                 await lineBoarders(x += 100, y)
-                applyText(canvas, statsData[i].kills)
-                ctx.fillText(statsData[i].kills, x += 190, y + 97) //add the kills
+                if(statsData[i].kills !== undefined){
+                    applyText(canvas, statsData[i].kills)
+                    ctx.fillText(statsData[i].kills, x += 190, y + 97) //add the kills
+                }else ctx.fillText('?', x += 190, y + 97) //add the kills
+
                 await lineBoarders(x += 100, y)
-                applyText(canvas, statsData[i].kd)
-                ctx.fillText(statsData[i].kd, x += 190, y + 97) //add the kd
+                if(statsData[i].kd !== undefined){
+                    applyText(canvas, statsData[i].kd)
+                    ctx.fillText(statsData[i].kd, x += 190, y + 97) //add the kd
+                }else ctx.fillText('?', x += 190, y + 97) //add the kd
+
                 await lineBoarders(x += 100, y)
-                applyText(canvas, statsData[i].deaths)
-                ctx.fillText(statsData[i].deaths, x += 190, y + 97) //add the deaths
+                if(statsData[i].deaths !== undefined){
+                    applyText(canvas, statsData[i].deaths)
+                    ctx.fillText(statsData[i].deaths, x += 190, y + 97) //add the deaths
+                }else ctx.fillText('?', x += 190, y + 97) //add the deaths
+
                 await lineBoarders(x += 100, y)
-                applyText(canvas, `${(statsData[i].minutesPlayed / 60)}`.substring(0, `${(statsData[i].minutesPlayed / 60)}`.indexOf('.')))
-                ctx.fillText(`${(statsData[i].minutesPlayed / 60)}`.substring(0, `${(statsData[i].minutesPlayed / 60)}`.indexOf('.')), x += 190, y + 97) //add the hours plays
+                if(statsData[i].minutesPlayed !== undefined){
+                    applyText(canvas, `${(statsData[i].minutesPlayed / 60)}`.substring(0, `${(statsData[i].minutesPlayed / 60)}`.indexOf('.')))
+                    ctx.fillText(`${(statsData[i].minutesPlayed / 60)}`.substring(0, `${(statsData[i].minutesPlayed / 60)}`.indexOf('.')), x += 190, y + 97) //add the hours plays
+                }else ctx.fillText('?', x += 190, y + 97) //add the hours plays
+
                 await lineBoarders(x += 100, y)
                 if(statsData[i].top3 !== undefined){
                     applyText(canvas, statsData[i].top3)
                     ctx.fillText(statsData[i].top3, x += 190, y + 97) //add the top3
                 }else ctx.fillText('?', x += 190, y + 97) //add the top3
+
                 await lineBoarders(x += 100, y)
                 if(statsData[i].top5 !== undefined){
                     applyText(canvas, statsData[i].top5)
                     ctx.fillText(statsData[i].top5, x += 190, y + 97) //add the top5
                 }else ctx.fillText('?', x += 190, y + 97) //add the top5
+
                 await lineBoarders(x += 100, y)
                 if(statsData[i].top10 !== undefined){
                     applyText(canvas, statsData[i].top10)
                     ctx.fillText(statsData[i].top10, x += 190, y + 97) //add the top10
                 }else ctx.fillText('?', x += 190, y + 97) //add the top10
+
                 await lineBoarders(x += 100, y)
                 if(statsData[i].top25 !== undefined){
                     applyText(canvas, statsData[i].top25)
                     ctx.fillText(statsData[i].top25, x += 190, y + 97) //add the top25
                 }else ctx.fillText('?', x += 190, y + 97) //add the top25
+
                 await lineBoarders(x += 100, y)
                 if(statsData[i].lastModified !== undefined){
                     moment.locale(lang)

@@ -165,8 +165,8 @@ module.exports = {
                 ctx.fillText(`${(statsData[i].minutesPlayed / 60)}`.substring(0, `${(statsData[i].minutesPlayed / 60)}`.indexOf('.')), x += 285, y + 97) //add the hours plays
                 if(statsData[i].top3 !== undefined) ctx.fillText(statsData[i].top3, x += 285, y + 97) //add the top3
                 else ctx.fillText('?', x += 285, y + 97) //add the top3
-                if(statsData[i].top5 !== undefined) ctx.fillText(statsData[i].top10, x += 285, y + 97) //add the top5
-                else ctx.fillText('?', x += 285, y + 97) //add the top5
+                // if(statsData[i].top5 !== undefined) ctx.fillText(statsData[i].top5, x += 285, y + 97) //add the top5
+                // else ctx.fillText('?', x += 285, y + 97) //add the top5
                 if(statsData[i].top10 !== undefined) ctx.fillText(statsData[i].top10, x += 285, y + 97) //add the top10
                 else ctx.fillText('?', x += 285, y + 97) //add the top10
                 if(statsData[i].lastModified !== undefined){

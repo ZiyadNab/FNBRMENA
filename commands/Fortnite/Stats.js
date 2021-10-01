@@ -86,10 +86,10 @@ module.exports = {
             //add the xp process
             ctx.fillStyle = '#96fe7e';
             ctx.globalAlpha = 0.5
-            ctx.fillRect(0, 926, 60, 1234)
+            ctx.fillRect(0, 926 - 25, 75, 1234 + 50)
             ctx.globalAlpha = 1
             ctx.fillStyle = '#00ff00';
-            ctx.fillRect(0, canvas.height - (res.data.data.battlePass.progress / 100) * 1234, 60, (res.data.data.battlePass.progress / 100) * 1234)
+            ctx.fillRect(0, (canvas.height - (res.data.data.battlePass.progress / 100) * 1234) - 50, 75, ((res.data.data.battlePass.progress / 100) * 1234) + 50)
 
             //add the credits
             ctx.fillStyle = '#ffffff';
@@ -97,15 +97,19 @@ module.exports = {
             ctx.font = '100px Burbank Big Condensed'
             ctx.fillText(`FNBRMENA | ${res.data.data.account.name}`, 30, 110)
 
+            //add the progress
+            ctx.font = '50px Burbank Big Condensed'
+            ctx.fillText(`${res.data.data.battlePass.progress}%`, 10, (canvas.height - (res.data.data.battlePass.progress / 100) * 1234) - 75)
+
             //add the xp bar pin and lvl
             const pin = await Canvas.loadImage('https://imgur.com/LNmg342.png')
-            ctx.drawImage(pin, 65, (canvas.height - (res.data.data.battlePass.progress / 100) * 1234) - 25, 50, 50)
+            ctx.drawImage(pin, 80, (canvas.height - (res.data.data.battlePass.progress / 100) * 1234) - 75, 50, 50)
             if(lang === "en"){
                 ctx.font = '70px Burbank Big Condensed'
-                ctx.fillText(`${res.data.data.battlePass.level} lvl`, 120, (canvas.height - (res.data.data.battlePass.progress / 100) * 1234) + 15)
+                ctx.fillText(`${res.data.data.battlePass.level} lvl`, 130, (canvas.height - (res.data.data.battlePass.progress / 100) * 1234) - 2405)
             }else{
                 ctx.font = '70px Arabic'
-                ctx.fillText(`${res.data.data.battlePass.level} لفل`, 120, (canvas.height - (res.data.data.battlePass.progress / 100) * 1234) + 15)
+                ctx.fillText(`${res.data.data.battlePass.level} لفل`, 130, (canvas.height - (res.data.data.battlePass.progress / 100) * 1234) - 40)
             }
         }
 

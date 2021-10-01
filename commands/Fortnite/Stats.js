@@ -171,6 +171,7 @@ module.exports = {
                 else ctx.fillText('?', x += 285, y + 97) //add the top10
                 if(statsData[i].lastModified !== undefined){
                     moment.locale(lang)
+                    ctx.textAlign='left';
                     if(lang === "en"){
                         ctx.font = '80px Burbank Big Condensed'
                         ctx.fillText(moment.tz(moment(statsData[i].lastModified), timezone).format("dddd, MMMM Do of YYYY"), x += 285, y + 97) //add the lastModified

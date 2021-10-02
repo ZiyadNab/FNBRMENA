@@ -154,7 +154,7 @@ module.exports = {
             }
 
             //define x, y and data array
-            var x = 500
+            var x = 250
             var y = 500
             const statsData = []
 
@@ -385,7 +385,7 @@ module.exports = {
                     Canvas.registerFont('./assets/font/BurbankBigCondensed-Black.otf' ,{family: 'Burbank Big Condensed',weight: "700",style: "bold"})
 
                     //creating canvas
-                    const canvas = Canvas.createCanvas(5000, 2160);
+                    const canvas = Canvas.createCanvas(4500, 2160);
                     const ctx = canvas.getContext('2d');
 
                     //create grediant background

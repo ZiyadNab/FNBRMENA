@@ -83,34 +83,30 @@ module.exports = {
             ctx.fillRect(canvas.width - 190, -100, 1000, canvas.height + 200); //left hand side
             ctx.restore()
 
-            //add the xp process
-            ctx.fillStyle = '#96fe7e';
-            ctx.globalAlpha = 0.5
-            ctx.fillRect(0, 926 - 25, 75, 1234 + 50)
-            ctx.globalAlpha = 1
-            ctx.fillStyle = '#00ff00';
-            ctx.fillRect(0, (canvas.height - (res.data.data.battlePass.progress / 100) * 1234) - 50, 75, ((res.data.data.battlePass.progress / 100) * 1234) + 50)
-
             //add the credits
             ctx.fillStyle = '#ffffff';
             ctx.textAlign='left';
             ctx.font = '100px Burbank Big Condensed'
             ctx.fillText(`FNBRMENA | ${res.data.data.account.name}`, 30, 110)
 
-            //add the progress
-            ctx.font = '50px Burbank Big Condensed'
-            ctx.fillText(`${res.data.data.battlePass.progress}%`, 10, (canvas.height - (res.data.data.battlePass.progress / 100) * 1234) - 75)
+            //define xp bar variables
+            var w = canvas.width - 1000
+            var h = 80
+            var x = 0
+            var y = canvas.height - h
 
-            //add the xp bar pin and lvl
-            const pin = await Canvas.loadImage('https://imgur.com/LNmg342.png')
-            ctx.drawImage(pin, 80, (canvas.height - (res.data.data.battlePass.progress / 100) * 1234) - 75, 50, 50)
-            if(lang === "en"){
-                ctx.font = '70px Burbank Big Condensed'
-                ctx.fillText(`${res.data.data.battlePass.level} lvl`, 130, (canvas.height - (res.data.data.battlePass.progress / 100) * 1234) - 2405)
-            }else{
-                ctx.font = '70px Arabic'
-                ctx.fillText(`${res.data.data.battlePass.level} لفل`, 130, (canvas.height - (res.data.data.battlePass.progress / 100) * 1234) - 40)
-            }
+            //add the xp process
+            ctx.fillStyle = '#96fe7e';
+            ctx.globalAlpha = 0.5
+            ctx.fillRect(x, y, w, h)
+            ctx.globalAlpha = 1
+            ctx.fillStyle = '#00ff00';
+            ctx.fillRect(x, y, (res.data.data.battlePass.progress / 100) * w, h)
+
+            //add the progress percentage
+            ctx.fillStyle = '#ffffff';
+            ctx.font = '80px Burbank Big Condensed'
+            ctx.fillText(`${res.data.data.battlePass.progress}%`, ((res.data.data.battlePass.progress / 100) * w) + 10, y + 70)
         }
 
         //randomOutfit function

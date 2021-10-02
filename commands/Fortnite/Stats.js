@@ -291,7 +291,7 @@ module.exports = {
                 else ctx.fillText('?', x += 190, y + 97) //add the lastModified
 
                 y += 150 + 113
-                x = 500
+                x = 250
 
             }
         }

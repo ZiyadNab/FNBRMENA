@@ -159,7 +159,7 @@ module.exports = {
             else statsData.push({ })
             if(res.data.data.stats.all.squad !== null) statsData.push(res.data.data.stats.all.squad)
             else statsData.push({ })
-            if(res.data.data.stats.all.ltm !== undenullfined) statsData.push(res.data.data.stats.all.ltm)
+            if(res.data.data.stats.all.ltm !== null) statsData.push(res.data.data.stats.all.ltm)
             else statsData.push({ })
 
             //line boarders

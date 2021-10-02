@@ -151,15 +151,15 @@ module.exports = {
             const statsData = []
 
             //push add, solo, duo, squads and LTM's
-            if(res.data.data.stats.all.overall !== undefined) statsData.push(res.data.data.stats.all.overall)
+            if(res.data.data.stats.all.overall !== null) statsData.push(res.data.data.stats.all.overall)
             else statsData.push({ })
-            if(res.data.data.stats.all.solo !== undefined) statsData.push(res.data.data.stats.all.solo)
+            if(res.data.data.stats.all.solo !== null) statsData.push(res.data.data.stats.all.solo)
             else statsData.push({ })
-            if(res.data.data.stats.all.duo !== undefined) statsData.push(res.data.data.stats.all.duo)
+            if(res.data.data.stats.all.duo !== null) statsData.push(res.data.data.stats.all.duo)
             else statsData.push({ })
-            if(res.data.data.stats.all.squad !== undefined) statsData.push(res.data.data.stats.all.squad)
+            if(res.data.data.stats.all.squad !== null) statsData.push(res.data.data.stats.all.squad)
             else statsData.push({ })
-            if(res.data.data.stats.all.ltm !== undefined) statsData.push(res.data.data.stats.all.ltm)
+            if(res.data.data.stats.all.ltm !== undenullfined) statsData.push(res.data.data.stats.all.ltm)
             else statsData.push({ })
 
             //line boarders
@@ -397,8 +397,8 @@ module.exports = {
             
             }).catch(async err => {
 
-                if(err.response.data.status === 404){
-
+                if(err.response.data.error === "the requested account does not exist"){
+                        
                     //epic games string
                     if(platforms[num] === "epic" && lang === "en") var usedPlatform = 'Epicgames'
                     else if(platforms[num] === "epic" && lang === "ar") var usedPlatform = 'ايبك قيمز'
@@ -415,11 +415,17 @@ module.exports = {
                     noUserHasBeenFoundError.setColor(FNBRMENA.Colors("embed"))
                     if(lang === "en") noUserHasBeenFoundError.setTitle(`Can't find ${text} in ${usedPlatform} platform. Please try again ${errorEmoji}`)
                     else if(lang === "ar") noUserHasBeenFoundError.setTitle(`لا يمكنني العثور على حساب ${text} في منصه ${usedPlatform}. حاول مجددا ${errorEmoji}`)
-                    await message.reply(noUserHasBeenFoundError)
+                    await message.reply({embeds: [noUserHasBeenFoundError]})
 
-                }
+                }else if(err.response.data.error === "the requested profile didnt play any match yet"){
 
-                if(err.response.data.status === 403){
+                    const noMatchsPlayedYetError = new Discord.MessageEmbed()
+                    noMatchsPlayedYetError.setColor(FNBRMENA.Colors("embed"))
+                    if(lang === "en") noMatchsPlayedYetError.setTitle(`The ${text} account hasn't played any matchs yet ${errorEmoji}`)
+                    else if(lang === "ar") noMatchsPlayedYetError.setTitle(`صاحب حساب ${text} لم يلعب اي مباراة حتى الأن ${errorEmoji}`)
+                    await message.reply({embeds: [noMatchsPlayedYetError]})
+
+                }else if(err.response.data.status === 403){
 
                     const theUserAccountIsPrivate = new Discord.MessageEmbed()
                     theUserAccountIsPrivate.setColor(FNBRMENA.Colors("embed"))

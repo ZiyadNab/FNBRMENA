@@ -106,7 +106,19 @@ module.exports = {
             //add the progress percentage
             ctx.fillStyle = '#ffffff';
             ctx.font = '80px Burbank Big Condensed'
-            ctx.fillText(`${res.data.data.battlePass.progress}%`, ((res.data.data.battlePass.progress / 100) * w) + 10, y + 70)
+            ctx.fillText(`${res.data.data.battlePass.progress}%`, ((res.data.data.battlePass.progress / 100) * w) + 10, y + 68)
+
+            //add the lvl pin
+            const lvlPIN = await Canvas.loadImage('https://imgur.com/o0AGlt6.png')
+            ctx.drawImage(lvlPIN, ((res.data.data.battlePass.progress / 100) * w) - 40, y - 80, 80, 80)
+
+            //add the xp lvl text
+            ctx.textAlign='center';
+            if(lang === "en") ctx.fillText(`${res.data.data.battlePass.level} lvl`, ((res.data.data.battlePass.progress / 100) * w), y - 100)
+            else{
+                ctx.font = '80px Arabic'
+                ctx.fillText(`${res.data.data.battlePass.level} لفل`, ((res.data.data.battlePass.progress / 100) * w), y - 100)
+            }
         }
 
         //randomOutfit function

@@ -280,15 +280,30 @@ module.exports = {
                     const lastModified = moment.duration(moment.tz(moment(), timezone).diff(moment.tz(moment(statsData[i].lastModified), timezone)))
                     if(lang === "en"){
                         ctx.font = '80px Burbank Big Condensed'
+
+                        //if days r more than 1
                         if(lastModified.days() >= 1) ctx.fillText(`${lastModified.days()} days ago`, x += 315, y + 97) //add the lastModified
-                        else ctx.fillText(`${lastModified.hours()} hours ago`, x += 315, y + 97) //add the lastModified
+
+                        //if hours more than 1
+                        else if(lastModified.hours() >= 1) ctx.fillText(`${lastModified.hours()} hours ago`, x += 315, y + 97) //add the lastModified
+
+                        //else add minutes
+                        else ctx.fillText(`${lastModified.minutes()} minutes ago`, x += 315, y + 97) //add the lastModified
+
                     }else if(lang === "ar"){
                         ctx.font = '80px Arabic'
+
+                        //if days r more than 1
                         if(lastModified.days() >= 1) ctx.fillText(`${lastModified.days()} يوم مضى`, x += 315, y + 97) //add the lastModified
-                        else ctx.fillText(`${lastModified.hours()} ساعة مضت`, x += 315, y + 97) //add the lastModified
+                        
+                        //if hours more than 1
+                        else if(lastModified.hours() >= 1) ctx.fillText(`${lastModified.hours()} ساعة مضت`, x += 315, y + 97) //add the lastModified
+
+                        //else add minutes
+                        else ctx.fillText(`${lastModified.minutes()} دقائق مضت`, x += 315, y + 97) //add the lastModified
                     }
                 }
-                else ctx.fillText('?', x += 190, y + 97) //add the lastModified
+                else ctx.fillText('?', x += 315, y + 97) //add the lastModified
 
                 y += 150 + 113
                 x = 250

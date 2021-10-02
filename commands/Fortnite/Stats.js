@@ -423,7 +423,7 @@ module.exports = {
                     noMatchsPlayedYetError.setColor(FNBRMENA.Colors("embed"))
                     if(lang === "en") noMatchsPlayedYetError.setTitle(`The ${text} account hasn't played any matchs yet ${errorEmoji}`)
                     else if(lang === "ar") noMatchsPlayedYetError.setTitle(`صاحب حساب ${text} لم يلعب اي مباراة حتى الأن ${errorEmoji}`)
-                    await message.reply({embeds: [noMatchsPlayedYetError]})
+                    await message.reply(noMatchsPlayedYetError)
 
                 }else if(err.response.data.status === 403){
 

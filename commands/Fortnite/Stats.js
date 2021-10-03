@@ -294,7 +294,7 @@ module.exports = {
 
                 await lineBoarders(x += 150, y)
                 await newColumn(statsData[i].wins, 'Wins', 'الإنصارات', i)
-                await newColumn(statsData[i].winRate, 'Wins', 'م/الإنتصارات', i)
+                await newColumn(statsData[i].winRate, 'Wins Rate', 'م/الإنتصارات', i)
                 await newColumn(statsData[i].matches, 'Matches', 'المواجهات', i)
                 await newColumn(statsData[i].deaths, 'Deaths', 'الخسارات', i)
                 await newColumn(statsData[i].kills, 'Kills', 'الذبحات', i)

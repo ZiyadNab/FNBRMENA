@@ -189,45 +189,87 @@ module.exports = {
             const Tags = async (text, size) => {
                 ctx.textAlign = 'center';
                 applyText(canvas, text, 75, size, true)
-                ctx.fillText(text, x += 290, y - 40) // tags for text
+                ctx.fillText(text, x, y - 40) // tags for text
             }
 
-            //add the line value name
-            if(lang === "en"){
-                x += 180
-                Tags('Wins', 275)
-                Tags('Win Rate', 275)
-                Tags('Matches', 275)
-                Tags('Deaths', 275)
-                Tags('Kills', 275)
-                Tags('K/D', 275)
-                Tags('Hours Played', 275)
-                Tags('Top 3', 275)
-                Tags('Top 5', 275)
-                Tags('Top 10', 275)
-                Tags('Top 25', 275)
-                x += 90
-                Tags('Last Time Played', 400)
+            //add new column to the board
+            const newColumn = async (Path ,ColumnNameEN, ColumnNameAR, i) => {
 
-            }else if(lang === "ar"){
-                x += 180
-                Tags('الإنتصارات', 275)
-                Tags('معدل الإنتصارات', 275)
-                Tags('المواجهات', 275)
-                Tags('الخسارات', 275)
-                Tags('الذبحات', 275)
-                Tags('ك/د', 275)
-                Tags('ساعات اللعب', 275)
-                Tags('توب 3', 275)
-                Tags('توب 5', 275)
-                Tags('توب 10', 275)
-                Tags('توب 25', 275)
-                x += 90
-                Tags('اخر لعب قبل', 400)
+                if(ColumnNameEN !== "Hours Played" && ColumnNameEN !== "Last Time Played"){
+                    if(Path !== undefined){
+                        applyText(canvas, Path, 75, 185, false)
+                        ctx.fillText(Path, x += 190, y + 97) //add the wins
+                    }else ctx.fillText('?', x += 190, y + 97) //add the wins
+
+                    //add the line value name
+                    if(i === 0){
+                        if(lang === "en") Tags(ColumnNameEN, 275)
+                        if(lang === "ar") Tags(ColumnNameAR, 275)
+                    }
+                    
+                    //add the line
+                    await lineBoarders(x += 100, y)
+
+                }else if(ColumnNameEN === "Hours Played"){
+                    if(Path !== undefined){
+                        var hours = `${Path / 60}`
+                        if(hours.includes('.')) hours = hours.substring(0, `${(Path / 60)}`.indexOf('.'))
+    
+                        applyText(canvas, hours, 75, 185, false)
+                        ctx.fillText(`${hours}`, x += 190, y + 97) //add the hours plays
+                    }else ctx.fillText('?', x += 190, y + 97) //add the hours plays
+
+                    //add the line value name
+                    if(i === 0){
+                        if(lang === "en") Tags(ColumnNameEN, 275)
+                        if(lang === "ar") Tags(ColumnNameAR, 275)
+                    }
+
+                    //add the line
+                    await lineBoarders(x += 100, y)
+
+                }else if(ColumnNameEN === "Last Time Played"){
+
+                    if(Path !== undefined){
+                        moment.locale(lang)
+                        const lastModified = moment.duration(moment.tz(moment(), timezone).diff(moment.tz(moment(Path), timezone)))
+                        if(lang === "en"){
+                            ctx.font = '80px Burbank Big Condensed'
+    
+                            //if days r more than 1
+                            if(lastModified.days() >= 1) ctx.fillText(`${lastModified.days()} days ago`, x += 315, y + 97) //add the lastModified
+    
+                            //if hours more than 1
+                            else if(lastModified.hours() >= 1) ctx.fillText(`${lastModified.hours()} hours ago`, x += 315, y + 97) //add the lastModified
+    
+                            //else add minutes
+                            else ctx.fillText(`${lastModified.minutes()} minutes ago`, x += 315, y + 97) //add the lastModified
+    
+                        }else if(lang === "ar"){
+                            ctx.font = '80px Arabic'
+    
+                            //if days r more than 1
+                            if(lastModified.days() >= 1) ctx.fillText(`${lastModified.days()} يوم مضى`, x += 315, y + 97) //add the lastModified
+                            
+                            //if hours more than 1
+                            else if(lastModified.hours() >= 1) ctx.fillText(`${lastModified.hours()} ساعة مضت`, x += 315, y + 97) //add the lastModified
+    
+                            //else add minutes
+                            else ctx.fillText(`${lastModified.minutes()} دقائق مضت`, x += 315, y + 97) //add the lastModified
+                        }
+                    }
+                    else ctx.fillText('?', x += 315, y + 97) //add the lastModified
+
+                    //add the line value name
+                    if(i === 0){
+                        if(lang === "en") Tags(ColumnNameEN, 400)
+                        if(lang === "ar") Tags(ColumnNameAR, 400)
+                    }
+
+                }
             }
 
             //loop throw every stat
-            x = 250
             for(let i = 0; i < statsData.length; i++){
 
                 //set and draw lines color
@@ -248,108 +290,21 @@ module.exports = {
                 }else if(lang === "ar"){
                     ctx.font = '97px Arabic'
                     ctx.fillText(listOfTypes[i + 5], x, y + 97)
-
                 }
-                
+
                 await lineBoarders(x += 150, y)
-                if(statsData[i].wins !== undefined){
-                    applyText(canvas, statsData[i].wins, 75, 185, false)
-                    ctx.fillText(statsData[i].wins, x += 190, y + 97) //add the wins
-                }else ctx.fillText('?', x += 190, y + 97) //add the wins
-
-                await lineBoarders(x += 100, y)
-                if(statsData[i].winRate !== undefined){
-                    applyText(canvas, statsData[i].winRate, 75, 185, false)
-                    ctx.fillText(statsData[i].winRate, x += 190, y + 97) //add the wins rate
-                }else ctx.fillText('?', x += 190, y + 97) //add the wins rate
-
-                await lineBoarders(x += 100, y)
-                if(statsData[i].matches !== undefined){
-                    applyText(canvas, statsData[i].matches, 75, 185, false)
-                    ctx.fillText(statsData[i].matches, x += 190, y + 97) //add the matches
-                }else ctx.fillText('?', x += 190, y + 97) //add the matches
-
-                await lineBoarders(x += 100, y)
-                if(statsData[i].deaths !== undefined){
-                    applyText(canvas, statsData[i].deaths, 75, 185, false)
-                    ctx.fillText(statsData[i].deaths, x += 190, y + 97) //add the deaths
-                }else ctx.fillText('?', x += 190, y + 97) //add the deaths
-
-                await lineBoarders(x += 100, y)
-                if(statsData[i].kills !== undefined){
-                    applyText(canvas, statsData[i].kills, 75, 185, false)
-                    ctx.fillText(statsData[i].kills, x += 190, y + 97) //add the kills
-                }else ctx.fillText('?', x += 190, y + 97) //add the kills
-
-                await lineBoarders(x += 100, y)
-                if(statsData[i].kd !== undefined){
-                    applyText(canvas, statsData[i].kd, 75, 185, false)
-                    ctx.fillText(statsData[i].kd, x += 190, y + 97) //add the kd
-                }else ctx.fillText('?', x += 190, y + 97) //add the kd
-
-                await lineBoarders(x += 100, y)
-                if(statsData[i].minutesPlayed !== undefined){
-                    var hours = `${statsData[i].minutesPlayed / 60}`
-                    if(hours.includes('.')) hours = hours.substring(0, `${(statsData[i].minutesPlayed / 60)}`.indexOf('.'))
-
-                    applyText(canvas, hours, 75, 185, false)
-                    ctx.fillText(`${hours}`, x += 190, y + 97) //add the hours plays
-                }else ctx.fillText('?', x += 190, y + 97) //add the hours plays
-
-                await lineBoarders(x += 100, y)
-                if(statsData[i].top3 !== undefined){
-                    applyText(canvas, statsData[i].top3, 75, 185, false)
-                    ctx.fillText(statsData[i].top3, x += 190, y + 97) //add the top3
-                }else ctx.fillText('?', x += 190, y + 97) //add the top3
-
-                await lineBoarders(x += 100, y)
-                if(statsData[i].top5 !== undefined){
-                    applyText(canvas, statsData[i].top5, 75, 185, false)
-                    ctx.fillText(statsData[i].top5, x += 190, y + 97) //add the top5
-                }else ctx.fillText('?', x += 190, y + 97) //add the top5
-
-                await lineBoarders(x += 100, y)
-                if(statsData[i].top10 !== undefined){
-                    applyText(canvas, statsData[i].top10, 75, 185, false)
-                    ctx.fillText(statsData[i].top10, x += 190, y + 97) //add the top10
-                }else ctx.fillText('?', x += 190, y + 97) //add the top10
-
-                await lineBoarders(x += 100, y)
-                if(statsData[i].top25 !== undefined){
-                    applyText(canvas, statsData[i].top25, 75, 185, false)
-                    ctx.fillText(statsData[i].top25, x += 190, y + 97) //add the top25
-                }else ctx.fillText('?', x += 190, y + 97) //add the top25
-
-                await lineBoarders(x += 100, y)
-                if(statsData[i].lastModified !== undefined){
-                    moment.locale(lang)
-                    const lastModified = moment.duration(moment.tz(moment(), timezone).diff(moment.tz(moment(statsData[i].lastModified), timezone)))
-                    if(lang === "en"){
-                        ctx.font = '80px Burbank Big Condensed'
-
-                        //if days r more than 1
-                        if(lastModified.days() >= 1) ctx.fillText(`${lastModified.days()} days ago`, x += 315, y + 97) //add the lastModified
-
-                        //if hours more than 1
-                        else if(lastModified.hours() >= 1) ctx.fillText(`${lastModified.hours()} hours ago`, x += 315, y + 97) //add the lastModified
-
-                        //else add minutes
-                        else ctx.fillText(`${lastModified.minutes()} minutes ago`, x += 315, y + 97) //add the lastModified
-
-                    }else if(lang === "ar"){
-                        ctx.font = '80px Arabic'
-
-                        //if days r more than 1
-                        if(lastModified.days() >= 1) ctx.fillText(`${lastModified.days()} يوم مضى`, x += 315, y + 97) //add the lastModified
-                        
-                        //if hours more than 1
-                        else if(lastModified.hours() >= 1) ctx.fillText(`${lastModified.hours()} ساعة مضت`, x += 315, y + 97) //add the lastModified
-
-                        //else add minutes
-                        else ctx.fillText(`${lastModified.minutes()} دقائق مضت`, x += 315, y + 97) //add the lastModified
-                    }
-                }
-                else ctx.fillText('?', x += 315, y + 97) //add the lastModified
+                await newColumn(statsData[i].wins, 'Wins', 'الإنصارات', i)
+                await newColumn(statsData[i].winRate, 'Wins', 'م/الإنتصارات', i)
+                await newColumn(statsData[i].matches, 'Matches', 'المواجهات', i)
+                await newColumn(statsData[i].deaths, 'Deaths', 'الخسارات', i)
+                await newColumn(statsData[i].kills, 'Kills', 'الذبحات', i)
+                await newColumn(statsData[i].kd, 'K/D', 'ك/د', i)
+                await newColumn(statsData[i].minutesPlayed, 'ساعات اللعب', '', i)
+                await newColumn(statsData[i].top3, 'Top 3', 'توب 3', i)
+                await newColumn(statsData[i].top5, 'Top 5', 'توب 5', i)
+                await newColumn(statsData[i].top10, 'Top 10', 'توب 10', i)
+                await newColumn(statsData[i].top25, 'Top 25', 'توب 25', i)
+                await newColumn(statsData[i].lastModified, 'Last Time Played', 'اخر لعب قبل', i)
 
                 y += 150 + 113
                 x = 250

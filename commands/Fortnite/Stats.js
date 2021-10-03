@@ -299,7 +299,7 @@ module.exports = {
                 await newColumn(statsData[i].deaths, 'Deaths', 'الخسارات', i)
                 await newColumn(statsData[i].kills, 'Kills', 'الذبحات', i)
                 await newColumn(statsData[i].kd, 'K/D', 'ك/د', i)
-                await newColumn(statsData[i].minutesPlayed, 'ساعات اللعب', '', i)
+                await newColumn(statsData[i].minutesPlayed, 'Hours Played', 'ساعات اللعب', i)
                 await newColumn(statsData[i].top3, 'Top 3', 'توب 3', i)
                 await newColumn(statsData[i].top5, 'Top 5', 'توب 5', i)
                 await newColumn(statsData[i].top10, 'Top 10', 'توب 10', i)

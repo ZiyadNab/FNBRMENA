@@ -165,20 +165,24 @@ module.exports = {
                     var rowData = []
                     for(let i = 0; i < statsData.length; i++){
 
+                        //define hours played variable
+                        var minutesPlayed = `${statsData[i].minutesPlayed / 60}`
+                        if(minutesPlayed.includes('.')) minutesPlayed = minutesPlayed.substring(0, minutesPlayed.indexOf('.'))
+
                         //list of Coulmn names
                         rowData.push([
-                            {NameEN: 'Matches', NameAR: 'المواجهات', Data: statsData[i].matches, index: i},
-                            {NameEN: 'Wins', NameAR: 'الإنصارات', Data: statsData[i].wins, index: i},
-                            {NameEN: 'Wins Rate', NameAR: 'م/الإنتصارات', Data: statsData[i].winRate, index: i},
-                            {NameEN: 'Deaths', NameAR: 'الخسارات', Data: statsData[i].deaths, index: i},
-                            {NameEN: 'Kills', NameAR: 'الذبحات', Data: statsData[i].kills, index: i},
-                            {NameEN: 'K/D', NameAR: 'ك/د', Data: statsData[i].kd, index: i},
-                            {NameEN: 'Hours Played', NameAR: 'ساعات اللعب', Data: statsData[i].minutesPlayed, index: i},
-                            {NameEN: 'Top 3', NameAR: 'توب 3', Data: statsData[i].top3, index: i},
-                            {NameEN: 'Top 5', NameAR: 'توب 5', Data: statsData[i].top5, index: i},
-                            {NameEN: 'Top 10', NameAR: 'توب 10', Data: statsData[i].top10, index: i},
-                            {NameEN: 'Top 25', NameAR: 'توب 25', Data: statsData[i].top25, index: i},
-                            {NameEN: 'Last Time Played', NameAR: 'اخر لعب قبل', Data: statsData[i].lastModified, index: i},
+                            {NameEN: 'Matches', NameAR: 'المواجهات', Data: statsData[i].matches, xAxis: 190, yAxis: 97, index: i},
+                            {NameEN: 'Wins', NameAR: 'الإنصارات', Data: statsData[i].wins, xAxis: 190, yAxis: 97, index: i},
+                            {NameEN: 'Wins Rate', NameAR: 'م/الإنتصارات', Data: statsData[i].winRate, xAxis: 190, yAxis: 97, index: i},
+                            {NameEN: 'Deaths', NameAR: 'الخسارات', Data: statsData[i].deaths, xAxis: 190, yAxis: 97, index: i},
+                            {NameEN: 'Kills', NameAR: 'الذبحات', Data: statsData[i].kills, xAxis: 190, yAxis: 97, index: i},
+                            {NameEN: 'K/D', NameAR: 'ك/د', Data: statsData[i].kd, xAxis: 190, yAxis: 97, index: i},
+                            {NameEN: 'Hours Played', NameAR: 'ساعات اللعب', Data: minutesPlayed, xAxis: 190, yAxis: 97, index: i},
+                            {NameEN: 'Top 3', NameAR: 'توب 3', Data: statsData[i].top3, xAxis: 190, yAxis: 97, index: i},
+                            {NameEN: 'Top 5', NameAR: 'توب 5', Data: statsData[i].top5, xAxis: 190, yAxis: 97, index: i},
+                            {NameEN: 'Top 10', NameAR: 'توب 10', Data: statsData[i].top10, xAxis: 190, yAxis: 97, index: i},
+                            {NameEN: 'Top 25', NameAR: 'توب 25', Data: statsData[i].top25, xAxis: 190, yAxis: 97, index: i},
+                            {NameEN: 'Last Time Played', NameAR: 'اخر لعب قبل', Data: statsData[i].lastModified, xAxis: 315, yAxis: 97, index: i},
                         ])
                     }
                     
@@ -201,12 +205,12 @@ module.exports = {
                     }
 
                     //creating canvas
-                    const canvas = Canvas.createCanvas(1030 + tableWidth * 300, 2160);
+                    const canvas = Canvas.createCanvas(625 + tableWidth * 300, 2160);
                     const ctx = canvas.getContext('2d');
 
                     //get random color
                     const randomNumber = async (list) => {
-                        return Math.floor(Math.random() * list.length)
+                        return Math.floor(Math.random() * list)
                     }
 
                     //backgroundInisilizer function
@@ -287,10 +291,9 @@ module.exports = {
                     }
 
                     //line boarders
-                    const lineBoarders = async (x, y, randomColor) => {
-
+                    const rowLine = async (x, y, randomColor) => {
                         ctx.fillStyle = `#${listOfColors[randomColor].substring(listOfColors[randomColor].indexOf(',') + 1, listOfColors[randomColor].length)}`
-                        ctx.globalAlpha = 0.6
+                        ctx.globalAlpha = 0.5
                         ctx.fillRect(x, y, 90, 150)
                         ctx.globalAlpha = 1
                         ctx.fillStyle = '#ffffff';
@@ -301,17 +304,17 @@ module.exports = {
                     const Tags = async (text, size) => {
                         ctx.textAlign = 'center';
                         applyText(canvas, text, 75, size, true)
-                        ctx.fillText(text, x, y - 40) // tags for text
+                        ctx.fillText(text, x, y - 40)
                     }
 
                     //add new column to the board
-                    const newColumn = async (Path ,ColumnNameEN, ColumnNameAR, i) => {
+                    const newColumn = async (Path ,ColumnNameEN, ColumnNameAR, xAxis, yAxis, i, randomColor) => {
 
                         if(ColumnNameEN !== "Hours Played" && ColumnNameEN !== "Last Time Played"){
                             if(Path !== undefined){
                                 applyText(canvas, Path, 75, 185, false)
-                                ctx.fillText(Path, x += 190, y + 97) //add the wins
-                            }else ctx.fillText('?', x += 190, y + 97) //add the wins
+                                ctx.fillText(Path, x += xAxis, y + yAxis) //add the wins
+                            }else ctx.fillText('?', x += xAxis, y + yAxis) //add the wins
 
                             //add the line value name
                             if(i === 0){
@@ -320,25 +323,7 @@ module.exports = {
                             }
                             
                             //add the line
-                            await lineBoarders(x += 100, y)
-
-                        }else if(ColumnNameEN === "Hours Played"){
-                            if(Path !== undefined){
-                                var hours = `${Path / 60}`
-                                if(hours.includes('.')) hours = hours.substring(0, `${(Path / 60)}`.indexOf('.'))
-
-                                applyText(canvas, hours, 75, 185, false)
-                                ctx.fillText(`${hours}`, x += 190, y + 97) //add the hours plays
-                            }else ctx.fillText('?', x += 190, y + 97) //add the hours plays
-
-                            //add the line value name
-                            if(i === 0){
-                                if(lang === "en") Tags(ColumnNameEN, 275)
-                                if(lang === "ar") Tags(ColumnNameAR, 275)
-                            }
-
-                            //add the line
-                            await lineBoarders(x += 100, y)
+                            await rowLine(x += 100, y, randomColor)
 
                         }else if(ColumnNameEN === "Last Time Played"){
 
@@ -351,28 +336,28 @@ module.exports = {
                                     ctx.font = '80px Burbank Big Condensed'
 
                                     //if days r more than 1
-                                    if(days >= 1) ctx.fillText(`${days} days ago`, x += 315, y + 97) //add the lastModified
+                                    if(days >= 1) ctx.fillText(`${days} days ago`, x += xAxis, y + yAxis) //add the lastModified
 
                                     //if hours more than 1
-                                    else if(lastModified.hours() >= 1) ctx.fillText(`${lastModified.hours()} hours ago`, x += 315, y + 97) //add the lastModified
+                                    else if(lastModified.hours() >= 1) ctx.fillText(`${lastModified.hours()} hours ago`, x += xAxis, y + yAxis) //add the lastModified
 
                                     //else add minutes
-                                    else ctx.fillText(`${lastModified.minutes()} minutes ago`, x += 315, y + 97) //add the lastModified
+                                    else ctx.fillText(`${lastModified.minutes()} minutes ago`, x += xAxis, y + yAxis) //add the lastModified
 
                                 }else if(lang === "ar"){
                                     ctx.font = '80px Arabic'
 
                                     //if days r more than 1
-                                    if(days >= 1) ctx.fillText(`${days} يوم مضى`, x += 315, y + 97) //add the lastModified
+                                    if(days >= 1) ctx.fillText(`${days} يوم مضى`, x += xAxis, y + yAxis) //add the lastModified
                                     
                                     //if hours more than 1
-                                    else if(lastModified.hours() >= 1) ctx.fillText(`${lastModified.hours()} ساعة مضت`, x += 315, y + 97) //add the lastModified
+                                    else if(lastModified.hours() >= 1) ctx.fillText(`${lastModified.hours()} ساعة مضت`, x += xAxis, y + yAxis) //add the lastModified
 
                                     //else add minutes
-                                    else ctx.fillText(`${lastModified.minutes()} دقائق مضت`, x += 315, y + 97) //add the lastModified
+                                    else ctx.fillText(`${lastModified.minutes()} دقائق مضت`, x += xAxis, y + yAxis) //add the lastModified
                                 }
                             }
-                            else ctx.fillText('?', x += 315, y + 97) //add the lastModified
+                            else ctx.fillText('?', x += xAxis, y + yAxis) //add the lastModified
 
                             //add the line value name
                             if(i === 0){
@@ -383,8 +368,11 @@ module.exports = {
                         }
                     }
 
+                    //get a random color
+                    const randomColor = await randomNumber(listOfColors.length)
+
                     //create grediant background
-                    await backgroundInisilizer()
+                    await backgroundInisilizer(randomColor)
 
                     //get random outfit and draw it
                     await randomOutfit()
@@ -397,10 +385,9 @@ module.exports = {
                     for(let i = 0; i < rowData.length; i++){
 
                         //set and draw lines color
-                        const randomColor = await randomNumber()
                         ctx.fillStyle = `#${listOfColors[randomColor].substring(0, listOfColors[randomColor].indexOf(','))}`
                         ctx.globalAlpha = 0.5
-                        ctx.fillRect(x, y, (290 * tableWidth) + 530, 150)
+                        ctx.fillRect(x, y, canvas.width - (x * 2), 150)
                         ctx.globalAlpha = 1
 
                         //change x value
@@ -418,10 +405,13 @@ module.exports = {
                         }
                         
                         //loop throw the statsDrawer length
-                        await lineBoarders(x += 150, y, randomColor)
-                        for(const lineData of rowData[i])
-                        await newColumn(lineData.Data, lineData.NameEN, lineData.NameAR, lineData.index)
+                        await rowLine(x += 150, y, randomColor)
 
+                        //loop throw every column
+                        for(const lineData of rowData[i])
+                        await newColumn(lineData.Data, lineData.NameEN, lineData.NameAR, lineData.xAxis, lineData.yAxis, lineData.index, randomColor)
+
+                        //get to the next row
                         y += 150 + 113
                         x = 250
 

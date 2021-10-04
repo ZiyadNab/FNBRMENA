@@ -233,11 +233,13 @@ module.exports = {
                     if(Path !== undefined){
                         moment.locale(lang)
                         const lastModified = moment.duration(moment.tz(moment(), timezone).diff(moment.tz(moment(Path), timezone)))
+                        const days = lastModified.asDays().toString().substring(0, lastModified.asDays().toString().indexOf("."))
+
                         if(lang === "en"){
                             ctx.font = '80px Burbank Big Condensed'
     
                             //if days r more than 1
-                            if(lastModified.days() >= 1) ctx.fillText(`${lastModified.days()} days ago`, x += 315, y + 97) //add the lastModified
+                            if(days >= 1) ctx.fillText(`${days} days ago`, x += 315, y + 97) //add the lastModified
     
                             //if hours more than 1
                             else if(lastModified.hours() >= 1) ctx.fillText(`${lastModified.hours()} hours ago`, x += 315, y + 97) //add the lastModified
@@ -249,7 +251,7 @@ module.exports = {
                             ctx.font = '80px Arabic'
     
                             //if days r more than 1
-                            if(lastModified.days() >= 1) ctx.fillText(`${lastModified.days()} يوم مضى`, x += 315, y + 97) //add the lastModified
+                            if(days >= 1) ctx.fillText(`${days} يوم مضى`, x += 315, y + 97) //add the lastModified
                             
                             //if hours more than 1
                             else if(lastModified.hours() >= 1) ctx.fillText(`${lastModified.hours()} ساعة مضت`, x += 315, y + 97) //add the lastModified

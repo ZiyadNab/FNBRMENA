@@ -63,257 +63,6 @@ module.exports = {
         //get random color
         var randomImage = Math.floor(Math.random() * listOfColors.length)
 
-        //backgroundInisilizer function
-        const backgroundInisilizer = async (ctx, canvas, res) => {
-
-            const backgroundGRD = ctx.createLinearGradient(0, canvas.height, canvas.width, 0)
-            backgroundGRD.addColorStop(0, `#${listOfColors[randomImage].substring(0, listOfColors[randomImage].indexOf(','))}`)
-            backgroundGRD.addColorStop(1, `#${listOfColors[randomImage].substring(listOfColors[randomImage].indexOf(',') + 1, listOfColors[randomImage].length)}`)
-            ctx.fillStyle = backgroundGRD
-            ctx.fillRect(0, 0, canvas.width, canvas.height) //background
-
-            const leftHandSideGRD = ctx.createLinearGradient(3300, canvas.height + 200, canvas.width + 1000, 0)
-            leftHandSideGRD.addColorStop(0, `#${listOfColors[randomImage].substring(0, listOfColors[randomImage].indexOf(','))}`)
-            leftHandSideGRD.addColorStop(1, `#${listOfColors[randomImage].substring(listOfColors[randomImage].indexOf(',') + 1, listOfColors[randomImage].length)}`)
-            ctx.fillStyle = leftHandSideGRD
-            ctx.save()
-            ctx.translate(canvas.width - 190, 0);
-            ctx.rotate(Math.PI / 19);
-            ctx.translate(-(canvas.width - 190), -0);
-            ctx.fillRect(canvas.width - 190, -100, 1000, canvas.height + 200); //left hand side
-            ctx.restore()
-
-            //add the credits
-            ctx.fillStyle = '#ffffff';
-            ctx.textAlign='left';
-            ctx.font = '100px Burbank Big Condensed'
-            ctx.fillText(`FNBRMENA | ${res.data.data.account.name}`, 30, 110)
-
-            //define xp bar variables
-            var w = canvas.width - 1000
-            var h = 80
-            var x = 0
-            var y = canvas.height - h
-
-            //add the xp process
-            ctx.fillStyle = '#96fe7e';
-            ctx.globalAlpha = 0.5
-            ctx.fillRect(x, y, w, h)
-            ctx.globalAlpha = 1
-            ctx.fillStyle = '#00ff00';
-            ctx.fillRect(x, y, (res.data.data.battlePass.progress / 100) * w, h)
-
-            //add the progress percentage
-            ctx.fillStyle = '#ffffff';
-            ctx.font = '80px Burbank Big Condensed'
-            ctx.fillText(`${res.data.data.battlePass.progress}%`, ((res.data.data.battlePass.progress / 100) * w) + 10, y + 68)
-
-            //add the lvl pin
-            const lvlPIN = await Canvas.loadImage('https://imgur.com/o0AGlt6.png')
-            ctx.drawImage(lvlPIN, ((res.data.data.battlePass.progress / 100) * w) - 40, y - 80, 80, 80)
-
-            //add the xp lvl text
-            ctx.textAlign='center';
-            if(lang === "en") ctx.fillText(`${res.data.data.battlePass.level} lvl`, ((res.data.data.battlePass.progress / 100) * w), y - 100)
-            else{
-                ctx.font = '80px Arabic'
-                ctx.fillText(`${res.data.data.battlePass.level} لفل`, ((res.data.data.battlePass.progress / 100) * w), y - 100)
-            }
-        }
-
-        //randomOutfit function
-        const randomOutfit = async (ctx, canvas) => {
-
-            //request data
-            await FNBRMENA.Search(lang, "custom", "gameplayTags=Cosmetics.Source.ItemShop&type=outfit&images.featured=*png")
-            .then(async listOfOutfits => {
-
-                do {
-                    var randomImage = Math.floor(Math.random() * listOfOutfits.data.items.length)
-
-                } while(listOfOutfits.data.items[randomImage].builtInEmote !== null &&
-                    listOfOutfits.data.items[randomImage].styles.length > 2)
-
-                //outfit img
-                const outfitIMG = await Canvas.loadImage(listOfOutfits.data.items[randomImage].images.featured)
-                ctx.drawImage(outfitIMG, canvas.width - 1250, 300, 1860, 1860)
-            })
-        }
-
-        //boardDrawer function
-        const boardDrawer = async (ctx, canvas, res, statsType) => {
-
-            //applytext
-            const applyText = (canvas, text, font, width, langCheck) => {
-                const ctx = canvas.getContext('2d')
-                let fontSize = font
-                do {
-                    if(langCheck){
-                        if(lang === "en") ctx.font = `${fontSize -= 1}px Burbank Big Condensed`
-                        else if(lang === "ar") ctx.font = `${fontSize -= 1}px Arabic`
-                        
-                    }else ctx.font = `${fontSize -= 1}px Burbank Big Condensed`
-                } while (ctx.measureText(text).width > width)
-                return ctx.font
-            }
-
-            //define x, y and data array
-            var x = 250
-            var y = 500
-            const statsData = []
-
-            //push add, solo, duo, squads and LTM's
-            if(res.data.data.stats.all.overall !== null) statsData.push(res.data.data.stats.all.overall)
-            else statsData.push({ })
-            if(res.data.data.stats.all.solo !== null) statsData.push(res.data.data.stats.all.solo)
-            else statsData.push({ })
-            if(res.data.data.stats.all.duo !== null) statsData.push(res.data.data.stats.all.duo)
-            else statsData.push({ })
-            if(res.data.data.stats.all.squad !== null) statsData.push(res.data.data.stats.all.squad)
-            else statsData.push({ })
-            if(res.data.data.stats.all.ltm !== null) statsData.push(res.data.data.stats.all.ltm)
-            else statsData.push({ })
-
-            //line boarders
-            const lineBoarders = async (x, y) => {
-
-                ctx.fillStyle = `#${listOfColors[randomImage].substring(listOfColors[randomImage].indexOf(',') + 1, listOfColors[randomImage].length)}`
-                ctx.globalAlpha = 0.6
-                ctx.fillRect(x, y, 90, 150)
-                ctx.globalAlpha = 1
-                ctx.fillStyle = '#ffffff';
-
-            }
-
-            //tags
-            const Tags = async (text, size) => {
-                ctx.textAlign = 'center';
-                applyText(canvas, text, 75, size, true)
-                ctx.fillText(text, x, y - 40) // tags for text
-            }
-
-            //add new column to the board
-            const newColumn = async (Path ,ColumnNameEN, ColumnNameAR, i) => {
-
-                if(ColumnNameEN !== "Hours Played" && ColumnNameEN !== "Last Time Played"){
-                    if(Path !== undefined){
-                        applyText(canvas, Path, 75, 185, false)
-                        ctx.fillText(Path, x += 190, y + 97) //add the wins
-                    }else ctx.fillText('?', x += 190, y + 97) //add the wins
-
-                    //add the line value name
-                    if(i === 0){
-                        if(lang === "en") Tags(ColumnNameEN, 275)
-                        if(lang === "ar") Tags(ColumnNameAR, 275)
-                    }
-                    
-                    //add the line
-                    await lineBoarders(x += 100, y)
-
-                }else if(ColumnNameEN === "Hours Played"){
-                    if(Path !== undefined){
-                        var hours = `${Path / 60}`
-                        if(hours.includes('.')) hours = hours.substring(0, `${(Path / 60)}`.indexOf('.'))
-    
-                        applyText(canvas, hours, 75, 185, false)
-                        ctx.fillText(`${hours}`, x += 190, y + 97) //add the hours plays
-                    }else ctx.fillText('?', x += 190, y + 97) //add the hours plays
-
-                    //add the line value name
-                    if(i === 0){
-                        if(lang === "en") Tags(ColumnNameEN, 275)
-                        if(lang === "ar") Tags(ColumnNameAR, 275)
-                    }
-
-                    //add the line
-                    await lineBoarders(x += 100, y)
-
-                }else if(ColumnNameEN === "Last Time Played"){
-
-                    if(Path !== undefined){
-                        moment.locale(lang)
-                        const lastModified = moment.duration(moment.tz(moment(), timezone).diff(moment.tz(moment(Path), timezone)))
-                        const days = lastModified.asDays().toString().substring(0, lastModified.asDays().toString().indexOf("."))
-
-                        if(lang === "en"){
-                            ctx.font = '80px Burbank Big Condensed'
-    
-                            //if days r more than 1
-                            if(days >= 1) ctx.fillText(`${days} days ago`, x += 315, y + 97) //add the lastModified
-    
-                            //if hours more than 1
-                            else if(lastModified.hours() >= 1) ctx.fillText(`${lastModified.hours()} hours ago`, x += 315, y + 97) //add the lastModified
-    
-                            //else add minutes
-                            else ctx.fillText(`${lastModified.minutes()} minutes ago`, x += 315, y + 97) //add the lastModified
-    
-                        }else if(lang === "ar"){
-                            ctx.font = '80px Arabic'
-    
-                            //if days r more than 1
-                            if(days >= 1) ctx.fillText(`${days} يوم مضى`, x += 315, y + 97) //add the lastModified
-                            
-                            //if hours more than 1
-                            else if(lastModified.hours() >= 1) ctx.fillText(`${lastModified.hours()} ساعة مضت`, x += 315, y + 97) //add the lastModified
-    
-                            //else add minutes
-                            else ctx.fillText(`${lastModified.minutes()} دقائق مضت`, x += 315, y + 97) //add the lastModified
-                        }
-                    }
-                    else ctx.fillText('?', x += 315, y + 97) //add the lastModified
-
-                    //add the line value name
-                    if(i === 0){
-                        if(lang === "en") Tags(ColumnNameEN, 400)
-                        if(lang === "ar") Tags(ColumnNameAR, 400)
-                    }
-
-                }
-            }
-
-            //loop throw every stat
-            for(let i = 0; i < statsData.length; i++){
-
-                //set and draw lines color
-                ctx.fillStyle = `#${listOfColors[randomImage].substring(0, listOfColors[randomImage].indexOf(','))}`
-                ctx.globalAlpha = 0.6
-                ctx.fillRect(x, y, 4000, 150)
-                ctx.globalAlpha = 1
-
-                //change x value
-                x += 130
-
-                //add the modes
-                ctx.fillStyle = '#ffffff';
-                ctx.textAlign='center';
-                if(lang === "en"){
-                    ctx.font = '97px Burbank Big Condensed'
-                    ctx.fillText(listOfTypes[i], x, y + 97)
-                }else if(lang === "ar"){
-                    ctx.font = '97px Arabic'
-                    ctx.fillText(listOfTypes[i + 5], x, y + 97)
-                }
-
-                await lineBoarders(x += 150, y)
-                await newColumn(statsData[i].matches, 'Matches', 'المواجهات', i)
-                await newColumn(statsData[i].wins, 'Wins', 'الإنصارات', i)
-                await newColumn(statsData[i].winRate, 'Wins Rate', 'م/الإنتصارات', i)
-                await newColumn(statsData[i].deaths, 'Deaths', 'الخسارات', i)
-                await newColumn(statsData[i].kills, 'Kills', 'الذبحات', i)
-                await newColumn(statsData[i].kd, 'K/D', 'ك/د', i)
-                await newColumn(statsData[i].minutesPlayed, 'Hours Played', 'ساعات اللعب', i)
-                await newColumn(statsData[i].top3, 'Top 3', 'توب 3', i)
-                await newColumn(statsData[i].top5, 'Top 5', 'توب 5', i)
-                await newColumn(statsData[i].top10, 'Top 10', 'توب 10', i)
-                await newColumn(statsData[i].top25, 'Top 25', 'توب 25', i)
-                await newColumn(statsData[i].lastModified, 'Last Time Played', 'اخر لعب قبل', i)
-
-                y += 150 + 113
-                x = 250
-
-            }
-        }
-
         //create an embed
         const choosePlatform = new Discord.MessageEmbed()
         choosePlatform.setColor(FNBRMENA.Colors("embed"))
@@ -398,21 +147,285 @@ module.exports = {
                 message.reply(generating)
                 .then(async msg => {
 
+                    //push add, solo, duo, squads and LTM's
+                    const statsData = []
+                    if(res.data.data.stats.all.overall !== null) statsData.push(res.data.data.stats.all.overall)
+                    else statsData.push({ })
+                    if(res.data.data.stats.all.solo !== null) statsData.push(res.data.data.stats.all.solo)
+                    else statsData.push({ })
+                    if(res.data.data.stats.all.duo !== null) statsData.push(res.data.data.stats.all.duo)
+                    else statsData.push({ })
+                    if(res.data.data.stats.all.squad !== null) statsData.push(res.data.data.stats.all.squad)
+                    else statsData.push({ })
+                    if(res.data.data.stats.all.ltm !== null) statsData.push(res.data.data.stats.all.ltm)
+                    else statsData.push({ })
+
+                    //loop throw every stats feild
+                    const tableWidth = 12
+                    var rowData = []
+                    for(let i = 0; i < statsData.length; i++){
+
+                        //list of Coulmn names
+                        rowData.push([
+                            {NameEN: 'Matches', NameAR: 'المواجهات', Data: statsData[i].matches, index: i},
+                            {NameEN: 'Wins', NameAR: 'الإنصارات', Data: statsData[i].wins, index: i},
+                            {NameEN: 'Wins Rate', NameAR: 'م/الإنتصارات', Data: statsData[i].winRate, index: i},
+                            {NameEN: 'Deaths', NameAR: 'الخسارات', Data: statsData[i].deaths, index: i},
+                            {NameEN: 'Kills', NameAR: 'الذبحات', Data: statsData[i].kills, index: i},
+                            {NameEN: 'K/D', NameAR: 'ك/د', Data: statsData[i].kd, index: i},
+                            {NameEN: 'Hours Played', NameAR: 'ساعات اللعب', Data: statsData[i].minutesPlayed, index: i},
+                            {NameEN: 'Top 3', NameAR: 'توب 3', Data: statsData[i].top3, index: i},
+                            {NameEN: 'Top 5', NameAR: 'توب 5', Data: statsData[i].top5, index: i},
+                            {NameEN: 'Top 10', NameAR: 'توب 10', Data: statsData[i].top10, index: i},
+                            {NameEN: 'Top 25', NameAR: 'توب 25', Data: statsData[i].top25, index: i},
+                            {NameEN: 'Last Time Played', NameAR: 'اخر لعب قبل', Data: statsData[i].lastModified, index: i},
+                        ])
+                    }
+                    
                     //registering fonts
                     Canvas.registerFont('./assets/font/Lalezar-Regular.ttf', {family: 'Arabic',weight: "700",style: "bold"});
                     Canvas.registerFont('./assets/font/BurbankBigCondensed-Black.otf' ,{family: 'Burbank Big Condensed',weight: "700",style: "bold"})
+                    
+                    //applytext
+                    const applyText = (canvas, text, font, width, langCheck) => {
+                        const ctx = canvas.getContext('2d')
+                        let fontSize = font
+                        do {
+                            if(langCheck){
+                                if(lang === "en") ctx.font = `${fontSize -= 1}px Burbank Big Condensed`
+                                else if(lang === "ar") ctx.font = `${fontSize -= 1}px Arabic`
+                                
+                            }else ctx.font = `${fontSize -= 1}px Burbank Big Condensed`
+                        } while (ctx.measureText(text).width > width)
+                        return ctx.font
+                    }
 
                     //creating canvas
-                    const canvas = Canvas.createCanvas(4500, 2160);
+                    const canvas = Canvas.createCanvas(1030 + tableWidth * 300, 2160);
                     const ctx = canvas.getContext('2d');
 
-                    //create grediant background
-                    await backgroundInisilizer(ctx, canvas, res)
-                    
-                    await randomOutfit(ctx, canvas)
+                    //get random color
+                    const randomNumber = async (list) => {
+                        return Math.floor(Math.random() * list.length)
+                    }
 
-                    //board drawer
-                    await boardDrawer(ctx, canvas, res, "all")
+                    //backgroundInisilizer function
+                    const backgroundInisilizer = async (randomColor) => {
+
+                        const backgroundGRD = ctx.createLinearGradient(0, canvas.height, canvas.width, 0)
+                        backgroundGRD.addColorStop(0, `#${listOfColors[randomColor].substring(0, listOfColors[randomColor].indexOf(','))}`)
+                        backgroundGRD.addColorStop(1, `#${listOfColors[randomColor].substring(listOfColors[randomColor].indexOf(',') + 1, listOfColors[randomColor].length)}`)
+                        ctx.fillStyle = backgroundGRD
+                        ctx.fillRect(0, 0, canvas.width, canvas.height) //background
+
+                        const leftHandSideGRD = ctx.createLinearGradient(3300, canvas.height + 200, canvas.width + 1000, 0)
+                        leftHandSideGRD.addColorStop(0, `#${listOfColors[randomColor].substring(0, listOfColors[randomColor].indexOf(','))}`)
+                        leftHandSideGRD.addColorStop(1, `#${listOfColors[randomColor].substring(listOfColors[randomColor].indexOf(',') + 1, listOfColors[randomColor].length)}`)
+                        ctx.fillStyle = leftHandSideGRD
+                        ctx.save()
+                        ctx.translate(canvas.width - 190, 0);
+                        ctx.rotate(Math.PI / 19);
+                        ctx.translate(-(canvas.width - 190), -0);
+                        ctx.fillRect(canvas.width - 190, -100, 1000, canvas.height + 200); //left hand side
+                        ctx.restore()
+
+                        //add the credits
+                        ctx.fillStyle = '#ffffff';
+                        ctx.textAlign='left';
+                        ctx.font = '100px Burbank Big Condensed'
+                        ctx.fillText(`FNBRMENA | ${res.data.data.account.name}`, 30, 110)
+
+                        //define xp bar variables
+                        var w = canvas.width - 1000
+                        var h = 80
+                        var x = 0
+                        var y = canvas.height - h
+
+                        //add the xp process
+                        ctx.fillStyle = '#96fe7e';
+                        ctx.globalAlpha = 0.5
+                        ctx.fillRect(x, y, w, h)
+                        ctx.globalAlpha = 1
+                        ctx.fillStyle = '#00ff00';
+                        ctx.fillRect(x, y, (res.data.data.battlePass.progress / 100) * w, h)
+
+                        //add the progress percentage
+                        ctx.fillStyle = '#ffffff';
+                        ctx.font = '80px Burbank Big Condensed'
+                        ctx.fillText(`${res.data.data.battlePass.progress}%`, ((res.data.data.battlePass.progress / 100) * w) + 10, y + 68)
+
+                        //add the lvl pin
+                        const lvlPIN = await Canvas.loadImage('https://imgur.com/o0AGlt6.png')
+                        ctx.drawImage(lvlPIN, ((res.data.data.battlePass.progress / 100) * w) - 40, y - 80, 80, 80)
+
+                        //add the xp lvl text
+                        ctx.textAlign='center';
+                        if(lang === "en") ctx.fillText(`${res.data.data.battlePass.level} lvl`, ((res.data.data.battlePass.progress / 100) * w), y - 100)
+                        else{
+                            ctx.font = '80px Arabic'
+                            ctx.fillText(`${res.data.data.battlePass.level} لفل`, ((res.data.data.battlePass.progress / 100) * w), y - 100)
+                        }
+                    }
+
+                    //randomOutfit function
+                    const randomOutfit = async () => {
+
+                        //request data
+                        await FNBRMENA.Search(lang, "custom", "gameplayTags=Cosmetics.Source.ItemShop&type=outfit&images.featured=*png")
+                        .then(async listOfOutfits => {
+
+                            do {
+                                var randomImage = await randomNumber(listOfOutfits.data.items.length)
+
+                            } while(listOfOutfits.data.items[randomImage].builtInEmote !== null &&
+                                listOfOutfits.data.items[randomImage].styles.length > 2)
+
+                            //outfit img
+                            const outfitIMG = await Canvas.loadImage(listOfOutfits.data.items[randomImage].images.featured)
+                            ctx.drawImage(outfitIMG, canvas.width - 1250, 300, 1860, 1860)
+                        })
+                    }
+
+                    //line boarders
+                    const lineBoarders = async (x, y, randomColor) => {
+
+                        ctx.fillStyle = `#${listOfColors[randomColor].substring(listOfColors[randomColor].indexOf(',') + 1, listOfColors[randomColor].length)}`
+                        ctx.globalAlpha = 0.6
+                        ctx.fillRect(x, y, 90, 150)
+                        ctx.globalAlpha = 1
+                        ctx.fillStyle = '#ffffff';
+
+                    }
+
+                    //tags
+                    const Tags = async (text, size) => {
+                        ctx.textAlign = 'center';
+                        applyText(canvas, text, 75, size, true)
+                        ctx.fillText(text, x, y - 40) // tags for text
+                    }
+
+                    //add new column to the board
+                    const newColumn = async (Path ,ColumnNameEN, ColumnNameAR, i) => {
+
+                        if(ColumnNameEN !== "Hours Played" && ColumnNameEN !== "Last Time Played"){
+                            if(Path !== undefined){
+                                applyText(canvas, Path, 75, 185, false)
+                                ctx.fillText(Path, x += 190, y + 97) //add the wins
+                            }else ctx.fillText('?', x += 190, y + 97) //add the wins
+
+                            //add the line value name
+                            if(i === 0){
+                                if(lang === "en") Tags(ColumnNameEN, 275)
+                                if(lang === "ar") Tags(ColumnNameAR, 275)
+                            }
+                            
+                            //add the line
+                            await lineBoarders(x += 100, y)
+
+                        }else if(ColumnNameEN === "Hours Played"){
+                            if(Path !== undefined){
+                                var hours = `${Path / 60}`
+                                if(hours.includes('.')) hours = hours.substring(0, `${(Path / 60)}`.indexOf('.'))
+
+                                applyText(canvas, hours, 75, 185, false)
+                                ctx.fillText(`${hours}`, x += 190, y + 97) //add the hours plays
+                            }else ctx.fillText('?', x += 190, y + 97) //add the hours plays
+
+                            //add the line value name
+                            if(i === 0){
+                                if(lang === "en") Tags(ColumnNameEN, 275)
+                                if(lang === "ar") Tags(ColumnNameAR, 275)
+                            }
+
+                            //add the line
+                            await lineBoarders(x += 100, y)
+
+                        }else if(ColumnNameEN === "Last Time Played"){
+
+                            if(Path !== undefined){
+                                moment.locale(lang)
+                                const lastModified = moment.duration(moment.tz(moment(), timezone).diff(moment.tz(moment(Path), timezone)))
+                                const days = lastModified.asDays().toString().substring(0, lastModified.asDays().toString().indexOf("."))
+
+                                if(lang === "en"){
+                                    ctx.font = '80px Burbank Big Condensed'
+
+                                    //if days r more than 1
+                                    if(days >= 1) ctx.fillText(`${days} days ago`, x += 315, y + 97) //add the lastModified
+
+                                    //if hours more than 1
+                                    else if(lastModified.hours() >= 1) ctx.fillText(`${lastModified.hours()} hours ago`, x += 315, y + 97) //add the lastModified
+
+                                    //else add minutes
+                                    else ctx.fillText(`${lastModified.minutes()} minutes ago`, x += 315, y + 97) //add the lastModified
+
+                                }else if(lang === "ar"){
+                                    ctx.font = '80px Arabic'
+
+                                    //if days r more than 1
+                                    if(days >= 1) ctx.fillText(`${days} يوم مضى`, x += 315, y + 97) //add the lastModified
+                                    
+                                    //if hours more than 1
+                                    else if(lastModified.hours() >= 1) ctx.fillText(`${lastModified.hours()} ساعة مضت`, x += 315, y + 97) //add the lastModified
+
+                                    //else add minutes
+                                    else ctx.fillText(`${lastModified.minutes()} دقائق مضت`, x += 315, y + 97) //add the lastModified
+                                }
+                            }
+                            else ctx.fillText('?', x += 315, y + 97) //add the lastModified
+
+                            //add the line value name
+                            if(i === 0){
+                                if(lang === "en") Tags(ColumnNameEN, 400)
+                                if(lang === "ar") Tags(ColumnNameAR, 400)
+                            }
+
+                        }
+                    }
+
+                    //create grediant background
+                    await backgroundInisilizer()
+
+                    //get random outfit and draw it
+                    await randomOutfit()
+
+                    //define x, y and data array
+                    var x = 250
+                    var y = 500
+
+                    //loop throw every stat
+                    for(let i = 0; i < rowData.length; i++){
+
+                        //set and draw lines color
+                        const randomColor = await randomNumber()
+                        ctx.fillStyle = `#${listOfColors[randomColor].substring(0, listOfColors[randomColor].indexOf(','))}`
+                        ctx.globalAlpha = 0.5
+                        ctx.fillRect(x, y, (290 * tableWidth) + 530, 150)
+                        ctx.globalAlpha = 1
+
+                        //change x value
+                        x += 130
+
+                        //add the modes
+                        ctx.fillStyle = '#ffffff';
+                        ctx.textAlign='center';
+                        if(lang === "en"){
+                            ctx.font = '97px Burbank Big Condensed'
+                            ctx.fillText(listOfTypes[i], x, y + 97)
+                        }else if(lang === "ar"){
+                            ctx.font = '97px Arabic'
+                            ctx.fillText(listOfTypes[i + 5], x, y + 97)
+                        }
+                        
+                        //loop throw the statsDrawer length
+                        await lineBoarders(x += 150, y, randomColor)
+                        for(const lineData of rowData[i])
+                        await newColumn(lineData.Data, lineData.NameEN, lineData.NameAR, lineData.index)
+
+                        y += 150 + 113
+                        x = 250
+
+                    }
 
                     //send the stats message
                     const att = new Discord.MessageAttachment(canvas.toBuffer(), `${res.data.data.account.name}.png`)
@@ -441,7 +454,7 @@ module.exports = {
                     noUserHasBeenFoundError.setColor(FNBRMENA.Colors("embed"))
                     if(lang === "en") noUserHasBeenFoundError.setTitle(`Can't find ${text} in ${usedPlatform} platform. Please try again ${errorEmoji}`)
                     else if(lang === "ar") noUserHasBeenFoundError.setTitle(`لا يمكنني العثور على حساب ${text} في منصه ${usedPlatform}. حاول مجددا ${errorEmoji}`)
-                    await message.reply({embeds: [noUserHasBeenFoundError]})
+                    await message.reply(noUserHasBeenFoundError)
 
                 }else if(err.response.data.error === "the requested profile didnt play any match yet"){
 

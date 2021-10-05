@@ -161,7 +161,7 @@ module.exports = {
                     else statsData.push({ })
 
                     //loop throw every stats feild
-                    const tableWidth = 12
+                    const tableWidth = 13
                     var rowData = []
                     for(let i = 0; i < statsData.length; i++){
 
@@ -176,6 +176,7 @@ module.exports = {
                             {NameEN: 'Wins Rate', NameAR: 'م/الإنتصارات', Data: statsData[i].winRate, xAxis: 190, yAxis: 97, index: i},
                             {NameEN: 'Deaths', NameAR: 'الخسارات', Data: statsData[i].deaths, xAxis: 190, yAxis: 97, index: i},
                             {NameEN: 'Kills', NameAR: 'الذبحات', Data: statsData[i].kills, xAxis: 190, yAxis: 97, index: i},
+                            {NameEN: 'K.P.M', NameAR: 'ذ.ك.م', Data: statsData[i].killsPerMatch, xAxis: 190, yAxis: 97, index: i},
                             {NameEN: 'K/D', NameAR: 'ك/د', Data: statsData[i].kd, xAxis: 190, yAxis: 97, index: i},
                             {NameEN: 'Hours Played', NameAR: 'ساعات اللعب', Data: minutesPlayed, xAxis: 190, yAxis: 97, index: i},
                             {NameEN: 'Top 3', NameAR: 'توب 3', Data: statsData[i].top3, xAxis: 190, yAxis: 97, index: i},

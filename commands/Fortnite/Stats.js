@@ -136,6 +136,7 @@ module.exports = {
         //if the access is true
         if(access){
 
+            //request data
             await FNBRMENA.Stats(text, platforms[num], "lifetime")
             .then(async res =>{
 
@@ -249,26 +250,26 @@ module.exports = {
                         //add the xp process
                         ctx.fillStyle = '#96fe7e';
                         ctx.globalAlpha = 0.5
-                        ctx.fillRect(x, y, w, h)
+                        ctx.fillRect(x, y, w + 70, h)
                         ctx.globalAlpha = 1
                         ctx.fillStyle = '#00ff00';
-                        ctx.fillRect(x, y, (res.data.data.battlePass.progress / 100) * w, h)
+                        ctx.fillRect(x, y, ((res.data.data.battlePass.progress / 100) * w) + 70, h)
 
                         //add the progress percentage
                         ctx.fillStyle = '#ffffff';
                         ctx.font = '80px Burbank Big Condensed'
-                        ctx.fillText(`${res.data.data.battlePass.progress}%`, ((res.data.data.battlePass.progress / 100) * w) + 10, y + 68)
+                        ctx.fillText(`${res.data.data.battlePass.progress}%`, ((res.data.data.battlePass.progress / 100) * w) + 80, y + 68)
 
                         //add the lvl pin
                         const lvlPIN = await Canvas.loadImage('https://imgur.com/o0AGlt6.png')
-                        ctx.drawImage(lvlPIN, ((res.data.data.battlePass.progress / 100) * w) - 40, y - 80, 80, 80)
+                        ctx.drawImage(lvlPIN, ((res.data.data.battlePass.progress / 100) * w) + 30, y - 80, 80, 80)
 
                         //add the xp lvl text
                         ctx.textAlign='center';
-                        if(lang === "en") ctx.fillText(`${res.data.data.battlePass.level} lvl`, ((res.data.data.battlePass.progress / 100) * w), y - 100)
+                        if(lang === "en") ctx.fillText(`${res.data.data.battlePass.level} lvl`, ((res.data.data.battlePass.progress / 100) * w) + 70, y - 100)
                         else{
                             ctx.font = '80px Arabic'
-                            ctx.fillText(`${res.data.data.battlePass.level} لفل`, ((res.data.data.battlePass.progress / 100) * w), y - 100)
+                            ctx.fillText(`${res.data.data.battlePass.level} لفل`, ((res.data.data.battlePass.progress / 100) * w) + 70, y - 100)
                         }
                     }
 

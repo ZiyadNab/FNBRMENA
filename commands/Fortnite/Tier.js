@@ -1,5 +1,3 @@
-const { MessageButton } = require('discord-buttons');
-
 module.exports = {
     commands: 'tier',
     type: 'Fortnite',
@@ -42,60 +40,89 @@ module.exports = {
             //if the started index above the rewards length
             if(Number(tierIndex) < res.data.rewards.length){
 
-                //inisilizing next tier button
-                const NEXT = new MessageButton()
-                NEXT.setStyle('blurple')
+                const buttonsDataRow = new Discord.MessageActionRow()
+                if(lang === "en"){
+                    
+                    //back 20
+                    buttonsDataRow.addComponents(
+                        new Discord.MessageButton()
+                        .setCustomId('BACK20')
+                        .setStyle('PRIMARY')
+                        .setLabel("Back 20 Tier")
+                    )
 
-                //button label
-                if(lang === "en") NEXT.setLabel(`Next Tier >>`)
-                else if(lang === "ar") NEXT.setLabel(`الى التاير التالي >>>`)
+                    //back 1
+                    buttonsDataRow.addComponents(
+                        new Discord.MessageButton()
+                        .setCustomId('BACK')
+                        .setStyle('PRIMARY')
+                        .setLabel("Back 1 Tier")
+                    )
 
-                //button id
-                NEXT.setID('NEXT')
+                    //next 1
+                    buttonsDataRow.addComponents(
+                        new Discord.MessageButton()
+                        .setCustomId('NEXT')
+                        .setStyle('PRIMARY')
+                        .setLabel("Next 1 Tier")
+                    )
 
-                //inisilizing back tier button
-                const BACK = new MessageButton()
-                BACK.setStyle('blurple')
+                    //next 20
+                    buttonsDataRow.addComponents(
+                        new Discord.MessageButton()
+                        .setCustomId('NEXT20')
+                        .setStyle('PRIMARY')
+                        .setLabel("Next 20 Tier")
+                    )
 
-                //button label
-                if(lang === "en") BACK.setLabel(`<<< Back Tier`)
-                else if(lang === "ar") BACK.setLabel(`<<< رجوع تاير`)
+                    //stop
+                    buttonsDataRow.addComponents(
+                        new Discord.MessageButton()
+                        .setCustomId('STOP')
+                        .setStyle('DANGER')
+                        .setLabel("Stop!")
+                    )
+                }else if(lang === "ar"){
+                    //back 20
+                    buttonsDataRow.addComponents(
+                        new Discord.MessageButton()
+                        .setCustomId('BACK20')
+                        .setStyle('PRIMARY')
+                        .setLabel("ارجع 20 مستوى")
+                    )
 
-                //button id
-                BACK.setID('BACK')
+                    //back 1
+                    buttonsDataRow.addComponents(
+                        new Discord.MessageButton()
+                        .setCustomId('BACK')
+                        .setStyle('PRIMARY')
+                        .setLabel("ارجع 1 مستوى")
+                    )
 
-                //inisilizing skip 20 tier button
-                const SKIP20 = new MessageButton()
-                SKIP20.setStyle('blurple')
+                    //next 1
+                    buttonsDataRow.addComponents(
+                        new Discord.MessageButton()
+                        .setCustomId('NEXT')
+                        .setStyle('PRIMARY')
+                        .setLabel("تقدم 1 مستوى")
+                    )
 
-                //button label
-                if(lang === "en") SKIP20.setLabel(`Skip 20 Tier`)
-                else if(lang === "ar") SKIP20.setLabel(`تقدم 20 تاير`)
+                    //next 20
+                    buttonsDataRow.addComponents(
+                        new Discord.MessageButton()
+                        .setCustomId('NEXT20')
+                        .setStyle('PRIMARY')
+                        .setLabel("تقدم 20 مستوى")
+                    )
 
-                //button id
-                SKIP20.setID('SKIP20')
-
-                //inisilizing back 20 tier button
-                const BACK20 = new MessageButton()
-                BACK20.setStyle('blurple')
-
-                //button label
-                if(lang === "en") BACK20.setLabel(`Back 20 Tier`)
-                else if(lang === "ar") BACK20.setLabel(`ارجع 20 تاير`)
-
-                //button id
-                BACK20.setID('BACK20')
-
-                //inisilizing stop button
-                const STOP = new MessageButton()
-                STOP.setStyle('red')
-
-                //button label
-                if(lang === "en") STOP.setLabel('Stop!')
-                else if(lang === "ar") STOP.setLabel('ايقاف!')
-
-                //button id
-                STOP.setID('STOP')
+                    //stop
+                    buttonsDataRow.addComponents(
+                        new Discord.MessageButton()
+                        .setCustomId('STOP')
+                        .setStyle('DANGER')
+                        .setLabel("إيقات!")
+                    )
+                }
 
                 //preview tier details based on the given index
                 const tierViewer = async () => {
@@ -105,13 +132,15 @@ module.exports = {
 
                     //inisilizing tierDATA
                     const tierDataEmbed = new Discord.MessageEmbed()
+
+                    //set the embed color is there is no rarity then use the default
                     if(TierData !== undefined){
                         if(TierData.item.series !== null) tierDataEmbed.setColor(FNBRMENA.Colors(TierData.item.series.id))
                         else tierDataEmbed.setColor(FNBRMENA.Colors(TierData.item.rarity.id))
                     }else tierDataEmbed.setColor(FNBRMENA.Colors("embed"))
 
                     //if the index is not -1
-                    if(tierIndex !== -1){
+                    if(tierIndex < res.data.rewards.length){
 
                         //set title
                         if(await TierData.page !== null){
@@ -124,11 +153,7 @@ module.exports = {
                         
                         //set title
                         tierDataEmbed.setTitle(`${bpstars} ${TierData.item.name}`)
-
-                        //set description
                         tierDataEmbed.setDescription(TierData.item.description)
-
-                        //set thumbnail
                         tierDataEmbed.setThumbnail(TierData.item.images.icon)
 
                         //add styles
@@ -137,8 +162,18 @@ module.exports = {
                             for(let i = 0; i < TierData.item.styles.length; i++){
                                 Styles += `\`${TierData.item.styles[i].name}\`\n`
                             }
-                        }else if(lang === "en") Styles = `\`No styles for ${TierData.item.name}\``
-                        else if(lang === "ar") Styles = `\`لا يوجد ستايلات لـ ${TierData.item.name}\``
+                        }else if(lang === "en") Styles = `\`No styles for ${TierData.item.name} ${TierData.item.type.name}.\``
+                        else if(lang === "ar") Styles = `\`لا يوجد ستايلات لـ ${TierData.item.type.name} ${TierData.item.name}.\``
+
+                        //add grants
+                        var Grants = ``
+                        if(TierData.item.grants.length !== 0){
+                            for(let i = 0; i < TierData.item.grants.length; i++){
+                                if(lang === "en") Grants += `**ID:** \`${TierData.item.grants[i].id}\`\n**Name:** \`${TierData.item.grants[i].name}\`\n**Rarity:** \`${TierData.item.grants[i].rarity.name}\``
+                                else if(lang === "ar") Grants += `**المعرف:** \`${TierData.item.grants[i].id}\`\n**الإسم:** \`${TierData.item.grants[i].name}\`\n**الندرة:** \`${TierData.item.grants[i].rarity.name}\``
+                            }
+                        }else if(lang === "en") Grants = `\`The ${TierData.item.name} ${TierData.item.type.name} doesn't grants you anything.\``
+                        else if(lang === "ar") Grants = `\`لا يمنحك ${TierData.item.type.name} ${TierData.item.name} عناصر أضافية.\``
 
                         //add gameplayTags
                         var gameplayTags = ``
@@ -146,8 +181,8 @@ module.exports = {
                             for(let i = 0; i < TierData.item.gameplayTags.length; i++){
                                 gameplayTags += `\`${TierData.item.gameplayTags[i]}\`\n`
                             }
-                        }else if(lang === "en") gameplayTags = `\`No gameplayTags for ${TierData.item.name}\``
-                        else if(lang === "ar") gameplayTags = `\`لا يوجد شعارات لـ ${TierData.item.name}\``
+                        }else if(lang === "en") gameplayTags = `\`No gameplayTags for ${TierData.item.name} ${TierData.item.type.name}.\``
+                        else if(lang === "ar") gameplayTags = `\`لا يوجد شعارات لـ ${TierData.item.type.name} ${TierData.item.name}\``
 
                         //add rarity
                         var rarity = ``
@@ -155,8 +190,8 @@ module.exports = {
                         else rarity = TierData.item.rarity.name
 
                         //add set
-                        if(lang === "en") var set = `\`No set for ${TierData.item.name}\``
-                        else if(lang === "ar") var set = `\`لا يوجد مجموعة للعنصر ${TierData.item.name}\``
+                        if(lang === "en") var set = `\`No set for ${TierData.item.name} ${TierData.item.type.name}.\``
+                        else if(lang === "ar") var set = `\`لا يوجد مجموعة للعنصر ${TierData.item.type.name} ${TierData.item.name}.\``
                         if(TierData.item.set !== null) set = TierData.item.set.partOf
 
                         //add introduction
@@ -165,8 +200,8 @@ module.exports = {
                         if(TierData.item.introduction !== null) introduction = TierData.item.introduction.text
 
                         //add price
-                        if(lang === "en") var price = `\`No prices for ${TierData.item.name}\``
-                        else if(lang === "ar") var price = `\`لا يوجد اسعار لـ ${TierData.item.name}\``
+                        if(lang === "en") var price = `\`No prices for ${TierData.item.name} ${TierData.item.type.name}.\``
+                        else if(lang === "ar") var price = `\`لا يوجد اسعار لـ ${TierData.item.type.name} ${TierData.item.name}.\``
                         if(TierData.price !== null) price = `${TierData.price.amount} ${stars}`
 
                         //add fields
@@ -186,6 +221,7 @@ module.exports = {
                                 {name: `Added`, value: `\`Date: ${TierData.item.added.date}\`\n\`Version: ${TierData.item.added.version}\``, inline: true},
                                 {name: `Item ID`, value: `\`${TierData.item.id}\``, inline: true},
                                 {name: `Styles`, value: `${Styles}`},
+                                {name: `Grants`, value: `${Grants}`},
                                 {name: `gameplayTags`, value: `${gameplayTags}`},
                             )
                         }else if(lang === "ar"){
@@ -205,6 +241,7 @@ module.exports = {
                                 {name: `تم اضافتة`, value: `\`التاريخ: ${TierData.item.added.date}\`\n\`التحديث: ${TierData.item.added.version}\``, inline: true},
                                 {name: `معرف العنصر`, value: `\`${TierData.item.id}\``, inline: true},
                                 {name: `ستايلات`, value: `${Styles}`},
+                                {name: `عناصر أضافية`, value: `${Grants}`},
                                 {name: `شعارات`, value: `${gameplayTags}`},
                             )
                         }
@@ -215,164 +252,124 @@ module.exports = {
                         else if(lang === "ar") tierDataEmbed.setDescription(`انت الأن في اخر صفحه الرجاء استعمال زر الرجوع او الإيقاف للأستمرار ${errorEmoji}`)
                     }
 
-                    //send the data
-                    const sendTierDataViewer = await message.channel.send("", {buttons: [BACK20, BACK, NEXT, SKIP20, STOP], embed: tierDataEmbed})
-
-                    //filtering the user clicker
-                    const filter = (button) => button.clicker.user.id === message.author.id
-
-                    //await the user click
-                    await sendTierDataViewer.awaitButtons(filter, { max: 1, time: 2 * 60000, errors: ['time'] })
-                    .then(async collected => {
-
-                        //back 20 button clicked
-                        if(collected.first().id === "BACK20"){
-
-                            if(tierIndex === -1) tierIndex = res.data.rewards.length
-
-                            //if there is no more tiers
-                            if(tierIndex - 20 > 0){
-
-                                //move to the 20 back index
-                                tierIndex -= 20
-
-                                //delete the start message
-                                await sendTierDataViewer.delete()
-
-                                //call the tierViewer function
-                                await tierViewer()
-                            }else{
-
-                                tierIndex = 0
-
-                                //delete the start message
-                                await sendTierDataViewer.delete()
-
-                                //call the tierViewer function
-                                await tierViewer()
-
-                            }
-                        }
-
-                        //back button clicked
-                        if(collected.first().id === "BACK"){
-
-                            if(tierIndex === -1) tierIndex = res.data.rewards.length
-
-                            //if there is no more tiers
-                            if(tierIndex - 1 > 0){
-
-                                //move to the back index
-                                tierIndex--
-
-                                //delete the start message
-                                await sendTierDataViewer.delete()
-
-                                //call the tierViewer function
-                                await tierViewer()
-
-                            }else{
-
-                                tierIndex = 0
-
-                                //delete the start message
-                                await sendTierDataViewer.delete()
-
-                                //call the tierViewer function
-                                await tierViewer()
-
-                            }
-                        }
-
-                        //next button clicked
-                        if(collected.first().id === "NEXT"){
-
-                            //if there is no more tiers
-                            if(tierIndex + 1 < res.data.rewards.length){
-
-                                if(tierIndex !== -1){
-                                    
-                                    //move to the next index
-                                    tierIndex++
-
-                                    //delete the start message
-                                    await sendTierDataViewer.delete()
-
-                                    //call the tierViewer function
-                                    await tierViewer()
-                                }
-
-                            }else{
-
-                                tierIndex = -1
-
-                                //delete the start message
-                                await sendTierDataViewer.delete()
-
-                                //call the tierViewer function
-                                await tierViewer()
-
-                            }
-                        }
-
-                        //next button clicked
-                        if(collected.first().id === "SKIP20"){
-
-                            //if there is no more tiers
-                            if(tierIndex + 20 < res.data.rewards.length){
-
-                                if(tierIndex !== -1){
-
-                                    //move to the next index
-                                    tierIndex += 20
-
-                                    //delete the start message
-                                    await sendTierDataViewer.delete()
-
-                                    //call the tierViewer function
-                                    await tierViewer()
-                                }
-
-                            }else{
-
-                                tierIndex = -1
-
-                                //delete the start message
-                                await sendTierDataViewer.delete()
-
-                                //call the tierViewer function
-                                await tierViewer()
-
-                            }
-                        }
-
-                        //stop
-                        if(collected.first().id === "STOP"){
-
-                            //delete the start message
-                            sendTierDataViewer.delete()
-                            return
-                        }
-                    }).catch(async err => {
-                        await sendTierDataViewer.delete()
-                    })
+                    return tierDataEmbed
                 }
 
-                //call the preview function
-                await tierViewer()
+                //send the data
+                const sendTierDataViewer = await message.channel.send("",{components: [buttonsDataRow], embeds: [await tierViewer()]})
+
+                //filtering the user clicker
+                const filter = i => i.user.id === message.author.id
+
+                //await the user click
+                const colllector = message.channel.createMessageComponentCollector({filter, time: 2 * 60000, errors: ['time'] })
+                colllector.on('collect', async collected => {
+
+                    //back 20 button clicked
+                    if(collected.customId === "BACK20"){
+
+                        if(tierIndex > res.data.rewards.length) tierIndex = res.data.rewards.length
+
+                        //if there is no more tiers
+                        if(tierIndex - 20 > 0){
+
+                            //move to the 20 back index
+                            tierIndex -= 20
+
+                            //edit the message
+                            await sendTierDataViewer.edit({embeds: [await tierViewer()]})
+
+                        }else{
+
+                            tierIndex = 0
+
+                            //edit the message
+                            await sendTierDataViewer.edit({embeds: [await tierViewer()]})
+
+                        }
+                    }
+
+                    //back button clicked
+                    if(collected.customId === "BACK"){
+
+                        if(tierIndex > res.data.rewards.length) tierIndex = res.data.rewards.length
+
+                        //if there is no more tiers
+                        if(tierIndex - 1 > 0){
+
+                            //move to the back index
+                            tierIndex--
+
+                            //edit the message
+                            await sendTierDataViewer.edit({embeds: [await tierViewer()]})
+
+                        }else{
+
+                            tierIndex = 0
+
+                            //edit the message
+                            await sendTierDataViewer.edit({embeds: [await tierViewer()]})
+
+                        }
+                    }
+
+                    //next button clicked
+                    if(collected.customId === "NEXT"){
+
+                        //if there is no more tiers
+                        if(tierIndex + 1 <= res.data.rewards.length){
+                                
+                            //move to the next index
+                            tierIndex++
+
+                            //edit the message
+                            await sendTierDataViewer.edit({embeds: [await tierViewer()]})
+                            
+                        }else await sendTierDataViewer.edit({embeds: [await tierViewer()]})
+                    }
+
+                    //next button clicked
+                    if(collected.customId === "NEXT20"){
+
+                        //if there is no more tiers
+                        if(tierIndex + 20 <= res.data.rewards.length){
+
+                            //move to the next index
+                            tierIndex += 20
+
+                            //edit the message
+                            await sendTierDataViewer.edit({embeds: [await tierViewer()]})
+
+                        }else{
+
+                            tierIndex = res.data.rewards.length
+                            await sendTierDataViewer.edit({embeds: [await tierViewer()]})
+                        }
+                    }
+
+                    //stop
+                    if(collected.customId === "STOP"){
+
+                        //delete the start message
+                        sendTierDataViewer.delete()
+                    }
+                })
+
+                //when time is ended
+                colllector.on('end', async () => await sendTierDataViewer.delete())
+
             }else{
 
                 //create error embed
-                const err = new Discord.MessageEmbed()
-                err.setColor(FNBRMENA.Colors("embed"))
-
-                //set title
-                if(lang === "en") err.setTitle(`The given tier is incorrect ${errorEmoji}`)
-                else if(lang === "ar") err.setTitle(`المستوى غير صحيح ${errorEmoji}`)
-
-                //send
-                message.channel.send(err)
+                const startTierIsNotValidError = new Discord.MessageEmbed()
+                startTierIsNotValidError.setColor(FNBRMENA.Colors("embed"))
+                if(lang === "en") startTierIsNotValidError.setTitle(`The given tier is incorrect ${errorEmoji}`)
+                else if(lang === "ar") startTierIsNotValidError.setTitle(`المستوى غير صحيح ${errorEmoji}`)
+                message.channel.send(startTierIsNotValidError)
             }
+
+        }).catch(err => {
+            console.log(err)
         })
     }
 }

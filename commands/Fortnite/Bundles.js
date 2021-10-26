@@ -226,7 +226,9 @@ module.exports = {
                     //loop throw every item
                     for(let i = 0; i < found[0].granted.length; i++){
 
-                        if(found[0].granted[i].templateId !== "MtxPurchased" && found[0].granted[i].templateId !== "MtxPurchaseBonus" && !found[0].granted[i].templateId.includes("bundleschedule")){
+                        if(found[0].granted[i].templateId !== "MtxPurchased" && found[0].granted[i].templateId !== "MtxPurchaseBonus" &&
+                         !found[0].granted[i].templateId.includes("bundleschedule") && found[0].granted[i].templateId !== "campaignaccess"
+                         && found[0].granted[i].templateId !== "stwstarterbundle07_getrewards"){
 
                             //request data
                             await FNBRMENA.Search(lang, "id", found[0].granted[i].templateId)
@@ -993,6 +995,60 @@ module.exports = {
                                 ctx.font = applyTextDescription(canvas, `مهام إضافية لـ ${outfit}.`);
                                 ctx.textAlign='center';
                                 ctx.fillText(`مهام إضافية لـ ${outfit}.`, (512 + x), (y + 930))
+                            }
+                        }
+
+                        //found an stw access
+                        if(found[0].granted[i].templateId !== "campaignaccess"){
+
+                            //creating image
+                            const skinholder = await Canvas.loadImage('./assets/Rarities/standard/uncommon.png')
+                            ctx.drawImage(skinholder, x, y, 1024, 1024)
+                            const skin = await Canvas.loadImage('https://imgur.com/4LmOgaj.png');
+                            ctx.drawImage(skin, x, y, 1024, 1024)
+                            const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderUncommon.png')
+                            ctx.drawImage(skinborder, x, y, 1024, 1024)
+                            if(lang === "en"){
+                                ctx.fillStyle = '#ffffff';
+                                ctx.textAlign='center';
+                                ctx.font = applyTextName(canvas, `Save the World Access`);
+                                ctx.fillText(`Save the World Access`, (512 + x), (y + 860))
+                                ctx.font = applyTextDescription(canvas, `Permanent access to the PvE campaign (on compatible devices).`);
+                                ctx.textAlign='center';
+                                ctx.fillText(`Permanent access to the PvE campaign (on compatible devices).`, (512 + x), (y + 930))
+                            }else if(lang === "ar"){
+                                ctx.fillStyle = '#ffffff';
+                                ctx.textAlign='center';
+                                ctx.font = applyTextName(canvas, `الوصول إلى أنقِذ العالم`);
+                                ctx.fillText(`الوصول إلى أنقِذ العالم`, (512 + x), (y + 860))  
+                                ctx.font = applyTextDescription(canvas, `الوصول الدائم إلى حملة اللاعب ضد البيئة (على الأجهزة المتوافقة).`);
+                                ctx.textAlign='center';
+                                ctx.fillText(`الوصول الدائم إلى حملة اللاعب ضد البيئة (على الأجهزة المتوافقة).`, (512 + x), (y + 930))
+                            }
+
+                            //creating image
+                            const skinholder = await Canvas.loadImage('./assets/Rarities/standard/legendary.png')
+                            ctx.drawImage(skinholder, x, y, 1024, 1024)
+                            const skin = await Canvas.loadImage('https://media.fortniteapi.io/images/652b99f7863db4ba398c40c326ac15a9/transparent.png');
+                            ctx.drawImage(skin, x, y, 1024, 1024)
+                            const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderLegendary.png')
+                            ctx.drawImage(skinborder, x, y, 1024, 1024)
+                            if(lang === "en"){
+                                ctx.fillStyle = '#ffffff';
+                                ctx.textAlign='center';
+                                ctx.font = applyTextName(canvas, 1000 + ' V-Bucks');
+                                ctx.fillText(1000 + ' V-Bucks', (512 + x), (y + 860))
+                                ctx.font = applyTextDescription(canvas, 'Valuable currency used to purchase goods from the store.');
+                                ctx.textAlign='center';
+                                ctx.fillText('Valuable currency used to purchase goods from the store.', (512 + x), (y + 930))
+                            }else if(lang === "ar"){
+                                ctx.fillStyle = '#ffffff';
+                                ctx.textAlign='center';
+                                ctx.font = applyTextName(canvas, 1000 + 'فيبوكس ');
+                                ctx.fillText(1000 + 'فيبوكس ', (512 + x), (y + 860))  
+                                ctx.font = applyTextDescription(canvas, 'عملة ثمينة تُستخدَم لشراء البضائع من المتجر.');
+                                ctx.textAlign='center';
+                                ctx.fillText('عملة ثمينة تُستخدَم لشراء البضائع من المتجر.', (512 + x), (y + 930))
                             }
                         }
                     }

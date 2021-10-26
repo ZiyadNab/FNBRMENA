@@ -925,6 +925,7 @@ module.exports = {
 
                     //add the vbucks image is there is a one
                     var vbucks = 0
+                    newline = 0
 
                     //loop throw every granted item
                     for(let i = 0; i < found[0].granted.length; i++){
@@ -939,6 +940,7 @@ module.exports = {
 
                     //load the image if there is a vbucks
                     if(vbucks !== 0){
+                        newline++
 
                         //creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/legendary.png')
@@ -964,6 +966,13 @@ module.exports = {
                             ctx.textAlign='center';
                             ctx.fillText('عملة ثمينة تُستخدَم لشراء البضائع من المتجر.', (512 + x), (y + 930))
                         }
+
+                        x = x + 10 + 1024; 
+                            if (length === newline){
+                                y = y + 10 + 1024;
+                                x = 0;
+                                newline = 0;
+                            }
                     }
 
                     //load the image if there is a challenges pack
@@ -971,6 +980,7 @@ module.exports = {
 
                         //found an challenge pack
                         if(found[0].granted[i].templateId.includes("bundleschedule")){
+                            newline++
 
                             //creating image
                             const skinholder = await Canvas.loadImage('./assets/Rarities/standard/legendary.png')
@@ -996,10 +1006,18 @@ module.exports = {
                                 ctx.textAlign='center';
                                 ctx.fillText(`مهام إضافية لـ ${outfit}.`, (512 + x), (y + 930))
                             }
+
+                            x = x + 10 + 1024; 
+                            if (length === newline){
+                                y = y + 10 + 1024;
+                                x = 0;
+                                newline = 0;
+                            }
                         }
 
                         //found an stw access
-                        if(found[0].granted[i].templateId === "campaignaccess"){
+                        if(found[0].granted[i].templateId.includes(campaignaccess)){
+                            newline++
 
                             //creating image
                             const skinholder = await Canvas.loadImage('./assets/Rarities/standard/uncommon.png')
@@ -1026,6 +1044,15 @@ module.exports = {
                                 ctx.fillText(`الوصول الدائم إلى حملة اللاعب ضد البيئة (على الأجهزة المتوافقة).`, (512 + x), (y + 930))
                             }
 
+                            x = x + 10 + 1024; 
+                            if (length === newline){
+                                y = y + 10 + 1024;
+                                x = 0;
+                                newline = 0;
+                            }
+
+                            newline++
+
                             //creating image
                             const vbucksHolder = await Canvas.loadImage('./assets/Rarities/standard/legendary.png')
                             ctx.drawImage(vbucksHolder, x, y, 1024, 1024)
@@ -1049,6 +1076,13 @@ module.exports = {
                                 ctx.font = applyTextDescription(canvas, 'عملة ثمينة تُستخدَم لشراء البضائع من المتجر.');
                                 ctx.textAlign='center';
                                 ctx.fillText('عملة ثمينة تُستخدَم لشراء البضائع من المتجر.', (512 + x), (y + 930))
+                            }
+
+                            x = x + 10 + 1024; 
+                            if (length === newline){
+                                y = y + 10 + 1024;
+                                x = 0;
+                                newline = 0;
                             }
                         }
                     }

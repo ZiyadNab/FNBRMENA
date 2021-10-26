@@ -1016,7 +1016,7 @@ module.exports = {
                         }
 
                         //found an stw access
-                        if(found[0].granted[i].templateId.includes(campaignaccess)){
+                        if(found[0].granted[i].templateId.includes("campaignaccess")){
                             newline++
 
                             //creating image

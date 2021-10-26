@@ -23,11 +23,11 @@ module.exports = (client, admin) => {
             if(status){
 
                 //request the token
-                const docRef = await admin.firestore().collection("authToken").doc("0").get()
+                const token = await axios.get('https://fnbrmenaapi.herokuapp.com/api/auth?authType=exchange')
 
                 //request data
                 await axios.get('http://lightswitch-public-service-prod.ol.epicgames.com/lightswitch/api/service/fortnite/status',
-                {headers: {'Content-Type': 'application/json','Authorization': `Bearer ${docRef.data().accessToken.access_token}`}})
+                {headers: {'Content-Type': 'application/json','Authorization': `Bearer ${token.data.data.token.access_token}`}})
                 .then(async res => {
 
                     if(number === 0){

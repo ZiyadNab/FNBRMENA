@@ -1027,12 +1027,12 @@ module.exports = {
                             }
 
                             //creating image
-                            const skinholder = await Canvas.loadImage('./assets/Rarities/standard/legendary.png')
-                            ctx.drawImage(skinholder, x, y, 1024, 1024)
-                            const skin = await Canvas.loadImage('https://media.fortniteapi.io/images/652b99f7863db4ba398c40c326ac15a9/transparent.png');
-                            ctx.drawImage(skin, x, y, 1024, 1024)
-                            const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderLegendary.png')
-                            ctx.drawImage(skinborder, x, y, 1024, 1024)
+                            const vbucksHolder = await Canvas.loadImage('./assets/Rarities/standard/legendary.png')
+                            ctx.drawImage(vbucksHolder, x, y, 1024, 1024)
+                            const vbucksImg = await Canvas.loadImage('https://media.fortniteapi.io/images/652b99f7863db4ba398c40c326ac15a9/transparent.png');
+                            ctx.drawImage(vbucksImg, x, y, 1024, 1024)
+                            const imgBorder = await Canvas.loadImage('./assets/Rarities/standard/borderLegendary.png')
+                            ctx.drawImage(imgBorder, x, y, 1024, 1024)
                             if(lang === "en"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';

@@ -965,6 +965,13 @@ module.exports = {
                             ctx.textAlign='center';
                             ctx.fillText('عملة ثمينة تُستخدَم لشراء البضائع من المتجر.', (512 + x), (y + 930))
                         }
+
+                        x = x + 10 + 1024; 
+                        if (length === newline){
+                            y = y + 10 + 1024;
+                            x = 0;
+                            newline = 0;
+                        }
                     }
 
                     //load the image if there is a challenges pack
@@ -972,13 +979,6 @@ module.exports = {
 
                         //found an challenge pack
                         if(found[0].granted[i].templateId.includes("bundleschedule")){
-                            x = x + 10 + 1024; 
-                            if (length === newline){
-                                y = y + 10 + 1024;
-                                x = 0;
-                                newline = 0;
-                            }
-
                             newline++
 
                             //creating image
@@ -1005,17 +1005,17 @@ module.exports = {
                                 ctx.textAlign='center';
                                 ctx.fillText(`مهام إضافية لـ ${outfit}.`, (512 + x), (y + 930))
                             }
-                        }
 
-                        //found an stw access
-                        if(found[0].granted[i].templateId.includes("campaignaccess")){
                             x = x + 10 + 1024; 
                             if (length === newline){
                                 y = y + 10 + 1024;
                                 x = 0;
                                 newline = 0;
                             }
+                        }
 
+                        //found an stw access
+                        if(found[0].granted[i].templateId.includes("campaignaccess")){
                             newline++
 
                             //creating image

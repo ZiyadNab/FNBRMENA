@@ -999,7 +999,7 @@ module.exports = {
                         }
 
                         //found an stw access
-                        if(found[0].granted[i].templateId !== "campaignaccess"){
+                        if(found[0].granted[i].templateId === "campaignaccess"){
 
                             //creating image
                             const skinholder = await Canvas.loadImage('./assets/Rarities/standard/uncommon.png')

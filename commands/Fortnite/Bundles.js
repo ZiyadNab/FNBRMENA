@@ -1055,26 +1055,26 @@ module.exports = {
                             //creating image
                             const vbucksHolder = await Canvas.loadImage('./assets/Rarities/standard/legendary.png')
                             ctx.drawImage(vbucksHolder, x, y, 1024, 1024)
-                            const vbucksImg = await Canvas.loadImage('https://media.fortniteapi.io/images/652b99f7863db4ba398c40c326ac15a9/transparent.png');
+                            const vbucksImg = await Canvas.loadImage('https://imgur.com/IM4C1Ab.png');
                             ctx.drawImage(vbucksImg, x, y, 1024, 1024)
                             const imgBorder = await Canvas.loadImage('./assets/Rarities/standard/borderLegendary.png')
                             ctx.drawImage(imgBorder, x, y, 1024, 1024)
                             if(lang === "en"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
-                                ctx.font = applyTextName(canvas, 1000 + ' V-Bucks');
-                                ctx.fillText(1000 + ' V-Bucks', (512 + x), (y + 860))
-                                ctx.font = applyTextDescription(canvas, 'Valuable currency used to purchase goods from the store.');
+                                ctx.font = applyTextName(canvas, `${found[0].name} Rewards`);
+                                ctx.fillText(`${found[0].name} Rewards`, (512 + x), (y + 860))
+                                ctx.font = applyTextDescription(canvas, 'Complete Homebase Storm Shield Defense 1 to collect your rewards!');
                                 ctx.textAlign='center';
-                                ctx.fillText('Valuable currency used to purchase goods from the store.', (512 + x), (y + 930))
+                                ctx.fillText('Complete Homebase Storm Shield Defense 1 to collect your rewards!', (512 + x), (y + 930))
                             }else if(lang === "ar"){
                                 ctx.fillStyle = '#ffffff';
                                 ctx.textAlign='center';
-                                ctx.font = applyTextName(canvas, 1000 + 'فيبوكس ');
-                                ctx.fillText(1000 + 'فيبوكس ', (512 + x), (y + 860))  
-                                ctx.font = applyTextDescription(canvas, 'عملة ثمينة تُستخدَم لشراء البضائع من المتجر.');
+                                ctx.font = applyTextName(canvas, `جوائز ${found[0].name}`);
+                                ctx.fillText(`جوائز ${found[0].name}`, (512 + x), (y + 860))  
+                                ctx.font = applyTextDescription(canvas, 'أكمل دفاع درع عاصفة القاعدة الرئيسية 1 لجمع مكافآتك!');
                                 ctx.textAlign='center';
-                                ctx.fillText('عملة ثمينة تُستخدَم لشراء البضائع من المتجر.', (512 + x), (y + 930))
+                                ctx.fillText('أكمل دفاع درع عاصفة القاعدة الرئيسية 1 لجمع مكافآتك!', (512 + x), (y + 930))
                             }
                         }
                     }

@@ -382,7 +382,7 @@ module.exports = {
                     await backgroundInisilizer(randomColor)
 
                     //get random outfit and draw it
-                    await randomOutfit()
+                    //await randomOutfit()
 
                     //define x, y and data array
                     var x = 250

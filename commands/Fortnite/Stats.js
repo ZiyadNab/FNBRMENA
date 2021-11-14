@@ -60,9 +60,6 @@ module.exports = {
             'اطوار'
         ]
 
-        //get random color
-        var randomImage = Math.floor(Math.random() * listOfColors.length)
-
         //create an embed
         const choosePlatform = new Discord.MessageEmbed()
         choosePlatform.setColor(FNBRMENA.Colors("embed"))
@@ -223,6 +220,14 @@ module.exports = {
                         backgroundGRD.addColorStop(1, `#${listOfColors[randomColor].substring(listOfColors[randomColor].indexOf(',') + 1, listOfColors[randomColor].length)}`)
                         ctx.fillStyle = backgroundGRD
                         ctx.fillRect(0, 0, canvas.width, canvas.height) //background
+
+                        //get a random loadingscreen
+                        const listOfLoadingscreans = await FNBRMENA.Search(lang, "custom", "&type=loadingscreen")
+                        ctx.globalAlpha = 0.5;
+                        const randomImage = await randomNumber(listOfLoadingscreans.data.items.length)
+                        const loadingscreanIMG = await Canvas.loadImage(listOfLoadingscreans.data.items[randomImage].images.featured)
+                        ctx.drawImage(loadingscreanIMG, 0, 0, canvas.width, canvas.height)
+                        ctx.globalAlpha = 1;
 
                         const leftHandSideGRD = ctx.createLinearGradient(3300, canvas.height + 200, canvas.width + 1000, 0)
                         leftHandSideGRD.addColorStop(0, `#${listOfColors[randomColor].substring(0, listOfColors[randomColor].indexOf(','))}`)

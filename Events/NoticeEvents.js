@@ -80,14 +80,8 @@ module.exports = (FNBRMENA, client, admin) => {
                                     var playlists = ``
                                     for(let j = 0; j < emergencynotice[i].playlists.length; j++){
 
-                                        //get data
-                                        console.log(emergencynotice[i].playlists[j])
-                                        var url = decodeURI(`https://fortnite-api.com/v1/playlists/${emergencynotice[i].playlists[j]}?language=${lang}`)
-                                        const playlist = await axios.get(url)
-                                        
                                         //add the playlist name
-                                        if(playlist.data.data.subName === null) playlists += `${playlist.data.data.name} `
-                                        else playlists += `\`${playlist.data.data.name}-${playlist.data.data.subName}\` `
+                                        playlists += `\`${emergencynotice[i].playlists[j]}\`\n`
                                     }
 
                                     if(lang === "en"){

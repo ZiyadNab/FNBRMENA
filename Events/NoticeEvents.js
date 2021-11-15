@@ -81,8 +81,8 @@ module.exports = (FNBRMENA, client, admin) => {
                                     for(let j = 0; j < emergencynotice[i].playlists.length; j++){
 
                                         //get data
+                                        console.log(emergencynotice[i].playlists[j])
                                         var url = decodeURI(`https://fortnite-api.com/v1/playlists/${emergencynotice[i].playlists[j]}?language=${lang}`)
-                                        url = encodeURI(url)
                                         const playlist = await axios.get(url)
                                         
                                         //add the playlist name

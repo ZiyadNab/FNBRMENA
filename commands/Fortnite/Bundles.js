@@ -228,7 +228,7 @@ module.exports = {
 
                         if(found[0].granted[i].templateId !== "MtxPurchased" && found[0].granted[i].templateId !== "MtxPurchaseBonus" &&
                          !found[0].granted[i].templateId.includes("bundleschedule") && found[0].granted[i].templateId !== "campaignaccess"
-                         && found[0].granted[i].templateId !== "stwstarterbundle07_getrewards"){
+                         && found[0].granted[i].templateId.includes("stwstarterbundle")){
 
                             //request data
                             await FNBRMENA.Search(lang, "id", found[0].granted[i].templateId)

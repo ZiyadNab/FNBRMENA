@@ -244,7 +244,7 @@ module.exports = {
                                     Lines++;
                                 }
                             }
-                        } else if(res.data.daily.length % 3 === 0){
+                        } else if(Daily.length % 3 === 0){
                             height += 762
                             for(let i = 0; i < LimitedTime.length; i++){
                                 if(3 === Lines){

@@ -189,10 +189,10 @@ class FNBRMENA {
 
         //request the data and return the response
         if(Type === "list") //return all the crew data
-        return await axios.get(`https://fortniteapi.io/v2/crew/history?lang=${Lang}`, { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
+        return await axios.get(`https://fortniteapi.io/v2/crew/history?lang=${Lang}`, { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io")} })
 
         else if(Type === "active") //return the active crew
-        return await axios.get(`https://fortniteapi.io/v2/crew?lang=${Lang}`, { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
+        return await axios.get(`https://fortniteapi.io/v2/crew?lang=${Lang}`, { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io")} })
 
     }
 
@@ -214,7 +214,7 @@ class FNBRMENA {
      async Stats(playerTag, Platform, Period){
 
         //request the data and return the response
-        return await axios.get(encodeURI(`https://fortnite-api.com/v2/stats/br/v2?name=${playerTag}&accountType=${Platform}&timeWindow=${Period}`))
+        return await axios.get(encodeURI(`https://fortnite-api.com/v2/stats/br/v2?name=${playerTag}&accountType=${Platform}&timeWindow=${Period}`), { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("Fortnite-Api.com")} })
 
     }
 
@@ -775,8 +775,8 @@ class FNBRMENA {
             return "d4ce1562-839ff66b-3946ccb6-438eb9cf"
         }
 
-        if(Type === "FortniteAPI.com"){
-            return "a7eabb1fa5a6e59cbcda3a6885d42f02be0d76ea"
+        if(Type === "Fortnite-Api.com"){
+            return "0b0ba03b-1452-4dc1-b48e-09e6c34726f3"
         }
 
         if(Type === "DiscordBotToken"){

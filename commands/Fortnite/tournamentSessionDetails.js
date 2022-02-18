@@ -263,7 +263,7 @@ module.exports = {
                             //draw the players names
                             ctx.font = '45px Burbank Big Condensed'
                             await applyText(canvas, playersNames)
-                            ctx.fillText(playersNames, x + 600, y + 60)
+                            ctx.fillText(playersNames, x + 600, y + 70)
 
                         }else if(lang === "ar"){
 
@@ -335,7 +335,7 @@ module.exports = {
 
                             //draw the players names
                             ctx.font = '45px Arabic'
-                            ctx.fillText(teamIDs, x + 2225, y + 60)
+                            ctx.fillText(teamIDs, x + 2225, y + 55)
 
                         } y += 90 + 20
 

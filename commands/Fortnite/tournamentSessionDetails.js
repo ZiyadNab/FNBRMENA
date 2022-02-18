@@ -119,6 +119,12 @@ module.exports = {
                     ctx.fillStyle = grediant;
                     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+                    //add a bg
+                    ctx.globalAlpha = 0.4
+                    const loadingImg = await Canvas.loadImage(searchedContentTournamentObj[0].loading_screen_image)
+                    ctx.drawImage(loadingImg, 0, 0 , canvas.width, canvas.height)
+                    ctx.globalAlpha = 1
+
                     //add the credits
                     ctx.fillStyle = '#ffffff'
                     ctx.textAlign='right'

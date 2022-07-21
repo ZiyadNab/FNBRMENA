@@ -23,7 +23,7 @@ module.exports = (client, admin) => {
             if(status){
 
                 //request the token
-                const token = await axios.get('https://fnbrmenaapi.herokuapp.com/api/auth?authType=exchange')
+                const token = await axios.get('https://fnbrmenaapi.herokuapp.com/api/auth?authType=lac2')
 
                 //request data
                 await axios.get('http://lightswitch-public-service-prod.ol.epicgames.com/lightswitch/api/service/fortnite/status',

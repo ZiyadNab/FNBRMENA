@@ -1,5 +1,4 @@
-const axios = require('axios')
-const Canvas = require('canvas');
+const config = require('../Configs/config.json')
 const Discord = require('discord.js')
 
 module.exports = (FNBRMENA, client, admin, emojisObject) => {

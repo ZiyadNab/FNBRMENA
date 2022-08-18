@@ -89,17 +89,17 @@ module.exports = {
             {
                 label: `Epic Games`,
                 value: `epic`,
-                emoji: `${client.emojis.cache.get("1006856264229335060")}`
+                emoji: `${emojisObject.epicgames.name}:${emojisObject.epicgames.id}`
             },
             {
                 label: `Playstation`,
                 value: `psn`,
-                emoji: `${client.emojis.cache.get("1006856258076299285")}`
+                emoji: `${emojisObject.playstation.name}:${emojisObject.playstation.id}`
             },
             {
                 label: `Xbox`,
                 value: `xbl`,
-                emoji: `${client.emojis.cache.get("1006855003186675812")}`
+                emoji: `${emojisObject.xbox.name}:${emojisObject.xbox.id}`
             }
         )
 
@@ -108,17 +108,17 @@ module.exports = {
             {
                 label: `ايبك قيمز`,
                 value: `epic`,
-                emoji: `${client.emojis.cache.get("1006856264229335060")}`
+                emoji: `${emojisObject.epicgames.name}:${emojisObject.epicgames.id}`
             },
             {
                 label: `بلايستيشن`,
                 value: `psn`,
-                emoji: `${client.emojis.cache.get("1006856258076299285")}`
+                emoji: `${emojisObject.playstation.name}:${emojisObject.playstation.id}`
             },
             {
                 label: `اكسبوكس`,
                 value: `xbl`,
-                emoji: `${client.emojis.cache.get("1006855003186675812")}`
+                emoji: `${emojisObject.xbox.name}:${emojisObject.xbox.id}`
             }
         )
 
@@ -488,7 +488,9 @@ module.exports = {
                     }else FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
                 })
             }
-        
+        }).catch(async err => {
+            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
+
         })
     }
 }

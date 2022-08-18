@@ -87,7 +87,7 @@ module.exports = {
 
                         //here request only new items from the latest patch
                         await FNBRMENA.Request('https://fortnite-api.com/v2/cosmetics/br/new')
-                        .then(newItems => {
+                        .then(async newItems => {
 
                             //store every new item id
                             const newItemsIDs = []

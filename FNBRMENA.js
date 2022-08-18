@@ -990,7 +990,7 @@ class FNBRMENA {
         }
 
         if(Type === "DiscordBotToken"){
-            return 'ODEzNzQ2OTE4Nzg5MjE4Mzg2.YDTy4A.f3-p1rLNr3V199oOps1wWk5cIS8'
+            return 'Nzk5OTkxNDQ2MDY0MDcwNjU4.YALoFw.9Y3FeQRPrkWTMPzWE1oCSs88O-g'
         }
 
         if(Type === "FNBRJS"){

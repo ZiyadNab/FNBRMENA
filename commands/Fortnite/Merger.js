@@ -608,7 +608,7 @@ module.exports = {
                    }
                 }
 
-                const att = new Discord.AttachmentBuilder(canvas.toBuffer(), `${message.author.id}.png`)
+                const att = new Discord.AttachmentBuilder(canvas.toBuffer('image/jpeg'), `${message.author.id}.jpg`)
                 await message.channel.send({files: [att]})
                 msg.delete()
 

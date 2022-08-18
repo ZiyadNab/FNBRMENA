@@ -367,7 +367,7 @@ module.exports = {
                 SectionsEmbed.setDescription(string)
 
                 //send
-                const att = new Discord.AttachmentBuilder(canvas.toBuffer(), `${moment()}.png`)
+                const att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `${moment()}.png`})
                 await message.reply({embeds: [SectionsEmbed], files: [att]})
                 msg.delete()
                 

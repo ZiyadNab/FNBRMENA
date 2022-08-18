@@ -442,7 +442,7 @@ module.exports = {
                     }
 
                     //send the info embed
-                    const att = new Discord.AttachmentBuilder(canvas.toBuffer(), `season${res.data.season}.png`)
+                    const att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `season${res.data.season}.png`})
                     await message.reply({embeds: [info], components: [row], files: [att]})
                     msg.delete()
                 })

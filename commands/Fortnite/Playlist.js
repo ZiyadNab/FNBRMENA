@@ -51,7 +51,7 @@ module.exports = {
                 ctx.drawImage(playlistImage, 0, 0 , canvas.width, canvas.height) //adding the playlist image to the canvas
 
                 //sending the image
-                const att = new Discord.AttachmentBuilder(canvas.toBuffer(), `Playlist_${playlistData.id}.png`)
+                const att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `Playlist_${playlistData.id}.png`})
                 await message.reply({files: [att]})
             }
 

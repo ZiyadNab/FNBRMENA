@@ -424,7 +424,7 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                                         }
 
                                         //send the message
-                                        const att = new Discord.AttachmentBuilder(canvas.toBuffer(), `${userITEM.data.item.id}.png`)
+                                        const att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `${userITEM.data.item.id}.png`})
                                         await message.send({content: `<@${doc.id}>`, embeds: [itemInfo], files: [att]})
                                         await docRef.doc(`${doc.id}`).collection("Reminders").doc(res.data.shop[j].mainId).delete()
 

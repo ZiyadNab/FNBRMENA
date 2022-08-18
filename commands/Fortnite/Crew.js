@@ -431,14 +431,14 @@ module.exports = {
                         )
 
                         //send embed
-                        const att = new Discord.AttachmentBuilder(canvas.toBuffer(), `${res.data.history[num].date}.png`)
+                        const att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `${res.data.history[num].date}.png`})
                         await message.reply({embeds: [crewData], files: [att], components: [row]})
                         msg.delete()
 
                     }else{
 
                         //send embed
-                        const att = new Discord.AttachmentBuilder(canvas.toBuffer(), `${res.data.history[num].date}.png`)
+                        const att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `${res.data.history[num].date}.png`})
                         await message.reply({embeds: [crewData], files: [att]})
                         msg.delete()
                     }

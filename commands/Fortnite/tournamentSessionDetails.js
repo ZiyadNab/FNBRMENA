@@ -322,7 +322,7 @@ module.exports = {
                     }
 
                     //send
-                    const att = new Discord.AttachmentBuilder(canvas.toBuffer(), `${res.data.session.windowId}.png`);
+                    const att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `${res.data.session.windowId}.png`});
                     await message.reply({files: [att]});
                     msg.delete()
 

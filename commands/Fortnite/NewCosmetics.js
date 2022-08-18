@@ -402,7 +402,7 @@ module.exports = {
                 }
 
                 //send the image to discord channel
-                const att = new Discord.AttachmentBuilder(canvas.toBuffer('image/jpeg'), `${build}.jpg`)
+                const att = new Discord.AttachmentBuilder(canvas.toBuffer('image/jpeg'), {name: `${build}.jpg`})
                 await message.reply({files: [att]})
                 msg.delete()
 

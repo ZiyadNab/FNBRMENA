@@ -459,7 +459,7 @@ module.exports = {
                 info.setDescription(string)
 
                 //send the image to discord channel
-                const att = new Discord.AttachmentBuilder(canvas.toBuffer(), `${pak}.png`)
+                const att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `${pak}.png`})
                 await message.reply({embeds: [info], files: [att]})
                 msg.delete()
 

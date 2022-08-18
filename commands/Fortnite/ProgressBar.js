@@ -386,13 +386,8 @@ module.exports = {
 
 
             //send the message
-            try {
-                const att = new Discord.AttachmentBuilder(canvas.toBuffer(), 'progress.png')
-                await message.reply({files: [att]})
-            } catch {
-                const att = new Discord.AttachmentBuilder(canvas.toBuffer('image/jpeg', {quality: 0.9}), 'progress.jpg')
-                await message.reply({files: [att]})
-            }
+            const att = new Discord.AttachmentBuilder(canvas.toBuffer('image/jpeg'), {name: 'progress.jpg'})
+            await message.reply({files: [att]})
             msg.delete()
         })
     }

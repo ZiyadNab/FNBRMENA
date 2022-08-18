@@ -270,7 +270,7 @@ module.exports = {
 
                     }
                     
-                    const att = new Discord.AttachmentBuilder(canvas.toBuffer(), `${targetQuest.id}.png`)
+                    const att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `${targetQuest.id}.png`})
                     await message.reply({files: [att]})
                     msg.delete()
 

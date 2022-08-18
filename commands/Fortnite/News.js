@@ -12,7 +12,7 @@ module.exports = {
     callback: async (FNBRMENA, message, args, text, Discord, client, admin, userData, alias, emojisObject) => {
 
         //image creator
-        const newsImageCreator = async (data) => {
+        const newsImageCreator = async (data, hash) => {
 
             const generating = new Discord.EmbedBuilder()
             generating.setColor(FNBRMENA.Colors("embed"))
@@ -175,11 +175,11 @@ module.exports = {
                 encoder.finish();
 
                 //send the message
-                const att = new Discord.AttachmentBuilder(encoder.out.getData(), `a.gif`) 
+                const att = new Discord.AttachmentBuilder(encoder.out.getData(), {name: `${hash}.gif`}) 
                 if(isRow) await message.reply({files: [att], components: [row]})
                 else await message.reply({files: [att]})
                 msg.delete()
-                
+
             }).catch(async err => {
                 FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
             })
@@ -247,13 +247,13 @@ module.exports = {
                 //user clicked BR
                 if(collected.customId === "BR"){
                     newsTypeMessage.delete()
-                    newsImageCreator(res.data.data.br.motds)
+                    newsImageCreator(res.data.data.br.motds, res.data.data.br.hash)
                 }
 
                 //user clicked STW
                 if(collected.customId === "STW"){
                     newsTypeMessage.delete()
-                    newsImageCreator(res.data.data.stw.messages)
+                    newsImageCreator(res.data.data.stw.messages, res.data.data.stw.hash)
                 }
             }).catch(async err => {
                 FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)

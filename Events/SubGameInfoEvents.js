@@ -91,7 +91,7 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                         ctx.fillText("FNBRMENA", 10, 40)
 
                         //attachments
-                        const att = new Discord.AttachmentBuilder(canvas.toBuffer(), `${res.data.subgameinfo.battleroyale.subgame}.png`)
+                        const att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `${res.data.subgameinfo.battleroyale.subgame}.png`})
                         await message.send({content: `New ${res.data.subgameinfo.battleroyale.title} gamemode image selector has been added`, files: [att]})
 
                     }
@@ -120,7 +120,7 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                         ctx.fillText("FNBRMENA", 10, 40)
 
                         //attachments
-                        const att = new Discord.AttachmentBuilder(canvas.toBuffer(), `${res.data.subgameinfo.savetheworld.subgame}.png`)
+                        const att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `${res.data.subgameinfo.savetheworld.subgame}.png`})
 
                         //send the image
                         await message.send({content: `New ${res.data.subgameinfo.savetheworld.title} gamemode image selector has been added`, files: [att]})
@@ -152,7 +152,7 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                         ctx.fillText("FNBRMENA", 10, 40)
 
                         //attachments
-                        const att = new Discord.AttachmentBuilder(canvas.toBuffer(), `${res.data.subgameinfo.creative.subgame}.png`)
+                        const att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `${res.data.subgameinfo.creative.subgame}.png`})
 
                         //send the image
                         await message.send({content: `New ${res.data.subgameinfo.creative.title} gamemode image selector has been added`, files: [att]})

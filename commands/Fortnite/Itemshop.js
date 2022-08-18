@@ -1565,7 +1565,7 @@ module.exports = {
                 else if(userData.lang === "ar") sending.setTitle(`جاري ارسال الصورة الرجاء الانتظار ${emojisObject.loadingEmoji}`)
                 msg.edit(sending)
 
-                const att = new Discord.AttachmentBuilder(canvas.toBuffer(), res.data.lastUpdate.uid + '.png')
+                const att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `${res.data.lastUpdate.uid}.png`})
                 await message.reply({files: [att]})
                 msg.delete()
             })

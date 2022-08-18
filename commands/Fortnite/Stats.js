@@ -435,7 +435,7 @@ module.exports = {
                         }
 
                         //send the stats message
-                        const att = new Discord.AttachmentBuilder(canvas.toBuffer(), `${res.data.data.account.name}.png`)
+                        const att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `${res.data.data.account.name}.png`})
                         await message.reply({files: [att]})
                         msg.delete()
 

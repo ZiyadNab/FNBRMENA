@@ -254,7 +254,7 @@ module.exports = {
                         }
 
                         //send the fish stats picture
-                        const att = new Discord.AttachmentBuilder(canvas.toBuffer(), `${playerID.data.account_id}.png`)
+                        const att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `${playerID.data.account_id}.png`})
                         await message.reply({files: [att]})
                         msg.delete()
 

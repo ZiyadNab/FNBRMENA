@@ -206,7 +206,7 @@ module.exports = {
             generating.setColor(FNBRMENA.Colors("embed"))
             if(userData.lang === "en") generating.setTitle(`Loading a total ${mergedItemsDataList.length} items... ${emojisObject.loadingEmoji}`)
             else if(userData.lang === "ar") generating.setTitle(`جاري تحميل ${mergedItemsDataList.length} عنصر... ${emojisObject.loadingEmoji}`)
-            message.channel.send({embeds: [generating]})
+            message.reply({embeds: [generating]})
             .then(async msg => {
 
                 //registering fonts
@@ -608,7 +608,7 @@ module.exports = {
                    }
                 }
 
-                const att = new Discord.AttachmentBuilder(canvas.toBuffer('image/jpeg'), `${message.author.id}.jpg`)
+                const att = new Discord.AttachmentBuilder(canvas.toBuffer('image/jpeg'), {name: `${message.author.id}.jpg`})
                 await message.channel.send({files: [att]})
                 msg.delete()
 

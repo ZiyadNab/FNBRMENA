@@ -444,14 +444,14 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                             )
 
                             //send embed
-                            const att = new Discord.AttachmentBuilder(canvas.toBuffer(), `${res.data.currentCrew.date}.png`)
+                            const att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `${res.data.currentCrew.date}.png`})
                             await message.send({embeds: [crewData], files: [att], components: [row]})
                             msg.delete()
 
                         }else{
 
                             //send embed
-                            const att = new Discord.AttachmentBuilder(canvas.toBuffer(), `${res.data.currentCrew.date}.png`)
+                            const att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `${res.data.currentCrew.date}.png`})
                             await message.send({embeds: [crewData], files: [att]})
                             msg.delete()
                         }

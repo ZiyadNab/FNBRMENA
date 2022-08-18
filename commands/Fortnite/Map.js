@@ -50,7 +50,7 @@ module.exports = {
                     ctx.drawImage(border, 0, 0, canvas.width, canvas.height)
 
                     //send the map image
-                    const att = new Discord.AttachmentBuilder(canvas.toBuffer(), 'map.png')
+                    const att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: 'map.png'})
                     await message.reply({files: [att]})
                     msg.delete()
 
@@ -189,7 +189,7 @@ module.exports = {
                                 ctx.drawImage(border, 0, 0, canvas.width, canvas.height)
 
                                 //send the map image
-                                const att = new Discord.AttachmentBuilder(canvas.toBuffer(), `${allAvaliableVersions[collected.values[0]].patchVersion}.png`)
+                                const att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `${allAvaliableVersions[collected.values[0]].patchVersion}.png`})
                                 await message.reply({files: [att]})
                                 msg.delete()
 

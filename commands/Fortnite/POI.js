@@ -132,7 +132,7 @@ module.exports = {
                             }
 
                             //send the picture
-                            const att = new Discord.AttachmentBuilder(canvas.toBuffer(), res.data.list[collected.values[0]].name+'.png')
+                            const att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `${res.data.list[collected.values[0]].name}.png`})
                             await message.reply({files: [att]})
                             msg.delete()
 

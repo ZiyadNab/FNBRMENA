@@ -673,7 +673,7 @@ module.exports = {
                         }
 
                         //send embed
-                        const att = new Discord.AttachmentBuilder(canvas.toBuffer(), `${res.data.items[num].id}.png`)
+                        const att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `${res.data.items[num].id}.png`})
                         await message.reply({files: [att]})
                         msg.delete()
 
@@ -1124,7 +1124,7 @@ module.exports = {
                         }
 
                         //send embed
-                        const att = new Discord.AttachmentBuilder(canvas.toBuffer(), `${res.data.items[num].id}.png`)
+                        const att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `${res.data.items[num].id}.png`})
                         await message.reply({files: [att]})
                         msg.delete()
 

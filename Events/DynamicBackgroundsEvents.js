@@ -90,7 +90,7 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                                     }
 
                                     //attachments
-                                    const att = new Discord.AttachmentBuilder(canvas.toBuffer(), `${backgroundsDATA[i].stage}.png`)
+                                    const att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `${backgroundsDATA[i].stage}.png`})
 
                                     //send the image
                                     await message.send({content: `New ${backgroundsDATA[i].key} background has been added`, files: [att]})

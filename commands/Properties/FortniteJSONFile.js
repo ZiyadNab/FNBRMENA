@@ -149,9 +149,8 @@ module.exports = {
                             }
 
                             //send the file
-                            const att = new Discord.AttachmentBuilder(Buffer.from(JSON.stringify(profile_athena, null, 2)), `profile_athena.json`)
-                            await athenaGen.delete()
-                            await message.reply({files: [att]})
+                            const att = new Discord.AttachmentBuilder(Buffer.from(JSON.stringify(profile_athena, null, 2)), {name: `profile_athena.json`})
+                            await athenaGen.edit({files: [att], embeds: [], components: []})
 
                         }).catch(err => {
                             FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)

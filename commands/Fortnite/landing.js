@@ -82,7 +82,7 @@ module.exports = {
                     ctx.fillText("FNBRMENA", 15, 55)
 
                     //encoding...
-                    const att = new Discord.AttachmentBuilder(canvas.toBuffer(), `${res.data.list[randomImage].name}.png`)
+                    const att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `${res.data.list[randomImage].name}.png`})
                     const PickingLandingSpotAgainMessage = await message.reply({embeds: [landingSpotPickedEmbed], components: [tryAgainButtonDataRow], files: [att]})
 
                     //delete generating msg

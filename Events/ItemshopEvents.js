@@ -1424,7 +1424,7 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
             else if(lang === "ar") sending.setTitle(`جاري ارسال الصورة الرجاء الانتظار ${emoji}`)
             msg.edit({embeds: [sending]})
 
-            const att = new Discord.AttachmentBuilder(canvas.toBuffer(), `${res.lastUpdate.uid}.png`)
+            const att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `${res.lastUpdate.uid}.png`})
             await message.send({files: [att]})
             msg.delete()
 

@@ -185,7 +185,10 @@ client.on('ready', async () => {
     birthday: client.emojis.cache.get("1009803504153546842"),
     umbrella: client.emojis.cache.get("1009803494586318898"),
     battlepassTiers: client.emojis.cache.get("879859225059287040"),
-    battlepassStars: client.emojis.cache.get("879823941428973598")
+    battlepassStars: client.emojis.cache.get("879823941428973598"),
+    epicgames: client.emojis.cache.get("1009817355058163774"),
+    playstation: client.emojis.cache.get("1009817358321324077"),
+    xbox: client.emojis.cache.get("1009817366827376680"),
   }
 
   //excute

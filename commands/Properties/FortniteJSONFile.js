@@ -61,13 +61,13 @@ module.exports = {
         //filtering the user clicker
         const filter = i => i.user.id === message.author.id
 
-        //await the user click
-        const collector = message.channel.createMessageComponentCollector({filter, time: 30000, errors: ['time'] })
-        collector.on('collect', async collected => {
+        //await for the user
+        await message.channel.awaitMessageComponent({filter, time: 30000})
+        .then(async collected => {
             collected.deferUpdate();
 
             //when cancel is clicked
-            if(collected.customId === "cancel") collector.stop()
+            if(collected.customId === "cancel") athenaGen.delete()
             else{
 
                 var profile_athena = require('../../assets/AthenaTemplate/template.json')
@@ -160,18 +160,8 @@ module.exports = {
 
                 //send the file
                 const att = new Discord.MessageAttachment(Buffer.from(JSON.stringify(profile_athena, null, 2)), `profile_athena.json`)
-                await athenaGen.delete()
-                await message.reply({files: [att]})
+                await athenaGen.edit({files: [att], components: []})
 
-            }
-        })
-
-        //when time is ended
-        collector.on('end', async () => {
-            try {
-                await athenaGen.delete()
-            } catch {
-                
             }
         })
     }

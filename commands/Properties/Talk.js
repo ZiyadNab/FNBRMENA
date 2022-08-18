@@ -85,7 +85,7 @@ module.exports = {
                         //create a successfull embed message
                         const successfulMessageEmbed = new Discord.EmbedBuilder()
                         successfulMessageEmbed.setColor(FNBRMENA.Colors("embedSuccess"))
-                        successfulMessageEmbed.setTitle(`The message has been sent to ${channel.name}'s channel successfully ${emojisObject.checkEmoji}.`)
+                        successfulMessageEmbed.setTitle(`The message has been sent to \`${channel.name}\`'s channel successfully ${emojisObject.checkEmoji}.`)
                         successfulMessageEmbed.setDescription(contentSent)
                         await message.reply({embeds: [successfulMessageEmbed]})
 

@@ -148,6 +148,11 @@ module.exports = {
                                 }
                             }
 
+                            //send the file
+                            const att = new Discord.AttachmentBuilder(Buffer.from(JSON.stringify(profile_athena, null, 2)), `profile_athena.json`)
+                            await athenaGen.delete()
+                            await message.reply({files: [att]})
+
                         }).catch(err => {
                             FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
                         })
@@ -156,10 +161,6 @@ module.exports = {
                         FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
                     })
                 }
-
-                //send the file
-                const att = new Discord.AttachmentBuilder(Buffer.from(JSON.stringify(profile_athena, null, 2)), `profile_athena.json`)
-                await athenaGen.edit({files: [att], components: []})
             }
         }).catch(err => {
             FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)

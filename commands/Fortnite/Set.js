@@ -421,7 +421,7 @@ module.exports = {
 
                 //set description
                 setEmbed.setDescription(string)
-                const att = new Discord.AttachmentBuilder(canvas.toBuffer('image/jpeg'), `${text}.png`)
+                const att = new Discord.AttachmentBuilder(canvas.toBuffer('image/jpeg'), `${text}.jpg`)
                 await message.reply({embeds: [setEmbed], files: [att]})
                 msg.delete()
             

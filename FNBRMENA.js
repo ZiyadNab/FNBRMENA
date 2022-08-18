@@ -906,7 +906,7 @@ class FNBRMENA {
     Logs(admin, client, Discord, message, alias, lang, text, err, errorEmoji){
 
         //logs channel
-        const logsChannel = client.channels.cache.find(channel => channel.id === require('./Coinfigs/config.json').events.Logs)
+        const logsChannel = client.channels.cache.find(channel => channel.id === require('./Configs/config.json').events.Logs)
 
         //create error embed
         const anErrorHappened = new Discord.EmbedBuilder()
@@ -941,7 +941,7 @@ class FNBRMENA {
     eventsLogs(admin, client, err, event){
 
         //logs channel
-        const logsChannel = client.channels.cache.find(channel => channel.id === require('./Coinfigs/config.json').events.Logs)
+        const logsChannel = client.channels.cache.find(channel => channel.id === require('./Configs/config.json').events.Logs)
 
         //logs
         const logs = new Discord.EmbedBuilder()
@@ -990,7 +990,7 @@ class FNBRMENA {
         }
 
         if(Type === "DiscordBotToken"){
-            return 'Nzk5OTkxNDQ2MDY0MDcwNjU4.YALoFw.9Y3FeQRPrkWTMPzWE1oCSs88O-g'
+            return 'ODEzNzQ2OTE4Nzg5MjE4Mzg2.YDTy4A.f3-p1rLNr3V199oOps1wWk5cIS8'
         }
 
         if(Type === "FNBRJS"){

@@ -175,10 +175,13 @@ module.exports = {
                 encoder.finish();
 
                 //send the message
-                const att = new Discord.AttachmentBuilder(encoder.out.getData(),  `a.gif`) 
+                const att = new Discord.AttachmentBuilder(encoder.out.getData(), `a.gif`) 
                 if(isRow) await message.reply({files: [att], components: [row]})
                 else await message.reply({files: [att]})
                 msg.delete()
+                
+            }).catch(async err => {
+                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
             })
         }
         
@@ -255,6 +258,8 @@ module.exports = {
             }).catch(async err => {
                 FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
             })
+        }).catch(async err => {
+            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
         })
     }
 }

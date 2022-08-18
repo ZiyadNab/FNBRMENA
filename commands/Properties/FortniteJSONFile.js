@@ -90,12 +90,11 @@ module.exports = {
                         .then(newItems => {
 
                             //store every new item id
-                            var newItemsIDs = []
-                            for(let i = 0; i < newItems.data.data.items.length; i++) newItemsIDs[i] = newItems.data.data.items[i].id
+                            const newItemsIDs = []
+                            for(const item of newItems.data.data.items) newItemsIDs.push(item)
                         
                             //loop thrw every item
                             for(let i = 0; i < allItems.data.data.length; i++){
-                                console.log(allItems.data.data[i].id)
                                 
                                 if(newItemsIDs.includes(allItems.data.data[i].id)) var favorite = true
                                 else var favorite = false
@@ -159,10 +158,11 @@ module.exports = {
                 }
 
                 //send the file
-                const att = new Discord.MessageAttachment(Buffer.from(JSON.stringify(profile_athena, null, 2)), `profile_athena.json`)
+                const att = new Discord.AttachmentBuilder(Buffer.from(JSON.stringify(profile_athena, null, 2)), `profile_athena.json`)
                 await athenaGen.edit({files: [att], components: []})
-
             }
+        }).catch(err => {
+            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
         })
     }
 }

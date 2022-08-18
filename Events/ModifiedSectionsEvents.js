@@ -1,7 +1,7 @@
 const Discord = require('discord.js')
-const key = require('../Coinfigs/config.json')
+const key = require('../Configs/config.json')
 
-module.exports = (FNBRMENA, client, admin) => {
+module.exports = (FNBRMENA, client, admin, emojisObject) => {
     const message = client.channels.cache.find(channel => channel.id === key.events.Section)
 
     //result
@@ -142,7 +142,7 @@ module.exports = (FNBRMENA, client, admin) => {
                             }
                                 
                             //create an embed for just added sections
-                            const addedEmbed = new Discord.MessageEmbed()
+                            const addedEmbed = new Discord.EmbedBuilder()
 
                             //set the color
                             addedEmbed.setColor(FNBRMENA.Colors("embed"))
@@ -151,7 +151,7 @@ module.exports = (FNBRMENA, client, admin) => {
                             addedEmbed.setDescription(String)
 
                             //send the new sections
-                            await message.send(addedEmbed)
+                            await message.send({embeds: [addedEmbed]})
                         }
 
                         //if there is a new sections
@@ -171,8 +171,9 @@ module.exports = (FNBRMENA, client, admin) => {
 
                     }
                     
-                }).catch(err => {
-                    console.log("The issue is in Modified Sections Events ", err)
+                }).catch(async err => {
+                    FNBRMENA.eventsLogs(admin, client, err, 'modified sections')
+        
                 })
             }
         })

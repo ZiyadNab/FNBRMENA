@@ -5,746 +5,416 @@ module.exports = {
     type: 'Fortnite',
     descriptionEN: 'This command will extract any challengas from the files (even if its leaked).',
     descriptionAR: 'الأمر هذا راح يستخرج لك اي تحدي من الملفات (حتى اذا كانت مسربة).',
-    expectedArgsEN: 'First think of what challenges you need to search about, then use this command with the challenge name or any word part of the name.',
-    expectedArgsAR: 'أولا فكر عن اي تحدي تريد استخراجة. ثم أستعمل هذا الأمر للبحث عن التحديات من خلال اسم التحدي او بأستخدام اي حرف من اسم التحدي.',
-    hintEN: 'You can search for a challenges with just one word you dont need to spell the challenge name correctly just type the words you know. e.g. search by (wee) that will give u a list of all the challenges contains word (wee) like Week 1 Challenges, Week 7 Challenges.',
-    hintAR: 'يمكنك البحث فقط بأسخدام حرف واحد لا تحتاج الى ان تكتب اسم التحدي بالكامل فقط اكتب الحروف الي تتذكرها من اسم التحدي. مثل البحث بأستخدام كلمة (wee) سوف تحصل على قائمة لجميع التحديات التي تبدأ بكلمة (wee) مثل تحديات الأسبوع الأول و الثاني...',
-    argsExample: ['Week 1 Epic Quests', 'Week', 'Legendary Quests', 'L'],
-    minArgs: 1,
-    maxArgs: null,
+    minArgs: 0,
+    maxArgs: 0,
     cooldown: 15,
     permissionError: 'Sorry you do not have acccess to this command',
-    callback: async (FNBRMENA, message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji, greenStatus, redStatus) => {
+    callback: async (FNBRMENA, message, args, text, Discord, client, admin, userData, alias, emojisObject) => {
 
-        //get the user language from the database
-        const lang = await FNBRMENA.Admin(admin, message, "", "Lang")
+        //values
+        let categoriesIndex = null
 
-        const quest = await FNBRMENA.listChallenges("current", "en")
+        FNBRMENA.listChallenges("current", userData.lang)
         .then(async res => {
 
-            //inisilizing number
-            var num = null
+            //questSheet
+            const printQuests = async (questsIndex) => {
+                const targetQuest = res.data.bundles[categoriesIndex].bundles[questsIndex]
 
-            //get the challenges by name
-            const challenge = await res.data.bundles.filter(collected => {
-                return collected.name.toLowerCase().includes(text.toLowerCase())
-            })
+                //got the quest data now work with it
+                const generating = new Discord.EmbedBuilder()
+                generating.setColor(FNBRMENA.Colors("embed"))
+                if(userData.lang === "en") generating.setTitle(`Loading ${targetQuest.name}... ${emojisObject.loadingEmoji}`)
+                else if(userData.lang === "ar") generating.setTitle(`تحميل ${targetQuest.name}... ${emojisObject.loadingEmoji}`)
+                message.reply({embeds: [generating]})
+                .then(async msg => {
 
-            //there is no challenges found send err
-            if(challenge.length === 0){
+                    //setup variables
+                    var width = 3500
+                    var height = (targetQuest.quests.length * 450) + 300
+                    var x = 100
+                    var y = 250
+                    var w = (width - (x * 2))
+                    var h = 400
 
-                //create embed
-                const err = new Discord.MessageEmbed()
+                    //register fonts
+                    Canvas.registerFont('./assets/font/Lalezar-Regular.ttf', {family: 'Arabic',weight: "700",style: "bold"});
+                    Canvas.registerFont('./assets/font/BurbankBigCondensed-Black.ttf' ,{family: 'Burbank Big Condensed',weight: "700",style: "bold"})
 
-                //set color
-                err.setColor(FNBRMENA.Colors("embed"))
+                    //applytext
+                    const applyText = (canvas, text, width, font) => {
+                        const ctx = canvas.getContext('2d')
+                        let fontSize = font;
+                        do {
+                            if(userData.lang === "en") ctx.font = `${fontSize -= 1}px Burbank Big Condensed`
+                            else if(userData.lang === "ar") ctx.font = `${fontSize -= 1}px Arabic`
+                        } while (ctx.measureText(text).width > width)
+                        return ctx.font;
+                    }
 
-                //set title
-                if(lang === "en") err.setTitle(`There is no challenges with that name ${errorEmoji}`)
-                else if(lang === "ar") err.setTitle(`لا يوجد تحديات بهذا الأسم ${errorEmoji}`)
+                    //create canvas
+                    const canvas = Canvas.createCanvas(width, height);
+                    const ctx = canvas.getContext('2d');
 
-                //send msg
-                message.channel.send(err)
-            }
+                    if(res.data.bundles[categoriesIndex].colorData != null){
+                        var bgColor = res.data.bundles[categoriesIndex].colorData.RGB2.substring(3, 9)
+                        var cardsColor = res.data.bundles[categoriesIndex].colorData.RGB1.substring(3, 9)
+                    }else{
+                        var bgColor = '7C128C'
+                        var cardsColor = '590566'
+                    }
 
-            //found just one challenge
-            if(challenge.length === 1){
-                return challenge[0].id
-            }
+                    //background
+                    ctx.fillStyle = `#${bgColor}`
+                    ctx.fillRect(0, 0, canvas.width, canvas.height)
 
-            //found more than one challenge
-            if(challenge.length > 1){
-                
-                //create embed
-                const challenges = new Discord.MessageEmbed()
+                    //upper
+                    ctx.fillStyle = `#${cardsColor}`
+                    ctx.fillRect(0, 0, canvas.width, 150)
 
-                //add the color
-                challenges.setColor(FNBRMENA.Colors("embed"))
+                    //adding credits
+                    ctx.fillStyle = `#ffffff`
+                    ctx.textAlign='left';
+                    ctx.font = '120px Burbank Big Condensed'
+                    ctx.fillText("FNBRMENA", 25, 115)
 
-                //create and fill a string of names
-                var str = ""
-                for(let i = 0; i < challenge.length; i++){
-                    str += '• ' + i + ': ' + challenge[i].name + '\n'
-                }
+                    //category image and its name
+                    if(res.data.bundles[categoriesIndex].image != null){
+                        const categoryImg = await Canvas.loadImage(res.data.bundles[categoriesIndex].image)
+                        ctx.drawImage(categoryImg, canvas.width - 150, 0, 150, 150)
 
-                //add description
-                challenges.setDescription(str)
+                        //category name
+                        ctx.fillStyle = `#ffffff`
+                        ctx.textAlign = 'right';
+                        ctx.font = applyText(canvas, targetQuest.name, canvas.width / 2, 120)
+                        ctx.fillText(targetQuest.name, canvas.width - 175, 115)
+                    }else{
 
-                //send the choices
-                await message.channel.send(challenges)
-                .then( async msg => {
+                        //category name
+                        ctx.fillStyle = `#ffffff`
+                        ctx.textAlign = 'right';
+                        ctx.font = applyText(canvas, targetQuest.name, canvas.width / 2, 120)
+                        ctx.fillText(targetQuest.name, canvas.width - 25, 115)
+                    }
 
-                    //filtering
-                    const filter = m => m.author.id === message.author.id
+                    //loop throw every quest
+                    for(let i = 0; i < targetQuest.quests.length; i++){
 
-                    //send the reply to the user
-                    if(lang === "en") reply = "please choose from above list the command will stop listen in 20 sec"
-                    else if(lang === "ar") reply = "الرجاء الاختيار من القائمة بالاعلى، سوف ينتهي الامر خلال ٢٠ ثانية"
+                        //cards
+                        ctx.fillStyle = `#${cardsColor}`
 
-                    //send the reply
-                    await message.reply(reply)
-                    .then( async notify => {
+                        //add the quest card
+                        ctx.beginPath();
+                        ctx.moveTo(x + 8, y);
+                        ctx.arcTo(x + w, y, x + w, y + h, 8);
+                        ctx.arcTo(x + w, y + h, x, y + h, 8);
+                        ctx.arcTo(x, y + h, x, y, 8);
+                        ctx.arcTo(x, y, x + w, y, 8);
+                        ctx.closePath();
+                        ctx.fill();
 
-                        //await messages
-                        await message.channel.awaitMessages(filter, {max: 1, time: 20000})
-                        .then( async collected => {
+                        //change image layout only if arabic
+                        if(userData.lang === "ar") x = canvas.width - x
 
-                            //delete messages
-                            msg.delete()
-                            notify.delete()
+                        var rewardX = canvas.width - x
+                        var rewardY = y 
 
-                            //if the user input was in range
-                            if(await collected.first().content >= 0 && collected.first().content < challenge.length){
+                        //add the quest rewards
+                        if(targetQuest.quests[i].reward.items.length != 0){
 
-                                //store user input
-                                num = await collected.first().content
+                            //loop thrw every reward
+                            if(targetQuest.quests[i].reward.items.length > 2) ctx.globalAlpha = 0.5
+                            for(let r = 0; r < targetQuest.quests[i].reward.items.length; r++){
 
-                            }else{
-
-                                //create embed
-                                const error = new Discord.MessageEmbed()
-
-                                //set color
-                                error.setColor(FNBRMENA.Colors("embed"))
-
-                                //set title
-                                if(lang === "en") error.setTitle(`Sorry we canceled your process becuase u selected a number out of range ${errorEmoji}`)
-                                else if(lang === "ar") error.setTitle(`تم ايقاف الامر بسبب اختيارك لرقم خارج النطاق ${errorEmoji}`)
-
-                                //send msg
-                                message.reply(error)
+                                //load quest img
+                                const questRewardImg = await Canvas.loadImage(targetQuest.quests[i].reward.items[r].images.icon)
+                                if(userData.lang === "en"){
+                                    rewardX -= h
+                                    ctx.drawImage(questRewardImg, rewardX, rewardY, h, h)
+                                    rewardX -= 25
+                                }else if(userData.lang === "ar"){
+                                    ctx.drawImage(questRewardImg, rewardX, rewardY, h, h)
+                                    rewardX += h + 25
+                                }
                                 
                             }
-                        }).catch(err => {
-
-                            //delete messages
-                            notify.delete()
-                            msg.delete()
-
-                            //create embed
-                            const error = new Discord.MessageEmbed()
-
-                            //set color
-                            error.setColor(FNBRMENA.Colors("embed"))
-
-                            //set title
-                            if(lang === "en") error.setTitle(`Sorry we canceled your process becuase no method has been selected ${errorEmoji}`)
-                            else if(lang === "ar") error.setTitle(`تم ايقاف الامر بسبب عدم اختيارك لطريقة ${errorEmoji}`)
-
-                            //send msg
-                            message.reply(error)
-                        })
-                    })
-                })
-                
-                if(num !== null){
-                    return challenge[num].id
-                }
-            }
-        })
-
-        if(quest){
-
-            //search again by user language and use the data to create an image
-            const found = await FNBRMENA.listChallenges("current", lang)
-            .then(async res => {
-
-                //filter to get the quests data by user language
-                const dataSheet = await res.data.bundles.filter(collected => {
-                    return collected.id === quest
-                })
-
-                if(dataSheet.length !== 0){
-                    return dataSheet[0]
-                }
-            })
-
-            //got the quest data now work with it
-            const generating = new Discord.MessageEmbed()
-            generating.setColor(FNBRMENA.Colors("embed"))
-            if(lang === "en") generating.setTitle(`Loading ${found.name}... ${loadingEmoji}`)
-            else if(lang === "ar") generating.setTitle(`تحميل ${found.name}... ${loadingEmoji}`)
-            message.channel.send(generating)
-            .then( async msg => {
-
-                //setup variables
-                var width = 3500
-                var height = 300
-
-                //customize the height
-                for(let i = 0; i < found.quests.length; i++){
-                    height += 450
-                }
-
-                //registering fonts
-                Canvas.registerFont('./assets/font/Lalezar-Regular.ttf', {family: 'Arabic',weight: "700"});
-                Canvas.registerFont('./assets/font/BurbankBigCondensed-Black.otf' ,{family: 'Burbank Big Condensed',weight: "700"})
-
-                //applytext
-                const applyText = (canvas, text) => {
-                    const ctx = canvas.getContext('2d')
-                    let fontSize = 100;
-                    do {
-                        if(lang === "en") ctx.font = `${fontSize -= 1}px Burbank Big Condensed`
-                        else if(lang === "ar") ctx.font = `${fontSize -= 1}px Arabic`
-                    } while (ctx.measureText(text).width > 3000)
-                    return ctx.font;
-                }
-
-                //applytext
-                const applyTextRewards = (canvas, text) => {
-                    const ctx = canvas.getContext('2d')
-                    let fontSize = 100;
-                    do {
-                        if(lang === "en") ctx.font = `${fontSize -= 1}px Burbank Big Condensed`
-                        else if(lang === "ar") ctx.font = `${fontSize -= 1}px Arabic`
-                        
-                    } while (ctx.measureText(text).width > 2600)
-                    return ctx.font;
-                }
-
-                //create canvas
-                const canvas = Canvas.createCanvas(width, height)
-                const ctx = canvas.getContext('2d')
-
-                //background
-                if(quest.toLowerCase().includes("legendary")) var background = await Canvas.loadImage('./assets/Challenges/legend.png')
-                else var background = await Canvas.loadImage('./assets/Challenges/background.png')
-                ctx.drawImage(background, 0, 0, canvas.width, canvas.height)
-
-                //upper whare storing the credits and the challenges name
-                if(quest.toLowerCase().includes("legendary")) var upper = await Canvas.loadImage('./assets/Challenges/legendary.png')
-                else var upper = await Canvas.loadImage('./assets/Challenges/epic.png')
-                ctx.drawImage(upper, 0, 0, canvas.width, 150)
-
-                //adding credits
-                ctx.fillStyle = '#ffffff';
-                ctx.textAlign='left';
-                ctx.font = '100px Burbank Big Condensed'
-                ctx.fillText("FNBRMENA", 25, 107)
-
-                //add the challange name
-                ctx.fillStyle = '#ffffff';
-                ctx.textAlign='right';
-                if(lang === "en") ctx.font = '100px Burbank Big Condensed'
-                else if(lang === "ar") ctx.font = '100px Arabic'
-                ctx.fillText(found.name, (canvas.width - 25), 100)
-
-                //get access to the y by just changing the value
-                var y = 250
-
-                //inisilizing x, w and h
-                var x = 100
-                var w = (canvas.width - (x * 2))
-                var h = 400
-
-                //challenges cards
-                for(let i = 0; i < found.quests.length; i++){
-
-                    //add the card of the challenge
-                    if(quest.toLowerCase().includes("legendary")) var card = await Canvas.loadImage('./assets/Challenges/legendary.png')
-                    else var card = await Canvas.loadImage('./assets/Challenges/epic.png')
-                    ctx.drawImage(card, x, y, w, h)
-
-                    //english sheet
-                    if(lang === "en"){
-
-                        //rewards
-                        if(found.bundleRewards.length !== 0 || found.quests[i].reward.items.length !== 0){
-
-                            //define the xp position
-                            var r = 0
-                            var xReward = ((canvas.width - 100) - h)
-
-                            //add the reward picture
-                            if(found.bundleRewards.length !== 0){
-
-                                //lopp throw every reward
-                                for(let x = 0; x < found.bundleRewards.length - 2; x++){
-
-                                    //change the xp position
-                                    r += 475
-
-                                    //add the image of the reward
-                                    const reward = await Canvas.loadImage(found.bundleRewards[x].images.icon)
-                                    ctx.drawImage(reward, xReward, y, h, h)
-
-                                    xReward -= h + 50
-                                }
-                            }
-
-                            //add the reward picture
-                            if(found.quests[i].reward.items.length !== 0){
-
-                                //lopp throw every reward
-                                for(let x = 0; x < found.quests[i].reward.items.length - 2; x++){
-
-                                    //change the xp position
-                                    r += 475
-
-                                    //add the image of the reward
-                                    const reward = await Canvas.loadImage(found.quests[i].reward.items[x].images.icon)
-                                    ctx.drawImage(reward, xReward, y, h, h)
-
-                                    xReward += h + 50
-                                }
-                            }
-
-                        }else{
-                            var r = 75
+                            ctx.globalAlpha = 1
                         }
 
-                        //if there is xp for the quest
-                        if(found.quests[i].reward.xp !== 0){
+                        //add the xp if there is xp for the quest
+                        if(targetQuest.quests[i].reward.xp !== 0){
 
-                            if(found.quests[i].reward.xp >= 100000){
+                            //more than 100K
+                            if(targetQuest.quests[i].reward.xp >= 100000) var xp = targetQuest.quests[i].reward.xp.toString().substring(0, 3)
 
-                                //add the xp right border
-                                const xpRightCorner = await Canvas.loadImage('./assets/Challenges/rightXP.png')
-                                ctx.drawImage(xpRightCorner, ((canvas.width - (r - 25)) - x) - 50, y + 177, 80, 200)
+                            //between 10K and 100K
+                            if(targetQuest.quests[i].reward.xp >= 10000 && targetQuest.quests[i].reward.xp <= 99999) var xp = targetQuest.quests[i].reward.xp.toString().substring(0, 2)
 
-                                //add the xp text
-                                ctx.fillStyle = '#ffffff';
-                                ctx.textAlign='right';
-                                ctx.font = '200px Burbank Big Condensed'
-                                var xpWidth = ctx.measureText(found.quests[i].reward.xp.toString().substring(0, 3) + 'K').width
-                                ctx.font = '180px Burbank Big Condensed'
-                                ctx.fillText(found.quests[i].reward.xp.toString().substring(0, 3) + 'K', ((canvas.width - (r + 12)) - x), y + 345)
+                            //between 1K and 10K
+                            if(targetQuest.quests[i].reward.xp >= 1000 && targetQuest.quests[i].reward.xp <= 9999) var xp = targetQuest.quests[i].reward.xp.toString().substring(0, 1)
 
-                                //add the xp left border
-                                const xpLeftCorner = await Canvas.loadImage('./assets/Challenges/leftXP.png')
-                                ctx.drawImage(xpLeftCorner, ((canvas.width - (r + xpWidth)) - x) - 50, y + 177, 80, 200)
-                            }
-                            
-                            if(found.quests[i].reward.xp >= 10000 && found.quests[i].reward.xp <= 99999){
+                            //between 100 and 1K
+                            if(targetQuest.quests[i].reward.xp >= 100 && targetQuest.quests[i].reward.xp <= 999) var xp = targetQuest.quests[i].reward.xp
 
-                                //add the xp right border
-                                const xpRightCorner = await Canvas.loadImage('./assets/Challenges/rightXP.png')
-                                ctx.drawImage(xpRightCorner, ((canvas.width - (r - 25)) - x) - 50, y + 177, 80, 200)
-
-                                //add the xp text
-                                ctx.fillStyle = '#ffffff';
-                                ctx.textAlign='right';
-                                ctx.font = '200px Burbank Big Condensed'
-                                var xpWidth = ctx.measureText(found.quests[i].reward.xp.toString().substring(0, 2) + 'K').width
-                                ctx.font = '180px Burbank Big Condensed'
-                                ctx.fillText(found.quests[i].reward.xp.toString().substring(0, 2) + 'K', ((canvas.width - (r + 12)) - x), y + 345)
-
-                                //add the xp left border
-                                const xpLeftCorner = await Canvas.loadImage('./assets/Challenges/leftXP.png')
-                                ctx.drawImage(xpLeftCorner, ((canvas.width - (r + xpWidth)) - x) - 50, y + 177, 80, 200)
-
-                            }
-
-                            if(found.quests[i].reward.xp >= 1000 && found.quests[i].reward.xp <= 9999){
-
-                                //add the xp right border
-                                const xpRightCorner = await Canvas.loadImage('./assets/Challenges/rightXP.png')
-                                ctx.drawImage(xpRightCorner, ((canvas.width - (r - 25)) - x) - 50, y + 177, 80, 200)
-
-                                //add the xp text
-                                ctx.fillStyle = '#ffffff';
-                                ctx.textAlign='right';
-                                ctx.font = '200px Burbank Big Condensed'
-                                var xpWidth = ctx.measureText(found.quests[i].reward.xp.toString().substring(0, 1) + 'K').width
-                                ctx.font = '180px Burbank Big Condensed'
-                                ctx.fillText(found.quests[i].reward.xp.toString().substring(0, 1) + 'K', ((canvas.width - (r + 12)) - x), y + 345)
-
-                                //add the xp left border
-                                const xpLeftCorner = await Canvas.loadImage('./assets/Challenges/leftXP.png')
-                                ctx.drawImage(xpLeftCorner, ((canvas.width - (r + xpWidth)) - x) - 50, y + 177, 80, 200)
-
-                            }
-
-                            if(found.quests[i].reward.xp >= 100 && found.quests[i].reward.xp <= 999){
-
-                                //add the xp right border
-                                const xpRightCorner = await Canvas.loadImage('./assets/Challenges/rightXP.png')
-                                ctx.drawImage(xpRightCorner, ((canvas.width - (r - 25)) - x) - 50, y + 177, 80, 200)
-
-                                //add the xp text
-                                ctx.fillStyle = '#ffffff';
-                                ctx.textAlign='right';
-                                ctx.font = '200px Burbank Big Condensed'
-                                var xpWidth = ctx.measureText(found.quests[i].reward.xp + 'H').width
-                                ctx.font = '180px Burbank Big Condensed'
-                                ctx.fillText(found.quests[i].reward.xp + 'H', ((canvas.width - (r + 12)) - x), y + 345)
-
-                                //add the xp left border
-                                const xpLeftCorner = await Canvas.loadImage('./assets/Challenges/leftXP.png')
-                                ctx.drawImage(xpLeftCorner, ((canvas.width - (r + xpWidth)) - x) - 50, y + 177, 80, 200)
-
-                            }
-
-                            if(found.quests[i].reward.xp <= 99){
-
-                                //add the xp right border
-                                const xpRightCorner = await Canvas.loadImage('./assets/Challenges/rightXP.png')
-                                ctx.drawImage(xpRightCorner, ((canvas.width - (r - 25)) - x) - 50, y + 177, 80, 200)
-
-                                //add the xp text
-                                ctx.fillStyle = '#ffffff';
-                                ctx.textAlign='right';
-                                ctx.font = '200px Burbank Big Condensed'
-                                var xpWidth = ctx.measureText(found.quests[i].reward.xp + 'XP').width
-                                ctx.font = '180px Burbank Big Condensed'
-                                ctx.fillText(found.quests[i].reward.xp + 'XP', ((canvas.width - (r + 12)) - x), y + 345)
-
-                                //add the xp left border
-                                const xpLeftCorner = await Canvas.loadImage('./assets/Challenges/leftXP.png')
-                                ctx.drawImage(xpLeftCorner, ((canvas.width - (r + xpWidth)) - x) - 50, y + 177, 80, 200)
-
+                            ctx.fillStyle = `#ffffff`
+                            ctx.font = '250px Burbank Big Condensed'
+                            if(userData.lang === "en"){
+                                ctx.textAlign = 'right';
+                                ctx.fillText(xp + 'K', rewardX - 30, y + 360)
+                            }else if(userData.lang === "ar"){
+                                ctx.textAlign = 'left';
+                                ctx.fillText(xp + 'K', rewardX + 30 , y + 360)
                             }
                         }
 
-                        //if there is an image for the quest
-                        if(Object.entries(found.quests[i].tandemCharacter).length !== 0){
+                        //check if the quest has an img
+                        if(targetQuest.images != null){
 
-                            if(found.quests[i].tandemCharacter.images.sidePanel !== null){
+                            //load quest img
+                            const questRewardImg = await Canvas.loadImage(targetQuest.images.DisplayImage)
 
-                                //if the image is not an npc defualt
-                                if(!found.quests[i].tandemCharacter.images.sidePanel.includes('T_NPC_Default.T_NPC_Default')){
-
-                                    //add the card of the challenge
-                                    const questManegar = await Canvas.loadImage(found.quests[i].tandemCharacter.images.sidePanel)
-                                    ctx.drawImage(questManegar, x - 125, y - 50, 450, 450)
-
-                                    //change the x value
-                                    x = 350
-                                }
-                            }else if(found.quests[i].tandemCharacter.images.entryList !== null){
-                                //if the image is not an npc defualt
-                                if(!found.quests[i].tandemCharacter.images.entryList.includes('T_NPC_Default.T_NPC_Default')){
-
-                                    //add the card of the challenge
-                                    const questManegar = await Canvas.loadImage(found.quests[i].tandemCharacter.images.entryList)
-                                    ctx.drawImage(questManegar, x, y, h, h)
-
-                                    //change the x value
-                                    x = 500
-                                }
+                            //change the x value and print the img
+                            if(userData.lang === "en"){
+                                ctx.drawImage(questRewardImg, x, y, h, h)
+                                x += h + 25
+                            }else if(userData.lang === "ar"){
+                                ctx.drawImage(questRewardImg, x - h, y, h, h)
+                                x -= h + 25
                             }
                         }
-                            
 
                         //add the challange quest
-                        ctx.fillStyle = '#ffffff';
-                        ctx.textAlign='left';
-                        if(found.quests[i].reward.items.length !== 0) ctx.font = applyTextRewards(canvas, found.quests[i].name)
-                        else ctx.font = applyText(canvas, found.quests[i].name)
-                        ctx.fillText(found.quests[i].name, x + 37, y + 115)
+                        ctx.fillStyle = `#ffffff`
+                        ctx.font = applyText(canvas, targetQuest.quests[i].name, w - 800, 100)
+                        if(userData.lang === "en"){
+                            ctx.textAlign = 'left';
+                            ctx.fillText(targetQuest.quests[i].name, x + 37, y + 115)
+                        }
+                        else if(userData.lang === "ar"){
+                            ctx.textAlign = 'right';
+                            ctx.fillText(targetQuest.quests[i].name, x - 25, y + 115)
+                        }
 
                         //add progress bar
-                        const progress = await Canvas.loadImage('./assets/Challenges/layer.png')
-                        ctx.drawImage(progress, x + 90, y + 175, 1500, 25)
+                        ctx.fillStyle = `#${bgColor}`
+                        if(userData.lang === "en") ctx.fillRect(x + 90, y + 175, 1500, 25)
+                        else if(userData.lang === "ar") ctx.fillRect(x - 1577, y + 187, 1500, 25)
 
                         //add progress bar text
-                        ctx.fillStyle = '#ffffff';
-                        ctx.textAlign='left';
+                        ctx.fillStyle = `#ffffff`
                         ctx.font = '50px Burbank Big Condensed'
-                        ctx.fillText(found.quests[i].progressTotal + "/0", x + 1600, y + 200)
+                        if(userData.lang === "en"){
+                            ctx.textAlign = 'left';
+                            ctx.fillText(targetQuest.quests[i].progressTotal + "/0", x + 1600, y + 200)
+                        }else if(userData.lang === "ar"){
+                            ctx.textAlign = 'right';
+                            ctx.fillText(targetQuest.quests[i].progressTotal + "/0", (x - 1600), y + 212)
+                        }
 
                         //add xp tags
-                        if(found.quests[i].tags.includes('ChallengeCategory.XP')){
+                        if(targetQuest.quests[i].tags.includes('ChallengeCategory.XP')){
 
                             //changing tags coordinates
-                            x += 37
+                            if(userData.lang === "en") x += 37
+                            else if(userData.lang === "ar") x -= 475
 
                             //print the party assist
-                            const xp = await Canvas.loadImage('./assets/Tags/xp.png')
+                            if(userData.lang === "en") var xp = await Canvas.loadImage('./assets/Tags/xp.png')
+                            else if(userData.lang === "ar") var xp = await Canvas.loadImage('./assets/Tags/xpAr.png')
                             ctx.drawImage(xp, x, y + 175, 450, 300)
 
                             //changing tags coordinates
-                            x += 450
+                            if(userData.lang === "en") x += 450
+                            else if(userData.lang === "ar") x -= 25
 
                         }
 
                         //add party assists tags
-                        if(found.quests[i].tags.includes('Quest.Metadata.PartyAssist')){
+                        if(targetQuest.quests[i].tags.includes('Quest.Metadata.PartyAssist')){
 
                             //changing tags coordinates
-                            x += 25
+                            if(userData.lang === "en") x += 25
+                            else if(userData.lang === "ar") x -= 475
 
                             //print the party assist
-                            const partyAssists = await Canvas.loadImage('./assets/Tags/partyAssists.png')
+                            if(userData.lang === "en") var partyAssists = await Canvas.loadImage('./assets/Tags/partyAssists.png')
+                            else if(userData.lang === "ar") var partyAssists = await Canvas.loadImage('./assets/Tags/partyAssistsAr.png')
                             ctx.drawImage(partyAssists, x, y + 175, 450, 300)
 
                             //changing tags coordinates
-                            x += 450
+                            if(userData.lang === "en") x += 450
+                            else if(userData.lang === "ar") x -= 25
 
                         }
 
                         //add reward tags
-                        if(found.quests[i].reward.items.length !== 0 || found.bundleRewards.length !== 0){
+                        if(targetQuest.quests[i].reward.items.length !== 0){
 
                             //changing tags coordinates
-                            x += 25
+                            if(userData.lang === "en") x += 25
+                            else if(userData.lang === "ar") x -= 475
 
                             //print the party assist
-                            const rewards = await Canvas.loadImage('./assets/Tags/rewards.png')
+                            if(userData.lang === "en") var rewards = await Canvas.loadImage('./assets/Tags/rewards.png')
+                            else if(userData.lang === "ar") var rewards = await Canvas.loadImage('./assets/Tags/rewardsAr.png')
                             ctx.drawImage(rewards, x, y + 175, 450, 300)
 
                             //changing tags coordinates
-                            x += 450
+                            if(userData.lang === "en") x += 450
+                            else if(userData.lang === "ar") x -= 25
 
                         }
 
-                    }else if(lang === "ar"){
-
-                        //add tags coordinates
-                        x = 3375
-
-                        //rewards
-                        if(found.bundleRewards.length !== 0 || found.quests[i].reward.items.length !== 0){
-
-                            //define the xp position
-                            var r = 0
-                            var xReward = (canvas.width - x) - 25
-
-                            //add the reward picture
-                            if(found.bundleRewards.length !== 0){
-
-                                //lopp throw every reward
-                                for(let x = 0; x < found.bundleRewards.length - 2; x++){
-
-                                    //change the xp position
-                                    r += 400
-
-                                    //add the image of the reward
-                                    const reward = await Canvas.loadImage(found.bundleRewards[x].images.icon)
-                                    ctx.drawImage(reward, xReward, y, h, h)
-
-                                    xReward += h + 50
-                                }
-                            }
-
-                            //add the reward picture
-                            if(found.quests[i].reward.items.length !== 0){
-
-                                //lopp throw every reward
-                                for(let x = 0; x < found.quests[i].reward.items.length - 2; x++){
-
-                                    //change the xp position
-                                    r += 400
-
-                                    //add the image of the reward
-                                    const reward = await Canvas.loadImage(found.quests[i].reward.items[x].images.icon)
-                                    ctx.drawImage(reward, xReward, y, h, h)
-
-                                    xReward += h + 50
-                                }
-                            }
-
-                        }else{
-                            var r = 0
-                        }
-
-                        //if there is xp for the quest
-                        if(found.quests[i].reward.xp !== 0){
-
-                            if(found.quests[i].reward.xp >= 100000){
-
-                                //add the xp right border
-                                const xpRightCorner = await Canvas.loadImage('./assets/Challenges/leftXP.png')
-                                ctx.drawImage(xpRightCorner, ((canvas.width - x) + r), y + 177, 80, 200)
-
-                                //add the xp text
-                                ctx.fillStyle = '#ffffff';
-                                ctx.textAlign='left';
-                                ctx.font = '200px Burbank Big Condensed'
-                                var xpWidth = ctx.measureText(found.quests[i].reward.xp.toString().substring(0, 3) + 'K').width
-                                ctx.font = '180px Burbank Big Condensed'
-                                ctx.fillText(found.quests[i].reward.xp.toString().substring(0, 3) + 'K', canvas.width - (x - (r + 60)), y + 345)
-
-                                //add the xp left border
-                                const xpLeftCorner = await Canvas.loadImage('./assets/Challenges/rightXP.png')
-                                ctx.drawImage(xpLeftCorner, (canvas.width - (x - (r + xpWidth))), y + 177, 80, 200)
-
-                            }
-                            
-                            if(found.quests[i].reward.xp >= 10000 && found.quests[i].reward.xp <= 99999){
-
-                                //add the xp right border
-                                const xpRightCorner = await Canvas.loadImage('./assets/Challenges/leftXP.png')
-                                ctx.drawImage(xpRightCorner, ((canvas.width - x) + r), y + 177, 80, 200)
-
-                                //add the xp text
-                                ctx.fillStyle = '#ffffff';
-                                ctx.textAlign='left';
-                                ctx.font = '200px Burbank Big Condensed'
-                                var xpWidth = ctx.measureText(found.quests[i].reward.xp.toString().substring(0, 2) + 'K').width
-                                ctx.font = '180px Burbank Big Condensed'
-                                ctx.fillText(found.quests[i].reward.xp.toString().substring(0, 2) + 'K', canvas.width - (x - (r + 60)), y + 345)
-
-                                //add the xp left border
-                                const xpLeftCorner = await Canvas.loadImage('./assets/Challenges/rightXP.png')
-                                ctx.drawImage(xpLeftCorner, (canvas.width - (x - (r + xpWidth))), y + 177, 80, 200)
-
-                            }
-
-                            if(found.quests[i].reward.xp >= 1000 && found.quests[i].reward.xp <= 9999){
-
-                                //add the xp right border
-                                const xpRightCorner = await Canvas.loadImage('./assets/Challenges/leftXP.png')
-                                ctx.drawImage(xpRightCorner, ((canvas.width - x) + r), y + 177, 80, 200)
-
-                                //add the xp text
-                                ctx.fillStyle = '#ffffff';
-                                ctx.textAlign='left';
-                                ctx.font = '200px Burbank Big Condensed'
-                                var xpWidth = ctx.measureText(found.quests[i].reward.xp.toString().substring(0, 1) + 'K').width
-                                ctx.font = '180px Burbank Big Condensed'
-                                ctx.fillText(found.quests[i].reward.xp.toString().substring(0, 1) + 'K', canvas.width - (x - (r + 60)), y + 345)
-
-                                //add the xp left border
-                                const xpLeftCorner = await Canvas.loadImage('./assets/Challenges/rightXP.png')
-                                ctx.drawImage(xpLeftCorner, (canvas.width - (x - (r + xpWidth))), y + 177, 80, 200)
-
-                            }
-
-                            if(found.quests[i].reward.xp >= 100 && found.quests[i].reward.xp <= 999){
-
-                                //add the xp right border
-                                const xpRightCorner = await Canvas.loadImage('./assets/Challenges/leftXP.png')
-                                ctx.drawImage(xpRightCorner, ((canvas.width - x) + r), y + 177, 80, 200)
-
-                                //add the xp text
-                                ctx.fillStyle = '#ffffff';
-                                ctx.textAlign='left';
-                                ctx.font = '200px Burbank Big Condensed'
-                                var xpWidth = ctx.measureText(found.quests[i].reward.xp + 'H').width
-                                ctx.font = '180px Burbank Big Condensed'
-                                ctx.fillText(found.quests[i].reward.xp + 'H', canvas.width - (x - (r + 60)), y + 345)
-
-                                //add the xp left border
-                                const xpLeftCorner = await Canvas.loadImage('./assets/Challenges/rightXP.png')
-                                ctx.drawImage(xpLeftCorner, (canvas.width - (x - (r + xpWidth))), y + 177, 80, 200)
-
-                            }
-
-                            if(found.quests[i].reward.xp <= 99){
-
-                                //add the xp right border
-                                const xpRightCorner = await Canvas.loadImage('./assets/Challenges/leftXP.png')
-                                ctx.drawImage(xpRightCorner, ((canvas.width - x) + r), y + 177, 80, 200)
-
-                                //add the xp textctx.fillText
-                                ctx.fillStyle = '#ffffff';
-                                ctx.textAlign='left';
-                                ctx.font = '200px Burbank Big Condensed'
-                                var xpWidth = ctx.measureText(found.quests[i].reward.xp + 'XP').width
-                                ctx.font = '180px Burbank Big Condensed'
-                                ctx.fillText(found.quests[i].reward.xp + 'XP', canvas.width - (x - (r + 60)), y + 345)
-
-                                //add the xp left border
-                                const xpLeftCorner = await Canvas.loadImage('./assets/Challenges/rightXP.png')
-                                ctx.drawImage(xpLeftCorner, (canvas.width - (x - (r + xpWidth))), y + 177, 80, 200)
-
-                            }
-                        }
-
-                        //if there is an image for the quest
-                        if(Object.entries(found.quests[i].tandemCharacter).length !== 0){
-
-                            if(found.quests[i].tandemCharacter.images.sidePanel !== null){
-                                //if the image is not an npc defualt
-                                if(!found.quests[i].tandemCharacter.images.sidePanel.includes('T_NPC_Default.T_NPC_Default')){
-
-                                    //add the card of the challenge
-                                    const questManegar = await Canvas.loadImage(found.quests[i].tandemCharacter.images.sidePanel)
-                                    ctx.drawImage(questManegar, x - 300, y - 50, 450, 450)
-
-                                    //change the x value
-                                    x -= 250
-                                }
-                            }else if(found.quests[i].tandemCharacter.images.entryList !== null){
-                                //if the image is not an npc defualt
-                                if(!found.quests[i].tandemCharacter.images.entryList.includes('T_NPC_Default.T_NPC_Default')){
-
-                                    //add the card of the challenge
-                                    const questManegar = await Canvas.loadImage(found.quests[i].tandemCharacter.images.entryList)
-                                    ctx.drawImage(questManegar, x - 375, y, h, h)
-
-                                    //change the x value
-                                    x -= 400
-                                }
-                            }
-                        }
-
-                        //add the challange quest
-                        ctx.fillStyle = '#ffffff';
-                        ctx.textAlign='right';
-                        if(found.quests[i].reward.items.length !== 0) ctx.font = applyTextRewards(canvas, found.quests[i].name)
-                        else ctx.font = applyText(canvas, found.quests[i].name)
-                        ctx.fillText(found.quests[i].name, x - 25, y + 115)
-
-                        //add progress bar
-                        const progress = await Canvas.loadImage('./assets/Challenges/layer.png')
-                        ctx.drawImage(progress, x - 1577, y + 187, 1500, 25)
-
-                        //add progress bar text
-                        ctx.fillStyle = '#ffffff';
-                        ctx.textAlign='right';
-                        ctx.font = '50px Burbank Big Condensed'
-                        ctx.fillText(found.quests[i].progressTotal + "/0", (x - 1600), y + 212)
-
-                        //add xp tags
-                        if(found.quests[i].tags.includes('ChallengeCategory.XP') || found.tags.includes('ChallengeCategory.XP')){
-
-                            //changing tags coordinates
-                            x -= 450
-
-                            //print the party assist
-                            const xp = await Canvas.loadImage('./assets/Tags/xpAr.png')
-                            ctx.drawImage(xp, x, y + 175, 450, 300)
-
-                            //changing tags coordinates
-                            x -= 25
-
-                        }
-
-                        //add party assists tags
-                        if(found.quests[i].tags.includes('Quest.Metadata.PartyAssist')){
-
-                            //changing tags coordinates
-                            x -= 450
-
-                            //print the party assist
-                            const partyAssists = await Canvas.loadImage('./assets/Tags/partyAssistsAR.png')
-                            ctx.drawImage(partyAssists, x, y + 175, 450, 300)
-
-                            //changing tags coordinates
-                            x -= 25
-
-                        }
-
-                        //add rewards tags
-                        if(found.quests[i].reward.items.length > 0){
-
-                            //changing tags coordinates
-                            x -= 450
-
-                            //print the party assist
-                            const rewards = await Canvas.loadImage('./assets/Tags/rewardsAr.png')
-                            ctx.drawImage(rewards, x, y + 175, 450, 300)
-
-                            //changing tags coordinates
-                            x -= 25
-
-                        }
+                        y += 450
+                        x = 100
 
                     }
+                    
+                    const att = new Discord.AttachmentBuilder(canvas.toBuffer(), `${targetQuest.id}.png`)
+                    await message.reply({files: [att]})
+                    msg.delete()
 
-                    //add the xp
-                    y += 450
-                    x = 100
+                }).catch(err => {
+                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
+                })
+            }
+
+            //create an embed for choosing a category
+            const dropDownMenuEmbed = new Discord.EmbedBuilder()
+            dropDownMenuEmbed.setColor(FNBRMENA.Colors("embed"))
+            if(userData.lang === "en") dropDownMenuEmbed.setDescription('Please click on the Drop-Down menu and choose a category.\n`You have only 1 minute until this operation ends, Make it quick`!')
+            else if(userData.lang === "ar") dropDownMenuEmbed.setDescription('الرجاء الضغط على السهم لاختيار فئة.\n`لديك فقط دقيقة حتى تنتهي العملية, استعجل`!')
+
+            //create a row for Cancel button
+            const buttonDataRow = new Discord.ActionRowBuilder()
+
+            const cancelButton = new Discord.ButtonBuilder()
+            cancelButton.setCustomId('Cancel')
+            cancelButton.setStyle(Discord.ButtonStyle.Danger)
+            if(userData.lang === "en") cancelButton.setLabel("Cancel")
+            else if(userData.lang === "ar") cancelButton.setLabel("اغلاق")
+            
+            //add the cancel button to the buttonDataRow
+            buttonDataRow.addComponents(cancelButton)
+
+            //create a row for drop down menu for categories
+            const categoriesRow = new Discord.ActionRowBuilder()
+
+            //loop thrw every category
+            var categoriesOptions = []
+            for(let i = 0; i < res.data.bundles.length; i++){
+
+                //add the category name
+                if(res.data.bundles[i].name.length !== 0) var name = res.data.bundles[i].name
+                else if(userData.lang === "en") var name = "TBD"
+                else if(userData.lang === "ar") var name = "لم يتم تحديد الاسم بعد"
+
+                if(userData.lang === "en") var description = `Click here to view all '${name}' quests`
+                else if(userData.lang === "ar") var description = `اضغط هنا لعرض جميع التحديات '${name}'`
+
+                categoriesOptions[i] = {
+                    label: name,
+                    description: description,
+                    value: `${i}`,
+                }
+            }
+
+            //add an option for each category
+            const categoryDropMenu = new Discord.SelectMenuBuilder()
+            categoryDropMenu.setCustomId('categories')
+            if(userData.lang === "en") categoryDropMenu.setPlaceholder('Nothing selected!')
+            else if(userData.lang === "ar") categoryDropMenu.setPlaceholder('الرجاء الأختيار!')
+            categoryDropMenu.addOptions(categoriesOptions)
+
+            //add the drop menu to the categoryDropMenu
+            categoriesRow.addComponents(categoryDropMenu)
+
+            //send the message
+            const challengeCategoryMessage = await message.reply({embeds: [dropDownMenuEmbed], components: [categoriesRow, buttonDataRow]})
+
+            //filtering the user clicker
+            const filter = i => i.user.id === message.author.id
+
+            //await the user click
+            const colllector = await message.channel.createMessageComponentCollector({filter, time: 60000, errors: ['time'] })
+            colllector.on('collect', async collected => {
+                collected.deferUpdate()
+
+                //if canel button has been clicked
+                if(collected.customId === "Cancel") colllector.stop()
+
+                //if a category has been chosen then list all its quests
+                if(collected.customId == "categories"){
+
+                    //update categoriesIndex value
+                    categoriesIndex = Number(collected.values[0])
+
+                    //create a row for drop down menu for quests
+                    const questsRow = new Discord.ActionRowBuilder()
+
+                    //loop thrw every category
+                    var questsOptions = []
+                    for(let i = 0; i < res.data.bundles[categoriesIndex].bundles.length; i++){
+
+                        //add the category name
+                        if(res.data.bundles[categoriesIndex].bundles[i].name.length !== 0) var name = res.data.bundles[categoriesIndex].bundles[i].name
+                        else if(userData.lang === "en") var name = "TBD"
+                        else if(userData.lang === "ar") var name = "لم يتم تحديد الاسم بعد"
+
+                        if(name.length > 99){
+                            if(userData.lang === "en") name = "Sorry, we can't show the quest's name"
+                            else if(userData.lang === "ar") name = "عذرا لا يمكن عرض اسم المهمة"
+                        }
+
+                        if(userData.lang === "en") var description = `Click here to view all '${name}' quests`
+                        else if(userData.lang === "ar") var description = `اضغط هنا لعرض جميع التحديات '${name}'`
+
+                        if(description.length > 99){
+                            if(userData.lang === "en") description = "Sorry, description isnt available"
+                            else if(userData.lang === "ar") description = "عذرا الوصف ليس متاح"
+                        }
+
+                        questsOptions[i] = {
+                            label: name,
+                            description: description,
+                            value: `${i}`,
+                        }
+                    }
+
+                    //add an option for each quest
+                    const questsDropMenu = new Discord.SelectMenuBuilder()
+                    questsDropMenu.setCustomId('quests')
+                    if(userData.lang === "en") questsDropMenu.setPlaceholder(`Click here to view every ${res.data.bundles[categoriesIndex].name} quests!`)
+                    else if(userData.lang === "ar") questsDropMenu.setPlaceholder(`اضغط هنا لعرض جميع مهام ${res.data.bundles[categoriesIndex].name}!`)
+                    questsDropMenu.addOptions(questsOptions)
+
+                    //add the drop menu to the questsDropMenu
+                    questsRow.addComponents(questsDropMenu)
+
+                    //edit the message
+                    await challengeCategoryMessage.edit({embeds: [dropDownMenuEmbed], components: [categoriesRow, questsRow, buttonDataRow]})
+                    
                 }
 
-                //send the challenges sheet
-                const att = new Discord.MessageAttachment(canvas.toBuffer(), quest + '.png')
-                await message.channel.send(att)
-                msg.delete()
+                if(collected.customId == "quests"){
+                    colllector.stop()
+                    printQuests(Number(collected.values[0]))
+                    
+                }
+
             })
-        }
+
+            //when time has ended
+            colllector.on('end', async () => {
+                try {
+                    await challengeCategoryMessage.delete()
+                } catch {
+                    
+                }
+            })
+            
+        }).catch(err => {
+            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
+        })
     }
 }

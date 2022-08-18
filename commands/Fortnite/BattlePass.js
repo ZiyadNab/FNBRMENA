@@ -12,23 +12,23 @@ module.exports = {
     maxArgs: 1,
     cooldown: 40,
     permissionError: 'Sorry you do not have acccess to this command',
-    callback: async (FNBRMENA, message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji, greenStatus, redStatus) => {
-
-        //get the user language from the database
-        const lang = await FNBRMENA.Admin(admin, message, "", "Lang")
+    callback: async (FNBRMENA, message, args, text, Discord, client, admin, userData, alias, emojisObject) => {
 
         //request data
-        FNBRMENA.getBattlepassRewards(lang, args)
-            .then(async res => {
-                
+        FNBRMENA.getBattlepassRewards(userData.lang, args)
+        .then(async res => {
+            
+            //if there a battlepass data found
+            if(res.data.result){
+
                 // generating animation
                 var length = res.data.rewards.length;
-                const generating = new Discord.MessageEmbed()
+                const generating = new Discord.EmbedBuilder()
                 generating.setColor(FNBRMENA.Colors("embed"))
-                if(lang === "en") generating.setTitle(`Loading a total ${length} cosmetics please wait... ${loadingEmoji}`)
-                else if(lang === "ar") generating.setTitle(`تحميل جميع العناصر بمجموع ${length} عنصر الرجاء الانتظار... ${loadingEmoji}`)
-                message.channel.send(generating)
-                .then( async msg => {
+                if(userData.lang === "en") generating.setTitle(`Loading a total ${length} cosmetics please wait... ${emojisObject.loadingEmoji}`)
+                else if(userData.lang === "ar") generating.setTitle(`تحميل جميع العناصر بمجموع ${length} عنصر الرجاء الانتظار... ${emojisObject.loadingEmoji}`)
+                message.reply({embeds: [generating]})
+                .then(async msg => {
 
                     //variables
                     var width = 62
@@ -53,19 +53,19 @@ module.exports = {
 
                     //register fonts
                     Canvas.registerFont('./assets/font/Lalezar-Regular.ttf', {family: 'Arabic',weight: "700",style: "bold"});
-                    Canvas.registerFont('./assets/font/BurbankBigCondensed-Black.otf' ,{family: 'Burbank Big Condensed',weight: "700",style: "bold"})
+                    Canvas.registerFont('./assets/font/BurbankBigCondensed-Black.ttf' ,{family: 'Burbank Big Condensed',weight: "700",style: "bold"})
 
                     //canvas
                     const canvas = Canvas.createCanvas(width, height);
                     const ctx = canvas.getContext('2d');
 
                     //background
-                    const background = await Canvas.loadImage('./assets/battlepass/background.png')
-                    ctx.drawImage(background, 0, 0, canvas.width, canvas.height)
+                    ctx.fillStyle = '#47178f'
+                    ctx.fillRect(0, 0, canvas.width, canvas.height)
 
                     //upper
-                    const upper = await Canvas.loadImage('./assets/battlepass/upper.png')
-                    ctx.drawImage(upper, 0, 0, canvas.width, 75)
+                    ctx.fillStyle = '#25076b'
+                    ctx.fillRect(0, 0, canvas.width, 75)
 
                     //fnbrmena
                     ctx.fillStyle = '#ffffff';
@@ -76,15 +76,21 @@ module.exports = {
                     //season
                     ctx.fillStyle = '#ffffff';
                     ctx.textAlign='right';
-                    if(lang === "en") ctx.font = '50px Burbank Big Condensed'
-                    else if (lang === "ar") ctx.font = '50px Arabic'
+                    if(userData.lang === "en") ctx.font = '50px Burbank Big Condensed'
+                    else if (userData.lang === "ar") ctx.font = '50px Arabic'
                     ctx.fillText(res.data.displayInfo.chapterSeason, (canvas.width - 12), 53)
 
                     //res.dataeting new line
                     newline = 0
 
-                    //loop throw every item
+                    //loop through every item
                     for(let i = 0; i < length; i++){
+
+                        //if the item is paid
+                        if(res.data.rewards[i].battlepass === 'paid') paid += 1
+
+                        //if the item is free
+                        if(res.data.rewards[i].battlepass === 'free') free += 1
 
                         //add new line
                         newline += 1
@@ -378,102 +384,82 @@ module.exports = {
                         }
                     }
 
-                    //send the pic
-                    const att = new Discord.MessageAttachment(canvas.toBuffer(), `season${res.data.season}.png`)
-                    await message.channel.send(att)
-
-                    //loop throw every item and store the paid and unpaid items
-                    for(let i = 0; i < length; i++){
-
-                        //if the item is paid
-                        if(res.data.rewards[i].battlepass === 'paid') paid += 1
-
-                        //if the item is free
-                        if(res.data.rewards[i].battlepass === 'free') free += 1
-                    }
-
                     //create info embed
-                    const info = new Discord.MessageEmbed()
-
-                    //add the color
+                    const info = new Discord.EmbedBuilder()
                     info.setColor(FNBRMENA.Colors("embed"))
+                    info.setTitle(`${res.data.displayInfo.chapterSeason}, ${res.data.displayInfo.battlepassName}`)
 
                     //set title and add fields
-                    if(lang === "en"){
+                    if(userData.lang === "en") info.setDescription(`All Cosmetics: \`${length}\`\nPaid Cosmetics: \`${paid}\`\nFree Cosmetics: \`${free}\``)
+                    else if(userData.lang === "ar") info.setDescription(`جميع العناصر: \`${length}\`\nالعناصر المدفوعة: \`${paid}\`\nالعناصر المجانية: \`${free}\``)
 
-                        //set the title
-                        info.setTitle(`Season ${res.data.displayInfo.chapterSeason} battlepass details`)
+                    //creating a row
+                    const row = new Discord.ActionRowBuilder()
 
-                        //add the fields
-                        info.addFields(
-                            {name: 'All Cosmetics:', value: length},
-                            {name: 'Paid Cosmetics:', value: paid},
-                            {name: 'Free Cosmetics:', value: free},
-                        )
-                        
-                    }else if(lang === "ar"){
-
-                        //set the title
-                        info.setTitle(`سيزون ${res.data.displayInfo.chapterSeason} معلومات الباتل باس`)
-
-                        //add the fields
-                        info.addFields(
-                            {name: 'جميع العناصر:', value: length},
-                            {name: 'العناصر المدفوعة:', value: paid},
-                            {name: 'العناصر المجانية:', value: free},
-                        )
-                    }
-
-                    //send the info embed
-                    message.channel.send(info)
-
-                    //get the battlepass videos
+                    //get videos
                     for(let i = 0; i < res.data.videos.length; i++){
-
-                        //create the videos embed
-                        const embed = new Discord.MessageEmbed()
-
-                        //set the embed color
-                        embed.setColor(FNBRMENA.Colors("embed"))
 
                         //if the video is a battlepass trailer
                         if(res.data.videos[i].type === "bp"){
 
-                            if(lang === "en") embed.setTitle("Battlepass Trailer")
-                            else if(lang === "ar") embed.setTitle("عرض الباتل باس")
+                            //creating button
+                            if(userData.lang === "en") row.addComponents(
+                                new Discord.ButtonBuilder()
+                                .setStyle(Discord.ButtonStyle.Link)
+                                .setLabel("Battlepass Trailer")
+                                .setURL(res.data.videos[i].url)
+                            )
+
+                            //creating button
+                            else if(userData.lang === "ar") row.addComponents(
+                                new Discord.ButtonBuilder()
+                                .setStyle(Discord.ButtonStyle.Link)
+                                .setLabel("عرض الباتل باس")
+                                .setURL(res.data.videos[i].url)
+                            )
 
                         }else
 
                         //if the video is a season story trailer
                         if(res.data.videos[i].type === "trailer"){
 
-                            if(lang === "en") embed.setTitle("Season Trailer")
-                            else if(lang === "ar") embed.setTitle("عرض السيزون")
+                            //creating button
+                            if(userData.lang === "en") row.addComponents(
+                                new Discord.ButtonBuilder()
+                                .setStyle(Discord.ButtonStyle.Link)
+                                .setLabel("Season Trailer")
+                                .setURL(res.data.videos[i].url)
+                            )
 
+                            //creating button
+                            else if(userData.lang === "ar") row.addComponents(
+                                new Discord.ButtonBuilder()
+                                .setStyle(Discord.ButtonStyle.Link)
+                                .setLabel("عرض السيزون")
+                                .setURL(res.data.videos[i].url)
+                            )
                         }
-
-                        //set the url
-                        embed.setURL(res.data.videos[i].url)
-
-                        //send the message
-                        message.channel.send(embed)
                     }
 
-                    //delete msg
+                    //send the info embed
+                    const att = new Discord.AttachmentBuilder(canvas.toBuffer(), `season${res.data.season}.png`)
+                    await message.reply({embeds: [info], components: [row], files: [att]})
                     msg.delete()
-                            
                 })
-
-            }).catch(err => {
+                            
+            }else{
 
                 //create error embed
-                const error = new Discord.MessageEmbed()
-                error.setColor(FNBRMENA.Colors("embed"))
-                if(lang === "en") error.setTitle(`There is no battlepass with that number ${errorEmoji}`)
-                else if(lang === "ar") error.setTitle(`لا يوجد باتل باس بهذا الرقم ${errorEmoji}`)
-                message.channel.send(error)
-                    
-                    
+                const noBattlepassFoundError = new Discord.EmbedBuilder()
+                noBattlepassFoundError.setColor(FNBRMENA.Colors("embedError"))
+                if(userData.lang === "en") noBattlepassFoundError.setTitle(`There is no battlepass with that number ${emojisObject.errorEmoji}`)
+                else if(userData.lang === "ar") noBattlepassFoundError.setTitle(`لا يوجد باتل باس بهذا الرقم ${emojisObject.errorEmoji}`)
+                message.reply({embeds: [noBattlepassFoundError]})
+            }
+
+        }).catch(err => {
+            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
+            
         })
     }
 }

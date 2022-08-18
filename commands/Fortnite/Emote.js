@@ -10,10 +10,7 @@ module.exports = {
     maxArgs: null,
     cooldown: -1,
     permissionError: 'Sorry you do not have acccess to this command',
-    callback: async (FNBRMENA, message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji, greenStatus, redStatus) => {
-
-        //get the user language from the database
-        const lang = await FNBRMENA.Admin(admin, message, "", "Lang")
+    callback: async (FNBRMENA, message, args, text, Discord, client, admin, userData, alias, emojisObject) => {
 
         //inisilizing data
         var SearchType = "name"
@@ -22,7 +19,7 @@ module.exports = {
         if(text.includes("_")) SearchType = "id"
 
         //request the emote video
-        FNBRMENA.SearchByType(lang, text, 'emote', SearchType)
+        FNBRMENA.SearchByType(userData.lang, text, 'emote', SearchType)
         .then(async res => {
 
             //check if the user entered a valid emote name
@@ -32,56 +29,52 @@ module.exports = {
                 if(res.data.items[0].video !== null){
 
                     //send the generating message
-                    const generating = new Discord.MessageEmbed()
+                    const generating = new Discord.EmbedBuilder()
                     generating.setColor(FNBRMENA.Colors("embed"))
-                    if(lang === "en") generating.setTitle(`Loading the ${res.data.items[0].name}... ${loadingEmoji}`)
-                    else if(lang === "ar") generating.setTitle(`جاري تحميل بيانات ${res.data.items[0].name}... ${loadingEmoji}`)
-                    message.channel.send(generating)
-                    .then( async msg => {
+                    if(userData.lang === "en") generating.setTitle(`Loading the ${res.data.items[0].name}... ${emojisObject.loadingEmoji}`)
+                    else if(userData.lang === "ar") generating.setTitle(`جاري تحميل بيانات ${res.data.items[0].name}... ${emojisObject.loadingEmoji}`)
+                    message.reply({embeds: [generating]})
+                    .then(async msg => {
 
                         try{
+                            
                             //send attatchment
-                            const att = await new Discord.MessageAttachment(res.data.items[0].video)
+                            const att = await new Discord.AttachmentBuilder(res.data.items[0].video)
 
                             //send the emote video
-                            await message.channel.send(att)
+                            await message.reply({files: [att]})
                             msg.delete()
 
                         }catch{
 
                             //send the emote video
-                            await message.channel.send(res.data.items[0].video)
+                            await message.reply({content: res.data.items[0].video})
                             msg.delete()
                         }
                     })
                 }else{
 
                     //create embed
-                    const err = new Discord.MessageEmbed()
-                    err.setColor(FNBRMENA.Colors("embed"))
-                    if(lang === "en") err.setTitle(`There is no video for ${res.data.items[0].name} yet ${errorEmoji}`)
-                    else if(lang === "ar") err.setTitle(`لا يوجد فيديو لرقصة ${res.data.items[0].name} ${errorEmoji}`)
-                    message.channel.send(err)
+                    const noVideoFoundError = new Discord.EmbedBuilder()
+                    noVideoFoundError.setColor(FNBRMENA.Colors("embedError"))
+                    if(userData.lang === "en") noVideoFoundError.setTitle(`There is no video for ${res.data.items[0].name} yet ${emojisObject.errorEmoji}`)
+                    else if(userData.lang === "ar") noVideoFoundError.setTitle(`لا يوجد فيديو لرقصة ${res.data.items[0].name} ${emojisObject.errorEmoji}`)
+                    message.reply({embeds: [noVideoFoundError]})
                 }
+
             }else{
 
                 //no emote has been found
-                const Err = new Discord.MessageEmbed()
-                Err.setColor(FNBRMENA.Colors("embed"))
-                if(lang === "en") Err.setTitle(`No emote has been found check your speling and try again ${errorEmoji}`)
-                else if(lang === "ar") Err.setTitle(`لا يمكنني العثور على الرقصه الرجاء التأكد من كتابة الاسم بشكل صحيح ${errorEmoji}`)
-                message.channel.send(Err)
+                const noEmoteHasBeenFoundError = new Discord.EmbedBuilder()
+                noEmoteHasBeenFoundError.setColor(FNBRMENA.Colors("embedError"))
+                if(userData.lang === "en") noEmoteHasBeenFoundError.setTitle(`No emote has been found check your speling and try again ${emojisObject.errorEmoji}`)
+                else if(userData.lang === "ar") noEmoteHasBeenFoundError.setTitle(`لا يمكنني العثور على الرقصه الرجاء التأكد من كتابة الاسم بشكل صحيح ${emojisObject.errorEmoji}`)
+                message.reply({embeds: [noEmoteHasBeenFoundError]})
 
             }
 
         }).catch(err => {
-
-            //request error
-            const Err = new Discord.MessageEmbed()
-            Err.setColor(FNBRMENA.Colors("embed"))
-            if(lang === "en") Err.setTitle(`An error happened while getting the data please try again later. ${errorEmoji}`)
-            else if(lang === "ar") Err.setTitle(`عذرا. لقد حدث مشكلة اثناء استخراج البيانات الرجاء المحاولةة لاحقا ${errorEmoji}`)
-            message.channel.send(Err)
+            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
         })
     }
 }

@@ -5,30 +5,29 @@ module.exports = {
     maxArgs: 0,
     cooldown: -1,
     permissionError: 'Sorry you do not have acccess to this command',
-    callback: async (FNBRMENA, message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji, greenStatus, redStatus, disTube) => {
+    callback: async (FNBRMENA, message, args, text, Discord, client, admin, userData, alias, emojisObject) => {
 
-        //get the user language from the database
-        const lang = await FNBRMENA.Admin(admin, message, "", "Lang")
-
+        //if the user isnt in a voice chat
         if (!message.member.voice.channel){
-            const err = new Discord.MessageEmbed()
-            err.setColor(FNBRMENA.Colors("embed"))
-            if(lang === "en"){
-                err.setTitle(`Ay u r not in a voice channel ${errorEmoji}`)
-            }else if(lang === "ar"){
-                err.setTitle(`يا ذكي ادخل محادثه صوتيه ${errorEmoji}`)
-            }
-            return message.channel.send(err)
+            const notInAVoiceChannelErr = new Discord.EmbedBuilder()
+            notInAVoiceChannelErr.setColor(FNBRMENA.Colors("embedError"))
+            notInAVoiceChannelErr.setTitle(`Please join a voice channel first. ${emojisObject.errorEmoji}`)
+            return message.reply({embeds: [notInAVoiceChannelErr]})
+            
         }
-        await disTube.skip(message)
-        const skipped = new Discord.MessageEmbed()
-        skipped.setColor(FNBRMENA.Colors("embed"))
-        if(lang === "en"){
-                skipped.setTitle(`Away we goooooooo to the next track baby ${checkEmoji}`)
-        }else if(lang === "ar"){
-            skipped.setTitle(`طيب لا تنافخ بوديك للتراك الي بعده ${errorEmoji}`)
+
+        //get the queue
+        const queue = client.disTube.getQueue(message)
+
+        //check if the queue is empty
+        if (!queue){
+            const noMusicPlayingErr = new Discord.EmbedBuilder()
+            noMusicPlayingErr.setColor(FNBRMENA.Colors("embedError"))
+            noMusicPlayingErr.setTitle(`There is no music is playing at the moment ${emojisObject.errorEmoji}`)
+            return message.reply({embeds: [noMusicPlayingErr]})
         }
-        return message.channel.send(skipped)
+
+        await queue.skip()
 
     }
 }

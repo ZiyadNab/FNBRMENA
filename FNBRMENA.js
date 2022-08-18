@@ -5,7 +5,6 @@ const SetEvents = require('./Events/SetEvents.js')
 const ShopSectionEvents = require('./Events/ShopSectionEvents.js')
 const NewSectionsEvents = require('./Events/ModifiedSectionsEvents.js')
 const DynamicBackgroundsEvents = require('./Events/DynamicBackgroundsEvents.js')
-const NewTournamentsEvents = require('./Events/NewTournamentsEvents.js')
 const PlaylistsEvents = require('./Events/PlaylistsEvents.js')
 const NoticeEvents = require('./Events/NoticeEvents.js')
 const UserJoined = require('./Events/User.js')
@@ -16,7 +15,10 @@ const Commands = require('./Events/Commands.js')
 const ItemshopEvents = require('./Events/ItemshopEvents')
 const axios = require('axios')
 const SubGameInfoEvents = require('./Events/SubGameInfoEvents.js')
-const AuthHandler = require('./Events/AuthHandler.js')
+const tslib_1 = require("tslib");
+const RemindersEvents = require('./Events/RemindersEvents.js')
+const zlib_1 = (0, tslib_1.__importDefault)(require("zlib"));
+const Discord = require('discord.js')
 
 class FNBRMENA {
 
@@ -27,12 +29,14 @@ class FNBRMENA {
     Colors(Type){
 
         if(Type === "embed") return "#00ffff"
-        if(Type === "embedError") return "#00ffff"
+        if(Type === "embedError") return "#FF0000"
+        if(Type === "embedSuccess") return "#FF0000"
+        if(Type === "syntaxError") return "#FF0000"
 
         //api.ip
         if(Type === "Legendary") return "#e98d4b"
         if(Type === "Epic") return "#e95eff"
-        if(Type === "Rare") return "#37d1ff"
+        if(Type === "Rare") return "#37d1ff" 
         if(Type === "Uncommon") return "#87e339"
         if(Type === "Common") return "#b1b1b1"
         if(Type === "MarvelSeries") return "#ef3537"
@@ -72,7 +76,7 @@ class FNBRMENA {
      * @param {String} Body
      * 
      */
-     async Auth(Headers, Body){
+    async Auth(Headers, Body){
 
         //request token from epicgames servers
         const token = await axios.post("https://account-public-service-prod.ol.epicgames.com/account/api/oauth/token", Body, { headers: Headers })
@@ -103,6 +107,26 @@ class FNBRMENA {
 
         //request the data and return the response
         return await axios.get(`https://fortniteapi.io/v1/loot/fish?lang=${Lang}&season=${Season}`, { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
+
+    }
+
+    /**
+     * Return the current sets
+     * 
+     * @param {String} Lang
+     * @example
+     * FNBRMENA.listSets(Lang)
+     * .then(async res => {
+     * 
+     *        //you will get a response weather the requested data has been found or not
+     * 
+     * })
+     * 
+     */
+     async listSets(Lang){
+
+        //request the data and return the response
+        return await axios.get(`https://fortniteapi.io/v2/items/sets?lang=${Lang}`, { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
 
     }
 
@@ -164,7 +188,7 @@ class FNBRMENA {
      * })
      * 
      */
-     async Replays(SessionID){
+     async Sessions(SessionID){
 
         //request the data and return the response
         return await axios.get(`https://fortniteapi.io/v1/events/replay?session=${SessionID}`, { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
@@ -189,10 +213,36 @@ class FNBRMENA {
 
         //request the data and return the response
         if(Type === "list") //return all the crew data
-        return await axios.get(`https://fortniteapi.io/v2/crew/history?lang=${Lang}`, { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io")} })
+        return await axios.get(`https://fortniteapi.io/v2/crew/history?lang=${Lang}&fields=name,rarity,series,description,id,reactive,type,added,builtInEmote,copyrightedAudio,images,video,audio,gameplayTags,introduction,styles,displayAssets`, { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
 
         else if(Type === "active") //return the active crew
-        return await axios.get(`https://fortniteapi.io/v2/crew?lang=${Lang}`, { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io")} })
+        return await axios.get(`https://fortniteapi.io/v2/crew?lang=${Lang}`, { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
+
+    }
+
+    /**
+     * Return data about the crew
+     * 
+     * @param {String} apiUrl
+     * @example
+     * FNBRMENA.Request(text)
+     * .then(async res => {
+     * 
+     *        //you will get a response weather the requested data has been found or not
+     * 
+     * })
+     * 
+     */
+     async Request(apiUrl){
+
+        //request the data and return the response
+        const response = await axios.get(apiUrl)
+        .then(res => {
+            return res
+        }).catch(err => {
+            return Promise.reject(err)
+        })
+        return response
 
     }
 
@@ -214,7 +264,7 @@ class FNBRMENA {
      async Stats(playerTag, Platform, Period){
 
         //request the data and return the response
-        return await axios.get(encodeURI(`https://fortnite-api.com/v2/stats/br/v2?name=${playerTag}&accountType=${Platform}&timeWindow=${Period}`), { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("Fortnite-Api.com")} })
+        return await axios.get(encodeURI(`https://fortnite-api.com/v2/stats/br/v2?name=${playerTag}&accountType=${Platform}&timeWindow=${Period}`), { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("Fortnite-Api.com"),} })
 
     }
 
@@ -223,7 +273,7 @@ class FNBRMENA {
      * 
      * @param {String} Lang
      * @example
-     * FNBRMENA.Stats(Lang)
+     * FNBRMENA.CosmeticsNew(Lang)
      * .then(async res => {
      * 
      *        //you will get a response weather the requested data has been found or not
@@ -282,6 +332,26 @@ class FNBRMENA {
     }
 
     /**
+     * Return data about all seasons
+     * 
+     * @param {String} Lang
+     * @example
+     * FNBRMENA.Seasons(Lang)
+     * .then(async res => {
+     * 
+     *        //you will get a response weather the requested data has been found or not
+     * 
+     * })
+     * 
+     */
+     async Seasons(Lang){
+
+        //request the data and return the response
+        return await axios.get(encodeURI(`https://fortniteapi.io/v1/seasons/list?lang=${Lang}`), { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
+
+    }
+
+    /**
      * Return data about the bundles
      * 
      * @param {String} Lang
@@ -325,8 +395,9 @@ class FNBRMENA {
      * Return data about the listCurrentPOI
      * 
      * @param {String} Lang
+     * @param {String} Version
      * @example
-     * FNBRMENA.listCurrentPOI(Lang)
+     * FNBRMENA.listCurrentPOI(Lang, Version)
      * .then(async res => {
      * 
      *        //you will get a response weather the requested data has been found or not
@@ -334,10 +405,11 @@ class FNBRMENA {
      * })
      * 
      */
-     async listCurrentPOI(Lang){
+     async listCurrentPOI(Lang, Version){
 
         //request the data and return the response
-        return await axios.get(encodeURI(`https://fortniteapi.io/v2/game/poi?lang=${Lang}`), { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
+        if(Version === "current") return await axios.get(encodeURI(`https://fortniteapi.io/v2/game/poi?lang=${Lang}`), { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
+        else return await axios.get(encodeURI(`https://fortniteapi.io/v2/game/poi?lang=${Lang}&gameVersion=${Version}`), { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
 
     }
 
@@ -358,7 +430,7 @@ class FNBRMENA {
      async listChallenges(Season, Lang){
 
         //request the data and return the response
-        return await axios.get(encodeURI(`https://fortniteapi.io/v2/challenges?season=${Season}&lang=${Lang}`), { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
+        return await axios.get(encodeURI(`https://fortniteapi.io/v3/challenges?season=${Season}&lang=${Lang}`), { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
 
     }
 
@@ -367,7 +439,7 @@ class FNBRMENA {
      * 
      * @param {String} Coordinates MAP/RAW
      * @example
-     * FNBRMENA.listLocations(Coordinates)
+     * FNBRMENA.listLocations(Season, Lang)
      * .then(async res => {
      * 
      *        //you will get a response weather the requested data has been found or not
@@ -383,42 +455,91 @@ class FNBRMENA {
     }
 
     /**
-     * Return data about the playlist
+     * Return data about a stream using the stream id
      * 
-     * @param {String} Lang
-     * @param {String} Type
-     * @param {String} Name
+     * @param {String} StreamID the stream id
+     * @example
+     * FNBRMENA.Streams('pnoHsKsyUcTnFDoDQC')
+     * .then(async res => {
+     * 
+     *        //you will get a response weather the requested data has been found or not
+     * 
+     * })
      * 
      */
-     async PlayList(Lang, Type, Name){
+     async Streams(StreamID){
 
-        if(Type === "All") //return all the playlists data
-        return await axios.get(`https://fortniteapi.io/v1/game/modes?lang=${Lang}`, { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
-
-        if(Type === "Name") //return the playlist by name data
-        return await axios.get(`https://fortniteapi.io/v1/game/modes?lang=${Lang}&name=${Name}`, { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
-
-        if(Type === "Id"){
-            const playlist = await axios.get(`https://fortniteapi.io/v1/game/modes?lang=${Lang}`, { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
-
-            const playlistIDs = await playlist.data.modes.filter(found => {
-                if(`playlist_${found.id.toLowerCase()}` === Name.toLowerCase()) return found.id
+        //blurl to JSON convertor
+        const parseBlurlStream = async (stream) => new Promise((res) => {
+            zlib_1.default.inflate(stream.slice(8), (err, buffer) => {
+                const data = JSON.parse(buffer.toString());
+                return res(data);
             })
+        })
 
-            return {data: {modes: playlistIDs}}
-        } //return the playlist by id data
+        //request the data and return the response
+        return await axios.get(`https://fortnite-vod.akamaized.net/${StreamID}/master.blurl`,{
+            responseType: 'arraybuffer'
+        }).then(async res => {
+            return await parseBlurlStream(res.data)
+
+        }).catch(async err => {
+            return Promise.reject(err)
+
+        })
     }
 
     /**
-     * Return data about the crew
+     * Return data about a stream using the stream id
      * 
      * @param {String} Lang
+     * @param {String} Text
+     * @example
+     * FNBRMENA.Set(Lang, Text)
+     * .then(async res => {
+     * 
+     *        //you will get a response weather the requested data has been found or not
+     * 
+     * })
      * 
      */
-     async News(Lang){
+     async Set(Lang, Text){
+        return axios.get(`https://fortnite-api.com/v2/cosmetics/br/search/all?language=${Lang}&set=${Text}`)
+    }
 
-        //return the crew data
-        return await axios.get(`https://fortnite-api.com/v2/news?language=${Lang}`)
+    /**
+     * Return data about a stream using the stream id
+     * 
+     * @param {String} Lang
+     * @param {String} Options
+     * @example
+     * FNBRMENA.PAK(Lang, Options)
+     * .then(async res => {
+     * 
+     *        //you will get a response weather the requested data has been found or not
+     * 
+     * })
+     * 
+     */
+     async PAK(Lang, Options){
+        return axios.get(`https://fortnite-api.com/v2/cosmetics/br/search/all?language=${Lang}&${Options}`)
+    }
+
+    /**
+     * Return data about the playlist
+     * 
+     * @param {String} Lang
+     * @example
+     * FNBRMENA.Playlist(lang)
+     * .then(async res => {
+     * 
+     *      //playlist data will be shown if the given parms are valid
+     * 
+     * })
+     * 
+     */
+     async Playlist(Lang){
+        return axios.get(`https://fortniteapi.io/v1/game/modes?lang=${Lang}`, { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io")}})
     }
 
     /**
@@ -431,7 +552,7 @@ class FNBRMENA {
 
         //request header
         const Headers = {
-            'Content-Type':'application/json',     
+            'Content-Type':'application/x-www-form-urlencoded',     
             'Authorization': `bearer ${Token}`   
         }
 
@@ -458,7 +579,7 @@ class FNBRMENA {
     }
 
     /**
-     * Return data about the crew
+     * Return data about the map
      * 
      * @param {String} Lang
      * 
@@ -486,6 +607,18 @@ class FNBRMENA {
      * @param {String} Lang
      * 
      */
+     async News(Lang){
+
+        //return the crew data
+        return await axios.get(`https://fortnite-api.com/v2/news?language=${Lang}`)
+    }
+
+    /**
+     * Return data about the crew
+     * 
+     * @param {String} Lang
+     * 
+     */
      async ActivePlayLists(Lang){
 
         //return the crew data
@@ -497,7 +630,7 @@ class FNBRMENA {
      * @param {String} Lang 
      * @param {String} Active 
      */
-     async Sections(Lang, Active){
+    async Sections(Lang, Active){
 
         //if i want a full list or just the active once
         if(Active === "Yes"){
@@ -509,6 +642,35 @@ class FNBRMENA {
             //return all the sections
             return await axios.get(`https://fortniteapi.io/v2/shop/sections/list?lang=${Lang}`, { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
         }
+    }
+
+    /**
+     * 
+     * @param {String} Lang 
+     * @param {String} Name 
+     * @param {String} Type 
+     */
+    async SearchByType(Lang, Name, Type, SearchType){
+
+        if(SearchType === "name"){
+            //return the items
+            return await axios.get(`https://fortniteapi.io/v2/items/list?lang=${Lang}&fields=name,rarity,series,description,id,price,reactive,type,added,builtInEmote,copyrightedAudio,apiTags,upcoming,releaseDate,lastAppearance,images,video,audio,gameplayTags,apiTags,battlepass,set,introduction,shopHistory,styles,grants,grantedBy,displayAssets&type=${Type}&name=${Name}`, { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
+
+        }else if(SearchType === "id"){
+            //return the items
+            return await axios.get(`https://fortniteapi.io/v2/items/list?lang=${Lang}&fields=name,rarity,series,description,id,price,reactive,type,added,builtInEmote,copyrightedAudio,apiTags,upcoming,releaseDate,lastAppearance,images,video,audio,gameplayTags,apiTags,battlepass,set,introduction,shopHistory,styles,grants,grantedBy,displayAssets&type=${Type}&id=${Name}`, { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
+        }
+    }
+
+    /**
+     * 
+     * @param {String} Lang 
+     * @param {String} Type 
+     */
+     async SearchType(Lang, Type){
+
+        //return the items
+        return await axios.get(`https://fortniteapi.io/v2/items/list?lang=${Lang}&fields=name,rarity,series,description,id,price,reactive,type,added,builtInEmote,copyrightedAudio,apiTags,upcoming,releaseDate,lastAppearance,images,video,audio,gameplayTags,apiTags,battlepass,set,introduction,shopHistory,styles,grants,grantedBy,displayAssets&type=${Type}`, { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
     }
 
     /**
@@ -540,25 +702,7 @@ class FNBRMENA {
         //return the items
         return await axios.post(`https://www.epicgames.com/fortnite/competitive/api/${Lang}/calendar`)
     }
-
-    /**
-     * 
-     * @param {String} Lang 
-     * @param {String} Name 
-     * @param {String} Type 
-     */
-     async SearchByType(Lang, Name, Type, SearchType){
-
-        if(SearchType === "name"){
-            //return the items
-            return await axios.get(`https://fortniteapi.io/v2/items/list?lang=${Lang}&fields=name,rarity,series,description,id,price,reactive,type,added,builtInEmote,copyrightedAudio,upcoming,releaseDate,lastAppearance,images,video,audio,gameplayTags,apiTags,battlepass,set,introduction,shopHistory,styles,grants,grantedBy,displayAssets&type=${Type}&name=${Name}`, { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
-
-        }else if(SearchType === "id"){
-            //return the items
-            return await axios.get(`https://fortniteapi.io/v2/items/list?lang=${Lang}&fields=name,rarity,series,description,id,price,reactive,type,added,builtInEmote,copyrightedAudio,upcoming,releaseDate,lastAppearance,images,video,audio,gameplayTags,apiTags,battlepass,set,introduction,shopHistory,styles,grants,grantedBy,displayAssets&type=${Type}&id=${Name}`, { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
-        }
-    }
-
+    
     /**
      * 
      * @param {String} Lang 
@@ -566,22 +710,11 @@ class FNBRMENA {
      */
      async NPC(Lang, Enabled){
 
-        if(Enabled === "true"){
+        if(Enabled){
             //return the items
-            return await axios.get(`https://fortniteapi.io/v1/game/npc/list?lang=${Lang}&coordinates=map&enabled=true`, { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
+            return await axios.get(`https://fortniteapi.io/v2/game/npc/list?lang=${Lang}&scale=2024&enabled=true`, { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
 
-        }else return await axios.get(`https://fortniteapi.io/v1/game/npc/list?lang=${Lang}&coordinates=map`, { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
-    }
-
-    /**
-     * 
-     * @param {String} Lang 
-     * @param {String} Type 
-     */
-     async SearchType(Lang, Type){
-
-        //return the items
-        return await axios.get(`https://fortniteapi.io/v2/items/list?lang=${Lang}&fields=name,rarity,series,description,id,price,reactive,type,added,builtInEmote,copyrightedAudio,upcoming,releaseDate,lastAppearance,images,video,audio,gameplayTags,apiTags,battlepass,set,introduction,shopHistory,styles,grants,grantedBy,displayAssets&type=${Type}`, { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
+        }else return await axios.get(`https://fortniteapi.io/v2/game/npc/list?lang=en&scale=2024`, { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
     }
 
     /**
@@ -591,13 +724,36 @@ class FNBRMENA {
      */
      async List(Lang, Type){
 
-        if(Type === ""){
-            //return the items
+        if(Type === "") //return the items
             return await axios.get(`https://fortniteapi.io/v2/items/list?lang=${Lang}&fields=name,rarity,series,description,id,price,reactive,type,added,builtInEmote,copyrightedAudio,upcoming,releaseDate,lastAppearance,images,video,audio,gameplayTags,apiTags,battlepass,set,introduction,shopHistory,styles,grants,grantedBy,displayAssets`, { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
-        }else{
-            //return the items
+            
+        else //return the items
             return await axios.get(`https://fortniteapi.io/v2/items/list?lang=${Lang}&type=${Type}&fields=name,rarity,series,description,id,price,reactive,type,added,builtInEmote,copyrightedAudio,upcoming,releaseDate,lastAppearance,images,video,audio,gameplayTags,apiTags,battlepass,set,introduction,shopHistory,styles,grants,grantedBy,displayAssets`, { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
-        }
+    }
+
+    /**
+     * 
+     * @param {String} Lang
+     * @param {String} Name
+     */
+     async SearchNPCDATA(Lang, searchLang, Name){
+
+        //return the item searched by name
+        return await axios.get(encodeURI(`https://fortniteapi.io/v2/items/list?searchLang=${searchLang}&lang=${Lang}&name=${Name}&fields=id,name,description,price,reactive,copyrightedAudio,builtInEmote,upcoming,releaseDate,lastAppearance,rarity,series,added,type,images,gameplayTags,apiTags,battlepass,set,introduction,shopHistory,grants,displayAssets,styles`), { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
+    }
+
+     /**
+     * Return data about the an item
+     * 
+     * @param {String} Lang
+     * @param {String} ID
+     * 
+     */
+      async searchByID(Lang, ID){
+
+        //return the item searched by name
+        return await axios.get(encodeURI(`https://fortniteapi.io/v2/items/get?id=${ID}&lang=${Lang}`), { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
+
     }
 
     /**
@@ -611,31 +767,31 @@ class FNBRMENA {
         if(Type === 'name'){
 
             //return the item searched by name
-            return await axios.get(encodeURI(`https://fortniteapi.io/v2/items/list?lang=${Lang}&name=${Name}&fields=id,name,description,price,reactive,copyrightedAudio,builtInEmote,upcoming,releaseDate,lastAppearance,rarity,series,added,type,images,gameplayTags,battlepass,set,introduction,shopHistory,grants,displayAssets,styles`), { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
+            return await axios.get(encodeURI(`https://fortniteapi.io/v2/items/list?lang=${Lang}&name=${Name}&fields=id,name,description,price,reactive,copyrightedAudio,builtInEmote,upcoming,releaseDate,lastAppearance,rarity,series,added,type,images,gameplayTags,apiTags,battlepass,set,introduction,shopHistory,grants,displayAssets,styles`), { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
         
         }else if(Type === 'id'){
 
             //return the item searched by id
-            return await axios.get(`https://fortniteapi.io/v2/items/list?lang=${Lang}&id=${Name}&fields=id,name,description,price,reactive,copyrightedAudio,builtInEmote,upcoming,releaseDate,lastAppearance,rarity,series,added,type,images,gameplayTags,battlepass,set,introduction,shopHistory,grants,displayAssets,styles`, { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
+            return await axios.get(`https://fortniteapi.io/v2/items/list?lang=${Lang}&id=${Name}&fields=id,name,description,price,reactive,copyrightedAudio,builtInEmote,upcoming,releaseDate,lastAppearance,rarity,series,added,type,images,gameplayTags,apiTags,battlepass,set,introduction,shopHistory,grants,displayAssets,styles`, { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
         
         }else if(Type === 'set'){
 
             //return the item searched by id
-            return await axios.get(`https://fortniteapi.io/v2/items/list?lang=${Lang}&set.name=${Name}&fields=id,name,description,price,reactive,copyrightedAudio,builtInEmote,upcoming,releaseDate,lastAppearance,rarity,series,added,type,images,gameplayTags,battlepass,set,introduction,shopHistory,grants,displayAssets,styles`, { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
+            return await axios.get(`https://fortniteapi.io/v2/items/list?lang=${Lang}&set.name=${Name}&fields=id,name,description,price,reactive,copyrightedAudio,builtInEmote,upcoming,releaseDate,lastAppearance,rarity,series,added,type,images,gameplayTags,apiTags,battlepass,set,introduction,shopHistory,grants,displayAssets,styles`, { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
         
         }else if(Type === 'season'){
 
             //return the item searched by id
-            return await axios.get(`https://fortniteapi.io/v2/items/list?lang=${Lang}&${Name}&fields=id,name,description,price,reactive,copyrightedAudio,builtInEmote,upcoming,releaseDate,lastAppearance,rarity,series,added,type,images,gameplayTags,battlepass,set,introduction,shopHistory,grants,styles`, { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
+            return await axios.get(`https://fortniteapi.io/v2/items/list?lang=${Lang}&${Name}&fields=id,name,description,price,reactive,copyrightedAudio,builtInEmote,upcoming,releaseDate,lastAppearance,rarity,series,added,type,images,gameplayTags,apiTags,battlepass,set,introduction,shopHistory,grants,styles`, { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
         
         }else if(Type === 'series'){
 
             //return the item searched by id
-            return await axios.get(`https://fortniteapi.io/v2/items/list?lang=${Lang}&series.name=${Name}&fields=id,name,description,price,reactive,copyrightedAudio,builtInEmote,upcoming,releaseDate,lastAppearance,rarity,series,added,type,images,gameplayTags,battlepass,set,introduction,shopHistory,grants,styles`, { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
+            return await axios.get(`https://fortniteapi.io/v2/items/list?lang=${Lang}&series.name=${Name}&fields=id,name,description,price,reactive,copyrightedAudio,builtInEmote,upcoming,releaseDate,lastAppearance,rarity,series,added,type,images,gameplayTags,apiTags,battlepass,set,introduction,shopHistory,grants,styles`, { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
         
         }else if(Type === 'langType'){
 
-            var url = `https://fortniteapi.io/v2/items/list?lang=${Lang}${Name}&fields=id,name,description,price,reactive,copyrightedAudio,builtInEmote,upcoming,releaseDate,lastAppearance,rarity,series,added,type,images,gameplayTags,battlepass,set,introduction,shopHistory,grants,styles`
+            var url = `https://fortniteapi.io/v2/items/list?lang=${Lang}${Name}&fields=id,name,description,price,reactive,copyrightedAudio,builtInEmote,upcoming,releaseDate,lastAppearance,rarity,series,added,type,images,gameplayTags,apiTags,battlepass,set,introduction,shopHistory,grants,styles`
 
             url = decodeURI(url);
             url = encodeURI(url);
@@ -646,7 +802,7 @@ class FNBRMENA {
         }else if(Type === 'custom'){
 
             //return the item searched by id
-            return await axios.get(`https://fortniteapi.io/v2/items/list?lang=${Lang}${Name}&fields=id,name,description,price,reactive,copyrightedAudio,builtInEmote,upcoming,releaseDate,lastAppearance,rarity,series,added,type,images,gameplayTags,battlepass,set,introduction,shopHistory,styles`, { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
+            return await axios.get(`https://fortniteapi.io/v2/items/list?lang=${Lang}${Name}&fields=id,name,description,price,reactive,copyrightedAudio,builtInEmote,upcoming,releaseDate,lastAppearance,rarity,series,added,type,images,gameplayTags,apiTags,battlepass,set,introduction,shopHistory,styles`, { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
         
         }
     }
@@ -656,77 +812,77 @@ class FNBRMENA {
      * 
      * @param {String} [Client]
      * @param {String} [Admin]
-     * @param {String} [commandsData]
+     * @param {String} [array]
      * @param {String} [Type]
      * 
     */
-    Events(FNBRMENA, Client, Admin, commandsData, Type){
+    Events(FNBRMENA, Client, Admin, array, emojisObject, Type){
         
         //return Blogposts access
         if(Type === "Blogposts"){
-            BlogpostsEvents(Client, Admin)
-            CompBlogpostsEvents(Client, Admin)
+            BlogpostsEvents(FNBRMENA, Client, Admin, emojisObject)
+            CompBlogpostsEvents(FNBRMENA, Client, Admin, emojisObject)
         }
 
         //return Itemshop access
         if(Type === "Itemshop"){
-            ItemshopEvents(Client, Admin)
+            ItemshopEvents(FNBRMENA, Client, Admin, emojisObject)
         }
 
         //return Playlists access
         if(Type === "Playlists"){
-            PlaylistsEvents(Client, Admin)
+            PlaylistsEvents(FNBRMENA, Client, Admin, emojisObject)
         }
 
         //return Pak access
         if(Type === "Pak"){
-            PAKEvents(Client, Admin)
+            PAKEvents(FNBRMENA, Client, Admin, emojisObject)
         }
 
         //return Set access
         if(Type === "Set"){
-            SetEvents(FNBRMENA, Client, Admin)
+            SetEvents(FNBRMENA, Client, Admin, emojisObject)
         }
 
-        //return Set access
+        //return DynamicBackgrounds access
         if(Type === "DynamicBackgrounds"){
-            DynamicBackgroundsEvents(FNBRMENA, Client, Admin)
+            DynamicBackgroundsEvents(FNBRMENA, Client, Admin, emojisObject)
         }
 
-        //return Set access
+        //return SubGameInfo access
         if(Type === "SubGameInfo"){
-            SubGameInfoEvents(FNBRMENA, Client, Admin)
+            SubGameInfoEvents(FNBRMENA, Client, Admin, emojisObject)
         }
 
         //return ShopSection access
         if(Type === "ShopSection"){
-            ShopSectionEvents(FNBRMENA, Client, Admin)
-            NewSectionsEvents(FNBRMENA, Client, Admin)
+            ShopSectionEvents(FNBRMENA, Client, Admin, emojisObject)
+            NewSectionsEvents(FNBRMENA, Client, Admin, emojisObject)
         }
 
-        //return ShopSection access
+        //return Crew access
         if(Type === "Crew"){
-            Crew(FNBRMENA, Client, Admin)
-        }
-
-        //return ShopSection access
-        if(Type === "NewTournaments"){
-            NewTournamentsEvents(FNBRMENA, Client, Admin)
+            Crew(FNBRMENA, Client, Admin, emojisObject)
         }
 
         //return Notice access
         if(Type === "Notice"){
-            NoticeEvents(FNBRMENA, Client, Admin)
+            NoticeEvents(FNBRMENA, Client, Admin, emojisObject)
         }
 
         //return Bundles access
         if(Type === "AvailableBundle"){
-            AvailableBundle(Client, Admin)
+            AvailableBundle(FNBRMENA, Client, Admin, emojisObject)
         }
 
-        //return Bundles access
+        //return Servers access
         if(Type === "Servers"){
-            ServersEvents(Client, Admin)
+            ServersEvents(FNBRMENA, Client, Admin, emojisObject)
+        }
+
+        //return Reminders access
+        if(Type === "Reminders"){
+            RemindersEvents(FNBRMENA, Client, Admin, emojisObject)
         }
 
         //return UserJoined access
@@ -734,15 +890,66 @@ class FNBRMENA {
             UserJoined(Client, Admin)
         }
 
-        //return ShopSCommandsection access
+        //return Commands access
         if(Type === "Commands"){
-            Commands(Client, Admin, commandsData)
+            Commands(Client, Admin, array)
         }
+    }
 
-         //return Itemshop access
-         if(Type === "Auth"){
-            AuthHandler(FNBRMENA, Client, Admin)
+    /**
+     * 
+     * @param {
+     * } Type 
+     * @param {*} Lang 
+     * @returns 
+     */
+    Logs(admin, client, Discord, message, alias, lang, text, err, errorEmoji){
+
+        //logs channel
+        const logsChannel = client.channels.cache.find(channel => channel.id === require('./Coinfigs/config.json').events.Logs)
+
+        //create error embed
+        const anErrorHappened = new Discord.EmbedBuilder()
+        anErrorHappened.setColor(this.Colors("embedError"))
+        anErrorHappened.setThumbnail('https://imgur.com/yjMpDe3.png')
+        if(lang === "en"){
+            anErrorHappened.setTitle(`Ouch, Errr thats awkward ${errorEmoji}`)
+            anErrorHappened.setDescription(`An error occurred while getting data for the \`${alias}\` command. A complete log has been sent to the developer and a fix is being worked on right now. If this issue took longer than necessary, please [__CONTACT OUR SUPPORT TEAM__](https://discord.com/channels/746143287383031878) ASAP.\n\nWe're sorry for the inconvenience\n\`\`\`yaml\n${err.message}\`\`\``)
         }
+        else if(lang === "ar"){
+            anErrorHappened.setTitle(`عذرا لقد حصلت مشكلة ${errorEmoji}`)
+            anErrorHappened.setDescription(`لقد حدثت مشكلة ما اثناء جمع بيانات امر \`${alias}\`. تم ارسال ملف تسجيل يحتوي على جميع المعلومات المهمه للمطورين و المشكلة يتم حلها حاليا. في حال المشكلة اخذت وقت اكثر من المعتاد, من فضلك [__تواصل مع فريق الدعم__](https://discord.com/channels/746143287383031878) في اسرع وقت ممكن.\n\nنأسف على الإزعاج\n\`\`\`yaml\n${err.message}\`\`\``)
+        }
+        message.reply({embeds: [anErrorHappened]})
+
+        //logs
+        const logs = new Discord.EmbedBuilder()
+        logs.setColor(this.Colors("embedError"))
+        logs.setTitle(`Error happened in ${alias.toUpperCase()}`)
+        if(err.isAxiosError) logs.setDescription(`Command: \`${alias}\`\nUser: \`${message.author.tag}\`\nDate: \`${new Date()}\`\nLanguage: \`${lang}\`\nMessageID: \`${message.id}\`\nChannel: \`${message.channel.name} | ${message.channel.id}\`\nMessage Content: \`${message.content}\n\`Request Status: \`${err.response.data.status}\`\n\nError:\`\`\`json\n${JSON.stringify(err.response.data)}\`\`\``)
+        else logs.setDescription(`Command: \`${alias}\`\nUser: \`${message.author.tag}\`\nDate: \`${new Date()}\`\nLanguage: \`${lang}\`\nMessageID: \`${message.id}\`\nChannel: \`${message.channel.name} | ${message.channel.id}\`\nMessage Content: \`${message.content}\`\n\nError:\`\`\`yaml\n${err.stack}\`\`\``)
+        logsChannel.send({embeds: [logs]})
+    }
+
+    /**
+     * 
+     * @param {
+     * } Type 
+     * @param {*} Lang 
+     * @returns 
+     */
+    eventsLogs(admin, client, err, event){
+
+        //logs channel
+        const logsChannel = client.channels.cache.find(channel => channel.id === require('./Coinfigs/config.json').events.Logs)
+
+        //logs
+        const logs = new Discord.EmbedBuilder()
+        logs.setColor(this.Colors("embedError"))
+        logs.setTitle(`Error happened in ${event.toUpperCase()} event`)
+        if(err.isAxiosError) logs.setDescription(`Event: \`${event}\`\nDate: \`${new Date()}\`\nRequest Status: \`${err.response.data.status}\`\n\nError:\`\`\`json\n${JSON.stringify(err.response.data)}\`\`\``)
+        else logs.setDescription(`Event: \`${event}\`\nDate: \`${new Date()}\`\n\nError:\`\`\`json\n${JSON.stringify(err.stack)}\`\`\``)
+        logsChannel.send({embeds: [logs]})
     }
 
     /**
@@ -756,11 +963,14 @@ class FNBRMENA {
 
         //Time error
         if(Type === "Time"){
-            if(Lang === "en"){
-                return `Sorry we canceled your process becuase no action has been taken`
-            }else if(Lang === "ar"){
-                return `لقد تم ايقاف الامر لعدم اختيار طريقة`
-            }
+            if(Lang === "en") return `Sorry we canceled your process becuase no action has been taken`
+            else if(Lang === "ar") return `لقد تم ايقاف الامر لعدم اختيار طريقة`
+        }
+
+        //Out of range error
+        if(Type === "outOfRange"){
+            if(Lang === "en") return `Sorry we canceled your process becuase u selected a number out of range`
+            else if(Lang === "ar") return `تم ايقاف الامر بسبب اختيارك لرقم خارج النطاق`
         }
     }
 
@@ -780,7 +990,7 @@ class FNBRMENA {
         }
 
         if(Type === "DiscordBotToken"){
-            return 'Nzk5OTkxNDQ2MDY0MDcwNjU4.YALoFw.9Y3FeQRPrkWTMPzWE1oCSs88O-g'
+            return 'ODEzNzQ2OTE4Nzg5MjE4Mzg2.YDTy4A.f3-p1rLNr3V199oOps1wWk5cIS8'
         }
 
         if(Type === "FNBRJS"){
@@ -830,6 +1040,15 @@ class FNBRMENA {
             return Lang
         }
 
+        //get the user data
+        if(Type === "User"){
+            var User = await db.collection("Users").doc(Message.author.id).get()
+            .then(async data => {
+                return data.data();
+            })
+            return User
+        }
+
         //get the bot status
         if(Type === "Status"){
             var status = await Admin.database().ref("ERA's").child("Server").child("Status").once('value')
@@ -839,31 +1058,31 @@ class FNBRMENA {
             return status
         }
 
-        //get the command status
+        //get the command data
         if(Type === "Command"){
-            var status = await db.collection("Commands").doc(Alias).get()
+            var command = await db.collection("Commands").doc(Alias).get()
             .then(async data => {
-                return data.data().commandStatus;
+                return data.data();
             })
-            return status
+            return command
+        }
+
+        //get the moderation data
+        if(Type === "Moderation"){
+            var command = await db.collection("Moderation").doc("Roles").get()
+            .then(async data => {
+                return data.data();
+            })
+            return command
         }
 
         //check perms for an a command
         if(Type === "Perms"){
             var perms = await db.collection("Commands").doc(Alias).get()
             .then(async data => {
-                return data.data().permissions
+                return data.data().commandData.permissions
             })
             return perms
-        }
-
-        //check roles for an a command
-        if(Type === "Roles"){
-            var roles = await db.collection("Commands").doc(Alias).get()
-            .then(async data => {
-                return data.data().roles
-            })
-            return roles
         }
 
         //get the events status

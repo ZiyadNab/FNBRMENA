@@ -13,6 +13,7 @@ module.exports = async (FNBRMENA, client, admin) => {
     var CalendarResponse = []
     var NewCalendarResponse = []
     var number = 0
+    console.log(0)
 
     //handle the blogs
     const NewTournaments = async () => {
@@ -26,6 +27,7 @@ module.exports = async (FNBRMENA, client, admin) => {
 
             //if the event is set to be true [ON]
             if(status){
+                console.log(1)
 
                 //request data
                 await FNBRMENA.CompCalendarEndpoint(lang)
@@ -104,13 +106,13 @@ module.exports = async (FNBRMENA, client, admin) => {
                                             ctx.fillText("FNBRMENA", 10, 50)
                                                 
                                             //creat an embed
-                                            const tournamentINFO = new Discord.MessageEmbed()
+                                            const tournamentINFO = new Discord.EmbedBuilder()
 
                                             //set color
                                             tournamentINFO.setColor('#00ffff')
 
                                             //set title
-                                            tournamentINFO.setAuthor(`${ContentTournamentsDATA[j].long_format_title}`, ContentTournamentsDATA[j].loading_screen_image)
+                                            tournamentINFO.setAuthor({url: `${ContentTournamentsDATA[j].long_format_title}`, iconURL: ContentTournamentsDATA[j].loading_screen_image})
 
                                             //set description
                                             tournamentINFO.setDescription(decodeURI(`${ContentTournamentsDATA[j].flavor_description} ${ContentTournamentsDATA[j].details_description}`))
@@ -217,7 +219,7 @@ module.exports = async (FNBRMENA, client, admin) => {
                                             }
 
                                             //send the message  
-                                            const att = new Discord.MessageAttachment(canvas.toBuffer(), `${CalendarTournamentsDATA[i].eventId}.png`)
+                                            const att = new Discord.AttachmentBuilder(canvas.toBuffer(), `${CalendarTournamentsDATA[i].eventId}.png`)
                                             await message.send(att)
                                             await message.send(tournamentINFO)
                                         }

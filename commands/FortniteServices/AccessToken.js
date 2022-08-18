@@ -1,6 +1,6 @@
 const axios = require('axios')
 var querystring = require('querystring');
-const key = require('../../Coinfigs/config.json')
+const key = require('../../Configs/config.json')
 const Canvas = require('canvas');
 const moment = require('moment');
 
@@ -11,10 +11,7 @@ module.exports = {
     maxArgs: 1,
     cooldown: 40,
     permissionError: 'Sorry you do not have acccess to this command',
-    callback: async (FNBRMENA, message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji, greenStatus, redStatus) => {
-
-        //get the user language from the database
-        const lang = await FNBRMENA.Admin(admin, message, "", "Lang")
+    callback: async (FNBRMENA, message, args, text, Discord, client, admin, userData, alias, emojisObject) => {
 
         const Token = async (auth) => {
 
@@ -68,7 +65,7 @@ module.exports = {
             .then(async data => {
 
                 //get every cosmetic in the game
-                const cosmetics = await axios.get(`https://fortniteapi.io/v2/items/list?lang=${lang}`, { headers: {'Content-Type': 'application/json','Authorization': key.apis.fortniteio,} })
+                const cosmetics = await axios.get(`https://fortniteapi.io/v2/items/list?userData.lang=${userData.lang}`, { headers: {'Content-Type': 'application/json','Authorization': key.apis.fortniteio,} })
                 .then((res) => {
                     return res.data.items;
                 })
@@ -307,16 +304,16 @@ module.exports = {
 
             //registering fonts
             Canvas.registerFont('./assets/font/Lalezar-Regular.ttf', {family: 'Arabic',weight: "700",style: "bold"});
-            Canvas.registerFont('./assets/font/BurbankBigCondensed-Black.otf' ,{family: 'Burbank Big Condensed',weight: "700",style: "bold"})
+            Canvas.registerFont('./assets/font/BurbankBigCondensed-Black.ttf' ,{family: 'Burbank Big Condensed',weight: "700",style: "bold"})
 
             //applytext
             const applyText = (canvas, text) => {
                 const ctx = canvas.getContext('2d');
                 let fontSize = 20;
                 do {
-                    if(lang === "en"){
+                    if(userData.lang === "en"){
                         ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
-                    }else if(lang === "ar"){
+                    }else if(userData.lang === "ar"){
                         ctx.font = `${fontSize -= 1}px Arabic`;
                     }
                 } while (ctx.measureText(text).width > 230);
@@ -328,9 +325,9 @@ module.exports = {
                 const ctx = canvas.getContext('2d');
                 let fontSize = 500;
                 do {
-                    if(lang === "en"){
+                    if(userData.lang === "en"){
                         ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
-                    }else if(lang === "ar"){
+                    }else if(userData.lang === "ar"){
                         ctx.font = `${fontSize -= 1}px Arabic`;
                     }
                 } while (ctx.measureText(text).width > (canvas.width / 2));
@@ -365,21 +362,21 @@ module.exports = {
 
             //date
             var date   
-            if(lang === "en"){
+            if(userData.lang === "en"){
                 moment.locale("en")
                 date = moment().format("dddd, MMMM Do of YYYY")
-            }else if(lang === "ar"){
+            }else if(userData.lang === "ar"){
                 moment.locale("ar")
                 date = moment().format("dddd, MMMM Do من YYYY")
             }
 
             //print data
-            if(lang === "en"){
+            if(userData.lang === "en"){
                 ctx.fillStyle = '#ffffff';
                 ctx.textAlign='center';
                 ctx.font = dateApplyText(canvas, ownedCosmetics[p].length + " Items | " + date)
                 ctx.fillText(ownedCosmetics[p].length + " Items | " + date, (canvas.width / 2), (canvas.height - (ctx.font.substring(0,ctx.font.indexOf("p")) - (5 * length))))
-            }else if(lang === "ar"){
+            }else if(userData.lang === "ar"){
                 ctx.fillStyle = '#ffffff';
                 ctx.textAlign='center';
                 ctx.font = dateApplyText(canvas, date + " | عدد العناصر: " + ownedCosmetics[p].length)
@@ -390,18 +387,17 @@ module.exports = {
             newline = 0
 
             //generating text
-            const generating = new Discord.MessageEmbed()
+            const generating = new Discord.EmbedBuilder()
             generating.setColor(FNBRMENA.Colors("embed"))
-            const emoji = client.emojis.cache.get("805690920157970442")
-            if(lang === "en") generating.setTitle(`Found ${userItems.length} item ${loadingEmoji}`)
-            else if(lang === "ar") generating.setTitle(`لقت تم اكتشاف ${userItems.length} عنصر ${loadingEmoji}`)
-            message.channel.send(generating)
+            if(userData.lang === "en") generating.setTitle(`Found ${userItems.length} item ${emojisObject.emojisObject.loadingEmoji}`)
+            else if(userData.lang === "ar") generating.setTitle(`لقت تم اكتشاف ${userItems.length} عنصر ${emojisObject.emojisObject.loadingEmoji}`)
+            message.channel.send({embeds: [generating]})
             .then( async msg => {
 
-                const wait = new Discord.MessageEmbed()
+                const wait = new Discord.EmbedBuilder()
                 wait.setColor(FNBRMENA.Colors("embed"))
-                if(lang === "en") wait.setTitle(`Generating iamges this might take longer than usual ... ${loadingEmoji}`)
-                else if(lang === "ar") wait.setTitle(`جاري تحميل الصور ممكن تستغرق العملية اكثر من المعتاد ... ${loadingEmoji}`)
+                if(userData.lang === "en") wait.setTitle(`Generating iamges this might take longer than usual ... ${emojisObject.emojisObject.loadingEmoji}`)
+                else if(userData.lang === "ar") wait.setTitle(`جاري تحميل الصور ممكن تستغرق العملية اكثر من المعتاد ... ${emojisObject.emojisObject.loadingEmoji}`)
                 await msg.edit(wait)
 
                 for(let i = 0; i < userItems.length; i++){
@@ -426,7 +422,7 @@ module.exports = {
                         ctx.drawImage(skin, x, y, 256, 256)
                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderLegendary.png')
                         ctx.drawImage(skinborder, x, y, 256, 256)
-                        if(lang === "en"){
+                        if(userData.lang === "en"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '20px Burbank Big Condensed'
@@ -434,7 +430,7 @@ module.exports = {
                             ctx.font = applyText(canvas, description);
                             ctx.textAlign='center';
                             ctx.fillText(description, (128 + x), (y + 240))
-                        }else if(lang === "ar"){
+                        }else if(userData.lang === "ar"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '20px Arabic'
@@ -455,7 +451,7 @@ module.exports = {
                         ctx.drawImage(skin, x, y, 256, 256)
                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderEpic.png')
                         ctx.drawImage(skinborder, x, y, 256, 256)
-                        if(lang === "en"){
+                        if(userData.lang === "en"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '20px Burbank Big Condensed'
@@ -463,7 +459,7 @@ module.exports = {
                             ctx.font = applyText(canvas, description);
                             ctx.textAlign='center';
                             ctx.fillText(description, (128 + x), (y + 240))
-                        }else if(lang === "ar"){
+                        }else if(userData.lang === "ar"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '20px Arabic'
@@ -483,7 +479,7 @@ module.exports = {
                         ctx.drawImage(skin, x, y, 256, 256)
                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderRare.png')
                         ctx.drawImage(skinborder, x, y, 256, 256)
-                        if(lang === "en"){
+                        if(userData.lang === "en"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '20px Burbank Big Condensed'
@@ -491,7 +487,7 @@ module.exports = {
                             ctx.font = applyText(canvas, description);
                             ctx.textAlign='center';
                             ctx.fillText(description, (128 + x), (y + 240))
-                        }else if(lang === "ar"){
+                        }else if(userData.lang === "ar"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '20px Arabic'
@@ -511,7 +507,7 @@ module.exports = {
                         ctx.drawImage(skin, x, y, 256, 256)
                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderUncommon.png')
                         ctx.drawImage(skinborder, x, y, 256, 256)
-                        if(lang === "en"){
+                        if(userData.lang === "en"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '20px Burbank Big Condensed'
@@ -519,7 +515,7 @@ module.exports = {
                             ctx.font = applyText(canvas, description);
                             ctx.textAlign='center';
                             ctx.fillText(description, (128 + x), (y + 240))
-                        }else if(lang === "ar"){
+                        }else if(userData.lang === "ar"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '20px Arabic'
@@ -539,7 +535,7 @@ module.exports = {
                         ctx.drawImage(skin, x, y, 256, 256)
                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderCommon.png')
                         ctx.drawImage(skinborder, x, y, 256, 256)
-                        if(lang === "en"){
+                        if(userData.lang === "en"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '20px Burbank Big Condensed'
@@ -547,7 +543,7 @@ module.exports = {
                             ctx.font = applyText(canvas, description);
                             ctx.textAlign='center';
                             ctx.fillText(description, (128 + x), (y + 240))
-                        }else if(lang === "ar"){
+                        }else if(userData.lang === "ar"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '20px Arabic'
@@ -567,7 +563,7 @@ module.exports = {
                         ctx.drawImage(skin, x, y, 256, 256)
                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderMarvel.png')
                         ctx.drawImage(skinborder, x, y, 256, 256)
-                        if(lang === "en"){
+                        if(userData.lang === "en"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '20px Burbank Big Condensed'
@@ -575,7 +571,7 @@ module.exports = {
                             ctx.font = applyText(canvas, description);
                             ctx.textAlign='center';
                             ctx.fillText(description, (128 + x), (y + 240))
-                        }else if(lang === "ar"){
+                        }else if(userData.lang === "ar"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '20px Arabic'
@@ -595,7 +591,7 @@ module.exports = {
                         ctx.drawImage(skin, x, y, 256, 256)
                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderDc.png')
                         ctx.drawImage(skinborder, x, y, 256, 256)
-                        if(lang === "en"){
+                        if(userData.lang === "en"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '20px Burbank Big Condensed'
@@ -603,7 +599,7 @@ module.exports = {
                             ctx.font = applyText(canvas, description);
                             ctx.textAlign='center';
                             ctx.fillText(description, (128 + x), (y + 240))
-                        }else if(lang === "ar"){
+                        }else if(userData.lang === "ar"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '20px Arabic'
@@ -623,7 +619,7 @@ module.exports = {
                         ctx.drawImage(skin, x, y, 256, 256)
                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderDark.png')
                         ctx.drawImage(skinborder, x, y, 256, 256)
-                        if(lang === "en"){
+                        if(userData.lang === "en"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '20px Burbank Big Condensed'
@@ -631,7 +627,7 @@ module.exports = {
                             ctx.font = applyText(canvas, description);
                             ctx.textAlign='center';
                             ctx.fillText(description, (128 + x), (y + 240))
-                        }else if(lang === "ar"){
+                        }else if(userData.lang === "ar"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '20px Arabic'
@@ -651,7 +647,7 @@ module.exports = {
                         ctx.drawImage(skin, x, y, 256, 256)
                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderIcon.png')
                         ctx.drawImage(skinborder, x, y, 256, 256)
-                        if(lang === "en"){
+                        if(userData.lang === "en"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '20px Burbank Big Condensed'
@@ -659,7 +655,7 @@ module.exports = {
                             ctx.font = applyText(canvas, description);
                             ctx.textAlign='center';
                             ctx.fillText(description, (128 + x), (y + 240))
-                        }else if(lang === "ar"){
+                        }else if(userData.lang === "ar"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '20px Arabic'
@@ -679,7 +675,7 @@ module.exports = {
                         ctx.drawImage(skin, x, y, 256, 256)
                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderStarwars.png')
                         ctx.drawImage(skinborder, x, y, 256, 256)
-                        if(lang === "en"){
+                        if(userData.lang === "en"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '20px Burbank Big Condensed'
@@ -687,7 +683,7 @@ module.exports = {
                             ctx.font = applyText(canvas, description);
                             ctx.textAlign='center';
                             ctx.fillText(description, (128 + x), (y + 240))
-                        }else if(lang === "ar"){
+                        }else if(userData.lang === "ar"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '20px Arabic'
@@ -707,7 +703,7 @@ module.exports = {
                         ctx.drawImage(skin, x, y, 256, 256)
                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderShadow.png')
                         ctx.drawImage(skinborder, x, y, 256, 256)
-                        if(lang === "en"){
+                        if(userData.lang === "en"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '20px Burbank Big Condensed'
@@ -715,7 +711,7 @@ module.exports = {
                             ctx.font = applyText(canvas, description);
                             ctx.textAlign='center';
                             ctx.fillText(description, (128 + x), (y + 240))
-                        }else if(lang === "ar"){
+                        }else if(userData.lang === "ar"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '20px Arabic'
@@ -735,7 +731,7 @@ module.exports = {
                         ctx.drawImage(skin, x, y, 256, 256)
                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderSlurp.png')
                         ctx.drawImage(skinborder, x, y, 256, 256)
-                        if(lang === "en"){
+                        if(userData.lang === "en"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '20px Burbank Big Condensed'
@@ -743,7 +739,7 @@ module.exports = {
                             ctx.font = applyText(canvas, description);
                             ctx.textAlign='center';
                             ctx.fillText(description, (128 + x), (y + 240))
-                        }else if(lang === "ar"){
+                        }else if(userData.lang === "ar"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '20px Arabic'
@@ -763,7 +759,7 @@ module.exports = {
                         ctx.drawImage(skin, x, y, 256, 256)
                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderFrozen.png')
                         ctx.drawImage(skinborder, x, y, 256, 256)
-                        if(lang === "en"){
+                        if(userData.lang === "en"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '20px Burbank Big Condensed'
@@ -771,7 +767,7 @@ module.exports = {
                             ctx.font = applyText(canvas, description);
                             ctx.textAlign='center';
                             ctx.fillText(description, (128 + x), (y + 240))
-                        }else if(lang === "ar"){
+                        }else if(userData.lang === "ar"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '20px Arabic'
@@ -791,7 +787,7 @@ module.exports = {
                         ctx.drawImage(skin, x, y, 256, 256)
                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderLava.png')
                         ctx.drawImage(skinborder, x, y, 256, 256)
-                        if(lang === "en"){
+                        if(userData.lang === "en"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '20px Burbank Big Condensed'
@@ -799,7 +795,7 @@ module.exports = {
                             ctx.font = applyText(canvas, description);
                             ctx.textAlign='center';
                             ctx.fillText(description, (128 + x), (y + 240))
-                        }else if(lang === "ar"){
+                        }else if(userData.lang === "ar"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '20px Arabic'
@@ -819,7 +815,7 @@ module.exports = {
                         ctx.drawImage(skin, x, y, 256, 256)
                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderGaming.png')
                         ctx.drawImage(skinborder, x, y, 256, 256)
-                        if(lang === "en"){
+                        if(userData.lang === "en"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '20px Burbank Big Condensed'
@@ -827,7 +823,7 @@ module.exports = {
                             ctx.font = applyText(canvas, description);
                             ctx.textAlign='center';
                             ctx.fillText(description, (128 + x), (y + 240))
-                        }else if(lang === "ar"){
+                        }else if(userData.lang === "ar"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '20px Arabic'
@@ -846,7 +842,7 @@ module.exports = {
                         ctx.drawImage(skin, x, y, 256, 256)
                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderCommon.png')
                         ctx.drawImage(skinborder, x, y, 256, 256)
-                        if(lang === "en"){
+                        if(userData.lang === "en"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '20px Burbank Big Condensed'
@@ -854,7 +850,7 @@ module.exports = {
                             ctx.font = applyText(canvas, description);
                             ctx.textAlign='center';
                             ctx.fillText(description, (128 + x), (y + 240))
-                        }else if(lang === "ar"){
+                        }else if(userData.lang === "ar"){
                             ctx.fillStyle = '#ffffff';
                             ctx.textAlign='center';
                             ctx.font = '20px Arabic'
@@ -874,12 +870,12 @@ module.exports = {
                         newline = 0;
                     }
                 }
-                const att = await new Discord.MessageAttachment(canvas.toBuffer('image/jpeg'))
-                await message.channel.send(att)
+                const att = await new Discord.AttachmentBuilder(canvas.toBuffer('image/jpeg'))
+                await message.channel.send({files: [att]})
                 await msg.delete()
             })
         }
-        console.log(ownedCosmetics)
+
         for(let i = 0; i < ownedCosmetics.length; i++){
             await createImage(ownedCosmetics, i)
         }

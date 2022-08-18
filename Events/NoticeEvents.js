@@ -1,8 +1,8 @@
 const axios = require('axios')
 const Discord = require('discord.js')
-const config = require('../Coinfigs/config.json')
+const config = require('../Configs/config.json')
 
-module.exports = (FNBRMENA, client, admin) => {
+module.exports = (FNBRMENA, client, admin, emojisObject) => {
     const message = client.channels.cache.find(channel => channel.id === config.events.Notice)
 
     //result
@@ -29,7 +29,7 @@ module.exports = (FNBRMENA, client, admin) => {
                     const emergencynotice = await res.data.emergencynoticev2.emergencynotices.emergencynotices
 
                     //store the data if the bot got restarted
-                    if (number === 0) {
+                    if(number === 0) {
                         response = await emergencynotice
                         number++
                     }
@@ -47,7 +47,7 @@ module.exports = (FNBRMENA, client, admin) => {
                             if(!JSON.stringify(response).includes(JSON.stringify(emergencynotice[i]))){
 
                                 //inisilizing embed
-                                const Notice = new Discord.MessageEmbed()
+                                const Notice = new Discord.EmbedBuilder()
                                 Notice.setColor(FNBRMENA.Colors("embed"))
                                 Notice.setTitle(emergencynotice[i].title)
                                 Notice.setDescription(emergencynotice[i].body)
@@ -80,8 +80,12 @@ module.exports = (FNBRMENA, client, admin) => {
                                     var playlists = ``
                                     for(let j = 0; j < emergencynotice[i].playlists.length; j++){
 
+                                        //get data
+                                        const playlist = await axios.get(`https://fortnite-api.com/v1/playlists/${emergencynotice[i].playlists[j]}?lang=${lang}`)
+                                        
                                         //add the playlist name
-                                        playlists += `\`${emergencynotice[i].playlists[j]}\`\n`
+                                        if(playlist.data.data.subName === null) playlists += `${playlist.data.data.name} `
+                                        else playlists += `\`${playlist.data.data.name}-${playlist.data.data.subName}\` `
                                     }
 
                                     if(lang === "en"){
@@ -121,7 +125,7 @@ module.exports = (FNBRMENA, client, admin) => {
                                 }
 
                                 //send
-                                await message.send(Notice)
+                                await message.send({embeds: [Notice]})
                             }
                         }
 
@@ -133,8 +137,9 @@ module.exports = (FNBRMENA, client, admin) => {
                             Push: false
                         })
                     }
-                }).catch(err => {
-                    console.log("The issue is in Notice Events ", err)
+                }).catch(async err => {
+                    FNBRMENA.eventsLogs(admin, client, err, 'notice')
+        
                 })
             }
         })

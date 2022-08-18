@@ -1,19 +1,24 @@
 module.exports = async (client, admin) => {
 
-    client.on('guildMemberAdd', member => {
-        if(member.user.bot === false){
-            admin.database().ref("ERA's").child("Users").child(member.id).set({
+    client.on('guildMemberAdd', async member => {
+        if(!member.user.bot){
+
+            //create a doc when a user joins
+            admin.firestore().collection("Users").doc(member.id).set({
                 id: member.user.id,
-                name: member.user.username,
-                discriminator: member.user.discriminator,
                 lang: "en",
-                timezone: "America/Los_Angeles"
+                timezone: "America/Los_Angeles",
+                premium: false,
+                quickAccess: false
             })
         }
-    }) 
-    client.on('guildMemberRemove', member => {
-        if(member.user.bot === false){
-            admin.database().ref("ERA's").child("Users").child(member.id).remove()
+    })
+    
+    client.on('guildMemberRemove', async member => {
+        if(!member.user.bot){
+            
+            //get the user's doc and delete it
+            await admin.firestore().collection("Users").doc(member.id).delete()
         }
     }) 
 

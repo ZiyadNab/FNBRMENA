@@ -1,5 +1,4 @@
 const Canvas = require('canvas');
-const { MessageButton } = require('discord-buttons');
 
 module.exports = {
     commands: 'land',
@@ -8,93 +7,60 @@ module.exports = {
     maxArgs: 0,
     cooldown: -1,
     permissionError: 'Sorry you do not have acccess to this command',
-    callback: async (FNBRMENA, message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji, greenStatus, redStatus) => {
+    callback: async (FNBRMENA, message, args, text, Discord, client, admin, userData, alias, emojisObject) => {
 
-        //get the user language from the database
-        const lang = await FNBRMENA.Admin(admin, message, "", "Lang")
-
-        FNBRMENA.listCurrentPOI(lang)
+        FNBRMENA.listCurrentPOI(userData.lang, "current")
         .then(async res => {
 
-            //variables
-            var loading = ""
-            var reply = ""
+            //land picker
+            const landingPicker = async () => {
 
-            //inisilizing loading and reply
-            if(lang === "en"){
-                loading = "Getting a list of poi's"
-                reply = "The command randomly pick a POI if u don't know where to drop!"
-            }else if(lang === "ar"){
-                loading = "جاري تحميل جميع المناطق"
-                reply = "اذا كنت ما تعرف وين تنزل اكتب الامر خلي البوت بعلمك ممكن تفوز ما تدري"
-            }
+                //create a row for Cancel button
+                const tryAgainButtonDataRow = new Discord.ActionRowBuilder()
 
-            const picker = async () => {
+                //start button
+                const tryAgainButton = new Discord.ButtonBuilder()
+                tryAgainButton.setCustomId('Again')
+                tryAgainButton.setStyle(Discord.ButtonStyle.Primary)
+                if(userData.lang === "en") tryAgainButton.setLabel("Try Again")
+                else if(userData.lang === "ar") tryAgainButton.setLabel("محاولة اخرى")
 
-                //creating button
-                let again = new MessageButton()
-
-                //button style
-                again.setStyle('blurple')
-
-                //button label
-                if(lang === "en"){
-                    again.setLabel('Try Again!')
-                }else if(lang === "ar"){
-                    again.setLabel('محاولة اخرى!')
-                }
-
-                //button id
-                again.setID('again');
-
-                //creating button
-                let stop = new MessageButton()
-
-                //button style
-                stop.setStyle('red')
-
-                //button label
-                if(lang === "en"){
-                    stop.setLabel('Stop!')
-                }else if(lang === "ar"){
-                    stop.setLabel('ايقاف!')
-                }
-
-                //button id
-                stop.setID('stop');
+                //cancle button
+                const tryAgainCancelButton = new Discord.ButtonBuilder()
+                tryAgainCancelButton.setCustomId('Cancel')
+                tryAgainCancelButton.setStyle(Discord.ButtonStyle.Danger)
+                if(userData.lang === "en") tryAgainCancelButton.setLabel("Cancel")
+                else if(userData.lang === "ar") tryAgainCancelButton.setLabel("اغلاق")
+                
+                //add the cancel button to the buttonDataRow
+                tryAgainButtonDataRow.addComponents(tryAgainButton, tryAgainCancelButton)
 
                 //generating animation
-                const generating = new Discord.MessageEmbed()
+                const generating = new Discord.EmbedBuilder()
                 generating.setColor(FNBRMENA.Colors("embed"))
-                generating.setTitle(`${loading} ${res.data.list.length} ${loadingEmoji}`)
-                message.channel.send(generating)
-                .then( async msg => {
-                    
-                    //creating embed
-                    const picked = new Discord.MessageEmbed()
+                if(userData.lang === "en") generating.setTitle(`Loading ${res.data.list.length} POIs ${emojisObject.loadingEmoji}`)
+                else if(userData.lang === "ar") generating.setTitle(`جاري تحميل ${res.data.list.length} منطقة ${emojisObject.loadingEmoji}`)
+                message.reply({embeds: [generating]})
+                .then(async msg => {
 
                     //get a random number
                     var randomImage = Math.floor(Math.random() * res.data.list.length)
                     
-                    //create the color
-                    await picked.setColor(FNBRMENA.Colors("embed"))
+                    //creating embed
+                    const landingSpotPickedEmbed = new Discord.EmbedBuilder()
+                    landingSpotPickedEmbed.setColor(FNBRMENA.Colors("embed"))
 
                     //set title
-                    if(lang === "en"){
-                        await picked.setTitle("Landing Picker")
-                    }else if(lang === "ar"){
-                        await picked.setTitle("النزول العشوائي")
-                    }
-
-                    //set description
-                    if(lang === "en"){
-                        await picked.setDescription("you are gonna land at **" + res.data.list[randomImage].name + "**")
-                    }else if(lang === "ar"){
-                        await picked.setDescription("راح تنزل في منطقة **" + res.data.list[randomImage].name + "**")
+                    if(userData.lang === "en"){
+                        landingSpotPickedEmbed.setAuthor({name: `Random Landing!`, iconURL: `https://imgur.com/AM2wrGC.png`})
+                        landingSpotPickedEmbed.setDescription(`You are going to land at **${res.data.list[randomImage].name}**`)
+                    }else if(userData.lang === "ar"){
+                        landingSpotPickedEmbed.setAuthor({name: `النزول العشوائي!`, iconURL: `https://imgur.com/AM2wrGC.png`})
+                        landingSpotPickedEmbed.setDescription(`راح تنزل في منطقة **${res.data.list[randomImage].name}**`)
                     }
 
                     //Registering fonts
-                    Canvas.registerFont('./assets/font/BurbankBigCondensed-Black.otf' ,{family: 'Burbank Big Condensed',weight: "700",style: "bold"})
+                    Canvas.registerFont('./assets/font/BurbankBigCondensed-Black.ttf' ,{family: 'Burbank Big Condensed',weight: "700",style: "bold"})
                     Canvas.registerFont('./assets/font/Lalezar-Regular.ttf', {family: 'Arabic',weight: "700",style: "bold"});
 
                     //canvas
@@ -107,7 +73,7 @@ module.exports = {
 
                     //add blue fog
                     const fog = await Canvas.loadImage('./assets/News/fog.png')
-                    ctx.drawImage(fog,0,0,1920,1080)
+                    ctx.drawImage(fog, 0, 0, 1920, 1080)
 
                     //credits
                     ctx.fillStyle = '#ffffff';
@@ -116,96 +82,90 @@ module.exports = {
                     ctx.fillText("FNBRMENA", 15, 55)
 
                     //encoding...
-                    const att = new Discord.MessageAttachment(canvas.toBuffer(), res.data.list[randomImage].name + '.png')
-
-                    //set the image
-                    await picked.attachFiles([att])
-                    await picked.setImage('attachment://' + att);
-
-                    //send the data
-                    const pickedAgain = await message.channel.send("", {buttons: [again, stop], embed: picked})
+                    const att = new Discord.AttachmentBuilder(canvas.toBuffer(), `${res.data.list[randomImage].name}.png`)
+                    const PickingLandingSpotAgainMessage = await message.reply({embeds: [landingSpotPickedEmbed], components: [tryAgainButtonDataRow], files: [att]})
 
                     //delete generating msg
                     msg.delete()
 
-                    //filtering
-                    const filter = (button) => button.clicker.user.id === message.author.id;
+                    //filtering the user clicker
+                    const filter = i => i.user.id === message.author.id
 
-                    //await click
-                    await pickedAgain.awaitButtons(filter, { max: 1, time: 30000, errors: ['time'] })
+                    //await for the user
+                    await message.channel.awaitMessageComponent({filter, time: 30000})
                     .then(async collected => {
+                        collected.deferUpdate();
 
-                        if(collected.first().id === "again"){
-                            //call the picker function
-                            await picker()
-
-                            //delete the start message
-                            pickedAgain.delete()
-                        }
-
-                        if(collected.first().id === "stop"){
-                            //delete the start message
-                            pickedAgain.delete()
-                            return
+                        //if canel button has been clicked
+                        if(collected.customId === "Cancel") PickingLandingSpotAgainMessage.delete()
+                        if(collected.customId === "Again"){
+                            await PickingLandingSpotAgainMessage.delete()
+                            landingPicker()
                         }
 
                     }).catch(err => {
-
-                        //if user took 1 minutes without pressing start
-                        pickedAgain.delete()
-                        return
+                        FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
+                        
                     })
+                }).catch(err => {
+                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
+                    
                 })
             }
 
-            //creating button
-            let start = new MessageButton()
-
-            //button style
-            start.setStyle('blurple')
-
-            //button label
-            if(lang === "en"){
-                start.setLabel('Start!')
-            }else if(lang === "ar"){
-                start.setLabel('ابدا!')
+            //create random landing embed message
+            const RandomLandingSpotEmbed = new Discord.EmbedBuilder()
+            RandomLandingSpotEmbed.setColor(FNBRMENA.Colors("embed"))
+            if(userData.lang === "en"){
+                RandomLandingSpotEmbed.setAuthor({name: `Random Landing!`, iconURL: `https://imgur.com/AM2wrGC.png`})
+                RandomLandingSpotEmbed.setDescription('Click on start to make the bot chooses a location to land on.\n`You have only 30 seconds until this operation ends, Make it quick`!')
+            }else if(userData.lang === "ar"){
+                RandomLandingSpotEmbed.setAuthor({name: `النزول العشوائي!`, iconURL: `https://imgur.com/AM2wrGC.png`})
+                RandomLandingSpotEmbed.setDescription('اضغط على زر البدء لجعل البوت يختار لك مكان للنزول.\n.`لديك فقط 30 ثانية حتى تنتهي العملية, استعجل`!')
             }
+            
+            //create a row for buttons
+            const buttonsDataRow = new Discord.ActionRowBuilder()
 
-            //button id
-            start.setID('start');
+            //start button
+            const startButton = new Discord.ButtonBuilder()
+            startButton.setCustomId('Start')
+            startButton.setStyle(Discord.ButtonStyle.Primary)
+            if(userData.lang === "en") startButton.setLabel("Start")
+            else if(userData.lang === "ar") startButton.setLabel("ابدأ")
+
+            //cancle button
+            const cancelButton = new Discord.ButtonBuilder()
+            cancelButton.setCustomId('Cancel')
+            cancelButton.setStyle(Discord.ButtonStyle.Danger)
+            if(userData.lang === "en") cancelButton.setLabel("Cancel")
+            else if(userData.lang === "ar") cancelButton.setLabel("اغلاق")
+            
+            //add the buttons to the buttonsDataRow
+            buttonsDataRow.addComponents(startButton, cancelButton)
 
             //send the button
-            const clicked = await message.channel.send(reply, start)
+            const randomLanderMessaghe = await message.reply({embeds: [RandomLandingSpotEmbed], components: [buttonsDataRow]})
 
-            //filtering
-            const filter = (button) => button.clicker.user.id === message.author.id;
+            //filtering the user clicker
+            const filter = i => i.user.id === message.author.id
 
-            //await click
-            await clicked.awaitButtons(filter, { max: 1, time: 60000, errors: ['time'] })
+            //await for the user
+            await message.channel.awaitMessageComponent({filter, time: 30000})
             .then(async collected => {
+                collected.deferUpdate();
 
-                //call the picker function
-                await picker()
-
-                //delete the start message
-                clicked.delete()
-
-            }).catch(err => {
-
-                //if user took 1 minutes without pressing start
-                clicked.delete()
-                if(lang === "en"){
-                    const error = new Discord.MessageEmbed()
-                    .setColor(FNBRMENA.Colors("embed"))
-                    .setTitle(`ْUntil when ill wait for u to start ? BTW i canceled your prosses if you are ready just type it again ${errorEmoji}`)
-                    message.reply(error)
-                }else if(lang === "ar"){
-                    const error = new Discord.MessageEmbed()
-                    .setColor(FNBRMENA.Colors("embed"))
-                    .setTitle(`الى متى انتظرك تبدا ؟ الزبده طفيت الامر اذا كنت جاهز اكتبه ثانية ${errorEmoji}`)
-                    message.reply(error)
+                //if canel button has been clicked
+                if(collected.customId === "Cancel") randomLanderMessaghe.delete()
+                if(collected.customId === "Start"){
+                    randomLanderMessaghe.delete()
+                    landingPicker()
                 }
             })
+
+        }).catch(err => {
+            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
+            
         })
     }
 }    

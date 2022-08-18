@@ -1,8 +1,8 @@
 const Discord = require('discord.js')
 const Canvas = require('canvas')
-const config = require('../Coinfigs/config.json')
+const config = require('../Configs/config.json')
 
-module.exports = (FNBRMENA, client, admin) => {
+module.exports = (FNBRMENA, client, admin, emojisObject) => {
     const message = client.channels.cache.find(channel => channel.id === config.events.Backgrounds)
 
     //result
@@ -20,6 +20,7 @@ module.exports = (FNBRMENA, client, admin) => {
             const lang = data.val().Lang
             const push = data.val().Push.Status
             const key = data.val().Push.Key
+            const credit = data.val().Credits
 
             //if the event is set to be true [ON]
             if(status){
@@ -81,16 +82,18 @@ module.exports = (FNBRMENA, client, admin) => {
                                     ctx.drawImage(backgroundIMG, 0, 0, canvas.width, canvas.height)
 
                                     //credits
-                                    ctx.fillStyle = '#ffffff';
-                                    ctx.textAlign='left';
-                                    ctx.font = '50px Burbank Big Condensed';
-                                    ctx.fillText("FNBRMENA", 15, 55);
+                                    if(credit){
+                                        ctx.fillStyle = '#ffffff';
+                                        ctx.textAlign='left';
+                                        ctx.font = '50px Burbank Big Condensed';
+                                        ctx.fillText("FNBRMENA", 15, 55);
+                                    }
 
                                     //attachments
-                                    const att = new Discord.MessageAttachment(canvas.toBuffer(), `${backgroundsDATA[i].stage}.png`)
+                                    const att = new Discord.AttachmentBuilder(canvas.toBuffer(), `${backgroundsDATA[i].stage}.png`)
 
                                     //send the image
-                                    await message.send(`New ${backgroundsDATA[i].key} background has been added`, att)
+                                    await message.send({content: `New ${backgroundsDATA[i].key} background has been added`, files: [att]})
                                 }
                             }
                         }
@@ -113,8 +116,9 @@ module.exports = (FNBRMENA, client, admin) => {
                         })
                     }
 
-                }).catch(err => {
-                    console.log("The issue is in DynamicBackgrounds Events ", err)
+                }).catch(async err => {
+                    FNBRMENA.eventsLogs(admin, client, err, 'dynamic backgrounds')
+        
                 })
             }
         })

@@ -1,0 +1,78 @@
+{
+    "devName": "",
+    "offerId": "",
+    "fulfillmentIds": [],
+    "dailyLimit": -1,
+    "weeklyLimit": -1,
+    "monthlyLimit": -1,
+    "categories": [
+        ""
+    ],
+    "prices": [
+        {
+            "currencyType": "",
+            "currencySubType": "",
+            "regularPrice": 300,
+            "dynamicRegularPrice": 300,
+            "finalPrice": 300,
+            "saleExpiration": "9999-12-31T23:59:59.999Z",
+            "basePrice": 300
+        }
+    ],
+    "meta": {
+        "NewDisplayAssetPath": "/Game/Catalog/NewDisplayAssets/DAv2_EID_Headband.DAv2_EID_Headband",
+        "SectionId": "Naruto6B",
+        "TileSize": "Normal",
+        "AnalyticOfferGroupId": "18",
+        "FirstSeen": "6/24/2022"
+    },
+    "matchFilter": "",
+    "filterWeight": 0.0,
+    "appStoreId": [],
+    "requirements": [
+        {
+            "requirementType": "DenyOnItemOwnership",
+            "requiredId": "AthenaDance:eid_headband",
+            "minQuantity": 1
+        }
+    ],
+    "offerType": "StaticPrice",
+    "giftInfo": {
+        "bIsEnabled": true,
+        "forcedGiftBoxTemplateId": "",
+        "purchaseRequirements": [],
+        "giftRecordIds": []
+    },
+    "refundable": true,
+    "metaInfo": [
+        {
+            "key": "NewDisplayAssetPath",
+            "value": "/Game/Catalog/NewDisplayAssets/DAv2_EID_Headband.DAv2_EID_Headband"
+        },
+        {
+            "key": "SectionId",
+            "value": "Naruto6B"
+        },
+        {
+            "key": "TileSize",
+            "value": "Normal"
+        },
+        {
+            "key": "AnalyticOfferGroupId",
+            "value": "18"
+        },
+        {
+            "key": "FirstSeen",
+            "value": "6/24/2022"
+        }
+    ],
+    "itemGrants": [
+        {
+            "templateId": "AthenaDance:eid_headband",
+            "quantity": 1
+        }
+    ],
+    "additionalGrants": [],
+    "sortPriority": -1,
+    "catalogGroupPriority": 0
+}

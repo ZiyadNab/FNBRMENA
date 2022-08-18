@@ -1,17 +1,12 @@
-const FortniteAPI = require("fortniteapi.io-api");
 const Discord = require('discord.js')
 const moment = require('moment')
-const key = require('../Coinfigs/config.json')
-const fortniteAPI = new FortniteAPI(key.apis.fortniteio);
-const Canvas = require('canvas');
+const Canvas = require('canvas')
+const config = require('../Configs/config.json')
 
-module.exports = (client, admin) => {
-    const message = client.channels.cache.find(channel => channel.id === key.events.itemshop)
-    const reminderMessage = client.channels.cache.find(channel => channel.id === key.events.Reminder)
+module.exports = (FNBRMENA, client, admin, emojisObject) => {
+    const message = client.channels.cache.find(channel => channel.id === config.events.itemshop)
 
     //result
-    var response = []
-    var shop = []
     var mainId = []
     var UID = []
     var number = 0
@@ -20,12 +15,12 @@ module.exports = (client, admin) => {
     const Send = async (res, lang) => {
 
         //generating animation
-        const generating = new Discord.MessageEmbed()
-        generating.setColor('#00ffff')
+        const generating = new Discord.EmbedBuilder()
+        generating.setColor(FNBRMENA.Colors("embed"))
         const emoji = client.emojis.cache.get("862704096312819722")
         if(lang === "en") generating.setTitle(`Loading a total ${res.shop.length} cosmetics please wait... ${emoji}`)
         else if(lang === "ar") generating.setTitle(`تحميل جميع العناصر بمجموع ${res.shop.length} عنصر الرجاء الانتظار... ${emoji}`)
-        message.send(generating)
+        message.send({embeds: [generating]})
         .then( async msg => {
 
             //creating array of objects
@@ -293,8 +288,8 @@ module.exports = (client, admin) => {
             };
 
             //Register fonts
-            Canvas.registerFont('./assets/font/Lalezar-Regular.ttf', {family: 'Arabic',weight: "700",style: "bold"});
-            Canvas.registerFont('./assets/font/BurbankBigCondensed-Black.otf' ,{family: 'Burbank Big Condensed',weight: "700",style: "bold"})
+            Canvas.registerFont('./assets/font/Lalezar-Regular.ttf', {family: 'Arabic', weight: "700", style: "italic"});
+            Canvas.registerFont('./assets/font/BurbankBigCondensed-Black.ttf', {family: 'Burbank Big Condensed', weight: "700", style: "italic"})
 
             //creating canvas
             const canvas = Canvas.createCanvas(width, height);
@@ -1423,94 +1418,23 @@ module.exports = (client, admin) => {
             }
 
             //sending message
-            const sending = new Discord.MessageEmbed()
-            sending.setColor('#00ffff')
+            const sending = new Discord.EmbedBuilder()
+            sending.setColor(FNBRMENA.Colors("embed"))
             if(lang === "en") sending.setTitle(`Sending the image please wait ${emoji}`)
             else if(lang === "ar") sending.setTitle(`جاري ارسال الصورة الرجاء الانتظار ${emoji}`)
-            msg.edit(sending)
+            msg.edit({embeds: [sending]})
 
-            const att = new Discord.MessageAttachment(canvas.toBuffer(), res.lastUpdate.uid + '.png')
-            await message.send(att)
+            const att = new Discord.AttachmentBuilder(canvas.toBuffer(), `${res.lastUpdate.uid}.png`)
+            await message.send({files: [att]})
             msg.delete()
 
             //add the main id
             for(let i = 0; i < res.shop.length; i++){
                 mainId[i] = await res.shop[i].mainId
             }
+        }).catch(async err => {
+            FNBRMENA.eventsLogs(admin, client, err, 'itemshop')
 
-            //seeting up the db firestore
-            var db = admin.firestore()
-
-            //define the collection
-            const docRef = await db.collection("Reminders")
-
-            //get the collection data
-            const snapshot = await docRef.get()
-
-            for(let i = 1; i < snapshot.size; i++){
-
-                //loop throw every item id that is in the itemshop
-                for(let j = 0; j < mainId.length; j++){
-
-                    if(mainId[j] === snapshot.docs[i].data().mainId){
-                        //the item has been released
-
-                        fortniteAPI.getItemDetails(itemId = mainId[j], options = {lang: snapshot.docs[i].data().lang})
-                        .then( async res => {
-
-                            //item details
-                            var name = res.item.name
-                            var description = res.item.description
-                            var price = res.item.price
-                            if(res.item.series === null) var rarity = res.item.rarity.name
-                            else var rarity = res.item.series.name
-                            if(res.item.shopHistory !== null) var Occourance = res.item.shopHistory.length
-                            else var Occourance = "0"
-
-                            //setting up moment
-                            var Now = moment()
-                            var long = moment(snapshot.docs[i].data().date)
-                            const day = Now.diff(long, 'days')
-
-                            //createing the embed
-                            const remind = new Discord.MessageEmbed()
-
-                            //set the color
-                            remind.setColor('#00ffff')
-
-                            //add image
-                            if(res.item.images.background !== null) remind.setImage(res.item.images.background)
-                            else remind.setImage(res.item.images.icon)
-
-                            //set title
-                            if(snapshot.docs[i].data().lang === "en"){
-                                remind.setTitle("Ay congrats your item is in the shop right now")
-                                remind.addFields(
-                                    {name: "Name:" ,value: name},
-                                    {name: "Description:" ,value: description},
-                                    {name: "Price:" ,value: price},
-                                    {name: "Rarity:" ,value: rarity},
-                                    {name: "Occourance:" ,value: Occourance},
-                                    {name: "How long have you been waiting?:" ,value: day + "day(s)"},
-                                )
-                            }else if(snapshot.docs[i].data().lang === "ar"){
-                                remind.setTitle("مبروك السكن الي تنتظره الان موجود بالشوب")
-                                remind.addFields(
-                                    {name: "الاسم:" ,value: name},
-                                    {name: "الوصف:" ,value: description},
-                                    {name: "السعر:" ,value: price},
-                                    {name: "الندرة:" ,value: rarity},
-                                    {name: "عدد النزول:" ,value: Occourance},
-                                    {name: "كم لك يوم تنتظر العنصر؟:" ,value: day + " يوم"},
-                                )
-                            }
-
-                            await reminderMessage.send(`<@${snapshot.docs[i].data().id}>`, remind)
-                            await db.collection("Reminders").doc(`${snapshot.docs[i].id}`).delete()
-                        })
-                    }
-                }
-            }
         })
     }
 
@@ -1519,43 +1443,29 @@ module.exports = (client, admin) => {
 
         //checking if the bot on or off
         admin.database().ref("ERA's").child("Events").child("itemshop").once('value', async function (data) {
-            var status = data.val().Active
-            var lang = data.val().Lang
-            var push = data.val().Push
+            const status = data.val().Active
+            const lang = data.val().Lang
+            const push = data.val().Push
 
             //if the event is set to be true [ON]
             if(status){
                 
                 //request data
-                fortniteAPI.getDailyShopV2(options = {lang: lang})
+                FNBRMENA.itemshop(lang)
                 .then(async res => {
 
                     //store shop data first time bot is active
                     if(number === 0){
-
-                        // for(let i = 0; i < res.shop.length; i++){
-                        //     response[i] = await res.shop[i].mainId
-                        // }
-                        UID = await res.lastUpdate.uid
+                        UID = await res.data.lastUpdate.uid
                         number++
                     }
 
                     //if the client wants to pust data
-                    if(push) UID = []
-
-                    //store every item mainId in the shop
-                    // for(let i = 0; i < res.shop.length; i++){
-                    //     shop[i] = await res.shop[i].mainId
-                    // }
+                    if(true) UID = []
 
                     //if there is a change is shop
-                    if(JSON.stringify(res.lastUpdate.uid) !== JSON.stringify(UID)){
-                        
-                        //loop throw every item mainId
-                        // for(let i = 0; i < res.shop.length; i++){
-                        //     response[i] = await res.shop[i].mainId
-                        // }
-                        UID = await res.lastUpdate.uid
+                    if(JSON.stringify(res.data.lastUpdate.uid) !== JSON.stringify(UID)){
+                        UID = await res.data.lastUpdate.uid
 
                         //trun off push if enabled
                         admin.database().ref("ERA's").child("Events").child("itemshop").update({
@@ -1563,12 +1473,13 @@ module.exports = (client, admin) => {
                         })
 
                         //call pring function
-                        Send(res, lang)
+                        Send(res.data, lang)
 
                     }
 
-                }).catch(err => {
-                    console.log("The issue is in Itemshop Events ", err)
+                }).catch(async err => {
+                    FNBRMENA.eventsLogs(admin, client, err, 'itemshop')
+        
                 })
             }
         })

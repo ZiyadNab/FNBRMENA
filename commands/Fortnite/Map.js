@@ -1,4 +1,5 @@
 const Canvas = require('canvas');
+const moment = require('moment')
 
 module.exports = {
     commands: 'map',
@@ -14,32 +15,27 @@ module.exports = {
     maxArgs: 1,
     cooldown: -1,
     permissionError: 'Sorry you do not have acccess to this command',
-    callback: async (FNBRMENA, message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji, greenStatus, redStatus) => {
-
-        //get the user language from the database
-        const lang = await FNBRMENA.Admin(admin, message, "", "Lang")
+    callback: async (FNBRMENA, message, args, text, Discord, client, admin, userData, alias, emojisObject) => {
+        moment.locale(userData.lang)
 
         // if the use did not add any season number
         if(text === ''){
 
             //generating animation
-            const generating = new Discord.MessageEmbed()
+            const generating = new Discord.EmbedBuilder()
             generating.setColor(FNBRMENA.Colors("embed"))
-            if(lang === "en") generating.setTitle(`Loading... ${loadingEmoji}`)
-            else if(lang == "ar") generating.setTitle(`جاري التحميل... ${loadingEmoji}`)
-            message.channel.send(generating)
-            .then( async gen => {
+            if(userData.lang === "en") generating.setTitle(`Loading... ${emojisObject.loadingEmoji}`)
+            else if(userData.lang == "ar") generating.setTitle(`جاري التحميل... ${emojisObject.loadingEmoji}`)
+            message.reply({embeds: [generating]})
+            .then(async msg => {
 
                 //request data
-                FNBRMENA.Map(lang)
+                FNBRMENA.Map(userData.lang)
                 .then(async res => {
 
                     //get the image data
                     if(res.data.data.images.pois === null) var image = res.data.data.images.blank
                     else var image = res.data.data.images.pois
-
-                    //registering font
-                    Canvas.registerFont('./assets/font/BurbankBigCondensed-Black.otf' ,{family: 'Burbank Big Condensed',weight: "700",style: "bold"})
                     
                     //creating canvas
                     const canvas = Canvas.createCanvas(2048, 2048);
@@ -49,16 +45,22 @@ module.exports = {
                     const map = await Canvas.loadImage(image)
                     ctx.drawImage(map, 0, 0, canvas.width, canvas.height)
 
-                    //credits
-                    const credit = await Canvas.loadImage('./assets/Credits/FNBR_MENA.png');
-                    ctx.drawImage(credit, 50, 1850, 550, 150);
+                    //fnbrmena credits
+                    const border = await Canvas.loadImage('./assets/NPC/border.png')
+                    ctx.drawImage(border, 0, 0, canvas.width, canvas.height)
 
-                    //send the fish stats picture
-                    const att = new Discord.MessageAttachment(canvas.toBuffer(), 'map.png')
-                    await message.channel.send(att)
-                    gen.delete()
+                    //send the map image
+                    const att = new Discord.AttachmentBuilder(canvas.toBuffer(), 'map.png')
+                    await message.reply({files: [att]})
+                    msg.delete()
 
+                }).catch(err => {
+                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
+                    
                 })
+            }).catch(err => {
+                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
+                
             })
                 
         }else{
@@ -68,148 +70,152 @@ module.exports = {
             .then(async res => {
 
                 //check if user entered a valid season that has images
-                var season = []
-                var counter = 0
+                var allAvaliableVersions = []
+                var Counter = 0
 
-                //loop throw every map abaliable
+                //loop throw every map avaliable
                 for(let i = 0; i < res.data.maps.length; i++){
 
-                    //if the season still didn't exists in the season array
-                    if(!season.includes(res.data.maps[i].patchVersion.substring(0, res.data.maps[i].patchVersion.indexOf(".")))){
+                    //only go in when the version first number matches the user input
+                    if(res.data.maps[i].patchVersion.substring(0, res.data.maps[i].patchVersion.indexOf(".")) == text){
 
-                        //store the season in the array
-                        season[counter] = await res.data.maps[i].patchVersion.substring(0, res.data.maps[i].patchVersion.indexOf("."))
+                        //store the all avaliable versions in the array
+                        allAvaliableVersions[Counter++] = res.data.maps[i]
 
-                        //change the index
-                        counter++
                     }
                 }
 
-                // if the user entered a valid season number
-                if(season.includes(text)){
+                //if the allAvaliableVersions is empty then no matching game version found
+                if(allAvaliableVersions.length != 0){
 
-                    //create listing embed
-                    const list = new Discord.MessageEmbed()
-
-                    //create the color
-                    list.setColor(FNBRMENA.Colors("embed"))
-
-                    //create the title
-                    if(lang === "en"){
-                        list.setTitle(`Please choose a map verion from the list below`)
-                    }else if(lang === "ar"){
-                        list.setTitle(`الرجاء اختيار تحديث من القائمة بالاسفل`)
+                    //create an embed
+                    const allAvaliableVersionsEmbed = new Discord.EmbedBuilder()
+                    allAvaliableVersionsEmbed.setColor(FNBRMENA.Colors("embed"))
+                    if(userData.lang === "en"){
+                        allAvaliableVersionsEmbed.setAuthor({name: `Map History`, iconURL: `https://fortnite-api.com/images/cosmetics/br/spid_139_tiltedmap/decal.png`})
+                        allAvaliableVersionsEmbed.setDescription('Please click on the Drop-Down menu and choose a game verion.\n`You have only 30 seconds until this operation ends, Make it quick`!')
+                    }else if(userData.lang === "ar"){
+                        allAvaliableVersionsEmbed.setAuthor({name: `تاريخ الماب`, iconURL: `https://fortnite-api.com/images/cosmetics/br/spid_139_tiltedmap/decal.png`})
+                        allAvaliableVersionsEmbed.setDescription('الرجاء الضغط على السهم لاختيار تحديث.\n`لديك فقط 30 ثانية حتى تنتهي العملية, استعجل`!')
                     }
 
-                    //inisilizing the str to collect all map patches also reseting counter & season
-                    season = []
-                    var str = ""
-                    counter = 0
+                    //create a row for cancel button
+                    const buttonDataRow = new Discord.ActionRowBuilder()
+
+                    //add EN cancel button
+                    if(userData.lang === "en") buttonDataRow.addComponents(
+                        new Discord.ButtonBuilder()
+                        .setCustomId('Cancel')
+                        .setStyle(Discord.ButtonStyle.Danger)
+                        .setLabel("Cancel")
+                    )
+                    
+                    //add AR cancel button
+                    else if(userData.lang === "ar") buttonDataRow.addComponents(
+                        new Discord.ButtonBuilder()
+                        .setCustomId('Cancel')
+                        .setStyle(Discord.ButtonStyle.Danger)
+                        .setLabel("اغلاق")
+                    )
+                    
+                    //create a row for drop down menu for categories
+                    const allAvaliableVersionsRow = new Discord.ActionRowBuilder()
 
                     //loop throw every patch
-                    for(let i = 0; i < res.data.maps.length; i++){
+                    var versionsFound = []
+                    for(let i = 0; i < allAvaliableVersions.length; i++){
 
-                        //if the patch matches the season
-                        if(res.data.maps[i].patchVersion.startsWith(text)){
-                            var patch = await res.data.maps[i].patchVersion.substring(0, res.data.maps[i].patchVersion.indexOf("."))
-                            if(text.length === patch.length){
-                                str += "• " + counter + ": " + res.data.maps[i].patchVersion + "\n"
-                                season[counter] = res.data.maps[i]
-                                counter++
-                            }
+                        if(userData.lang === "en"){
+                            versionsFound.push({
+                                label: `${allAvaliableVersions[i].patchVersion}'s version\n`,
+                                description: `${moment(allAvaliableVersions[i].releaseDate).fromNow()}`,
+                                value: `${i}`,
+                            })
+
+                        }else if(userData.lang === "ar"){
+                            versionsFound.push({
+                                label: `تحديث ${allAvaliableVersions[i].patchVersion}\n`,
+                                description: `${moment(allAvaliableVersions[i].releaseDate).fromNow()}`,
+                                value: `${i}`,
+                            })
                         }
                     }
 
-                    //add description
-                    list.setDescription(str)
+                    const allAvaliableVersionsDropMenu = new Discord.SelectMenuBuilder()
+                    allAvaliableVersionsDropMenu.setCustomId('versions')
+                    if(userData.lang === "en") allAvaliableVersionsDropMenu.setPlaceholder('Nothing selected!')
+                    else if(userData.lang === "ar") allAvaliableVersionsDropMenu.setPlaceholder('الرجاء الأختيار!')
+                    allAvaliableVersionsDropMenu.addOptions(versionsFound)
+
+                    //add the drop menu to the categoryDropMenu
+                    allAvaliableVersionsRow.addComponents(allAvaliableVersionsDropMenu)
 
                     //send the message
-                    await message.channel.send(list)
-                    .then( async msg => {
+                    const allAvaliableVersionsDropDownMessage = await message.reply({embeds: [allAvaliableVersionsEmbed], components: [allAvaliableVersionsRow, buttonDataRow]})
 
-                        //filtering
-                        const filter = m => m.author.id === message.author.id
+                    //filtering the user clicker
+                    const filter = i => i.user.id === message.author.id
 
-                        //reply message
-                        if(lang === "en") var reply = "please choose from above list the command will stop listen in 20 sec"
-                        else if(lang === "ar") var reply = "الرجاء الاختيار من القائمة بالاعلى، سوف ينتهي الامر خلال ٢٠ ثانية"
+                    //await the user click
+                    await message.channel.awaitMessageComponent({filter, time: 30000})
+                    .then(async collected => {
+                        collected.deferUpdate();
+
+                        //if cancel button has been clicked
+                        if(collected.customId === "Cancel") allAvaliableVersionsDropDownMessage.delete()
                         
-                        //send the list of maps
-                        message.reply(reply)
-                        .then( async notify => {
+                        //if the user selected a map version
+                        if(collected.customId === "versions"){
+                            allAvaliableVersionsDropDownMessage.delete()
 
-                            //collect messages
-                            await message.channel.awaitMessages(filter, {max: 1, time: 20000})
-                            .then( async collected => {
+                            //generating animation
+                            const generating = new Discord.EmbedBuilder()
+                            generating.setColor(FNBRMENA.Colors("embed"))
+                            if(userData.lang === "en") generating.setTitle(`Loading ${allAvaliableVersions[collected.values[0]].patchVersion}'s map... ${emojisObject.loadingEmoji}`)
+                            else if(userData.lang == "ar") generating.setTitle(`جاري التحميل ماب ${allAvaliableVersions[collected.values[0]].patchVersion}... ${emojisObject.loadingEmoji}`)
+                            message.reply({embeds: [generating]})
+                            .then(async msg => {
+                                
+                                //creating canvas
+                                const canvas = Canvas.createCanvas(2048, 2048);
+                                const ctx = canvas.getContext('2d');
 
-                                //if the user input in range
-                                if(collected.first().content >= 0 && collected.first().content < counter){
+                                //map image
+                                const map = await Canvas.loadImage(allAvaliableVersions[collected.values[0]].url)
+                                ctx.drawImage(map, 0, 0, canvas.width, canvas.height)
 
-                                    //generating animation
-                                    const generating = new Discord.MessageEmbed()
-                                    generating.setColor(FNBRMENA.Colors("embed"))
-                                    if(lang === "en") generating.setTitle(`Loading... ${loadingEmoji}`)
-                                    else if(lang == "ar") generating.setTitle(`جاري التحميل... ${loadingEmoji}`)
-                                    message.channel.send(generating)
-                                    .then( async gen => {
+                                //fnbrmena credits
+                                const border = await Canvas.loadImage('./assets/NPC/border.png')
+                                ctx.drawImage(border, 0, 0, canvas.width, canvas.height)
 
-                                        //delete the list
-                                        msg.delete()
-                                        notify.delete()
-                                        
-                                        //get the image data
-                                        if(season[collected.first().content].urlPOI === null) var image = season[collected.first().content].url
-                                        else var image = season[collected.first().content].urlPOI
-
-                                        //registering font
-                                        Canvas.registerFont('./assets/font/BurbankBigCondensed-Black.otf' ,{family: 'Burbank Big Condensed',weight: "700",style: "bold"})
-                                        
-                                        //creating canvas
-                                        const canvas = Canvas.createCanvas(2048, 2048);
-                                        const ctx = canvas.getContext('2d');
-
-                                        //map image
-                                        const map = await Canvas.loadImage(image)
-                                        ctx.drawImage(map, 0, 0, canvas.width, canvas.height)
-
-                                        //credits
-                                        const credit = await Canvas.loadImage('./assets/Credits/FNBR_MENA.png');
-                                        ctx.drawImage(credit, 50, 1850, 550, 150);
-
-                                        //send the fish stats picture
-                                        const att = new Discord.MessageAttachment(canvas.toBuffer(), res.data.maps[collected.first().content].patchVersion + '.png')
-                                        await message.channel.send(att)
-                                        gen.delete()
-                                    })
-
-                                }
-                            }).catch(err => {
-
-                                //console log the error
-                                console.log(err)
+                                //send the map image
+                                const att = new Discord.AttachmentBuilder(canvas.toBuffer(), `${allAvaliableVersions[collected.values[0]].patchVersion}.png`)
+                                await message.reply({files: [att]})
                                 msg.delete()
-                                notify.delete()
 
-                                //send the time error
-                                const error = new Discord.MessageEmbed()
-                                error.setColor(FNBRMENA.Colors("embed"))
-                                error.setTitle(`${FNBRMENA.Errors("Time", lang)} ${errorEmoji}`)
-                                message.reply(error)
-
+                            }).catch(err => {
+                                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
+                                
                             })
-                        })
+                        }
+                    }).catch(err => {
+                        FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
+                        
                     })
 
                 }else{
 
                     //create embed handleing the season error
-                    const err = new Discord.MessageEmbed()
-                    err.setColor(FNBRMENA.Colors("embed"))
-                    if(lang === "en") err.setTitle(`Sorry there is no season with that number ${errorEmoji}`)
-                    else if(lang === "ar") err.setTitle(`عذرا لا يوجد موسم بنفس هذا الرقم ${errorEmoji}`)
-                    message.channel.send(err)
+                    const noSeasonHasBeenFoundError = new Discord.EmbedBuilder()
+                    noSeasonHasBeenFoundError.setColor(FNBRMENA.Colors("embedError"))
+                    if(userData.lang === "en") noSeasonHasBeenFoundError.setTitle(`Sorry there is no season with that number ${emojisObject.errorEmoji}`)
+                    else if(userData.lang === "ar") noSeasonHasBeenFoundError.setTitle(`عذرا لا يوجد موسم بنفس هذا الرقم ${emojisObject.errorEmoji}`)
+                    message.reply({embeds: [noSeasonHasBeenFoundError]})
 
                 }
+            }).catch(err => {
+                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
+                
             })
         }
     }

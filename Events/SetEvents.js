@@ -1,9 +1,7 @@
-const FortniteAPI = require("fortniteapi.io-api");
 const Discord = require('discord.js')
-const key = require('../Coinfigs/config.json')
-const fortniteAPI = new FortniteAPI(key.apis.fortniteio);
+const key = require('../Configs/config.json')
 
-module.exports = (FNBRMENA, client, admin) => {
+module.exports = (FNBRMENA, client, admin, emojisObject) => {
     const message = client.channels.cache.find(channel => channel.id === key.events.Set)
 
     //result
@@ -16,24 +14,25 @@ module.exports = (FNBRMENA, client, admin) => {
 
         //checking if the bot on or off
         admin.database().ref("ERA's").child("Events").child("set").once('value', async function (data) {
-            var status = data.val().Active
-            var lang = data.val().Lang
-            var push = data.val().Push
+            const status = data.val().Active
+            const lang = data.val().Lang
+            const push = data.val().Push.Push
+            const index = data.val().Push.Index
 
             //if the event is set to be true [ON]
             if(status){
 
                 //request data
-                fortniteAPI.listSets(options = {lang: lang})
+                FNBRMENA.listSets(options = {lang: lang})
                 .then(async res => {
 
                     if(number === 0){
 
                         //store data
-                        response = await res.sets
+                        response = await res.data.sets
 
-                        for(let i = 0; i < res.sets.length; i++){
-                            names[i] = await res.sets[i].name
+                        for(let i = 0; i < res.data.sets.length; i++){
+                            names[i] = await res.data.sets[i].name
                         }
 
                         //add sets names
@@ -41,8 +40,14 @@ module.exports = (FNBRMENA, client, admin) => {
 
                     }
 
+                    //push
+                    if(push) for(let i = 0; i < index; i++){
+                        names[i] = ''
+                        response[i] = ''
+                    }
+
                     //check data
-                    if(JSON.stringify(res.sets) !== JSON.stringify(response)){
+                    if(JSON.stringify(res.data.sets) !== JSON.stringify(response)){
 
                         //inisilizing sets variavle
                         var counter = 0
@@ -50,13 +55,11 @@ module.exports = (FNBRMENA, client, admin) => {
                         else if(lang === "ar") var sets = "تم اضافة مجموعات جديدة\n"
 
                         //loop throw every set
-                        for(let i = 0; i < res.sets.length; i++){
+                        for(let i = 0; i < res.data.sets.length; i++){
 
                             //check where is the new set
-                            if(!names.includes(res.sets[i].name)){
-                                counter++
-                                sets += '\n• ' + counter + ': '+ res.sets[i].name
-                            }
+                            if(!names.includes(res.data.sets[i].name)) sets += `\n• ${counter++}: ${res.data.sets[i].name}`
+                            
                         }
 
                         //add title
@@ -64,29 +67,31 @@ module.exports = (FNBRMENA, client, admin) => {
                         else if(lang === "ar") sets += `\n\n• المجموع ${counter} مجموعة`
 
                         //create embed
-                        const setInfo = new Discord.MessageEmbed()
-
-                        //add color
-                        setInfo.setColor(FNBRMENA.Colors("embed"))
-
-                        //set description
-                        setInfo.setDescription(sets)
+                        const newSetsEmbed = new Discord.EmbedBuilder()
+                        newSetsEmbed.setColor(FNBRMENA.Colors("embed"))
+                        newSetsEmbed.setDescription(sets)
 
                         //send message
-                        message.send(setInfo)
+                        message.send({embeds: [newSetsEmbed]})
 
                         //store data
-                        response = await res.sets
-                        for(let i = 0; i < res.sets.length; i++){
-                            names[i] = await res.sets[i].name
+                        response = await res.data.sets
+                        for(let i = 0; i < res.data.sets.length; i++){
+                            names[i] = await res.data.sets[i].name
                         }
+
+                        //trun off push if enabled
+                        admin.database().ref("ERA's").child("Events").child("set").child("Push").update({
+                            Push: false
+                        })
                     }
                     
-                }).catch(err => {
-                    console.log("The issue is in Set Events ", err)
+                }).catch(async err => {
+                    FNBRMENA.eventsLogs(admin, client, err, 'sets')
+        
                 })
             }
         })
     }
-    setInterval(Set, 2 * 10000)
+    setInterval(Set, 1 * 30000)
 }

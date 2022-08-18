@@ -1,15 +1,13 @@
 module.exports = {
     commands: 'perms',
     type: 'Administrators Only',
-    minArgs: 2,
-    maxArgs: null,
+    minArgs: 1,
+    maxArgs: 1,
     cooldown: -1,
     permissionError: 'Sorry you do not have acccess to this command',
-    callback: async (FNBRMENA, message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji, greenStatus, redStatus) => {
+    callback: async (FNBRMENA, message, args, text, Discord, client, admin, userData, alias, emojisObject) => {
 
-        //get the user language from the database
-        const lang = await FNBRMENA.Admin(admin, message, "", "Lang")
-
+        //all the discord permissions
         const validPermissions = [
             'CREATE_INSTANT_INVITE',
             'KICK_MEMBERS',
@@ -44,122 +42,239 @@ module.exports = {
             'MANAGE_EMOJIS',
         ]
 
-        var shifted = args.shift();
-        var valid = true
-        for(const Perm of args){
-            if(!validPermissions.includes(Perm)){
-                valid = false
-            }
-        }
+        //handel user
+        const Types = ["add", "delete"]
 
-        if(valid === true){
-            const method = new Discord.MessageEmbed()
-            method.setColor(FNBRMENA.Colors("embed"))
-            if(lang === "en"){
-                method.setTitle('Choose a method')
-                method.addFields(
-                    {name: 'Add Perm', value: 'React to :white_check_mark:'},
-                    {name: 'Delete Perm', value: 'React to :negative_squared_cross_mark:'}
-                )
-            }else if(lang === "ar"){
-                method.setTitle('اختر طريقة')
-                method.addFields(
-                    {name: 'اضافة صلاحية', value: 'اختر العلامة :white_check_mark:'},
-                    {name: 'Delete Perm', value: 'اختر العلامة :negative_squared_cross_mark:'}
-                )
-            }
-            const msgReact = await message.channel.send(method)
-            await msgReact.react('✅')
-            msgReact.react('❎')
-            const filter = (reaction, user) => {
-                return ['✅', '❎'].includes(reaction.emoji.name) && user.id === message.author.id;
-            };
-            await msgReact.awaitReactions(filter, { max: 1, time: 60000, errors: ['time'] })
-            .then( async collected => {
-                const reaction = collected.first();
-                if(reaction.emoji.name === '✅'){
+        //seeting up the db firestore
+        const db = await admin.firestore()
 
-                    await admin.database().ref("ERA's").child("Commands").child(shifted).once('value', async data => {
-                        if(await data.exists()){
-                            await admin.database().ref("ERA's").child("Commands").child(shifted).child("Perms").set([
-                                args
-                            ])
-                            if(lang === "en"){
-                                const done = new Discord.MessageEmbed()
-                                done.setColor(FNBRMENA.Colors("embed"))
-                                done.setTitle(`The ${shifted} permission(s) has been addedd ${checkEmoji}`)
-                                message.channel.send(done)
-                            }else if(lang === "ar"){
-                                const done = new Discord.MessageEmbed()
-                                done.setColor(FNBRMENA.Colors("embed"))
-                                done.setTitle(`تم اضافة الصلاحيات لأمر ${shifted} ${checkEmoji}`)
-                                message.channel.send(done)
-                            }
-                        }else{
-                            if(lang === "en"){
-                                const errCommand = new Discord.MessageEmbed()
-                                errCommand.setColor(FNBRMENA.Colors("embed"))
-                                errCommand.setTitle(`The ${shifted} is not a valid command ${errorEmoji}`)
-                                message.channel.send(errCommand)
-                            }else if(lang === "ar"){
-                                const errCommand = new Discord.MessageEmbed()
-                                errCommand.setColor(FNBRMENA.Colors("embed"))
-                                errCommand.setTitle(`لا يوجد امر بهذا الاسم ${shifted} ${errorEmoji}`)
-                                message.channel.send(errCommand)
-                            }
+        //command data
+        const commandData = await db.collection("Commands").doc(text)
+        const snapshot = await commandData.get()
+
+        //check if the command is a valid one
+        if(snapshot.exists){
+
+            //get all the permissions from the database
+            const listCommandPermissions = []
+            for(let i = 0; i < snapshot.data()['permissions'].length; i++)
+            listCommandPermissions.push(snapshot.data()['permissions'][i])
+
+            //inislizing embed
+            const chooseType = new Discord.EmbedBuilder()
+            chooseType.setColor(FNBRMENA.Colors("embed"))
+            if(userData.lang === "en") chooseType.setDescription(`• 0: Add permissions\n• 1: Remove permissions`)
+            else if(userData.lang === "ar") chooseType.setDescription(`• 0: اضافة اذونات\n• 1: حذف اذونات`)
+
+            //filtering
+            const filter = m => m.author.id === message.author.id
+
+            //send the reply to the user
+            if(userData.lang === "en") reply = "please choose the type from the list above, will stop listen in 20 sec"
+            else if(userData.lang === "ar") reply = "الرجاء اختيار النوع من القائمة بالاعلى، سوف ينتهي الامر خلال ٢٠ ثانية"
+
+            //send the reply
+            await message.reply({content: reply, embeds: [chooseType]})
+            .then( async notify => {
+
+                //await messages
+                await message.channel.awaitMessages({filter, max: 1, time: 20000, errors: ['time']})
+                .then( async collected => {
+
+                    //delete messages
+                    notify.delete()
+
+                    //if the user selected an out of range number
+                    if(collected.first().content >= 0 && collected.first().content < Types.length){
+
+                        //add the permission to the command
+                        if(Types[collected.first().content] === "add"){
+
+                            //inislizing embed
+                            const permissionsEmbed = new Discord.EmbedBuilder()
+                            permissionsEmbed.setColor(FNBRMENA.Colors("embed"))
+
+                            //loop throw every valid permission
+                            var str = ``
+                            for(let i = 0; i < validPermissions.length; i++){
+                                if(userData.lang === "en"){
+                                    if(listCommandPermissions.includes(validPermissions[i])) str += `• ${i}: ${validPermissions[i]} (Added)\n`
+                                    else str += `• ${i}: ${validPermissions[i]} (Not added yet)\n`
+
+                                }else if(userData.lang === "ar"){
+                                    if(listCommandPermissions.includes(validPermissions[i])) str += `• ${i}: ${validPermissions[i]} (مضاف مسبقا)\n`
+                                    else str += `• ${i}: ${validPermissions[i]} (لم يتم اضافته حتى الأن)\n`
+
+                                }
+
+                            } permissionsEmbed.setDescription(str)
+
+                            //filtering
+                            const filter = m => m.author.id === message.author.id
+
+                            //send the reply to the user
+                            if(userData.lang === "en") reply = "please choose the permission from the list above, will stop listen in 20 sec"
+                            else if(userData.lang === "ar") reply = "الرجاء اختيار الأذن من القائمة بالاعلى، سوف ينتهي الامر خلال ٢٠ ثانية"
+
+                            //send the reply
+                            await message.reply({content: reply, embeds: [permissionsEmbed]})
+                            .then( async notify => {
+
+                                //await messages
+                                await message.channel.awaitMessages({filter, max: 1, time: 20000, errors: ['time']})
+                                .then( async collected => {
+
+                                    //deleting messages
+                                    notify.delete()
+
+                                    //if the user input in range
+                                    if(collected.first().content >= 0 && collected.first().content < validPermissions.length){
+
+                                        if(!listCommandPermissions.includes(validPermissions[collected.first().content])){
+
+                                            //add the permission to listCommandPermissions array
+                                            listCommandPermissions.push(validPermissions[collected.first().content])
+
+                                            //update the data in the database
+                                            await commandData.update({
+                                                'permissions': listCommandPermissions,
+                                            })
+
+                                            //create permission has been added embed
+                                            const permissionHasBeenAdded = new Discord.EmbedBuilder()
+                                            permissionHasBeenAdded.setColor(FNBRMENA.Colors("embedSuccess"))
+                                            if(userData.lang === "en") permissionHasBeenAdded.setTitle(`the ${validPermissions[collected.first().content]} permission has been added to the ${text} command successfully ${emojisObject.checkEmoji}`)
+                                            else if(userData.lang === "ar") permissionHasBeenAdded.setTitle(`تم اضافة أذن ${validPermissions[collected.first().content]} الى امر ${text} بنجاح ${emojisObject.checkEmoji}`)
+                                            message.reply({embeds: [permissionHasBeenAdded]})
+
+                                        }else{
+
+                                            //create permission already added embed
+                                            const permissionAlreadyAdded = new Discord.EmbedBuilder()
+                                            permissionAlreadyAdded.setColor(FNBRMENA.Colors("embedError"))
+                                            if(userData.lang === "en") permissionAlreadyAdded.setTitle(`the ${validPermissions[collected.first().content]} permission is already added to the ${text} command ${emojisObject.errorEmoji}`)
+                                            else if(userData.lang === "ar") permissionAlreadyAdded.setTitle(`تم بالفعل اضافة أذن ${validPermissions[collected.first().content]} الى امر ${text} من قبل ${emojisObject.errorEmoji}`)
+                                            message.reply({embeds: [permissionAlreadyAdded]})
+                                        }
+
+                                    }else{
+
+                                        //create out of range embed
+                                        const outOfRangeError = new Discord.EmbedBuilder()
+                                        outOfRangeError.setColor(FNBRMENA.Colors("embedError"))
+                                        outOfRangeError.setTitle(`${FNBRMENA.Errors("outOfRange", userData.lang)} ${emojisObject.errorEmoji}`)
+                                        message.reply({embeds: [outOfRangeError]})
+                                        
+                                    }
+                                }).catch(err => {
+
+                                    //deleting messages
+                                    notify.delete()
+
+                                    //time has passed
+                                    const timeError = new Discord.EmbedBuilder()
+                                    timeError.setColor(FNBRMENA.Colors("embedError"))
+                                    timeError.setTitle(`${FNBRMENA.Errors("Time", userData.lang)} ${emojisObject.errorEmoji}`)
+                                    message.reply({embeds: [timeError]})
+                                })
+                            })
                         }
-                    })
-                }
-                if(reaction.emoji.name === '❎'){
-                    admin.database().ref("ERA's").child("Commands").child(shifted).child("Perms").once('value', async data => {
-                        if(await data.exists()){
-                            admin.database().ref("ERA's").child("Commands").child(shifted).child("Perms").remove()
-                            if(lang === "en"){
-                                const secCommand = new Discord.MessageEmbed()
-                                secCommand.setColor(FNBRMENA.Colors("embed"))
-                                secCommand.setTitle(`All the ${shifted} perms has been removed ${errorEmoji}`)
-                                message.channel.send(secCommand)
-                            }else if(lang === "ar"){
-                                const secCommand = new Discord.MessageEmbed()
-                                secCommand.setColor(FNBRMENA.Colors("embed"))
-                                secCommand.setTitle(`تم حذف جميع صلاحيات امر ${shifted} ${checkEmoji}`)
-                                message.channel.send(secCommand)
-                            }
-                        }else{
-                            if(lang === "en"){
-                                const errCommand = new Discord.MessageEmbed()
-                                errCommand.setColor(FNBRMENA.Colors("embed"))
-                                errCommand.setTitle(`The ${shifted} doesn't have perms ${errorEmoji}`)
-                                message.channel.send(errCommand)
-                            }else if(lang === "ar"){
-                                const errCommand = new Discord.MessageEmbed()
-                                errCommand.setColor(FNBRMENA.Colors("embed"))
-                                errCommand.setTitle(`لا يوجد صلاحيات لأمر ${shifted} ${errorEmoji}`)
-                                message.channel.send(errCommand)
-                            }
+
+                        //remove a permission from the command
+                        if(Types[collected.first().content] === "delete"){
+
+                            //inislizing embed
+                            const removePermissionsEmbed = new Discord.EmbedBuilder()
+                            removePermissionsEmbed.setColor(FNBRMENA.Colors("embed"))
+
+                            //loop throw every permission
+                            var str = ``
+                            for(let i = 0; i < listCommandPermissions.length; i++) str += `• ${i}: ${listCommandPermissions[i]}\n`
+                            removePermissionsEmbed.setDescription(str)
+
+                            //filtering
+                            const filter = m => m.author.id === message.author.id
+
+                            //send the reply to the user
+                            if(userData.lang === "en") reply = "please choose the permission from the list above, will stop listen in 20 sec"
+                            else if(userData.lang === "ar") reply = "الرجاء اختيار الأذن من القائمة بالاعلى، سوف ينتهي الامر خلال ٢٠ ثانية"
+
+                            //send the reply
+                            await message.reply({content: reply, embeds: [removePermissionsEmbed]})
+                            .then( async notify => {
+
+                                //await messages
+                                await message.channel.awaitMessages({filter, max: 1, time: 20000, errors: ['time']})
+                                .then( async collected => {
+
+                                    //deleting messages
+                                    notify.delete()
+
+                                    //if the user input in range
+                                    if(collected.first().content >= 0 && collected.first().content < listCommandPermissions.length){
+
+                                        //create permission has been removed embed
+                                        const permissionHasBeenRemoved = new Discord.EmbedBuilder()
+                                        permissionHasBeenRemoved.setColor(FNBRMENA.Colors("embedSuccess"))
+                                        if(userData.lang === "en") permissionHasBeenRemoved.setTitle(`the ${listCommandPermissions[collected.first().content]} permission has been removed from the ${text} command successfully ${emojisObject.checkEmoji}`)
+                                        else if(userData.lang === "ar") permissionHasBeenRemoved.setTitle(`تم حذف أذن ${listCommandPermissions[collected.first().content]} من امر ${text} بنجاح ${emojisObject.checkEmoji}`)
+                                        message.reply({embeds: [permissionHasBeenRemoved]})
+
+                                        //remove the permission from the listCommandPermissions array and update the data
+                                        await commandData.update({
+                                            'permissions': listCommandPermissions.splice(collected.first().content, 1),
+                                        })
+
+                                    }else{
+
+                                        //create out of range embed
+                                        const outOfRangeError = new Discord.EmbedBuilder()
+                                        outOfRangeError.setColor(FNBRMENA.Colors("embedError"))
+                                        outOfRangeError.setTitle(`${FNBRMENA.Errors("outOfRange", userData.lang)} ${emojisObject.errorEmoji}`)
+                                        message.reply({embeds: [outOfRangeError]})
+                                    }
+                                }).catch(err => {
+
+                                    //deleting messages
+                                    notify.delete()
+            
+                                    //time has passed
+                                    const timeError = new Discord.EmbedBuilder()
+                                    timeError.setColor(FNBRMENA.Colors("embedError"))
+                                    timeError.setTitle(`${FNBRMENA.Errors("Time", userData.lang)} ${emojisObject.errorEmoji}`)
+                                    message.reply({embeds: [timeError]})
+                                })
+                            })
                         }
-                    })
-                }
-                    msgReact.delete()
+                    }else{
+
+                        //create out of range embed
+                        const outOfRangeError = new Discord.EmbedBuilder()
+                        outOfRangeError.setColor(FNBRMENA.Colors("embedError"))
+                        outOfRangeError.setTitle(`${FNBRMENA.Errors("outOfRange", userData.lang)} ${emojisObject.errorEmoji}`)
+                        message.reply({embeds: [outOfRangeError]})
+                    }
                 }).catch(err => {
-                    msgReact.delete()
-                    const error = new Discord.MessageEmbed()
-                    .setColor(FNBRMENA.Colors("embed"))
-                    .setTitle(`${FNBRMENA.Errors("Time", lang)} ${errorEmoji}`)
-                    message.reply(error)
+
+                    //deleting messages
+                    notify.delete()
+
+                    //time has passed
+                    const timeError = new Discord.EmbedBuilder()
+                    timeError.setColor(FNBRMENA.Colors("embedError"))
+                    timeError.setTitle(`${FNBRMENA.Errors("Time", userData.lang)} ${emojisObject.errorEmoji}`)
+                    message.reply({embeds: [timeError]})
                 })
+            })
+
         }else{
-            if(lang === "en"){
-                const err = new Discord.MessageEmbed()
-                err.setColor(FNBRMENA.Colors("embed"))
-                err.setTitle(`The ${args} is not valid perm please type a valid one ${errorEmoji}`)
-                message.channel.send(err)
-            }else if(lang === "ar"){
-                const err = new Discord.MessageEmbed()
-                err.setColor(FNBRMENA.Colors("embed"))
-                err.setTitle(`لا يوجد صلاحية بهذا الاسم ${args} ${errorEmoji}`)
-                message.channel.send(err)
-            }
+            
+            //create command not found embed
+            const commandNotFoundError = new Discord.EmbedBuilder()
+            commandNotFoundError.setColor(FNBRMENA.Colors("embedError"))
+            if(userData.lang === "en") commandNotFoundError.setTitle(`i couldn't find the ${text} command please specifiy a valid command ${emojisObject.errorEmoji}`)
+            else if(userData.lang === "ar") commandNotFoundError.setTitle(`لم اتمكن من العثور على الأمر ${text} الرجاء ادخل اسم امر صحيح ${emojisObject.errorEmoji}`)
+            message.reply({embeds: [commandNotFoundError]})
         }
     }
 }

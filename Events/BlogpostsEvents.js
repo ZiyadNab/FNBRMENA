@@ -1,9 +1,10 @@
 const axios = require('axios')
 const Discord = require('discord.js')
 const moment = require('moment')
-const config = require('../Coinfigs/config.json')
+const config = require('../Configs/config.json')
+const ytdl = require("ytdl-core")
 
-module.exports = (client, admin) => {
+module.exports = (FNBRMENA, client, admin, emojisObject) => {
     const message = client.channels.cache.find(channel => channel.id === config.events.Blogposts)
 
     //result
@@ -16,14 +17,12 @@ module.exports = (client, admin) => {
 
         //checking if the bot on or off
         admin.database().ref("ERA's").child("Events").child("blogposts").once('value', async function (data) {
-
-            //store aceess
-            var status = data.val().Active;
-            var lang = data.val().Lang;
-            var push = data.val().Push
+            const status = data.val().Active;
+            const lang = data.val().Lang;
+            const push = data.val().Push
 
             //if the event is set to be true [ON]
-            if(status === true){
+            if(status){
 
                 //request data
                 axios.get(`https://www.epicgames.com/fortnite/api/blog/getPosts?category=&postsPerPage=0&offset=0&rootPageSlug=blog&locale=${lang}`)
@@ -42,7 +41,7 @@ module.exports = (client, admin) => {
                     }
 
                     //if push is enabled
-                    if(push === true) blogs[0] = []
+                    if(push) blogs[0] = []
 
                     //storing the new blog to compare
                     for(let i = 0; i < res.data.blogList.length; i++){
@@ -59,58 +58,114 @@ module.exports = (client, admin) => {
                             if(!blogs.includes(response[i])){
 
                                 //filtering to get the new blog
-                                var newBlog = await res.data.blogList.filter(blog => {
-                                    return blog.slug === response[i]
+                                var newBlog
+                                await res.data.blogList.filter(blog => {
+                                    if(blog.slug === response[i]) newBlog = blog
                                 })
 
                                 //create embed
-                                const blogEmbed = new Discord.MessageEmbed()
-
-                                //set the color
+                                const blogEmbed = new Discord.EmbedBuilder()
                                 blogEmbed.setColor("#00ffff")
 
                                 //set title
-                                blogEmbed.setAuthor(newBlog[0].title, newBlog[0].image)
+                                blogEmbed.setTitle(newBlog.title)
+                                blogEmbed.setThumbnail(newBlog.image)
 
                                 //seting up the description
-                                if(newBlog[0].shareDescription !== "" && newBlog[0].shareDescription !== undefined) blogEmbed.setDescription(newBlog[0].shareDescription)
-                                else {
+                                if(newBlog._metaTags !== undefined) {
 
                                     //add description variable
-                                    var description = await newBlog[0]._metaTags
-                                    description = await description.replace(description.substring(0, description.indexOf("<meta name=\"description\" content=\"")), "")
-                                    description = await description.replace('<meta name="description" content="', "")
-                                    description = await description.substring(0, description.indexOf("\">"))
-                                    blogEmbed.setDescription(description)
-                                }
+                                    var description = newBlog._metaTags
+                                    description = description.replace(description.substring(0, description.indexOf("<meta name=\"description\" content=\"")), "")
+                                    description = description.replace('<meta name="description" content="', "")
+                                    description = description.substring(0, description.indexOf("\">"))
+                                    blogEmbed.setDescription(`${description}`)
+                                    
+                                }else if(lang === "en") blogEmbed.setDescription(`No description.`)
+                                else if(lang === "ar") blogEmbed.setDescription(`لا يوجد وصف.`)
 
                                 //moment language
                                 moment.locale(lang)
 
-                                //add fields
-                                if(lang === "en"){
-                                    blogEmbed.addFields(
-                                        {name: "Date:", value: moment(newBlog[0].date).format("dddd, MMMM Do of YYYY")},
-                                        {name: "Link:", value: `https://www.epicgames.com/fortnite${newBlog[0].urlPattern}`},
-                                    )
-                                }else if(lang === "ar"){
-                                    blogEmbed.addFields(
-                                        {name: "التاريخ:", value: moment(newBlog[0].date).format("dddd, MMMM Do من YYYY")},
-                                        {name: "الرابط:", value: `https://www.epicgames.com/fortnite${newBlog[0].urlPattern}`},
-                                    )
+                                //creating a row
+                                const row = new Discord.MessageActionRow()
+
+                                //creating button
+                                if(lang === "en") row.addComponents(
+                                    new Discord.EmbedBuilder()
+                                    .setStyle(Discord.ButtonStyle.Link)
+                                    .setLabel("Blogpost Link")
+                                    .setURL(`https://www.epicgames.com/fortnite${newBlog.urlPattern}`)
+                                )
+
+                                //creating button
+                                else if(lang === "ar") row.addComponents(
+                                    new Discord.EmbedBuilder()
+                                    .setStyle(Discord.ButtonStyle.Link)
+                                    .setLabel("رابط المدونة")
+                                    .setURL(`https://www.epicgames.com/fortnite${newBlog.urlPattern}`)
+                                )
+
+                                //gather blog lings
+                                if(newBlog.content.includes("<div class=\"embed-responsive")){
+
+                                    // a yt video
+                                    if(newBlog.content.includes("https://www.youtube.com/embed/")){
+                                        var links = []
+                                        var linksIndex = 0
+                                        var contentYoutubeLinksFinder = newBlog.content
+                                        while(contentYoutubeLinksFinder.includes("https://www.youtube.com/embed/")){
+
+                                            contentYoutubeLinksFinder = contentYoutubeLinksFinder.replace(contentYoutubeLinksFinder.substring(0, contentYoutubeLinksFinder.indexOf('https://www.youtube.com/embed/')), "")
+                                            links[linksIndex++] = contentYoutubeLinksFinder.substring(0, contentYoutubeLinksFinder.indexOf('"'))
+                                            contentYoutubeLinksFinder = contentYoutubeLinksFinder.replace(contentYoutubeLinksFinder.substring(0, contentYoutubeLinksFinder.indexOf('"')), "")
+                                        }
+
+                                        //loop through all gathered links
+                                        for(let i = 0; i < links.length; i++){
+                                            await ytdl.getInfo(links[i])
+                                            .then(async info => {
+                                                row.addComponents(
+                                                    new Discord.EmbedBuilder()
+                                                    .setStyle(Discord.ButtonStyle.Link)
+                                                    .setLabel(info.videoDetails.title)
+                                                    .setURL(links[i])
+                                                )
+                                            })
+                                        }
+                                    }
+
+                                    // an epicgames video
+                                    if(newBlog.content.includes(".mp4")){
+                                        var videoLinkFinder = newBlog.content
+                                        videoLinkFinder = videoLinkFinder.substring(0, videoLinkFinder.indexOf('.mp4') + 4)
+                                        videoLinkFinder = videoLinkFinder.replace(videoLinkFinder.substring(0, videoLinkFinder.lastIndexOf('https:')), "")
+                                        if(lang === "en") row.addComponents(
+                                            new Discord.EmbedBuilder()
+                                            .setStyle(Discord.ButtonStyle.Link)
+                                            .setLabel("Video")
+                                            .setURL(videoLinkFinder)
+                                        ) 
+                                        else if(lang === "ar") row.addComponents(
+                                            new Discord.EmbedBuilder()
+                                            .setStyle(Discord.ButtonStyle.Link)
+                                            .setLabel("فيديو")
+                                            .setURL(videoLinkFinder)
+                                        )
+                                    }
                                 }
 
                                 //set image
-                                if(newBlog[0].shareImage !== undefined) blogEmbed.setImage(newBlog[0].shareImage)
-                                else if(newBlog[0].trendingImage !== undefined) blogEmbed.setImage(newBlog[0].trendingImage)
-                                else if(newBlog[0].image !== undefined) blogEmbed.setImage(newBlog[0].image)
+                                if(newBlog.shareImage !== undefined) blogEmbed.setImage(newBlog.shareImage)
+                                else if(newBlog.trendingImage !== undefined) blogEmbed.setImage(newBlog.trendingImage)
                                 else blogEmbed.setImage("https://i.imgur.com/Dg7jrFV.jpeg")
 
                                 //set author
-                                blogEmbed.setFooter(newBlog[0].author)
+                                if(lang === "en") blogEmbed.setFooter(`${newBlog.author} | ${moment(newBlog.date).format("dddd, MMMM Do of YYYY")}`)
+                                else if(lang === "ar") blogEmbed.setFooter(`${newBlog.author} | ${moment(newBlog.date).format("dddd, MMMM Do من YYYY")}`)
 
                                 //send the message
-                                message.send(blogEmbed)
+                                message.send({embeds: [blogEmbed], components: [row]})
                                 
                             }
                         }
@@ -127,8 +182,9 @@ module.exports = (client, admin) => {
 
                     }
                 
-                }).catch(err => {
-                    console.log("The issue is in Blogposts Events ", err)
+                }).catch(async err => {
+                    FNBRMENA.eventsLogs(admin, client, err, 'blogposts')
+        
                 })
             }
         })

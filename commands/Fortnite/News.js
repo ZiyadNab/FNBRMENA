@@ -1,5 +1,5 @@
 const Canvas = require('canvas')
-var wrap = require('word-wrap')
+const wrap = require('word-wrap')
 const Gif = require('gif-encoder-2')
 
 module.exports = {
@@ -9,295 +9,250 @@ module.exports = {
     maxArgs: 0,
     cooldown: 20,
     permissionError: 'Sorry you do not have acccess to this command',
-    callback: async (FNBRMENA, message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji, greenStatus, redStatus) => {
+    callback: async (FNBRMENA, message, args, text, Discord, client, admin, userData, alias, emojisObject) => {
 
-        //get the user language from the database
-        const lang = await FNBRMENA.Admin(admin, message, "", "Lang")
+        //image creator
+        const newsImageCreator = async (data) => {
 
-        //index
-        let data = []
-
-        //handle errors
-        var errorHandleing = 0
-
-        //news types
-        const NewsTypes = [
-            "BR",
-            "STW",
-            "Creative"
-        ]
-
-        //inilizing x, y and z
-        var x = 50
-        var y = 1030
-        var z = 0
-        
-        //request data
-        await FNBRMENA.News(lang)
-        .then(async res => {
-
-            //ask the user what type of news he needs
-            const list = new Discord.MessageEmbed()
-
-            //set the color
-            list.setColor(FNBRMENA.Colors("embed"))
-
-            //set title
-            if(lang === "en") list.setTitle(`Please choose your news type from the list below`)
-            else if(lang === "ar") list.setTitle(`الرجاء اختيار نوع الأخبار من القائمه بالاسفل`)
-
-            //how many items where matchinh the user input?
-            if(lang === "en") var string = `• 0: Battle Royale\n• 1: STW\n• 2: Creative`
-            else if(lang === "ar") var string = `• 0: باتل رويال\n• 1: طور إنقاذ العالم\n• 2: طور الإبداعي`
-            else if(lang === "es") var string = `• 0: Battle Royale\n• 1: STW\n• 2: Creative`
-            else if(lang === "zh-CN") var string = `• 0: Battle Royale\n• 1: STW\n• 2: Creative`
-
-            //set Description
-            list.setDescription(string)
-
-            //send the message and wait for answer
-            await message.channel.send(list)
-            .then(async list => {
-
-                //filtering outfits
-                const filter = async m => await m.author.id === message.author.id
-
-                //add the reply
-                if(lang === "en") var reply = `please choose your news type, listening will be stopped after 20 seconds`
-                else if(lang === "ar") var reply = `الرجاء كتابة نوع الأخبار، راح يتوقف الامر بعد ٢٠ ثانية`
-                await message.reply(reply)
-                .then( async notify => {
-
-                    //listen for user input
-                    await message.channel.awaitMessages(filter, {max: 1, time: 20000})
-                    .then( async collected => {
-
-                        //delete messages
-                        await notify.delete()
-                        await list.delete()
-
-                        //if the user chosen inside range
-                        if(collected.first().content >= 0 && collected.first().content < NewsTypes.length){
-
-                            //store the news data to the data variable
-                            if(NewsTypes[collected.first().content] === NewsTypes[0])
-                            data = await res.data.data.br.motds
-                            if(NewsTypes[collected.first().content] === NewsTypes[1])
-                            data = await res.data.data.stw.messages
-                            if(NewsTypes[collected.first().content] === NewsTypes[2])
-                            data = await res.data.data.creative.motds
-                             
-                        }else{
-
-                            //add an error
-                            errorHandleing++
-
-                            //if user typed a number out of range
-                            const error = new Discord.MessageEmbed()
-                            error.setColor(FNBRMENA.Colors("embed"))
-                            if(lang === "en") error.setTitle(`Sorry we canceled your process becuase u selected a number out of range ${errorEmoji}`)
-                            else if(lang === "ar") error.setTitle(`تم ايقاف الامر بسبب اختيارك لرقم خارج النطاق ${errorEmoji}`)
-                            message.reply(error)
-                            
-                        }
-                    }).catch(err => {
-
-                        //add an error
-                        errorHandleing++
-
-                        const error = new Discord.MessageEmbed()
-                        error.setColor(FNBRMENA.Colors("embed"))
-                        error.setTitle(`${FNBRMENA.Errors("Time", lang)} ${errorEmoji}`)
-                        message.reply(error)
-                    })
-                })
-            }).catch(err => {
-
-                //add an error
-                errorHandleing++
-
-                //if user typed a number out of range
-                const errorRequest = new Discord.MessageEmbed()
-                errorRequest.setColor(FNBRMENA.Colors("embed"))
-                if(lang === "en") errorRequest.setTitle(`Request entry too large ${errorEmoji}`)
-                else if(lang === "ar") errorRequest.setTitle(`تم تخطي الكمية المحدودة من عدد العناصر ${errorEmoji}`)
-                message.reply(errorRequest)
-
-            })
-        })
-
-        //create the news gif based on user choice
-        if(errorHandleing === 0){
-
-            const generating = new Discord.MessageEmbed()
+            const generating = new Discord.EmbedBuilder()
             generating.setColor(FNBRMENA.Colors("embed"))
-            if(lang === "en") generating.setTitle(`Getting News ... ${loadingEmoji}`)
-            if(lang === "ar") generating.setTitle(`جاري تحميل الاخبار ... ${loadingEmoji}`)
-            message.channel.send(generating)
-            .then( async msg => {
-
-                //aplyText
-                const applyText = (canvas, text, layout) => {
-                    const ctx = canvas.getContext('2d')
-                    let fontSize = 60
-                    do {
-                        if(lang === "en") ctx.font = `${fontSize -= 1}px Burbank Big Condensed`
-                        else if(lang === "ar") ctx.font = `${fontSize -= 1}px Arabic`
-                    } while (ctx.measureText(text).width > layout - 40)
-                    return ctx.font;
-                }
+            if(userData.lang === "en") generating.setTitle(`Getting News ... ${emojisObject.loadingEmoji}`)
+            if(userData.lang === "ar") generating.setTitle(`جاري تحميل الاخبار ... ${emojisObject.loadingEmoji}`)
+            message.reply({embeds: [generating]})
+            .then(async msg => {
 
                 //registering fonts
                 Canvas.registerFont('./assets/font/Lalezar-Regular.ttf', {family: 'Arabic',weight: "700",style: "bold"});
-                Canvas.registerFont('./assets/font/BurbankBigCondensed-Black.otf' ,{family: 'Burbank Big Condensed',weight: "700",style: "bold"})
+                Canvas.registerFont('./assets/font/BurbankBigCondensed-Black.ttf' ,{family: 'Burbank Big Condensed',weight: "700",style: "bold"})
 
                 //create canvas
-                const canvas = Canvas.createCanvas(1920, 1080);
+                const canvas = Canvas.createCanvas(3840, 2160);
                 const ctx = canvas.getContext('2d');
 
-                //create the gif workspace
-                const encoder = new Gif(canvas.width, canvas.height)
+                //create the encoder
+                const encoder = new Gif(canvas.width, canvas.height, 'neuquant', true)
+                
+                //add gif delay between image and image
+                encoder.setDelay(3 * 1000)
+                encoder.setQuality(1)
 
                 //start encoding
                 encoder.start()
 
-                //add gif delay between image and image
-                encoder.setDelay(3 * 1000)
+                //creating a row
+                const row = new Discord.ActionRowBuilder()
+                var isRow = false
 
-                const length = data.length
-                const layout = 1920 / length
+                //loop through every
+                for(let i = 0; i < data.length; i++){
 
-                //loop throw every 
-                for(let i = 0; i < length; i++){
-
-                    //inislizing variables
+                    //initializing variables
                     var title = data[i].title
                     var body = data[i].body
                     var image = data[i].image
 
-                    //add the news image at index i
+                    //draw the image based on the index
                     const newsImage = await Canvas.loadImage(image)
                     ctx.drawImage(newsImage, 0, 0, canvas.width, canvas.height)
 
-                    //add the top part
-                    for(let t = 0; t < length; t++){
-
-                        if(data[t].tabTitle !== undefined){
-                            if(data[t].tabTitle !== null) var tabTitle = data[t].tabTitle
-                            else var tabTitle = data[t].title
-                        }else if(data[t].adspace !== undefined){
-                            if(data[t].adspace !== null) var tabTitle = data[t].adspace
-                            else var tabTitle = data[t].title
-                        }
-
-                        //add Used
-                        if(t === i){
-                            
-                            //add the image tab
-                            const Used = await Canvas.loadImage('./assets/News/Used.png')
-                            ctx.drawImage(Used, z, 0, layout, 100)
-
-                            //add the tab text
-                            ctx.fillStyle = '#ffffff'
-                            ctx.textAlign='center'
-                            ctx.font = applyText(canvas, tabTitle, layout)
-                            ctx.fillText(tabTitle, ((layout / 2) + z), 66)
-
-                            //change the z value
-                            z += layout
-                        }
-                        
-                        //add Not Used
-                        else{
-                            
-                            //add the image tab
-                            const NotUsed = await Canvas.loadImage('./assets/News/NotUsed.png')
-                            ctx.drawImage(NotUsed, z, 0, layout, 100)
-
-                            //add the tab text
-                            ctx.fillStyle = '#ffffff'
-                            ctx.textAlign='center'
-                            ctx.font = applyText(canvas, tabTitle, layout)
-                            ctx.fillText(tabTitle, ((layout / 2) + z), 66)
-                            
-
-                            //change the z value
-                            z += layout
-                        }
-                    }
-
-                    //add the news image at index i
-                    const fog = await Canvas.loadImage('./assets/News/fog.png')
-                    ctx.drawImage(fog, 0, 0, canvas.width, canvas.height)
-
-                    //split the body into lines
-                    body = wrap(body, {width: 50})
-                    body = body.split(/\r\n|\r|\n/)
-
-                    //set the title y
-                    y = y - (body.length * 50) - 40
-
-                    //title
-                    ctx.fillStyle = '#ffffff';
-                    if(lang === "en"){
-                        ctx.textAlign = 'left';
-                        ctx.font = `100px Burbank Big Condensed`;
-                        ctx.fillText(title, x, y)
-                    }else if(lang === "ar"){
-                        ctx.textAlign = 'right';
-                        ctx.font = `100px Arabic`;
-                        ctx.fillText(title, canvas.width - x, y)
-                    }
-
-                    //set the body y
-                    y += 70
-
-                    //body
-                    ctx.fillStyle = '#33edff';
-                    if(lang === "en"){
-                        ctx.textAlign = 'left';
-                        ctx.font = `46px Burbank Big Condensed`;
-                    }else if(lang === "ar"){
-                        ctx.textAlign = 'right';
-                        ctx.font = `46px Arabic`;
-                    }
-
-                    //loop throw every line
-                    for(let b = 0; b < body.length; b++){
-
-                        //add the body by line
-                        if(lang === "en") ctx.fillText(body[b], x, y)
-                        else if(lang === "ar") ctx.fillText(body[b], canvas.width - x, y)
-                        
-                        //move to the new line
-                        y += 50
-                    }
-
                     //add the credits
                     ctx.fillStyle = '#ffffff';
-                    if(lang === "en") ctx.textAlign = 'right';
-                    else if(lang === "ar") ctx.textAlign = 'left';
-                    ctx.font = '75px Burbank Big Condensed'
-                    if(lang === "en") ctx.fillText("FNBRMENA", canvas.width - x, canvas.height - x)
-                    if(lang === "ar") ctx.fillText("FNBRMENA", x, canvas.height - x)
+                    ctx.textAlign = 'left';
+                    ctx.font = '95px Burbank Big Condensed'
+                    ctx.fillText("FNBRMENA", 25, 95)
 
-                    //add frame
-                    encoder.addFrame(ctx)
+                    //add the lower side fog
+                    const imageLowerFog = await Canvas.loadImage('./assets/News/fogV2.png')
+                    ctx.drawImage(imageLowerFog, 0, 0, canvas.width, canvas.height)
 
-                    //reset y, z
-                    y = 1030
-                    z = 0
+                    //drop shadow
+                    ctx.shadowOffsetY = 75
+                    ctx.shadowColor = "rgba(0, 0, 0, 0.4)";
+                    ctx.shadowBlur = 150;
 
+                    //add the tileImage only if there is one
+                    if(data[i].tileImage != undefined){
+
+                        //draw the tileImage on the given coordinates
+                        const tileImage = await Canvas.loadImage(data[i].tileImage)
+                        ctx.drawImage(tileImage, canvas.width - 705, 35, 630, 315)
+                        
+                        //add a stroke arround the image
+                        ctx.strokeStyle = 'white';
+                        ctx.lineWidth = 5;
+                        ctx.rect(canvas.width - 705, 35, 630, 315);
+                        ctx.stroke();
+
+                        //get the title tab name
+                        if(data[i].tabTitle !== null) var tabTitle = data[i].tabTitle
+                        else var tabTitle = data[i].title
+
+                        //add the tabTitle
+                        ctx.fillStyle = '#ffffff';
+                        ctx.textAlign = 'center';
+                        if(userData.lang === "en") ctx.font = '75px Burbank Big Condensed'
+                        else if(userData.lang === "ar") ctx.font = '75px Arabic'
+                        ctx.fillText(tabTitle.toUpperCase(), canvas.width - 390, 430)
+
+                    }
+
+                    //now lets add the news indicator
+                    var x = canvas.width - 52
+                    var y = 30
+                    ctx.shadowOffsetY = 10
+                    ctx.shadowColor = 'black';
+                    ctx.shadowBlur = 50;
+
+                    for(let t = 0; t < data.length; t++){
+
+                        //check if the t equals to i, if so the make the indicator for this index larger than the others
+                        if(t == i){
+
+                            ctx.fillStyle = 'white' //color plate
+                            ctx.fillRect(x, y, 22, 400) //filling
+                            
+                            //update y value
+                            y += 400 + 20
+
+                        }else{
+
+                            ctx.globalAlpha = 0.5 //change transparency
+                            ctx.fillStyle = 'white' //color plate
+                            ctx.fillRect(x, y, 22, 200) //filling 
+                            ctx.globalAlpha = 1 //restore transparency
+
+                            //update y value
+                            y += 200 + 20
+
+                        }
+                    }
+
+                    //now lets add the title
+                    ctx.shadowBlur = 150;
+                    ctx.fillStyle = '#ffffff';
+                    if(userData.lang === "en"){
+                        ctx.font = '150px Burbank Big Condensed'
+                        ctx.textAlign = 'left';
+                        ctx.fillText(title.toUpperCase(), 60, 1740)
+                    }else if(userData.lang === "ar"){
+                        ctx.font = '150px Arabic'
+                        ctx.textAlign = 'right';
+                        ctx.fillText(title.toUpperCase(), canvas.width - 60, 1740)
+                    }
+
+                    //reset shadows
+                    ctx.shadowColor = 'rgba(0,0,0,0)';
+
+                    //add the description );
+                    ctx.fillStyle = '#00deff';
+                    body = wrap(body, {width: 75})
+                    if(userData.lang === "en"){
+                        ctx.font = '75px Burbank Big Condensed'
+                        ctx.textAlign = 'left';
+                        ctx.fillText(body, 130, 1850)
+                    }else if(userData.lang === "ar"){
+                        ctx.font = '75px Arabic'
+                        ctx.textAlign = 'right';
+                        ctx.fillText(body, canvas.width - 130, 1850)
+                    }
+
+                    //add a button if there is a link
+                    if(data[i].websiteUrl != undefined){
+                        isRow = true
+                        row.addComponents(
+                            new Discord.ButtonBuilder()
+                            .setStyle(Discord.ButtonStyle.Link)
+                            .setLabel(title)
+                            .setURL(data[i].websiteUrl)
+                        )
+                    }
+
+                    //add a frame to the encoder
+                    encoder.addFrame(ctx);
                 }
 
-                //stop endcoding
-                encoder.finish()
+                //finish encoding
+                encoder.finish();
 
                 //send the message
-                const att = new Discord.MessageAttachment(encoder.out.getData(),  `${data.hash}.gif`)
-                await message.channel.send(att)
+                const att = new Discord.AttachmentBuilder(encoder.out.getData(),  `a.gif`) 
+                if(isRow) await message.reply({files: [att], components: [row]})
+                else await message.reply({files: [att]})
                 msg.delete()
             })
         }
+        
+        //request data
+        await FNBRMENA.News(userData.lang)
+        .then(async res => {
+            res.data.data
+
+            //create random landing embed message
+            const newsTypeEmbed = new Discord.EmbedBuilder()
+            newsTypeEmbed.setColor(FNBRMENA.Colors("embed"))
+            if(userData.lang === "en"){
+                newsTypeEmbed.setAuthor({name: `NEWS`, iconURL: `https://imgur.com/g1j40Om.png`})
+                newsTypeEmbed.setDescription('Choose the news type BR or STW.\n`You have only 30 seconds until this operation ends, Make it quick`!')
+            }else if(userData.lang === "ar"){
+                newsTypeEmbed.setAuthor({name: `الأخبار`, iconURL: `https://imgur.com/g1j40Om.png`})
+                newsTypeEmbed.setDescription('اختر نوع باتل رويال ام انقاذ العالم.\n.`لديك فقط 30 ثانية حتى تنتهي العملية, استعجل`!')
+            }
+
+            //create a row for buttons
+            const buttonsDataRow = new Discord.ActionRowBuilder()
+
+            //br button
+            const brNewsButton = new Discord.ButtonBuilder()
+            brNewsButton.setCustomId('BR')
+            brNewsButton.setStyle(Discord.ButtonStyle.Primary)
+            if(res.data.data.br === null) brNewsButton.setDisabled(true)
+            if(userData.lang === "en") brNewsButton.setLabel("Battle Royale")
+            else if(userData.lang === "ar") brNewsButton.setLabel("باتل رويال")
+
+            //stw button
+            const stwNewsButton = new Discord.ButtonBuilder()
+            stwNewsButton.setCustomId('STW')
+            stwNewsButton.setStyle(Discord.ButtonStyle.Success)
+            if(res.data.data.stw === null) stwNewsButton.setDisabled(true)
+            if(userData.lang === "en") stwNewsButton.setLabel("Save The World")
+            else if(userData.lang === "ar") stwNewsButton.setLabel("انقاذ العالم")
+
+            //cancle button
+            const cancelButton = new Discord.ButtonBuilder()
+            cancelButton.setCustomId('Cancel')
+            cancelButton.setStyle(Discord.ButtonStyle.Danger)
+            if(userData.lang === "en") cancelButton.setLabel("Cancel")
+            else if(userData.lang === "ar") cancelButton.setLabel("اغلاق")
+            
+            //add the buttons to the buttonsDataRow
+            buttonsDataRow.addComponents(brNewsButton, stwNewsButton, cancelButton)
+
+            //send the button
+            const newsTypeMessage = await message.reply({embeds: [newsTypeEmbed], components: [buttonsDataRow]})
+
+            //filtering the user clicker
+            const filter = i => i.user.id === message.author.id
+
+            //await the user click
+            await message.channel.awaitMessageComponent({filter, time: 30000})
+            .then(async collected => {
+                collected.deferUpdate();
+
+                //if canel button has been clicked
+                if(collected.customId === "Cancel") newsTypeMessage.delete()
+
+                //user clicked BR
+                if(collected.customId === "BR"){
+                    newsTypeMessage.delete()
+                    newsImageCreator(res.data.data.br.motds)
+                }
+
+                //user clicked STW
+                if(collected.customId === "STW"){
+                    newsTypeMessage.delete()
+                    newsImageCreator(res.data.data.stw.messages)
+                }
+            })
+        })
     }
 }

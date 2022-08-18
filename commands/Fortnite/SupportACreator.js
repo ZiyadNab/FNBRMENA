@@ -10,51 +10,47 @@ module.exports = {
     maxArgs: 1,
     cooldown: -1,
     permissionError: 'Sorry you do not have acccess to this command',
-    callback: async (FNBRMENA, message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji, greenStatus, redStatus) => {
-
-        //get the user language from the database
-        const lang = await FNBRMENA.Admin(admin, message, "", "Lang")
+    callback: async (FNBRMENA, message, args, text, Discord, client, admin, userData, alias, emojisObject) => {
 
         //request data
         FNBRMENA.CreatorCodeSearch(text)
         .then(async res => {
 
             //create embed
-            const info = new Discord.MessageEmbed()
+            const SACInfo = new Discord.EmbedBuilder()
+            SACInfo.setColor(FNBRMENA.Colors("embed"))
 
-            //set color
-            info.setColor(FNBRMENA.Colors("embed"))
-
-            //inisilize str
-            var str = ""
-
-            //is the user language is english
-            if(lang === "en"){
-                info.setTitle(`Info about ${text} SAC`)
-                str = `• Name: ${res.data.data.account.name}\n• ID: ${res.data.data.account.id}\n• Code: ${res.data.data.code}\n• Status: ${res.data.data.status}`
-            }else
-
-            //is the user language is arabic
-            if(lang === "ar"){
-                info.setTitle(`معلومات عن كود ${text}`)
-                str = `• الآسم: ${res.data.data.account.name}\n• الآيدي: ${res.data.data.account.id}\n• الكود: ${res.data.data.code}\n• حالة الكود: ${res.data.data.status}`
+            //check verified
+            if(res.data.data.verified){
+                if(userData.lang === "en") var verified = `Yes!`
+                else if(userData.lang === "ar") var verified = `نعم!`
+            }else{
+                if(userData.lang === "en") var verified = `No!`
+                else if(userData.lang === "ar") var verified = `لا!`
             }
 
+            //is the user language is english
+            if(userData.lang === "en") var str = `• Name: \`${res.data.data.account.name}\`\n• ID: \`${res.data.data.account.id}\`\n• Code: \`${res.data.data.code.toUpperCase()}\`\n• Status: \`${res.data.data.status}\`\n• Verified?: \`${verified}\``
+            else if(userData.lang === "ar") var str = `• الآسم: \`${res.data.data.account.name}\`\n• الآيدي: \`${res.data.data.account.id}\`\n• الكود: \`${res.data.data.code.toUpperCase()}\`\n• حالة الكود: \`${res.data.data.status}\`\n• موثق؟: \`${verified}\``
+
             //set description
-            info.setDescription(str)
+            SACInfo.setDescription(str)
+            message.reply({embeds: [SACInfo]})
 
-            //send the message
-            message.channel.send(info)
+        }).catch(async err => {
+            if(err.response.data.status === 404 && err.response.data.status !== undefined){
 
-            }).catch(err => {
+                //no support a creator code has been found
+                if(err.response.data.error === "the requested code is invalid or was not found"){
 
-                //no emote has been found
-                const Err = new Discord.MessageEmbed()
-                Err.setColor(FNBRMENA.Colors("embed"))
-                if(lang === "en") Err.setTitle(`There is no creator code with this name ${text} ${errorEmoji}`)
-                else if(lang === "ar") Err.setTitle(`لا يوجد كود بالأسم ${text} ${errorEmoji}`)
-                message.channel.send(Err)
+                    const noSACHasBeenFound = new Discord.EmbedBuilder()
+                    noSACHasBeenFound.setColor(FNBRMENA.Colors("embedError"))
+                    if(userData.lang === "en") noSACHasBeenFound.setTitle(`Can't find ${text} creator code ${emojisObject.errorEmoji}`)
+                    else if(userData.lang === "ar") noSACHasBeenFound.setTitle(`لا يمكنني العثور على كود ${text}. حاول مجددا ${emojisObject.errorEmoji}`)
+                    await message.reply({embeds: [noSACHasBeenFound]})
+                }
 
+            }else FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
         })
     }
 }

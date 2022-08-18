@@ -1,9 +1,9 @@
 const Discord = require('discord.js')
 const Canvas = require('canvas')
 const probe = require('probe-image-size')
-const config = require('../Coinfigs/config.json')
+const config = require('../Configs/config.json')
 
-module.exports = (FNBRMENA, client, admin) => {
+module.exports = (FNBRMENA, client, admin, emojisObject) => {
     const message = client.channels.cache.find(channel => channel.id === config.events.Backgrounds)
 
     //result
@@ -55,6 +55,7 @@ module.exports = (FNBRMENA, client, admin) => {
                             SaveTheWorldDATA = []
                             CreativeDATA = []
                         }
+                        
                         //if push is enabled for battle royale
                         if(battleroyale) BattleRoyaleDATA = []
 
@@ -90,10 +91,8 @@ module.exports = (FNBRMENA, client, admin) => {
                         ctx.fillText("FNBRMENA", 10, 40)
 
                         //attachments
-                        const att = new Discord.MessageAttachment(canvas.toBuffer(), `${res.data.subgameinfo.battleroyale.subgame}.png`)
-
-                        //send the image
-                        await message.send(`New ${res.data.subgameinfo.battleroyale.title} gamemode image selector has been added`, att)
+                        const att = new Discord.AttachmentBuilder(canvas.toBuffer(), `${res.data.subgameinfo.battleroyale.subgame}.png`)
+                        await message.send({content: `New ${res.data.subgameinfo.battleroyale.title} gamemode image selector has been added`, files: [att]})
 
                     }
 
@@ -121,10 +120,10 @@ module.exports = (FNBRMENA, client, admin) => {
                         ctx.fillText("FNBRMENA", 10, 40)
 
                         //attachments
-                        const att = new Discord.MessageAttachment(canvas.toBuffer(), `${res.data.subgameinfo.savetheworld.subgame}.png`)
+                        const att = new Discord.AttachmentBuilder(canvas.toBuffer(), `${res.data.subgameinfo.savetheworld.subgame}.png`)
 
                         //send the image
-                        await message.send(`New ${res.data.subgameinfo.savetheworld.title} gamemode image selector has been added`, att)
+                        await message.send({content: `New ${res.data.subgameinfo.savetheworld.title} gamemode image selector has been added`, files: [att]})
 
                     }
                     
@@ -153,10 +152,10 @@ module.exports = (FNBRMENA, client, admin) => {
                         ctx.fillText("FNBRMENA", 10, 40)
 
                         //attachments
-                        const att = new Discord.MessageAttachment(canvas.toBuffer(), `${res.data.subgameinfo.creative.subgame}.png`)
+                        const att = new Discord.AttachmentBuilder(canvas.toBuffer(), `${res.data.subgameinfo.creative.subgame}.png`)
 
                         //send the image
-                        await message.send(`New ${res.data.subgameinfo.creative.title} gamemode image selector has been added`, att)
+                        await message.send({content: `New ${res.data.subgameinfo.creative.title} gamemode image selector has been added`, files: [att]})
 
                     }
 
@@ -165,8 +164,9 @@ module.exports = (FNBRMENA, client, admin) => {
                         Push: false
                     })
                     
-                }).catch(err => {
-                    console.log("The issue is in SubGameInfo Events ", err)
+                }).catch(async err => {
+                    FNBRMENA.eventsLogs(admin, client, err, 'sub game')
+        
                 })
             }
         })

@@ -9,21 +9,15 @@ module.exports = {
     maxArgs: 0,
     cooldown: -1,
     permissionError: 'Sorry you do not have acccess to this command',
-    callback: async (FNBRMENA, message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji, greenStatus, redStatus) => {
-
-        //get the user language from the database
-        const lang = await FNBRMENA.Admin(admin, message, "", "Lang")
-
-        //get the user timezone from the database
-        const timezone = await FNBRMENA.Admin(admin, message, "", "Timezone")
+    callback: async (FNBRMENA, message, args, text, Discord, client, admin, userData, alias, emojisObject) => {
 
         //generating animation
-        const generating = new Discord.MessageEmbed()
+        const generating = new Discord.EmbedBuilder()
         generating.setColor(FNBRMENA.Colors("embed"))
-        if(lang === "en") generating.setTitle(`Loading sections... ${loadingEmoji}`)
-        else if(lang === "ar") generating.setTitle(`جاري تحميل الأقسام... ${loadingEmoji}`)
-        message.channel.send(generating)
-        .then( async msg => {
+        if(userData.lang === "en") generating.setTitle(`Loading sections... ${emojisObject.loadingEmoji}`)
+        else if(userData.lang === "ar") generating.setTitle(`جاري تحميل الأقسام... ${emojisObject.loadingEmoji}`)
+        message.reply({embeds: [generating]})
+        .then(async msg => {
             
             //get the sections data from database
             const SectionsData = await FNBRMENA.Admin(admin, message, "", "ShopSections")
@@ -92,7 +86,7 @@ module.exports = {
             }
             
             //request data
-            await FNBRMENA.Sections(lang, "Yes")
+            await FNBRMENA.Sections(userData.lang, "Yes")
             .then(async res => {
 
                 //get the sections as a minpulated data
@@ -114,15 +108,15 @@ module.exports = {
 
                 //registering fonts
                 Canvas.registerFont('./assets/font/Lalezar-Regular.ttf', {family: 'Arabic',weight: "700",style: "bold"});
-                Canvas.registerFont('./assets/font/BurbankBigCondensed-Black.otf' ,{family: 'Burbank Big Condensed',weight: "700",style: "bold"})
+                Canvas.registerFont('./assets/font/BurbankBigCondensed-Black.ttf' ,{family: 'Burbank Big Condensed',weight: "700",style: "bold"})
 
                 //applytext
                 const applyText = (canvas, text) => {
                     const ctx = canvas.getContext('2d')
                     let fontSize = 150
                     do {
-                        if(lang === "en") ctx.font = `${fontSize -= 1}px Burbank Big Condensed`
-                        else if(lang === "ar") ctx.font = `${fontSize -= 1}px Arabic`
+                        if(userData.lang === "en") ctx.font = `${fontSize -= 1}px Burbank Big Condensed`
+                        else if(userData.lang === "ar") ctx.font = `${fontSize -= 1}px Arabic`
                     } while (ctx.measureText(text).width > 1400)
                     return ctx.font
                 }
@@ -134,20 +128,11 @@ module.exports = {
                 //create background grediant
                 const grediant = ctx.createLinearGradient(0, canvas.height, canvas.width, 0)
 
-                //SectionsData index
-                var sectionsIndex = 0
-                var UpcomingEventsIndex = 0
-                for(let i = 0; i < Object.keys(SectionsData).length; i++){
-                    if(Object.keys(SectionsData)[i] === 'Sections') sectionsIndex = i
-                    if(Object.keys(SectionsData)[i] === 'UpcomingEvents') UpcomingEventsIndex = i
-                }
-
                 //get the upcoming events if there is one set to be active
-                const UpcomingEventsData = SectionsData[Object.keys(SectionsData)[UpcomingEventsIndex]]
-                for(let i = 0; i < Object.keys(SectionsData[Object.keys(SectionsData)[UpcomingEventsIndex]]).length; i++){
+                for(let i = 0; i < Object.keys(SectionsData['UpcomingEvents']).length; i++){
 
                     //constant to make the work easy
-                    const data = UpcomingEventsData[Object.keys(SectionsData[Object.keys(SectionsData)[UpcomingEventsIndex]])[i]]
+                    const data = SectionsData['UpcomingEvents'][Object.keys(SectionsData['UpcomingEvents'])[i]]
 
                     //if the object is set to be active
                     if(data.Status){
@@ -216,6 +201,16 @@ module.exports = {
                                     //drawimage
                                     ctx.drawImage(upcomingEventImage, xaxis, yaxis, imgWidth, imgHeight)
 
+                                    //trun off push if enabled
+                                    await admin.database().ref("ERA's").child("ShopSections").child("UpcomingEvents").child(`${Object.keys(SectionsData['UpcomingEvents'])[i]}`)
+                                    .child("Images").child(x).update({
+                                        X: xaxis,
+                                        Y: yaxis,
+                                        W: imgWidth,
+                                        H: imgHeight,
+                                        Scaling: false
+                                    })
+
                                 }else{
 
                                     //drawimage
@@ -237,14 +232,14 @@ module.exports = {
                 ctx.fillText("FNBRMENA", 33, 145)
 
                 //add the date
-                moment.locale(lang)
+                moment.locale(userData.lang)
                 ctx.fillStyle = '#ffffff'
                 ctx.textAlign='center'
-                if(lang === "en"){
-                    var date = moment.tz(moment(), timezone).format("dddd, MMMM Do of YYYY")
+                if(userData.lang === "en"){
+                    var date = moment.tz(moment(), userData.timezone).format("dddd, MMMM Do of YYYY")
                     ctx.font = '100px Burbank Big Condensed'
                 }else{
-                    var date = moment.tz(moment(), timezone).format("dddd, MMMM Do من YYYY")
+                    var date = moment.tz(moment(), userData.timezone).format("dddd, MMMM Do من YYYY")
                     ctx.font = '100px Arabic'
 
                 } ctx.fillText(date, canvas.width / 2, (canvas.height - 50))
@@ -252,7 +247,7 @@ module.exports = {
                 //section text
                 ctx.fillStyle = '#ffffff';
                 ctx.textAlign='center';
-                if(lang === "en"){
+                if(userData.lang === "en"){
 
                     ctx.font = '150px Burbank Big Condensed'
                     ctx.fillText("Shop Sections", canvas.width / 2, y)
@@ -273,20 +268,19 @@ module.exports = {
                     else var name = sections[i].id
 
                     //add the section to the embed string
-                    if(lang === "en") string += `• ${(i + 1)}: ${name} | ${sections[i].quantity} Tabs\n`
-                    else if(lang === "ar") string += `• ${(i + 1)}: ${name} | ${sections[i].quantity} صفحة\n`
+                    if(userData.lang === "en") string += `• ${(i + 1)}: ${name} | ${sections[i].quantity} Tabs\n`
+                    else if(userData.lang === "ar") string += `• ${(i + 1)}: ${name} | ${sections[i].quantity} صفحة\n`
 
                     //grediant
                     const grd = ctx.createLinearGradient(x, y, x + 1500, y)
 
                     //response data
                     var data = undefined
-                    var finder = Object.keys(SectionsData[Object.keys(SectionsData)[sectionsIndex]])
-                    for(let f = 0; f < finder.length; f++){
+                    for(let f = 0; f < Object.keys(SectionsData['Sections']).length; f++){
 
                         //finding a match
-                        if(sections[i].id.toLowerCase().includes(finder[f])){
-                            data = await SectionsData[Object.keys(SectionsData)[sectionsIndex]][finder[f]]
+                        if(sections[i].id.toLowerCase().includes(Object.keys(SectionsData['Sections'])[f])){
+                            data = await SectionsData['Sections'][Object.keys(SectionsData['Sections'])[f]]
                         }
                     }
 
@@ -355,10 +349,10 @@ module.exports = {
                     //add the section name
                     ctx.fillStyle = '#ffffff';
                     ctx.textAlign='center';
-                    if(lang === "en"){
+                    if(userData.lang === "en"){
                         applyText(canvas, name + " | " + sections[i].quantity + " Tabs")
                         ctx.fillText(name + " | " + sections[i].quantity + " Tabs", x + 750, y + 140)
-                    }else if(lang === "ar"){
+                    }else if(userData.lang === "ar"){
                         applyText(canvas, name + " | " + sections[i].quantity + " صفحة")
                         ctx.fillText(name + " | " + sections[i].quantity + " صفحة", x + 750, y + 140)
                     }
@@ -368,24 +362,23 @@ module.exports = {
                 }
 
                 //create embed
-                const SectionsEmbed = new Discord.MessageEmbed()
-
-                //add the color
+                const SectionsEmbed = new Discord.EmbedBuilder()
                 SectionsEmbed.setColor(FNBRMENA.Colors("embed"))
-
-                //add description
                 SectionsEmbed.setDescription(string)
 
                 //send
-                const att = new Discord.MessageAttachment(canvas.toBuffer(), 'section.png')
-                await message.channel.send(att)
-                await message.channel.send(SectionsEmbed)
+                const att = new Discord.AttachmentBuilder(canvas.toBuffer(), `${moment()}.png`)
+                await message.reply({embeds: [SectionsEmbed], files: [att]})
                 msg.delete()
+                
+            }).catch((err) => {
+                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
+    
             })
-        })
 
-        .catch((err) => {
-            console.log(err)
+        }).catch((err) => {
+            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
+
         })
-    },
+    }
 }

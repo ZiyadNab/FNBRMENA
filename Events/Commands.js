@@ -2,29 +2,36 @@ const moment = require('moment')
 
 module.exports = async (client, admin, commandsDataList) => {
 
-    //seeting up the db firestore
+    // Seeting up the db firestore
     var db = await admin.firestore()
 
-    //commands collection
+    // Commands collection
     const firestoreCommands = await db.collection("Commands")
     const commandList = await firestoreCommands.get()
     const commands = []
 
-    //add all the commands to an array
-    for(const command of commandsDataList) commands.push(command.commands)
+    // Add all the commands to an array
+    for(var command of commandsDataList){
 
-    //loop throw every command from the database
+        if(typeof command.commands === 'string') {
+            command.commands = [command.commands]
+        }
+
+        commands.push(command.commands[0])
+    }
+
+    // If the command in database doesn't have a file then delete it
     for(const data of commandList.docs)
         if(!commands.includes(data.id)) await firestoreCommands.doc(data.id).delete()
 
-    //loop throw every command from the bot
+    // Loop through every command from the bot
     for(var data of commandsDataList){
 
         if(typeof data.commands === 'string') {
             data.commands = [data.commands]
         }
 
-        //default data
+        // Default data
         const {
             type = null,
             descriptionEN = 'There is no explaination for this command YET',
@@ -39,20 +46,11 @@ module.exports = async (client, admin, commandsDataList) => {
             cooldown = -1,
         } = data
 
-        //json object to store in firestore database 
+        // A json object to store in firestore database 
         const commandData = {
-            commandStatus: {
-                Status: true,
-                by: null,
-                date: null,
-                reasonEN: null,
-                reasonAR: null,
-            },
-            Aliases: data.commands,
-
-            //add the command data stuff inside commandData
+            aliases: data.commands,
+            added: `${moment().format()}`,
             commandData: {
-                showInCommands: true,
                 type: type,
                 descriptionEN: descriptionEN,
                 descriptionAR: descriptionAR,
@@ -63,92 +61,89 @@ module.exports = async (client, admin, commandsDataList) => {
                 argsExample: argsExample,
                 minArgs: minArgs,
                 maxArgs: maxArgs,
-                cooldown: cooldown,
-            },
-            permissions: [],
-            roles: [],
-            added: `${moment().format()}`,
+                showInCommands: true,
+                premium: false,
+                cooldown: {
+                    filesSource: true,
+                    filesCooldown: cooldown,
+                    serversCooldown: -1
+                },
+                commandStatus: {
+                    status: true,
+                    by: null,
+                    date: null,
+                    reasonEN: null,
+                    reasonAR: null,
+                },
+                userBans: [],
+                permissions: [],
+                roles: [],
+            }
         }
 
-        //loop throw every aliases
-        for(let a = 0; a < data.commands.length; a++){
+        // Get the path for a command in firestore
+        const commandDoc = await firestoreCommands.doc(data.commands[0])
+        const snapshot = await commandDoc.get()
 
-            //get the path for commands in firestore
-            const commandDoc = await firestoreCommands.doc(data.commands[a])
-            const snapshot = await commandDoc.get()
+        // Check if the command data exists or not
+        if(!snapshot.exists) await commandDoc.set(commandData)  // Add the commandData object to the database
+        else{
 
-            //check if the command data exists or not
-            if(!snapshot.exists) await commandDoc.set(commandData)  //add the commandData object to the database
-            else{
+            // Check if the aliases has been changed
+            if(data.commands !== snapshot.data().aliases){
 
-                //loop throw every 
-                for(let i = 0; i < Object.keys(snapshot.data()).length; i++){
-
-                    //check the field data for Aliases
-                    if(Object.keys(snapshot.data())[i] === "Aliases"){
-
-                        //check if the aliases has been changed
-                        if(data.commands !== Object.values(snapshot.data())[i]){
-
-                            //json object to store in firestore database 
-                            const updatedCommandData = {
-                                Aliases: data.commands
-                            }
-
-                            //update aliases
-                            await commandDoc.update(updatedCommandData); 
-                        }
-                    }
-
-                    //check the field data for commandData
-                    if(Object.keys(snapshot.data())[i] === "commandData"){
-
-                        if(argsExample !== Object.values(snapshot.data())[i].argsExample) await commandDoc.update({
-                            'commandData.argsExample': argsExample
-                        })
-
-                        if(cooldown !== Object.values(snapshot.data())[i].cooldown) await commandDoc.update({
-                            'commandData.cooldown': cooldown
-                        })
-
-                        if(descriptionAR !== Object.values(snapshot.data())[i].descriptionAR) await commandDoc.update({
-                            'commandData.descriptionAR': descriptionAR
-                        })
-
-                        if(descriptionEN !== Object.values(snapshot.data())[i].descriptionEN) await commandDoc.update({
-                            'commandData.descriptionEN': descriptionEN
-                        })
-
-                        if(expectedArgsAR !== Object.values(snapshot.data())[i].expectedArgsAR) await commandDoc.update({
-                            'commandData.expectedArgsAR': expectedArgsAR
-                        })
-
-                        if(expectedArgsEN !== Object.values(snapshot.data())[i].expectedArgsEN) await commandDoc.update({
-                            'commandData.expectedArgsEN': expectedArgsEN
-                        })
-
-                        if(hintAR !== Object.values(snapshot.data())[i].hintAR) await commandDoc.update({
-                            'commandData.hintAR': hintAR
-                        })
-
-                        if(hintEN !== Object.values(snapshot.data())[i].hintEN) await commandDoc.update({
-                            'commandData.hintEN': hintEN
-                        })
-
-                        if(maxArgs !== Object.values(snapshot.data())[i].maxArgs) await commandDoc.update({
-                            'commandData.maxArgs': maxArgs
-                        })
-
-                        if(minArgs !== Object.values(snapshot.data())[i].minArgs) await commandDoc.update({
-                            'commandData.minArgs': minArgs
-                        })
-
-                        if(type !== Object.values(snapshot.data())[i].type) await commandDoc.update({
-                            'commandData.type': type
-                        })
-                    }
+                // Json object to store in firestore database 
+                const updatedCommandData = {
+                    aliases: data.commands
                 }
+
+                // Update aliases
+                await commandDoc.update(updatedCommandData); 
             }
+
+            if(argsExample !== snapshot.data().commandData.argsExample) await commandDoc.update({
+                'commandData.argsExample': argsExample
+            })
+
+            if(cooldown !== snapshot.data().commandData.cooldown) await commandDoc.update({
+                'commandData.cooldown.filesCooldown': cooldown
+            })
+
+            if(descriptionAR !== snapshot.data().commandData.descriptionAR) await commandDoc.update({
+                'commandData.descriptionAR': descriptionAR
+            })
+
+            if(descriptionEN !== snapshot.data().commandData.descriptionEN) await commandDoc.update({
+                'commandData.descriptionEN': descriptionEN
+            })
+
+            if(expectedArgsAR !== snapshot.data().commandData.expectedArgsAR) await commandDoc.update({
+                'commandData.expectedArgsAR': expectedArgsAR
+            })
+
+            if(expectedArgsEN !== snapshot.data().commandData.expectedArgsEN) await commandDoc.update({
+                'commandData.expectedArgsEN': expectedArgsEN
+            })
+
+            if(hintAR !== snapshot.data().commandData.hintAR) await commandDoc.update({
+                'commandData.hintAR': hintAR
+            })
+
+            if(hintEN !== snapshot.data().commandData.hintEN) await commandDoc.update({
+                'commandData.hintEN': hintEN
+            })
+
+            if(maxArgs !== snapshot.data().commandData.maxArgs) await commandDoc.update({
+                'commandData.maxArgs': maxArgs
+            })
+
+            if(minArgs !== snapshot.data().commandData.minArgs) await commandDoc.update({
+                'commandData.minArgs': minArgs
+            })
+
+            if(type !== snapshot.data().commandData.type) await commandDoc.update({
+                'commandData.type': type
+            })
         }
     }
 }

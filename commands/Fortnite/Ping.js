@@ -1,15 +1,18 @@
 module.exports = {
     commands: 'ping',
-    type: 'Fortnite',
+    type: 'Bot Status',
     minArgs: 0,
     maxArgs: 0,
     cooldown: -1,
     permissionError: 'Sorry you do not have acccess to this command',
-    callback: async (FNBRMENA, message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji, greenStatus, redStatus) => {
+    callback: async (FNBRMENA, message, args, text, Discord, client, admin, userData, alias, emojisObject) => {
         
-        //get the user language from the database
-        const lang = await FNBRMENA.Admin(admin, message, "", "Lang")
+        message.reply({content: 'Calculating ping...'})
+        .then(async replyMessage => {
+            const ping = replyMessage.createdTimestamp - message.createdTimestamp
 
-        message.channel.send("Pong")
-    },
+            message.reply({content: `Hey <@${message.author.id}>,\n**Bot latency:** ${ping}ms, **API latency:** ${client.ws.ping}ms`})
+            replyMessage.delete()
+        })
+    }
 }

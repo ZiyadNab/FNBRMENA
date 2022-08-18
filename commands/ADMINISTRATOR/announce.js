@@ -1,4 +1,4 @@
-const config = require('../../Coinfigs/config.json')
+const config = require('../../Configs/config.json')
 
 module.exports = {
     commands: 'announce',
@@ -7,42 +7,34 @@ module.exports = {
     maxArgs: null,
     cooldown: -1,
     permissionError: 'Sorry you do not have acccess to this command',
-    callback: (FNBRMENA, message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji, greenStatus, redStatus) => {
-        admin.database().ref("ERA's").child("Users").child(message.author.id).once('value', async function (data) {
-            var lang = data.val().lang
+    callback: async (FNBRMENA, message, args, text, Discord, client, admin, userData, alias, emojisObject) => {
+        
+        //get rules channel id
+        const announceMessage = await client.channels.cache.find(channel => channel.id === config.channels.announce)
 
-            var announce = text.substring(0, text.indexOf("+"))
-            var des = text.replace("+", "")
+        //inislizing embed
+        const announceEmbed = new Discord.EmbedBuilder()
+        announceEmbed.setColor(FNBRMENA.Colors("embed"))
+        announceEmbed.setDescription(text)
 
-            //create embed
-            const messageAnnounce = new Discord.MessageEmbed()
+        //send the message
+        await announceMessage.send({embeds: [announceEmbed]})
+        .then(() => {
 
-            //set color
-            messageAnnounce.setColor(FNBRMENA.Colors("embed"))
+            //inislizing embed
+            const successfullySent = new Discord.EmbedBuilder()
+            successfullySent.setColor(FNBRMENA.Colors("embedSuccess"))
+            if(userData.lang === "en") successfullySent.setTitle(`Announcment has been successfully sent ${emojisObject.checkEmoji}`)
+            else if(userData.lang === "ar") successfullySent.setTitle(`تم نشر الخبر بنجاح ${emojisObject.checkEmoji}`)
+            message.reply({embeds: [successfullySent]})
+        }).catch(() => {
 
-            //set title
-            messageAnnounce.setTitle(announce)
-            messageAnnounce.setDescription(des)
-            const accounce = client.channels.cache.find(channel => channel.id === config.channels.announce)
-            if (accounce.send(messageAnnounce)) {
-                const messageAnnounceDone = new Discord.MessageEmbed()
-                messageAnnounceDone.setColor(FNBRMENA.Colors("embed"))
-                if (lang === "en") {
-                    messageAnnounceDone.setTitle(`The announcement has been published ${checkEmoji}`)
-                } else if (lang === "ar") {
-                    messageAnnounceDone.setTitle(`تم نشر الخبر ${checkEmoji}`)
-                }
-                message.channel.send(messageAnnounceDone)
-            } else {
-                const messageAnnounceNotDone = new Discord.MessageEmbed()
-                messageAnnounceNotDone.setColor(FNBRMENA.Colors("embed"))
-                if (lang === "en") {
-                    messageAnnounceNotDone.setTitle(`There was an error publishing this announcement ${errorEmoji}`)
-                } else if (lang === "ar") {
-                    messageAnnounceNotDone.setTitle(`يوجد مشكلة في عملية نشر الخبر ${errorEmoji}`)
-                }
-                message.channel.send(messageAnnounceNotDone)
-            }
+            //inislizing embed
+            const errSent = new Discord.EmbedBuilder()
+            errSent.setColor(FNBRMENA.Colors("embedSuccess"))
+            if(userData.lang === "en") errSent.setTitle(`There was an error while sending the message please ask the Owner for help ${emojisObject.checkEmoji}`)
+            else if(userData.lang === "ar") errSent.setTitle(`يوجد مشكلة اثناء نشر الأخبار الرجاء التواصل مع الـ Owner لحل المشكلة ${emojisObject.checkEmoji}`)
+            message.reply({embeds: [errSent]})
         })
-    },
+    }
 }

@@ -5,25 +5,26 @@ module.exports = {
     maxArgs: null,
     cooldown: -1,
     permissionError: 'Sorry you do not have acccess to this command',
-    callback: async (FNBRMENA, message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji, greenStatus, redStatus, disTube) => {
-
-        //get the user language from the database
-        const lang = await FNBRMENA.Admin(admin, message, "", "Lang")
+    callback: async (FNBRMENA, message, args, text, Discord, client, admin, userData, alias, emojisObject) => {
 
         //if the user isnt in a voice chat
         if (!message.member.voice.channel){
-            const err = new Discord.MessageEmbed()
-            err.setColor(FNBRMENA.Colors("embed"))
-            if(lang === "en"){
-                err.setTitle(`Ay u r not in a voice channel ${errorEmoji}`)
-            }else if(lang === "ar"){
-                err.setTitle(`يا ذكي ادخل محادثه صوتيه ${errorEmoji}`)
-            }
-            return message.channel.send(err)
+            const notInAVoiceChannelErr = new Discord.EmbedBuilder()
+            notInAVoiceChannelErr.setColor(FNBRMENA.Colors("embedError"))
+            notInAVoiceChannelErr.setTitle(`Please join a voice channel first. ${emojisObject.errorEmoji}`)
+            return message.reply({embeds: [notInAVoiceChannelErr]})
+            
         }
 
         //play the music
-        await disTube.play(message, text)
+        await client.disTube.play(message.member.voice.channel, text, {
+            member: message.member,
+            textChannel: message.channel,
+            message
+            
+        }).catch(err => {
+            message.reply(err.message)
+        })
 
     }
 }

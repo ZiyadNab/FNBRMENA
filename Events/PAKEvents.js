@@ -1,17 +1,8 @@
 const axios = require('axios')
 const Canvas = require('canvas');
 const Discord = require('discord.js')
-const config = require('../Coinfigs/config.json')
-const fort = require("fortnite-api-com");
-const credintials = {
-    apikey: "a7eabb1fa5a6e59cbcda3a6885d42f02be0d76ea",
-    language: "en",
-    debug: true
-};
 
-var Fortnite = new fort(credintials);
-
-module.exports = (client, admin) => {
+module.exports = (FNBRMENA, client, admin, emojisObject) => {
     const message = client.channels.cache.find(channel => channel.id === config.events.PAK)
 
     //result
@@ -26,61 +17,53 @@ module.exports = (client, admin) => {
         admin.database().ref("ERA's").child("Events").child("pak").once('value', async function (data) {
 
             //soring database data
-            var status = data.val().Active;
-            var lang = data.val().Lang;
-            var push = data.val().Push
+            const status = data.val().Active;
+            const lang = data.val().Lang;
+            const push = data.val().Push
 
             //if the event is set to be true [ON]
-            if(status === true){
+            if(status){
                 
                 //request data
-                Fortnite.AES()
+                FNBRMENA.AES()
                 .then(async res => {
 
                     //store the first time data
                     if(number === 0){
 
                         //storing pak files...
-                        for(let i = 0; i < res.data.dynamicKeys.length; i++){
-                            pakFilename[i] = await res.data.dynamicKeys[i].pakFilename
+                        for(let i = 0; i < res.data.data.dynamicKeys.length; i++){
+                            pakFilename[i] = await res.data.data.dynamicKeys[i].pakFilename
                         }
 
                         //store aes
-                        aes = await res.data.build
+                        aes = await res.data.data.build
                         number++
                     }
 
                     //push new data
-                    if(push === true){
+                    if(push){
                         pakFilename = []
                     }
 
                     //storing pak files...
-                    for(let i = 0; i < res.data.dynamicKeys.length; i++){
-                        response[i] = await res.data.dynamicKeys[i].pakFilename
+                    for(let i = 0; i < res.data.data.dynamicKeys.length; i++){
+                        response[i] = await res.data.data.dynamicKeys[i].pakFilename
                     }
 
                     //when a new update released
-                    if(res.data.build !== aes){
+                    if(res.data.data.build !== aes){
 
                         //create embed
-                        const aesMessage = new Discord.MessageEmbed()
-
-                        //add color
-                        aesMessage.setColor('#00ffff')
-
-                        //set title
+                        const aesMessage = new Discord.EmbedBuilder()
+                        aesMessage.setColor(FNBRMENA.Colors("embed"))
                         if(lang === "en") aesMessage.setTitle("New Update Has Been Found!")
                         else if(lang === "ar") aesMessage.setTitle("توفر تحديث جديد!")
-                        
-                        //set description
-                        aesMessage.setDescription(res.data.build)
-
-                        //send
-                        message.send(aesMessage)
+                        aesMessage.setDescription(res.data.data.build)
+                        message.send({embeds: [aesMessage]})
 
                         //store aes build number
-                        aes = await res.data.build
+                        aes = await res.data.data.build
                     }
 
                     if(JSON.stringify(pakFilename) !== JSON.stringify(response)){
@@ -91,7 +74,7 @@ module.exports = (client, admin) => {
                             //trying to find the new file
                             if(!pakFilename.includes(response[i])){
 
-                                const newPak = await res.data.dynamicKeys.filter(found => {
+                                const newPak = await res.data.data.dynamicKeys.filter(found => {
                                     return found.pakFilename === response[i]
                                 })
                                 
@@ -105,7 +88,7 @@ module.exports = (client, admin) => {
                                         var pakNumber = await newPak[0].pakFilename.substring(8, newPak[0].pakFilename.indexOf("-"))
                                         
                                         //create embed
-                                        const pak = new Discord.MessageEmbed()
+                                        const pak = new Discord.EmbedBuilder()
 
                                         //add color
                                         pak.setColor('#00ffff')
@@ -115,10 +98,10 @@ module.exports = (client, admin) => {
                                         else if(lang === "ar") pak.setTitle("تم فك التشفير عن ملف " + pakNumber)
                                         
                                         //set description
-                                        pak.setDescription("PAK File: " + newPak[0].pakFilename + "\nPAK Guid: " + res.data.dynamicKeys[i].pakGuid + "\nKey: " + res.data.dynamicKeys[i].key)
+                                        pak.setDescription("PAK File: " + newPak[0].pakFilename + "\nPAK Guid: " + res.data.data.dynamicKeys[i].pakGuid + "\nKey: " + res.data.data.dynamicKeys[i].key)
 
                                         //send
-                                        message.send(pak)
+                                        message.send({embeds: [pak]})
 
                                     }
                                 }
@@ -126,8 +109,8 @@ module.exports = (client, admin) => {
                         }
                         
                         //storing pak files...
-                        for(let i = 0; i < res.data.dynamicKeys.length; i++){
-                            pakFilename[i] = await res.data.dynamicKeys[i].pakFilename
+                        for(let i = 0; i < res.data.data.dynamicKeys.length; i++){
+                            pakFilename[i] = await res.data.data.dynamicKeys[i].pakFilename
                         }
 
                         //trun off push if enabled
@@ -135,8 +118,9 @@ module.exports = (client, admin) => {
                             Push: false
                         })
                     }
-                }).catch(err => {
-                    console.log("The issue is in Pak Events ", err)
+                }).catch(async err => {
+                    FNBRMENA.eventsLogs(admin, client, err, 'pak')
+        
                 })
             }
         })

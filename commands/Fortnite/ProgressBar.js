@@ -9,46 +9,32 @@ module.exports = {
     maxArgs: 0,
     cooldown: 15,
     permissionError: 'Sorry you do not have acccess to this command',
-    callback: async (FNBRMENA, message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji, greenStatus, redStatus) => {
-
-        //get the user language from the database
-        const lang = await FNBRMENA.Admin(admin, message, "", "Lang")
-
-        //get the user timezone from the database
-        const timezone = await FNBRMENA.Admin(admin, message, "", "Timezone")
+    callback: async (FNBRMENA, message, args, text, Discord, client, admin, userData, alias, emojisObject) => {
 
         //request progress data
         const progressData = await FNBRMENA.Admin(admin, message, "", "Progress")
 
         //generating animation
-        const generating = new Discord.MessageEmbed()
+        const generating = new Discord.EmbedBuilder()
         generating.setColor(FNBRMENA.Colors("embed"))
-        if(lang === "en") generating.setTitle(`Loading data ${loadingEmoji}`)
-        else if(lang === "ar") generating.setTitle(`جاري تحميل البيانات ${loadingEmoji}`)
-        message.channel.send(generating)
-        .then( async msg => {
+        if(userData.lang === "en") generating.setTitle(`Loading data ${emojisObject.loadingEmoji}`)
+        else if(userData.lang === "ar") generating.setTitle(`جاري تحميل البيانات ${emojisObject.loadingEmoji}`)
+        message.reply({embeds: [generating]})
+        .then(async msg => {
 
             //inislizing moment
             const Now = moment()
 
             //registering fonts
             Canvas.registerFont('./assets/font/Lalezar-Regular.ttf', {family: 'Arabic',weight: "700",style: "bold"});
-            Canvas.registerFont('./assets/font/BurbankBigCondensed-Black.otf' ,{family: 'Burbank Big Condensed',weight: "700",style: "bold"})
-
-            //progressData index
-            var index = 0
-            var UpcomingEventsIndex = 0
-            for(let i = 0; i < Object.keys(progressData).length; i++){
-                if(Object.keys(progressData)[i] === 'progressData') index = i
-                if(Object.keys(progressData)[i] === 'UpcomingEvents') UpcomingEventsIndex = i
-            }
+            Canvas.registerFont('./assets/font/BurbankBigCondensed-Black.ttf' ,{family: 'Burbank Big Condensed',weight: "700",style: "bold"})
 
             //get how many bars r set to true [ACTIVE]
             var active = 0
-            for(let i = 0; i < Object.keys(progressData[Object.keys(progressData)[index]]).length; i++){
+            for(let i = 0; i < Object.keys(progressData['progressData']).length; i++){
 
                 //response data
-                var data = progressData[Object.keys(progressData)[index]][Object.keys(progressData[Object.keys(progressData)[index]])[i]].Status
+                var data = progressData['progressData'][Object.keys(progressData['progressData'])[i]].Status
 
                 //if the status is true
                 if(data) active += 1
@@ -63,11 +49,10 @@ module.exports = {
             const grediant = ctx.createLinearGradient(0, canvas.height, canvas.width, 0)
 
             //get the upcoming events if there is one set to be active
-            const UpcomingEventsData = progressData[Object.keys(progressData)[UpcomingEventsIndex]]
-            for(let i = 0; i < Object.keys(progressData[Object.keys(progressData)[UpcomingEventsIndex]]).length; i++){
+            for(let i = 0; i < Object.keys(progressData['UpcomingEvents']).length; i++){
 
                 //constant to make the work easy
-                const data = UpcomingEventsData[Object.keys(progressData[Object.keys(progressData)[UpcomingEventsIndex]])[i]]
+                const data = progressData['UpcomingEvents'][Object.keys(progressData['UpcomingEvents'])[i]]
 
                 //if the object is set to be active
                 if(data.Status){
@@ -136,6 +121,16 @@ module.exports = {
                                 //drawimage
                                 ctx.drawImage(upcomingEventImage, xaxis, yaxis, imgWidth, imgHeight)
 
+                                //trun off push if enabled
+                                await admin.database().ref("ERA's").child("Progress").child("UpcomingEvents").child(`${Object.keys(progressData['UpcomingEvents'])[i]}`)
+                                .child("Images").child(x).update({
+                                    X: xaxis,
+                                    Y: yaxis,
+                                    W: imgWidth,
+                                    H: imgHeight,
+                                    Scaling: false
+                                })
+
                             }else{
 
                                 //drawimage
@@ -147,12 +142,14 @@ module.exports = {
                             ctx.globalAlpha = 1
                         }
                     }
+
+                    break
                 }
             }
 
             //add FNBRMENA credit
             ctx.fillStyle = '#ffffff';
-            ctx.textAlign='left';
+            ctx.textAlign = 'left';
             ctx.font = '200px Burbank Big Condensed'
             ctx.fillText("FNBRMENA", 50, 200)
 
@@ -165,8 +162,8 @@ module.exports = {
                 colors, objectIcon, finishedStringEN, finishedStringAR, previewDay) => {
 
                 //font
-                if(lang === "en") ctx.font = '60px Burbank Big Condensed'
-                else if(lang === "ar") ctx.font = '60px Arabic'
+                if(userData.lang === "en") ctx.font = '60px Burbank Big Condensed'
+                else if(userData.lang === "ar") ctx.font = '60px Arabic'
 
                 //objectIcon
                 if(objectIcon !== 'no data') ctx.drawImage(objectIcon, x - 220, y - 20, 210, 210)
@@ -213,14 +210,14 @@ module.exports = {
                 if(left <= previewDay){
 
                     //check language
-                    if(lang === "en" && finishedStringEN !== null){
+                    if(userData.lang === "en" && finishedStringEN !== null){
 
                         //add the string in EN
                         ctx.fillStyle = '#ffffff';
                         ctx.textAlign='center';
                         ctx.font = '100px Burbank Big Condensed'
                         ctx.fillText(finishedStringEN, x + (objectPercent / 2), y + 110)
-                    }else if(lang === "ar" && finishedStringAR !== null){
+                    }else if(userData.lang === "ar" && finishedStringAR !== null){
 
                         //add the string in AR
                         ctx.fillStyle = '#ffffff';
@@ -254,10 +251,10 @@ module.exports = {
             }
 
             //loop throw every progress
-            for(let i = 0; i < Object.keys(progressData[Object.keys(progressData)[index]]).length; i ++){
+            for(let i = 0; i < Object.keys(progressData['progressData']).length; i ++){
 
                 //response data
-                var data = progressData[Object.keys(progressData)[index]][Object.keys(progressData[Object.keys(progressData)[index]])[i]]
+                var data = progressData['progressData'][Object.keys(progressData['progressData'])[i]]
 
                 //if the bar is set to active
                 if(data.Status){
@@ -270,40 +267,40 @@ module.exports = {
                     const grd = ctx.createLinearGradient(x, 1500, x + 1500, 3000)
 
                     //inisilizing starts and ends durations
-                    const durationEnds = moment.duration(moment.tz(data.Ends, timezone).diff(moment.tz(Now, timezone)))
-                    const durationStarts = moment.duration(moment.tz(Now, timezone).diff(moment.tz(data.Starts, timezone)))
+                    const durationEnds = moment.duration(moment.tz(data.Ends, userData.timezone).diff(moment.tz(Now, userData.timezone)))
+                    const durationStarts = moment.duration(moment.tz(Now, userData.timezone).diff(moment.tz(data.Starts, userData.timezone)))
 
                     //Get days and subtract from duration
                     const leftDays = Number(durationEnds.asDays().toString().substring(0, durationEnds.asDays().toString().indexOf(".")))
                     const goneDays = Number(durationStarts.asDays().toString().substring(0, durationStarts.asDays().toString().indexOf(".")))
 
-                    if(lang === "en") var goneText = `${goneDays} Days gone`
-                    else if(lang === "ar") var goneText = `${goneDays} يوم مضى`
-                    if(lang === "en") var leftText = `${leftDays} Days left`
-                    else if(lang === "ar") var leftText = `${leftDays} يوم متبقي`
+                    if(userData.lang === "en") var goneText = `${goneDays} Days gone`
+                    else if(userData.lang === "ar") var goneText = `${goneDays} يوم مضى`
+                    if(userData.lang === "en") var leftText = `${leftDays} Days left`
+                    else if(userData.lang === "ar") var leftText = `${leftDays} يوم متبقي`
 
                     //formating left
                     if(leftDays <= 10 && leftDays >= 1){
-                        if(lang === "en") leftText = `${leftDays} day(s) and ${durationEnds.hours()} hours left`
-                        else if(lang === "ar") leftText = `${leftDays} يوم و ${durationEnds.hours()} ساعة متبقية`
+                        if(userData.lang === "en") leftText = `${leftDays} day(s) and ${durationEnds.hours()} hours left`
+                        else if(userData.lang === "ar") leftText = `${leftDays} يوم و ${durationEnds.hours()} ساعة متبقية`
 
                     }else if(leftDays < 1){
 
                         //if only hours left
-                        if(lang === "en") leftText = `${durationEnds.hours()} hours and ${durationEnds.minutes()} minuets left`
-                        else if(lang === "ar") leftText = `${durationEnds.hours()} ساعة و ${durationEnds.minutes()} دقيقة متبيقة`
+                        if(userData.lang === "en") leftText = `${durationEnds.hours()} hours and ${durationEnds.minutes()} minuets left`
+                        else if(userData.lang === "ar") leftText = `${durationEnds.hours()} ساعة و ${durationEnds.minutes()} دقيقة متبيقة`
                     }
 
                     //formating gone
                     if(goneDays <= 10 && goneDays >= 1){
-                        if(lang === "en") goneText = `${goneDays} day(s) and ${durationStarts.hours()} hours gone`
-                        else if(lang === "ar") goneText = `${goneDays} يوم و ${durationStarts.hours()} ساعة مضت`
+                        if(userData.lang === "en") goneText = `${goneDays} day(s) and ${durationStarts.hours()} hours gone`
+                        else if(userData.lang === "ar") goneText = `${goneDays} يوم و ${durationStarts.hours()} ساعة مضت`
 
                     }else if(goneDays < 1){
                         
                         //if only hours gone
-                        if(lang === "en") goneText = `${durationStarts.hours()} hours and ${durationStarts.minutes()} minuets gone`
-                        else if(lang === "ar") goneText = `${durationStarts.hours()} ساعة و ${durationStarts.minutes()} دقيقة مضت`
+                        if(userData.lang === "en") goneText = `${durationStarts.hours()} hours and ${durationStarts.minutes()} minuets gone`
+                        else if(userData.lang === "ar") goneText = `${durationStarts.hours()} ساعة و ${durationStarts.minutes()} دقيقة مضت`
                     }
 
                     //if there is finished string
@@ -330,48 +327,48 @@ module.exports = {
             }
 
             //Crew Object
-            const Ends = moment.tz(moment(`${Now.format("YYYY")}-${moment().add(1, 'months').format("MM")}-01T00:00:00.000Z`), timezone)
-            const Starts = moment.tz(moment(`${Now.format("YYYY")}-${Now.format("MM")}-01T00:00:00.000Z`), timezone)
+            const Ends = moment.tz(moment(`${Now.format("YYYY")}-${moment().add(1, 'months').format("MM")}-01T00:00:00.000Z`), userData.timezone)
+            const Starts = moment.tz(moment(`${Now.format("YYYY")}-${Now.format("MM")}-01T00:00:00.000Z`), userData.timezone)
             const crew = await Canvas.loadImage('https://imgur.com/7Sp9z5H.png')
 
             //adding the gradiant
             const grd = ctx.createLinearGradient(x, 1500, x + 1500, 3000)
 
             //inisilizing starts and ends durations
-            const durationEnds = moment.duration(Ends.diff(Now))
-            const durationStarts = moment.duration(Now.diff(Starts))
+            const durationEnds = moment.duration(moment.tz(Ends, userData.timezone).diff(moment.tz(Now, userData.timezone)))
+            const durationStarts = moment.duration(moment.tz(Now, userData.timezone).diff(moment.tz(Starts, userData.timezone)))
 
             //Get days and subtract from duration
             const leftDays = Number(durationEnds.asDays().toString().substring(0, durationEnds.asDays().toString().indexOf(".")))
             const goneDays = Number(durationStarts.asDays().toString().substring(0, durationStarts.asDays().toString().indexOf(".")))
 
-            if(lang === "en") var goneText = `${goneDays} Days gone`
-            else if(lang === "ar") var goneText = `${goneDays} يوم مضى`
-            if(lang === "en") var leftText = `${leftDays} Days left`
-            else if(lang === "ar") var leftText = `${leftDays} يوم متبقي`
+            if(userData.lang === "en") var goneText = `${goneDays} Days gone`
+            else if(userData.lang === "ar") var goneText = `${goneDays} يوم مضى`
+            if(userData.lang === "en") var leftText = `${leftDays} Days left`
+            else if(userData.lang === "ar") var leftText = `${leftDays} يوم متبقي`
 
             //formating left
             if(leftDays <= 10 && leftDays >= 1){
-                if(lang === "en") leftText = `${leftDays} day(s) and ${durationEnds.hours()} hours left`
-                else if(lang === "ar") leftText = `${leftDays} يوم و ${durationEnds.hours()} ساعة متبقية`
+                if(userData.lang === "en") leftText = `${leftDays} day(s) and ${durationEnds.hours()} hours left`
+                else if(userData.lang === "ar") leftText = `${leftDays} يوم و ${durationEnds.hours()} ساعة متبقية`
 
             }else if(leftDays < 1){
 
                 //if only hours left
-                if(lang === "en") leftText = `${durationEnds.hours()} hours and ${durationEnds.minutes()} minuets left`
-                else if(lang === "ar") leftText = `${durationEnds.hours()} ساعة و ${durationEnds.minutes()} دقيقة متبيقة`
+                if(userData.lang === "en") leftText = `${durationEnds.hours()} hours and ${durationEnds.minutes()} minuets left`
+                else if(userData.lang === "ar") leftText = `${durationEnds.hours()} ساعة و ${durationEnds.minutes()} دقيقة متبيقة`
             }
 
             //formating gone
             if(goneDays <= 10 && goneDays >= 1){
-                if(lang === "en") goneText = `${goneDays} day(s) and ${durationStarts.hours()} hours gone`
-                else if(lang === "ar") goneText = `${goneDays} يوم و ${durationStarts.hours()} ساعة مضت`
+                if(userData.lang === "en") goneText = `${goneDays} day(s) and ${durationStarts.hours()} hours gone`
+                else if(userData.lang === "ar") goneText = `${goneDays} يوم و ${durationStarts.hours()} ساعة مضت`
 
             }else if(goneDays < 1){
                 
                 //if only hours gone
-                if(lang === "en") goneText = `${durationStarts.hours()} hours and ${durationStarts.minutes()} minuets gone`
-                else if(lang === "ar") goneText = `${durationStarts.hours()} ساعة و ${durationStarts.minutes()} دقيقة مضت`
+                if(userData.lang === "en") goneText = `${durationStarts.hours()} hours and ${durationStarts.minutes()} minuets gone`
+                else if(userData.lang === "ar") goneText = `${durationStarts.hours()} ساعة و ${durationStarts.minutes()} دقيقة مضت`
             }
 
             //if there is finished string
@@ -390,11 +387,11 @@ module.exports = {
 
             //send the message
             try {
-                const att = new Discord.MessageAttachment(canvas.toBuffer(), 'progress.png')
-                await message.channel.send(att)
+                const att = new Discord.AttachmentBuilder(canvas.toBuffer(), 'progress.png')
+                await message.reply({files: [att]})
             } catch {
-                const att = new Discord.MessageAttachment(canvas.toBuffer('image/jpeg', {quality: 0.9}), 'progress.jpg')
-                await message.channel.send(att)
+                const att = new Discord.AttachmentBuilder(canvas.toBuffer('image/jpeg', {quality: 0.9}), 'progress.jpg')
+                await message.reply({files: [att]})
             }
             msg.delete()
         })

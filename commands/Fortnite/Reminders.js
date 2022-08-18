@@ -7,91 +7,85 @@ module.exports = {
     maxArgs: 0,
     cooldown: -1,
     permissionError: 'Sorry you do not have acccess to this command',
-    callback: async (FNBRMENA, message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji, greenStatus, redStatus) => {
+    callback: async (FNBRMENA, message, args, text, Discord, client, admin, userData, alias, emojisObject) => {
 
-        //get the user language from the database
-        const lang = await FNBRMENA.Admin(admin, message, "", "Lang")
-
-        //seeting up the db firestore
-        var db = await admin.firestore()
-
-        //data
-        var string = ""
-        var counter = 0
-        var names = []
-
-        const generating = new Discord.MessageEmbed()
+        const generating = new Discord.EmbedBuilder()
         generating.setColor(FNBRMENA.Colors("embed"))
-        if(lang === "en") generating.setTitle(`Getting all of the reminders under your account ${loadingEmoji}`)
-        if(lang === "ar") generating.setTitle(`جاري جلب جميع التنبيهات لحسابك ${loadingEmoji}`)
-        message.channel.send(generating)
-        .then( async msg => {
+        if(userData.lang === "en") generating.setTitle(`Getting all of the reminders under your account ${emojisObject.loadingEmoji}`)
+        if(userData.lang === "ar") generating.setTitle(`جاري جلب جميع التنبيهات لحسابك ${emojisObject.loadingEmoji}`)
+        message.reply({embeds: [generating]})
+        .then(async msg => {
+
+            //seeting up the db firestore
+            var db = await admin.firestore()
 
             //define the collection
-            const docRef = await db.collection("Reminders")
+            const docRef = await db.collection("Users").doc(`${message.author.id}`).collection("Reminders")
 
             //get the collection data
             const snapshot = await docRef.get()
-            
-            //get every single collection
-            for(let i = 0; i < snapshot.size; i++){
-
-                //if the id is undefined
-                if(await snapshot.docs[i].data().id !== undefined){
-
-                    //if the data user ID matching the message author
-                    if(await snapshot.docs[i].data().id === message.author.id){
-
-                        //get the item name
-                        await FNBRMENA.Search(lang, "id", snapshot.docs[i].data().mainId)
-                        .then(async res => {
-
-                            //long client has been waiting for
-                            moment.locale(lang)
-                            var Now = moment()
-                            var long = moment(snapshot.docs[i].data().date)
-                            const day = Now.diff(long, 'days')
-                            
-                            //add every reminder to the array
-                            if(lang === "en") string += "• " + counter + ": " + await res.data.items[0].name + " | Days Waiting: " + day + "\n"
-                            else if(lang === "ar") string += "• " + counter + ": " + await res.data.items[0].name + " | الايام المنتظرة: " + day + "\n"
-                            names[counter] = await res.data.items[0].name
-                            counter++
-
-                        })
-                    }
-                }
-            }
 
             //if the user has no reminders
-            if(names.length !== 0){
+            if(snapshot.size > 0){
+
+                //get every single collection
+                var string = ``
+                for(let i = 0; i < snapshot.size; i++){
+
+                    //get the item name
+                    await FNBRMENA.Search(userData.lang, "id", snapshot.docs[i].id)
+                    .then(async res => {
+
+                        //long client has been waiting for
+                        moment.locale(userData.lang)
+                        var Now = moment()
+                        var long = moment(snapshot.docs[i].data().date)
+                        const day = Now.diff(long, 'days')
+                        
+                        //add every reminder to the array
+                        if((i + 1) != snapshot.size){
+                            if(userData.lang === "en") string += `${emojisObject.countEmoji} ${res.data.items[0].name} \`${day} Waiting days.\`\n`
+                            else if(userData.lang === "ar") string += `${res.data.items[0].name} \`${day} يوم منتظر.\`\n`
+
+                        }else{
+                            if(userData.lang === "en") string += `${emojisObject.endEmoji} ${res.data.items[0].name} \`${day} Waiting days.\`\n`
+                            else if(userData.lang === "ar") string += `${res.data.items[0].name} \`${day} يوم منتظر.\`\n`
+                        }
+
+                    //handeling errors
+                    }).catch(err => {
+                        FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
+
+                    })
+                }
 
                 //creeate embed
-                const Reminders = new Discord.MessageEmbed()
-
-                //add the color
-                Reminders.setColor(FNBRMENA.Colors("embed"))
-
-                //add title
-                if(lang === "en") Reminders.setTitle("All the reminders for your account")
-                else if(lang === "ar") Reminders.setTitle("جميع التذكيرات لحسابك")
-
-                //add description
-                Reminders.setDescription(string)
-
-                //send the message
-                await message.channel.send(Reminders)
+                const remindersEmbed = new Discord.EmbedBuilder()
+                remindersEmbed.setColor(FNBRMENA.Colors("embed"))
+                if(userData.lang === "en"){
+                    remindersEmbed.setTitle(`Reminders for ${message.author.username}`)
+                    remindersEmbed.setDescription(`You will be notified when these items are in the Item Shop.\nAdd & remove items with remind and unremind. \n\n${string}\n\n${emojisObject.starwars} You can add ${20 - snapshot.size} more reminders (${snapshot.size}/20).`)
+                }else if(userData.lang === "ar"){
+                    remindersEmbed.setTitle(`التذكيرات لـ ${message.author.username}`)
+                    remindersEmbed.setDescription(`سوف يتم تنبيهك في حال توفر احد العناصر التاليه في متجر العناصر.\nاضف & احذف العناصر بأستخدام remind و unremind. \n\n${string}\n\n${emojisObject.starwars} يمكنك اضافة ${20 - snapshot.size} من المذكرات (${snapshot.size}/20).`)
+                }
+                await message.reply({embeds: [remindersEmbed]})
                 msg.delete()
 
             }else{
 
                 //create embed
-                const err = new Discord.MessageEmbed()
-                err.setColor(FNBRMENA.Colors("embed"))
-                if(lang === "en") err.setTitle(`You dont have any reminders ${errorEmoji}`)
-                else if(lang === "ar") err.setTitle(`ليس لديك اي عنصر للتذكير ${errorEmoji}`)
-                msg.edit(err)
+                const noRemindersFoundError = new Discord.EmbedBuilder()
+                noRemindersFoundError.setColor(FNBRMENA.Colors("embedError"))
+                if(userData.lang === "en") noRemindersFoundError.setTitle(`You dont have any reminders ${emojisObject.errorEmoji}`)
+                else if(userData.lang === "ar") noRemindersFoundError.setTitle(`ليس لديك اي عنصر للتذكير ${emojisObject.errorEmoji}`)
+                msg.edit({embeds: [noRemindersFoundError]})
             }
+            
+        //handeling errors
+        }).catch(err => {
+            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
+
         })
     }
 }

@@ -8,20 +8,17 @@ module.exports = {
     maxArgs: 0,
     cooldown: 30,
     permissionError: 'Sorry you do not have acccess to this command',
-    callback: async (FNBRMENA, message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji, greenStatus, redStatus) => {
+    callback: async (FNBRMENA, message, args, text, Discord, client, admin, userData, alias, emojisObject) => {
 
-        //get the user language from the database
-        const lang = await FNBRMENA.Admin(admin, message, "", "Lang")
-
-        FNBRMENA.itemshop(lang)
+        FNBRMENA.itemshop(userData.lang)
         .then(async res => {
 
             //generating animation
-            const generating = new Discord.MessageEmbed()
+            const generating = new Discord.EmbedBuilder()
             generating.setColor(FNBRMENA.Colors("embed"))
-            if(lang === "en") generating.setTitle(`Loading a total ${res.data.shop.length} cosmetics please wait... ${loadingEmoji}`)
-            else if(lang === "ar") generating.setTitle(`تحميل جميع العناصر بمجموع ${res.data.shop.length} عنصر الرجاء الانتظار... ${loadingEmoji}`)
-            message.channel.send(generating)
+            if(userData.lang === "en") generating.setTitle(`Loading a total ${res.data.shop.length} cosmetics please wait... ${emojisObject.loadingEmoji}`)
+            else if(userData.lang === "ar") generating.setTitle(`تحميل جميع العناصر بمجموع ${res.data.shop.length} عنصر الرجاء الانتظار... ${emojisObject.loadingEmoji}`)
+            message.reply({embeds: [generating]})
             .then( async msg => {
 
                 //creating array of objects
@@ -203,7 +200,7 @@ module.exports = {
                 //changing the value of the lines to 0
                 Lines = 0;
                 if(LimitedTime.length !== 0){
-                    if(lang === "en"){
+                    if(userData.lang === "en"){
                         if(Featured.length % FeaturedSection === 0){
                             height += 637
                             for(let i = 0; i < LimitedTime.length; i++){
@@ -223,7 +220,7 @@ module.exports = {
                                 Lines++;
                             }
                         } 
-                    } else if(lang === "ar"){
+                    } else if(userData.lang === "ar"){
                         if(SpecialFeatured.length !== 0){
                             if(SpecialFeatured.length % SpecialFeaturedSection === 0){
                                 height += 637
@@ -244,7 +241,7 @@ module.exports = {
                                     Lines++;
                                 }
                             }
-                        } else if(Daily.length % 3 === 0){
+                        } else if(res.data.daily.length % 3 === 0){
                             height += 762
                             for(let i = 0; i < LimitedTime.length; i++){
                                 if(3 === Lines){
@@ -275,18 +272,18 @@ module.exports = {
                     if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
                         let fontSize = 75;
                         do {
-                            if(lang === "en"){
+                            if(userData.lang === "en"){
                                 ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
-                            }else if(lang === "ar"){
+                            }else if(userData.lang === "ar"){
                                 ctx.font = `${fontSize -= 1}px Arabic`;
                             }
                         } while (ctx.measureText(text).width > 400);
                     }else{
                         let fontSize = 30;
                         do {
-                            if(lang === "en"){
+                            if(userData.lang === "en"){
                                 ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
-                            }else if(lang === "ar"){
+                            }else if(userData.lang === "ar"){
                                 ctx.font = `${fontSize -= 1}px Arabic`;
                             }
                         } while (ctx.measureText(text).width > 210);
@@ -296,7 +293,7 @@ module.exports = {
 
                 //Register fonts
                 Canvas.registerFont('./assets/font/Lalezar-Regular.ttf', {family: 'Arabic',weight: "700",style: "bold"});
-                Canvas.registerFont('./assets/font/BurbankBigCondensed-Black.otf' ,{family: 'Burbank Big Condensed',weight: "700",style: "bold"})
+                Canvas.registerFont('./assets/font/BurbankBigCondensed-Black.ttf' ,{family: 'Burbank Big Condensed',weight: "700",style: "bold"})
 
                 //creating canvas
                 const canvas = Canvas.createCanvas(width, height);
@@ -307,24 +304,24 @@ module.exports = {
                 ctx.drawImage(background, 0, 0, canvas.width, canvas.height)
 
                 //code
-                if(lang === "en"){
+                if(userData.lang === "en"){
                     const code = await Canvas.loadImage('./assets/Credits/code.png')
                     ctx.drawImage(code, 50, (height - 150), 500, 100)
-                }else if(lang === "ar"){
+                }else if(userData.lang === "ar"){
                     const code = await Canvas.loadImage('./assets/Credits/codeAR.png')
                     ctx.drawImage(code, (canvas.width - 550), (height - 150), 500, 100)
                 }
 
                 //date
                 var date
-                if(lang === "en"){
+                if(userData.lang === "en"){
                     moment.locale("en")
                     date = moment(res.data.lastUpdate.date).format("dddd, MMMM Do of YYYY")
                     ctx.fillStyle = '#ffffff';
                     ctx.textAlign='center';
                     ctx.font = `100px Burbank Big Condensed`
                     ctx.fillText(date, (width / 2), (height - 50))
-                }else if(lang === "ar"){
+                }else if(userData.lang === "ar"){
                     moment.locale("ar")
                     date = moment(res.data.lastUpdate.date).format("dddd, MMMM Do من YYYY")
                     ctx.fillStyle = '#ffffff';
@@ -377,7 +374,7 @@ module.exports = {
                         ctx.drawImage(skin, x, y, WidthC, HeightC)
                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderLegendary.png')
                         ctx.drawImage(skinborder, x, y, WidthC, HeightC)
-                        if(lang === "en"){
+                        if(userData.lang === "en"){
                             if(newItem === true){
                                 const newItem = await Canvas.loadImage('./assets/Shop/new.png')
                                 ctx.drawImage(newItem, x - 10, y - 15, BannerW, BannerH)
@@ -399,7 +396,7 @@ module.exports = {
                             ctx.textAlign='left';
                             const v = await Canvas.loadImage(vbucks);
                             ctx.drawImage(v, (vBucksX + x), (y + vBucksY), vBucksW, vBucksH);
-                        }else if(lang === "ar"){
+                        }else if(userData.lang === "ar"){
                             if(newItem === true){
                                 const newItem = await Canvas.loadImage('./assets/Shop/newAR.png')
                                 ctx.drawImage(newItem, x - 10, y - 15, BannerW, BannerH)
@@ -433,7 +430,7 @@ module.exports = {
                         ctx.drawImage(skin, x, y, WidthC, HeightC)
                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderEpic.png')
                         ctx.drawImage(skinborder, x, y, WidthC, HeightC)
-                        if(lang === "en"){
+                        if(userData.lang === "en"){
                             if(newItem === true){
                                 const newItem = await Canvas.loadImage('./assets/Shop/new.png')
                                 ctx.drawImage(newItem, x - 10, y - 15, BannerW, BannerH)
@@ -455,7 +452,7 @@ module.exports = {
                             ctx.textAlign='left';
                             const v = await Canvas.loadImage(vbucks);
                             ctx.drawImage(v, (vBucksX + x), (y + vBucksY), vBucksW, vBucksH);
-                        }else if(lang === "ar"){
+                        }else if(userData.lang === "ar"){
                             if(newItem === true){
                                 const newItem = await Canvas.loadImage('./assets/Shop/newAR.png')
                                 ctx.drawImage(newItem, x - 10, y - 15, BannerW, BannerH)
@@ -489,7 +486,7 @@ module.exports = {
                         ctx.drawImage(skin, x, y, WidthC, HeightC)
                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderRare.png')
                         ctx.drawImage(skinborder, x, y, WidthC, HeightC)
-                        if(lang === "en"){
+                        if(userData.lang === "en"){
                             if(newItem === true){
                                 const newItem = await Canvas.loadImage('./assets/Shop/new.png')
                                 ctx.drawImage(newItem, x - 10, y - 15, BannerW, BannerH)
@@ -511,7 +508,7 @@ module.exports = {
                             ctx.textAlign='left';
                             const v = await Canvas.loadImage(vbucks);
                             ctx.drawImage(v, (vBucksX + x), (y + vBucksY), vBucksW, vBucksH);
-                        }else if(lang === "ar"){
+                        }else if(userData.lang === "ar"){
                             if(newItem === true){
                                 const newItem = await Canvas.loadImage('./assets/Shop/newAR.png')
                                 ctx.drawImage(newItem, x - 10, y - 15, BannerW, BannerH)
@@ -545,7 +542,7 @@ module.exports = {
                         ctx.drawImage(skin, x, y, WidthC, HeightC)
                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderUncommon.png')
                         ctx.drawImage(skinborder, x, y, WidthC, HeightC)
-                        if(lang === "en"){
+                        if(userData.lang === "en"){
                             if(newItem === true){
                                 const newItem = await Canvas.loadImage('./assets/Shop/new.png')
                                 ctx.drawImage(newItem, x - 10, y - 15, BannerW, BannerH)
@@ -567,7 +564,7 @@ module.exports = {
                             ctx.textAlign='left';
                             const v = await Canvas.loadImage(vbucks);
                             ctx.drawImage(v, (vBucksX + x), (y + vBucksY), vBucksW, vBucksH);
-                        }else if(lang === "ar"){
+                        }else if(userData.lang === "ar"){
                             if(newItem === true){
                                 const newItem = await Canvas.loadImage('./assets/Shop/newAR.png')
                                 ctx.drawImage(newItem, x - 10, y - 15, BannerW, BannerH)
@@ -601,7 +598,7 @@ module.exports = {
                         ctx.drawImage(skin, x, y, WidthC, HeightC)
                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderCommon.png')
                         ctx.drawImage(skinborder, x, y, WidthC, HeightC)
-                        if(lang === "en"){
+                        if(userData.lang === "en"){
                             if(newItem === true){
                                 const newItem = await Canvas.loadImage('./assets/Shop/new.png')
                                 ctx.drawImage(newItem, x - 10, y - 15, BannerW, BannerH)
@@ -623,7 +620,7 @@ module.exports = {
                             ctx.textAlign='left';
                             const v = await Canvas.loadImage(vbucks);
                             ctx.drawImage(v, (vBucksX + x), (y + vBucksY), vBucksW, vBucksH);
-                        }else if(lang === "ar"){
+                        }else if(userData.lang === "ar"){
                             if(newItem === true){
                                 const newItem = await Canvas.loadImage('./assets/Shop/newAR.png')
                                 ctx.drawImage(newItem, x - 10, y - 15, BannerW, BannerH)
@@ -657,7 +654,7 @@ module.exports = {
                         ctx.drawImage(skin, x, y, WidthC, HeightC)
                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderMarvel.png')
                         ctx.drawImage(skinborder, x, y, WidthC, HeightC)
-                        if(lang === "en"){
+                        if(userData.lang === "en"){
                             if(newItem === true){
                                 const newItem = await Canvas.loadImage('./assets/Shop/new.png')
                                 ctx.drawImage(newItem, x - 10, y - 15, BannerW, BannerH)
@@ -680,7 +677,7 @@ module.exports = {
                             ctx.textAlign='left';
                             const v = await Canvas.loadImage(vbucks);
                             ctx.drawImage(v, (vBucksX + x), (y + vBucksY), vBucksW, vBucksH);
-                        }else if(lang === "ar"){
+                        }else if(userData.lang === "ar"){
                             if(newItem === true){
                                 const newItem = await Canvas.loadImage('./assets/Shop/newAR.png')
                                 ctx.drawImage(newItem, x - 10, y - 15, BannerW, BannerH)
@@ -712,7 +709,7 @@ module.exports = {
                         ctx.drawImage(skin, x, y, WidthC, HeightC)
                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderDc.png')
                         ctx.drawImage(skinborder, x, y, WidthC, HeightC)
-                        if(lang === "en"){
+                        if(userData.lang === "en"){
                             if(newItem === true){
                                 const newItem = await Canvas.loadImage('./assets/Shop/new.png')
                                 ctx.drawImage(newItem, x - 10, y - 15, BannerW, BannerH)
@@ -734,7 +731,7 @@ module.exports = {
                             ctx.textAlign='left';
                             const v = await Canvas.loadImage(vbucks);
                             ctx.drawImage(v, (vBucksX + x), (y + vBucksY), vBucksW, vBucksH);
-                        }else if(lang === "ar"){
+                        }else if(userData.lang === "ar"){
                             if(newItem === true){
                                 const newItem = await Canvas.loadImage('./assets/Shop/newAR.png')
                                 ctx.drawImage(newItem, x - 10, y - 15, BannerW, BannerH)
@@ -768,7 +765,7 @@ module.exports = {
                         ctx.drawImage(skin, x, y, WidthC, HeightC)
                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderDark.png')
                         ctx.drawImage(skinborder, x, y, WidthC, HeightC)
-                        if(lang === "en"){
+                        if(userData.lang === "en"){
                             if(newItem === true){
                                 const newItem = await Canvas.loadImage('./assets/Shop/new.png')
                                 ctx.drawImage(newItem, x - 10, y - 15, BannerW, BannerH)
@@ -790,7 +787,7 @@ module.exports = {
                             ctx.textAlign='left';
                             const v = await Canvas.loadImage(vbucks);
                             ctx.drawImage(v, (vBucksX + x), (y + vBucksY), vBucksW, vBucksH);
-                        }else if(lang === "ar"){
+                        }else if(userData.lang === "ar"){
                             if(newItem === true){
                                 const newItem = await Canvas.loadImage('./assets/Shop/newAR.png')
                                 ctx.drawImage(newItem, x - 10, y - 15, BannerW, BannerH)
@@ -824,7 +821,7 @@ module.exports = {
                         ctx.drawImage(skin, x, y, WidthC, HeightC)
                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderIcon.png')
                         ctx.drawImage(skinborder, x, y, WidthC, HeightC)
-                        if(lang === "en"){
+                        if(userData.lang === "en"){
                             if(newItem === true){
                                 const newItem = await Canvas.loadImage('./assets/Shop/new.png')
                                 ctx.drawImage(newItem, x - 10, y - 15, BannerW, BannerH)
@@ -846,7 +843,7 @@ module.exports = {
                             ctx.textAlign='left';
                             const v = await Canvas.loadImage(vbucks);
                             ctx.drawImage(v, (vBucksX + x), (y + vBucksY), vBucksW, vBucksH);
-                        }else if(lang === "ar"){
+                        }else if(userData.lang === "ar"){
                             if(newItem === true){
                                 const newItem = await Canvas.loadImage('./assets/Shop/newAR.png')
                                 ctx.drawImage(newItem, x - 10, y - 15, BannerW, BannerH)
@@ -880,7 +877,7 @@ module.exports = {
                         ctx.drawImage(skin, x, y, WidthC, HeightC)
                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderStarwars.png')
                         ctx.drawImage(skinborder, x, y, WidthC, HeightC)
-                        if(lang === "en"){
+                        if(userData.lang === "en"){
                             if(newItem === true){
                                 const newItem = await Canvas.loadImage('./assets/Shop/new.png')
                                 ctx.drawImage(newItem, x - 10, y - 15, BannerW, BannerH)
@@ -902,7 +899,7 @@ module.exports = {
                             ctx.textAlign='left';
                             const v = await Canvas.loadImage(vbucks);
                             ctx.drawImage(v, (vBucksX + x), (y + vBucksY), vBucksW, vBucksH);
-                        }else if(lang === "ar"){
+                        }else if(userData.lang === "ar"){
                             if(newItem === true){
                                 const newItem = await Canvas.loadImage('./assets/Shop/newAR.png')
                                 ctx.drawImage(newItem, x - 10, y - 15, BannerW, BannerH)
@@ -936,7 +933,7 @@ module.exports = {
                         ctx.drawImage(skin, x, y, WidthC, HeightC)
                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderShadow.png')
                         ctx.drawImage(skinborder, x, y, WidthC, HeightC)
-                        if(lang === "en"){
+                        if(userData.lang === "en"){
                             if(newItem === true){
                                 const newItem = await Canvas.loadImage('./assets/Shop/new.png')
                                 ctx.drawImage(newItem, x - 10, y - 15, BannerW, BannerH)
@@ -958,7 +955,7 @@ module.exports = {
                             ctx.textAlign='left';
                             const v = await Canvas.loadImage(vbucks);
                             ctx.drawImage(v, (vBucksX + x), (y + vBucksY), vBucksW, vBucksH);
-                        }else if(lang === "ar"){
+                        }else if(userData.lang === "ar"){
                             if(newItem === true){
                                 const newItem = await Canvas.loadImage('./assets/Shop/newAR.png')
                                 ctx.drawImage(newItem, x - 10, y - 15, BannerW, BannerH)
@@ -992,7 +989,7 @@ module.exports = {
                         ctx.drawImage(skin, x, y, WidthC, HeightC)
                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderSlurp.png')
                         ctx.drawImage(skinborder, x, y, WidthC, HeightC)
-                        if(lang === "en"){
+                        if(userData.lang === "en"){
                             if(newItem === true){
                                 const newItem = await Canvas.loadImage('./assets/Shop/new.png')
                                 ctx.drawImage(newItem, x - 10, y - 15, BannerW, BannerH)
@@ -1014,7 +1011,7 @@ module.exports = {
                             ctx.textAlign='left';
                             const v = await Canvas.loadImage(vbucks);
                             ctx.drawImage(v, (vBucksX + x), (y + vBucksY), vBucksW, vBucksH);
-                        }else if(lang === "ar"){
+                        }else if(userData.lang === "ar"){
                             if(newItem === true){
                                 const newItem = await Canvas.loadImage('./assets/Shop/newAR.png')
                                 ctx.drawImage(newItem, x - 10, y - 15, BannerW, BannerH)
@@ -1048,7 +1045,7 @@ module.exports = {
                         ctx.drawImage(skin, x, y, WidthC, HeightC)
                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderFrozen.png')
                         ctx.drawImage(skinborder, x, y, WidthC, HeightC)
-                        if(lang === "en"){
+                        if(userData.lang === "en"){
                             if(newItem === true){
                                 const newItem = await Canvas.loadImage('./assets/Shop/new.png')
                                 ctx.drawImage(newItem, x - 10, y - 15, BannerW, BannerH)
@@ -1070,7 +1067,7 @@ module.exports = {
                             ctx.textAlign='left';
                             const v = await Canvas.loadImage(vbucks);
                             ctx.drawImage(v, (vBucksX + x), (y + vBucksY), vBucksW, vBucksH);
-                        }else if(lang === "ar"){
+                        }else if(userData.lang === "ar"){
                             if(newItem === true){
                                 const newItem = await Canvas.loadImage('./assets/Shop/newAR.png')
                                 ctx.drawImage(newItem, x - 10, y - 15, BannerW, BannerH)
@@ -1104,7 +1101,7 @@ module.exports = {
                         ctx.drawImage(skin, x, y, WidthC, HeightC)
                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderLava.png')
                         ctx.drawImage(skinborder, x, y, WidthC, HeightC)
-                        if(lang === "en"){
+                        if(userData.lang === "en"){
                             if(newItem === true){
                                 const newItem = await Canvas.loadImage('./assets/Shop/new.png')
                                 ctx.drawImage(newItem, x - 10, y - 15, BannerW, BannerH)
@@ -1126,7 +1123,7 @@ module.exports = {
                             ctx.textAlign='left';
                             const v = await Canvas.loadImage(vbucks);
                             ctx.drawImage(v, (vBucksX + x), (y + vBucksY), vBucksW, vBucksH);
-                        }else if(lang === "ar"){
+                        }else if(userData.lang === "ar"){
                             if(newItem === true){
                                 const newItem = await Canvas.loadImage('./assets/Shop/newAR.png')
                                 ctx.drawImage(newItem, x - 10, y - 15, BannerW, BannerH)
@@ -1160,7 +1157,7 @@ module.exports = {
                         ctx.drawImage(skin, x, y, WidthC, HeightC)
                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderGaming.png')
                         ctx.drawImage(skinborder, x, y, WidthC, HeightC)
-                        if(lang === "en"){
+                        if(userData.lang === "en"){
                             if(newItem === true){
                                 const newItem = await Canvas.loadImage('./assets/Shop/new.png')
                                 ctx.drawImage(newItem, x - 10, y - 15, BannerW, BannerH)
@@ -1182,7 +1179,7 @@ module.exports = {
                             ctx.textAlign='left';
                             const v = await Canvas.loadImage(vbucks);
                             ctx.drawImage(v, (vBucksX + x), (y + vBucksY), vBucksW, vBucksH);
-                        }else if(lang === "ar"){
+                        }else if(userData.lang === "ar"){
                             if(newItem === true){
                                 const newItem = await Canvas.loadImage('./assets/Shop/newAR.png')
                                 ctx.drawImage(newItem, x - 10, y - 15, BannerW, BannerH)
@@ -1215,7 +1212,7 @@ module.exports = {
                         ctx.drawImage(skin, x, y, WidthC, HeightC)
                         const skinborder = await Canvas.loadImage('./assets/Rarities/standard/borderCommon.png')
                         ctx.drawImage(skinborder, x, y, WidthC, HeightC)
-                        if(lang === "en"){
+                        if(userData.lang === "en"){
                             if(newItem === true){
                                 const newItem = await Canvas.loadImage('./assets/Shop/new.png')
                                 ctx.drawImage(newItem, x - 10, y - 15, BannerW, BannerH)
@@ -1237,7 +1234,7 @@ module.exports = {
                             ctx.textAlign='left';
                             const v = await Canvas.loadImage(vbucks);
                             ctx.drawImage(v, (vBucksX + x), (y + vBucksY), vBucksW, vBucksH);
-                        }else if(lang === "ar"){
+                        }else if(userData.lang === "ar"){
                             if(newItem === true){
                                 const newItem = await Canvas.loadImage('./assets/Shop/newAR.png')
                                 ctx.drawImage(newItem, x - 10, y - 15, BannerW, BannerH)
@@ -1270,12 +1267,12 @@ module.exports = {
                 Lines = 0
 
                 //Featured
-                if(lang === "en"){
+                if(userData.lang === "en"){
                     ctx.fillStyle = '#ffffff';
                     ctx.textAlign='left';
                     ctx.font = '75px Burbank Big Condensed'
                     ctx.fillText("Featured", x, (y - 25))
-                }else if(lang === "ar"){
+                }else if(userData.lang === "ar"){
                     if(FeaturedSection === 3){
                         ctx.fillStyle = '#ffffff';
                         ctx.textAlign='right';
@@ -1341,11 +1338,11 @@ module.exports = {
 
                 //Daily
 
-                if(lang === "en"){
+                if(userData.lang === "en"){
                     ctx.fillStyle = '#ffffff';
                     ctx.font = '75px Burbank Big Condensed'
                     ctx.fillText("Daily", x, (y - 25))
-                }else if(lang === "ar"){
+                }else if(userData.lang === "ar"){
                     ctx.fillStyle = '#ffffff';
                     ctx.textAlign='right';
                     ctx.font = '75px Arabic'
@@ -1411,11 +1408,11 @@ module.exports = {
                 }
 
                 //SpecialFeatured
-                if(lang === "en"){
+                if(userData.lang === "en"){
                     ctx.fillStyle = '#ffffff';
                     ctx.font = '75px Burbank Big Condensed'
                     ctx.fillText("Special Featured", x, (y - 25))
-                }else if(lang === "ar"){
+                }else if(userData.lang === "ar"){
                     if(SpecialFeaturedSection === 3){
                         ctx.fillStyle = '#ffffff';
                         ctx.textAlign='right';
@@ -1479,7 +1476,7 @@ module.exports = {
 
                 //Limited Time
                 Lines = 0
-                if(lang === "en"){
+                if(userData.lang === "en"){
                     x = 256
                     y = canvas.height - (150 + 75 + 512)
                     for(let i = 0; i< LimitedTime.length; i++){
@@ -1488,7 +1485,7 @@ module.exports = {
                         }
                         Lines++
                     }
-                }else if(lang == "ar"){
+                }else if(userData.lang == "ar"){
                     x = canvas.width - (125 + 512 + 12)
                     y = canvas.height - (150 + 75 + 512)
                     for(let i = 0; i< LimitedTime.length; i++){
@@ -1500,11 +1497,11 @@ module.exports = {
                 }
 
                 if(LimitedTime.length !== 0){
-                    if(lang === "en"){
+                    if(userData.lang === "en"){
                         ctx.fillStyle = '#ffffff';
                         ctx.font = '75px Burbank Big Condensed'
                         ctx.fillText("Bundles", x, (y - 27))
-                    }else if(lang === "ar"){
+                    }else if(userData.lang === "ar"){
                         ctx.fillStyle = '#ffffff';
                         ctx.textAlign='right';
                         ctx.font = '75px Arabic'
@@ -1543,17 +1540,17 @@ module.exports = {
                         ,vBucksH, CreditX, CreditY, CreditW, CreditH, textSize, BannerW, BannerH)
 
                     // changing x and y
-                    if(lang === "en"){
+                    if(userData.lang === "en"){
                         x = x + 12 + 512;
-                    }else if(lang === "ar"){
+                    }else if(userData.lang === "ar"){
                         x = x - (12 + 512);
                     }
                     if (Lines === 3){
-                        if(lang === "en"){
+                        if(userData.lang === "en"){
                             y = y + 12 + 512;
                             Lines = 0
                             x = 125
-                        }else if(lang === "ar"){
+                        }else if(userData.lang === "ar"){
                             y = y + 12 + 512;
                             Lines = 0
                             x = canvas.width - (125 + 512 + 12)
@@ -1562,14 +1559,14 @@ module.exports = {
                 }
 
                 //sending message
-                const sending = new Discord.MessageEmbed()
+                const sending = new Discord.EmbedBuilder()
                 sending.setColor(FNBRMENA.Colors("embed"))
-                if(lang === "en") sending.setTitle(`Sending the image please wait ${loadingEmoji}`)
-                else if(lang === "ar") sending.setTitle(`جاري ارسال الصورة الرجاء الانتظار ${loadingEmoji}`)
+                if(userData.lang === "en") sending.setTitle(`Sending the image please wait ${emojisObject.loadingEmoji}`)
+                else if(userData.lang === "ar") sending.setTitle(`جاري ارسال الصورة الرجاء الانتظار ${emojisObject.loadingEmoji}`)
                 msg.edit(sending)
 
-                const att = new Discord.MessageAttachment(canvas.toBuffer(), res.data.lastUpdate.uid + '.png')
-                await message.channel.send(att)
+                const att = new Discord.AttachmentBuilder(canvas.toBuffer(), res.data.lastUpdate.uid + '.png')
+                await message.reply({files: [att]})
                 msg.delete()
             })
         })

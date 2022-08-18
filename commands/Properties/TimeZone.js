@@ -7,14 +7,10 @@ module.exports = {
     minArgs: 1,
     maxArgs: 1,
     permissionError: 'Sorry you do not have acccess to this command',
-    callback: async (FNBRMENA, message, args, text, Discord, client, admin, alias, errorEmoji, checkEmoji, loadingEmoji, greenStatus, redStatus) => {
+    callback: async (FNBRMENA, message, args, text, Discord, client, admin, userData, alias, emojisObject) => {
 
-        //get the user language from the database
-        const lang = await FNBRMENA.Admin(admin, message, "", "Lang")
-
-        //if there is more than one city found
-        var num = 0
-        var handleErrors = 0
+        //seeting up the db firestore
+        var db = await admin.firestore()
 
         //filter
         const timezone = moment.tz.names().filter(city => {
@@ -24,123 +20,111 @@ module.exports = {
         //check if its found or not
         if(timezone.length !== 0){
 
-            //if there is more than one timezone ffound
-            if(timezone.length > 1){
+            //if there is more than one timezone found
+            if(timezone.length < 25){
 
-                //create embed
-                const choose = new Discord.MessageEmbed()
-
-                //add the color
-                choose.setColor(FNBRMENA.Colors("embed"))
-
-                //create and fill a string of names
-                var str = ``
-                for(let i = 0; i < timezone.length; i++){
-                    str += `• ${i}: ${timezone[i]}\n`
+                //create an embed
+                const allTimezonesEmbed = new Discord.EmbedBuilder()
+                allTimezonesEmbed.setColor(FNBRMENA.Colors("embed"))
+                if(userData.lang === "en"){
+                    allTimezonesEmbed.setTitle(`Cosmetics Type`)
+                    allTimezonesEmbed.setDescription('Please click on the Drop-Down menu and choose a cosmetic type.\n`You have only 30 seconds until this operation ends, Make it quick`!')
+                }else if(userData.lang === "ar"){
+                    allTimezonesEmbed.setTitle(`نوع العناصر`)
+                    allTimezonesEmbed.setDescription('الرجاء الضغط على السهم لاختيار نوع العناصر.\n`لديك فقط 30 ثانية حتى تنتهي العملية, استعجل`!')
                 }
 
-                //add description
-                choose.setDescription(str)
+                //create a row for cancel button
+                const buttonDataRow = new Discord.ActionRowBuilder()
+                
+                //add EN cancel button
+                if(userData.lang === "en") buttonDataRow.addComponents(
+                    new Discord.ButtonBuilder()
+                    .setCustomId('Cancel')
+                    .setStyle(Discord.ButtonStyle.Danger)
+                    .setLabel("Cancel")
+                )
+                
+                //add AR cancel button
+                else if(userData.lang === "ar") buttonDataRow.addComponents(
+                    new Discord.ButtonBuilder()
+                    .setCustomId('Cancel')
+                    .setStyle(Discord.ButtonStyle.Danger)
+                    .setLabel("اغلاق")
+                )
+                
+                //create a row for drop down menu for categories
+                const allTimezonesRow = new Discord.ActionRowBuilder()
 
-                //send the choices
-                await message.channel.send(choose)
-                .then( async msg => {
+                //loop throw every patch
+                var timezones = []
+                for(let i = 0; i < timezone.length; i++) timezones.push({
+                    label: `${timezone[i]}`,
+                    value: `${i}`
+                })
 
-                    //filtering
-                    const filter = m => m.author.id === message.author.id
+                //create a select menu
+                const allTimezonesDropMenu = new Discord.SelectMenuBuilder()
+                allTimezonesDropMenu.setCustomId('timezone')
+                if(userData.lang === "en") allTimezonesDropMenu.setPlaceholder('Select a time zone!')
+                else if(userData.lang === "ar") allTimezonesDropMenu.setPlaceholder('اختر وحدة زمنية!')
+                allTimezonesDropMenu.addOptions(timezones)
 
-                    //send the reply to the user
-                    if(lang === "en") reply = "please choose from above list the command will stop listen in 20 sec"
-                    else if(lang === "ar") reply = "الرجاء الاختيار من القائمة بالاعلى، سوف ينتهي الامر خلال ٢٠ ثانية"
+                //add the drop menu to the categoryDropMenu
+                allTimezonesRow.addComponents(allTimezonesDropMenu)
 
-                    //send the reply
-                    await message.reply(reply)
-                    .then( async notify => {
+                //send the message
+                const dropMenuMessage = await message.reply({embeds: [allTimezonesEmbed], components: [allTimezonesRow, buttonDataRow]})
 
-                        //await messages
-                        await message.channel.awaitMessages(filter, {max: 1, time: 20000})
-                        .then( async collected => {
+                //filtering the user clicker
+                const filter = i => i.user.id === message.author.id
 
-                            //deleting messages
-                            msg.delete()
-                            notify.delete()
+                //await for the user
+                await message.channel.awaitMessageComponent({filter, time: 30000})
+                .then(async collected => {
+                    collected.deferUpdate();
 
-                            //if the user input in range
-                            if(await collected.first().content >= 0 && collected.first().content < timezone.length){
+                    //if cancel button has been clicked
+                    if(collected.customId === "Cancel"){
+                        cancelled = true
+                        dropMenuMessage.delete()
+                    }
 
-                                //store user input
-                                num = await collected.first().content
+                    //if a user chose a timezone
+                    if(collected.customId === "timezone"){
+                        dropMenuMessage.delete()
 
-                            }else{
-
-                                //add error
-                                handleErrors++
-
-                                //create embed
-                                const error = new Discord.MessageEmbed()
-                                error.setColor(FNBRMENA.Colors("embed"))
-                                if(lang === "en") error.setTitle(`Sorry we canceled your process becuase u selected a number out of range ${errorEmoji}`)
-                                else if(lang === "ar") error.setTitle(`تم ايقاف الامر بسبب اختيارك لرقم خارج النطاق ${errorEmoji}`)
-                                message.reply(error)
-                                
-                            }
-                        }).catch(err => {
-
-                            //add error
-                            handleErrors++
-
-                            //deleting messages
-                            msg.delete()
-                            notify.delete()
-
-                            //create embed
-                            const error = new Discord.MessageEmbed()
-                            error.setColor(FNBRMENA.Colors("embed"))
-                            if(lang === "en") error.setTitle(`Sorry we canceled your process becuase no method has been selected ${errorEmoji}`)
-                            else if(lang === "ar") error.setTitle(`تم ايقاف الامر بسبب عدم اختيارك لطريقة ${errorEmoji}`)
-                            message.reply(error)
+                        //Update the user's timezone
+                        await db.collection("Users").doc(message.member.user.id).update({
+                            timezone: timezone[collected.values[0]]
                         })
-                    })
-                }).catch(err => {
 
-                    //add error
-                    handleErrors++
-
-                    //deleting messages
-                    msg.delete()
-                    notify.delete()
-
-                    //create embed
-                    const error = new Discord.MessageEmbed()
-                    error.setColor(FNBRMENA.Colors("embed"))
-                    if(lang === "en") error.setTitle(`Request entry too large ${errorEmoji}`)
-                    else if(lang === "ar") error.setTitle(`تم تخطي الكمية المحدودة من عدد المناطق ${errorEmoji}`)
-                    message.reply(error)
-                })
-            }
-
-            //add the data if there is no errors
-            if(handleErrors === 0){
-                await admin.database().ref("ERA's").child("Users").child(message.member.user.id).update({
-                    timezone: timezone[num]
+                        //Create sucess embed
+                        const successfullyChangedUserTimezoneEmbed = new Discord.EmbedBuilder()
+                        successfullyChangedUserTimezoneEmbed.setColor(FNBRMENA.Colors("embedSuccess"))
+                        if(userData.lang === "en") successfullyChangedUserTimezoneEmbed.setTitle(`You have successfully changed your timezone to ${timezone[collected.values[0]]} ${emojisObject.checkEmoji}.`)
+                        else if(userData.lang === "ar") successfullyChangedUserTimezoneEmbed.setTitle(`تم تغير وحدة الزمن الخاص بك بنجاح الي ${timezone[collected.values[0]]} ${emojisObject.checkEmoji}.`)
+                        message.reply({embeds: [successfullyChangedUserTimezoneEmbed]})
+                    }
                 })
 
-                //create sucess embed
-                const confirmed = new Discord.MessageEmbed()
-                confirmed.setColor(FNBRMENA.Colors("embed"))
-                if(lang === "en") confirmed.setTitle(`You have successfully changed your timezone to ${timezone[num]} ${checkEmoji}`)
-                else if(lang === "ar") confirmed.setTitle(`تم تغير زمن المنطقة الخاص بك بنجاح الي ${timezone[num]} ${checkEmoji}`)
-                message.channel.send(confirmed)
-            }
+            }else{
 
+                //Create an error embed
+                const outOfRangeError = new Discord.EmbedBuilder()
+                outOfRangeError.setColor(FNBRMENA.Colors("embedError"))
+                if(userData.lang === "en") outOfRangeError.setTitle(`Too many timezones were found, please be specific ${emojisObject.errorEmoji}.`)
+                else if(userData.lang === "ar") outOfRangeError.setTitle(`تم العثور على الكثير من الوحدات الزمنية, من فضلك كن محددا ${emojisObject.errorEmoji}.`)
+                message.reply({embeds: [outOfRangeError]})
+            }
         }else{
 
-            //create error embed
-            const err = new Discord.MessageEmbed()
-            err.setColor(FNBRMENA.Colors("embed"))
-            if(lang === "en") err.setTitle(`Can't find the requested timezone ${errorEmoji}`)
-            else if(lang === "ar") err.setTitle(`لا يمكنني العثور على اسم زمن المنطقة المكتوب ${errorEmoji}`)
-            message.channel.send(err)
+            //Create an error embed
+            const noTimezonesHasBeenFoundErr = new Discord.EmbedBuilder()
+            noTimezonesHasBeenFoundErr.setColor(FNBRMENA.Colors("embedError"))
+            if(userData.lang === "en") noTimezonesHasBeenFoundErr.setTitle(`Can't find the requested timezone ${emojisObject.errorEmoji}.`)
+            else if(userData.lang === "ar") noTimezonesHasBeenFoundErr.setTitle(`لا يمكنني العثور على اسم الوحدة الزمنية المطلوبة ${emojisObject.errorEmoji}.`)
+            message.reply({embeds: [noTimezonesHasBeenFoundErr]})
         }
     }
 }

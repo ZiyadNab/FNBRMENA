@@ -523,6 +523,8 @@ module.exports = {
                     cosmeticsImage(items, res.data.data.build)
                 }
             
+            }).catch(async err => {
+                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
             })
             
         }).catch(err => {

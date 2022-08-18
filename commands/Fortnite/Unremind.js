@@ -193,6 +193,8 @@ module.exports = {
                         else if(userData.lang === "ar") itemHasBeenDeletedSuccessfully.setTitle(`تم حذف ${collected.values.length} عنصر بنجاح ${emojisObject.checkEmoji}.`)
                         await msg.edit({embeds: [itemHasBeenDeletedSuccessfully]})
                     }
+                }).catch(async err => {
+                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
                 })
 
             }else{

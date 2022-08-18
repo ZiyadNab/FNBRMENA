@@ -567,7 +567,6 @@ module.exports = {
                     //await for the user
                     await message.channel.awaitMessageComponent({filter, time: 30000})
                     .then(async collected => {
-                        collected.deferUpdate();
 
                         //if cancel button has been clicked
                         if(collected.customId === "Cancel") dropMenuMessage.delete()
@@ -577,9 +576,13 @@ module.exports = {
                             await dropMenuMessage.delete()
                             drawCrewPack(res, collected.values[0])
                         }
+                    }).catch(async err => {
+                        FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
                     })
                 }
             
+            }).catch(async err => {
+                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
             })
 
         }).catch(async err => {

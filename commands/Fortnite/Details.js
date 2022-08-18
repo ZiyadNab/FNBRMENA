@@ -1322,6 +1322,8 @@ module.exports = {
                         if(collected.values[0] == "grants") cosmeticGrants(num)
                     }
 
+                }).catch(async err => {
+                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
                 })
             }
         }).catch(async err => {

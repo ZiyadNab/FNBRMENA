@@ -252,6 +252,8 @@ module.exports = {
                     newsTypeMessage.delete()
                     newsImageCreator(res.data.data.stw.messages)
                 }
+            }).catch(async err => {
+                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
             })
         })
     }

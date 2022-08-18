@@ -113,6 +113,8 @@ module.exports = {
                     
                             })
                         }
+                    }).catch(async err => {
+                        FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
                     })
 
                 }else{

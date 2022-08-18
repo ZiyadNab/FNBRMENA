@@ -130,7 +130,7 @@ module.exports = {
                     else infoEmbed.addFields({name: "Battlepass", value: `The \`${res.data.items[num].name} ${res.data.items[num].type.name}\` is not from the battlepass`, inline: true})
 
                     //add styles
-                    if(res.data.items[num].styles.length !== 0){
+                    if(res.data.items[num].styles.length > 0 && res.data.items[num].styles.length <= 25){
                         for(let i = 0; i < res.data.items[num].styles.length; i++){
 
                             //is style default
@@ -185,7 +185,7 @@ module.exports = {
                     else infoEmbed.addFields({name: "باتل باس", value: `\`${res.data.items[num].type.name} ${res.data.items[num].name}\` ليس من الباتل باس`, inline: true})
 
                     //add styles
-                    if(res.data.items[num].styles.length !== 0){
+                    if(res.data.items[num].styles.length > 0 && res.data.items[num].styles.length <= 25){
                         for(let i = 0; i < res.data.items[num].styles.length; i++){
 
                             //is style default
@@ -1329,7 +1329,7 @@ module.exports = {
                     FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
                 })
             }
-            
+
         }).catch(async err => {
             FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
         })

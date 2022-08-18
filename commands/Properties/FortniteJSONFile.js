@@ -91,7 +91,7 @@ module.exports = {
 
                             //store every new item id
                             const newItemsIDs = []
-                            for(const item of newItems.data.data.items) newItemsIDs.push(item)
+                            for(const item of newItems.data.data.items) newItemsIDs.push(item.id)
                         
                             //loop thrw every item
                             for(let i = 0; i < allItems.data.data.length; i++){

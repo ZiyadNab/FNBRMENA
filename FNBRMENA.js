@@ -30,8 +30,8 @@ class FNBRMENA {
 
         if(Type === "embed") return "#00ffff"
         if(Type === "embedError") return "#FF0000"
-        if(Type === "embedSuccess") return "#FF0000"
-        if(Type === "syntaxError") return "#FF0000"
+        if(Type === "embedSuccess") return "#0CFF00"
+        if(Type === "syntaxError") return "##0000fe"
 
         //api.ip
         if(Type === "Legendary") return "#e98d4b"
@@ -914,11 +914,11 @@ class FNBRMENA {
         anErrorHappened.setThumbnail('https://imgur.com/yjMpDe3.png')
         if(lang === "en"){
             anErrorHappened.setTitle(`Ouch, Errr thats awkward ${emojiObject.errorEmoji}`)
-            anErrorHappened.setDescription(`An error occurred while getting data for the \`${alias}\` command. A complete log has been sent to the developer and a fix is being worked on right now. If this issue took longer than necessary, please [__CONTACT OUR SUPPORT TEAM__](https://discord.com/channels/746143287383031878) ASAP.\n\nWe're sorry for the inconvenience\n\`\`\`yaml\n${err.message}\`\`\``)
+            anErrorHappened.setDescription(`An error occurred while getting data for the \`${alias}\` command. A complete log has been sent to the developer and a fix is being worked on right now. If this issue took longer than necessary, please [__CONTACT OUR SUPPORT TEAM__](https://discord.com/channels/800405068880281661) ASAP.\n\nWe're sorry for the inconvenience\n\`\`\`yaml\n${err.message}\`\`\``)
         }
         else if(lang === "ar"){
             anErrorHappened.setTitle(`عذرا لقد حصلت مشكلة ${emojiObject.errorEmoji}`)
-            anErrorHappened.setDescription(`لقد حدثت مشكلة ما اثناء جمع بيانات امر \`${alias}\`. تم ارسال ملف تسجيل يحتوي على جميع المعلومات المهمه للمطورين و المشكلة يتم حلها حاليا. في حال المشكلة اخذت وقت اكثر من المعتاد, من فضلك [__تواصل مع فريق الدعم__](https://discord.com/channels/746143287383031878) في اسرع وقت ممكن.\n\nنأسف على الإزعاج\n\`\`\`yaml\n${err.message}\`\`\``)
+            anErrorHappened.setDescription(`لقد حدثت مشكلة ما اثناء جمع بيانات امر \`${alias}\`. تم ارسال ملف تسجيل يحتوي على جميع المعلومات المهمه للمطورين و المشكلة يتم حلها حاليا. في حال المشكلة اخذت وقت اكثر من المعتاد, من فضلك [__تواصل مع فريق الدعم__](https://discord.com/channels/800405068880281661) في اسرع وقت ممكن.\n\nنأسف على الإزعاج\n\`\`\`yaml\n${err.message}\`\`\``)
         }
         message.reply({embeds: [anErrorHappened]})
 

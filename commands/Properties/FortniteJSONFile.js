@@ -1,4 +1,3 @@
-const fs = require('fs')
 
 module.exports = {
     commands: 'athena',
@@ -15,14 +14,14 @@ module.exports = {
 
         //set the message title and description
         if(userData.lang === "en"){
-            info.setDescription("Please choose and click the button needed to preform the action.\n`You have only 30 seconds until this operation ends`!")
+            info.setDescription("Please click on start button to preform the action.\n`You have only 30 seconds until this operation ends`!")
 
             //add the button for fortnite-api
             row.addComponents(
                 new Discord.ButtonBuilder()
-                .setCustomId('fnapi')
+                .setCustomId('start')
                 .setStyle(Discord.ButtonStyle.Primary)
-                .setLabel("Fortnite-Api")
+                .setLabel("Start")
             )
 
             //add the button for Cancel button
@@ -41,9 +40,9 @@ module.exports = {
             //add the All button for fortnite-api
             row.addComponents(
                 new Discord.ButtonBuilder()
-                .setCustomId('fnapi')
+                .setCustomId('start')
                 .setStyle(Discord.ButtonStyle.Primary)
-                .setLabel("Fortnite-Api")
+                .setLabel("ابدأ")
             )
 
             //add the Cancel button
@@ -79,7 +78,7 @@ module.exports = {
                 athenaGen.edit({embeds: [waitingMessage], components: []}) // edit the message
 
                 //when Fortnite-Api is clicked
-                if(collected.customId === "fnapi"){
+                if(collected.customId === "start"){
 
                     //request all the items in-game
                     await FNBRMENA.Request('https://fortnite-api.com/v2/cosmetics/br')

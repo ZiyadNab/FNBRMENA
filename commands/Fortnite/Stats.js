@@ -450,16 +450,16 @@ module.exports = {
                         if(err.response.data.error === "the requested account does not exist"){
 
                             //epic games string
-                            if(platforms[num] === "epic" && userData.lang === "en") var usedPlatform = 'Epicgames'
-                            else if(platforms[num] === "epic" && userData.lang === "ar") var usedPlatform = 'ايبك قيمز'
+                            if(collected.values[0] === "epic" && userData.lang === "en") var usedPlatform = 'Epicgames'
+                            else if(collected.values[0] === "epic" && userData.lang === "ar") var usedPlatform = 'ايبك قيمز'
 
                             //psn string
-                            if(platforms[num] === "psn" && userData.lang === "en") var usedPlatform = 'Playstation'
-                            else if(platforms[num] === "psn" && userData.lang === "ar") var usedPlatform = 'بلايستيشن'
+                            if(collected.values[0] === "psn" && userData.lang === "en") var usedPlatform = 'Playstation'
+                            else if(collected.values[0] === "psn" && userData.lang === "ar") var usedPlatform = 'بلايستيشن'
 
                             //xbl string
-                            if(platforms[num] === "xbl" && userData.lang === "en") var usedPlatform = 'XBOX'
-                            else if(platforms[num] === "xbl" && userData.lang === "ar") var usedPlatform = 'اكسبوكس'
+                            if(collected.values[0] === "xbl" && userData.lang === "en") var usedPlatform = 'XBOX'
+                            else if(collected.values[0] === "xbl" && userData.lang === "ar") var usedPlatform = 'اكسبوكس'
 
                             const noUserHasBeenFoundError = new Discord.EmbedBuilder()
                             noUserHasBeenFoundError.setColor(FNBRMENA.Colors("embedError"))

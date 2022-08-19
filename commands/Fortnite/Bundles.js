@@ -98,7 +98,7 @@ module.exports = {
                 noBundleFoundError.setColor(FNBRMENA.Colors("embedError"))
                 if(userData.lang === "en") noBundleFoundError.setTitle(`No bundle has been found check your speling and try again ${emojisObject.errorEmoji}`)
                 else if(userData.lang === "ar") noBundleFoundError.setTitle(`لا يمكنني العثور على الحزمة الرجاء التأكد من كتابة الاسم بشكل صحيح ${emojisObject.errorEmoji}`)
-                message.reply({embeds: noBundleFoundError})
+                message.reply({embeds: [noBundleFoundError]})
             }
 
         }).catch(err => {

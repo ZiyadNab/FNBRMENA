@@ -785,5 +785,5 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
             }
         })
     }
-    setInterval(Bundle, 1 * 30000)
+    setInterval(Bundle, 1.5 * 60000)
 }

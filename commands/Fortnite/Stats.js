@@ -483,7 +483,7 @@ module.exports = {
                         theUserAccountIsPrivate.setColor(FNBRMENA.Colors("embedError"))
                         if(userData.lang === "en") theUserAccountIsPrivate.setTitle(`Can't get access to ${text} because the user account is private. ${emojisObject.errorEmoji}`)
                         else if(userData.lang === "ar") theUserAccountIsPrivate.setTitle(`لا يمكنني الحصول على صلاحية إحصائيات ${text} بسبب ان الحساب خاص. ${emojisObject.errorEmoji}`)
-                        await message.reply(theUserAccountIsPrivate)
+                        await message.reply({embeds: [theUserAccountIsPrivate]})
 
                     }else FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
                 })

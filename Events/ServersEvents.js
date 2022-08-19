@@ -21,7 +21,7 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
             const push = data.val().Push
 
             //if the event is set to be true [ON]
-            if(true){
+            if(status){
 
                 //request the token
                 await axios.get(`https://fnbrmenaapi.herokuapp.com/api/auth?authType=${token}`)

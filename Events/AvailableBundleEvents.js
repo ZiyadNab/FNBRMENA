@@ -15,7 +15,7 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
     var outfitQuestData
 
     //draw the new bundle
-    const drawNewBundle = async (res) => {
+    const drawNewBundle = async (res, response) => {
 
         //diff has been found now loop throw all the available bundles
         for(let i = 0; i < bundleOfferIDs.length; i++){
@@ -773,6 +773,9 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                     //compare diff
                     if(JSON.stringify(bundleOfferIDs) !== JSON.stringify(response)){
 
+                        //a new bundle has been found
+                        drawNewBundle(res, response)
+
                         //store only available bundles
                         for(let i = 0; i < res.data.bundles.length; i++){
                             response[i] = await res.data.bundles[i].offerId
@@ -782,9 +785,6 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                         admin.database().ref("ERA's").child("Events").child("bundles").child("Push").update({
                             Status: false
                         })
-
-                        //a new bundle has been found
-                        drawNewBundle(res)
 
                     }
                 }).catch(async err => {

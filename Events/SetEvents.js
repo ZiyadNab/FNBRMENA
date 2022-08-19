@@ -40,9 +40,9 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                     }
 
                     //push
-                    if(push.Status) for(let i = 0; i < push.Index; i++){
-                        names[i] = ''
-                        response[i] = ''
+                    if(push.Status){
+                        names.splice(push.Index, 1)
+                        response.splice(push.Index, 1)
                     }
 
                     //check data

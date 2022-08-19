@@ -349,54 +349,66 @@ module.exports = {
                     //update categoriesIndex value
                     categoriesIndex = Number(collected.values[0])
 
-                    //create a row for drop down menu for quests
-                    const questsRow = new Discord.ActionRowBuilder()
-
-                    //loop thrw every category
-                    var questsOptions = []
-                    for(let i = 0; i < res.data.bundles[categoriesIndex].bundles.length; i++){
-
-                        //add the category name
-                        if(res.data.bundles[categoriesIndex].bundles[i].name.length !== 0) var name = res.data.bundles[categoriesIndex].bundles[i].name
-                        else if(userData.lang === "en") var name = "TBD"
-                        else if(userData.lang === "ar") var name = "لم يتم تحديد الاسم بعد"
-
-                        if(name.length > 99){
-                            if(userData.lang === "en") name = "Sorry, we can't show the quest's name"
-                            else if(userData.lang === "ar") name = "عذرا لا يمكن عرض اسم المهمة"
-                        }
-
-                        if(userData.lang === "en") var description = `Click here to view all '${name}' quests`
-                        else if(userData.lang === "ar") var description = `اضغط هنا لعرض جميع التحديات '${name}'`
-
-                        if(description.length > 99){
-                            if(userData.lang === "en") description = "Sorry, description isnt available"
-                            else if(userData.lang === "ar") description = "عذرا الوصف ليس متاح"
-                        }
-
-                        questsOptions[i] = {
-                            label: name,
-                            description: description,
-                            value: `${i}`,
-                        }
+                    var size = (res.data.bundles[categoriesIndex].bundles.length / 25), components = [categoriesRow], limit = 0
+                    if(size % 2 !== 0 && size != 1){
+                        size += 1;
+                        size = size | 0
                     }
 
-                    //add an option for each quest
-                    const questsDropMenu = new Discord.SelectMenuBuilder()
-                    questsDropMenu.setCustomId('quests')
-                    if(userData.lang === "en") questsDropMenu.setPlaceholder(`Click here to view every ${res.data.bundles[categoriesIndex].name} quests!`)
-                    else if(userData.lang === "ar") questsDropMenu.setPlaceholder(`اضغط هنا لعرض جميع مهام ${res.data.bundles[categoriesIndex].name}!`)
-                    questsDropMenu.addOptions(questsOptions)
+                    for(let i = 1; i <= size; i++){
 
-                    //add the drop menu to the questsDropMenu
-                    questsRow.addComponents(questsDropMenu)
+                        //loop thrw every category
+                        var questsOptions = []
+                        for(let x = limit; x < 25 * i; x++){
+
+                            //nullptr checker
+                            if(res.data.bundles[categoriesIndex].bundles[x] != undefined){
+
+                                //add the category name
+                                if(res.data.bundles[categoriesIndex].bundles[x].name.length !== 0) var name = res.data.bundles[categoriesIndex].bundles[x].name
+                                else if(userData.lang === "en") var name = "TBD"
+                                else if(userData.lang === "ar") var name = "لم يتم تحديد الاسم بعد"
+
+                                if(name.length > 99){
+                                    if(userData.lang === "en") name = "Sorry, we can't show the quest's name"
+                                    else if(userData.lang === "ar") name = "عذرا لا يمكن عرض اسم المهمة"
+                                }
+
+                                if(userData.lang === "en") var description = `Click here to view all '${name}' quests`
+                                else if(userData.lang === "ar") var description = `اضغط هنا لعرض جميع التحديات '${name}'`
+
+                                if(description.length > 99){
+                                    if(userData.lang === "en") description = "Sorry, description isnt available"
+                                    else if(userData.lang === "ar") description = "عذرا الوصف ليس متاح"
+                                }
+
+                                questsOptions.push({
+                                    label: name,
+                                    description: description,
+                                    value: `${x}`,
+                                })
+                            }
+                        }
+
+                        //add an option for each quest
+                        var questsDropMenu = new Discord.SelectMenuBuilder()
+                        questsDropMenu.setCustomId(`quests${i}`)
+                        if(userData.lang === "en") questsDropMenu.setPlaceholder(`Click here to view every ${res.data.bundles[categoriesIndex].name} quests!`)
+                        else if(userData.lang === "ar") questsDropMenu.setPlaceholder(`اضغط هنا لعرض جميع مهام ${res.data.bundles[categoriesIndex].name}!`)
+                        questsDropMenu.addOptions(questsOptions)
+
+                        //add the drop menu to the questsDropMenu
+                        components.push(new Discord.ActionRowBuilder().addComponents(questsDropMenu))
+                        limit = 25 * i
+
+                    } components.push(buttonDataRow)
 
                     //edit the message
-                    await challengeCategoryMessage.edit({embeds: [dropDownMenuEmbed], components: [categoriesRow, questsRow, buttonDataRow]})
+                    await challengeCategoryMessage.edit({embeds: [dropDownMenuEmbed], components: components})
                     
                 }
 
-                if(collected.customId == "quests"){
+                if(collected.customId.includes("quests")){
                     colllector.stop()
                     printQuests(Number(collected.values[0]))
                     

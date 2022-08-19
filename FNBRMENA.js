@@ -31,7 +31,7 @@ class FNBRMENA {
         if(Type === "embed") return "#00ffff"
         if(Type === "embedError") return "#FF0000"
         if(Type === "embedSuccess") return "#0CFF00"
-        if(Type === "syntaxError") return "##0000fe"
+        if(Type === "syntaxError") return "#0000fe"
 
         //api.ip
         if(Type === "Legendary") return "#e98d4b"

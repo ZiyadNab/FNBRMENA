@@ -438,7 +438,7 @@ module.exports = {
             //create a row for cancel button
             const buttonDataRow = new Discord.ActionRowBuilder()
             
-            //add EN cancel button
+            //add buttons
             if(userData.lang === "en"){
                 buttonDataRow.addComponents(
                     new Discord.ButtonBuilder()
@@ -532,6 +532,7 @@ module.exports = {
                 }
             
             }).catch(async err => {
+                dropMenuMessage.delete()
                 FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
             })
             

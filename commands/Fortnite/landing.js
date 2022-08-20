@@ -103,9 +103,9 @@ module.exports = {
                             landingPicker()
                         }
 
-                    }).catch(err => {
+                    }).catch(async err => {
+                        randomLanderMessaghe.delete()
                         FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
-                        
                     })
                 }).catch(err => {
                     FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
@@ -162,6 +162,7 @@ module.exports = {
                     landingPicker()
                 }
             }).catch(async err => {
+                randomLanderMessaghe.delete()
                 FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
             })
 

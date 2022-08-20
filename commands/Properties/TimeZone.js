@@ -106,6 +106,9 @@ module.exports = {
                         else if(userData.lang === "ar") successfullyChangedUserTimezoneEmbed.setTitle(`تم تغير وحدة الزمن الخاص بك بنجاح الي ${timezone[collected.values[0]]} ${emojisObject.checkEmoji}.`)
                         message.reply({embeds: [successfullyChangedUserTimezoneEmbed]})
                     }
+                }).catch(async err => {
+                    dropMenuMessage.delete()
+                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
                 })
 
             }else{

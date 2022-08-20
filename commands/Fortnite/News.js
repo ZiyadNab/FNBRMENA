@@ -188,7 +188,6 @@ module.exports = {
         //request data
         await FNBRMENA.News(userData.lang)
         .then(async res => {
-            res.data.data
 
             //create random landing embed message
             const newsTypeEmbed = new Discord.EmbedBuilder()
@@ -256,6 +255,7 @@ module.exports = {
                     newsImageCreator(res.data.data.stw.messages, res.data.data.stw.hash)
                 }
             }).catch(async err => {
+                newsTypeMessage.delete()
                 FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
             })
         }).catch(async err => {

@@ -489,8 +489,8 @@ module.exports = {
                 })
             }
         }).catch(async err => {
+            dropMenuMessage.delete()
             FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
-
         })
     }
 }

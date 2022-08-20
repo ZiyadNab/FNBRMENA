@@ -198,9 +198,9 @@ module.exports = {
                                 
                             })
                         }
-                    }).catch(err => {
+                    }).catch(async err => {
+                        allAvaliableVersionsDropDownMessage.delete()
                         FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
-                        
                     })
 
                 }else{

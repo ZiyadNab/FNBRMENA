@@ -320,7 +320,7 @@ module.exports = {
                         ctx.fillText(Source, (1024 - 5) + x, (1024 - 7.5) + y)
 
                     }else if(userData.lang === "ar"){
-                        ctx.fillText(name, 1024 + x, (1024 - 60) + y)
+                        ctx.fillText(name, 512 + x, (1024 - 60) + y)
 
                         //add season chapter text
                         ctx.textAlign = "left"
@@ -516,6 +516,7 @@ module.exports = {
                         foundPaks.push(item.dynamicPakId)
                         avalabilePaks.push({
                             label: `${item.dynamicPakId}`,
+                            description: `${item.name}`,
                             value: `${item.dynamicPakId}`,
                         })
                     }
@@ -539,7 +540,7 @@ module.exports = {
                 //await for the user
                 await message.channel.awaitMessageComponent({filter, time: 30000})
                 .then(async collected => {
-                    collected.deferUpdate();
+                    collected.deferUpdate()
 
                     //if canecl button has been clicked
                     if(collected.customId === "Cancel") dropMenuMessage.delete()
@@ -550,9 +551,9 @@ module.exports = {
                         pak(await FNBRMENA.PAK(userData.lang, `dynamicPakId=${collected.values[0]}`), collected.values[0])
                     }
 
-                }).catch(err => {
+                }).catch(async err => {
+                    dropMenuMessage.delete()
                     FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
-                    
                 })
                 
             }).catch(err => {

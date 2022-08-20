@@ -903,32 +903,43 @@ class FNBRMENA {
      * @param {*} Lang 
      * @returns 
      */
-    Logs(admin, client, Discord, message, alias, lang, text, err, emojiObject){
+    Logs(admin, client, Discord, message, alias, lang, text, err, emojisObject){
 
-        //logs channel
-        const logsChannel = client.channels.cache.find(channel => channel.id === require('./Configs/config.json').events.Logs)
+        //if user took to long to excute the command
+        if(err.message.includes("time")){
+                        
+            const outOfTimeError = new Discord.EmbedBuilder()
+            outOfTimeError.setColor(this.Colors("embedError"))
+            outOfTimeError.setTitle(`${this.Errors("Time", lang)} ${emojisObject.errorEmoji}`)
+            message.reply({embeds: [outOfTimeError], components: []})
 
-        //create error embed
-        const anErrorHappened = new Discord.EmbedBuilder()
-        anErrorHappened.setColor(this.Colors("embedError"))
-        anErrorHappened.setThumbnail('https://imgur.com/yjMpDe3.png')
-        if(lang === "en"){
-            anErrorHappened.setTitle(`Ouch, Errr thats awkward ${emojiObject.errorEmoji}`)
-            anErrorHappened.setDescription(`An error occurred while getting data for the \`${alias}\` command. A complete log has been sent to the developer and a fix is being worked on right now. If this issue took longer than necessary, please [__CONTACT OUR SUPPORT TEAM__](https://discord.com/channels/800405068880281661) ASAP.\n\nWe're sorry for the inconvenience\n\`\`\`yaml\n${err.message}\`\`\``)
+        }else{
+
+            //logs channel
+            const logsChannel = client.channels.cache.find(channel => channel.id === require('./Configs/config.json').events.Logs)
+
+            //create error embed
+            const anErrorHappened = new Discord.EmbedBuilder()
+            anErrorHappened.setColor(this.Colors("embedError"))
+            anErrorHappened.setThumbnail('https://imgur.com/yjMpDe3.png')
+            if(lang === "en"){
+                anErrorHappened.setTitle(`Ouch, Errr thats awkward ${emojisObject.errorEmoji}`)
+                anErrorHappened.setDescription(`An error occurred while getting data for the \`${alias}\` command. A complete log has been sent to the developer and a fix is being worked on right now. If this issue took longer than necessary, please [__CONTACT OUR SUPPORT TEAM__](https://discord.com/channels/746143287383031878) ASAP.\n\nWe're sorry for the inconvenience\n\`\`\`yaml\n${err.message}\`\`\``)
+            }
+            else if(lang === "ar"){
+                anErrorHappened.setTitle(`عذرا لقد حصلت مشكلة ${emojisObject.errorEmoji}`)
+                anErrorHappened.setDescription(`لقد حدثت مشكلة ما اثناء جمع بيانات امر \`${alias}\`. تم ارسال ملف تسجيل يحتوي على جميع المعلومات المهمه للمطورين و المشكلة يتم حلها حاليا. في حال المشكلة اخذت وقت اكثر من المعتاد, من فضلك [__تواصل مع فريق الدعم__](https://discord.com/channels/746143287383031878) في اسرع وقت ممكن.\n\nنأسف على الإزعاج\n\`\`\`yaml\n${err.message}\`\`\``)
+            }
+            message.reply({embeds: [anErrorHappened]})
+
+            //logs
+            const logs = new Discord.EmbedBuilder()
+            logs.setColor(this.Colors("embedError"))
+            logs.setTitle(`Error happened in ${alias.toUpperCase()}`)
+            if(err.isAxiosError) logs.setDescription(`Command: \`${alias}\`\nUser: \`${message.author.tag}\`\nDate: \`${new Date()}\`\nLanguage: \`${lang}\`\nMessageID: \`${message.id}\`\nChannel: \`${message.channel.name} | ${message.channel.id}\`\nMessage Content: \`${message.content}\n\`Request Status: \`${err.response.data.status}\`\n\nError:\`\`\`json\n${JSON.stringify(err.response.data)}\`\`\``)
+            else logs.setDescription(`Command: \`${alias}\`\nUser: \`${message.author.tag}\`\nDate: \`${new Date()}\`\nLanguage: \`${lang}\`\nMessageID: \`${message.id}\`\nChannel: \`${message.channel.name} | ${message.channel.id}\`\nMessage Content: \`${message.content}\`\n\nError:\`\`\`yaml\n${err.stack}\`\`\``)
+            logsChannel.send({embeds: [logs]})
         }
-        else if(lang === "ar"){
-            anErrorHappened.setTitle(`عذرا لقد حصلت مشكلة ${emojiObject.errorEmoji}`)
-            anErrorHappened.setDescription(`لقد حدثت مشكلة ما اثناء جمع بيانات امر \`${alias}\`. تم ارسال ملف تسجيل يحتوي على جميع المعلومات المهمه للمطورين و المشكلة يتم حلها حاليا. في حال المشكلة اخذت وقت اكثر من المعتاد, من فضلك [__تواصل مع فريق الدعم__](https://discord.com/channels/800405068880281661) في اسرع وقت ممكن.\n\nنأسف على الإزعاج\n\`\`\`yaml\n${err.message}\`\`\``)
-        }
-        message.reply({embeds: [anErrorHappened]})
-
-        //logs
-        const logs = new Discord.EmbedBuilder()
-        logs.setColor(this.Colors("embedError"))
-        logs.setTitle(`Error happened in ${alias.toUpperCase()}`)
-        if(err.isAxiosError) logs.setDescription(`Command: \`${alias}\`\nUser: \`${message.author.tag}\`\nDate: \`${new Date()}\`\nLanguage: \`${lang}\`\nMessageID: \`${message.id}\`\nChannel: \`${message.channel.name} | ${message.channel.id}\`\nMessage Content: \`${message.content}\n\`Request Status: \`${err.response.data.status}\`\n\nError:\`\`\`json\n${JSON.stringify(err.response.data)}\`\`\``)
-        else logs.setDescription(`Command: \`${alias}\`\nUser: \`${message.author.tag}\`\nDate: \`${new Date()}\`\nLanguage: \`${lang}\`\nMessageID: \`${message.id}\`\nChannel: \`${message.channel.name} | ${message.channel.id}\`\nMessage Content: \`${message.content}\`\n\nError:\`\`\`yaml\n${err.stack}\`\`\``)
-        logsChannel.send({embeds: [logs]})
     }
 
     /**

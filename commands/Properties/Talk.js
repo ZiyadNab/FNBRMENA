@@ -93,6 +93,9 @@ module.exports = {
                     
                 })
             }
+        }).catch(async err => {
+            showModalMessage.delete()
+            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
         })
     }
 }

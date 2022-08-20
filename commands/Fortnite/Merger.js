@@ -622,12 +622,12 @@ module.exports = {
 
                 try{
                     var att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `${message.author.id}.png`})
-                    await message.channel.send({files: [att]})
+                    await message.reply({files: [att]})
                     msg.delete()
 
                 }catch{
                     var att = new Discord.AttachmentBuilder(canvas.toBuffer('image/jpeg'), {name: `${message.author.id}.jpg`})
-                    await message.channel.send({files: [att]})
+                    await message.reply({files: [att]})
                     msg.delete()
 
                 }

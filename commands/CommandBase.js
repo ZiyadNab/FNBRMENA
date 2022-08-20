@@ -3,6 +3,7 @@ const FNBRMENA = new Data()
 const Discord = require('discord.js')
 const moment = require('moment')
 require('moment-timezone')
+const config = require('./../Configs/config.json')
 
 const allCommands = {}
 
@@ -60,6 +61,31 @@ module.exports.listen = async (client, admin, emojisObject) => {
         // Get bot's status from database
         const botStats = await FNBRMENA.Admin(admin, message, "", "Status")
 
+        // Exceeding Numbers Game
+        if(message.channel.id === config.channels.numbers){
+
+            // Get the last message sent
+            const numbersGame = await FNBRMENA.Admin(admin, message, "", "numbersGame")
+
+            // If the message sent isn't a number nor exceeding the last message send then delete it
+            if(isNaN(content) || Number(content) < numbersGame.lastMessage + 1 || Number(content) > numbersGame.lastMessage + 1) await message.delete() // Delete the user's message
+            else{
+
+                // Store the new number
+                await admin.database().ref("ERA's").child("numbersGame").update({
+                    lastMessage: Number(content)
+                })
+
+                if(numbersGame.leaderboard[member.id] != undefined) var newScore = ++numbersGame.leaderboard[member.id].score
+                else var newScore = 1
+
+                // Change the user's leaderboard
+                await admin.database().ref("ERA's").child("numbersGame").child("leaderboard").child(member.id).update({
+                    score: newScore
+                 })
+            }
+        }
+
         // Split on any number of spaces
         const args = content.split(/[ ]+/)
 
@@ -68,7 +94,7 @@ module.exports.listen = async (client, admin, emojisObject) => {
         const alias = commandUsed.replace(prefix, '')
 
         // If the message starts with the bot's prefix
-        if(commandUsed.startsWith(prefix)){
+        if(commandUsed.startsWith(prefix) && message.channel.id != config.channels.numbers){
             const command = allCommands[commandUsed.replace(prefix,'')]
             if(!command){
                 return

@@ -600,7 +600,10 @@ module.exports = {
                             if(collected.customId === "Cancel") battlepassMessage.delete()
 
                             //if a search tag option has been chosen
-                            if(collected.customId === "season") battlepass(collected.values[0])
+                            if(collected.customId === "season"){
+                                battlepassMessage.delete()
+                                battlepass(collected.values[0])
+                            }
                             
                         }).catch(async err => {
                             battlepassMessage.delete()

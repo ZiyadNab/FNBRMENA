@@ -63,7 +63,7 @@ module.exports = async (FNBRMENA, message, client, lang, emojisObject) => {
         //create the drop menu
         const typeOfItemsDropMenu = new Discord.SelectMenuBuilder()
         typeOfItemsDropMenu.setCustomId('Types')
-        typeOfItemsDropMenu.setMaxValues(2)
+        typeOfItemsDropMenu.setMinValues(2)
         typeOfItemsDropMenu.setMaxValues(10)
         if(lang === "en") typeOfItemsDropMenu.setPlaceholder('Nothing selected!')
         else if(lang === "ar") typeOfItemsDropMenu.setPlaceholder('الرجاء الأختيار!')

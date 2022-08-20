@@ -60,14 +60,22 @@ module.exports = {
                 return b.score - a.score
             })
 
-            // Print the top 3 only
-            const leaderboardTop3 = new Discord.EmbedBuilder()
-            leaderboardTop3.setColor(FNBRMENA.Colors("embed"))
-            leaderboardTop3.setTitle(`Top 3`)
-            leaderboardTop3.setDescription(`Here are the top 3 in numbers game\n\n1. ${await message.guild.members.cache.get(results[0]).user.username} has ${results[0].score} points
-            2. ${await message.guild.members.cache.get(results[1]).user.username} has ${results[1].score} points
-            3. ${await message.guild.members.cache.get(results[2]).user.username} has ${results[2].score} points\n`)
-            message.reply({embeds: [leaderboardTop3]})
+            // Print the top players
+            const leaderboardTop = new Discord.EmbedBuilder()
+            leaderboardTop.setColor(FNBRMENA.Colors("embed"))
+            leaderboardTop.setTitle(`Top ${numbersGame.top}`)
+
+            // Looping
+            let string = ``, counter = 1
+            for(let i = 0; i < numbersGame.top; i++){
+                if(results[i]){
+                    const user = await message.guild.members.cache.get(results[i].id)
+                    if(user) string += `${counter++}. ${user.user.username} has ${results[i].score} points\n`
+                    else string += `${counter++}. No players yet\n`
+                }
+            }
+            leaderboardTop.setDescription(`Here are the top 3 in numbers game\n\n${string}`)
+            message.reply({embeds: [leaderboardTop]})
         }
     }
 }

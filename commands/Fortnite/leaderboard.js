@@ -71,10 +71,9 @@ module.exports = {
                 if(results[i]){
                     const user = await message.guild.members.cache.get(results[i].id)
                     if(user) string += `${counter++}. ${user.user.username} has ${results[i].score} points\n`
-                    else string += `${counter++}. No players yet\n`
-                }
+                }else string += `${counter++}. No players yet\n`
             }
-            leaderboardTop.setDescription(`Here are the top 3 in numbers game\n\n${string}`)
+            leaderboardTop.setDescription(`Here are the top ${numbersGame.top} in numbers game\n\n${string}`)
             message.reply({embeds: [leaderboardTop]})
         }
     }

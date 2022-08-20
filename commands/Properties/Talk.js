@@ -56,7 +56,7 @@ module.exports = {
         const filter = i => i.user.id === message.author.id
 
         //await for the user
-        await message.channel.awaitMessageComponent({filter, time: 30000})
+        await message.channel.awaitMessageComponent({filter, time: 3 * 60000})
         .then(async collected => {
 
             //if cancel button has been clicked
@@ -68,7 +68,7 @@ module.exports = {
 
                 //listen for modal submission
                 const modalFilter = (interaction) => interaction.customId === 'talk';
-                await collected.awaitModalSubmit({modalFilter, time: 2 * 60000})
+                await collected.awaitModalSubmit({modalFilter, time: 3 * 60000})
                 .then(async modalCollect => {
 
                     //get all the submited input values

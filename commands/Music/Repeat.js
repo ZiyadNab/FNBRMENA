@@ -63,14 +63,14 @@ module.exports = {
         //filtering the user clicker
         const filter = i => i.user.id === message.author.id
 
-        //await the user click
-        const collector = await message.channel.createMessageComponentCollector({filter, time: 30000, errors: ['time'] })
-        collector.on('collect', async collected => {
-            collected.deferUpdate()
+        //await for the user
+        await message.channel.awaitMessageComponent({filter, time: 30000})
+        .then(async collected => {
+            collected.deferUpdate();
 
             //if the user wants to repeat the current song
             if(collected.customId === "song"){
-                collector.stop()
+                musicRepeatMessage.delete()
                 
                 //song repeat
                 await queue.setRepeatMode(1)
@@ -82,7 +82,7 @@ module.exports = {
 
             //if the user wants to repeat the queue
             if(collected.customId === "queue"){
-                collector.stop()
+                musicRepeatMessage.delete()
                 
                 //queue repeat
                 await queue.setRepeatMode(2)
@@ -94,7 +94,7 @@ module.exports = {
 
             //if the user wants to stop repeating
             if(collected.customId === "stop"){
-                collector.stop()
+                musicRepeatMessage.delete()
 
                 //stop repeat
                 await queue.setRepeatMode(0)
@@ -102,15 +102,6 @@ module.exports = {
                 stopRepeating.setColor(FNBRMENA.Colors("embedSuccess"))
                 stopRepeating.setTitle(`Repeating has been disabled. ${emojisObject.checkEmoji}`)
                 return message.reply({embeds: [stopRepeating]})
-            }
-        })
-
-        //when time has ended
-        collector.on('end', async () => {
-            try {
-                await musicRepeatMessage.delete()
-            } catch {
-                
             }
         })
     }

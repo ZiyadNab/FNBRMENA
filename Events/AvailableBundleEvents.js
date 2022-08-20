@@ -762,7 +762,7 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                                     }
                                 }
 
-                                const att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `${searchedBundleData.bundleOfferIDsID}.png`})
+                                const att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `${searchedBundleData.offerId}.png`})
                                 await message.send({embeds: [bundleEmbed], files: [att]})
 
                             }

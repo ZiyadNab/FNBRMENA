@@ -23,10 +23,18 @@ module.exports = {
         if (!queue){
             const noMusicPlayingErr = new Discord.EmbedBuilder()
             noMusicPlayingErr.setColor(FNBRMENA.Colors("embedError"))
-            noMusicPlayingErr.setTitle(`There is no music is playing at the moment ${emojisObject.errorEmoji}`)
+            noMusicPlayingErr.setTitle(`There is no music playing at the moment ${emojisObject.errorEmoji}`)
             return message.reply({embeds: [noMusicPlayingErr]})
         }
 
+        //check if there is up next song
+        if(!queue.autoplay && queue.songs.length <= 1){
+            const noUpNextSongError = new Discord.EmbedBuilder()
+            noUpNextSongError.setColor(FNBRMENA.Colors("embedError"))
+            noUpNextSongError.setTitle(`There isn't any up next song to skip ${emojisObject.errorEmoji}`)
+            return message.reply({embeds: [noUpNextSongError]})
+        }
+        
         await queue.skip()
 
     }

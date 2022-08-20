@@ -417,10 +417,10 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                                         //set titles and fields
                                         if(item.data().lang == "en"){
                                             itemInfo.setAuthor({name: `Reminder Alert, ${userITEM.data.item.name}`, iconURL: image})
-                                            itemInfo.setDescription(`The ${userITEM.data.item.name} (${userITEM.data.item.type.name}) is now in the itemshop, the item has been removed from your reminders and you have now 1 extra space to add another new item to your reminder list.\n\nInformation about ${userITEM.data.item.name}:\n **Price:** \`${price}\`\n**Days Waiting:** \`${day} day(s)\`\n\nYou have ${remindersLeft.size - 1} reminders out of 20.`)
+                                            itemInfo.setDescription(`The ${userITEM.data.item.name} (${userITEM.data.item.type.name}) is now in the itemshop, the item has been removed from your reminders and you have now 1 extra space to add another new item to your reminder list.\n\nInformation about ${userITEM.data.item.name}:\n**Price:** \`${price}\`\n**Days Waiting:** \`${day} day(s)\`\n\nYou have ${remindersLeft.size - 1} reminders out of 20.`)
                                         }else if(item.data().lang === "ar"){
                                             itemInfo.setAuthor({name: `تنبيه للتذكير, ${userITEM.data.item.name}`, iconURL: image})
-                                            itemInfo.setDescription(`عنصر ${userITEM.data.item.name} (${userITEM.data.item.type.name}) الأن متوفر في متجر العناصر, تم حذف العنصلا من نظام التذكيرات و لديك الان مساحة اضافية لاضافة عناصر اخرى. \n\nمعلومات عن ${userITEM.data.item.name}:\n **السعر:** \`${price}\`\n**الأيام المنتظرة:** \`${day} يوم\`\n\nلديك ${remindersLeft.size - 1} عنصر مضاف من اصل 20.`)
+                                            itemInfo.setDescription(`عنصر ${userITEM.data.item.name} (${userITEM.data.item.type.name}) الأن متوفر في متجر العناصر, تم حذف العنصلا من نظام التذكيرات و لديك الان مساحة اضافية لاضافة عناصر اخرى. \n\nمعلومات عن ${userITEM.data.item.name}:\n**السعر:** \`${price}\`\n**الأيام المنتظرة:** \`${day} يوم\`\n\nلديك ${remindersLeft.size - 1} عنصر مضاف من اصل 20.`)
                                         }
 
                                         //send the message

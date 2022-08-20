@@ -150,8 +150,8 @@ module.exports = {
                     //generating message
                     const generating = new Discord.EmbedBuilder()
                     generating.setColor(FNBRMENA.Colors("embed"))
-                    if(userData.lang === "en") generating.setTitle(`Loading item data... ${emojisObject.loadingEmoji}`)
-                    else if(userData.lang === "ar") generating.setTitle(`تحميل معلومات العنصر... ${emojisObject.loadingEmoji}`)
+                    if(userData.lang === "en") generating.setTitle(`Loading player's data... ${emojisObject.loadingEmoji}`)
+                    else if(userData.lang === "ar") generating.setTitle(`جاري تحميل بيانات اللاعب... ${emojisObject.loadingEmoji}`)
                     message.reply({embeds: [generating]})
                     .then(async msg => {
 
@@ -180,7 +180,7 @@ module.exports = {
                             //list of Coulmn names
                             rowData.push([
                                 {NameEN: 'Matches', NameAR: 'المواجهات', Data: statsData[i].matches, xAxis: 190, yAxis: 97, index: i},
-                                {NameEN: 'Wins', NameAR: 'الإنصارات', Data: statsData[i].wins, xAxis: 190, yAxis: 97, index: i},
+                                {NameEN: 'Wins', NameAR: 'الإنتصارات', Data: statsData[i].wins, xAxis: 190, yAxis: 97, index: i},
                                 {NameEN: 'Wins Rate', NameAR: 'م/الإنتصارات', Data: statsData[i].winRate, xAxis: 190, yAxis: 97, index: i},
                                 {NameEN: 'Deaths', NameAR: 'الخسارات', Data: statsData[i].deaths, xAxis: 190, yAxis: 97, index: i},
                                 {NameEN: 'Kills', NameAR: 'الذبحات', Data: statsData[i].kills, xAxis: 190, yAxis: 97, index: i},

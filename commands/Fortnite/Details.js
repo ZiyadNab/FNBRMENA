@@ -203,7 +203,7 @@ module.exports = {
                     }else infoEmbed.addFields({name:`الستايلات`, value: `\`لا يوجد ستايلات لـ ${res.data.items[num].name}\``})
 
                     //if the item has a shop history
-                    if(res.data.items[num].shopHistory !== null) infoEmbed.addFields({name: "تاريخ الشوب", value: res.data.items[num].shopHistory, inline: true})
+                    if(res.data.items[num].shopHistory !== null) infoEmbed.addFields({name: "تاريخ الشوب", value: `\`${res.data.items[num].shopHistory.join("\n")}\``, inline: true})
 
                     //if the item has a shop history but not released yet
                     else if(res.data.items[num].gameplayTags.includes("Cosmetics.Source.ItemShop")) infoEmbed.addFields({name: "تاريخ الشوب", value: `\`${res.data.items[num].type.name} ${res.data.items[num].name}\` لم يتم نزوله بعد`, inline: true})
@@ -212,7 +212,7 @@ module.exports = {
                     else infoEmbed.addFields({name: "تاريخ الشوب", value: `\`${res.data.items[num].type.name} ${res.data.items[num].name}\` ليس عنصر ايتم شوب`, inline: true})
 
                     //add gameplay tags
-                    if(res.data.items[num].gameplayTags.length > 0) infoEmbed.addFields({name: "العلامات", value: res.data.items[num].gameplayTags, inline: true})
+                    if(res.data.items[num].gameplayTags.length > 0) infoEmbed.addFields({name: "العلامات", value: `\`${res.data.items[num].gameplayTags.join("\n")}\``, inline: true})
                     else infoEmbed.addFields({name: "العلامات", value: `لا يوجد علامات لعنصر \`${res.data.items[num].type.name} ${res.data.items[num].name}\``, inline: true})
                     
                     

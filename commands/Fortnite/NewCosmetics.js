@@ -402,9 +402,17 @@ module.exports = {
                 }
 
                 //send the image to discord channel
-                const att = new Discord.AttachmentBuilder(canvas.toBuffer('image/jpeg'), {name: `${build}.jpg`})
-                await message.reply({files: [att]})
-                msg.delete()
+                try{
+                    var att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `${build}.png`})
+                    await message.reply({files: [att]})
+                    msg.delete()
+                    
+                }catch{
+                    var att = new Discord.AttachmentBuilder(canvas.toBuffer('image/jpeg'), {name: `${build}.jpg`})
+                    await message.reply({files: [att]})
+                    msg.delete()
+                }
+                
 
             }).catch(err => {
                 FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)

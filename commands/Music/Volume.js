@@ -15,6 +15,15 @@ module.exports = {
             return message.reply({embeds: [notInAVoiceChannelErr]})
             
         }
+
+        //check if the given value is negative
+        if (Number(text) < 0){
+            const negativeNumberError = new Discord.EmbedBuilder()
+            negativeNumberError.setColor(FNBRMENA.Colors("embedError"))
+            negativeNumberError.setTitle(`Volume must be non negative, Provide a such. ${emojisObject.errorEmoji}`)
+            return message.reply({embeds: [negativeNumberError]})
+            
+        }
         
         //get the queue
         const queue = client.disTube.getQueue(message)

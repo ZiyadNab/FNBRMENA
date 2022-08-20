@@ -167,14 +167,26 @@ module.exports = {
                     }
 
                     //if there is no item found
-                    if(errorHandleing === 0 && res.data.items.length === 0){
-                        errorHandleing++
+                    if(errorHandleing === 0 && res.data.items.length === 0 && list.length > 1){
 
                         //error happened
                         const noItemsMatchingError = new Discord.EmbedBuilder()
                         noItemsMatchingError.setColor(FNBRMENA.Colors("embedError"))
                         if(userData.lang === "en") noItemsMatchingError.setTitle(`There is no items matching your entry ${emojisObject.errorEmoji}\n\`Attempting to skip '${list[i]}' item.\``)
                         else if(userData.lang === "ar") noItemsMatchingError.setTitle(`لا يمكنني العثور على عناصر تناسب ادوات البحث الخاصة بك ${emojisObject.errorEmoji}\n\`سوف يتم تخطي '${list[i]}'.\``)
+                        message.reply({embeds: [noItemsMatchingError]})
+                        
+                    }
+
+                    //if there is no item found
+                    if(errorHandleing === 0 && res.data.items.length === 0 && list.length <= 1){
+                        errorHandleing++
+
+                        //error happened
+                        const noItemsMatchingError = new Discord.EmbedBuilder()
+                        noItemsMatchingError.setColor(FNBRMENA.Colors("embedError"))
+                        if(userData.lang === "en") noItemsMatchingError.setTitle(`Couldn't find ${list[i]} item, please try again ${emojisObject.errorEmoji}`)
+                        else if(userData.lang === "ar") noItemsMatchingError.setTitle(`لم يمكنني العثور على ${list[i]} من فضلك حاول مجددا ${emojisObject.errorEmoji}`)
                         message.reply({embeds: [noItemsMatchingError]})
                         
                     }
@@ -608,9 +620,17 @@ module.exports = {
                    }
                 }
 
-                const att = new Discord.AttachmentBuilder(canvas.toBuffer('image/jpeg'), {name: `${message.author.id}.jpg`})
-                await message.channel.send({files: [att]})
-                msg.delete()
+                try{
+                    var att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `${message.author.id}.png`})
+                    await message.channel.send({files: [att]})
+                    msg.delete()
+
+                }catch{
+                    var att = new Discord.AttachmentBuilder(canvas.toBuffer('image/jpeg'), {name: `${message.author.id}.jpg`})
+                    await message.channel.send({files: [att]})
+                    msg.delete()
+
+                }
 
             }).catch(async err => {
                 FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)

@@ -27,26 +27,22 @@ module.exports = {
             return message.reply({embeds: [noMusicPlayingErr]})
         }
 
-        //add the song to the queue
-        queue.songs.map((song, id) =>{
+        //send the current playing music info
+        const nowPlaying = new Discord.EmbedBuilder()
 
-            //send the current playing music info
-            const nowPlaying = new Discord.EmbedBuilder()
+        //add the song to the queue
+        if(queue.songs.length < 24){
             nowPlaying.setColor(FNBRMENA.Colors("embed"))
-            nowPlaying.setAuthor({name: "Added By " + song.user.username})
-            nowPlaying.setTitle(`Now Playing - ${song.name}`)
-            nowPlaying.setDescription(`Duration: \`${song.formattedDuration}\``)
-            nowPlaying.setImage(song.thumbnail)
-            nowPlaying.setFooter(`${id+1}`)
-            message.reply({embeds: [nowPlaying], components: [
-                new Discord.ActionRowBuilder()
-                    .addComponents(
-                        new Discord.ButtonBuilder()
-                        .setStyle(Discord.ButtonStyle.Link)
-                        .setLabel("Music Link")
-                        .setURL(song.url)
-                    )
-              ]})
-        });
+            nowPlaying.setDescription(`Here is all the songs currently in the queue, use play to add a song.`)
+            queue.songs.map((song, id) =>{
+                nowPlaying.addFields({name: `Added By ${song.user.username}`, value: `• ${song.name}\n• Duration: \`${song.formattedDuration}\`\n• Queue Position: \`${id + 1}\`\n\n`})
+            })
+        }else{
+            nowPlaying.setColor(FNBRMENA.Colors("embedError"))
+            nowPlaying.setDescription(`Cant view queue at the moment, becuase is has too many songs ${emojisObject.errorEmoji}`)
+        }
+
+        nowPlaying.setTitle(`Current Queue, ${queue.songs.length} Songs`)
+        message.reply({embeds: [nowPlaying]})
     }
 }

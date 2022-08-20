@@ -820,7 +820,7 @@ module.exports = {
                     }
                 }
 
-                const att = new Discord.AttachmentBuilder(canvas.toBuffer(), `${searchedBundleData.offerId}.png`)
+                const att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `${searchedBundleData.offerId}.png`})
                 await message.reply({files: [att], embeds: [bundleEmbed]})
                 msg.delete()
 

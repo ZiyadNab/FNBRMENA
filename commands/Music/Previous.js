@@ -27,8 +27,16 @@ module.exports = {
             return message.reply({embeds: [noMusicPlayingErr]})
         }
 
+        //check if there is previous song
+        if(queue.previousSongs.length < 1){
+            const noPreviousSongsError = new Discord.EmbedBuilder()
+            noPreviousSongsError.setColor(FNBRMENA.Colors("embedError"))
+            noPreviousSongsError.setTitle(`There isn't any previous songs ${emojisObject.errorEmoji}`)
+            return message.reply({embeds: [noPreviousSongsError]})
+        }
+
         //get prev
-        const song = queue.previous()
+        const song = await queue.previous()
         const previousSong = new Discord.EmbedBuilder()
         previousSong.setColor(FNBRMENA.Colors("embedSuccess"))
         previousSong.setTitle(`Now playing the previous song \`${song.name}\`. ${emojisObject.checkEmoji}`)

@@ -367,23 +367,23 @@ module.exports = async (FNBRMENA, message, client, lang, emojisObject) => {
                 emoji: `${emojisObject.emoji}`
             },
             {
-                label: 'Toy',
-                value: 'الدمية',
+                label: 'الدمية',
+                value: 'toy',
                 emoji: `${emojisObject.toy}`
             },
             {
-                label: 'Pet',
-                value: 'حيوان أليف',
+                label: 'حيوان أليف',
+                value: 'pet',
                 emoji: `${emojisObject.pet}`
             },
             {
-                label: 'Wrap',
-                value: 'الغلاف',
+                label: 'الغلاف',
+                value: 'wrap',
                 emoji: `${emojisObject.wrap}`
             },
             {
-                label: 'Music',
-                value: 'الموسيقى',
+                label: 'الموسيقى',
+                value: 'music',
                 emoji: `${emojisObject.music}`
             },
             {
@@ -394,6 +394,7 @@ module.exports = async (FNBRMENA, message, client, lang, emojisObject) => {
             {
                 label: 'الراية',
                 value: 'bannertoken',
+                emoji: `${emojisObject.banner}`
             },
         )
 
@@ -917,7 +918,7 @@ module.exports = async (FNBRMENA, message, client, lang, emojisObject) => {
         //add options for AR
         if(lang === "ar") rarityOfCosmeticsDropMenu.addOptions(
             {
-                label: 'الأسطوري',
+                label: 'أسطوري',
                 value: 'Legendary',
                 emoji: `${emojisObject.legendary}`
             },
@@ -1062,9 +1063,16 @@ module.exports = async (FNBRMENA, message, client, lang, emojisObject) => {
 
             if(!foundChapters.includes(chapters.chapter)){
                 foundChapters.push(chapters.chapter)
-                allChapters.push(
+                if(lang === "en") allChapters.push(
                     {
                         label: `Chapter ${chapters.chapter}`,
+                        value: `${chapters.chapter}`
+                    }
+                )
+
+                else if(lang === "ar") allChapters.push(
+                    {
+                        label: `الفصل ${chapters.chapter}`,
                         value: `${chapters.chapter}`
                     }
                 )
@@ -1682,9 +1690,16 @@ module.exports = async (FNBRMENA, message, client, lang, emojisObject) => {
 
             if(!foundChapters.includes(chapters.chapter)){
                 foundChapters.push(chapters.chapter)
-                allChapters.push(
+                if(lang === "en") allChapters.push(
                     {
                         label: `Chapter ${chapters.chapter}`,
+                        value: `${chapters.chapter}`
+                    }
+                )
+
+                else if(lang === "ar") allChapters.push(
+                    {
+                        label: `الفصل ${chapters.chapter}`,
                         value: `${chapters.chapter}`
                     }
                 )

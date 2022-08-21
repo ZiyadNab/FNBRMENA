@@ -76,145 +76,148 @@ module.exports = {
             // If canecl button has been clicked
             if(collected.customId === "Cancel") dropMenuMessage.delete()
 
-            // If the user chose Numbers
-            if(collected.values[0] === "Numbers"){
-                dropMenuMessage.delete()
+            if(collected.customId === "leaderboard"){
 
-                // Get the results
-                const results = []
-                for(const leaderboard of Object.keys(games.numbersGame.leaderboard)){
-                    if(leaderboard !== 'DONTDELETE') results.push({
-                        id: leaderboard,
-                        score: games.numbersGame.leaderboard[leaderboard].score
+                // If the user chose Numbers
+                if(collected.values[0] === "Numbers"){
+                    dropMenuMessage.delete()
+
+                    // Get the results
+                    const results = []
+                    for(const leaderboard of Object.keys(games.numbersGame.leaderboard)){
+                        if(leaderboard !== 'DONTDELETE') results.push({
+                            id: leaderboard,
+                            score: games.numbersGame.leaderboard[leaderboard].score
+                        })
+                    }
+
+                    // Sort the results
+                    results.sort(function (a, b) {
+                        return b.score - a.score
                     })
-                }
+                    
+                    // Check if there is any args
+                    if(args.length !== 0){
 
-                // Sort the results
-                results.sort(function (a, b) {
-                    return b.score - a.score
-                })
-                
-                // Check if there is any args
-                if(args.length !== 0){
+                        // Get user's data
+                        const user = await message.guild.members.cache.get(text)
 
-                    // Get user's data
-                    const user = await message.guild.members.cache.get(text)
+                        // Check if the user's ID is valid
+                        if(user){
 
-                    // Check if the user's ID is valid
-                    if(user){
+                            // Check if the user has any score
+                            if(games.numbersGame.leaderboard[text] != undefined){
 
-                        // Check if the user has any score
-                        if(games.numbersGame.leaderboard[text] != undefined){
+                                // Get the user's score
+                                const userScoreEmbed = new Discord.EmbedBuilder()
+                                userScoreEmbed.setColor(FNBRMENA.Colors("embed"))
+                                userScoreEmbed.setTitle(`${user.user.username} has ${games.numbersGame.leaderboard[text].score} points`)
+                                message.reply({embeds: [userScoreEmbed]})
+                            }else{
 
-                            // Get the user's score
-                            const userScoreEmbed = new Discord.EmbedBuilder()
-                            userScoreEmbed.setColor(FNBRMENA.Colors("embed"))
-                            userScoreEmbed.setTitle(`${user.user.username} has ${games.numbersGame.leaderboard[text].score} points`)
-                            message.reply({embeds: [userScoreEmbed]})
+                                // There is no score for the given user
+                                const noScoreFoundError = new Discord.EmbedBuilder()
+                                noScoreFoundError.setColor(FNBRMENA.Colors("embedError"))
+                                noScoreFoundError.setTitle(`${user.user.username} hasn't played yet ${emojisObject.errorEmoji}`)
+                                message.reply({embeds: [noScoreFoundError]})
+                            }
                         }else{
 
-                            // There is no score for the given user
-                            const noScoreFoundError = new Discord.EmbedBuilder()
-                            noScoreFoundError.setColor(FNBRMENA.Colors("embedError"))
-                            noScoreFoundError.setTitle(`${user.user.username} hasn't played yet ${emojisObject.errorEmoji}`)
-                            message.reply({embeds: [noScoreFoundError]})
+                            // User id is not correct
+                            const theUserIdIsWrongError = new Discord.EmbedBuilder()
+                            theUserIdIsWrongError.setColor(FNBRMENA.Colors("embedError"))
+                            theUserIdIsWrongError.setTitle(`There is such a user with ${text} id, please try again ${emojisObject.errorEmoji}`)
+                            message.reply({embeds: [theUserIdIsWrongError]})
                         }
                     }else{
 
-                        // User id is not correct
-                        const theUserIdIsWrongError = new Discord.EmbedBuilder()
-                        theUserIdIsWrongError.setColor(FNBRMENA.Colors("embedError"))
-                        theUserIdIsWrongError.setTitle(`There is such a user with ${text} id, please try again ${emojisObject.errorEmoji}`)
-                        message.reply({embeds: [theUserIdIsWrongError]})
-                    }
-                }else{
+                        // Print the top players
+                        const leaderboardTop = new Discord.EmbedBuilder()
+                        leaderboardTop.setColor(FNBRMENA.Colors("embed"))
+                        leaderboardTop.setTitle(`Top ${games.numbersGame.top}`)
 
-                    // Print the top players
-                    const leaderboardTop = new Discord.EmbedBuilder()
-                    leaderboardTop.setColor(FNBRMENA.Colors("embed"))
-                    leaderboardTop.setTitle(`Top ${games.numbersGame.top}`)
-
-                    // Looping
-                    let string = ``, counter = 1
-                    for(let i = 0; i < games.numbersGame.top; i++){
-                        if(results[i]){
-                            const user = await message.guild.members.cache.get(results[i].id)
-                            if(user) string += `${counter++}. ${user.user.username} has ${results[i].score} points\n`
-                        }else string += `${counter++}. No players yet\n`
+                        // Looping
+                        let string = ``, counter = 1
+                        for(let i = 0; i < games.numbersGame.top; i++){
+                            if(results[i]){
+                                const user = await message.guild.members.cache.get(results[i].id)
+                                if(user) string += `${counter++}. ${user.user.username} has ${results[i].score} points\n`
+                            }else string += `${counter++}. No players yet\n`
+                        }
+                        leaderboardTop.setDescription(`Here are the top ${games.numbersGame.top} in numbers game\n\n${string}\n\n${emojisObject.starwars} Current number is \`${games.numbersGame.lastMessage}\`, go to ${message.guild.channels.cache.get(config.channels.numbers).toString()} to participate`)
+                        message.reply({embeds: [leaderboardTop]})
                     }
-                    leaderboardTop.setDescription(`Here are the top ${games.numbersGame.top} in numbers game\n\n${string}\n\n${emojisObject.starwars} Current number is \`${games.numbersGame.lastMessage}\`, go to ${message.guild.channels.cache.get(config.channels.numbers).toString()} to participate`)
-                    message.reply({embeds: [leaderboardTop]})
                 }
-            }
 
-            // If the user chose TTT
-            if(collected.values[0] === "TTT"){
-                dropMenuMessage.delete()
+                // If the user chose TTT
+                if(collected.values[0] === "TTT"){
+                    dropMenuMessage.delete()
 
-                // Get the results
-                const results = []
-                for(const leaderboard of Object.keys(games.tictactoe.leaderboard)){
-                    if(leaderboard !== 'DONTDELETE') results.push({
-                        id: leaderboard,
-                        wins: games.tictactoe.leaderboard[leaderboard].wins
+                    // Get the results
+                    const results = []
+                    for(const leaderboard of Object.keys(games.tictactoe.leaderboard)){
+                        if(leaderboard !== 'DONTDELETE') results.push({
+                            id: leaderboard,
+                            wins: games.tictactoe.leaderboard[leaderboard].wins
+                        })
+                    }
+
+                    // Sort the results
+                    results.sort(function (a, b) {
+                        return b.wins - a.wins
                     })
-                }
+                    
+                    // Check if there is any args
+                    if(args.length !== 0){
 
-                // Sort the results
-                results.sort(function (a, b) {
-                    return b.wins - a.wins
-                })
-                
-                // Check if there is any args
-                if(args.length !== 0){
+                        // Get user's data
+                        const user = await message.guild.members.cache.get(text)
 
-                    // Get user's data
-                    const user = await message.guild.members.cache.get(text)
+                        // Check if the user's ID is valid
+                        if(user){
 
-                    // Check if the user's ID is valid
-                    if(user){
+                            // Check if the user has any wins
+                            if(games.tictactoe.leaderboard[text] != undefined){
 
-                        // Check if the user has any wins
-                        if(games.tictactoe.leaderboard[text] != undefined){
+                                // Get the user's wins
+                                const userScoreEmbed = new Discord.EmbedBuilder()
+                                userScoreEmbed.setColor(FNBRMENA.Colors("embed"))
+                                userScoreEmbed.setTitle(`${user.user.username} has ${games.tictactoe.leaderboard[text].wins} wins`)
+                                message.reply({embeds: [userScoreEmbed]})
+                            }else{
 
-                            // Get the user's wins
-                            const userScoreEmbed = new Discord.EmbedBuilder()
-                            userScoreEmbed.setColor(FNBRMENA.Colors("embed"))
-                            userScoreEmbed.setTitle(`${user.user.username} has ${games.tictactoe.leaderboard[text].wins} wins`)
-                            message.reply({embeds: [userScoreEmbed]})
+                                // There is no wins for the given user
+                                const noScoreFoundError = new Discord.EmbedBuilder()
+                                noScoreFoundError.setColor(FNBRMENA.Colors("embedError"))
+                                noScoreFoundError.setTitle(`${user.user.username} hasn't played yet ${emojisObject.errorEmoji}`)
+                                message.reply({embeds: [noScoreFoundError]})
+                            }
                         }else{
 
-                            // There is no wins for the given user
-                            const noScoreFoundError = new Discord.EmbedBuilder()
-                            noScoreFoundError.setColor(FNBRMENA.Colors("embedError"))
-                            noScoreFoundError.setTitle(`${user.user.username} hasn't played yet ${emojisObject.errorEmoji}`)
-                            message.reply({embeds: [noScoreFoundError]})
+                            // User id is not correct
+                            const theUserIdIsWrongError = new Discord.EmbedBuilder()
+                            theUserIdIsWrongError.setColor(FNBRMENA.Colors("embedError"))
+                            theUserIdIsWrongError.setTitle(`There is such a user with ${text} id, please try again ${emojisObject.errorEmoji}`)
+                            message.reply({embeds: [theUserIdIsWrongError]})
                         }
                     }else{
 
-                        // User id is not correct
-                        const theUserIdIsWrongError = new Discord.EmbedBuilder()
-                        theUserIdIsWrongError.setColor(FNBRMENA.Colors("embedError"))
-                        theUserIdIsWrongError.setTitle(`There is such a user with ${text} id, please try again ${emojisObject.errorEmoji}`)
-                        message.reply({embeds: [theUserIdIsWrongError]})
-                    }
-                }else{
+                        // Print the top players
+                        const leaderboardTop = new Discord.EmbedBuilder()
+                        leaderboardTop.setColor(FNBRMENA.Colors("embed"))
+                        leaderboardTop.setTitle(`Top ${games.tictactoe.top}`)
 
-                    // Print the top players
-                    const leaderboardTop = new Discord.EmbedBuilder()
-                    leaderboardTop.setColor(FNBRMENA.Colors("embed"))
-                    leaderboardTop.setTitle(`Top ${games.tictactoe.top}`)
-
-                    // Looping
-                    let string = ``, counter = 1
-                    for(let i = 0; i < games.tictactoe.top; i++){
-                        if(results[i]){
-                            const user = await message.guild.members.cache.get(results[i].id)
-                            if(user) string += `${counter++}. ${user.user.username} has ${results[i].wins} wins\n`
-                        }else string += `${counter++}. No players yet\n`
+                        // Looping
+                        let string = ``, counter = 1
+                        for(let i = 0; i < games.tictactoe.top; i++){
+                            if(results[i]){
+                                const user = await message.guild.members.cache.get(results[i].id)
+                                if(user) string += `${counter++}. ${user.user.username} has ${results[i].wins} wins\n`
+                            }else string += `${counter++}. No players yet\n`
+                        }
+                        leaderboardTop.setDescription(`Here are the top ${games.tictactoe.top} in Tic-Tac-Toe mini-game,you can use \`xo\` command to play with an opponent.\n\n${string}\n\n${emojisObject.starwars}} Total matches played ${games.tictactoe.totalMatchesPlayed} match`)
+                        message.reply({embeds: [leaderboardTop]})
                     }
-                    leaderboardTop.setDescription(`Here are the top ${games.tictactoe.top} in Tic-Tac-Toe mini-game,you can use \`xo\` command to play with an opponent.\n\n${string}\n\n${emojisObject.starwars}} Total matches played ${games.tictactoe.totalMatchesPlayed} match`)
-                    message.reply({embeds: [leaderboardTop]})
                 }
             }
 

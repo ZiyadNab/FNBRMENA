@@ -215,7 +215,7 @@ module.exports = {
                                 if(user) string += `${counter++}. ${user.user.username} has ${results[i].wins} wins\n`
                             }else string += `${counter++}. No players yet\n`
                         }
-                        leaderboardTop.setDescription(`Here are the top ${games.tictactoe.top} in Tic-Tac-Toe mini-game,you can use \`xo\` command to play with an opponent.\n\n${string}\n\n${emojisObject.starwars}} Total matches played ${games.tictactoe.totalMatchesPlayed} match`)
+                        leaderboardTop.setDescription(`Here are the top ${games.tictactoe.top} in Tic-Tac-Toe mini-game,you can use \`xo\` command to play with an opponent.\n\n${string}\n\n${emojisObject.starwars} Total matches played ${games.tictactoe.totalMatchesPlayed} match`)
                         message.reply({embeds: [leaderboardTop]})
                     }
                 }

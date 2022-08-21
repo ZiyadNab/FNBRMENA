@@ -65,22 +65,22 @@ module.exports.listen = async (client, admin, emojisObject) => {
         if(message.channel.id === config.channels.numbers){
 
             // Get the last message sent
-            const numbersGame = await FNBRMENA.Admin(admin, message, "", "numbersGame")
+            const games = await FNBRMENA.Admin(admin, message, "", "Games")
 
             // If the message sent isn't a number nor exceeding the last message send then delete it
-            if(isNaN(content) || Number(content) < numbersGame.lastMessage + 1 || Number(content) > numbersGame.lastMessage + 1) await message.delete() // Delete the user's message
+            if(isNaN(content) || Number(content) < games.numbersGame.lastMessage + 1 || Number(content) > games.numbersGame.lastMessage + 1) await message.delete() // Delete the user's message
             else{
 
                 // Store the new number
-                await admin.database().ref("ERA's").child("numbersGame").update({
+                await admin.database().ref("ERA's").child("Games").child("numbersGame").update({
                     lastMessage: Number(content)
                 })
 
-                if(numbersGame.leaderboard[member.id] != undefined) var newScore = ++numbersGame.leaderboard[member.id].score
+                if(games.numbersGame.leaderboard[member.id] != undefined) var newScore = ++games.numbersGame.leaderboard[member.id].score
                 else var newScore = 1
 
                 // Change the user's leaderboard
-                await admin.database().ref("ERA's").child("numbersGame").child("leaderboard").child(member.id).update({
+                await admin.database().ref("ERA's").child("Games").child("numbersGame").child("leaderboard").child(member.id).update({
                     score: newScore
                  })
             }

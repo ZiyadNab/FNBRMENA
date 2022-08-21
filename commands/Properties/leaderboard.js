@@ -9,7 +9,21 @@ module.exports = {
     callback: async (FNBRMENA, message, args, text, Discord, client, admin, userData, alias, emojisObject) => {
                 
         // Get the last message sent
-        const numbersGame = await FNBRMENA.Admin(admin, message, "", "numbersGame")
+        const games = await FNBRMENA.Admin(admin, message, "", "Games")
+
+        // Get the results
+        const results = []
+        for(const leaderboard of Object.keys(games.numbersGame.leaderboard)){
+            if(leaderboard !== 'DONTDELETE') results.push({
+                id: leaderboard,
+                score: games.numbersGame.leaderboard[leaderboard].score
+            })
+        }
+
+        // Sort the results
+        results.sort(function (a, b) {
+            return b.score - a.score
+        })
         
         // Check if there is any args
         if(args.length !== 0){
@@ -21,12 +35,12 @@ module.exports = {
             if(user){
 
                 // Check if the user has any score
-                if(numbersGame.leaderboard[text] != undefined){
+                if(games.numbersGame.leaderboard[text] != undefined){
 
                     // Get the user's score
                     const userScoreEmbed = new Discord.EmbedBuilder()
                     userScoreEmbed.setColor(FNBRMENA.Colors("embed"))
-                    userScoreEmbed.setTitle(`${user.user.username} has ${numbersGame.leaderboard[text].score} points`)
+                    userScoreEmbed.setTitle(`${user.user.username} has ${games.numbersGame.leaderboard[text].score} points`)
                     message.reply({embeds: [userScoreEmbed]})
                 }else{
 
@@ -46,34 +60,20 @@ module.exports = {
             }
         }else{
 
-            // Get the results
-            const results = []
-            for(const leaderboard of Object.keys(numbersGame.leaderboard)){
-                if(leaderboard !== 'DONTDELETE') results.push({
-                    id: leaderboard,
-                    score: numbersGame.leaderboard[leaderboard].score
-                })
-            }
-
-            // Sort the results
-            results.sort(function (a, b) {
-                return b.score - a.score
-            })
-
             // Print the top players
             const leaderboardTop = new Discord.EmbedBuilder()
             leaderboardTop.setColor(FNBRMENA.Colors("embed"))
-            leaderboardTop.setTitle(`Top ${numbersGame.top}`)
+            leaderboardTop.setTitle(`Top ${games.numbersGame.top}`)
 
             // Looping
             let string = ``, counter = 1
-            for(let i = 0; i < numbersGame.top; i++){
+            for(let i = 0; i < games.numbersGame.top; i++){
                 if(results[i]){
                     const user = await message.guild.members.cache.get(results[i].id)
                     if(user) string += `${counter++}. ${user.user.username} has ${results[i].score} points\n`
                 }else string += `${counter++}. No players yet\n`
             }
-            leaderboardTop.setDescription(`Here are the top ${numbersGame.top} in numbers game\n\n${string}`)
+            leaderboardTop.setDescription(`Here are the top ${games.numbersGame.top} in numbers game\n\n${string}`)
             message.reply({embeds: [leaderboardTop]})
         }
     }

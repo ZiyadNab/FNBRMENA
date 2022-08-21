@@ -1135,13 +1135,13 @@ class FNBRMENA {
             return sectionsGradient
         }
 
-        //get the numbersGame status
-        if(Type === "numbersGame"){
-            var numbersGame = await Admin.database().ref("ERA's").child("numbersGame").once('value')
+        //get the Games status
+        if(Type === "Games"){
+            var Games = await Admin.database().ref("ERA's").child("Games").once('value')
             .then(async data => {
                 return data.val()
             })
-            return numbersGame
+            return Games
         }
     }
 }

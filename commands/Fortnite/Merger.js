@@ -114,7 +114,7 @@ module.exports = {
 
                             //listen for user input
                             await message.channel.awaitMessages({filter, max: 1, time: 20000, errors: ['time']})
-                            .then( async collected => {
+                            .then(async collected => {
 
                                 //delete messages
                                 notify.delete()
@@ -310,6 +310,10 @@ module.exports = {
 
                                     if(userData.lang === "en") var Source = "ITEMSHOP"
                                     else if(userData.lang === "ar") var Source = "متجر العناصر"
+                                }else if(mergedItemsDataList[i].gameplayTags[j].toLowerCase().includes("seasonshop")){
+
+                                    if(userData.lang === "en") var Source = "SEASON SHOP"
+                                    else if(userData.lang === "ar") var Source = "متجر الموسم"
                                 }else if(mergedItemsDataList[i].gameplayTags[j].toLowerCase().includes("battlepass")){
 
                                     if(userData.lang === "en") var Source = "BATTLEPASS"

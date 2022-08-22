@@ -1168,7 +1168,7 @@ module.exports = {
                 if(userData.lang === "en") var reply = `please choose your item, listening will be stopped after 20 seconds`
                 else if(userData.lang === "ar") var reply = `الرجاء كتابة اسم العنصر، راح يتوقف الامر بعد ٢٠ ثانية`
                 
-                await message.reply({embeds: reply, embeds: [list]})
+                await message.reply({content: reply, embeds: [list]})
                 .then( async notify => {
 
                     //listen for user input
@@ -1302,7 +1302,9 @@ module.exports = {
                 const detailsDropDownMessage = await message.reply({embeds: [dropDownMenuEmbed], components: [categoriesRow, buttonDataRow]})
 
                 //filtering the user clicker
-                const filter = i => i.user.id === message.author.id
+                const filter = (i => {
+                    return (i.user.id === message.author.id && i.message.id === detailsDropDownMessage.id && i.guild.id === message.guild.id)
+                })
 
                 //await the user click
                 await message.channel.awaitMessageComponent({filter, time: 30000})

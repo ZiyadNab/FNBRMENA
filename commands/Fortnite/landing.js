@@ -89,7 +89,9 @@ module.exports = {
                     msg.delete()
 
                     //filtering the user clicker
-                    const filter = i => i.user.id === message.author.id
+                    const filter = (i => {
+                        return (i.user.id === message.author.id && i.message.id === PickingLandingSpotAgainMessage.id && i.guild.id === message.guild.id)
+                    })
 
                     //await for the user
                     await message.channel.awaitMessageComponent({filter, time: 30000})
@@ -145,10 +147,12 @@ module.exports = {
             buttonsDataRow.addComponents(startButton, cancelButton)
 
             //send the button
-            const randomLanderMessaghe = await message.reply({embeds: [RandomLandingSpotEmbed], components: [buttonsDataRow]})
+            const randomLanderMessage = await message.reply({embeds: [RandomLandingSpotEmbed], components: [buttonsDataRow]})
 
             //filtering the user clicker
-            const filter = i => i.user.id === message.author.id
+            const filter = (i => {
+                return (i.user.id === message.author.id && i.message.id === randomLanderMessage.id && i.guild.id === message.guild.id)
+            })
 
             //await for the user
             await message.channel.awaitMessageComponent({filter, time: 30000})
@@ -156,13 +160,13 @@ module.exports = {
                 collected.deferUpdate();
 
                 //if canel button has been clicked
-                if(collected.customId === "Cancel") randomLanderMessaghe.delete()
+                if(collected.customId === "Cancel") randomLanderMessage.delete()
                 if(collected.customId === "Start"){
-                    randomLanderMessaghe.delete()
+                    randomLanderMessage.delete()
                     landingPicker()
                 }
             }).catch(async err => {
-                randomLanderMessaghe.delete()
+                randomLanderMessage.delete()
                 FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
             })
 

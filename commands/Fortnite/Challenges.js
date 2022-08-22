@@ -333,7 +333,9 @@ module.exports = {
             const challengeCategoryMessage = await message.reply({embeds: [dropDownMenuEmbed], components: [categoriesRow, buttonDataRow]})
 
             //filtering the user clicker
-            const filter = i => i.user.id === message.author.id
+            const filter = (i => {
+                return (i.user.id === message.author.id && i.message.id === challengeCategoryMessage.id && i.guild.id === message.guild.id)
+            })
 
             //await the user click
             const colllector = await message.channel.createMessageComponentCollector({filter, time: 60000, errors: ['time'] })

@@ -68,10 +68,12 @@ module.exports = {
                     buttonsDataRow.addComponents(audioButton, videoButton, cancelButton)
 
                     //send the button
-                    const musicTypeMessaghe = await message.reply({embeds: [musicTypeEmbed], components: [buttonsDataRow]})
+                    const musicTypeMessage = await message.reply({embeds: [musicTypeEmbed], components: [buttonsDataRow]})
 
                     //filtering the user clicker
-                    const filter = i => i.user.id === message.author.id
+                    const filter = (i => {
+                        return (i.user.id === message.author.id && i.message.id === musicTypeMessage.id && i.guild.id === message.guild.id)
+                    })
 
                     //await the user click
                     await message.channel.awaitMessageComponent({filter, time: 30000})
@@ -79,9 +81,9 @@ module.exports = {
                         collected.deferUpdate();
 
                         //if canel button has been clicked
-                        if(collected.customId === "Cancel") musicTypeMessaghe.delete()
+                        if(collected.customId === "Cancel") musicTypeMessage.delete()
                         else{
-                            musicTypeMessaghe.delete()
+                            musicTypeMessage.delete()
 
                             //send the generating message
                             const generating = new Discord.EmbedBuilder()
@@ -114,6 +116,7 @@ module.exports = {
                             })
                         }
                     }).catch(async err => {
+                        musicTypeMessage.delete()
                         FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
                     })
 

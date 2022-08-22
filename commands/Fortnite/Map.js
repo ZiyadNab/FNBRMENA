@@ -154,7 +154,9 @@ module.exports = {
                     const allAvaliableVersionsDropDownMessage = await message.reply({embeds: [allAvaliableVersionsEmbed], components: [allAvaliableVersionsRow, buttonDataRow]})
 
                     //filtering the user clicker
-                    const filter = i => i.user.id === message.author.id
+                    const filter = (i => {
+                        return (i.user.id === message.author.id && i.message.id === allAvaliableVersionsDropDownMessage.id && i.guild.id === message.guild.id)
+                    })
 
                     //await the user click
                     await message.channel.awaitMessageComponent({filter, time: 30000})

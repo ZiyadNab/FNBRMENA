@@ -255,7 +255,9 @@ module.exports = {
                     const sendTierDataViewer = await message.reply({components: [buttonsDataRow], embeds: [await tierViewer()]})
 
                     //filtering the user clicker
-                    const filter = i => i.user.id === message.author.id
+                    const filter = (i => {
+                        return (i.user.id === message.author.id && i.message.id === sendTierDataViewer.id && i.guild.id === message.guild.id)
+                    })
 
                     //await the user click
                     const collector = message.channel.createMessageComponentCollector({filter, time: 2 * 60000, errors: ['time'] })

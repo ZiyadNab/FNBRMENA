@@ -66,7 +66,9 @@ module.exports = {
         const dropMenuMessage = await message.reply({embeds: [leaderboardTypeEmbed], components: [leaderboardTypePaksRow, buttonDataRow]})
 
         // Filtering the user clicker
-        const filter = i => i.user.id === message.author.id
+        const filter = (i => {
+            return (i.user.id === message.author.id && i.message.id === dropMenuMessage.id && i.guild.id === message.guild.id)
+        })
 
         // Await for the user
         await message.channel.awaitMessageComponent({filter, time: 30000})

@@ -233,7 +233,9 @@ module.exports = {
             const newsTypeMessage = await message.reply({embeds: [newsTypeEmbed], components: [buttonsDataRow]})
 
             //filtering the user clicker
-            const filter = i => i.user.id === message.author.id
+            const filter = (i => {
+                return (i.user.id === message.author.id && i.message.id === newsTypeMessage.id && i.guild.id === message.guild.id)
+            })
 
             //await the user click
             await message.channel.awaitMessageComponent({filter, time: 30000})

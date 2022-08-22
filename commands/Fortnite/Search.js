@@ -200,7 +200,7 @@ module.exports = {
 
                                         if(userData.lang === "en") var Source = "ITEMSHOP"
                                         else if(userData.lang === "ar") var Source = "متجر العناصر"
-                                    }else if(mergedItemsDataList[i].gameplayTags[j].toLowerCase().includes("seasonshop")){
+                                    }else if(res.data.items[num].gameplayTags[j].toLowerCase().includes("seasonshop")){
 
                                         if(userData.lang === "en") var Source = "SEASON SHOP"
                                         else if(userData.lang === "ar") var Source = "متجر الموسم"

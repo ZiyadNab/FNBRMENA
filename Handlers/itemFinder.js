@@ -1216,7 +1216,7 @@ module.exports = async (FNBRMENA, message, client, lang, emojisObject) => {
             },
             {
                 label: 'Exclusive',
-                value: 'Cosmetics.Source.Promo,Cosmetics.Source.Platform*',
+                value: 'Cosmetics.Source.Promo',
                 emoji: `${emojisObject.exclusive}`
             },
             {
@@ -1275,7 +1275,7 @@ module.exports = async (FNBRMENA, message, client, lang, emojisObject) => {
             },
             {
                 label: 'حصري',
-                value: 'Cosmetics.Source.Promo,Cosmetics.Source.Platform*',
+                value: 'Cosmetics.Source.Promo',
                 emoji: `${emojisObject.exclusive}`
             },
             {

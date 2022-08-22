@@ -1187,6 +1187,7 @@ module.exports = async (FNBRMENA, message, client, lang, emojisObject) => {
         //create the drop menu
         const tagsDropMenu = new Discord.SelectMenuBuilder()
         tagsDropMenu.setCustomId('cosmetic_tags')
+        tagsDropMenu.setMinValues(1)
         tagsDropMenu.setMaxValues(11)
         if(lang === "en") tagsDropMenu.setPlaceholder('Select tags!')
         else if(lang === "ar") tagsDropMenu.setPlaceholder('اختر شعارات')

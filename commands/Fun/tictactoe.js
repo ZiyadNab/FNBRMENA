@@ -67,7 +67,7 @@ module.exports = {
                 
                 // Define variables
                 const players = [message.member.user.id, opponent.id].sort(() => Math.random() > 0.5 ? 1 : -1);
-                const x_emoji = '❌';
+                const x_emoji = '✖️';
                 const o_emoji = '⭕';
                 const dashmoji = '➖';
                 const idleClr = Discord.ButtonStyle.Secondary
@@ -359,6 +359,7 @@ module.exports = {
                             if (Object.keys(Filer).length == 0) {
                                 if (!won['X-Player'] && !won['O-Player']) {
                                     ttt(m)
+                                    collector2nd.stop()
                                     return m
                                             .edit({
                                             content: `You have tied. Play again to see who wins.`,

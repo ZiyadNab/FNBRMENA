@@ -314,7 +314,7 @@ module.exports = {
                         ctx.fillText(Source, (1024 - 5) + x, (1024 - 7.5) + y)
 
                     }else if(userData.lang === "ar"){
-                        ctx.fillText(name, 1024 + x, (1024 - 60) + y)
+                        ctx.fillText(name, 512 + x, (1024 - 60) + y)
 
                         //add season chapter text
                         ctx.textAlign = "left"

@@ -562,8 +562,8 @@ module.exports = {
             
                         }else{
                             if(userData.lang === "en"){
-                                First = "not out yet or the sorce is not an itemshop"
-                                Last = "not out yet or the sorce is not an itemshop"
+                                First = "not out yet or the source is not an itemshop"
+                                Last = "not out yet or the source is not an itemshop"
                             }else if(userData.lang === "ar"){
                                 First = "لم يتم نزول العنصر بعد او مصدر العنصر ليس من الايتم شوب"
                                 Last = "لم يتم نزول العنصر بعد او مصدر العنصر ليس من الايتم شوب"
@@ -594,7 +594,7 @@ module.exports = {
                             )
                         }else if(userData.lang === "ar"){
                             itemInfo.addFields(
-                                {name: "الاي دي", value: res.data.items[num].id, inline: true},
+                                {name: "المعرف", value: res.data.items[num].id, inline: true},
                                 {name: "الاسم", value: res.data.items[num].name, inline: true},
                                 {name: "الوصف", value: description, inline: true},
                                 {name: "النوع", value: res.data.items[num].type.name, inline: true},

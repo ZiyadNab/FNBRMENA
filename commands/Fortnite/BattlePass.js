@@ -106,7 +106,7 @@ module.exports = {
 
                             //searching...
                             if(rarity === "Legendary"){
-                                const holder = await Canvas.loadImage('./assets/Rarities/battlepass/legendary.png')
+                                const holder = await Canvas.loadImage('./assets/Rarities/newStyle/legendary.png')
                                 ctx.drawImage(holder, x, y, 107, 107)
                                 const pic = await Canvas.loadImage(image)
                                 ctx.drawImage(pic, x, y, 107, 107)
@@ -123,7 +123,7 @@ module.exports = {
                                 }
                             }else
                             if(rarity === "Epic"){
-                                const holder = await Canvas.loadImage('./assets/Rarities/battlepass/epic.png')
+                                const holder = await Canvas.loadImage('./assets/Rarities/newStyle/epic.png')
                                 ctx.drawImage(holder, x, y, 107, 107)
                                 const pic = await Canvas.loadImage(image)
                                 ctx.drawImage(pic, x, y, 107, 107)
@@ -140,7 +140,7 @@ module.exports = {
                                 }
                             }else
                             if(rarity === "Rare"){
-                                const holder = await Canvas.loadImage('./assets/Rarities/battlepass/rare.png')
+                                const holder = await Canvas.loadImage('./assets/Rarities/newStyle/rare.png')
                                 ctx.drawImage(holder, x, y, 107, 107)
                                 const pic = await Canvas.loadImage(image)
                                 ctx.drawImage(pic, x, y, 107, 107)
@@ -157,7 +157,7 @@ module.exports = {
                                 }
                             }else
                             if(rarity === "Uncommon"){
-                                const holder = await Canvas.loadImage('./assets/Rarities/battlepass/uncommon.png')
+                                const holder = await Canvas.loadImage('./assets/Rarities/newStyle/uncommon.png')
                                 ctx.drawImage(holder, x, y, 107, 107)
                                 const pic = await Canvas.loadImage(image)
                                 ctx.drawImage(pic, x, y, 107, 107)
@@ -174,7 +174,7 @@ module.exports = {
                                 }
                             }else
                             if(rarity === "Common"){
-                                const holder = await Canvas.loadImage('./assets/Rarities/battlepass/common.png')
+                                const holder = await Canvas.loadImage('./assets/Rarities/newStyle/common.png')
                                 ctx.drawImage(holder, x, y, 107, 107)
                                 const pic = await Canvas.loadImage(image)
                                 ctx.drawImage(pic, x, y, 107, 107)
@@ -191,7 +191,7 @@ module.exports = {
                                 }
                             }else
                             if(rarity === "MarvelSeries"){
-                                const holder = await Canvas.loadImage('./assets/Rarities/battlepass/marvel.png')
+                                const holder = await Canvas.loadImage('./assets/Rarities/newStyle/marvel.png')
                                 ctx.drawImage(holder, x, y, 107, 107)
                                 const pic = await Canvas.loadImage(image)
                                 ctx.drawImage(pic, x, y, 107, 107)
@@ -208,7 +208,7 @@ module.exports = {
                                 }
                             }else
                             if(rarity === "DCUSeries"){
-                                const holder = await Canvas.loadImage('./assets/Rarities/battlepass/dc.png')
+                                const holder = await Canvas.loadImage('./assets/Rarities/newStyle/dc.png')
                                 ctx.drawImage(holder, x, y, 107, 107)
                                 const pic = await Canvas.loadImage(image)
                                 ctx.drawImage(pic, x, y, 107, 107)
@@ -225,7 +225,7 @@ module.exports = {
                                 }
                             }else
                             if(rarity === "DarkSeries"){
-                                const holder = await Canvas.loadImage('./assets/Rarities/battlepass/dark.png')
+                                const holder = await Canvas.loadImage('./assets/Rarities/newStyle/dark.png')
                                 ctx.drawImage(holder, x, y, 107, 107)
                                 const pic = await Canvas.loadImage(image)
                                 ctx.drawImage(pic, x, y, 107, 107)
@@ -242,7 +242,7 @@ module.exports = {
                                 }
                             }else
                             if(rarity === "CreatorCollabSeries"){
-                                const holder = await Canvas.loadImage('./assets/Rarities/battlepass/icon.png')
+                                const holder = await Canvas.loadImage('./assets/Rarities/newStyle/icon.png')
                                 ctx.drawImage(holder, x, y, 107, 107)
                                 const pic = await Canvas.loadImage(image)
                                 ctx.drawImage(pic, x, y, 107, 107)
@@ -259,7 +259,7 @@ module.exports = {
                                 }
                             }else
                             if(rarity === "ColumbusSeries"){
-                                const holder = await Canvas.loadImage('./assets/Rarities/standard/starwars.png')
+                                const holder = await Canvas.loadImage('./assets/Rarities/newStyle/starwars.png')
                                 ctx.drawImage(holder, x, y, 107, 107)
                                 const pic = await Canvas.loadImage(image)
                                 ctx.drawImage(pic, x, y, 107, 107)
@@ -276,7 +276,7 @@ module.exports = {
                                 }
                             }else
                             if(rarity === "ShadowSeries"){
-                                const holder = await Canvas.loadImage('./assets/Rarities/battlepass/shadow.png')
+                                const holder = await Canvas.loadImage('./assets/Rarities/newStyle/shadow.png')
                                 ctx.drawImage(holder, x, y, 107, 107)
                                 const pic = await Canvas.loadImage(image)
                                 ctx.drawImage(pic, x, y, 107, 107)
@@ -293,7 +293,7 @@ module.exports = {
                                 }
                             }else
                             if(rarity === "SlurpSeries"){
-                                const holder = await Canvas.loadImage('./assets/Rarities/battlepass/slurp.png')
+                                const holder = await Canvas.loadImage('./assets/Rarities/newStyle/slurp.png')
                                 ctx.drawImage(holder, x, y, 107, 107)
                                 const pic = await Canvas.loadImage(image)
                                 ctx.drawImage(pic, x, y, 107, 107)
@@ -310,7 +310,7 @@ module.exports = {
                                 }
                             }else
                             if(rarity === "FrozenSeries"){
-                                const holder = await Canvas.loadImage('./assets/Rarities/battlepass/frozen.png')
+                                const holder = await Canvas.loadImage('./assets/Rarities/newStyle/frozen.png')
                                 ctx.drawImage(holder, x, y, 107, 107)
                                 const pic = await Canvas.loadImage(image)
                                 ctx.drawImage(pic, x, y, 107, 107)
@@ -327,7 +327,7 @@ module.exports = {
                                 }
                             }else
                             if(rarity === "LavaSeries"){
-                                const holder = await Canvas.loadImage('./assets/Rarities/battlepass/lava.png')
+                                const holder = await Canvas.loadImage('./assets/Rarities/newStyle/lava.png')
                                 ctx.drawImage(holder, x, y, 107, 107)
                                 const pic = await Canvas.loadImage(image)
                                 ctx.drawImage(pic, x, y, 107, 107)
@@ -344,7 +344,7 @@ module.exports = {
                                 }
                             }else
                             if(rarity === "PlatformSeries"){
-                                const holder = await Canvas.loadImage('./assets/Rarities/battlepass/gaming.png')
+                                const holder = await Canvas.loadImage('./assets/Rarities/newStyle/gaming.png')
                                 ctx.drawImage(holder, x, y, 107, 107)
                                 const pic = await Canvas.loadImage(image)
                                 ctx.drawImage(pic, x, y, 107, 107)
@@ -360,7 +360,7 @@ module.exports = {
                                     ctx.fillText(tier, (x + 36), (y + 136))
                                 }
                             }else{
-                                const holder = await Canvas.loadImage('./assets/Rarities/battlepass/common.png')
+                                const holder = await Canvas.loadImage('./assets/Rarities/newStyle/common.png')
                                 ctx.drawImage(holder, x, y, 107, 107)
                                 const pic = await Canvas.loadImage(image)
                                 ctx.drawImage(pic, x, y, 107, 107)
@@ -447,6 +447,10 @@ module.exports = {
                         const att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `season${res.data.season}.png`})
                         await message.reply({embeds: [info], components: [row], files: [att]})
                         msg.delete()
+                        
+                    }).catch(err => {
+                        FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
+                        
                     })
                                 
                 }else{

@@ -16,12 +16,17 @@ module.exports = async (FNBRMENA, message, client, lang, emojisObject) => {
     .then(async res => {
 
         //loop through every season
-        for(const season of res.data.seasons) seasonsData.push({
-            displayName: season.displayName,
-            season: season.seasonInChapter,
-            chapter: season.chapter,
-            patchs: season.patchList
-        })
+        for(const history of res.data.seasons){
+            if(history.chapter === 1 && history.season === 10) var season = `X`
+            else var season = history.seasonInChapter
+            
+            seasonsData.push({
+                displayName: history.displayName,
+                season: season,
+                chapter: history.chapter,
+                patchs: history.patchList
+            })
+        }
     })
 
     //the start point

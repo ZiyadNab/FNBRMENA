@@ -138,7 +138,9 @@ module.exports = {
         const commandsMessage = await message.reply({embeds: [list], components: [row]})
 
         //filtering the user clicker
-        const filter = i => i.user.id === message.author.id
+        const filter = (i => {
+            return (i.user.id === message.author.id && i.message.id === commandsMessage.id && i.guild.id === message.guild.id)
+        })
 
         const colllector = message.channel.createMessageComponentCollector({filter, time: 2.5 * 60000, errors: ['time'] })
         colllector.on('collect', async collected => {

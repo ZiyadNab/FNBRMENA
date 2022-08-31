@@ -81,7 +81,7 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
 
                         //trun off push if enabled
                         admin.database().ref("ERA's").child("Events").child("set").child("Push").update({
-                            Push: false
+                            Status: false
                         })
                     }
                     

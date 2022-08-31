@@ -677,9 +677,16 @@ module.exports = {
                         }
 
                         //send embed
-                        const att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `${res.data.items[num].id}.png`})
-                        await message.reply({files: [att]})
-                        msg.delete()
+                        try{
+                            var att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `${res.data.items[num].id}.png`})
+                            await message.reply({files: [att]})
+                            msg.delete()
+                            
+                        }catch{
+                            var att = new Discord.AttachmentBuilder(canvas.toBuffer('image/jpeg'), {name: `${res.data.items[num].id}.jpg`})
+                            await message.reply({files: [att]})
+                            msg.delete()
+                        }
 
                     }).catch(async err => {
                         FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
@@ -1132,9 +1139,16 @@ module.exports = {
                         }
 
                         //send embed
-                        const att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `${res.data.items[num].id}.png`})
-                        await message.reply({files: [att]})
-                        msg.delete()
+                        try{
+                            var att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `${res.data.items[num].id}.png`})
+                            await message.reply({files: [att]})
+                            msg.delete()
+                            
+                        }catch{
+                            var att = new Discord.AttachmentBuilder(canvas.toBuffer('image/jpeg'), {name: `${res.data.items[num].id}.jpg`})
+                            await message.reply({files: [att]})
+                            msg.delete()
+                        }
 
                     }).catch(async err => {
                         FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
@@ -1177,7 +1191,7 @@ module.exports = {
                 else if(userData.lang === "ar") var reply = `الرجاء كتابة اسم العنصر، راح يتوقف الامر بعد ٢٠ ثانية`
                 
                 await message.reply({content: reply, embeds: [list]})
-                .then( async notify => {
+                .then(async notify => {
 
                     //listen for user input
                     await message.channel.awaitMessages({filter, max: 1, time: 20000, errors: ['time']})

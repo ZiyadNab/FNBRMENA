@@ -43,7 +43,8 @@ module.exports = {
                 }
 
                 //creating width
-                width = (length * 1024) + (length * 10) - 10
+                if(items.length === 1) width = 1024
+                else width = (length * 1024) + (length * 10) - 10
 
                 //creating height
                 for(let i = 0; i < items.length; i++){

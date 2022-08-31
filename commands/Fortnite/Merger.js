@@ -1,5 +1,5 @@
 const Canvas = require('canvas');
-const { DiscordAPIError } = require('discord.js');
+const discord = require('discord.js');
 const itemFinder = require('../../Handlers/itemFinder');
 
 module.exports = {
@@ -100,7 +100,8 @@ module.exports = {
                         else if(userData.lang === "ar") string += `• -1: دمج جميع العناصر \n يوجد ${res.data.items.length} عنصر يطابق عملية البحث`
 
                         //set Description
-                        list.setDescription(string)
+                        if(string.length <= 4096) list.setDescription(string)
+                        else throw new Error("too large")
 
                         //filtering outfits
                         const filter = async m => await m.author.id === message.author.id
@@ -152,16 +153,7 @@ module.exports = {
                             })
                         }).catch(async err => {
                             errorHandleing++
-
-                            //request entry too large error
-                            if(err instanceof DiscordAPIError){
-                                const requestEntryTooLargeError = new Discord.EmbedBuilder()
-                                requestEntryTooLargeError.setColor(FNBRMENA.Colors("embedError"))
-                                if(userData.lang === "en") requestEntryTooLargeError.setTitle(`Request entry too large ${emojisObject.errorEmoji}`)
-                                else if(userData.lang === "ar") requestEntryTooLargeError.setTitle(`تم تخطي الكميه المحدودة ${emojisObject.errorEmoji}`)
-                                message.reply({embeds: [requestEntryTooLargeError]})
-
-                            }else FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
+                            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
                             
                         })
                     }
@@ -201,7 +193,16 @@ module.exports = {
                         })
                     }
                 }).catch(async err => {
-                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
+
+                    //request entry too large error
+                    if(err.message === "too large"){
+                        const requestEntryTooLargeError = new Discord.EmbedBuilder()
+                        requestEntryTooLargeError.setColor(FNBRMENA.Colors("embedError"))
+                        if(userData.lang === "en") requestEntryTooLargeError.setTitle(`Request entry too large ${emojisObject.errorEmoji}`)
+                        else if(userData.lang === "ar") requestEntryTooLargeError.setTitle(`تم تخطي الكميه المحدودة ${emojisObject.errorEmoji}`)
+                        message.reply({embeds: [requestEntryTooLargeError]})
+
+                    }else FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
                     
                 })
                 
@@ -285,6 +286,7 @@ module.exports = {
 
                 //loop throw every item
                 for(let i = 0; i < mergedItemsDataList.length; i++){
+                    console.log(i, mergedItemsDataList[i].name)
                     ctx.fillStyle = '#ffffff';
 
                     //skin informations
@@ -341,286 +343,290 @@ module.exports = {
                    else var rarity = mergedItemsDataList[i].series.id
                    newline = newline + 1;
 
-                   //searching...
-                   if(rarity === "Legendary"){
+                   //check if there is an image
+                   if(image){
 
-                       //creating image
-                       const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/legendary.png')
-                       ctx.drawImage(skinholder, x, y, 1024, 1024)
-                       const skin = await Canvas.loadImage(image);
-                       ctx.drawImage(skin, x, y, 1024, 1024)
-                       const skinborder = await Canvas.loadImage('./assets/Rarities/newStyle/borderLegendary.png')
-                       ctx.drawImage(skinborder, x, y, 1024, 1024)
-                       
-                   }else if(rarity === "Epic"){
+                    //searching...
+                    if(rarity === "Legendary"){
 
-                       //creating image
-                       const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/epic.png')
-                       ctx.drawImage(skinholder, x, y, 1024, 1024)
-                       const skin = await Canvas.loadImage(image);
-                       ctx.drawImage(skin, x, y, 1024, 1024)
-                       const skinborder = await Canvas.loadImage('./assets/Rarities/newStyle/borderEpic.png')
-                       ctx.drawImage(skinborder, x, y, 1024, 1024)
-                       
-                   }else if(rarity === "Rare"){
+                        //creating image
+                        const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/legendary.png')
+                        ctx.drawImage(skinholder, x, y, 1024, 1024)
+                        const skin = await Canvas.loadImage(image);
+                        ctx.drawImage(skin, x, y, 1024, 1024)
+                        const skinborder = await Canvas.loadImage('./assets/Rarities/newStyle/borderLegendary.png')
+                        ctx.drawImage(skinborder, x, y, 1024, 1024)
+                        
+                    }else if(rarity === "Epic"){
 
-                       //creating image
-                       const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/rare.png')
-                       ctx.drawImage(skinholder, x, y, 1024, 1024)
-                       const skin = await Canvas.loadImage(image);
-                       ctx.drawImage(skin, x, y, 1024, 1024)
-                       const skinborder = await Canvas.loadImage('./assets/Rarities/newStyle/borderRare.png')
-                       ctx.drawImage(skinborder, x, y, 1024, 1024)
+                        //creating image
+                        const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/epic.png')
+                        ctx.drawImage(skinholder, x, y, 1024, 1024)
+                        const skin = await Canvas.loadImage(image);
+                        ctx.drawImage(skin, x, y, 1024, 1024)
+                        const skinborder = await Canvas.loadImage('./assets/Rarities/newStyle/borderEpic.png')
+                        ctx.drawImage(skinborder, x, y, 1024, 1024)
+                        
+                    }else if(rarity === "Rare"){
 
-                   }else if(rarity === "Uncommon"){
+                        //creating image
+                        const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/rare.png')
+                        ctx.drawImage(skinholder, x, y, 1024, 1024)
+                        const skin = await Canvas.loadImage(image);
+                        ctx.drawImage(skin, x, y, 1024, 1024)
+                        const skinborder = await Canvas.loadImage('./assets/Rarities/newStyle/borderRare.png')
+                        ctx.drawImage(skinborder, x, y, 1024, 1024)
 
-                       //creating image
-                       const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/uncommon.png')
-                       ctx.drawImage(skinholder, x, y, 1024, 1024)
-                       const skin = await Canvas.loadImage(image);
-                       ctx.drawImage(skin, x, y, 1024, 1024)
-                       const skinborder = await Canvas.loadImage('./assets/Rarities/newStyle/borderUncommon.png')
-                       ctx.drawImage(skinborder, x, y, 1024, 1024)
-                       
-                   }else if(rarity === "Common"){
+                    }else if(rarity === "Uncommon"){
+
+                        //creating image
+                        const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/uncommon.png')
+                        ctx.drawImage(skinholder, x, y, 1024, 1024)
+                        const skin = await Canvas.loadImage(image);
+                        ctx.drawImage(skin, x, y, 1024, 1024)
+                        const skinborder = await Canvas.loadImage('./assets/Rarities/newStyle/borderUncommon.png')
+                        ctx.drawImage(skinborder, x, y, 1024, 1024)
+                        
+                    }else if(rarity === "Common"){
                     
-                       //creating image
-                       const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/common.png')
-                       ctx.drawImage(skinholder, x, y, 1024, 1024)
-                       const skin = await Canvas.loadImage(image);
-                       ctx.drawImage(skin, x, y, 1024, 1024)
-                       const skinborder = await Canvas.loadImage('./assets/Rarities/newStyle/borderCommon.png')
-                       ctx.drawImage(skinborder, x, y, 1024, 1024)
-                       
-                   }else if(rarity === "MarvelSeries"){
+                        //creating image
+                        const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/common.png')
+                        ctx.drawImage(skinholder, x, y, 1024, 1024)
+                        const skin = await Canvas.loadImage(image);
+                        ctx.drawImage(skin, x, y, 1024, 1024)
+                        const skinborder = await Canvas.loadImage('./assets/Rarities/newStyle/borderCommon.png')
+                        ctx.drawImage(skinborder, x, y, 1024, 1024)
+                        
+                    }else if(rarity === "MarvelSeries"){
 
-                       //creating image
-                       const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/marvel.png')
-                       ctx.drawImage(skinholder, x, y, 1024, 1024)
-                       const skin = await Canvas.loadImage(image);
-                       ctx.drawImage(skin, x, y, 1024, 1024)
-                       const skinborder = await Canvas.loadImage('./assets/Rarities/newStyle/borderMarvel.png')
-                       ctx.drawImage(skinborder, x, y, 1024, 1024)
-                       
-                   }else if(rarity === "DCUSeries"){
+                        //creating image
+                        const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/marvel.png')
+                        ctx.drawImage(skinholder, x, y, 1024, 1024)
+                        const skin = await Canvas.loadImage(image);
+                        ctx.drawImage(skin, x, y, 1024, 1024)
+                        const skinborder = await Canvas.loadImage('./assets/Rarities/newStyle/borderMarvel.png')
+                        ctx.drawImage(skinborder, x, y, 1024, 1024)
+                        
+                    }else if(rarity === "DCUSeries"){
 
-                       //creating image
-                       const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/dc.png')
-                       ctx.drawImage(skinholder, x, y, 1024, 1024)
-                       const skin = await Canvas.loadImage(image);
-                       ctx.drawImage(skin, x, y, 1024, 1024)
-                       const skinborder = await Canvas.loadImage('./assets/Rarities/newStyle/borderDc.png')
-                       ctx.drawImage(skinborder, x, y, 1024, 1024)
-                       
-                   }else if(rarity === "CUBESeries"){
+                        //creating image
+                        const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/dc.png')
+                        ctx.drawImage(skinholder, x, y, 1024, 1024)
+                        const skin = await Canvas.loadImage(image);
+                        ctx.drawImage(skin, x, y, 1024, 1024)
+                        const skinborder = await Canvas.loadImage('./assets/Rarities/newStyle/borderDc.png')
+                        ctx.drawImage(skinborder, x, y, 1024, 1024)
+                        
+                    }else if(rarity === "CUBESeries"){
 
-                       //creating image
-                       const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/dark.png')
-                       ctx.drawImage(skinholder, x, y, 1024, 1024)
-                       const skin = await Canvas.loadImage(image);
-                       ctx.drawImage(skin, x, y, 1024, 1024)
-                       const skinborder = await Canvas.loadImage('./assets/Rarities/newStyle/borderDark.png')
-                       ctx.drawImage(skinborder, x, y, 1024, 1024)
-                       
-                   }else if(rarity === "CreatorCollabSeries"){
+                        //creating image
+                        const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/dark.png')
+                        ctx.drawImage(skinholder, x, y, 1024, 1024)
+                        const skin = await Canvas.loadImage(image);
+                        ctx.drawImage(skin, x, y, 1024, 1024)
+                        const skinborder = await Canvas.loadImage('./assets/Rarities/newStyle/borderDark.png')
+                        ctx.drawImage(skinborder, x, y, 1024, 1024)
+                        
+                    }else if(rarity === "CreatorCollabSeries"){
 
-                       //creating image
-                       const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/icon.png')
-                       ctx.drawImage(skinholder, x, y, 1024, 1024)
-                       const skin = await Canvas.loadImage(image);
-                       ctx.drawImage(skin, x, y, 1024, 1024)
-                       const skinborder = await Canvas.loadImage('./assets/Rarities/newStyle/borderIcon.png')
-                       ctx.drawImage(skinborder, x, y, 1024, 1024)
-                       
-                   }else if(rarity === "ColumbusSeries"){
+                        //creating image
+                        const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/icon.png')
+                        ctx.drawImage(skinholder, x, y, 1024, 1024)
+                        const skin = await Canvas.loadImage(image);
+                        ctx.drawImage(skin, x, y, 1024, 1024)
+                        const skinborder = await Canvas.loadImage('./assets/Rarities/newStyle/borderIcon.png')
+                        ctx.drawImage(skinborder, x, y, 1024, 1024)
+                        
+                    }else if(rarity === "ColumbusSeries"){
 
-                       //creating image
-                       const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/starwars.png')
-                       ctx.drawImage(skinholder, x, y, 1024, 1024)
-                       const skin = await Canvas.loadImage(image);
-                       ctx.drawImage(skin, x, y, 1024, 1024)
-                       const skinborder = await Canvas.loadImage('./assets/Rarities/newStyle/borderStarwars.png')
-                       ctx.drawImage(skinborder, x, y, 1024, 1024)
-                       
-                   }else if(rarity === "ShadowSeries"){
+                        //creating image
+                        const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/starwars.png')
+                        ctx.drawImage(skinholder, x, y, 1024, 1024)
+                        const skin = await Canvas.loadImage(image);
+                        ctx.drawImage(skin, x, y, 1024, 1024)
+                        const skinborder = await Canvas.loadImage('./assets/Rarities/newStyle/borderStarwars.png')
+                        ctx.drawImage(skinborder, x, y, 1024, 1024)
+                        
+                    }else if(rarity === "ShadowSeries"){
 
-                       //creating image
-                       const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/shadow.png')
-                       ctx.drawImage(skinholder, x, y, 1024, 1024)
-                       const skin = await Canvas.loadImage(image);
-                       ctx.drawImage(skin, x, y, 1024, 1024)
-                       const skinborder = await Canvas.loadImage('./assets/Rarities/newStyle/borderShadow.png')
-                       ctx.drawImage(skinborder, x, y, 1024, 1024)
-                       
-                   }else if(rarity === "SlurpSeries"){
+                        //creating image
+                        const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/shadow.png')
+                        ctx.drawImage(skinholder, x, y, 1024, 1024)
+                        const skin = await Canvas.loadImage(image);
+                        ctx.drawImage(skin, x, y, 1024, 1024)
+                        const skinborder = await Canvas.loadImage('./assets/Rarities/newStyle/borderShadow.png')
+                        ctx.drawImage(skinborder, x, y, 1024, 1024)
+                        
+                    }else if(rarity === "SlurpSeries"){
 
-                       //creating image
-                       const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/slurp.png')
-                       ctx.drawImage(skinholder, x, y, 1024, 1024)
-                       const skin = await Canvas.loadImage(image);
-                       ctx.drawImage(skin, x, y, 1024, 1024)
-                       const skinborder = await Canvas.loadImage('./assets/Rarities/newStyle/borderSlurp.png')
-                       ctx.drawImage(skinborder, x, y, 1024, 1024)
-                       
-                   }else if(rarity === "FrozenSeries"){
+                        //creating image
+                        const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/slurp.png')
+                        ctx.drawImage(skinholder, x, y, 1024, 1024)
+                        const skin = await Canvas.loadImage(image);
+                        ctx.drawImage(skin, x, y, 1024, 1024)
+                        const skinborder = await Canvas.loadImage('./assets/Rarities/newStyle/borderSlurp.png')
+                        ctx.drawImage(skinborder, x, y, 1024, 1024)
+                        
+                    }else if(rarity === "FrozenSeries"){
 
-                       //creating image
-                       const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/frozen.png')
-                       ctx.drawImage(skinholder, x, y, 1024, 1024)
-                       const skin = await Canvas.loadImage(image);
-                       ctx.drawImage(skin, x, y, 1024, 1024)
-                       const skinborder = await Canvas.loadImage('./assets/Rarities/newStyle/borderFrozen.png')
-                       ctx.drawImage(skinborder, x, y, 1024, 1024)
-                       
-                   }else if(rarity === "LavaSeries"){
+                        //creating image
+                        const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/frozen.png')
+                        ctx.drawImage(skinholder, x, y, 1024, 1024)
+                        const skin = await Canvas.loadImage(image);
+                        ctx.drawImage(skin, x, y, 1024, 1024)
+                        const skinborder = await Canvas.loadImage('./assets/Rarities/newStyle/borderFrozen.png')
+                        ctx.drawImage(skinborder, x, y, 1024, 1024)
+                        
+                    }else if(rarity === "LavaSeries"){
 
-                       //creating image
-                       const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/lava.png')
-                       ctx.drawImage(skinholder, x, y, 1024, 1024)
-                       const skin = await Canvas.loadImage(image);
-                       ctx.drawImage(skin, x, y, 1024, 1024)
-                       const skinborder = await Canvas.loadImage('./assets/Rarities/newStyle/borderLava.png')
-                       ctx.drawImage(skinborder, x, y, 1024, 1024)
-                       
-                   }else if(rarity === "PlatformSeries"){
+                        //creating image
+                        const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/lava.png')
+                        ctx.drawImage(skinholder, x, y, 1024, 1024)
+                        const skin = await Canvas.loadImage(image);
+                        ctx.drawImage(skin, x, y, 1024, 1024)
+                        const skinborder = await Canvas.loadImage('./assets/Rarities/newStyle/borderLava.png')
+                        ctx.drawImage(skinborder, x, y, 1024, 1024)
+                        
+                    }else if(rarity === "PlatformSeries"){
 
-                       //creating image
-                       const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/gaming.png')
-                       ctx.drawImage(skinholder, x, y, 1024, 1024)
-                       const skin = await Canvas.loadImage(image);
-                       ctx.drawImage(skin, x, y, 1024, 1024)
-                       const skinborder = await Canvas.loadImage('./assets/Rarities/newStyle/borderGaming.png')
-                       ctx.drawImage(skinborder, x, y, 1024, 1024)
-                       
-                   }else{
+                        //creating image
+                        const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/gaming.png')
+                        ctx.drawImage(skinholder, x, y, 1024, 1024)
+                        const skin = await Canvas.loadImage(image);
+                        ctx.drawImage(skin, x, y, 1024, 1024)
+                        const skinborder = await Canvas.loadImage('./assets/Rarities/newStyle/borderGaming.png')
+                        ctx.drawImage(skinborder, x, y, 1024, 1024)
+                        
+                    }else{
 
-                       //creating image
-                       const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/common.png')
-                       ctx.drawImage(skinholder, x, y, 1024, 1024)
-                       const skin = await Canvas.loadImage(image);
-                       ctx.drawImage(skin, x, y, 1024, 1024)
-                       const skinborder = await Canvas.loadImage('./assets/Rarities/newStyle/borderCommon.png')
-                       ctx.drawImage(skinborder, x, y, 1024, 1024)
-                       
-                   }
+                        //creating image
+                        const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/common.png')
+                        ctx.drawImage(skinholder, x, y, 1024, 1024)
+                        const skin = await Canvas.loadImage(image);
+                        ctx.drawImage(skin, x, y, 1024, 1024)
+                        const skinborder = await Canvas.loadImage('./assets/Rarities/newStyle/borderCommon.png')
+                        ctx.drawImage(skinborder, x, y, 1024, 1024)
+                        
+                    }
 
-                   //add the item name
-                   ctx.textAlign = 'center';
-                   ctx.font = applyText(canvas, name, 900, 72)
+                    //add the item name
+                    ctx.textAlign = 'center';
+                    ctx.font = applyText(canvas, name, 900, 72)
 
-                   if(userData.lang === "en"){
-                       ctx.fillText(name, 512 + x, (1024 - 30) + y)
+                    if(userData.lang === "en"){
+                        ctx.fillText(name, 512 + x, (1024 - 30) + y)
 
-                       //add the item season chapter text
-                       ctx.textAlign = "left"
-                       ctx.font = applyText(canvas, seasonChapter, 900, 40)
-                       ctx.fillText(seasonChapter, 5 + x, (1024 - 7.5) + y)
+                        //add the item season chapter text
+                        ctx.textAlign = "left"
+                        ctx.font = applyText(canvas, seasonChapter, 900, 40)
+                        ctx.fillText(seasonChapter, 5 + x, (1024 - 7.5) + y)
 
-                       //add the item source
-                       ctx.textAlign = "right"
-                       ctx.font = applyText(canvas, Source, 900, 40)
-                       ctx.fillText(Source, (1024 - 5) + x, (1024 - 7.5) + y)
+                        //add the item source
+                        ctx.textAlign = "right"
+                        ctx.font = applyText(canvas, Source, 900, 40)
+                        ctx.fillText(Source, (1024 - 5) + x, (1024 - 7.5) + y)
 
-                   }else if(userData.lang === "ar"){
-                       ctx.fillText(name, 512 + x, (1024 - 60) + y)
+                    }else if(userData.lang === "ar"){
+                        ctx.fillText(name, 512 + x, (1024 - 60) + y)
 
-                       //add season chapter text
-                       ctx.textAlign = "left"
-                       ctx.font = applyText(canvas, seasonChapter, 900, 40)
-                       ctx.fillText(seasonChapter, 5 + x, (1024 - 12.5) + y)
+                        //add season chapter text
+                        ctx.textAlign = "left"
+                        ctx.font = applyText(canvas, seasonChapter, 900, 40)
+                        ctx.fillText(seasonChapter, 5 + x, (1024 - 12.5) + y)
 
-                       //add the item source
-                       ctx.textAlign = "right"
-                       ctx.font = applyText(canvas, Source, 900, 40)
-                       ctx.fillText(Source, (1024 - 5) + x, (1024 - 12.5) + y)
+                        //add the item source
+                        ctx.textAlign = "right"
+                        ctx.font = applyText(canvas, Source, 900, 40)
+                        ctx.fillText(Source, (1024 - 5) + x, (1024 - 12.5) + y)
 
-                   }
+                    }
 
-                   //inilizing tags
-                   var wTags = (1024 / 512) * 15
-                   var hTags = (1024 / 512) * 15
-                   var yTags = 7 + y
-                   var xTags = ((1024 - wTags) - 7) + x
+                    //inilizing tags
+                    var wTags = (1024 / 512) * 15
+                    var hTags = (1024 / 512) * 15
+                    var yTags = 7 + y
+                    var xTags = ((1024 - wTags) - 7) + x
 
-                   for(let t = 0; t < mergedItemsDataList[i].gameplayTags.length; t++){
+                    for(let t = 0; t < mergedItemsDataList[i].gameplayTags.length; t++){
 
-                       //if the item is animated
-                       if(mergedItemsDataList[i].gameplayTags[t].includes('Animated')){
+                        //if the item is animated
+                        if(mergedItemsDataList[i].gameplayTags[t].includes('Animated')){
 
-                           //add the animated icon
-                           const Animated = await Canvas.loadImage('./assets/Tags/T-Icon-Animated-64.png')
-                           ctx.drawImage(Animated, xTags, yTags, wTags, hTags)
+                            //add the animated icon
+                            const Animated = await Canvas.loadImage('./assets/Tags/T-Icon-Animated-64.png')
+                            ctx.drawImage(Animated, xTags, yTags, wTags, hTags)
 
-                           yTags += hTags + 10
-                       }
+                            yTags += hTags + 10
+                        }
 
-                       //if the item is reactive
-                       if(mergedItemsDataList[i].gameplayTags[t].includes('Reactive')){
+                        //if the item is reactive
+                        if(mergedItemsDataList[i].gameplayTags[t].includes('Reactive')){
 
-                           //add the reactive icon
-                           const Reactive = await Canvas.loadImage('./assets/Tags/T-Icon-Adaptive-64.png')
-                           ctx.drawImage(Reactive, xTags, yTags, wTags, hTags)
+                            //add the reactive icon
+                            const Reactive = await Canvas.loadImage('./assets/Tags/T-Icon-Adaptive-64.png')
+                            ctx.drawImage(Reactive, xTags, yTags, wTags, hTags)
 
-                           yTags += hTags + 10
-                           
-                       }
+                            yTags += hTags + 10
+                            
+                        }
 
-                       //if the item is synced emote
-                       if(mergedItemsDataList[i].gameplayTags[t].includes('Synced')){
+                        //if the item is synced emote
+                        if(mergedItemsDataList[i].gameplayTags[t].includes('Synced')){
 
-                           //add the Synced icon
-                           const Synced = await Canvas.loadImage('./assets/Tags/T-Icon-Synced-64x.png')
-                           ctx.drawImage(Synced, xTags, yTags, wTags, hTags)
+                            //add the Synced icon
+                            const Synced = await Canvas.loadImage('./assets/Tags/T-Icon-Synced-64x.png')
+                            ctx.drawImage(Synced, xTags, yTags, wTags, hTags)
 
-                           yTags += hTags + 10
-                           
-                       }
+                            yTags += hTags + 10
+                            
+                        }
 
-                       //if the item is traversal
-                       if(mergedItemsDataList[i].gameplayTags[t].includes('Traversal')){
+                        //if the item is traversal
+                        if(mergedItemsDataList[i].gameplayTags[t].includes('Traversal')){
 
-                           //add the Traversal icon
-                           const Traversal = await Canvas.loadImage('./assets/Tags/T-Icon-Traversal-64.png')
-                           ctx.drawImage(Traversal, xTags, yTags, wTags, hTags)
+                            //add the Traversal icon
+                            const Traversal = await Canvas.loadImage('./assets/Tags/T-Icon-Traversal-64.png')
+                            ctx.drawImage(Traversal, xTags, yTags, wTags, hTags)
 
-                           yTags += hTags + 10
-                       }
+                            yTags += hTags + 10
+                        }
 
-                       //if the item has styles
-                       if(mergedItemsDataList[i].gameplayTags[t].includes('HasVariants') || mergedItemsDataList[i].gameplayTags[t].includes('HasUpgradeQuests')){
+                        //if the item has styles
+                        if(mergedItemsDataList[i].gameplayTags[t].includes('HasVariants') || mergedItemsDataList[i].gameplayTags[t].includes('HasUpgradeQuests')){
 
-                           //add the HasVariants icon
-                           const HasVariants = await Canvas.loadImage('./assets/Tags/T-Icon-Variant-64.png')
-                           ctx.drawImage(HasVariants, xTags, yTags, wTags, hTags)
+                            //add the HasVariants icon
+                            const HasVariants = await Canvas.loadImage('./assets/Tags/T-Icon-Variant-64.png')
+                            ctx.drawImage(HasVariants, xTags, yTags, wTags, hTags)
 
-                           yTags += hTags + 10
-                       }
-                   }
+                            yTags += hTags + 10
+                        }
+                    }
 
-                   //if the item contains copyrited audio
-                   if(mergedItemsDataList[i].copyrightedAudio){
+                    //if the item contains copyrited audio
+                    if(mergedItemsDataList[i].copyrightedAudio){
 
-                       //add the copyrightedAudio icon
-                       const copyrightedAudio = await Canvas.loadImage('./assets/Tags/mute.png')
-                       ctx.drawImage(copyrightedAudio, xTags, yTags, wTags, hTags)
+                        //add the copyrightedAudio icon
+                        const copyrightedAudio = await Canvas.loadImage('./assets/Tags/mute.png')
+                        ctx.drawImage(copyrightedAudio, xTags, yTags, wTags, hTags)
 
-                       yTags += hTags + 10
-                   }
+                        yTags += hTags + 10
+                    }
 
-                   //if the item contains built in emote
-                   if(mergedItemsDataList[i].builtInEmote != null){
+                    //if the item contains built in emote
+                    if(mergedItemsDataList[i].builtInEmote != null){
 
-                       //add the builtInEmote icon
-                       const builtInEmote = await Canvas.loadImage(mergedItemsDataList[i].builtInEmote.images.icon)
-                       ctx.drawImage(builtInEmote, xTags - 15, yTags, ((1024 / 512) * 30) + x, ((1024 / 512) * 30) + y)
-                   }
+                        //add the builtInEmote icon
+                        const builtInEmote = await Canvas.loadImage(mergedItemsDataList[i].builtInEmote.images.icon)
+                        ctx.drawImage(builtInEmote, xTags - 15, yTags, ((1024 / 512) * 30) + x, ((1024 / 512) * 30) + y)
+                    }
 
-                   //changing x and y
-                   x = x + 10 + 1024; 
-                   if(length === newline){
-                       y = y + 10 + 1024;
-                       x = 0;
-                       newline = 0;
+                    //changing x and y
+                    x = x + 10 + 1024; 
+                    if(length === newline){
+                        y = y + 10 + 1024;
+                        x = 0;
+                        newline = 0;
+                    }
                    }
                 }
 

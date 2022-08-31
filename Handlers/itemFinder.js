@@ -244,8 +244,6 @@ module.exports = async (FNBRMENA, message, client, lang, emojisObject) => {
         //create the drop menu
         const typeOfCosmeticsDropMenu = new Discord.SelectMenuBuilder()
         typeOfCosmeticsDropMenu.setCustomId('cosmetic_type')
-        typeOfCosmeticsDropMenu.setMinValues(1)
-        typeOfCosmeticsDropMenu.setMaxValues(15)
         if(lang === "en") typeOfCosmeticsDropMenu.setPlaceholder('Nothing selected!')
         else if(lang === "ar") typeOfCosmeticsDropMenu.setPlaceholder('الرجاء الأختيار!')
 

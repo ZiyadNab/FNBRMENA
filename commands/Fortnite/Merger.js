@@ -251,7 +251,8 @@ module.exports = {
                 else if(length >= 3 && length <= 4) length = length / 2
                 else if(length > 4 && length <= 7) length = length / 3
                 else if(length > 7 && length <= 50)length = length / 5
-                else length = length / 5
+                else if(length > 50 && length <= 70) length = length / 7
+                else length = length / 10
 
                 //forcing to be int
                 if (length % 2 !== 0){
@@ -286,7 +287,6 @@ module.exports = {
 
                 //loop throw every item
                 for(let i = 0; i < mergedItemsDataList.length; i++){
-                    console.log(i, mergedItemsDataList[i].name)
                     ctx.fillStyle = '#ffffff';
 
                     //skin informations
@@ -338,8 +338,8 @@ module.exports = {
 
                    //skin informations
                    var name = mergedItemsDataList[i].name
-                   var image = mergedItemsDataList[i].images.icon
-                   if(image) image = 'https://imgur.com/HVH5sqV.png'
+                   if(mergedItemsDataList[i].images.icon === null) var image = 'https://imgur.com/HVH5sqV.png'
+                   else var image = mergedItemsDataList[i].images.icon
                    if(mergedItemsDataList[i].series === null) var rarity = mergedItemsDataList[i].rarity.id
                    else var rarity = mergedItemsDataList[i].series.id
                    newline = newline + 1;

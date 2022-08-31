@@ -339,24 +339,22 @@ module.exports = {
                    //skin informations
                    var name = mergedItemsDataList[i].name
                    var image = mergedItemsDataList[i].images.icon
+                   if(image) image = 'https://imgur.com/HVH5sqV.png'
                    if(mergedItemsDataList[i].series === null) var rarity = mergedItemsDataList[i].rarity.id
                    else var rarity = mergedItemsDataList[i].series.id
                    newline = newline + 1;
 
-                   //check if there is an image
-                   if(image){
+                   //searching...
+                   if(rarity === "Legendary"){
 
-                    //searching...
-                    if(rarity === "Legendary"){
-
-                        //creating image
-                        const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/legendary.png')
-                        ctx.drawImage(skinholder, x, y, 1024, 1024)
-                        const skin = await Canvas.loadImage(image);
-                        ctx.drawImage(skin, x, y, 1024, 1024)
-                        const skinborder = await Canvas.loadImage('./assets/Rarities/newStyle/borderLegendary.png')
-                        ctx.drawImage(skinborder, x, y, 1024, 1024)
-                        
+                    //creating image
+                    const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/legendary.png')
+                    ctx.drawImage(skinholder, x, y, 1024, 1024)
+                    const skin = await Canvas.loadImage(image);
+                    ctx.drawImage(skin, x, y, 1024, 1024)
+                    const skinborder = await Canvas.loadImage('./assets/Rarities/newStyle/borderLegendary.png')
+                    ctx.drawImage(skinborder, x, y, 1024, 1024)
+                    
                     }else if(rarity === "Epic"){
 
                         //creating image
@@ -627,7 +625,6 @@ module.exports = {
                         x = 0;
                         newline = 0;
                     }
-                   }
                 }
 
                 try{

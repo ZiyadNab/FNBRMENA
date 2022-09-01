@@ -302,9 +302,6 @@ module.exports = {
                 .setStyle(Discord.ButtonStyle.Danger)
                 .setLabel("اغلاق")
             )
-            
-            // Add the cancel button to the buttonDataRow
-            buttonDataRow.addComponents(cancelButton)
 
             // Create a row for drop down menu for categories
             const categoriesRow = new Discord.ActionRowBuilder()

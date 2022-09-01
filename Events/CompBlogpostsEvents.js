@@ -19,6 +19,7 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
             const status = data.val().Active
             const lang = data.val().Lang
             const push = data.val().Push
+            const role = data.val().Role
 
             //if the event is set to be true [ON]
             if(status){
@@ -124,7 +125,8 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                                 else if(lang === "ar") blogEmbed.setFooter({text: `${newBlog.author} | ${moment(newBlog.date).format("dddd, MMMM Do من YYYY")}`})
 
                                 //send the message
-                                message.send({embeds: [blogEmbed], components: [row]})
+                                if(role.Status) await message.send({content: `<@&${role.roleID}>`, embeds: [blogEmbed], components: [row]})
+                                else await message.send({embeds: [blogEmbed], components: [row]})
                                 
                             }
                         }

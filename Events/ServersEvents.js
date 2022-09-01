@@ -13,12 +13,11 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
 
         //checking if the bot on or off
         admin.database().ref("ERA's").child("Events").child("servers").once('value', async function (data) {
-
-            //store the data
             const status = data.val().Active
             const lang = data.val().Lang
             const token = data.val().Token
             const push = data.val().Push
+            const role = data.val().Role
 
             //if the event is set to be true [ON]
             if(status){
@@ -72,9 +71,10 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
 
                             //add footer
                             serversStatusEmbed.setFooter({text: res.data.launcherInfoDTO.appName})
-
+                            
                             //send
-                            message.send({embeds: [serversStatusEmbed]})
+                            if(role.Status) await message.send({content: `<@&${role.roleID}>`, embeds: [serversStatusEmbed]})
+                            else await message.send({embeds: [serversStatusEmbed]})
 
                             //trun off push if enabled
                             admin.database().ref("ERA's").child("Events").child("servers").update({

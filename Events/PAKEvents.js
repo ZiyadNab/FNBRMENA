@@ -14,11 +14,10 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
 
         //checking if the bot on or off
         admin.database().ref("ERA's").child("Events").child("pak").once('value', async function (data) {
-
-            //soring database data
-            const status = data.val().Active;
-            const lang = data.val().Lang;
+            const status = data.val().Active
+            const lang = data.val().Lang
             const push = data.val().Push
+            const role = data.val().Role
 
             //if the event is set to be true [ON]
             if(status){
@@ -59,7 +58,10 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                         if(lang === "en") aesMessage.setTitle("New Update Has Been Found!")
                         else if(lang === "ar") aesMessage.setTitle("توفر تحديث جديد!")
                         aesMessage.setDescription(res.data.data.build)
-                        message.send({embeds: [aesMessage]})
+
+                        //send
+                        if(role.Status) await message.send({content: `<@&${role.roleID}>`, embeds: [aesMessage]})
+                        else await message.send({embeds: [aesMessage]})
 
                         //store aes build number
                         aes = await res.data.data.build
@@ -100,7 +102,8 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                                         pak.setDescription("PAK File: " + newPak[0].pakFilename + "\nPAK Guid: " + res.data.data.dynamicKeys[i].pakGuid + "\nKey: " + res.data.data.dynamicKeys[i].key)
 
                                         //send
-                                        message.send({embeds: [pak]})
+                                        if(role.Status) await message.send({content: `<@&${role.roleID}>`, embeds: [pak]})
+                                        else await message.send({embeds: [pak]})
 
                                     }
                                 }

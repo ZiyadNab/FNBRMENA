@@ -14,11 +14,10 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
 
         //checking if the bot on or off
         admin.database().ref("ERA's").child("Events").child("crew").once('value', async function (server) {
-
-            //store access
-            const status = server.val().Active;
-            const lang = server.val().Lang;
+            const status = server.val().Active
+            const lang = server.val().Lang
             const push = server.val().Push
+            const role = data.val().Role
 
             //if the event is set to be true [ON]
             if(status){
@@ -445,13 +444,15 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
 
                             //send embed
                             const att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `${res.data.currentCrew.date}.png`})
-                            await message.send({embeds: [crewData], files: [att], components: [row]})
+                            if(role.Status) await message.send({content: `<@&${role.roleID}>`, embeds: [crewData], files: [att], components: [row]})
+                            else await message.send({embeds: [crewData], files: [att], components: [row]})
 
                         }else{
 
                             //send embed
                             const att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `${res.data.currentCrew.date}.png`})
-                            await message.send({embeds: [crewData], files: [att]})
+                            if(role.Status) await message.send({content: `<@&${role.roleID}>`, embeds: [crewData], files: [att]})
+                            else await message.send({embeds: [crewData], files: [att]})
                         }
 
                         //store the new data

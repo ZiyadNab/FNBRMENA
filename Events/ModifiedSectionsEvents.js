@@ -18,6 +18,7 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
             const lang = data.val().Lang
             const push = data.val().Push.Status
             const type = data.val().Push.Type
+            const role = data.val().Role
 
             //if the event is set to be true [ON]
             if(status){
@@ -151,7 +152,8 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                             addedEmbed.setDescription(String)
 
                             //send the new sections
-                            await message.send({embeds: [addedEmbed]})
+                            if(role.Status) await message.send({content: `<@&${role.roleID}>`, embeds: [addedEmbed]})
+                            else await message.send({embeds: [addedEmbed]})
                         }
 
                         //if there is a new sections

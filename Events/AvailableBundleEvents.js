@@ -18,9 +18,10 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
 
         //checking if the bot on or off
         admin.database().ref("ERA's").child("Events").child("bundles").once('value', async function (data) {
-            const status = data.val().Active;
-            const lang = data.val().Lang;
+            const status = data.val().Active
+            const lang = data.val().Lang
             const push = data.val().Push
+            const role = data.val().Role
 
             //if the event is set to be true [ON]
             if(status){
@@ -763,7 +764,8 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                                 }
 
                                 const att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `${searchedBundleData.offerId}.png`})
-                                await message.send({embeds: [bundleEmbed], files: [att]})
+                                if(role.Status) await message.send({content: `<@&${role.roleID}>`, embeds: [bundleEmbed], files: [att]})
+                                else await message.send({embeds: [bundleEmbed], files: [att]})
 
                             }
                         }

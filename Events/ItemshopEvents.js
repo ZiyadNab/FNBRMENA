@@ -12,7 +12,7 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
     var number = 0
 
     //pring shop image
-    const Send = async (res, lang) => {
+    const Send = async (res, lang, role) => {
 
         //generating animation
         const generating = new Discord.EmbedBuilder()
@@ -1425,7 +1425,8 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
             msg.edit({embeds: [sending]})
 
             const att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `${res.lastUpdate.uid}.png`})
-            await message.send({files: [att]})
+            if(role.Status) await message.send({content: `<@&${role.roleID}>`, files: [att]})
+            else await message.send({files: [att]})
             msg.delete()
 
             //add the main id
@@ -1446,6 +1447,7 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
             const status = data.val().Active
             const lang = data.val().Lang
             const push = data.val().Push
+            const role = data.val().Role
 
             //if the event is set to be true [ON]
             if(status){
@@ -1473,7 +1475,7 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                         })
 
                         //call pring function
-                        Send(res.data, lang)
+                        Send(res.data, lang, role)
 
                     }
 

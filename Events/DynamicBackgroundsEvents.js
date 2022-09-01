@@ -20,6 +20,7 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
             const lang = data.val().Lang
             const push = data.val().Push
             const credit = data.val().Credits
+            const role = data.val().Role
 
             //if the event is set to be true [ON]
             if(status){
@@ -92,7 +93,8 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                                     const att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `${backgroundsDATA[i].stage}.png`})
 
                                     //send the image
-                                    await message.send({content: `New ${backgroundsDATA[i].key} background has been added`, files: [att]})
+                                    if(role.Status) await message.send({content: `<@&${role.roleID}> New ${backgroundsDATA[i].key} background has been added`, files: [att]})
+                                    else await message.send({content: `New ${backgroundsDATA[i].key} background has been added`, files: [att]})
                                 }
                             }
                         }

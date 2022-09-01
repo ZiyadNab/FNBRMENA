@@ -17,6 +17,7 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
             const status = data.val().Active
             const lang = data.val().Lang
             const push = data.val().Push
+            const role = data.val().Role
 
             //if the event is set to be true [ON]
             if(status){
@@ -125,7 +126,8 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                                 }
 
                                 //send
-                                await message.send({embeds: [Notice]})
+                                if(role.Status) await message.send({content: `<@&${role.roleID}>`, embeds: [Notice]})
+                                else await message.send({embeds: [Notice]})
                             }
                         }
 

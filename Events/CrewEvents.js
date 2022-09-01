@@ -17,7 +17,7 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
             const status = server.val().Active
             const lang = server.val().Lang
             const push = server.val().Push
-            const role = data.val().Role
+            const role = server.val().Role
 
             //if the event is set to be true [ON]
             if(status){

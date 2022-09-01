@@ -11,17 +11,17 @@ module.exports = {
     permissionError: 'Sorry you do not have acccess to this command',
     callback: async (FNBRMENA, message, args, text, Discord, client, admin, userData, alias, emojisObject) => {
 
-        //values
+        // Values
         let categoriesIndex = null
 
         FNBRMENA.listChallenges("current", userData.lang)
         .then(async res => {
 
-            //questSheet
+            // QuestSheet
             const printQuests = async (questsIndex) => {
                 const targetQuest = res.data.bundles[categoriesIndex].bundles[questsIndex]
 
-                //got the quest data now work with it
+                // Got the quest data now work with it
                 const generating = new Discord.EmbedBuilder()
                 generating.setColor(FNBRMENA.Colors("embed"))
                 if(userData.lang === "en") generating.setTitle(`Loading ${targetQuest.name}... ${emojisObject.loadingEmoji}`)
@@ -29,7 +29,7 @@ module.exports = {
                 message.reply({embeds: [generating]})
                 .then(async msg => {
 
-                    //setup variables
+                    // Setup variables
                     var width = 3500
                     var height = (targetQuest.quests.length * 450) + 300
                     var x = 100
@@ -37,11 +37,11 @@ module.exports = {
                     var w = (width - (x * 2))
                     var h = 400
 
-                    //register fonts
+                    // Register fonts
                     Canvas.registerFont('./assets/font/Lalezar-Regular.ttf', {family: 'Arabic',weight: "700",style: "bold"});
                     Canvas.registerFont('./assets/font/BurbankBigCondensed-Black.ttf' ,{family: 'Burbank Big Condensed',weight: "700",style: "bold"})
 
-                    //applytext
+                    // Applytext
                     const applyText = (canvas, text, width, font) => {
                         const ctx = canvas.getContext('2d')
                         let fontSize = font;
@@ -52,7 +52,7 @@ module.exports = {
                         return ctx.font;
                     }
 
-                    //create canvas
+                    // Create canvas
                     const canvas = Canvas.createCanvas(width, height);
                     const ctx = canvas.getContext('2d');
 
@@ -64,15 +64,15 @@ module.exports = {
                         var cardsColor = '590566'
                     }
 
-                    //background
+                    // Adding the background
                     ctx.fillStyle = `#${bgColor}`
                     ctx.fillRect(0, 0, canvas.width, canvas.height)
 
-                    //upper
+                    // Upper img side
                     ctx.fillStyle = `#${cardsColor}`
                     ctx.fillRect(0, 0, canvas.width, 150)
 
-                    //adding credits
+                    // Adding credits
                     ctx.fillStyle = `#ffffff`
                     ctx.textAlign='left';
                     ctx.font = '120px Burbank Big Condensed'
@@ -83,27 +83,27 @@ module.exports = {
                         const categoryImg = await Canvas.loadImage(res.data.bundles[categoriesIndex].image)
                         ctx.drawImage(categoryImg, canvas.width - 150, 0, 150, 150)
 
-                        //category name
+                        // Add the category name
                         ctx.fillStyle = `#ffffff`
                         ctx.textAlign = 'right';
                         ctx.font = applyText(canvas, targetQuest.name, canvas.width / 2, 120)
                         ctx.fillText(targetQuest.name, canvas.width - 175, 115)
                     }else{
 
-                        //category name
+                        // Add the category name
                         ctx.fillStyle = `#ffffff`
                         ctx.textAlign = 'right';
                         ctx.font = applyText(canvas, targetQuest.name, canvas.width / 2, 120)
                         ctx.fillText(targetQuest.name, canvas.width - 25, 115)
                     }
 
-                    //loop throw every quest
+                    // Loop through every quest
                     for(let i = 0; i < targetQuest.quests.length; i++){
 
-                        //cards
+                        // Add the quest cards
                         ctx.fillStyle = `#${cardsColor}`
 
-                        //add the quest card
+                        // Add the quest card
                         ctx.beginPath();
                         ctx.moveTo(x + 8, y);
                         ctx.arcTo(x + w, y, x + w, y + h, 8);
@@ -113,20 +113,20 @@ module.exports = {
                         ctx.closePath();
                         ctx.fill();
 
-                        //change image layout only if arabic
+                        // Change image layout only if arabic
                         if(userData.lang === "ar") x = canvas.width - x
 
                         var rewardX = canvas.width - x
                         var rewardY = y 
 
-                        //add the quest rewards
+                        // Add the quest rewards
                         if(targetQuest.quests[i].reward.items.length != 0){
 
-                            //loop thrw every reward
+                            // Loop thrw every reward
                             if(targetQuest.quests[i].reward.items.length > 2) ctx.globalAlpha = 0.5
                             for(let r = 0; r < targetQuest.quests[i].reward.items.length; r++){
 
-                                //load quest img
+                                // Load quest img
                                 const questRewardImg = await Canvas.loadImage(targetQuest.quests[i].reward.items[r].images.icon)
                                 if(userData.lang === "en"){
                                     rewardX -= h
@@ -141,19 +141,19 @@ module.exports = {
                             ctx.globalAlpha = 1
                         }
 
-                        //add the xp if there is xp for the quest
+                        // Add the xp if there is xp for the quest
                         if(targetQuest.quests[i].reward.xp !== 0){
 
-                            //more than 100K
+                            // More than 100K
                             if(targetQuest.quests[i].reward.xp >= 100000) var xp = targetQuest.quests[i].reward.xp.toString().substring(0, 3)
 
-                            //between 10K and 100K
+                            // Between 10K and 100K
                             if(targetQuest.quests[i].reward.xp >= 10000 && targetQuest.quests[i].reward.xp <= 99999) var xp = targetQuest.quests[i].reward.xp.toString().substring(0, 2)
 
-                            //between 1K and 10K
+                            // Between 1K and 10K
                             if(targetQuest.quests[i].reward.xp >= 1000 && targetQuest.quests[i].reward.xp <= 9999) var xp = targetQuest.quests[i].reward.xp.toString().substring(0, 1)
 
-                            //between 100 and 1K
+                            // Between 100 and 1K
                             if(targetQuest.quests[i].reward.xp >= 100 && targetQuest.quests[i].reward.xp <= 999) var xp = targetQuest.quests[i].reward.xp
 
                             ctx.fillStyle = `#ffffff`
@@ -167,13 +167,13 @@ module.exports = {
                             }
                         }
 
-                        //check if the quest has an img
+                        // Check if the quest has an img
                         if(targetQuest.images != null){
 
-                            //load quest img
+                            // Load quest img
                             const questRewardImg = await Canvas.loadImage(targetQuest.images.DisplayImage)
 
-                            //change the x value and print the img
+                            // Change the x value and print the img
                             if(userData.lang === "en"){
                                 ctx.drawImage(questRewardImg, x, y, h, h)
                                 x += h + 25
@@ -183,7 +183,7 @@ module.exports = {
                             }
                         }
 
-                        //add the challange quest
+                        // Add the challange quest
                         ctx.fillStyle = `#ffffff`
                         ctx.font = applyText(canvas, targetQuest.quests[i].name, w - 800, 100)
                         if(userData.lang === "en"){
@@ -195,12 +195,12 @@ module.exports = {
                             ctx.fillText(targetQuest.quests[i].name, x - 25, y + 115)
                         }
 
-                        //add progress bar
+                        // Add progress bar
                         ctx.fillStyle = `#${bgColor}`
                         if(userData.lang === "en") ctx.fillRect(x + 90, y + 175, 1500, 25)
                         else if(userData.lang === "ar") ctx.fillRect(x - 1577, y + 187, 1500, 25)
 
-                        //add progress bar text
+                        // Add progress bar text
                         ctx.fillStyle = `#ffffff`
                         ctx.font = '50px Burbank Big Condensed'
                         if(userData.lang === "en"){
@@ -211,55 +211,55 @@ module.exports = {
                             ctx.fillText(targetQuest.quests[i].progressTotal + "/0", (x - 1600), y + 212)
                         }
 
-                        //add xp tags
+                        // Add xp tags
                         if(targetQuest.quests[i].tags.includes('ChallengeCategory.XP')){
 
-                            //changing tags coordinates
+                            // Changing tags coordinates
                             if(userData.lang === "en") x += 37
                             else if(userData.lang === "ar") x -= 475
 
-                            //print the party assist
+                            // Print the party assist
                             if(userData.lang === "en") var xp = await Canvas.loadImage('./assets/Tags/xp.png')
                             else if(userData.lang === "ar") var xp = await Canvas.loadImage('./assets/Tags/xpAr.png')
                             ctx.drawImage(xp, x, y + 175, 450, 300)
 
-                            //changing tags coordinates
+                            // Changing tags coordinates
                             if(userData.lang === "en") x += 450
                             else if(userData.lang === "ar") x -= 25
 
                         }
 
-                        //add party assists tags
+                        // Add party assists tags
                         if(targetQuest.quests[i].tags.includes('Quest.Metadata.PartyAssist')){
 
-                            //changing tags coordinates
+                            // Changing tags coordinates
                             if(userData.lang === "en") x += 25
                             else if(userData.lang === "ar") x -= 475
 
-                            //print the party assist
+                            // Print the party assist
                             if(userData.lang === "en") var partyAssists = await Canvas.loadImage('./assets/Tags/partyAssists.png')
                             else if(userData.lang === "ar") var partyAssists = await Canvas.loadImage('./assets/Tags/partyAssistsAr.png')
                             ctx.drawImage(partyAssists, x, y + 175, 450, 300)
 
-                            //changing tags coordinates
+                            // Changing tags coordinates
                             if(userData.lang === "en") x += 450
                             else if(userData.lang === "ar") x -= 25
 
                         }
 
-                        //add reward tags
+                        // Add reward tags
                         if(targetQuest.quests[i].reward.items.length !== 0){
 
-                            //changing tags coordinates
+                            // Changing tags coordinates
                             if(userData.lang === "en") x += 25
                             else if(userData.lang === "ar") x -= 475
 
-                            //print the party assist
+                            // Print the party assist
                             if(userData.lang === "en") var rewards = await Canvas.loadImage('./assets/Tags/rewards.png')
                             else if(userData.lang === "ar") var rewards = await Canvas.loadImage('./assets/Tags/rewardsAr.png')
                             ctx.drawImage(rewards, x, y + 175, 450, 300)
 
-                            //changing tags coordinates
+                            // Changing tags coordinates
                             if(userData.lang === "en") x += 450
                             else if(userData.lang === "ar") x -= 25
 
@@ -279,38 +279,60 @@ module.exports = {
                 })
             }
 
-            //create an embed for choosing a category
+            // Create an embed for choosing a category
             const dropDownMenuEmbed = new Discord.EmbedBuilder()
             dropDownMenuEmbed.setColor(FNBRMENA.Colors("embed"))
             if(userData.lang === "en") dropDownMenuEmbed.setDescription('Please click on the Drop-Down menu and choose a category.\n`You have only 1 minute until this operation ends, Make it quick`!')
             else if(userData.lang === "ar") dropDownMenuEmbed.setDescription('الرجاء الضغط على السهم لاختيار فئة.\n`لديك فقط دقيقة حتى تنتهي العملية, استعجل`!')
 
-            //create a row for Cancel button
+            // Create a row for Cancel button
             const buttonDataRow = new Discord.ActionRowBuilder()
 
-            const cancelButton = new Discord.ButtonBuilder()
-            cancelButton.setCustomId('Cancel')
-            cancelButton.setStyle(Discord.ButtonStyle.Danger)
-            if(userData.lang === "en") cancelButton.setLabel("Cancel")
-            else if(userData.lang === "ar") cancelButton.setLabel("اغلاق")
+            // Add buttons
+            if(userData.lang === "en") buttonDataRow.addComponents(
+                new Discord.ButtonBuilder()
+                .setCustomId('Cancel')
+                .setStyle(Discord.ButtonStyle.Danger)
+                .setLabel("Cancel")
+            )
             
-            //add the cancel button to the buttonDataRow
+            else if(userData.lang === "ar") buttonDataRow.addComponents(
+                new Discord.ButtonBuilder()
+                .setCustomId('Cancel')
+                .setStyle(Discord.ButtonStyle.Danger)
+                .setLabel("اغلاق")
+            )
+            
+            // Add the cancel button to the buttonDataRow
             buttonDataRow.addComponents(cancelButton)
 
-            //create a row for drop down menu for categories
+            // Create a row for drop down menu for categories
             const categoriesRow = new Discord.ActionRowBuilder()
 
-            //loop thrw every category
+            // Loop thrw every category
             var categoriesOptions = []
             for(let i = 0; i < res.data.bundles.length; i++){
 
-                //add the category name
+                // Add the category name
                 if(res.data.bundles[i].name.length !== 0) var name = res.data.bundles[i].name
                 else if(userData.lang === "en") var name = "TBD"
                 else if(userData.lang === "ar") var name = "لم يتم تحديد الاسم بعد"
 
+                // Check if the category name is longer than 99 letters
+                if(name.length > 99){
+                    if(userData.lang === "en") name = "Sorry, we can't show the quest's name"
+                    else if(userData.lang === "ar") name = "عذرا لا يمكن عرض اسم المهمة"
+                }
+
+                // Add the category description
                 if(userData.lang === "en") var description = `Click here to view all '${name}' quests`
                 else if(userData.lang === "ar") var description = `اضغط هنا لعرض جميع التحديات '${name}'`
+
+                // Check if the category description is longer than 99 letters
+                if(description.length > 99){
+                    if(userData.lang === "en") description = "Sorry, description isnt available"
+                    else if(userData.lang === "ar") description = "عذرا الوصف ليس متاح"
+                }
 
                 categoriesOptions[i] = {
                     label: name,
@@ -319,36 +341,36 @@ module.exports = {
                 }
             }
 
-            //add an option for each category
+            // Add an option for each category
             const categoryDropMenu = new Discord.SelectMenuBuilder()
             categoryDropMenu.setCustomId('categories')
             if(userData.lang === "en") categoryDropMenu.setPlaceholder('Nothing selected!')
             else if(userData.lang === "ar") categoryDropMenu.setPlaceholder('الرجاء الأختيار!')
             categoryDropMenu.addOptions(categoriesOptions)
 
-            //add the drop menu to the categoryDropMenu
+            // Add the drop menu to the categoryDropMenu
             categoriesRow.addComponents(categoryDropMenu)
 
-            //send the message
+            // Send the message
             const challengeCategoryMessage = await message.reply({embeds: [dropDownMenuEmbed], components: [categoriesRow, buttonDataRow]})
 
-            //filtering the user clicker
+            // Filtering the user clicker
             const filter = (i => {
                 return (i.user.id === message.author.id && i.message.id === challengeCategoryMessage.id && i.guild.id === message.guild.id)
             })
 
-            //await the user click
+            // Await the user click
             const colllector = await message.channel.createMessageComponentCollector({filter, time: 60000, errors: ['time'] })
             colllector.on('collect', async collected => {
                 collected.deferUpdate()
 
-                //if canel button has been clicked
+                // If canel button has been clicked
                 if(collected.customId === "Cancel") colllector.stop()
 
-                //if a category has been chosen then list all its quests
+                // If a category has been chosen then list all its quests
                 if(collected.customId == "categories"){
 
-                    //update categoriesIndex value
+                    // Update categoriesIndex value
                     categoriesIndex = Number(collected.values[0])
 
                     var size = (res.data.bundles[categoriesIndex].bundles.length / 25), components = [categoriesRow], limit = 0
@@ -359,53 +381,62 @@ module.exports = {
 
                     for(let i = 1; i <= size; i++){
 
-                        //loop thrw every category
+                        // Loop thrw every category
                         var questsOptions = []
                         for(let x = limit; x < 25 * i; x++){
 
-                            //nullptr checker
+                            // Nullptr checker
                             if(res.data.bundles[categoriesIndex].bundles[x] != undefined){
 
-                                //add the category name
+                                // Add the quest name
                                 if(res.data.bundles[categoriesIndex].bundles[x].name.length !== 0) var name = res.data.bundles[categoriesIndex].bundles[x].name
                                 else if(userData.lang === "en") var name = "TBD"
                                 else if(userData.lang === "ar") var name = "لم يتم تحديد الاسم بعد"
 
+                                // Check if the quest name is longer than 99 letters
                                 if(name.length > 99){
                                     if(userData.lang === "en") name = "Sorry, we can't show the quest's name"
                                     else if(userData.lang === "ar") name = "عذرا لا يمكن عرض اسم المهمة"
                                 }
 
+                                // Add the quest description
                                 if(userData.lang === "en") var description = `Click here to view all '${name}' quests`
                                 else if(userData.lang === "ar") var description = `اضغط هنا لعرض جميع التحديات '${name}'`
 
+                                // Check if the quest description is longer than 99 letters
                                 if(description.length > 99){
                                     if(userData.lang === "en") description = "Sorry, description isnt available"
                                     else if(userData.lang === "ar") description = "عذرا الوصف ليس متاح"
                                 }
 
+                                // Get the quest status
+                                if(res.data.bundles[categoriesIndex].bundles[x].quests[0].enabled) var status = emojisObject.uncommon //emojisObject.greenStatus
+                                else var status = emojisObject.marvel //emojisObject.redStatus
+
+                                // Add the choice option
                                 questsOptions.push({
                                     label: name,
                                     description: description,
+                                    emoji: `${status.name}:${status.id}`,
                                     value: `${x}`,
                                 })
                             }
                         }
 
-                        //add an option for each quest
+                        // Add an option for each quest
                         var questsDropMenu = new Discord.SelectMenuBuilder()
                         questsDropMenu.setCustomId(`quests${i}`)
                         if(userData.lang === "en") questsDropMenu.setPlaceholder(`Click here to view every ${res.data.bundles[categoriesIndex].name} quests!`)
                         else if(userData.lang === "ar") questsDropMenu.setPlaceholder(`اضغط هنا لعرض جميع مهام ${res.data.bundles[categoriesIndex].name}!`)
                         questsDropMenu.addOptions(questsOptions)
 
-                        //add the drop menu to the questsDropMenu
+                        // Add the drop menu to the questsDropMenu
                         components.push(new Discord.ActionRowBuilder().addComponents(questsDropMenu))
                         limit = 25 * i
 
                     } components.push(buttonDataRow)
 
-                    //edit the message
+                    // Edit the message
                     await challengeCategoryMessage.edit({embeds: [dropDownMenuEmbed], components: components})
                     
                 }

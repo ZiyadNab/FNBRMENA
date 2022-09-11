@@ -731,6 +731,12 @@ module.exports = {
                     //if the bundle is available
                     if(searchedBundleData.available) bundleEmbed.addFields({name: "Available", value: `\`Yes!\``})
                     else bundleEmbed.addFields({name: "Available", value: `\`No!\``})
+                    
+                    //platforms
+                    let platforms = ``
+                    if(searchedBundleData.platforms.includes("epic")) platforms += `${emojisObject.epicgames}`
+                    if(searchedBundleData.platforms.includes("playstation")) platforms += ` ${emojisObject.playstation}`
+                    bundleEmbed.addFields({name: "Platforms", value: platforms})
 
                     //available since
                     if(searchedBundleData.viewableDate !== null) bundleEmbed.addFields({name: "Available Since", value: `\`${moment(searchedBundleData.viewableDate).format("dddd, MMMM Do of YYYY")}\``})
@@ -745,6 +751,12 @@ module.exports = {
                     //if the bundle is available
                     if(searchedBundleData.available) bundleEmbed.addFields({name: "متاحة للشراء", value: `\`نعم!\``})
                     else bundleEmbed.addFields({name: "متاحة للشراء", value: `\`لا!\``})
+                    
+                    //platforms
+                    let platforms = ``
+                    if(searchedBundleData.platforms.includes("epic")) platforms += `${emojisObject.epicgames}`
+                    if(searchedBundleData.platforms.includes("playstation")) platforms += ` ${emojisObject.playstation}`
+                    bundleEmbed.addFields({name: "Platforms", value: platforms})
 
                     //available since
                     if(searchedBundleData.viewableDate !== null) bundleEmbed.addFields({name: "متاحة منذ", value: `\`${moment(searchedBundleData.viewableDate).format("dddd, MMMM Do من YYYY")}\``})

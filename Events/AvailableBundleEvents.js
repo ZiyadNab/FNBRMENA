@@ -667,6 +667,12 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                                     if(lang === "en") bundleEmbed.setDescription(`There is no description for ${searchedBundleData.name} yet.`)
                                     else if(lang === "ar") bundleEmbed.setDescription(`لا يوجد وصل لحزمة ${searchedBundleData.name} بعد.`)
                                 }
+                                
+                                //available platforms
+                                let platforms = ``
+                                if(searchedBundleData.platforms.includes("epic")) platforms += `${emojisObject.epicgames}`
+                                if(searchedBundleData.platforms.includes("playstation")) platforms += ` ${emojisObject.playstation}`
+                                bundleEmbed.addFields({name: "Platforms", value: platforms})
 
                                 //payable? and dates
                                 if(lang === "en"){

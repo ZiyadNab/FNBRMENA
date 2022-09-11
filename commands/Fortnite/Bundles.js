@@ -719,7 +719,11 @@ module.exports = {
                 const bundleEmbed = new Discord.EmbedBuilder()
                 bundleEmbed.setColor(FNBRMENA.Colors("embed"))
                 bundleEmbed.setTitle(searchedBundleData.name)
-                bundleEmbed.setDescription(searchedBundleData.description)
+                if(searchedBundleData.description != "") bundleEmbed.setDescription(searchedBundleData.description)
+                else{
+                    if(userData.lang === "en") bundleEmbed.setDescription(`There is no description for ${searchedBundleData.name} yet.`)
+                    else if(userData.lang === "ar") bundleEmbed.setDescription(`لا يوجد وصل لحزمة ${searchedBundleData.name} بعد.`)
+                }
 
                 //payable? and dates
                 if(userData.lang === "en"){

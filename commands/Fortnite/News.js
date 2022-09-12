@@ -44,13 +44,12 @@ module.exports = {
                 var isRow = false
 
                 //loop through every
-                for(let i = 0; i < 2; i++){
+                for(let i = 0; i < 3; i++){
 
                     //initializing variables
                     var title = data[i].title
                     var body = data[i].body
                     var image = data[i].image
-                    console.log(image)
 
                     //draw the image based on the index
                     const newsImage = await Canvas.loadImage(image)

@@ -13,6 +13,7 @@ module.exports = {
 
         //image creator
         const newsImageCreator = async (data, hash) => {
+            console.log(data)
 
             const generating = new Discord.EmbedBuilder()
             generating.setColor(FNBRMENA.Colors("embed"))
@@ -50,6 +51,7 @@ module.exports = {
                     var title = data[i].title
                     var body = data[i].body
                     var image = data[i].image
+                    console.log(title, body, image)
 
                     //draw the image based on the index
                     const newsImage = await Canvas.loadImage(image)

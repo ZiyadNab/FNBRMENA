@@ -729,10 +729,12 @@ module.exports = {
                 let platforms = ``
                 if(searchedBundleData.platforms.includes("epic")) platforms += `${emojisObject.epicgames}`
                 if(searchedBundleData.platforms.includes("playstation")) platforms += ` ${emojisObject.playstation}`
-                bundleEmbed.addFields({name: "Platforms", value: platforms})
 
                 //payable? and dates
                 if(userData.lang === "en"){
+                    
+                    //add flatforms field
+                    bundleEmbed.addFields({name: "Platforms", value: platforms})
 
                     //if the bundle is available
                     if(searchedBundleData.available) bundleEmbed.addFields({name: "Available", value: `\`Yes!\``})
@@ -747,6 +749,9 @@ module.exports = {
                     else bundleEmbed.addFields({name: "Will be gone at", value: `\`Not known yet!\``})
                             
                 }else if(userData.lang === "ar"){
+                    
+                    //add flatforms field
+                    bundleEmbed.addFields({name: "المنصات", value: platforms})
 
                     //if the bundle is available
                     if(searchedBundleData.available) bundleEmbed.addFields({name: "متاحة للشراء", value: `\`نعم!\``})

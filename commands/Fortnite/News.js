@@ -55,20 +55,20 @@ module.exports = {
                     const newsImage = await Canvas.loadImage(image)
                     ctx.drawImage(newsImage, 0, 0, canvas.width, canvas.height)
 
-                    //add the credits
-                    ctx.fillStyle = '#ffffff';
-                    ctx.textAlign = 'left';
-                    ctx.font = '95px Burbank Big Condensed'
-                    ctx.fillText("FNBRMENA", 25, 95)
+//                     //add the credits
+//                     ctx.fillStyle = '#ffffff';
+//                     ctx.textAlign = 'left';
+//                     ctx.font = '95px Burbank Big Condensed'
+//                     ctx.fillText("FNBRMENA", 25, 95)
 
-                    //add the lower side fog
-                    const imageLowerFog = await Canvas.loadImage('./assets/News/fogV2.png')
-                    ctx.drawImage(imageLowerFog, 0, 0, canvas.width, canvas.height)
+//                     //add the lower side fog
+//                     const imageLowerFog = await Canvas.loadImage('./assets/News/fogV2.png')
+//                     ctx.drawImage(imageLowerFog, 0, 0, canvas.width, canvas.height)
 
-                    //drop shadow
-                    ctx.shadowOffsetY = 75
-                    ctx.shadowColor = "rgba(0, 0, 0, 0.4)";
-                    ctx.shadowBlur = 150;
+//                     //drop shadow
+//                     ctx.shadowOffsetY = 75
+//                     ctx.shadowColor = "rgba(0, 0, 0, 0.4)";
+//                     ctx.shadowBlur = 150;
 
 //                     //add the tileImage only if there is one
 //                     if(data[i].tileImage != undefined){
@@ -140,8 +140,8 @@ module.exports = {
                         ctx.fillText(title.toUpperCase(), canvas.width - 60, 1740)
                     }
 
-                    //reset shadows
-                    ctx.shadowColor = 'rgba(0,0,0,0)';
+//                     //reset shadows
+//                     ctx.shadowColor = 'rgba(0,0,0,0)';
 
                     //add the description );
                     ctx.fillStyle = '#00deff';
@@ -156,16 +156,16 @@ module.exports = {
                         ctx.fillText(body, canvas.width - 130, 1850)
                     }
 
-                    //add a button if there is a link
-                    if(data[i].websiteUrl != undefined){
-                        isRow = true
-                        row.addComponents(
-                            new Discord.ButtonBuilder()
-                            .setStyle(Discord.ButtonStyle.Link)
-                            .setLabel(title)
-                            .setURL(data[i].websiteUrl)
-                        )
-                    }
+//                     //add a button if there is a link
+//                     if(data[i].websiteUrl != undefined){
+//                         isRow = true
+//                         row.addComponents(
+//                             new Discord.ButtonBuilder()
+//                             .setStyle(Discord.ButtonStyle.Link)
+//                             .setLabel(title)
+//                             .setURL(data[i].websiteUrl)
+//                         )
+//                     }
 
                     //add a frame to the encoder
                     encoder.addFrame(ctx);
@@ -176,8 +176,9 @@ module.exports = {
 
                 //send the message
                 const att = new Discord.AttachmentBuilder(encoder.out.getData(), {name: `${hash}.gif`}) 
-                if(isRow) await message.reply({files: [att], components: [row]})
-                else await message.reply({files: [att]})
+                //if(isRow) await message.reply({files: [att], components: [row]})
+                //else 
+                    await message.reply({files: [att]})
                 msg.delete()
 
             }).catch(async err => {

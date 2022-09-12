@@ -13,7 +13,6 @@ module.exports = {
 
         //image creator
         const newsImageCreator = async (data, hash) => {
-            console.log(data)
 
             const generating = new Discord.EmbedBuilder()
             generating.setColor(FNBRMENA.Colors("embed"))
@@ -51,7 +50,6 @@ module.exports = {
                     var title = data[i].title
                     var body = data[i].body
                     var image = data[i].image
-                    console.log(title, body, image)
 
                     //draw the image based on the index
                     const newsImage = await Canvas.loadImage(image)
@@ -72,62 +70,62 @@ module.exports = {
                     ctx.shadowColor = "rgba(0, 0, 0, 0.4)";
                     ctx.shadowBlur = 150;
 
-                    //add the tileImage only if there is one
-                    if(data[i].tileImage != undefined){
+//                     //add the tileImage only if there is one
+//                     if(data[i].tileImage != undefined){
 
-                        //draw the tileImage on the given coordinates
-                        const tileImage = await Canvas.loadImage(data[i].tileImage)
-                        ctx.drawImage(tileImage, canvas.width - 705, 35, 630, 315)
+//                         //draw the tileImage on the given coordinates
+//                         const tileImage = await Canvas.loadImage(data[i].tileImage)
+//                         ctx.drawImage(tileImage, canvas.width - 705, 35, 630, 315)
                         
-                        //add a stroke arround the image
-                        ctx.strokeStyle = 'white';
-                        ctx.lineWidth = 5;
-                        ctx.rect(canvas.width - 705, 35, 630, 315);
-                        ctx.stroke();
+//                         //add a stroke arround the image
+//                         ctx.strokeStyle = 'white';
+//                         ctx.lineWidth = 5;
+//                         ctx.rect(canvas.width - 705, 35, 630, 315);
+//                         ctx.stroke();
 
-                        //get the title tab name
-                        if(data[i].tabTitle !== null) var tabTitle = data[i].tabTitle
-                        else var tabTitle = data[i].title
+//                         //get the title tab name
+//                         if(data[i].tabTitle !== null) var tabTitle = data[i].tabTitle
+//                         else var tabTitle = data[i].title
 
-                        //add the tabTitle
-                        ctx.fillStyle = '#ffffff';
-                        ctx.textAlign = 'center';
-                        if(userData.lang === "en") ctx.font = '75px Burbank Big Condensed'
-                        else if(userData.lang === "ar") ctx.font = '75px Arabic'
-                        ctx.fillText(tabTitle.toUpperCase(), canvas.width - 390, 430)
+//                         //add the tabTitle
+//                         ctx.fillStyle = '#ffffff';
+//                         ctx.textAlign = 'center';
+//                         if(userData.lang === "en") ctx.font = '75px Burbank Big Condensed'
+//                         else if(userData.lang === "ar") ctx.font = '75px Arabic'
+//                         ctx.fillText(tabTitle.toUpperCase(), canvas.width - 390, 430)
 
-                    }
+//                     }
 
-                    //now lets add the news indicator
-                    var x = canvas.width - 52
-                    var y = 30
-                    ctx.shadowOffsetY = 10
-                    ctx.shadowColor = 'black';
-                    ctx.shadowBlur = 50;
+//                     //now lets add the news indicator
+//                     var x = canvas.width - 52
+//                     var y = 30
+//                     ctx.shadowOffsetY = 10
+//                     ctx.shadowColor = 'black';
+//                     ctx.shadowBlur = 50;
 
-                    for(let t = 0; t < data.length; t++){
+//                     for(let t = 0; t < data.length; t++){
 
-                        //check if the t equals to i, if so the make the indicator for this index larger than the others
-                        if(t == i){
+//                         //check if the t equals to i, if so the make the indicator for this index larger than the others
+//                         if(t == i){
 
-                            ctx.fillStyle = 'white' //color plate
-                            ctx.fillRect(x, y, 22, 400) //filling
+//                             ctx.fillStyle = 'white' //color plate
+//                             ctx.fillRect(x, y, 22, 400) //filling
                             
-                            //update y value
-                            y += 400 + 20
+//                             //update y value
+//                             y += 400 + 20
 
-                        }else{
+//                         }else{
 
-                            ctx.globalAlpha = 0.5 //change transparency
-                            ctx.fillStyle = 'white' //color plate
-                            ctx.fillRect(x, y, 22, 200) //filling 
-                            ctx.globalAlpha = 1 //restore transparency
+//                             ctx.globalAlpha = 0.5 //change transparency
+//                             ctx.fillStyle = 'white' //color plate
+//                             ctx.fillRect(x, y, 22, 200) //filling 
+//                             ctx.globalAlpha = 1 //restore transparency
 
-                            //update y value
-                            y += 200 + 20
+//                             //update y value
+//                             y += 200 + 20
 
-                        }
-                    }
+//                         }
+//                     }
 
                     //now lets add the title
                     ctx.shadowBlur = 150;

@@ -44,7 +44,7 @@ module.exports = {
                 var isRow = false
 
                 //loop through every
-                for(let i = 0; i < data.length; i++){
+                for(let i = 0; i < 2; i++){
 
                     //initializing variables
                     var title = data[i].title
@@ -56,117 +56,117 @@ module.exports = {
                     const newsImage = await Canvas.loadImage(image)
                     ctx.drawImage(newsImage, 0, 0, canvas.width, canvas.height)
 
-//                     //add the credits
-//                     ctx.fillStyle = '#ffffff';
-//                     ctx.textAlign = 'left';
-//                     ctx.font = '95px Burbank Big Condensed'
-//                     ctx.fillText("FNBRMENA", 25, 95)
+                    //add the credits
+                    ctx.fillStyle = '#ffffff';
+                    ctx.textAlign = 'left';
+                    ctx.font = '95px Burbank Big Condensed'
+                    ctx.fillText("FNBRMENA", 25, 95)
 
-//                     //add the lower side fog
-//                     const imageLowerFog = await Canvas.loadImage('./assets/News/fogV2.png')
-//                     ctx.drawImage(imageLowerFog, 0, 0, canvas.width, canvas.height)
+                    //add the lower side fog
+                    const imageLowerFog = await Canvas.loadImage('./assets/News/fogV2.png')
+                    ctx.drawImage(imageLowerFog, 0, 0, canvas.width, canvas.height)
 
-//                     //drop shadow
-//                     ctx.shadowOffsetY = 75
-//                     ctx.shadowColor = "rgba(0, 0, 0, 0.4)";
-//                     ctx.shadowBlur = 150;
+                    //drop shadow
+                    ctx.shadowOffsetY = 75
+                    ctx.shadowColor = "rgba(0, 0, 0, 0.4)";
+                    ctx.shadowBlur = 150;
 
-//                     //add the tileImage only if there is one
-//                     if(data[i].tileImage != undefined){
+                    //add the tileImage only if there is one
+                    if(data[i].tileImage != undefined){
 
-//                         //draw the tileImage on the given coordinates
-//                         const tileImage = await Canvas.loadImage(data[i].tileImage)
-//                         ctx.drawImage(tileImage, canvas.width - 705, 35, 630, 315)
+                        //draw the tileImage on the given coordinates
+                        const tileImage = await Canvas.loadImage(data[i].tileImage)
+                        ctx.drawImage(tileImage, canvas.width - 705, 35, 630, 315)
                         
-//                         //add a stroke arround the image
-//                         ctx.strokeStyle = 'white';
-//                         ctx.lineWidth = 5;
-//                         ctx.rect(canvas.width - 705, 35, 630, 315);
-//                         ctx.stroke();
+                        //add a stroke arround the image
+                        ctx.strokeStyle = 'white';
+                        ctx.lineWidth = 5;
+                        ctx.rect(canvas.width - 705, 35, 630, 315);
+                        ctx.stroke();
 
-//                         //get the title tab name
-//                         if(data[i].tabTitle !== null) var tabTitle = data[i].tabTitle
-//                         else var tabTitle = data[i].title
+                        //get the title tab name
+                        if(data[i].tabTitle !== null) var tabTitle = data[i].tabTitle
+                        else var tabTitle = data[i].title
 
-//                         //add the tabTitle
-//                         ctx.fillStyle = '#ffffff';
-//                         ctx.textAlign = 'center';
-//                         if(userData.lang === "en") ctx.font = '75px Burbank Big Condensed'
-//                         else if(userData.lang === "ar") ctx.font = '75px Arabic'
-//                         ctx.fillText(tabTitle.toUpperCase(), canvas.width - 390, 430)
+                        //add the tabTitle
+                        ctx.fillStyle = '#ffffff';
+                        ctx.textAlign = 'center';
+                        if(userData.lang === "en") ctx.font = '75px Burbank Big Condensed'
+                        else if(userData.lang === "ar") ctx.font = '75px Arabic'
+                        ctx.fillText(tabTitle.toUpperCase(), canvas.width - 390, 430)
 
-//                     }
+                    }
 
-//                     //now lets add the news indicator
-//                     var x = canvas.width - 52
-//                     var y = 30
-//                     ctx.shadowOffsetY = 10
-//                     ctx.shadowColor = 'black';
-//                     ctx.shadowBlur = 50;
+                    //now lets add the news indicator
+                    var x = canvas.width - 52
+                    var y = 30
+                    ctx.shadowOffsetY = 10
+                    ctx.shadowColor = 'black';
+                    ctx.shadowBlur = 50;
 
-//                     for(let t = 0; t < data.length; t++){
+                    for(let t = 0; t < data.length; t++){
 
-//                         //check if the t equals to i, if so the make the indicator for this index larger than the others
-//                         if(t == i){
+                        //check if the t equals to i, if so the make the indicator for this index larger than the others
+                        if(t == i){
 
-//                             ctx.fillStyle = 'white' //color plate
-//                             ctx.fillRect(x, y, 22, 400) //filling
+                            ctx.fillStyle = 'white' //color plate
+                            ctx.fillRect(x, y, 22, 400) //filling
                             
-//                             //update y value
-//                             y += 400 + 20
+                            //update y value
+                            y += 400 + 20
 
-//                         }else{
+                        }else{
 
-//                             ctx.globalAlpha = 0.5 //change transparency
-//                             ctx.fillStyle = 'white' //color plate
-//                             ctx.fillRect(x, y, 22, 200) //filling 
-//                             ctx.globalAlpha = 1 //restore transparency
+                            ctx.globalAlpha = 0.5 //change transparency
+                            ctx.fillStyle = 'white' //color plate
+                            ctx.fillRect(x, y, 22, 200) //filling 
+                            ctx.globalAlpha = 1 //restore transparency
 
-//                             //update y value
-//                             y += 200 + 20
+                            //update y value
+                            y += 200 + 20
 
-//                         }
-//                     }
+                        }
+                    }
 
-//                     //now lets add the title
-//                     ctx.shadowBlur = 150;
-//                     ctx.fillStyle = '#ffffff';
-//                     if(userData.lang === "en"){
-//                         ctx.font = '150px Burbank Big Condensed'
-//                         ctx.textAlign = 'left';
-//                         ctx.fillText(title.toUpperCase(), 60, 1740)
-//                     }else if(userData.lang === "ar"){
-//                         ctx.font = '150px Arabic'
-//                         ctx.textAlign = 'right';
-//                         ctx.fillText(title.toUpperCase(), canvas.width - 60, 1740)
-//                     }
+                    //now lets add the title
+                    ctx.shadowBlur = 150;
+                    ctx.fillStyle = '#ffffff';
+                    if(userData.lang === "en"){
+                        ctx.font = '150px Burbank Big Condensed'
+                        ctx.textAlign = 'left';
+                        ctx.fillText(title.toUpperCase(), 60, 1740)
+                    }else if(userData.lang === "ar"){
+                        ctx.font = '150px Arabic'
+                        ctx.textAlign = 'right';
+                        ctx.fillText(title.toUpperCase(), canvas.width - 60, 1740)
+                    }
 
-//                     //reset shadows
-//                     ctx.shadowColor = 'rgba(0,0,0,0)';
+                    //reset shadows
+                    ctx.shadowColor = 'rgba(0,0,0,0)';
 
-//                     //add the description );
-//                     ctx.fillStyle = '#00deff';
-//                     body = wrap(body, {width: 75})
-//                     if(userData.lang === "en"){
-//                         ctx.font = '75px Burbank Big Condensed'
-//                         ctx.textAlign = 'left';
-//                         ctx.fillText(body, 130, 1850)
-//                     }else if(userData.lang === "ar"){
-//                         ctx.font = '75px Arabic'
-//                         ctx.textAlign = 'right';
-//                         ctx.fillText(body, canvas.width - 130, 1850)
-//                     }
+                    //add the description );
+                    ctx.fillStyle = '#00deff';
+                    body = wrap(body, {width: 75})
+                    if(userData.lang === "en"){
+                        ctx.font = '75px Burbank Big Condensed'
+                        ctx.textAlign = 'left';
+                        ctx.fillText(body, 130, 1850)
+                    }else if(userData.lang === "ar"){
+                        ctx.font = '75px Arabic'
+                        ctx.textAlign = 'right';
+                        ctx.fillText(body, canvas.width - 130, 1850)
+                    }
 
-//                     //add a button if there is a link
-//                     if(data[i].websiteUrl != undefined){
-//                         isRow = true
-//                         row.addComponents(
-//                             new Discord.ButtonBuilder()
-//                             .setStyle(Discord.ButtonStyle.Link)
-//                             .setLabel(title)
-//                             .setURL(data[i].websiteUrl)
-//                         )
-//                     }
+                    //add a button if there is a link
+                    if(data[i].websiteUrl != undefined){
+                        isRow = true
+                        row.addComponents(
+                            new Discord.ButtonBuilder()
+                            .setStyle(Discord.ButtonStyle.Link)
+                            .setLabel(title)
+                            .setURL(data[i].websiteUrl)
+                        )
+                     }
 
                     //add a frame to the encoder
                     encoder.addFrame(ctx);
@@ -177,9 +177,8 @@ module.exports = {
 
                 //send the message
                 const att = new Discord.AttachmentBuilder(encoder.out.getData(), {name: `${hash}.gif`})
-                await message.reply({files: [att]})
-                //if(isRow) await message.reply({files: [att], components: [row]})
-                //else 
+                if(isRow) await message.reply({files: [att], components: [row]})
+                else await message.reply({files: [att]})
                 msg.delete()
 
             }).catch(async err => {

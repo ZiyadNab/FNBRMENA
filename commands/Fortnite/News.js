@@ -26,7 +26,7 @@ module.exports = {
                 Canvas.registerFont('./assets/font/BurbankBigCondensed-Black.ttf' ,{family: 'Burbank Big Condensed',weight: "700",style: "bold"})
 
                 //create canvas
-                const canvas = Canvas.createCanvas(3840, 2160);
+                const canvas = Canvas.createCanvas(2560, 1440);
                 const ctx = canvas.getContext('2d');
 
                 //create the encoder
@@ -44,7 +44,7 @@ module.exports = {
                 var isRow = false
 
                 //loop through every
-                for(let i = 0; i < 3; i++){
+                for(let i = 0; i < data.length; i++){
 
                     //initializing variables
                     var title = data[i].title
@@ -58,29 +58,29 @@ module.exports = {
                     //add the credits
                     ctx.fillStyle = '#ffffff';
                     ctx.textAlign = 'left';
-                    ctx.font = '95px Burbank Big Condensed'
-                    ctx.fillText("FNBRMENA", 25, 95)
+                    ctx.font = '63px Burbank Big Condensed'
+                    ctx.fillText("FNBRMENA", 17, 64)
 
                     //add the lower side fog
                     const imageLowerFog = await Canvas.loadImage('./assets/News/fogV2.png')
                     ctx.drawImage(imageLowerFog, 0, 0, canvas.width, canvas.height)
 
                     //drop shadow
-                    ctx.shadowOffsetY = 75
+                    ctx.shadowOffsetY = 50
                     ctx.shadowColor = "rgba(0, 0, 0, 0.4)";
-                    ctx.shadowBlur = 150;
+                    ctx.shadowBlur = 100;
 
                     //add the tileImage only if there is one
                     if(data[i].tileImage != undefined){
 
                         //draw the tileImage on the given coordinates
                         const tileImage = await Canvas.loadImage(data[i].tileImage)
-                        ctx.drawImage(tileImage, canvas.width - 705, 35, 630, 315)
+                        ctx.drawImage(tileImage, canvas.width - 470, 24, 420, 210)
                         
                         //add a stroke arround the image
                         ctx.strokeStyle = 'white';
-                        ctx.lineWidth = 5;
-                        ctx.rect(canvas.width - 705, 35, 630, 315);
+                        ctx.lineWidth = 3.5;
+                        ctx.rect(canvas.width - 470, 24, 420, 210);
                         ctx.stroke();
 
                         //get the title tab name
@@ -90,18 +90,18 @@ module.exports = {
                         //add the tabTitle
                         ctx.fillStyle = '#ffffff';
                         ctx.textAlign = 'center';
-                        if(userData.lang === "en") ctx.font = '75px Burbank Big Condensed'
-                        else if(userData.lang === "ar") ctx.font = '75px Arabic'
-                        ctx.fillText(tabTitle.toUpperCase(), canvas.width - 390, 430)
+                        if(userData.lang === "en") ctx.font = '50px Burbank Big Condensed'
+                        else if(userData.lang === "ar") ctx.font = '50px Arabic'
+                        ctx.fillText(tabTitle.toUpperCase(), canvas.width - 260, 287)
 
                     }
 
                     //now lets add the news indicator
-                    var x = canvas.width - 52
-                    var y = 30
-                    ctx.shadowOffsetY = 10
+                    var x = canvas.width - 35
+                    var y = 20
+                    ctx.shadowOffsetY = 6.5
                     ctx.shadowColor = 'black';
-                    ctx.shadowBlur = 50;
+                    ctx.shadowBlur = 34;
 
                     for(let t = 0; t < data.length; t++){
 
@@ -109,35 +109,35 @@ module.exports = {
                         if(t == i){
 
                             ctx.fillStyle = 'white' //color plate
-                            ctx.fillRect(x, y, 22, 400) //filling
+                            ctx.fillRect(x, y, 15, 267) //filling
                             
                             //update y value
-                            y += 400 + 20
+                            y += 267 + 14
 
                         }else{
 
                             ctx.globalAlpha = 0.5 //change transparency
                             ctx.fillStyle = 'white' //color plate
-                            ctx.fillRect(x, y, 22, 200) //filling 
+                            ctx.fillRect(x, y, 14, 134) //filling 
                             ctx.globalAlpha = 1 //restore transparency
 
                             //update y value
-                            y += 200 + 20
+                            y += 134 + 13
 
                         }
                     }
 
                     //now lets add the title
-                    ctx.shadowBlur = 150;
+                    ctx.shadowBlur = 100;
                     ctx.fillStyle = '#ffffff';
                     if(userData.lang === "en"){
-                        ctx.font = '150px Burbank Big Condensed'
+                        ctx.font = '100px Burbank Big Condensed'
                         ctx.textAlign = 'left';
-                        ctx.fillText(title.toUpperCase(), 60, 1740)
+                        ctx.fillText(title.toUpperCase(), 40, 1160)
                     }else if(userData.lang === "ar"){
-                        ctx.font = '150px Arabic'
+                        ctx.font = '100px Arabic'
                         ctx.textAlign = 'right';
-                        ctx.fillText(title.toUpperCase(), canvas.width - 60, 1740)
+                        ctx.fillText(title.toUpperCase(), canvas.width - 40, 1160)
                     }
 
                     //reset shadows
@@ -145,15 +145,15 @@ module.exports = {
 
                     //add the description );
                     ctx.fillStyle = '#00deff';
-                    body = wrap(body, {width: 75})
+                    body = wrap(body, {width: 50})
                     if(userData.lang === "en"){
-                        ctx.font = '75px Burbank Big Condensed'
+                        ctx.font = '50px Burbank Big Condensed'
                         ctx.textAlign = 'left';
-                        ctx.fillText(body, 130, 1850)
+                        ctx.fillText(body, 86, 1235)
                     }else if(userData.lang === "ar"){
-                        ctx.font = '75px Arabic'
+                        ctx.font = '50px Arabic'
                         ctx.textAlign = 'right';
-                        ctx.fillText(body, canvas.width - 130, 1850)
+                        ctx.fillText(body, canvas.width - 86, 1235)
                     }
 
                     //add a button if there is a link

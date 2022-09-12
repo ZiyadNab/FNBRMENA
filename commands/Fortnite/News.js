@@ -50,6 +50,7 @@ module.exports = {
                     var title = data[i].title
                     var body = data[i].body
                     var image = data[i].image
+                    console.log(image)
 
                     //draw the image based on the index
                     const newsImage = await Canvas.loadImage(image)
@@ -127,34 +128,34 @@ module.exports = {
 //                         }
 //                     }
 
-                    //now lets add the title
-                    ctx.shadowBlur = 150;
-                    ctx.fillStyle = '#ffffff';
-                    if(userData.lang === "en"){
-                        ctx.font = '150px Burbank Big Condensed'
-                        ctx.textAlign = 'left';
-                        ctx.fillText(title.toUpperCase(), 60, 1740)
-                    }else if(userData.lang === "ar"){
-                        ctx.font = '150px Arabic'
-                        ctx.textAlign = 'right';
-                        ctx.fillText(title.toUpperCase(), canvas.width - 60, 1740)
-                    }
+//                     //now lets add the title
+//                     ctx.shadowBlur = 150;
+//                     ctx.fillStyle = '#ffffff';
+//                     if(userData.lang === "en"){
+//                         ctx.font = '150px Burbank Big Condensed'
+//                         ctx.textAlign = 'left';
+//                         ctx.fillText(title.toUpperCase(), 60, 1740)
+//                     }else if(userData.lang === "ar"){
+//                         ctx.font = '150px Arabic'
+//                         ctx.textAlign = 'right';
+//                         ctx.fillText(title.toUpperCase(), canvas.width - 60, 1740)
+//                     }
 
 //                     //reset shadows
 //                     ctx.shadowColor = 'rgba(0,0,0,0)';
 
-                    //add the description );
-                    ctx.fillStyle = '#00deff';
-                    body = wrap(body, {width: 75})
-                    if(userData.lang === "en"){
-                        ctx.font = '75px Burbank Big Condensed'
-                        ctx.textAlign = 'left';
-                        ctx.fillText(body, 130, 1850)
-                    }else if(userData.lang === "ar"){
-                        ctx.font = '75px Arabic'
-                        ctx.textAlign = 'right';
-                        ctx.fillText(body, canvas.width - 130, 1850)
-                    }
+//                     //add the description );
+//                     ctx.fillStyle = '#00deff';
+//                     body = wrap(body, {width: 75})
+//                     if(userData.lang === "en"){
+//                         ctx.font = '75px Burbank Big Condensed'
+//                         ctx.textAlign = 'left';
+//                         ctx.fillText(body, 130, 1850)
+//                     }else if(userData.lang === "ar"){
+//                         ctx.font = '75px Arabic'
+//                         ctx.textAlign = 'right';
+//                         ctx.fillText(body, canvas.width - 130, 1850)
+//                     }
 
 //                     //add a button if there is a link
 //                     if(data[i].websiteUrl != undefined){
@@ -175,10 +176,10 @@ module.exports = {
                 encoder.finish();
 
                 //send the message
-                const att = new Discord.AttachmentBuilder(encoder.out.getData(), {name: `${hash}.gif`}) 
+                const att = new Discord.AttachmentBuilder(encoder.out.getData(), {name: `${hash}.gif`})
+                await message.reply({files: [att]})
                 //if(isRow) await message.reply({files: [att], components: [row]})
                 //else 
-                    await message.reply({files: [att]})
                 msg.delete()
 
             }).catch(async err => {

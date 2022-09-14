@@ -22,6 +22,9 @@ module.exports = {
             textChannel: message.channel,
             message
             
+        }).catch(err => {
+            message.reply(err.message)
         })
+
     }
 }

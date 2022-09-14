@@ -18,9 +18,6 @@ module.exports = {
     permissionError: 'Sorry you do not have acccess to this command',
     callback: async (FNBRMENA, message, args, text, Discord, client, admin, userData, alias, emojisObject) => {
 
-        //get the user timezone from the database
-        const timezone = await FNBRMENA.Admin(admin, message, "", "Timezone");
-
         //if the user added a numberOfRanks
         let numberOfRanks = 10;
         if(text.includes("+")){

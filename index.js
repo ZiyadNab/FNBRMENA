@@ -8,7 +8,9 @@ const client = new Discord.Client({ intents: [Discord.GatewayIntentBits.DirectMe
   Discord.GatewayIntentBits.GuildMessages, Discord.GatewayIntentBits.GuildMessageReactions, Discord.GatewayIntentBits.GuildMessageTyping, Discord.GatewayIntentBits.GuildPresences,
   Discord.GatewayIntentBits.GuildVoiceStates, Discord.GatewayIntentBits.GuildWebhooks, Discord.GatewayIntentBits.MessageContent], partials: [Discord.Partials.Channel]})
 const { DisTube } = require('distube')
+const { SoundCloudPlugin  } = require("@distube/soundcloud")
 const { YtDlpPlugin } = require("@distube/yt-dlp")
+const { SpotifyPlugin } = require("@distube/spotify")
 const Data = require('./FNBRMENA')
 const path = require('path')
 const FNBRMENA = new Data()
@@ -28,7 +30,11 @@ client.disTube = new DisTube(client, {
   emitAddSongWhenCreatingQueue: false,
   emitAddListWhenCreatingQueue: false,
   plugins: [
-    new YtDlpPlugin()
+    new SoundCloudPlugin({
+      emitEventsAfterFetching: true
+    }),
+    new YtDlpPlugin(),
+    new SpotifyPlugin()
   ],
 })
 

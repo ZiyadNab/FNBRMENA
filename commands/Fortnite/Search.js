@@ -180,15 +180,23 @@ module.exports = {
                         //skin informations
                         if(res.data.items[num].introduction != null){
                             var chapter = res.data.items[num].introduction.chapter.substring(res.data.items[num].introduction.chapter.indexOf(" "), res.data.items[num].introduction.chapter.length).trim()
-                            var season = res.data.items[num].introduction.season.substring(res.data.items[num].introduction.season.indexOf(" "), res.data.items[num].introduction.season.length).trim()
 
-                            if(userData.lang === "en") var seasonChapter = `C${chapter}S${season}`
-                            else if(userData.lang == "ar")var seasonChapter = `الفصل ${chapter} الموسم ${season}`
+                            if(userData.lang === "en"){
+                                var season = res.data.items[num].introduction.season.substring(res.data.items[num].introduction.season.indexOf(" "), res.data.items[num].introduction.season.length).trim()
+                                if(userData.lang === "en") var seasonChapter = `C${chapter}S${season}`
+
+                            }else if(userData.lang == "ar"){
+                                if(res.data.items[num].introduction.season.includes("X")) var seasonChapter = `الفصل ${chapter} الموسم X`
+                                else{
+                                    var season = res.data.items[num].introduction.season.substring(res.data.items[num].introduction.season.indexOf(" "), res.data.items[num].introduction.season.length).trim()
+                                    var seasonChapter = `الفصل ${chapter} الموسم ${season}`
+                                }
+                            }
 
                         }else{
 
                             if(userData.lang === "en") var seasonChapter = `${res.data.items[num].added.version}v`
-                            else if(userData.lang == "ar")var seasonChapter = `تحديث ${res.data.items[num].added.version}`
+                            else if(userData.lang == "ar") var seasonChapter = `تحديث ${res.data.items[num].added.version}`
                             
                         }
 

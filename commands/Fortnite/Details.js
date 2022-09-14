@@ -343,10 +343,18 @@ module.exports = {
                             //skin informations
                             if(styles[i].introduction != null){
                                 var chapter = styles[i].introduction.chapter.substring(styles[i].introduction.chapter.indexOf(" "), styles[i].introduction.chapter.length).trim()
-                                var season = styles[i].introduction.season.substring(styles[i].introduction.season.indexOf(" "), styles[i].introduction.season.length).trim()
 
-                                if(userData.lang === "en") var seasonChapter = `C${chapter}S${season}`
-                                else if(userData.lang == "ar")var seasonChapter = `الفصل ${chapter} الموسم ${season}`
+                                if(userData.lang === "en"){
+                                    var season = styles[i].introduction.season.substring(styles[i].introduction.season.indexOf(" "), styles[i].introduction.season.length).trim()
+                                    if(userData.lang === "en") var seasonChapter = `C${chapter}S${season}`
+
+                                }else if(userData.lang == "ar"){
+                                    if(styles[i].introduction.season.includes("X")) var seasonChapter = `الفصل ${chapter} الموسم X`
+                                    else{
+                                        var season = styles[i].introduction.season.substring(styles[i].introduction.season.indexOf(" "), styles[i].introduction.season.length).trim()
+                                        var seasonChapter = `الفصل ${chapter} الموسم ${season}`
+                                    }
+                                }
 
                             }else{
 
@@ -805,10 +813,18 @@ module.exports = {
                             //skin informations
                             if(grants[i].introduction != null){
                                 var chapter = grants[i].introduction.chapter.substring(grants[i].introduction.chapter.indexOf(" "), grants[i].introduction.chapter.length).trim()
-                                var season = grants[i].introduction.season.substring(grants[i].introduction.season.indexOf(" "), grants[i].introduction.season.length).trim()
 
+                            if(userData.lang === "en"){
+                                var season = grants[i].introduction.season.substring(grants[i].introduction.season.indexOf(" "), grants[i].introduction.season.length).trim()
                                 if(userData.lang === "en") var seasonChapter = `C${chapter}S${season}`
-                                else if(userData.lang == "ar")var seasonChapter = `الفصل ${chapter} الموسم ${season}`
+
+                            }else if(userData.lang == "ar"){
+                                if(grants[i].introduction.season.includes("X")) var seasonChapter = `الفصل ${chapter} الموسم X`
+                                else{
+                                    var season = grants[i].introduction.season.substring(grants[i].introduction.season.indexOf(" "), grants[i].introduction.season.length).trim()
+                                    var seasonChapter = `الفصل ${chapter} الموسم ${season}`
+                                }
+                            }
 
                             }else{
 

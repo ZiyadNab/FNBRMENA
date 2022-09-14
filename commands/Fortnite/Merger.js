@@ -292,10 +292,18 @@ module.exports = {
                     //skin informations
                     if(mergedItemsDataList[i].introduction != null){
                         var chapter = mergedItemsDataList[i].introduction.chapter.substring(mergedItemsDataList[i].introduction.chapter.indexOf(" "), mergedItemsDataList[i].introduction.chapter.length).trim()
-                        var season = mergedItemsDataList[i].introduction.season.substring(mergedItemsDataList[i].introduction.season.indexOf(" "), mergedItemsDataList[i].introduction.season.length).trim()
 
-                        if(userData.lang === "en") var seasonChapter = `C${chapter}S${season}`
-                        else if(userData.lang == "ar")var seasonChapter = `الفصل ${chapter} الموسم ${season}`
+                            if(userData.lang === "en"){
+                                var season = mergedItemsDataList[i].introduction.season.substring(mergedItemsDataList[i].introduction.season.indexOf(" "), mergedItemsDataList[i].introduction.season.length).trim()
+                                if(userData.lang === "en") var seasonChapter = `C${chapter}S${season}`
+
+                            }else if(userData.lang == "ar"){
+                                if(mergedItemsDataList[i].introduction.season.includes("X")) var seasonChapter = `الفصل ${chapter} الموسم X`
+                                else{
+                                    var season = mergedItemsDataList[i].introduction.season.substring(mergedItemsDataList[i].introduction.season.indexOf(" "), mergedItemsDataList[i].introduction.season.length).trim()
+                                    var seasonChapter = `الفصل ${chapter} الموسم ${season}`
+                                }
+                            }
 
                     }else{
 

@@ -8,7 +8,6 @@ module.exports = {
     minArgs: 0,
     maxArgs: 0,
     cooldown: 20,
-    pushChild: true,
     permissionError: 'Sorry you do not have acccess to this command',
     callback: async (FNBRMENA, message, args, text, Discord, client, admin, userData, alias, emojisObject) => {
 
@@ -182,8 +181,7 @@ module.exports = {
                 msg.delete()
 
             }).catch(async err => {
-                console.log(err)
-                // FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
+                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
             })
         }
         
@@ -260,21 +258,10 @@ module.exports = {
                 }
             }).catch(async err => {
                 newsTypeMessage.delete()
-                console.log(err)
-                // FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
+                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
             })
         }).catch(async err => {
-            console.log(err)
-            // FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
+            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
         })
     }
 }
-
-process.on("message", async (data) => {
-    // console.log("Child PID: " + process.pid)
-    const Data = require('../../FNBRMENA')
-    const FNBRMENA = new Data()
-
-    var callback = new Function('return ' + data.callback)();
-    callback(FNBRMENA, data.message, data.args, data.text, require('discord.js'), "", "", data.userData, data.alias, data.emojisObject)
-})

@@ -1,6 +1,8 @@
 const Canvas = require('canvas')
 const wrap = require('word-wrap')
 const Gif = require('gif-encoder-2')
+const Data = require('../FNBRMENA')
+const FNBRMENA = new Data()
 
 module.exports = {
     commands: 'news',
@@ -269,9 +271,6 @@ module.exports = {
 
 process.on("message", async (data) => {
     // console.log("Child PID: " + process.pid)
-
-    const Data = require('../FNBRMENA')
-    const FNBRMENA = new Data()
 
     var callback = new Function('return ' + data.callback)();
     callback(FNBRMENA, data.message, data.args, data.text, require('discord.js'), "", "", data.userData, data.alias, data.emojisObject)

@@ -9,17 +9,13 @@ module.exports = {
     permissionError: 'Sorry you do not have acccess to this command',
     callback: async (FNBRMENA, message, args, text, Discord, client, admin, userData, alias, emojisObject) => {
 
-        //create image
-        const cosmeticsImage = async (items, build) => {
+        // Setup database storage
+        const storage = admin.storage().bucket()
 
-            //variables
-            var x = 0
-            var y = 0
-            var width = 0
-            var height = 1024
-            var newline = 0
+        // Create image
+        const cosmeticsImage = async (type, items, build, prevBuild, push) => {
 
-            //generating animation
+            // Generating animation
             const generating = new Discord.EmbedBuilder()
             generating.setColor(FNBRMENA.Colors("embed"))
             if(userData.lang === "en") generating.setTitle(`Loading a total ${items.length} cosmetics please wait... ${emojisObject.loadingEmoji}`)
@@ -27,9 +23,27 @@ module.exports = {
             message.reply({embeds: [generating]})
             .then( async msg => {
 
+            // Check if there is a pre-loaded image
+            if(!push[0]){
+                console.log(push)
+
+                // Delete the previous build file
+                try{
+                    await storage.file(`preloadedcommands/${alias}/${userData.lang}/${type}-${prevBuild}.png`).delete()
+                }catch {
+                    await storage.file(`preloadedcommands/${alias}/${userData.lang}/${type}-${prevBuild}.jpg`).delete()
+                }
+
+                //variables
+                var x = 0
+                var y = 0
+                var width = 0
+                var height = 1024
+                var newline = 0
+
                 //creating length
                 var length = items.length
-                
+                    
                 if(length <= 2) length = length
                 else if(length > 2 && length <= 4) length = length / 2
                 else if(length > 4 && length <= 9) length = length / 3
@@ -402,20 +416,54 @@ module.exports = {
                     }
                 }
 
-                //send the image to discord channel
+                // Send the image to discord channel
                 try{
+
+                    // Try sending it on png file format
                     var att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `${build}.png`})
                     await message.reply({files: [att]})
                     msg.delete()
+
+                    // Upload the image to the database storage
+                    await admin.storage().bucket().file(`preloadedcommands/${alias}/${userData.lang}/${type}-${build}.png`).save(canvas.toBuffer())
                     
                 }catch{
+
+                    // Try sending it on jpg file format [LOWER QUALITY]
                     var att = new Discord.AttachmentBuilder(canvas.toBuffer('image/jpeg'), {name: `${build}.jpg`})
                     await message.reply({files: [att]})
                     msg.delete()
+
+                    // Upload the image to the database storage
+                    await admin.storage().bucket().file(`preloadedcommands/${alias}/${userData.lang}/${type}-${build}.jpg`).save(canvas.toBuffer())
                 }
-                
+
+            }else{
+
+                // Send the image to discord channel
+                try{
+
+                    // An image is already exists on the db storage
+                    const file = storage.file(`preloadedcommands/${alias}/${userData.lang}/${type}-${build}.png`)
+                    await file.makePublic()
+                    const att = new Discord.AttachmentBuilder(await file.publicUrl())
+                    await message.reply({files: [att]})
+                    msg.delete()
+
+                }catch{
+
+                    // An image is already exists on the db storage
+                    const file = storage.file(`preloadedcommands/${alias}/${userData.lang}/${type}-${build}.jpg`)
+                    await file.makePublic()
+                    const att = new Discord.AttachmentBuilder(await file.publicUrl())
+                    await message.reply({files: [att]})
+                    msg.delete()
+
+                }
+            }
 
             }).catch(err => {
+                console.log(err)
                 FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
                 
             })
@@ -485,7 +533,7 @@ module.exports = {
                    types.push({
                         label: `${item.type.displayValue}`,
                         value: `${item.type.value}`,
-                        emoji: `${emojisObject[item.type.value].name}:${emojisObject[item.type.value].id}`
+                        //emoji: `${emojisObject[item.type.value].name}:${emojisObject[item.type.value].id}`
                     })
                 }
             }
@@ -519,7 +567,12 @@ module.exports = {
                 //if all button is clicked
                 if(collected.customId === "All"){
                     dropMenuMessage.delete()
-                    cosmeticsImage(res.data.data.items, res.data.data.build)
+                    cosmeticsImage("all",
+                        res.data.data.items,
+                        res.data.data.build,
+                        res.data.data.previousBuild,
+                        await storage.file(`preloadedcommands/${alias}/${userData.lang}/all-${res.data.data.build}.png`).exists()
+                    )
                 }
 
                 //if the user chose a type
@@ -531,7 +584,12 @@ module.exports = {
                         if(obj.type.value === collected.values[0]) items.push(obj)
                     })
 
-                    cosmeticsImage(items, res.data.data.build)
+                    cosmeticsImage(collected.values[0],
+                        items,
+                        res.data.data.build,
+                        res.data.data.previousBuild,
+                        await storage.file(`preloadedcommands/${alias}/${userData.lang}/${collected.values[0]}-${res.data.data.build}.png`).exists()
+                    )
                 }
             
             }).catch(async err => {

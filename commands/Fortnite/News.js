@@ -199,7 +199,8 @@ module.exports = {
                     // An image is already exists on the db storage
                     const file = storage.file(`preloadedcommands/${alias}/${userData.lang}/${type}/${hash}.gif`)
                     await file.makePublic()
-                    await message.reply(await file.publicUrl())
+                    const att = new Discord.AttachmentBuilder(await file.publicUrl())
+                    await message.reply({files: [att]})
                     msg.delete()
                 }
 

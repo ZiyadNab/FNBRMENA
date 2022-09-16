@@ -11,8 +11,11 @@ module.exports = {
     permissionError: 'Sorry you do not have acccess to this command',
     callback: async (FNBRMENA, message, args, text, Discord, client, admin, userData, alias, emojisObject) => {
 
-        //image creator
-        const newsImageCreator = async (data, hash) => {
+        // Setup database storage
+        const storage = admin.storage().bucket()
+
+        // Image creator
+        const newsImageCreator = async (type, data, hash, push) => {
 
             const generating = new Discord.EmbedBuilder()
             generating.setColor(FNBRMENA.Colors("embed"))
@@ -21,175 +24,195 @@ module.exports = {
             message.reply({embeds: [generating]})
             .then(async msg => {
 
-                //registering fonts
-                Canvas.registerFont('./assets/font/Lalezar-Regular.ttf', {family: 'Arabic',weight: "700",style: "bold"});
-                Canvas.registerFont('./assets/font/BurbankBigCondensed-Black.ttf' ,{family: 'Burbank Big Condensed',weight: "700",style: "bold"})
+                // If the image doesn't exists on the db storage
+                if(!push[0]){
 
-                //create canvas
-                const canvas = Canvas.createCanvas(2560, 1440);
-                const ctx = canvas.getContext('2d');
+                    // Delete the old existing news file
+                    await admin.storage().bucket().deleteFiles({
+                        prefix: `preloadedcommands/${alias}/${userData.lang}/${type}/`
+                    })
 
-                //create the encoder
-                const encoder = new Gif(canvas.width, canvas.height, 'neuquant', true)
-                
-                //add gif delay between image and image
-                encoder.setDelay(3 * 1000)
-                encoder.setQuality(1)
+                    // Registering fonts
+                    Canvas.registerFont('./assets/font/Lalezar-Regular.ttf', {family: 'Arabic',weight: "700",style: "bold"});
+                    Canvas.registerFont('./assets/font/BurbankBigCondensed-Black.ttf' ,{family: 'Burbank Big Condensed',weight: "700",style: "bold"})
 
-                //start encoding
-                encoder.start()
+                    // Create canvas
+                    const canvas = Canvas.createCanvas(2560, 1440);
+                    const ctx = canvas.getContext('2d');
 
-                //creating a row
-                const row = new Discord.ActionRowBuilder()
-                var isRow = false
+                    // Create the encoder
+                    const encoder = new Gif(canvas.width, canvas.height, 'neuquant', true)
+                    
+                    // Add gif delay between image and image
+                    encoder.setDelay(3 * 1000)
+                    encoder.setQuality(1)
 
-                //loop through every
-                for(let i = 0; i < data.length; i++){
+                    // Start encoding
+                    encoder.start()
 
-                    //initializing variables
-                    var title = data[i].title
-                    var body = data[i].body
-                    var image = data[i].image
+                    // Creating a row
+                    const row = new Discord.ActionRowBuilder()
+                    var isRow = false
 
-                    //draw the image based on the index
-                    const newsImage = await Canvas.loadImage(image)
-                    ctx.drawImage(newsImage, 0, 0, canvas.width, canvas.height)
+                    // Loop through every
+                    for(let i = 0; i < data.length; i++){
 
-                    //add the credits
-                    ctx.fillStyle = '#ffffff';
-                    ctx.textAlign = 'left';
-                    ctx.font = '63px Burbank Big Condensed'
-                    ctx.fillText("FNBRMENA", 17, 64)
+                        // Initializing variables
+                        var title = data[i].title
+                        var body = data[i].body
+                        var image = data[i].image
 
-                    //add the lower side fog
-                    const imageLowerFog = await Canvas.loadImage('./assets/News/fogV2.png')
-                    ctx.drawImage(imageLowerFog, 0, 0, canvas.width, canvas.height)
+                        // Draw the image based on the index
+                        const newsImage = await Canvas.loadImage(image)
+                        ctx.drawImage(newsImage, 0, 0, canvas.width, canvas.height)
 
-                    //drop shadow
-                    ctx.shadowOffsetY = 50
-                    ctx.shadowColor = "rgba(0, 0, 0, 0.4)";
-                    ctx.shadowBlur = 100;
-
-                    //add the tileImage only if there is one
-                    if(data[i].tileImage != undefined){
-
-                        //draw the tileImage on the given coordinates
-                        const tileImage = await Canvas.loadImage(data[i].tileImage)
-                        ctx.drawImage(tileImage, canvas.width - 470, 24, 420, 210)
-                        
-                        //add a stroke arround the image
-                        ctx.strokeStyle = 'white';
-                        ctx.lineWidth = 3.5;
-                        ctx.rect(canvas.width - 470, 24, 420, 210);
-                        ctx.stroke();
-
-                        //get the title tab name
-                        if(data[i].tabTitle !== null) var tabTitle = data[i].tabTitle
-                        else var tabTitle = data[i].title
-
-                        //add the tabTitle
+                        // Add the credits
                         ctx.fillStyle = '#ffffff';
-                        ctx.textAlign = 'center';
-                        if(userData.lang === "en") ctx.font = '50px Burbank Big Condensed'
-                        else if(userData.lang === "ar") ctx.font = '50px Arabic'
-                        ctx.fillText(tabTitle.toUpperCase(), canvas.width - 260, 287)
+                        ctx.textAlign = 'left';
+                        ctx.font = '63px Burbank Big Condensed'
+                        ctx.fillText("FNBRMENA", 17, 64)
 
-                    }
+                        // Add the lower side fog
+                        const imageLowerFog = await Canvas.loadImage('./assets/News/fogV2.png')
+                        ctx.drawImage(imageLowerFog, 0, 0, canvas.width, canvas.height)
 
-                    //now lets add the news indicator
-                    var x = canvas.width - 35
-                    var y = 20
-                    ctx.shadowOffsetY = 6.5
-                    ctx.shadowColor = 'black';
-                    ctx.shadowBlur = 34;
+                        // Drop shadow
+                        ctx.shadowOffsetY = 50
+                        ctx.shadowColor = "rgba(0, 0, 0, 0.4)";
+                        ctx.shadowBlur = 100;
 
-                    for(let t = 0; t < data.length; t++){
+                        // Add the tileImage only if there is one
+                        if(data[i].tileImage != undefined){
 
-                        //check if the t equals to i, if so the make the indicator for this index larger than the others
-                        if(t == i){
-
-                            ctx.fillStyle = 'white' //color plate
-                            ctx.fillRect(x, y, 15, 267) //filling
+                            // Draw the tileImage on the given coordinates
+                            const tileImage = await Canvas.loadImage(data[i].tileImage)
+                            ctx.drawImage(tileImage, canvas.width - 470, 24, 420, 210)
                             
-                            //update y value
-                            y += 267 + 14
+                            // Add a stroke arround the image
+                            ctx.strokeStyle = 'white';
+                            ctx.lineWidth = 3.5;
+                            ctx.rect(canvas.width - 470, 24, 420, 210);
+                            ctx.stroke();
 
-                        }else{
+                            // Get the title tab name
+                            if(data[i].tabTitle !== null) var tabTitle = data[i].tabTitle
+                            else var tabTitle = data[i].title
 
-                            ctx.globalAlpha = 0.5 //change transparency
-                            ctx.fillStyle = 'white' //color plate
-                            ctx.fillRect(x, y, 14, 134) //filling 
-                            ctx.globalAlpha = 1 //restore transparency
-
-                            //update y value
-                            y += 134 + 13
+                            // Add the tabTitle
+                            ctx.fillStyle = '#ffffff';
+                            ctx.textAlign = 'center';
+                            if(userData.lang === "en") ctx.font = '50px Burbank Big Condensed'
+                            else if(userData.lang === "ar") ctx.font = '50px Arabic'
+                            ctx.fillText(tabTitle.toUpperCase(), canvas.width - 260, 287)
 
                         }
+
+                        // Now lets add the news indicator
+                        var x = canvas.width - 35
+                        var y = 20
+                        ctx.shadowOffsetY = 6.5
+                        ctx.shadowColor = 'black';
+                        ctx.shadowBlur = 34;
+
+                        for(let t = 0; t < data.length; t++){
+
+                            // Check if the t equals to i, if so the make the indicator for this index larger than the others
+                            if(t == i){
+
+                                ctx.fillStyle = 'white' // Color plate
+                                ctx.fillRect(x, y, 15, 267) // Filling
+                                
+                                // Update y value
+                                y += 267 + 14
+
+                            }else{
+
+                                ctx.globalAlpha = 0.5 // Change transparency
+                                ctx.fillStyle = 'white' // Color plate
+                                ctx.fillRect(x, y, 14, 134) // Filling 
+                                ctx.globalAlpha = 1 // Restore transparency
+
+                                // Update y value
+                                y += 134 + 13
+
+                            }
+                        }
+
+                        // Now lets add the title
+                        ctx.shadowBlur = 100;
+                        ctx.fillStyle = '#ffffff';
+                        if(userData.lang === "en"){
+                            ctx.font = '100px Burbank Big Condensed'
+                            ctx.textAlign = 'left';
+                            ctx.fillText(title.toUpperCase(), 40, 1160)
+                        }else if(userData.lang === "ar"){
+                            ctx.font = '100px Arabic'
+                            ctx.textAlign = 'right';
+                            ctx.fillText(title.toUpperCase(), canvas.width - 40, 1160)
+                        }
+
+                        // Reset shadows
+                        ctx.shadowColor = 'rgba(0,0,0,0)';
+
+                        // Add the description );
+                        ctx.fillStyle = '#00deff';
+                        body = wrap(body, {width: 50})
+                        if(userData.lang === "en"){
+                            ctx.font = '50px Burbank Big Condensed'
+                            ctx.textAlign = 'left';
+                            ctx.fillText(body, 86, 1235)
+                        }else if(userData.lang === "ar"){
+                            ctx.font = '50px Arabic'
+                            ctx.textAlign = 'right';
+                            ctx.fillText(body, canvas.width - 86, 1235)
+                        }
+
+                        // Add a button if there is a link
+                        if(data[i].websiteUrl != undefined){
+                            isRow = true
+                            row.addComponents(
+                                new Discord.ButtonBuilder()
+                                .setStyle(Discord.ButtonStyle.Link)
+                                .setLabel(title)
+                                .setURL(data[i].websiteUrl)
+                            )
+                        }
+
+                        // Add a frame to the encoder
+                        encoder.addFrame(ctx);
                     }
 
-                    //now lets add the title
-                    ctx.shadowBlur = 100;
-                    ctx.fillStyle = '#ffffff';
-                    if(userData.lang === "en"){
-                        ctx.font = '100px Burbank Big Condensed'
-                        ctx.textAlign = 'left';
-                        ctx.fillText(title.toUpperCase(), 40, 1160)
-                    }else if(userData.lang === "ar"){
-                        ctx.font = '100px Arabic'
-                        ctx.textAlign = 'right';
-                        ctx.fillText(title.toUpperCase(), canvas.width - 40, 1160)
-                    }
+                    // Finish encoding
+                    encoder.finish();
 
-                    //reset shadows
-                    ctx.shadowColor = 'rgba(0,0,0,0)';
+                    // Upload the image to the database storage
+                    await admin.storage().bucket().file(`preloadedcommands/${alias}/${userData.lang}/${type}/${hash}.gif`).save(encoder.out.getData())
 
-                    //add the description );
-                    ctx.fillStyle = '#00deff';
-                    body = wrap(body, {width: 50})
-                    if(userData.lang === "en"){
-                        ctx.font = '50px Burbank Big Condensed'
-                        ctx.textAlign = 'left';
-                        ctx.fillText(body, 86, 1235)
-                    }else if(userData.lang === "ar"){
-                        ctx.font = '50px Arabic'
-                        ctx.textAlign = 'right';
-                        ctx.fillText(body, canvas.width - 86, 1235)
-                    }
+                    // Send the message
+                    const att = new Discord.AttachmentBuilder(encoder.out.getData(), {name: `${hash}.gif`})
+                    if(isRow) await message.reply({files: [att], components: [row]})
+                    else await message.reply({files: [att]})
+                    msg.delete()
 
-                    //add a button if there is a link
-                    if(data[i].websiteUrl != undefined){
-                        isRow = true
-                        row.addComponents(
-                            new Discord.ButtonBuilder()
-                            .setStyle(Discord.ButtonStyle.Link)
-                            .setLabel(title)
-                            .setURL(data[i].websiteUrl)
-                        )
-                     }
+                }else{
 
-                    //add a frame to the encoder
-                    encoder.addFrame(ctx);
+                    // An image is already exists on the db storage
+                    const file = storage.file(`preloadedcommands/${alias}/${userData.lang}/${type}/${hash}.gif`)
+                    await file.makePublic()
+                    await message.reply(await file.publicUrl())
+                    msg.delete()
                 }
-
-                //finish encoding
-                encoder.finish();
-
-                //send the message
-                const att = new Discord.AttachmentBuilder(encoder.out.getData(), {name: `${hash}.gif`})
-                if(isRow) await message.reply({files: [att], components: [row]})
-                else await message.reply({files: [att]})
-                msg.delete()
 
             }).catch(async err => {
                 FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
             })
         }
         
-        //request data
+        // Request data
         await FNBRMENA.News(userData.lang)
         .then(async res => {
 
-            //create random landing embed message
+            // Create random landing embed message
             const newsTypeEmbed = new Discord.EmbedBuilder()
             newsTypeEmbed.setColor(FNBRMENA.Colors("embed"))
             if(userData.lang === "en"){
@@ -200,10 +223,10 @@ module.exports = {
                 newsTypeEmbed.setDescription('اختر نوع باتل رويال ام انقاذ العالم.\n.`لديك فقط 30 ثانية حتى تنتهي العملية, استعجل`!')
             }
 
-            //create a row for buttons
+            // Create a row for buttons
             const buttonsDataRow = new Discord.ActionRowBuilder()
 
-            //br button
+            // BR button
             const brNewsButton = new Discord.ButtonBuilder()
             brNewsButton.setCustomId('BR')
             brNewsButton.setStyle(Discord.ButtonStyle.Primary)
@@ -211,7 +234,7 @@ module.exports = {
             if(userData.lang === "en") brNewsButton.setLabel("Battle Royale")
             else if(userData.lang === "ar") brNewsButton.setLabel("باتل رويال")
 
-            //stw button
+            // STW button
             const stwNewsButton = new Discord.ButtonBuilder()
             stwNewsButton.setCustomId('STW')
             stwNewsButton.setStyle(Discord.ButtonStyle.Success)
@@ -219,42 +242,52 @@ module.exports = {
             if(userData.lang === "en") stwNewsButton.setLabel("Save The World")
             else if(userData.lang === "ar") stwNewsButton.setLabel("انقاذ العالم")
 
-            //cancle button
+            // Cancel button
             const cancelButton = new Discord.ButtonBuilder()
             cancelButton.setCustomId('Cancel')
             cancelButton.setStyle(Discord.ButtonStyle.Danger)
             if(userData.lang === "en") cancelButton.setLabel("Cancel")
             else if(userData.lang === "ar") cancelButton.setLabel("اغلاق")
             
-            //add the buttons to the buttonsDataRow
+            // Add the buttons to the buttonsDataRow
             buttonsDataRow.addComponents(brNewsButton, stwNewsButton, cancelButton)
 
-            //send the button
+            // Send the button
             const newsTypeMessage = await message.reply({embeds: [newsTypeEmbed], components: [buttonsDataRow]})
 
-            //filtering the user clicker
+            // Filtering the user clicker
             const filter = (i => {
                 return (i.user.id === message.author.id && i.message.id === newsTypeMessage.id && i.guild.id === message.guild.id)
             })
 
-            //await the user click
+            // Await the user click
             await message.channel.awaitMessageComponent({filter, time: 30000})
             .then(async collected => {
                 collected.deferUpdate();
 
-                //if canel button has been clicked
+                // If cancel button has been clicked
                 if(collected.customId === "Cancel") newsTypeMessage.delete()
 
-                //user clicked BR
+                // User clicked BR
                 if(collected.customId === "BR"){
                     newsTypeMessage.delete()
-                    newsImageCreator(res.data.data.br.motds, res.data.data.br.hash)
+                    newsImageCreator(
+                        "br",
+                        res.data.data.br.motds, 
+                        res.data.data.br.hash,
+                        await storage.file(`preloadedcommands/${alias}/${userData.lang}/br/${res.data.data.br.hash}.gif`).exists()
+                    )
                 }
 
-                //user clicked STW
+                // User clicked STW
                 if(collected.customId === "STW"){
                     newsTypeMessage.delete()
-                    newsImageCreator(res.data.data.stw.messages, res.data.data.stw.hash)
+                    newsImageCreator(
+                        "stw",
+                        res.data.data.stw.messages,
+                        res.data.data.stw.hash,
+                        await storage.file(`preloadedcommands/${alias}/${userData.lang}/stw/${res.data.data.stw.hash}.gif`).exists()
+                    )
                 }
             }).catch(async err => {
                 newsTypeMessage.delete()

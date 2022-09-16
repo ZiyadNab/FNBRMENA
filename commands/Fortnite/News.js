@@ -8,6 +8,7 @@ module.exports = {
     minArgs: 0,
     maxArgs: 0,
     cooldown: 20,
+    pushChild: true,
     permissionError: 'Sorry you do not have acccess to this command',
     callback: async (FNBRMENA, message, args, text, Discord, client, admin, userData, alias, emojisObject) => {
 
@@ -265,3 +266,10 @@ module.exports = {
         })
     }
 }
+
+process.on("message", async (data) => {
+    // console.log("Child PID: " + process.pid)
+
+    var callback = new Function('return ' + data.callback)();
+    callback(data.FNBRMENA, data.message, data.args, data.text, require('discord.js'), "", "", data.userData, data.alias, data.emojisObject)
+})

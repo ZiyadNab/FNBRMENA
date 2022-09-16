@@ -4,6 +4,8 @@ const Discord = require('discord.js')
 const moment = require('moment')
 require('moment-timezone')
 const config = require('./../Configs/config.json')
+const { fork } = require('child_process')
+const { Worker } = require("worker_threads")
 
 const allCommands = {}
 
@@ -82,7 +84,7 @@ module.exports.listen = async (client, admin, emojisObject) => {
                 // Change the user's leaderboard
                 await admin.database().ref("ERA's").child("Games").child("numbersGame").child("leaderboard").child(member.id).update({
                     score: newScore
-                 })
+                })
             }
         }
 
@@ -113,6 +115,7 @@ module.exports.listen = async (client, admin, emojisObject) => {
                 minArgs = 0,
                 maxArgs = null,
                 cooldown = -1,
+                pushChild = false,
                 permissionError = "Sorry you do not have acccess to this command",
                 callback,
             } = command
@@ -186,7 +189,25 @@ module.exports.listen = async (client, admin, emojisObject) => {
                     }
 
                     // Handle the custom command code
-                    callback(FNBRMENA, message, args, args.join(' '), Discord, client, admin, userData, alias, emojisObject)
+
+                    // Create a child process
+                    if(pushChild){
+                        const childProcess = fork('./commands/Fortnite/News.js')
+                        childProcess.send({
+                            FNBRMENA,
+                            message,
+                            args,
+                            text: args.join(' '),
+                            // Discord,
+                            // client,
+                            // admin,
+                            userData,
+                            alias,
+                            emojisObject,
+                            callback: callback.toString()
+                        })
+
+                    }else callback(FNBRMENA, message, args, args.join(' '), Discord, client, admin, userData, alias, emojisObject)
                     return
                 }
             }

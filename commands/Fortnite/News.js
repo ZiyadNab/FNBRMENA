@@ -270,6 +270,9 @@ module.exports = {
 process.on("message", async (data) => {
     // console.log("Child PID: " + process.pid)
 
+    const Data = require('../FNBRMENA')
+    const FNBRMENA = new Data()
+
     var callback = new Function('return ' + data.callback)();
-    callback(data.FNBRMENA, data.message, data.args, data.text, require('discord.js'), "", "", data.userData, data.alias, data.emojisObject)
+    callback(FNBRMENA, data.message, data.args, data.text, require('discord.js'), "", "", data.userData, data.alias, data.emojisObject)
 })

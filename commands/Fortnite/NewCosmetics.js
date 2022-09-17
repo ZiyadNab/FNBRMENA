@@ -27,12 +27,15 @@ module.exports = {
             if(!push[0]){
                 console.log(push)
 
-                // Delete the previous build file
-                try{
-                    await storage.file(`preloadedcommands/${alias}/${userData.lang}/${type}-${prevBuild}.png`).delete()
-                }catch {
-                    await storage.file(`preloadedcommands/${alias}/${userData.lang}/${type}-${prevBuild}.jpg`).delete()
-                }
+                // Delete the old existing new file [JPG]
+                await admin.storage().bucket().deleteFiles({
+                    prefix: `preloadedcommands/new/en/emoji-++Fortnite+Release-21.50-CL-21657658-Windows.jpg`,
+                })
+
+                // Delete the old existing new file [PNG]
+                await admin.storage().bucket().deleteFiles({
+                    prefix: `preloadedcommands/new/en/emoji-++Fortnite+Release-21.50-CL-21657658-Windows.png`
+                })
 
                 //variables
                 var x = 0
@@ -533,7 +536,7 @@ module.exports = {
                    types.push({
                         label: `${item.type.displayValue}`,
                         value: `${item.type.value}`,
-                        //emoji: `${emojisObject[item.type.value].name}:${emojisObject[item.type.value].id}`
+                        emoji: `${emojisObject[item.type.value].name}:${emojisObject[item.type.value].id}`
                     })
                 }
             }

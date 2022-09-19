@@ -229,7 +229,7 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                             }
                         }
 
-                        response['c4778b6b-2203-4947-a8ea-63acbf253190'] = []
+                        response = []
 
                         // Storing
                         for(let i = 0; i < res.data.data.currentUser.dropCampaigns.length; i++){

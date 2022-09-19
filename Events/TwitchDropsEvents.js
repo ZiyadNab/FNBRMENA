@@ -213,23 +213,23 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                                     if(role.Status) var msgID = await message.send({content: `${detailed.data.data.user.dropCampaign.timeBasedDrops[0].benefitEdges[0].benefit.imageAssetURL} <@&${role.roleID}>`, embeds: [twitchDropsEmbed], components: [row], files: [att]})
                                     else var msgID = await message.send({embeds: [twitchDropsEmbed], components: [row], files: [att]})
 
-                                    // Push the new drop to the active list
-                                    const dropsList = []
-                                    if(drops) dropsList.push(drops)
-                                    dropsList.push({
-                                        messageId: msgID.id,
-                                        dropId: response[i]
-                                    })
+                                    // // Push the new drop to the active list
+                                    // const dropsList = []
+                                    // if(drops) dropsList.push(drops)
+                                    // dropsList.push({
+                                    //     messageId: msgID.id,
+                                    //     dropId: response[i]
+                                    // })
 
-                                    // Update the active drops array
-                                    await admin.database().ref("ERA's").child("Events").child("twitchdrops").update({
-                                        Drops: dropsList
-                                    })
+                                    // // Update the active drops array
+                                    // await admin.database().ref("ERA's").child("Events").child("twitchdrops").update({
+                                    //     Drops: dropsList
+                                    // })
                                 })
                             }
                         }
 
-                        response['c4778b6b-2203-4947-a8ea-63acbf253190'] = []
+                        //response['c4778b6b-2203-4947-a8ea-63acbf253190'] = []
 
                         // Storing
                         for(let i = 0; i < res.data.data.currentUser.dropCampaigns.length; i++){
@@ -241,42 +241,42 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                             Status: false
                         })
 
-                        // Check if there is a drops field
-                        if(drops){
+                        // // Check if there is a drops field
+                        // if(drops){
 
-                            // Loop through active drops
-                            for(let i = 0; i < drops.length; i++){
-                                removedDrops[i] = await drops[i].dropId
-                            }
+                        //     // Loop through active drops
+                        //     for(let i = 0; i < drops.length; i++){
+                        //         removedDrops[i] = await drops[i].dropId
+                        //     }
 
-                            // Check if a drop got deleted
-                            if(JSON.stringify(removedDrops) !== JSON.stringify(response)){
+                        //     // Check if a drop got deleted
+                        //     if(JSON.stringify(removedDrops) !== JSON.stringify(response)){
 
-                                // A drop has been removed lets find it
-                                for(let i = 0; i < removedDrops.length; i++){
+                        //         // A drop has been removed lets find it
+                        //         for(let i = 0; i < removedDrops.length; i++){
                                     
-                                    // Compare if its the index i includes or not
-                                    if(!response.includes(removedDrops[i])){
+                        //             // Compare if its the index i includes or not
+                        //             if(!response.includes(removedDrops[i])){
 
-                                        // Delete the drop
-                                        drops.splice(i,1)
+                        //                 // Delete the drop
+                        //                 drops.splice(i,1)
 
-                                        // Update data
-                                        await admin.database().ref("ERA's").child("Events").child("twitchdrops").update({
-                                            Drops: dropsList
-                                        })
+                        //                 // Update data
+                        //                 await admin.database().ref("ERA's").child("Events").child("twitchdrops").update({
+                        //                     Drops: drops
+                        //                 })
 
-                                        // Get the message channel
-                                        client.channels.fetch(config.events.Twitch)
-                                        .then(channel => {
+                        //                 // Get the message channel
+                        //                 client.channels.fetch(config.events.Twitch)
+                        //                 .then(channel => {
 
-                                            // Get the message from the channel and delete it
-                                            channel.messages.delete(drops[i].messageId);
-                                        })
-                                    }
-                                }
-                            }
-                        }
+                        //                     // Get the message from the channel and delete it
+                        //                     channel.messages.delete(drops[i].messageId);
+                        //                 })
+                        //             }
+                        //         }
+                        //     }
+                        // }
                     }
                 
                 }).catch(async err => {

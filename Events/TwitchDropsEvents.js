@@ -29,14 +29,14 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                 //request data
                 await FNBRMENA.TwitchCampaign()
                 .then(async res => {
-                    console.log("Requested", res.data.data.user.dropCampaigns.length)
+                    console.log("Requested", res.data.data.currentUser.dropCampaigns.length)
 
                     //storing the first start up
                     if(number === 0){
 
                         // Storing
-                        for(let i = 0; i < res.data.data.user.dropCampaigns.length; i++){
-                            ids[i] = await res.data.data.user.dropCampaigns[i].id
+                        for(let i = 0; i < res.data.data.currentUser.dropCampaigns.length; i++){
+                            ids[i] = await res.data.data.currentUser.dropCampaigns[i].id
                         }
 
                         //stop from storing again
@@ -52,8 +52,8 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                     }
 
                     //storing the new blog to compare
-                    for(let i = 0; i < res.data.data.user.dropCampaigns.length; i++){
-                        response[i] = await res.data.data.user.dropCampaigns[i].id
+                    for(let i = 0; i < res.data.data.currentUser.dropCampaigns.length; i++){
+                        response[i] = await res.data.data.currentUser.dropCampaigns[i].id
                     }
 
                     //check if there is a new blog
@@ -77,7 +77,7 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                                     // Set author, title and image
                                     twitchDropsEmbed.setAuthor({ name: detailed.data.data.user.name, iconURL: detailed.data.data.user.timeBasedDrops[0].benefitEdges[0].benefit[0].imageAssetURL})
                                     twitchDropsEmbed.setTitle(detailed.data.data.user.timeBasedDrops[0].name)
-                                    twitchDropsEmbed.setThumbnail(res.data.data.user.dropCampaigns[i].game.boxArtURL)
+                                    twitchDropsEmbed.setThumbnail(res.data.data.currentUser.dropCampaigns[i].game.boxArtURL)
 
                                     // Add description
                                     if(detailed.data.data.user.description) twitchDropsEmbed.setDescription(detailed.data.data.user.description)
@@ -141,8 +141,8 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                         }
 
                         // Storing
-                        for(let i = 0; i < res.data.data.user.dropCampaigns.length; i++){
-                            ids[i] = await res.data.data.user.dropCampaigns[i].id
+                        for(let i = 0; i < res.data.data.currentUser.dropCampaigns.length; i++){
+                            ids[i] = await res.data.data.currentUser.dropCampaigns[i].id
                         }
 
                         //trun off push if enabled

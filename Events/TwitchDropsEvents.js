@@ -140,7 +140,7 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
 
                                     // Send the message
                                     if(role.Status) await message.send({content: `${detailed.data.data.user.dropCampaign.timeBasedDrops[0].benefitEdges[0].benefit.imageAssetURL} <@&${role.roleID}>`, embeds: [twitchDropsEmbed], components: [row]})
-                                    else await message.send(detailed.data.data.user.dropCampaign.timeBasedDrops[0].benefitEdges[0].benefit.imageAssetURL, {embeds: [twitchDropsEmbed], components: [row]})
+                                    else await message.send({content: detailed.data.data.user.dropCampaign.timeBasedDrops[0].benefitEdges[0].benefit.imageAssetURL, embeds: [twitchDropsEmbed], components: [row]})
                                     
                                 })
                             }

@@ -127,7 +127,7 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                                     }
 
                                     // Set drop image
-                                    twitchDropsEmbed.setImage(detailed.data.data.user.dropCampaign.timeBasedDrops[0].benefitEdges[0].benefit[0].imageAssetURL)
+                                    twitchDropsEmbed.setImage(detailed.data.data.user.dropCampaign.timeBasedDrops[0].benefitEdges[0].benefit.imageAssetURL)
 
                                     // Set footer
                                     twitchDropsEmbed.setFooter({text: `${detailed.data.data.user.dropCampaign.game.name}, ${detailed.data.data.user.dropCampaign.owner.name}`})

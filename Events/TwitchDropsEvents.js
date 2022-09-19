@@ -27,8 +27,9 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                 console.log("Joined")
 
                 //request data
-                FNBRMENA.TwitchCampaign()
+                await FNBRMENA.TwitchCampaign()
                 .then(async res => {
+                    console.log("Requested", res.data.data.dropCampaigns.length)
 
                     //storing the first start up
                     if(number === 0){
@@ -139,9 +140,9 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                             }
                         }
 
-                        //store the new data
-                        for(let i = 0; i < res.data.blogList.length; i++){
-                            blogs[i] = await res.data.blogList[i].slug
+                        // Storing
+                        for(let i = 0; i < res.data.data.dropCampaigns.length; i++){
+                            ids[i] = await res.data.data.dropCampaigns[i].id
                         }
 
                         //trun off push if enabled

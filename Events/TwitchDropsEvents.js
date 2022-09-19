@@ -10,6 +10,7 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
     var response = []
     var ids = []
     var number = 0
+    var hasRequirements = false
 
     // Handle the blogs
     const TwitchDrops = async () => {
@@ -69,16 +70,6 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                                 FNBRMENA.TwitchDropsDetailed(response[i])
                                 .then(async detailed => {
 
-                                    // Create embed
-                                    const twitchDropsEmbed = new Discord.EmbedBuilder()
-                                    twitchDropsEmbed.setColor(FNBRMENA.Colors("embed"))
-
-                                    // Add name and status fields
-                                    twitchDropsEmbed.addFields(
-                                        {name: "Name", value: `\`${detailed.data.data.user.dropCampaign.timeBasedDrops[0].name}\``},
-                                        {name: "Status", value: `\`${detailed.data.data.user.dropCampaign.status}\``},
-                                    )
-
                                     // Canvas variables
                                     var width = 0
                                     var height = 160
@@ -133,14 +124,8 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                                         const skin = await Canvas.loadImage(detailed.data.data.user.dropCampaign.timeBasedDrops[p].benefitEdges[0].benefit.imageAssetURL);
                                         ctx.drawImage(skin, x, y, 160, 160)
 
-                                        // Add fields
-                                        if(detailed.data.data.user.dropCampaign.timeBasedDrops[p].preconditionDrops) twitchDropsEmbed.addFields(
-                                            {name: `${detailed.data.data.user.dropCampaign.timeBasedDrops[p].benefitEdges[0].benefit.name} has requirements`, value: `\`Yes, see twitch drops page for more information\``}
-                                        )
-
-                                        else twitchDropsEmbed.addFields(
-                                            {name: `${detailed.data.data.user.dropCampaign.timeBasedDrops[p].benefitEdges[0].benefit.name} has requirements`, value: `\`No, it doesn't.\``}
-                                        )
+                                        // Check requirements
+                                        if(detailed.data.data.user.dropCampaign.timeBasedDrops[p].preconditionDrops) hasRequirements = true
 
                                         // Change x, y variables
                                         x = x + 2 + 160; 
@@ -150,6 +135,10 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                                             newline = 0;
                                         }
                                     }
+
+                                    // Create embed
+                                    const twitchDropsEmbed = new Discord.EmbedBuilder()
+                                    twitchDropsEmbed.setColor(FNBRMENA.Colors("embed"))
 
                                     // Set title and image
                                     twitchDropsEmbed.setTitle(detailed.data.data.user.dropCampaign.name)
@@ -202,8 +191,14 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                                         )
                                     }
 
+                                    if(hasRequirements) hasRequirements = "Yes, it does. Please check twitch drops page for more information."
+                                    else hasRequirements = "No, it doesn't."
+
                                     // Add fields
                                     twitchDropsEmbed.addFields(
+                                        {name: "Name", value: `\`${detailed.data.data.user.dropCampaign.timeBasedDrops[0].name}\``},
+                                        {name: "Status", value: `\`${detailed.data.data.user.dropCampaign.status}\``},
+                                        {name: "Has Requirements", value: `\`${hasRequirements}\``},
                                         {name: "Required Minutes Watched", value: `\`${detailed.data.data.user.dropCampaign.timeBasedDrops[0].requiredMinutesWatched}\``},
                                         {name: "Starts At", value: `\`${moment(detailed.data.data.user.dropCampaign.timeBasedDrops[0].benefitEdges[0].startAt).format("dddd, MMMM Do of YYYY")}\``},
                                         {name: "Ends At", value: `\`${moment(detailed.data.data.user.dropCampaign.timeBasedDrops[0].benefitEdges[0].endAt).format("dddd, MMMM Do of YYYY")}\``},

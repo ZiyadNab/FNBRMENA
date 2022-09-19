@@ -69,6 +69,10 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                                 FNBRMENA.TwitchDropsDetailed(response[i])
                                 .then(async detailed => {
 
+                                    // Create embed
+                                    const twitchDropsEmbed = new Discord.EmbedBuilder()
+                                    twitchDropsEmbed.setColor(FNBRMENA.Colors("embed"))
+
                                     // Add name and status fields
                                     twitchDropsEmbed.addFields(
                                         {name: "Name", value: `\`${detailed.data.data.user.dropCampaign.timeBasedDrops[0].name}\``},
@@ -146,10 +150,6 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                                             newline = 0;
                                         }
                                     }
-                                    
-                                    // Create embed
-                                    const twitchDropsEmbed = new Discord.EmbedBuilder()
-                                    twitchDropsEmbed.setColor(FNBRMENA.Colors("embed"))
 
                                     // Set title and image
                                     twitchDropsEmbed.setTitle(detailed.data.data.user.dropCampaign.name)

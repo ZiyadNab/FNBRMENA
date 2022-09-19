@@ -221,8 +221,6 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                                         dropId: response[i]
                                     })
 
-                                    console.log(dropsList)
-
                                     // Update the active drops array
                                     await admin.database().ref("ERA's").child("Events").child("twitchdrops").update({
                                         Drops: dropsList
@@ -230,6 +228,8 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                                 })
                             }
                         }
+
+                        response['c4778b6b-2203-4947-a8ea-63acbf253190'] = []
 
                         // Storing
                         for(let i = 0; i < res.data.data.currentUser.dropCampaigns.length; i++){

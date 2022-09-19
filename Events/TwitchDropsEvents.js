@@ -102,22 +102,24 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                                             height += 160 + 2
                                             newline = 0
                                         }
-                                        
+
+                                        newline++
                                     }
 
-                                    //registering fonts
+                                    // Registering fonts
                                     Canvas.registerFont('./assets/font/Lalezar-Regular.ttf', {family: 'Arabic',weight: "700",style: "bold"});
                                     Canvas.registerFont('./assets/font/BurbankBigCondensed-Black.ttf' ,{family: 'Burbank Big Condensed',weight: "700",style: "bold"})
 
-                                    //creating canvas
+                                    // Creating canvas
                                     const canvas = Canvas.createCanvas(width, height);
                                     const ctx = canvas.getContext('2d');
 
                                     //background
-                                    const background = await Canvas.loadImage('./assets/backgroundwhite.jpg')
-                                    ctx.drawImage(background, 0, 0, canvas.width, canvas.height)
+                                    // const background = await Canvas.loadImage('./assets/backgroundwhite.jpg')
+                                    // ctx.drawImage(background, 0, 0, canvas.width, canvas.height)
 
                                     // Loop though ever drop
+                                    newline = 0
                                     for(let x = 0; x < detailed.data.data.user.dropCampaign.timeBasedDrops.length; x++){
                                         newline++
 

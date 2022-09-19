@@ -163,34 +163,52 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
 
                                     // Create buttons for en
                                     if(lang === "en"){
-                                        row.addComponents( // Link your account link
-                                            new Discord.ButtonBuilder()
-                                            .setStyle(Discord.ButtonStyle.Link)
-                                            .setLabel("LINK YOUR ACCOUNT")
-                                            .setURL(detailed.data.data.user.dropCampaign.accountLinkURL)
-                                        )
-                                        row.addComponents( // More details button
-                                            new Discord.ButtonBuilder()
-                                            .setStyle(Discord.ButtonStyle.Link)
-                                            .setLabel("DROP DETAILS")
-                                            .setURL(detailed.data.data.user.dropCampaign.detailsURL)
-                                        )
+                                        try{
+                                            row.addComponents( // Link your account link
+                                                new Discord.ButtonBuilder()
+                                                .setStyle(Discord.ButtonStyle.Link)
+                                                .setLabel("LINK YOUR ACCOUNT")
+                                                .setURL(detailed.data.data.user.dropCampaign.accountLinkURL)
+                                            )
+                                        }catch{
+
+                                        }
+
+                                        try{
+                                            row.addComponents( // More details button
+                                                new Discord.ButtonBuilder()
+                                                .setStyle(Discord.ButtonStyle.Link)
+                                                .setLabel("DROP DETAILS")
+                                                .setURL(detailed.data.data.user.dropCampaign.detailsURL)
+                                            )
+                                        }catch{
+                                            
+                                        }
                                     }
 
                                     // Create buttons for ar
                                     else if(lang === "ar"){
-                                        row.addComponents( // Link your account link
-                                            new Discord.ButtonBuilder()
-                                            .setStyle(Discord.ButtonStyle.Link)
-                                            .setLabel("اربط حسابك")
-                                            .setURL(detailed.data.data.user.dropCampaign.accountLinkURL)
-                                        )
-                                        row.addComponents( // More details button
-                                            new Discord.ButtonBuilder()
-                                            .setStyle(Discord.ButtonStyle.Link)
-                                            .setLabel("معلومات اضافية")
-                                            .setURL(detailed.data.data.user.dropCampaign.detailsURL)
-                                        )
+                                        try{
+                                            row.addComponents( // Link your account link
+                                                new Discord.ButtonBuilder()
+                                                .setStyle(Discord.ButtonStyle.Link)
+                                                .setLabel("اربط حسابك")
+                                                .setURL(detailed.data.data.user.dropCampaign.accountLinkURL)
+                                            )
+                                        }catch{
+                                                
+                                        }
+
+                                        try{
+                                            row.addComponents( // More details button
+                                                new Discord.ButtonBuilder()
+                                                .setStyle(Discord.ButtonStyle.Link)
+                                                .setLabel("معلومات اضافية")
+                                                .setURL(detailed.data.data.user.dropCampaign.detailsURL)
+                                            )
+                                        }catch{
+                                            
+                                        }
                                     }
 
                                     if(hasRequirements) hasRequirements = "Yes, it does. Please check twitch drops page for more information."
@@ -275,5 +293,5 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
             }
         })
     }
-    setInterval(TwitchDrops, 1 * 30000)
+    setInterval(TwitchDrops, 1 * 40000)
 }

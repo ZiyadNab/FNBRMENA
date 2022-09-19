@@ -75,12 +75,12 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                                     twitchDropsEmbed.setColor(FNBRMENA.Colors("embed"))
 
                                     // Set author, title and image
-                                    twitchDropsEmbed.setAuthor({ name: detailed.data.data.user.name, iconURL: detailed.data.data.user.timeBasedDrops[0].benefitEdges[0].benefit.imageAssetURL})
-                                    twitchDropsEmbed.setTitle(detailed.data.data.user.timeBasedDrops[0].name)
+                                    twitchDropsEmbed.setAuthor({ name: detailed.data.data.user.dropCampaign.name, iconURL: detailed.data.data.user.dropCampaign.timeBasedDrops[0].benefitEdges[0].benefit.imageAssetURL})
+                                    twitchDropsEmbed.setTitle(detailed.data.data.user.dropCampaign.timeBasedDrops[0].name)
                                     twitchDropsEmbed.setThumbnail(res.data.data.currentUser.dropCampaigns[i].game.boxArtURL)
 
                                     // Add description
-                                    if(detailed.data.data.user.description) twitchDropsEmbed.setDescription(detailed.data.data.user.description)
+                                    if(detailed.data.data.user.dropCampaign.description) twitchDropsEmbed.setDescription(detailed.data.data.user.dropCampaign.description)
                                     else{
 
                                         // No description is available
@@ -100,13 +100,13 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                                             new Discord.ButtonBuilder()
                                             .setStyle(Discord.ButtonStyle.Link)
                                             .setLabel("LINK YOUR ACCOUNT")
-                                            .setURL(detailed.data.data.user.accountLinkURL)
+                                            .setURL(detailed.data.data.user.dropCampaign.accountLinkURL)
                                         )
                                         row.addComponents( // More details button
                                             new Discord.ButtonBuilder()
                                             .setStyle(Discord.ButtonStyle.Link)
                                             .setLabel("DROP DETAILS")
-                                            .setURL(detailed.data.data.user.detailsURL)
+                                            .setURL(detailed.data.data.user.dropCampaign.detailsURL)
                                         )
                                     }
 
@@ -116,21 +116,21 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                                             new Discord.ButtonBuilder()
                                             .setStyle(Discord.ButtonStyle.Link)
                                             .setLabel("اربط حسابك")
-                                            .setURL(detailed.data.data.user.accountLinkURL)
+                                            .setURL(detailed.data.data.user.dropCampaign.accountLinkURL)
                                         )
                                         row.addComponents( // More details button
                                             new Discord.ButtonBuilder()
                                             .setStyle(Discord.ButtonStyle.Link)
                                             .setLabel("معلومات اضافية")
-                                            .setURL(detailed.data.data.user.detailsURL)
+                                            .setURL(detailed.data.data.user.dropCampaign.detailsURL)
                                         )
                                     }
 
                                     // Set drop image
-                                    twitchDropsEmbed.setImage(detailed.data.data.user.timeBasedDrops[0].benefitEdges[0].benefit[0].imageAssetURL)
+                                    twitchDropsEmbed.setImage(detailed.data.data.user.dropCampaign.timeBasedDrops[0].benefitEdges[0].benefit[0].imageAssetURL)
 
                                     // Set footer
-                                    twitchDropsEmbed.setFooter({text: `${detailed.data.data.user.game.name}, ${detailed.data.data.user.owner.name}`})
+                                    twitchDropsEmbed.setFooter({text: `${detailed.data.data.user.dropCampaign.game.name}, ${detailed.data.data.user.dropCampaign.owner.name}`})
 
                                     // Send the message
                                     if(role.Status) await message.send({content: `<@&${role.roleID}>`, embeds: [twitchDropsEmbed], components: [row]})

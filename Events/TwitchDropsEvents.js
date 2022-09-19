@@ -126,10 +126,10 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
 
                                     // Add fields
                                     twitchDropsEmbed.addFields(
-                                        {name: "Status", value: `\`${detailed.data.data.user.dropCampaign.status}\``, inline: true},
-                                        {name: "Required Minutes Watched", value: `\`${detailed.data.data.user.dropCampaign.timeBasedDrops[0].requiredMinutesWatched}\``, inline: true},
-                                        {name: "Starts At", value: `\`${moment(detailed.data.data.user.dropCampaign.startAt).format("dddd, MMMM Do of YYYY")}\``, inline: true},
-                                        {name: "Ends At", value: `\`${moment(detailed.data.data.user.dropCampaign.endAt).format("dddd, MMMM Do of YYYY")}\``, inline: true},
+                                        {name: "Status", value: `\`${detailed.data.data.user.dropCampaign.status}\``},
+                                        {name: "Required Minutes Watched", value: `\`${detailed.data.data.user.dropCampaign.timeBasedDrops[0].requiredMinutesWatched}\``},
+                                        {name: "Starts At", value: `\`${moment(detailed.data.data.user.dropCampaign.startAt).format("dddd, MMMM Do of YYYY")}\``},
+                                        {name: "Ends At", value: `\`${moment(detailed.data.data.user.dropCampaign.endAt).format("dddd, MMMM Do of YYYY")}\``},
                                     )
 
                                     // Set drop image
@@ -140,7 +140,7 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
 
                                     // Send the message
                                     if(role.Status) await message.send({content: `${detailed.data.data.user.dropCampaign.timeBasedDrops[0].benefitEdges[0].benefit.imageAssetURL} <@&${role.roleID}>`, embeds: [twitchDropsEmbed], components: [row]})
-                                    else await message.send({embeds: [twitchDropsEmbed], components: [row]})
+                                    else await message.send({content: `${detailed.data.data.user.dropCampaign.timeBasedDrops[0].benefitEdges[0].benefit.imageAssetURL}`, embeds: [twitchDropsEmbed], components: [row]})
                                     
                                 })
                             }
@@ -165,5 +165,5 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
             }
         })
     }
-    setInterval(TwitchDrops, 1 * 20000)
+    setInterval(TwitchDrops, 1 * 30000)
 }

@@ -68,81 +68,81 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                                 FNBRMENA.TwitchDropsDetailed(response[i])
                                 .then(async detailed => {
 
-                                    // Create embed
-                                    const twitchDropsEmbed = new Discord.EmbedBuilder()
-                                    twitchDropsEmbed.setColor(FNBRMENA.Colors("embed"))
+                                    // Loop though ever reward
+                                    for(let x = 0; x < detailed.data.data.user.dropCampaign.timeBasedDrops.length; x++){
 
-                                    // Set author, title and image
-                                    twitchDropsEmbed.setAuthor({ name: detailed.data.data.user.dropCampaign.name, iconURL: detailed.data.data.user.dropCampaign.timeBasedDrops[0].benefitEdges[0].benefit.imageAssetURL})
-                                    twitchDropsEmbed.setTitle(detailed.data.data.user.dropCampaign.timeBasedDrops[0].name)
-                                    twitchDropsEmbed.setThumbnail(res.data.data.currentUser.dropCampaigns[i].game.boxArtURL)
+                                        // Create embed
+                                        const twitchDropsEmbed = new Discord.EmbedBuilder()
+                                        twitchDropsEmbed.setColor(FNBRMENA.Colors("embed"))
 
-                                    // Add description
-                                    if(detailed.data.data.user.dropCampaign.description) twitchDropsEmbed.setDescription(detailed.data.data.user.dropCampaign.description)
-                                    else{
+                                        // Set author, title and image
+                                        twitchDropsEmbed.setAuthor({ name: detailed.data.data.user.dropCampaign.name, iconURL: detailed.data.data.user.dropCampaign.timeBasedDrops[x].benefitEdges[0].benefit.imageAssetURL})
+                                        twitchDropsEmbed.setTitle(detailed.data.data.user.dropCampaign.timeBasedDrops[x].name)
+                                        twitchDropsEmbed.setThumbnail(res.data.data.currentUser.dropCampaigns[i].game.boxArtURL)
 
-                                        // No description is available
-                                        if(lang === "en") twitchDropsEmbed.setDescription(`No description.`)
-                                        else if(lang === "ar") twitchDropsEmbed.setDescription(`لا يوجد وصف.`)
+                                        // Add description
+                                        if(detailed.data.data.user.dropCampaign.description) twitchDropsEmbed.setDescription(detailed.data.data.user.dropCampaign.description)
+                                        else{
+
+                                            // No description is available
+                                            if(lang === "en") twitchDropsEmbed.setDescription(`No description.`)
+                                            else if(lang === "ar") twitchDropsEmbed.setDescription(`لا يوجد وصف.`)
+                                        }
+
+                                        // Moment locale language
+                                        moment.locale(lang)
+
+                                        // Creating a button row
+                                        const row = new Discord.ActionRowBuilder()
+
+                                        // Create buttons for en
+                                        if(lang === "en"){
+                                            row.addComponents( // Link your account link
+                                                new Discord.ButtonBuilder()
+                                                .setStyle(Discord.ButtonStyle.Link)
+                                                .setLabel("LINK YOUR ACCOUNT")
+                                                .setURL(detailed.data.data.user.dropCampaign.accountLinkURL)
+                                            )
+                                            row.addComponents( // More details button
+                                                new Discord.ButtonBuilder()
+                                                .setStyle(Discord.ButtonStyle.Link)
+                                                .setLabel("DROP DETAILS")
+                                                .setURL(detailed.data.data.user.dropCampaign.detailsURL)
+                                            )
+                                        }
+
+                                        // Create buttons for ar
+                                        else if(lang === "ar"){
+                                            row.addComponents( // Link your account link
+                                                new Discord.ButtonBuilder()
+                                                .setStyle(Discord.ButtonStyle.Link)
+                                                .setLabel("اربط حسابك")
+                                                .setURL(detailed.data.data.user.dropCampaign.accountLinkURL)
+                                            )
+                                            row.addComponents( // More details button
+                                                new Discord.ButtonBuilder()
+                                                .setStyle(Discord.ButtonStyle.Link)
+                                                .setLabel("معلومات اضافية")
+                                                .setURL(detailed.data.data.user.dropCampaign.detailsURL)
+                                            )
+                                        }
+
+                                        // Add fields
+                                        twitchDropsEmbed.addFields(
+                                            {name: "Status", value: `\`${detailed.data.data.user.dropCampaign.status}\``},
+                                            {name: "Required Minutes Watched", value: `\`${detailed.data.data.user.dropCampaign.timeBasedDrops[x].requiredMinutesWatched}\``},
+                                            {name: "Starts At", value: `\`${moment(detailed.data.data.user.dropCampaign.timeBasedDrops[x].benefitEdges[0].startAt).format("dddd, MMMM Do of YYYY")}\``},
+                                            {name: "Ends At", value: `\`${moment(detailed.data.data.user.dropCampaign.timeBasedDrops[x].benefitEdges[0].endAt).format("dddd, MMMM Do of YYYY")}\``},
+                                        )
+
+                                        // Set footer
+                                        twitchDropsEmbed.setFooter({text: `${detailed.data.data.user.dropCampaign.game.name}, ${detailed.data.data.user.dropCampaign.owner.name}`})
+
+                                        // Send the message
+                                        const att = new Discord.AttachmentBuilder(detailed.data.data.user.dropCampaign.timeBasedDrops[x].benefitEdges[0].benefit.imageAssetURL)
+                                        if(role.Status) await message.send({content: `${detailed.data.data.user.dropCampaign.timeBasedDrops[x].benefitEdges[0].benefit.imageAssetURL} <@&${role.roleID}>`, embeds: [twitchDropsEmbed], components: [row], files: [att]})
+                                        else await message.send({embeds: [twitchDropsEmbed], components: [row], files: [att]})
                                     }
-
-                                    // Moment locale language
-                                    moment.locale(lang)
-
-                                    // Creating a button row
-                                    const row = new Discord.ActionRowBuilder()
-
-                                    // Create buttons for en
-                                    if(lang === "en"){
-                                        row.addComponents( // Link your account link
-                                            new Discord.ButtonBuilder()
-                                            .setStyle(Discord.ButtonStyle.Link)
-                                            .setLabel("LINK YOUR ACCOUNT")
-                                            .setURL(detailed.data.data.user.dropCampaign.accountLinkURL)
-                                        )
-                                        row.addComponents( // More details button
-                                            new Discord.ButtonBuilder()
-                                            .setStyle(Discord.ButtonStyle.Link)
-                                            .setLabel("DROP DETAILS")
-                                            .setURL(detailed.data.data.user.dropCampaign.detailsURL)
-                                        )
-                                    }
-
-                                    // Create buttons for ar
-                                    else if(lang === "ar"){
-                                        row.addComponents( // Link your account link
-                                            new Discord.ButtonBuilder()
-                                            .setStyle(Discord.ButtonStyle.Link)
-                                            .setLabel("اربط حسابك")
-                                            .setURL(detailed.data.data.user.dropCampaign.accountLinkURL)
-                                        )
-                                        row.addComponents( // More details button
-                                            new Discord.ButtonBuilder()
-                                            .setStyle(Discord.ButtonStyle.Link)
-                                            .setLabel("معلومات اضافية")
-                                            .setURL(detailed.data.data.user.dropCampaign.detailsURL)
-                                        )
-                                    }
-
-                                    // Add fields
-                                    twitchDropsEmbed.addFields(
-                                        {name: "Status", value: `\`${detailed.data.data.user.dropCampaign.status}\``},
-                                        {name: "Required Minutes Watched", value: `\`${detailed.data.data.user.dropCampaign.timeBasedDrops[0].requiredMinutesWatched}\``},
-                                        {name: "Starts At", value: `\`${moment(detailed.data.data.user.dropCampaign.startAt).format("dddd, MMMM Do of YYYY")}\``},
-                                        {name: "Ends At", value: `\`${moment(detailed.data.data.user.dropCampaign.endAt).format("dddd, MMMM Do of YYYY")}\``},
-                                    )
-
-                                    // Set drop image
-                                    //twitchDropsEmbed.setImage(detailed.data.data.user.dropCampaign.timeBasedDrops[0].benefitEdges[0].benefit.imageAssetURL)
-
-                                    // Set footer
-                                    twitchDropsEmbed.setFooter({text: `${detailed.data.data.user.dropCampaign.game.name}, ${detailed.data.data.user.dropCampaign.owner.name}`})
-
-                                    // Send the message
-                                    const att = new Discord.AttachmentBuilder(detailed.data.data.user.dropCampaign.timeBasedDrops[0].benefitEdges[0].benefit.imageAssetURL)
-                                    if(role.Status) await message.send({content: `${detailed.data.data.user.dropCampaign.timeBasedDrops[0].benefitEdges[0].benefit.imageAssetURL} <@&${role.roleID}>`, embeds: [twitchDropsEmbed], components: [row], files: [att]})
-                                    else await message.send({embeds: [twitchDropsEmbed], components: [row], files: [att]})
-                                    
                                 })
                             }
                         }

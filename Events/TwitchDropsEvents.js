@@ -214,14 +214,16 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                                     else var msgID = await message.send({embeds: [twitchDropsEmbed], components: [row], files: [att]})
 
                                     // Push the new drop to the active list
-                                    drops.push({
+                                    const dropsList = []
+                                    drops.push(drops)
+                                    dropsList.push({
                                         messageId: msgID,
                                         dropId: response[i]
                                     })
 
                                     // Update the active drops array
                                     await admin.database().ref("ERA's").child("Events").child("twitchdrops").update({
-                                        Drops: drops
+                                        Drops: dropsList
                                     })
                                 })
                             }

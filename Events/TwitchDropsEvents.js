@@ -229,7 +229,7 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                             }
                         }
 
-                        response = []
+                        response['c4778b6b-2203-4947-a8ea-63acbf253190'] = []
 
                         // Storing
                         for(let i = 0; i < res.data.data.currentUser.dropCampaigns.length; i++){
@@ -256,13 +256,12 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                                 if(!removedDrops.includes(response[i])){
 
                                     // Get the message channel
-                                    const channel = client.channels.cache.find(channel => channel.id === config.events.Twitch)
-                                    
-                                    // Get the message from the channel
-                                    const deletedMessage = channel.messages.find(msg => msg.id === drops[i].messageId)
+                                    client.channels.cache.fetch(config.events.Twitch)
+                                    .then(channel => {
 
-                                    // Delete the active message
-                                    deletedMessage.delete()
+                                        // Get the message from the channel and delete it
+                                        channel.messages.delete(drops[i].messageId);
+                                    })
                                 }
                             }
                         }

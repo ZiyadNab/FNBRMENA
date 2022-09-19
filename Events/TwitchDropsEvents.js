@@ -69,6 +69,12 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                                 FNBRMENA.TwitchDropsDetailed(response[i])
                                 .then(async detailed => {
 
+                                    // Add name and status fields
+                                    twitchDropsEmbed.addFields(
+                                        {name: "Name", value: `\`${detailed.data.data.user.dropCampaign.timeBasedDrops[0].name}\``},
+                                        {name: "Status", value: `\`${detailed.data.data.user.dropCampaign.status}\``},
+                                    )
+
                                     // Canvas variables
                                     var width = 0
                                     var height = 160
@@ -114,10 +120,6 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                                     const canvas = Canvas.createCanvas(width, height);
                                     const ctx = canvas.getContext('2d');
 
-                                    //background
-                                    // const background = await Canvas.loadImage('./assets/backgroundwhite.jpg')
-                                    // ctx.drawImage(background, 0, 0, canvas.width, canvas.height)
-
                                     // Loop though ever drop
                                     newline = 0
                                     for(let p = 0; p < detailed.data.data.user.dropCampaign.timeBasedDrops.length; p++){
@@ -126,6 +128,15 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                                         // Load the reward image
                                         const skin = await Canvas.loadImage(detailed.data.data.user.dropCampaign.timeBasedDrops[p].benefitEdges[0].benefit.imageAssetURL);
                                         ctx.drawImage(skin, x, y, 160, 160)
+
+                                        // Add fields
+                                        if(detailed.data.data.user.dropCampaign.timeBasedDrops[p].preconditionDrops) twitchDropsEmbed.addFields(
+                                            {name: `${detailed.data.data.user.dropCampaign.timeBasedDrops[p].benefitEdges[0].benefit.name} has requirements`, value: `\`Yes, see twitch drops page for more information\``}
+                                        )
+
+                                        else twitchDropsEmbed.addFields(
+                                            {name: `${detailed.data.data.user.dropCampaign.timeBasedDrops[p].benefitEdges[0].benefit.name} has requirements`, value: `\`No, it doesn't.\``}
+                                        )
 
                                         // Change x, y variables
                                         x = x + 2 + 160; 
@@ -193,8 +204,6 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
 
                                     // Add fields
                                     twitchDropsEmbed.addFields(
-                                        {name: "Name", value: `\`${detailed.data.data.user.dropCampaign.timeBasedDrops[0].name}\``},
-                                        {name: "Status", value: `\`${detailed.data.data.user.dropCampaign.status}\``},
                                         {name: "Required Minutes Watched", value: `\`${detailed.data.data.user.dropCampaign.timeBasedDrops[0].requiredMinutesWatched}\``},
                                         {name: "Starts At", value: `\`${moment(detailed.data.data.user.dropCampaign.timeBasedDrops[0].benefitEdges[0].startAt).format("dddd, MMMM Do of YYYY")}\``},
                                         {name: "Ends At", value: `\`${moment(detailed.data.data.user.dropCampaign.timeBasedDrops[0].benefitEdges[0].endAt).format("dddd, MMMM Do of YYYY")}\``},

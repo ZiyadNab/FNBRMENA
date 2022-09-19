@@ -5,6 +5,7 @@ const config = require('../Configs/config.json')
 
 module.exports = (FNBRMENA, client, admin, emojisObject) => {
     const message = client.channels.cache.find(channel => channel.id === config.events.Twitch)
+    console.log("ON")
 
     //result
     var response = []

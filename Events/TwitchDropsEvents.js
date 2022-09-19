@@ -139,8 +139,9 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                                     twitchDropsEmbed.setFooter({text: `${detailed.data.data.user.dropCampaign.game.name}, ${detailed.data.data.user.dropCampaign.owner.name}`})
 
                                     // Send the message
-                                    if(role.Status) await message.send({content: `${detailed.data.data.user.dropCampaign.timeBasedDrops[0].benefitEdges[0].benefit.imageAssetURL} <@&${role.roleID}>`, embeds: [twitchDropsEmbed], components: [row]})
-                                    else await message.send({content: detailed.data.data.user.dropCampaign.timeBasedDrops[0].benefitEdges[0].benefit.imageAssetURL, embeds: [twitchDropsEmbed], components: [row]})
+                                    const att = new Discord.AttachmentBuilder(detailed.data.data.user.dropCampaign.timeBasedDrops[0].benefitEdges[0].benefit.imageAssetURL)
+                                    if(role.Status) await message.send({content: `${detailed.data.data.user.dropCampaign.timeBasedDrops[0].benefitEdges[0].benefit.imageAssetURL} <@&${role.roleID}>`, embeds: [twitchDropsEmbed], components: [row], files: [att]})
+                                    else await message.send({embeds: [twitchDropsEmbed], components: [row], files: [att]})
                                     
                                 })
                             }

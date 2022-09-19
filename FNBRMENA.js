@@ -209,7 +209,6 @@ class FNBRMENA {
      * 
      */
      async TwitchCampaign(){
-         console.log("FNBRMENA")
 
         //request the data and return the response
         return await axios.post(`https://gql.twitch.tv/gql`, 
@@ -228,7 +227,7 @@ class FNBRMENA {
                 'Client-Id': 'kimne78kx3ncx6brgo4mv6wki5h1ko',
                 'Authorization': 'OAuth ooxgt5r4wa1x151lxaf6pucwrrzhl0'
             }
-        })
+        }).catch(err => console.log(err))
     }
     
     /**

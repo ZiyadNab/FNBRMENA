@@ -120,11 +120,11 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
 
                                     // Loop though ever drop
                                     newline = 0
-                                    for(let x = 0; x < detailed.data.data.user.dropCampaign.timeBasedDrops.length; x++){
+                                    for(let p = 0; p < detailed.data.data.user.dropCampaign.timeBasedDrops.length; p++){
                                         newline++
 
                                         // Load the reward image
-                                        const skin = await Canvas.loadImage(detailed.data.data.user.dropCampaign.timeBasedDrops[x].benefitEdges[0].benefit.imageAssetURL);
+                                        const skin = await Canvas.loadImage(detailed.data.data.user.dropCampaign.timeBasedDrops[p].benefitEdges[0].benefit.imageAssetURL);
                                         ctx.drawImage(skin, x, y, 160, 160)
 
                                         // Change x, y variables
@@ -140,9 +140,8 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                                     const twitchDropsEmbed = new Discord.EmbedBuilder()
                                     twitchDropsEmbed.setColor(FNBRMENA.Colors("embed"))
 
-                                    // Set author, title and image
-                                    twitchDropsEmbed.setAuthor({ name: detailed.data.data.user.dropCampaign.name, iconURL: detailed.data.data.user.dropCampaign.timeBasedDrops[0].benefitEdges[0].benefit.imageAssetURL})
-                                    twitchDropsEmbed.setTitle(detailed.data.data.user.dropCampaign.timeBasedDrops[0].name)
+                                    // Set title and image
+                                    twitchDropsEmbed.setTitle(detailed.data.data.user.dropCampaign.name)
                                     twitchDropsEmbed.setThumbnail(res.data.data.currentUser.dropCampaigns[i].game.boxArtURL)
 
                                     // Add description
@@ -194,6 +193,7 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
 
                                     // Add fields
                                     twitchDropsEmbed.addFields(
+                                        {name: "Name", value: `\`${detailed.data.data.user.dropCampaign.timeBasedDrops[0].name}\``},
                                         {name: "Status", value: `\`${detailed.data.data.user.dropCampaign.status}\``},
                                         {name: "Required Minutes Watched", value: `\`${detailed.data.data.user.dropCampaign.timeBasedDrops[0].requiredMinutesWatched}\``},
                                         {name: "Starts At", value: `\`${moment(detailed.data.data.user.dropCampaign.timeBasedDrops[0].benefitEdges[0].startAt).format("dddd, MMMM Do of YYYY")}\``},

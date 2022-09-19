@@ -75,7 +75,7 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                                     twitchDropsEmbed.setColor(FNBRMENA.Colors("embed"))
 
                                     // Set author, title and image
-                                    twitchDropsEmbed.setAuthor({ name: detailed.data.data.user.name, iconURL: detailed.data.data.user.timeBasedDrops[0].benefitEdges[0].benefit[0].imageAssetURL})
+                                    twitchDropsEmbed.setAuthor({ name: detailed.data.data.user.name, iconURL: detailed.data.data.user.timeBasedDrops[0].benefitEdges[0].benefit.imageAssetURL})
                                     twitchDropsEmbed.setTitle(detailed.data.data.user.timeBasedDrops[0].name)
                                     twitchDropsEmbed.setThumbnail(res.data.data.currentUser.dropCampaigns[i].game.boxArtURL)
 

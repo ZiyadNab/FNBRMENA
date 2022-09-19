@@ -209,6 +209,7 @@ class FNBRMENA {
      * 
      */
      async TwitchCampaign(){
+         console.log("FNBRMENA")
 
         //request the data and return the response
         return await axios.post(`https://gql.twitch.tv/gql`, 

@@ -243,7 +243,7 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
 
                         // Check if there is a drops field
                         if(drops){
-                            
+
                             // Loop through active drops
                             for(let i = 0; i < drops.length; i++){
                                 removedDrops[i] = await drops[i].dropId
@@ -256,7 +256,7 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                                 for(let i = 0; i < removedDrops.length; i++){
                                     
                                     // Compare if its the index i includes or not
-                                    if(!removedDrops.includes(response[i])){
+                                    if(!response.includes(removedDrops[i])){
 
                                         // Get the message channel
                                         client.channels.fetch(config.events.Twitch)

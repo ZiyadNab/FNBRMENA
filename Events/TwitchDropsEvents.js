@@ -11,6 +11,7 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
     var ids = []
     var number = 0
     var hasRequirements = false
+    var removedDrops = []
 
     // Handle the blogs
     const TwitchDrops = async () => {
@@ -21,6 +22,7 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
             const lang = data.val().Lang
             const push = data.val().Push
             const role = data.val().Role
+            const drops = data.val().Drops
 
             // If the event is set to be true [ON]
             if(status){
@@ -196,7 +198,6 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
 
                                     // Add fields
                                     twitchDropsEmbed.addFields(
-                                        {name: "Name", value: `\`${detailed.data.data.user.dropCampaign.timeBasedDrops[0].name}\``},
                                         {name: "Status", value: `\`${detailed.data.data.user.dropCampaign.status}\``},
                                         {name: "Has Requirements", value: `\`${hasRequirements}\``},
                                         {name: "Required Minutes Watched", value: `\`${detailed.data.data.user.dropCampaign.timeBasedDrops[0].requiredMinutesWatched}\``},
@@ -209,8 +210,19 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
 
                                     // Send the message
                                     const att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `${response[i]}.png`})
-                                    if(role.Status) await message.send({content: `${detailed.data.data.user.dropCampaign.timeBasedDrops[0].benefitEdges[0].benefit.imageAssetURL} <@&${role.roleID}>`, embeds: [twitchDropsEmbed], components: [row], files: [att]})
-                                    else await message.send({embeds: [twitchDropsEmbed], components: [row], files: [att]})
+                                    if(role.Status) var msgID = await message.send({content: `${detailed.data.data.user.dropCampaign.timeBasedDrops[0].benefitEdges[0].benefit.imageAssetURL} <@&${role.roleID}>`, embeds: [twitchDropsEmbed], components: [row], files: [att]})
+                                    else var msgID = await message.send({embeds: [twitchDropsEmbed], components: [row], files: [att]})
+
+                                    // Push the new drop to the active list
+                                    drops.push({
+                                        messageId: msgID,
+                                        dropId: response[i]
+                                    })
+
+                                    // Update the active drops array
+                                    await admin.database().ref("ERA's").child("Events").child("twitchdrops").update({
+                                        Drops: drops
+                                    })
                                 })
                             }
                         }
@@ -225,6 +237,31 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                             Status: false
                         })
 
+                        // Loop through active drops
+                        for(let i = 0; i < drops.length; i++){
+                            removedDrops[i] = await drops[i].dropId
+                        }
+
+                        // Check if a drop got deleted
+                        if(JSON.stringify(removedDrops) !== JSON.stringify(response)){
+
+                            // A drop has been removed lets find it
+                            for(let i = 0; i < removedDrops.length; i++){
+                                
+                                // Compare if its the index i includes or not
+                                if(!removedDrops.includes(response[i])){
+
+                                    // Get the message channel
+                                    const channel = client.channels.cache.find(channel => channel.id === config.events.Twitch)
+                                    
+                                    // Get the message from the channel
+                                    const deletedMessage = channel.messages.find(msg => msg.id === drops[i].messageId)
+
+                                    // Delete the active message
+                                    deletedMessage.delete()
+                                }
+                            }
+                        }
                     }
                 
                 }).catch(async err => {

@@ -215,7 +215,7 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
 
                                     // Push the new drop to the active list
                                     const dropsList = []
-                                    dropsList.push(drops)
+                                    if(drops.length) dropsList.push(drops)
                                     dropsList.push({
                                         messageId: msgID,
                                         dropId: response[i]

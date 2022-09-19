@@ -126,21 +126,10 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
 
                                     // Add fields
                                     twitchDropsEmbed.addFields(
-                                        {name: "Status", value: detailed.data.data.user.dropCampaign.status, inline: true},
-                                        {name: "Required Minutes Watched", value: detailed.data.data.user.dropCampaign.timeBasedDrops[0].requiredMinutesWatched, inline: true},
-                                        {name: "Starts At", value: moment(detailed.data.data.user.dropCampaign.startAt).format("dddd, MMMM Do of YYYY"), inline: true},
-                                        {name: "Ends At", value: moment(detailed.data.data.user.dropCampaign.endAt).format("dddd, MMMM Do of YYYY"), inline: true},
-                                        {name: "Type", value: res.data.items[num].type.name, inline: true},
-                                        {name: "Rarity", value: res.data.items[num].rarity.name, inline: true},
-                                        {name: "Price", value: `${res.data.items[num].price}`, inline: true},
-                                        {name: "Introduction", value: introduction, inline: true},
-                                        {name: "Set", value: set, inline: true},
-                                        {name: "Reactive ?", value: reactive, inline: true},
-                                        {name: "Copy Righted Music ?", value: copyrighted, inline: true},
-                                        {name: "Occurrences", value: `${occurrences}`, inline: true},
-                                        {name: "Added", value: `${Now.diff(res.data.items[num].added.date, 'days')} days at ${moment(res.data.items[num].added.date).format("ddd, hA")}`, inline: true},
-                                        {name: "First Seen", value: First, inline: true},
-                                        {name: "Last Seen", value: Last, inline: true},
+                                        {name: "Status", value: `\`${detailed.data.data.user.dropCampaign.status}\``, inline: true},
+                                        {name: "Required Minutes Watched", value: `\`${detailed.data.data.user.dropCampaign.timeBasedDrops[0].requiredMinutesWatched}\``, inline: true},
+                                        {name: "Starts At", value: `\`${moment(detailed.data.data.user.dropCampaign.startAt).format("dddd, MMMM Do of YYYY")}\``, inline: true},
+                                        {name: "Ends At", value: `\`${moment(detailed.data.data.user.dropCampaign.endAt).format("dddd, MMMM Do of YYYY")}\``, inline: true},
                                     )
 
                                     // Set drop image

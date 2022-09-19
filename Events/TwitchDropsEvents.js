@@ -24,6 +24,7 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
 
             //if the event is set to be true [ON]
             if(status){
+                console.log("Joined")
 
                 //request data
                 FNBRMENA.TwitchCampaign()
@@ -43,6 +44,7 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
 
                     //if push is enabled
                     if(push.Status){
+                        console.log("Pushed")
                         ids.splice(ids.findIndex(dropId => {
                             return dropId === push.dropID
                         }), 1)
@@ -61,6 +63,7 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                             
                             //compare if its the index i includes or not
                             if(!ids.includes(response[i])){
+                                console.log("Diff")
 
                                 // Request detailed data
                                 FNBRMENA.TwitchDropsDetailed(response[i])

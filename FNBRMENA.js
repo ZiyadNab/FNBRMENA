@@ -194,6 +194,79 @@ class FNBRMENA {
         return await axios.get(`https://fortniteapi.io/v1/events/replay?session=${SessionID}`, { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
 
     }
+    
+    /**
+     * Return data about the twitch drops
+     * 
+     * @example
+     * FNBRMENA.TwitchCampaign()
+     * .then(async res => {
+     * 
+     *        //you will get a response weather the requested data has been found or not
+     * 
+     * })
+     * 
+     */
+     async TwitchCampaign(){
+
+        //request the data and return the response
+        return await axios.post(`https://gql.twitch.tv/gql`, 
+        {
+            "operationName": "ViewerDropsDashboard",
+            "extensions": {
+                "persistedQuery": {
+                    "version": 1,
+                    "sha256Hash": "e8b98b52bbd7ccd37d0b671ad0d47be5238caa5bea637d2a65776175b4a23a64"
+                }
+            }
+        },
+        { 
+            headers: {
+                'Content-Type': 'text/plain',
+                'Client-Id': 'kimne78kx3ncx6brgo4mv6wki5h1ko',
+                'Authorization': 'OAuth ooxgt5r4wa1x151lxaf6pucwrrzhl0'
+            }
+        })
+    }
+    
+    /**
+     * Return data about detailed twitch drops
+     * 
+     * @param {String} DropID
+     * @example
+     * FNBRMENA.TwitchDropsDetailed(DropID)
+     * .then(async res => {
+     * 
+     *        //you will get a response weather the requested data has been found or not
+     * 
+     * })
+     * 
+     */
+     async TwitchDropsDetailed(DropID){
+
+        //request the data and return the response
+        return await axios.post(`https://gql.twitch.tv/gql`, 
+        {
+            "operationName": "DropCampaignDetails",
+            "extensions": {
+                "persistedQuery": {
+                    "version": 1,
+                    "sha256Hash": "14b5e8a50777165cfc3971e1d93b4758613fe1c817d5542c398dce70b7a45c05"
+                }
+            },
+            "variables": {
+                "dropID": `${DropID}`,
+                "channelLogin": "208783238"
+            }
+        },
+        { 
+            headers: {
+                'Content-Type': 'text/plain',
+                'Client-Id': 'kimne78kx3ncx6brgo4mv6wki5h1ko',
+                'Authorization': 'OAuth ooxgt5r4wa1x151lxaf6pucwrrzhl0'
+            }
+        })
+    }
 
     /**
      * Return data about the crew

@@ -241,27 +241,31 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                             Status: false
                         })
 
-                        // Loop through active drops
-                        for(let i = 0; i < drops.length; i++){
-                            removedDrops[i] = await drops[i].dropId
-                        }
+                        // Check if there is a drops field
+                        if(drops){
+                            
+                            // Loop through active drops
+                            for(let i = 0; i < drops.length; i++){
+                                removedDrops[i] = await drops[i].dropId
+                            }
 
-                        // Check if a drop got deleted
-                        if(JSON.stringify(removedDrops) !== JSON.stringify(response)){
+                            // Check if a drop got deleted
+                            if(JSON.stringify(removedDrops) !== JSON.stringify(response)){
 
-                            // A drop has been removed lets find it
-                            for(let i = 0; i < removedDrops.length; i++){
-                                
-                                // Compare if its the index i includes or not
-                                if(!removedDrops.includes(response[i])){
+                                // A drop has been removed lets find it
+                                for(let i = 0; i < removedDrops.length; i++){
+                                    
+                                    // Compare if its the index i includes or not
+                                    if(!removedDrops.includes(response[i])){
 
-                                    // Get the message channel
-                                    client.channels.cache.fetch(config.events.Twitch)
-                                    .then(channel => {
+                                        // Get the message channel
+                                        client.channels.fetch(config.events.Twitch)
+                                        .then(channel => {
 
-                                        // Get the message from the channel and delete it
-                                        channel.messages.delete(drops[i].messageId);
-                                    })
+                                            // Get the message from the channel and delete it
+                                            channel.messages.delete(drops[i].messageId);
+                                        })
+                                    }
                                 }
                             }
                         }

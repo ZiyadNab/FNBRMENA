@@ -163,52 +163,34 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
 
                                     // Create buttons for en
                                     if(lang === "en"){
-                                        try{
-                                            row.addComponents( // Link your account link
-                                                new Discord.ButtonBuilder()
-                                                .setStyle(Discord.ButtonStyle.Link)
-                                                .setLabel("LINK YOUR ACCOUNT")
-                                                .setURL(detailed.data.data.user.dropCampaign.accountLinkURL)
-                                            )
-                                        }catch{
-
-                                        }
-
-                                        try{
-                                            row.addComponents( // More details button
-                                                new Discord.ButtonBuilder()
-                                                .setStyle(Discord.ButtonStyle.Link)
-                                                .setLabel("DROP DETAILS")
-                                                .setURL(detailed.data.data.user.dropCampaign.detailsURL)
-                                            )
-                                        }catch{
-                                            
-                                        }
+                                        row.addComponents( // Link your account link
+                                            new Discord.ButtonBuilder()
+                                            .setStyle(Discord.ButtonStyle.Link)
+                                            .setLabel("LINK YOUR ACCOUNT")
+                                            .setURL(detailed.data.data.user.dropCampaign.accountLinkURL)
+                                        )
+                                        row.addComponents( // More details button
+                                            new Discord.ButtonBuilder()
+                                            .setStyle(Discord.ButtonStyle.Link)
+                                            .setLabel("DROP DETAILS")
+                                            .setURL(detailed.data.data.user.dropCampaign.detailsURL)
+                                        )
                                     }
 
                                     // Create buttons for ar
                                     else if(lang === "ar"){
-                                        try{
-                                            row.addComponents( // Link your account link
-                                                new Discord.ButtonBuilder()
-                                                .setStyle(Discord.ButtonStyle.Link)
-                                                .setLabel("اربط حسابك")
-                                                .setURL(detailed.data.data.user.dropCampaign.accountLinkURL)
-                                            )
-                                        }catch{
-                                                
-                                        }
-
-                                        try{
-                                            row.addComponents( // More details button
-                                                new Discord.ButtonBuilder()
-                                                .setStyle(Discord.ButtonStyle.Link)
-                                                .setLabel("معلومات اضافية")
-                                                .setURL(detailed.data.data.user.dropCampaign.detailsURL)
-                                            )
-                                        }catch{
-                                            
-                                        }
+                                        row.addComponents( // Link your account link
+                                            new Discord.ButtonBuilder()
+                                            .setStyle(Discord.ButtonStyle.Link)
+                                            .setLabel("اربط حسابك")
+                                            .setURL(detailed.data.data.user.dropCampaign.accountLinkURL)
+                                        )
+                                        row.addComponents( // More details button
+                                            new Discord.ButtonBuilder()
+                                            .setStyle(Discord.ButtonStyle.Link)
+                                            .setLabel("معلومات اضافية")
+                                            .setURL(detailed.data.data.user.dropCampaign.detailsURL)
+                                        )
                                     }
 
                                     if(hasRequirements) hasRequirements = "Yes, it does. Please check twitch drops page for more information."
@@ -231,20 +213,20 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                                     if(role.Status) var msgID = await message.send({content: `${detailed.data.data.user.dropCampaign.timeBasedDrops[0].benefitEdges[0].benefit.imageAssetURL} <@&${role.roleID}>`, embeds: [twitchDropsEmbed], components: [row], files: [att]})
                                     else var msgID = await message.send({embeds: [twitchDropsEmbed], components: [row], files: [att]})
 
-                                    // // Push the new drop to the active list
-                                    // const dropsList = []
-                                    // if(drops) dropsList.push(drops)
-                                    // dropsList.push({
-                                    //     messageId: msgID.id,
-                                    //     dropId: response[i]
-                                    // })
+                                    // Push the new drop to the active list
+                                    const dropsList = []
+                                    if(drops) dropsList.push(drops)
+                                    dropsList.push({
+                                        messageId: msgID.id,
+                                        dropId: response[i]
+                                    })
 
-                                    // console.log(dropsList)
+                                    console.log(dropsList)
 
-                                    // // Update the active drops array
-                                    // await admin.database().ref("ERA's").child("Events").child("twitchdrops").update({
-                                    //     Drops: dropsList
-                                    // })
+                                    // Update the active drops array
+                                    await admin.database().ref("ERA's").child("Events").child("twitchdrops").update({
+                                        Drops: dropsList
+                                    })
                                 })
                             }
                         }
@@ -259,31 +241,31 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                             Status: false
                         })
 
-                        // // Loop through active drops
-                        // for(let i = 0; i < drops.length; i++){
-                        //     removedDrops[i] = await drops[i].dropId
-                        // }
+                        // Loop through active drops
+                        for(let i = 0; i < drops.length; i++){
+                            removedDrops[i] = await drops[i].dropId
+                        }
 
-                        // // Check if a drop got deleted
-                        // if(JSON.stringify(removedDrops) !== JSON.stringify(response)){
+                        // Check if a drop got deleted
+                        if(JSON.stringify(removedDrops) !== JSON.stringify(response)){
 
-                        //     // A drop has been removed lets find it
-                        //     for(let i = 0; i < removedDrops.length; i++){
+                            // A drop has been removed lets find it
+                            for(let i = 0; i < removedDrops.length; i++){
                                 
-                        //         // Compare if its the index i includes or not
-                        //         if(!removedDrops.includes(response[i])){
+                                // Compare if its the index i includes or not
+                                if(!removedDrops.includes(response[i])){
 
-                        //             // Get the message channel
-                        //             const channel = client.channels.cache.find(channel => channel.id === config.events.Twitch)
+                                    // Get the message channel
+                                    const channel = client.channels.cache.find(channel => channel.id === config.events.Twitch)
                                     
-                        //             // Get the message from the channel
-                        //             const deletedMessage = channel.messages.find(msg => msg.id === drops[i].messageId)
+                                    // Get the message from the channel
+                                    const deletedMessage = channel.messages.find(msg => msg.id === drops[i].messageId)
 
-                        //             // Delete the active message
-                        //             deletedMessage.delete()
-                        //         }
-                        //     }
-                        // }
+                                    // Delete the active message
+                                    deletedMessage.delete()
+                                }
+                            }
+                        }
                     }
                 
                 }).catch(async err => {
@@ -293,5 +275,5 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
             }
         })
     }
-    setInterval(TwitchDrops, 1 * 40000)
+    setInterval(TwitchDrops, 1 * 30000)
 }

@@ -258,6 +258,14 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                                     // Compare if its the index i includes or not
                                     if(!response.includes(removedDrops[i])){
 
+                                        // Delete the drop
+                                        drops.splice(i,1)
+
+                                        // Update data
+                                        await admin.database().ref("ERA's").child("Events").child("twitchdrops").update({
+                                            Drops: dropsList
+                                        })
+
                                         // Get the message channel
                                         client.channels.fetch(config.events.Twitch)
                                         .then(channel => {

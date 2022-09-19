@@ -1,6 +1,7 @@
 const BlogpostsEvents = require('./Events/BlogpostsEvents.js')
 const CompBlogpostsEvents = require('./Events/CompBlogpostsEvents.js')
 const PAKEvents = require('./Events/PAKEvents.js')
+const TwitchDropsEvents = require('./Events/TwitchDropsEvents.js')
 const SetEvents = require('./Events/SetEvents.js')
 const ShopSectionEvents = require('./Events/ShopSectionEvents.js')
 const NewSectionsEvents = require('./Events/ModifiedSectionsEvents.js')
@@ -956,6 +957,11 @@ class FNBRMENA {
         //return Reminders access
         if(Type === "Reminders"){
             RemindersEvents(FNBRMENA, Client, Admin, emojisObject)
+        }
+        
+        //return Reminders access
+        if(Type === "Twitch"){
+            TwitchDropsEvents(FNBRMENA, Client, Admin, emojisObject)
         }
 
         //return UserJoined access

@@ -1,37 +1,33 @@
-const axios = require('axios')
 const Discord = require('discord.js')
 const moment = require('moment')
 const config = require('../Configs/config.json')
 
 module.exports = (FNBRMENA, client, admin, emojisObject) => {
     const message = client.channels.cache.find(channel => channel.id === config.events.Twitch)
-    console.log("ON")
 
-    //result
+    // Result
     var response = []
     var ids = []
     var number = 0
 
-    //handle the blogs
+    // Handle the blogs
     const TwitchDrops = async () => {
 
-        //checking if the bot on or off
+        // Checking if the bot on or off
         admin.database().ref("ERA's").child("Events").child("twitchdrops").once('value', async function (data) {
             const status = data.val().Active
             const lang = data.val().Lang
             const push = data.val().Push
             const role = data.val().Role
 
-            //if the event is set to be true [ON]
+            // If the event is set to be true [ON]
             if(status){
-                console.log("Joined")
 
-                //request data
+                // Request data
                 await FNBRMENA.TwitchCampaign()
                 .then(async res => {
-                    console.log("Requested", res.data.data.currentUser.dropCampaigns.length)
 
-                    //storing the first start up
+                    // Storing the first start up
                     if(number === 0){
 
                         // Storing
@@ -39,32 +35,34 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                             ids[i] = await res.data.data.currentUser.dropCampaigns[i].id
                         }
 
-                        //stop from storing again
+                        // Stop from storing again
                         number++
                     }
 
-                    //if push is enabled
+                    // If push is enabled
                     if(push.Status){
-                        console.log("Pushed")
-                        ids.splice(ids.findIndex(dropId => {
-                            return dropId === push.dropID
-                        }), 1)
+                        if(push.pushType.toLowerCase() === "all") ids = []
+                        else{
+
+                            ids.splice(ids.findIndex(dropId => {
+                                return dropId === push.dropID
+                            }), 1)
+                        }
                     }
 
-                    //storing the new blog to compare
+                    // Storing the new blog to compare
                     for(let i = 0; i < res.data.data.currentUser.dropCampaigns.length; i++){
                         response[i] = await res.data.data.currentUser.dropCampaigns[i].id
                     }
 
-                    //check if there is a new blog
+                    // Check if there is a new drop
                     if(JSON.stringify(response) !== JSON.stringify(ids)){
 
-                        //new blog has been registerd lets find it
+                        // New drop has been registerd lets find it
                         for(let i = 0; i < response.length; i++){
                             
-                            //compare if its the index i includes or not
+                            // Compare if its the index i includes or not
                             if(!ids.includes(response[i])){
-                                console.log("Diff")
 
                                 // Request detailed data
                                 FNBRMENA.TwitchDropsDetailed(response[i])
@@ -126,14 +124,33 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                                         )
                                     }
 
+                                    // Add fields
+                                    twitchDropsEmbed.addFields(
+                                        {name: "Status", value: detailed.data.data.user.dropCampaign.status, inline: true},
+                                        {name: "Required Minutes Watched", value: detailed.data.data.user.dropCampaign.timeBasedDrops[0].requiredMinutesWatched, inline: true},
+                                        {name: "Starts At", value: moment(detailed.data.data.user.dropCampaign.startAt).format("dddd, MMMM Do of YYYY"), inline: true},
+                                        {name: "Ends At", value: moment(detailed.data.data.user.dropCampaign.endAt).format("dddd, MMMM Do of YYYY"), inline: true},
+                                        {name: "Type", value: res.data.items[num].type.name, inline: true},
+                                        {name: "Rarity", value: res.data.items[num].rarity.name, inline: true},
+                                        {name: "Price", value: `${res.data.items[num].price}`, inline: true},
+                                        {name: "Introduction", value: introduction, inline: true},
+                                        {name: "Set", value: set, inline: true},
+                                        {name: "Reactive ?", value: reactive, inline: true},
+                                        {name: "Copy Righted Music ?", value: copyrighted, inline: true},
+                                        {name: "Occurrences", value: `${occurrences}`, inline: true},
+                                        {name: "Added", value: `${Now.diff(res.data.items[num].added.date, 'days')} days at ${moment(res.data.items[num].added.date).format("ddd, hA")}`, inline: true},
+                                        {name: "First Seen", value: First, inline: true},
+                                        {name: "Last Seen", value: Last, inline: true},
+                                    )
+
                                     // Set drop image
-                                    twitchDropsEmbed.setImage(detailed.data.data.user.dropCampaign.timeBasedDrops[0].benefitEdges[0].benefit.imageAssetURL)
+                                    //twitchDropsEmbed.setImage(detailed.data.data.user.dropCampaign.timeBasedDrops[0].benefitEdges[0].benefit.imageAssetURL)
 
                                     // Set footer
                                     twitchDropsEmbed.setFooter({text: `${detailed.data.data.user.dropCampaign.game.name}, ${detailed.data.data.user.dropCampaign.owner.name}`})
 
                                     // Send the message
-                                    if(role.Status) await message.send({content: `<@&${role.roleID}>`, embeds: [twitchDropsEmbed], components: [row]})
+                                    if(role.Status) await message.send({content: `${detailed.data.data.user.dropCampaign.timeBasedDrops[0].benefitEdges[0].benefit.imageAssetURL} <@&${role.roleID}>`, embeds: [twitchDropsEmbed], components: [row]})
                                     else await message.send({embeds: [twitchDropsEmbed], components: [row]})
                                     
                                 })
@@ -145,7 +162,7 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                             ids[i] = await res.data.data.currentUser.dropCampaigns[i].id
                         }
 
-                        //trun off push if enabled
+                        // Trun off push if enabled
                         await admin.database().ref("ERA's").child("Events").child("twitchdrops").child("Push").update({
                             Status: false
                         })

@@ -42,8 +42,8 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
 
                     //if push is enabled
                     if(push.Status){
-                        ids.splice(blogs.findIndex(slugIDs => {
-                            return slugIDs === push.Slug
+                        ids.splice(ids.findIndex(dropId => {
+                            return dropId === push.dropID
                         }), 1)
                     }
 

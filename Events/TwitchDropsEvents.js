@@ -11,7 +11,6 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
     var ids = []
     var number = 0
     var hasRequirements = false
-    var removedDrops = []
 
     // Handle the blogs
     const TwitchDrops = async () => {
@@ -68,168 +67,175 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                             // Compare if its the index i includes or not
                             if(!ids.includes(response[i])){
 
-                                // Request detailed data
-                                FNBRMENA.TwitchDropsDetailed(response[i])
-                                .then(async detailed => {
+                                // Check owner and only allow Epic Games
+                                //if(res.data.data.currentUser.dropCampaigns[i].owner.id === '053158f5-f0a9-4fd1-8a04-8bb813ce130a'){
 
-                                    // Canvas variables
-                                    var width = 0
-                                    var height = 160
-                                    var newline = 0
-                                    var x = 0
-                                    var y = 0
+                                    // Request detailed data
+                                    FNBRMENA.TwitchDropsDetailed(response[i])
+                                    .then(async detailed => {
 
-                                    // Canvas length
-                                    var length = detailed.data.data.user.dropCampaign.timeBasedDrops.length
+                                        // Canvas variables
+                                        var width = 0
+                                        var height = 160
+                                        var newline = 0
+                                        var x = 0
+                                        var y = 0
 
-                                    if(length <= 2) length = length
-                                    else if(length > 2 && length <= 4) length = length / 2
-                                    else if(length > 4 && length <= 8) length = length / 3
-                                    else if(length > 7 && length <= 50) length = length / 5
-                                    else if(length > 50 && length < 70) length = length / 7
-                                    else length = length / 10
+                                        // Canvas length
+                                        var length = detailed.data.data.user.dropCampaign.timeBasedDrops.length
 
-                                    // Forcing to be int
-                                    if(length % 2 !== 0){
-                                        length += 1;
-                                        length = length | 0;
-                                    }
-                                    
-                                    // Creating width
-                                    width += (length * 160) + (length * 2) - 2
+                                        if(length <= 2) length = length
+                                        else if(length > 2 && length <= 4) length = length / 2
+                                        else if(length > 4 && length <= 8) length = length / 3
+                                        else if(length > 7 && length <= 50) length = length / 5
+                                        else if(length > 50 && length < 70) length = length / 7
+                                        else length = length / 10
 
-                                    // Creating height
-                                    for(let i = 0; i < detailed.data.data.user.dropCampaign.timeBasedDrops.length; i++){
+                                        // Forcing to be int
+                                        if(length % 2 !== 0){
+                                            length += 1;
+                                            length = length | 0;
+                                        }
                                         
-                                        if(newline === length){
-                                            height += 160 + 2
-                                            newline = 0
+                                        // Creating width
+                                        width += (length * 160) + (length * 2) - 2
+
+                                        // Creating height
+                                        for(let i = 0; i < detailed.data.data.user.dropCampaign.timeBasedDrops.length; i++){
+                                            
+                                            if(newline === length){
+                                                height += 160 + 2
+                                                newline = 0
+                                            }
+
+                                            newline++
                                         }
 
-                                        newline++
-                                    }
+                                        // Registering fonts
+                                        Canvas.registerFont('./assets/font/Lalezar-Regular.ttf', {family: 'Arabic',weight: "700",style: "bold"});
+                                        Canvas.registerFont('./assets/font/BurbankBigCondensed-Black.ttf' ,{family: 'Burbank Big Condensed',weight: "700",style: "bold"})
 
-                                    // Registering fonts
-                                    Canvas.registerFont('./assets/font/Lalezar-Regular.ttf', {family: 'Arabic',weight: "700",style: "bold"});
-                                    Canvas.registerFont('./assets/font/BurbankBigCondensed-Black.ttf' ,{family: 'Burbank Big Condensed',weight: "700",style: "bold"})
+                                        // Creating canvas
+                                        const canvas = Canvas.createCanvas(width, height);
+                                        const ctx = canvas.getContext('2d');
 
-                                    // Creating canvas
-                                    const canvas = Canvas.createCanvas(width, height);
-                                    const ctx = canvas.getContext('2d');
+                                        // Loop though ever drop
+                                        newline = 0
+                                        for(let p = 0; p < detailed.data.data.user.dropCampaign.timeBasedDrops.length; p++){
+                                            newline++
 
-                                    // Loop though ever drop
-                                    newline = 0
-                                    for(let p = 0; p < detailed.data.data.user.dropCampaign.timeBasedDrops.length; p++){
-                                        newline++
+                                            // Load the reward image
+                                            const skin = await Canvas.loadImage(detailed.data.data.user.dropCampaign.timeBasedDrops[p].benefitEdges[0].benefit.imageAssetURL);
+                                            ctx.drawImage(skin, x, y, 160, 160)
 
-                                        // Load the reward image
-                                        const skin = await Canvas.loadImage(detailed.data.data.user.dropCampaign.timeBasedDrops[p].benefitEdges[0].benefit.imageAssetURL);
-                                        ctx.drawImage(skin, x, y, 160, 160)
+                                            // Check requirements
+                                            if(detailed.data.data.user.dropCampaign.timeBasedDrops[p].preconditionDrops) hasRequirements = true
 
-                                        // Check requirements
-                                        if(detailed.data.data.user.dropCampaign.timeBasedDrops[p].preconditionDrops) hasRequirements = true
-
-                                        // Change x, y variables
-                                        x = x + 2 + 160; 
-                                        if (length === newline){
-                                            y = y + 2 + 160;
-                                            x = 0;
-                                            newline = 0;
+                                            // Change x, y variables
+                                            x = x + 2 + 160; 
+                                            if (length === newline){
+                                                y = y + 2 + 160;
+                                                x = 0;
+                                                newline = 0;
+                                            }
                                         }
-                                    }
 
-                                    // Create embed
-                                    const twitchDropsEmbed = new Discord.EmbedBuilder()
-                                    twitchDropsEmbed.setColor(FNBRMENA.Colors("embed"))
+                                        // Create embed
+                                        const twitchDropsEmbed = new Discord.EmbedBuilder()
+                                        twitchDropsEmbed.setColor(FNBRMENA.Colors("embed"))
 
-                                    // Set title and image
-                                    twitchDropsEmbed.setTitle(detailed.data.data.user.dropCampaign.name)
-                                    twitchDropsEmbed.setThumbnail(res.data.data.currentUser.dropCampaigns[i].game.boxArtURL)
+                                        // Set title and image
+                                        twitchDropsEmbed.setTitle(detailed.data.data.user.dropCampaign.name)
+                                        twitchDropsEmbed.setThumbnail(res.data.data.currentUser.dropCampaigns[i].game.boxArtURL)
 
-                                    // Add description
-                                    if(detailed.data.data.user.dropCampaign.description) twitchDropsEmbed.setDescription(detailed.data.data.user.dropCampaign.description)
-                                    else{
+                                        // Add description
+                                        if(detailed.data.data.user.dropCampaign.description) twitchDropsEmbed.setDescription(detailed.data.data.user.dropCampaign.description)
+                                        else{
 
-                                        // No description is available
-                                        if(lang === "en") twitchDropsEmbed.setDescription(`No description.`)
-                                        else if(lang === "ar") twitchDropsEmbed.setDescription(`لا يوجد وصف.`)
-                                    }
+                                            // No description is available
+                                            if(lang === "en") twitchDropsEmbed.setDescription(`No description.`)
+                                            else if(lang === "ar") twitchDropsEmbed.setDescription(`لا يوجد وصف.`)
+                                        }
 
-                                    // Moment locale language
-                                    moment.locale(lang)
+                                        // Moment locale language
+                                        moment.locale(lang)
 
-                                    // Creating a button row
-                                    const row = new Discord.ActionRowBuilder()
+                                        // Creating a button row
+                                        const row = new Discord.ActionRowBuilder()
 
-                                    // Create buttons for en
-                                    if(lang === "en"){
-                                        row.addComponents( // Link your account link
-                                            new Discord.ButtonBuilder()
-                                            .setStyle(Discord.ButtonStyle.Link)
-                                            .setLabel("LINK YOUR ACCOUNT")
-                                            .setURL(detailed.data.data.user.dropCampaign.accountLinkURL)
+                                        // Create buttons for en
+                                        if(lang === "en"){
+
+                                            row.addComponents( // More details button
+                                                new Discord.ButtonBuilder()
+                                                .setStyle(Discord.ButtonStyle.Link)
+                                                .setLabel("DROP DETAILS")
+                                                .setURL(detailed.data.data.user.dropCampaign.detailsURL)
+                                            )
+                                            row.addComponents( // Link your account link
+                                                new Discord.ButtonBuilder()
+                                                .setStyle(Discord.ButtonStyle.Link)
+                                                .setLabel("LINK YOUR ACCOUNT")
+                                                .setURL(detailed.data.data.user.dropCampaign.accountLinkURL)
+                                            )
+                                        }
+
+                                        // Create buttons for ar
+                                        else if(lang === "ar"){
+
+                                            row.addComponents( // More details button
+                                                new Discord.ButtonBuilder()
+                                                .setStyle(Discord.ButtonStyle.Link)
+                                                .setLabel("معلومات اضافية")
+                                                .setURL(detailed.data.data.user.dropCampaign.detailsURL)
+                                            )
+                                            row.addComponents( // Link your account link
+                                                new Discord.ButtonBuilder()
+                                                .setStyle(Discord.ButtonStyle.Link)
+                                                .setLabel("اربط حسابك")
+                                                .setURL(detailed.data.data.user.dropCampaign.accountLinkURL)
+                                            )
+                                        }
+
+                                        if(hasRequirements) hasRequirements = "Yes, it does. Please check twitch drops page for more information."
+                                        else hasRequirements = "No, it doesn't."
+
+                                        // Add fields
+                                        twitchDropsEmbed.addFields(
+                                            {name: "Status", value: `\`${detailed.data.data.user.dropCampaign.status}\``},
+                                            {name: "Has Requirements", value: `\`${hasRequirements}\``},
+                                            {name: "Required Minutes Watched", value: `\`${detailed.data.data.user.dropCampaign.timeBasedDrops[0].requiredMinutesWatched}\``},
+                                            {name: "Starts At", value: `\`${moment(detailed.data.data.user.dropCampaign.startAt).format("dddd, MMMM Do of YYYY at h PST")}\``},
+                                            {name: "Ends At", value: `\`${moment(detailed.data.data.user.dropCampaign.endAt).format("dddd, MMMM Do of YYYY at h PST")}\``},
                                         )
-                                        row.addComponents( // More details button
-                                            new Discord.ButtonBuilder()
-                                            .setStyle(Discord.ButtonStyle.Link)
-                                            .setLabel("DROP DETAILS")
-                                            .setURL(detailed.data.data.user.dropCampaign.detailsURL)
-                                        )
-                                    }
 
-                                    // Create buttons for ar
-                                    else if(lang === "ar"){
-                                        row.addComponents( // Link your account link
-                                            new Discord.ButtonBuilder()
-                                            .setStyle(Discord.ButtonStyle.Link)
-                                            .setLabel("اربط حسابك")
-                                            .setURL(detailed.data.data.user.dropCampaign.accountLinkURL)
-                                        )
-                                        row.addComponents( // More details button
-                                            new Discord.ButtonBuilder()
-                                            .setStyle(Discord.ButtonStyle.Link)
-                                            .setLabel("معلومات اضافية")
-                                            .setURL(detailed.data.data.user.dropCampaign.detailsURL)
-                                        )
-                                    }
+                                        // Set footer
+                                        twitchDropsEmbed.setFooter({text: `${detailed.data.data.user.dropCampaign.game.name}, ${detailed.data.data.user.dropCampaign.owner.name}`})
 
-                                    if(hasRequirements) hasRequirements = "Yes, it does. Please check twitch drops page for more information."
-                                    else hasRequirements = "No, it doesn't."
+                                        // Send the message
+                                        const att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `${response[i]}.png`})
+                                        if(role.Status) var msgID = await message.send({content: `${detailed.data.data.user.dropCampaign.timeBasedDrops[0].benefitEdges[0].benefit.imageAssetURL} <@&${role.roleID}>`, embeds: [twitchDropsEmbed], components: [row], files: [att]})
+                                        else var msgID = await message.send({embeds: [twitchDropsEmbed], components: [row], files: [att]})
 
-                                    // Add fields
-                                    twitchDropsEmbed.addFields(
-                                        {name: "Status", value: `\`${detailed.data.data.user.dropCampaign.status}\``},
-                                        {name: "Has Requirements", value: `\`${hasRequirements}\``},
-                                        {name: "Required Minutes Watched", value: `\`${detailed.data.data.user.dropCampaign.timeBasedDrops[0].requiredMinutesWatched}\``},
-                                        {name: "Starts At", value: `\`${moment(detailed.data.data.user.dropCampaign.timeBasedDrops[0].benefitEdges[0].startAt).format("dddd, MMMM Do of YYYY")}\``},
-                                        {name: "Ends At", value: `\`${moment(detailed.data.data.user.dropCampaign.timeBasedDrops[0].benefitEdges[0].endAt).format("dddd, MMMM Do of YYYY")}\``},
-                                    )
+                                        // Change moment language
+                                        moment.locale("en")
 
-                                    // Set footer
-                                    twitchDropsEmbed.setFooter({text: `${detailed.data.data.user.dropCampaign.game.name}, ${detailed.data.data.user.dropCampaign.owner.name}`})
+                                        // Add the new drop to a temp var
+                                        var tempDrops = []
+                                        if(drops) tempDrops = drops
+                                        tempDrops.push({
+                                            date: detailed.data.data.user.dropCampaign.endAt,
+                                            messageId: msgID.id
+                                        })
 
-                                    // Send the message
-                                    const att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `${response[i]}.png`})
-                                    if(role.Status) var msgID = await message.send({content: `${detailed.data.data.user.dropCampaign.timeBasedDrops[0].benefitEdges[0].benefit.imageAssetURL} <@&${role.roleID}>`, embeds: [twitchDropsEmbed], components: [row], files: [att]})
-                                    else var msgID = await message.send({embeds: [twitchDropsEmbed], components: [row], files: [att]})
-
-                                    // // Push the new drop to the active list
-                                    // const dropsList = []
-                                    // if(drops) dropsList.push(drops)
-                                    // dropsList.push({
-                                    //     messageId: msgID.id,
-                                    //     dropId: response[i]
-                                    // })
-
-                                    // // Update the active drops array
-                                    // await admin.database().ref("ERA's").child("Events").child("twitchdrops").update({
-                                    //     Drops: dropsList
-                                    // })
-                                })
+                                        // Add the new drop to the database
+                                        await admin.database().ref("ERA's").child("Events").child("twitchdrops").update({
+                                            Drops: tempDrops
+                                        })
+                                    })
+                                //}
                             }
                         }
-
-                        //response['c4778b6b-2203-4947-a8ea-63acbf253190'] = []
 
                         // Storing
                         for(let i = 0; i < res.data.data.currentUser.dropCampaigns.length; i++){
@@ -240,49 +246,41 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                         await admin.database().ref("ERA's").child("Events").child("twitchdrops").child("Push").update({
                             Status: false
                         })
-
-                        // // Check if there is a drops field
-                        // if(drops){
-
-                        //     // Loop through active drops
-                        //     for(let i = 0; i < drops.length; i++){
-                        //         removedDrops[i] = await drops[i].dropId
-                        //     }
-
-                        //     // Check if a drop got deleted
-                        //     if(JSON.stringify(removedDrops) !== JSON.stringify(response)){
-
-                        //         // A drop has been removed lets find it
-                        //         for(let i = 0; i < removedDrops.length; i++){
-                                    
-                        //             // Compare if its the index i includes or not
-                        //             if(!response.includes(removedDrops[i])){
-
-                        //                 // Delete the drop
-                        //                 drops.splice(i,1)
-
-                        //                 // Update data
-                        //                 await admin.database().ref("ERA's").child("Events").child("twitchdrops").update({
-                        //                     Drops: drops
-                        //                 })
-
-                        //                 // Get the message channel
-                        //                 client.channels.fetch(config.events.Twitch)
-                        //                 .then(channel => {
-
-                        //                     // Get the message from the channel and delete it
-                        //                     channel.messages.delete(drops[i].messageId);
-                        //                 })
-                        //             }
-                        //         }
-                        //     }
-                        // }
                     }
                 
                 }).catch(async err => {
                     FNBRMENA.eventsLogs(admin, client, err, 'twitchdrops')
         
                 })
+
+                // Check if the drops fields has messgaes
+                if(drops){
+                    moment.locale("en")
+
+                    // Loop through every drop
+                    for(let i = 0; i < drops.length; i++){
+
+                        // Check if the date has ended
+                        if(moment().isAfter(moment(drops[i].date))){
+
+                            // Get the message channel
+                            client.channels.fetch(config.events.Twitch)
+                            .then(async channel => {
+
+                                // Get the message from the channel and delete it
+                                channel.messages.delete(drops[i].messageId);
+
+                                // Delete the drop
+                                drops.splice(i, 1)
+
+                                // Update data
+                                await admin.database().ref("ERA's").child("Events").child("twitchdrops").update({
+                                    Drops: drops
+                                })
+                            })
+                        }
+                    }
+                }
             }
         })
     }

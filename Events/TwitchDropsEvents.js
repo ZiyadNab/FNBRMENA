@@ -215,7 +215,7 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
 
                                         // Send the message
                                         const att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `${response[i]}.png`})
-                                        if(role.Status) var msgID = await message.send({content: `${detailed.data.data.user.dropCampaign.timeBasedDrops[0].benefitEdges[0].benefit.imageAssetURL} <@&${role.roleID}>`, embeds: [twitchDropsEmbed], components: [row], files: [att]})
+                                        if(role.Status) var msgID = await message.send({content: `<@&${role.roleID}>`, embeds: [twitchDropsEmbed], components: [row], files: [att]})
                                         else var msgID = await message.send({embeds: [twitchDropsEmbed], components: [row], files: [att]})
 
                                         // Change moment language

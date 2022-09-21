@@ -256,7 +256,6 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
 
                 // Check if the drops fields has messgaes
                 if(drops){
-                    console.log(drops)
                     moment.locale("en")
 
                     // Loop through every drop

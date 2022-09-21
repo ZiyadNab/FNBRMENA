@@ -22,12 +22,13 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
             const push = data.val().Push
             const role = data.val().Role
             const drops = data.val().Drops
+            const auth = data.val().Auth
 
             // If the event is set to be true [ON]
             if(status){
 
                 // Request data
-                await FNBRMENA.TwitchCampaign()
+                await FNBRMENA.TwitchCampaign(auth)
                 .then(async res => {
 
                     // Storing the first start up
@@ -71,7 +72,7 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                                 //if(res.data.data.currentUser.dropCampaigns[i].owner.id === '053158f5-f0a9-4fd1-8a04-8bb813ce130a'){
 
                                     // Request detailed data
-                                    FNBRMENA.TwitchDropsDetailed(response[i])
+                                    FNBRMENA.TwitchDropsDetailed(response[i], auth)
                                     .then(async detailed => {
 
                                         // Canvas variables

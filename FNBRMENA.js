@@ -20,6 +20,7 @@ const tslib_1 = require("tslib");
 const RemindersEvents = require('./Events/RemindersEvents.js')
 const zlib_1 = (0, tslib_1.__importDefault)(require("zlib"));
 const Discord = require('discord.js')
+const qs = require('qs');
 
 class FNBRMENA {
 
@@ -27,7 +28,13 @@ class FNBRMENA {
 
     }
 
-    Colors(Type){
+    /**
+     * Return list of colors
+     * 
+     * @param {String} Type
+     * 
+     */
+     Colors(Type){
 
         if(Type === "embed") return "#00ffff"
         if(Type === "embedError") return "#FF0000"
@@ -68,26 +75,6 @@ class FNBRMENA {
         if(Type === "lava") return "#d19635"
         if(Type === "gaminglegends") return "#8e5eff"
         
-    }
-
-    /**
-     * Return data about the crew
-     * 
-     * @param {String} Headers
-     * @param {String} Body
-     * 
-     */
-    async Auth(Headers, Body){
-
-        //request token from epicgames servers
-        const token = await axios.post("https://account-public-service-prod.ol.epicgames.com/account/api/oauth/token", Body, { headers: Headers })
-        .then(res => {
-            return res
-        }).catch(err => {
-            return Promise.reject(err)
-        })
-        return token
-
     }
 
     /**
@@ -208,7 +195,7 @@ class FNBRMENA {
      * })
      * 
      */
-     async TwitchCampaign(){
+     async TwitchCampaign(Auth){
 
         //request the data and return the response
         return await axios.post(`https://gql.twitch.tv/gql`, 
@@ -224,8 +211,8 @@ class FNBRMENA {
         { 
             headers: {
                 'Content-Type': 'text/plain',
-                'Client-Id': 'kimne78kx3ncx6brgo4mv6wki5h1ko',
-                'Authorization': 'OAuth ooxgt5r4wa1x151lxaf6pucwrrzhl0'
+                'Client-Id': `${Auth.Client}`,
+                'Authorization': `${Auth.OAuth}`
             }
         })
     }
@@ -243,7 +230,7 @@ class FNBRMENA {
      * })
      * 
      */
-     async TwitchDropsDetailed(DropID){
+     async TwitchDropsDetailed(DropID, Auth){
 
         //request the data and return the response
         return await axios.post(`https://gql.twitch.tv/gql`, 
@@ -263,8 +250,8 @@ class FNBRMENA {
         { 
             headers: {
                 'Content-Type': 'text/plain',
-                'Client-Id': 'kimne78kx3ncx6brgo4mv6wki5h1ko',
-                'Authorization': 'OAuth ooxgt5r4wa1x151lxaf6pucwrrzhl0'
+                'Client-Id': `${Auth.Client}`,
+                'Authorization': `${Auth.OAuth}`
             }
         })
     }
@@ -505,6 +492,44 @@ class FNBRMENA {
 
         //request the data and return the response
         return await axios.get(encodeURI(`https://fortniteapi.io/v3/challenges?season=${Season}&lang=${Lang}`), { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
+
+    }
+
+    /**
+     * Return a url data based on a given string
+     * 
+     * @param {String} Content
+     * @param {String} Name
+     * @param {String} Date
+     * @param {Boolean} ExpirationDate
+     * @example
+     * FNBRMENA.PasteBin(Content, Name, Date, ExpirationDate)
+     * .then(async res => {
+     * 
+     *        //you will get a response weather the requested data has been found or not
+     * 
+     * })
+     * 
+     */
+     async PasteBin(Content, Name, Date, ExpirationDate){
+
+        //create a body
+        const Body = qs.stringify({
+            'api_dev_key': '9b3eqPYj0bh6JTRKpfW4doipmwQ2Y-my',
+            'api_option': 'paste',
+            'api_paste_code': `${Content}`,
+            'api_paste_name': `${Name}`
+        })
+
+        //request the data and return the response
+        return await axios.post(`https://pastebin.com/api/api_post.php`,
+        Body,
+        {
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Content-Length': Body.length
+            }
+        })
 
     }
 
@@ -977,12 +1002,21 @@ class FNBRMENA {
 
     /**
      * 
-     * @param {
-     * } Type 
-     * @param {*} Lang 
-     * @returns 
+     * Event Name: Logs
+     * 
+     * Required passed parameters
+     * @param {firebase} admin
+     * @param {client} client 
+     * @param {Discord} Discord 
+     * @param {MessageEvent} message 
+     * @param {String} alias 
+     * @param {String} lang 
+     * @param {String} text 
+     * @param {Error} err 
+     * @param {Object} emojisObject
+     * 
      */
-    Logs(admin, client, Discord, message, alias, lang, text, err, emojisObject){
+     Logs(admin, client, Discord, message, alias, lang, text, err, emojisObject){
 
         //if user took to long to excute the command
         if(err.message.includes("time")){
@@ -1015,7 +1049,7 @@ class FNBRMENA {
             const logs = new Discord.EmbedBuilder()
             logs.setColor(this.Colors("embedError"))
             logs.setTitle(`Error happened in ${alias.toUpperCase()}`)
-            if(err.isAxiosError) logs.setDescription(`Command: \`${alias}\`\nUser: \`${message.author.tag}\`\nDate: \`${new Date()}\`\nLanguage: \`${lang}\`\nMessageID: \`${message.id}\`\nChannel: \`${message.channel.name} | ${message.channel.id}\`\nMessage Content: \`${message.content}\n\`Request Status: \`${err.response.data.status}\`\n\nError:\`\`\`json\n${JSON.stringify(err.response.data)}\`\`\``)
+            if(err.isAxiosError) logs.setDescription(`Command: \`${alias}\`\nUser: \`${message.author.tag}\`\nDate: \`${new Date()}\`\nLanguage: \`${lang}\`\nMessageID: \`${message.id}\`\nChannel: \`${message.channel.name} | ${message.channel.id}\`\nMessage Content: \`${message.content}\n\`Request Status: \`${err.response.status}\`\n\nError:\`\`\`json\n${JSON.stringify(err.response.data)}\`\`\``)
             else logs.setDescription(`Command: \`${alias}\`\nUser: \`${message.author.tag}\`\nDate: \`${new Date()}\`\nLanguage: \`${lang}\`\nMessageID: \`${message.id}\`\nChannel: \`${message.channel.name} | ${message.channel.id}\`\nMessage Content: \`${message.content}\`\n\nError:\`\`\`yaml\n${err.stack}\`\`\``)
             logsChannel.send({embeds: [logs]})
         }
@@ -1023,10 +1057,14 @@ class FNBRMENA {
 
     /**
      * 
-     * @param {
-     * } Type 
-     * @param {*} Lang 
-     * @returns 
+     * Event Name: eventsLogs
+     * 
+     * Required passed parameters
+     * @param {firebase} admin
+     * @param {client} client 
+     * @param {Error} err 
+     * @param {String} event
+     * 
      */
     eventsLogs(admin, client, err, event){
 
@@ -1037,7 +1075,7 @@ class FNBRMENA {
         const logs = new Discord.EmbedBuilder()
         logs.setColor(this.Colors("embedError"))
         logs.setTitle(`Error happened in ${event.toUpperCase()} event`)
-        if(err.isAxiosError) logs.setDescription(`Event: \`${event}\`\nDate: \`${new Date()}\`\nRequest Status: \`${err.response.data.status}\`\n\nError:\`\`\`json\n${JSON.stringify(err.response.data)}\`\`\``)
+        if(err.isAxiosError) logs.setDescription(`Event: \`${event}\`\nDate: \`${new Date()}\`\nRequest Status: \`${err.response.status}\`\n\nError:\`\`\`json\n${JSON.stringify(err.response.data)}\`\`\``)
         else logs.setDescription(`Event: \`${event}\`\nDate: \`${new Date()}\`\n\nError:\`\`\`json\n${JSON.stringify(err.stack)}\`\`\``)
         logsChannel.send({embeds: [logs]})
     }
@@ -1046,7 +1084,7 @@ class FNBRMENA {
      * Return all the errors messages 
      * 
      * @param {String} Type 
-     * @param {String [EN || AR]} Lang 
+     * @param {String} Lang 
      * 
      */
     Errors(Type, Lang){
@@ -1092,7 +1130,7 @@ class FNBRMENA {
      * 
      * @param {Servers Access} Admin 
      * @param {Message} Message 
-     * @param {Command} Alias
+     * @param {Commands} Alias
      * @param {String} Type 
      * 
      */

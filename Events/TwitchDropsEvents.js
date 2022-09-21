@@ -25,7 +25,7 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
             const auth = data.val().Auth
 
             // If the event is set to be true [ON]
-            if(status){
+            if(true){
 
                 // Request data
                 await FNBRMENA.TwitchCampaign(auth)
@@ -256,28 +256,42 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
 
                 // Check if the drops fields has messgaes
                 if(drops){
+                    console.log(drops)
                     moment.locale("en")
 
                     // Loop through every drop
                     for(let i = 0; i < drops.length; i++){
 
-                        // Check if the date has ended
-                        if(moment().isAfter(moment(drops[i].date))){
+                        // Check for index jumping
+                        if(drops[i]){
 
-                            // Get the message channel
-                            client.channels.fetch(config.events.Twitch)
-                            .then(async channel => {
+                            // Check if the date has ended
+                            if(moment().isAfter(moment(drops[i].date))){
 
-                                // Get the message from the channel and delete it
-                                channel.messages.delete(drops[i].messageId);
+                                // Get the message channel
+                                client.channels.fetch(config.events.Twitch)
+                                .then(async channel => {
 
-                                // Delete the drop
-                                drops.splice(i, 1)
+                                    // Get the message from the channel and delete it
+                                    channel.messages.delete(drops[i].messageId);
 
-                                // Update data
-                                await admin.database().ref("ERA's").child("Events").child("twitchdrops").update({
-                                    Drops: drops
+                                    // Delete the drop
+                                    drops.splice(i, 1)
+
+                                    // Update data
+                                    await admin.database().ref("ERA's").child("Events").child("twitchdrops").update({
+                                        Drops: drops
+                                    })
                                 })
+                            }
+                        }else{
+
+                            // Delete the empty item
+                            drops.splice(i, 1)
+
+                            // Update data
+                            await admin.database().ref("ERA's").child("Events").child("twitchdrops").update({
+                                Drops: drops
                             })
                         }
                     }

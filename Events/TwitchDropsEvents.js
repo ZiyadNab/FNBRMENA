@@ -25,7 +25,7 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
             const auth = data.val().Auth
 
             // If the event is set to be true [ON]
-            if(true){
+            if(status){
 
                 // Request data
                 await FNBRMENA.TwitchCampaign(auth)

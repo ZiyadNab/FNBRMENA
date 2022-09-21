@@ -308,6 +308,29 @@ class FNBRMENA {
     }
 
     /**
+     * Return data about weapons
+     * 
+     * @param {String} Lang
+     * @param {String} Id
+     * @param {Boolean} All
+     * @example
+     * FNBRMENA.Weapon(Lang, Id, All)
+     * .then(async res => {
+     * 
+     *        //you will get a response weather the requested data has been found or not
+     * 
+     * })
+     * 
+     */
+     async Weapon(Lang, Id, All){
+
+        //request the data and return the response
+        if(All) return await axios.get(`https://fortniteapi.io/v1/loot/get?id=${Id}&lang=${Lang}`, { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io")} })
+        else return await axios.get(`https://fortniteapi.io/v1/loot/list?lang=${Lang}`, { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io")} })
+    
+    }
+
+    /**
      * Return data about the user stats
      * 
      * @param {String} playerTag

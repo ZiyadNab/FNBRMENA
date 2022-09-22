@@ -28,6 +28,18 @@ module.exports = {
                 const background = await Canvas.loadImage(`./assets/Rarities/weapons/${res.data.data.rarity}.png`)
                 ctx.drawImage(background, 0, 0, canvas.width, canvas.height)
 
+                // Drop shadow
+                ctx.shadowOffsetY = 50
+                ctx.shadowColor = "rgba(0, 0, 0, 0.4)";
+                ctx.shadowBlur = 100;
+
+                // Load the weapon iamge
+                const weaponImg = await Canvas.loadImage(res.data.data.images.icon)
+                ctx.drawImage(weaponImg, 100, 100, 650, 650)
+
+                // Reset shadows
+                ctx.shadowColor = 'rgba(0,0,0,0)';
+
                 // Send message
                 const att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `${res.data.data.id}.png`})
                 await message.reply({files: [att]})
@@ -153,6 +165,7 @@ module.exports = {
                     .then(async res => {
 
                         // Call the weapon image builder
+                        await dropMenuMessage.delete()
                         weaponImageBuilder(res)
 
                     }).catch(err => {

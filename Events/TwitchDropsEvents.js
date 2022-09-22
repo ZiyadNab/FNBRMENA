@@ -23,9 +23,11 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
             const role = data.val().Role
             const drops = data.val().Drops
             const auth = data.val().Auth
+            const owners = data.val().Owners
+            const ownering = data.val().Ownering
 
             // If the event is set to be true [ON]
-            if(status){
+            if(true){
 
                 // Request data
                 await FNBRMENA.TwitchCampaign(auth)
@@ -69,7 +71,7 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                             if(!ids.includes(response[i])){
 
                                 // Check owner and only allow Epic Games
-                                //if(res.data.data.currentUser.dropCampaigns[i].owner.id === '053158f5-f0a9-4fd1-8a04-8bb813ce130a'){
+                                if(owners.includes(res.data.data.currentUser.dropCampaigns[i].owner.id) || !ownering){
 
                                     // Request detailed data
                                     FNBRMENA.TwitchDropsDetailed(response[i], auth)
@@ -234,7 +236,7 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                                             Drops: tempDrops
                                         })
                                     })
-                                //}
+                                }
                             }
                         }
 

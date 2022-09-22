@@ -29,9 +29,10 @@ module.exports = {
                 ctx.drawImage(background, 0, 0, canvas.width, canvas.height)
 
                 // Drop shadow
-                ctx.shadowOffsetY = 50
+                ctx.shadowOffsetY = 90
+                ctx.shadowOffsetX = 90
                 ctx.shadowColor = "rgba(0, 0, 0, 0.4)";
-                ctx.shadowBlur = 100;
+                ctx.shadowBlur = 50;
 
                 // Load the weapon iamge
                 const weaponImg = await Canvas.loadImage(res.data.data.images.icon)

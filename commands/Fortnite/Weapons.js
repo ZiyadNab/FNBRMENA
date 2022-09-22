@@ -81,7 +81,7 @@ module.exports = {
                     textAlignAR: 'center',
                     xEN: canvas.width / 2,
                     xAR: canvas.width / 2,
-                    y: 964,
+                    y: 928,
                     font: 72
                 }, res.data.data.rarity, {
 

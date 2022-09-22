@@ -273,111 +273,124 @@ module.exports = {
         // Check if there is an item found
         if(weaponId.length > 1){
 
-            // Create an embed
-            const listWeaponsEmbed = new Discord.EmbedBuilder()
-            listWeaponsEmbed.setColor(FNBRMENA.Colors("embed"))
+            // Check if out of range
+            if(weaponId.length <= 120){
 
-            //set Author
-            if(userData.lang === "en"){
-                listWeaponsEmbed.setAuthor({name: `Weapons`, iconURL: 'https://imgur.com/mvFcjNF.png'})
-                listWeaponsEmbed.setDescription('Please click on the Drop-Down menu and choose a weapons.\n`You have only 30 seconds until this operation ends, Make it quick`!')
-            }else if(userData.lang === "ar"){
-                listWeaponsEmbed.setAuthor({name: `الأسلحة`, iconURL: 'https://imgur.com/mvFcjNF.png'})
-                listWeaponsEmbed.setDescription('الرجاء الضغط على السهم لاختيار سلاح.\n`لديك فقط 30 ثانية حتى تنتهي العملية, استعجل`!')
-            }
+                // Create an embed
+                const listWeaponsEmbed = new Discord.EmbedBuilder()
+                listWeaponsEmbed.setColor(FNBRMENA.Colors("embed"))
 
-            // Create a row for buttons
-            const buttonDataRow = new Discord.ActionRowBuilder()
-            
-            // Add buttons
-            if(userData.lang === "en") buttonDataRow.addComponents(
-                new Discord.ButtonBuilder()
-                    .setCustomId('Cancel')
-                    .setStyle(Discord.ButtonStyle.Danger)
-                    .setLabel("Cancel")
-                )
-
-            else if(userData.lang === "ar") buttonDataRow.addComponents(
-                new Discord.ButtonBuilder()
-                    .setCustomId('Cancel')
-                    .setStyle(Discord.ButtonStyle.Danger)
-                    .setLabel("اغلاق")
-                )
-
-            // Force int
-            var size = (weaponId.length / 25), components = [], limit = 0
-            if(size % 2 !== 0 && size != 1){
-                size += 1;
-                size = size | 0
-            }
-
-            // Loop trough every weapon found
-            for(let i = 1; i <= size; i++){
-
-                var weapons = []
-                for(let x = limit; x < 25 * i; x++){
-
-                    if(weaponId[x]) weapons.push({
-                        label: `${weaponId[x].name}`,
-                        value: `${weaponId[x].id}`,
-                        emoji: `${emojisObject[weaponId[x].rarity].name}:${emojisObject[weaponId[x].rarity].id}`
-                    })
+                //set Author
+                if(userData.lang === "en"){
+                    listWeaponsEmbed.setAuthor({name: `Weapons`, iconURL: 'https://imgur.com/mvFcjNF.png'})
+                    listWeaponsEmbed.setDescription('Please click on the Drop-Down menu and choose a weapons.\n`You have only 30 seconds until this operation ends, Make it quick`!')
+                }else if(userData.lang === "ar"){
+                    listWeaponsEmbed.setAuthor({name: `الأسلحة`, iconURL: 'https://imgur.com/mvFcjNF.png'})
+                    listWeaponsEmbed.setDescription('الرجاء الضغط على السهم لاختيار سلاح.\n`لديك فقط 30 ثانية حتى تنتهي العملية, استعجل`!')
                 }
 
-                // Create a drop menu
-                var listWeaponsDropMenu = new Discord.SelectMenuBuilder()
-                listWeaponsDropMenu.setCustomId(`${i}`)
-                if(userData.lang === "en") listWeaponsDropMenu.setPlaceholder('Nothing selected!')
-                else if(userData.lang === "ar") listWeaponsDropMenu.setPlaceholder('لم يتم اختيار شيء بعد!')
-                listWeaponsDropMenu.addOptions(weapons)
+                // Create a row for buttons
+                const buttonDataRow = new Discord.ActionRowBuilder()
+                
+                // Add buttons
+                if(userData.lang === "en") buttonDataRow.addComponents(
+                    new Discord.ButtonBuilder()
+                        .setCustomId('Cancel')
+                        .setStyle(Discord.ButtonStyle.Danger)
+                        .setLabel("Cancel")
+                    )
 
-                // Add the drop menu to the categoryDropMenu
-                components.push(new Discord.ActionRowBuilder().addComponents(listWeaponsDropMenu))
-                limit = 25 * i
+                else if(userData.lang === "ar") buttonDataRow.addComponents(
+                    new Discord.ButtonBuilder()
+                        .setCustomId('Cancel')
+                        .setStyle(Discord.ButtonStyle.Danger)
+                        .setLabel("اغلاق")
+                    )
 
-            } components.push(buttonDataRow)
+                // Force int
+                var size = (weaponId.length / 25), components = [], limit = 0
+                if(size % 2 !== 0 && size != 1){
+                    size += 1;
+                    size = size | 0
+                }
 
-            // Send the message
-            const dropMenuMessage = await message.reply({embeds: [listWeaponsEmbed], components: components})
+                // Loop trough every weapon found
+                for(let i = 1; i <= size; i++){
 
-            // Filtering the user clicker
-            const filter = (i => {
-                return (i.user.id === message.author.id && i.message.id === dropMenuMessage.id && i.guild.id === message.guild.id)
-            })
+                    var weapons = []
+                    for(let x = limit; x < 25 * i; x++){
 
-            // Await for the user
-            await message.channel.awaitMessageComponent({filter, time: 30000})
-            .then(async collected => {
-                collected.deferUpdate();
-
-                // If cancel button has been clicked
-                if(collected.customId === "Cancel") dropMenuMessage.delete()
-                else if(collected.type === Discord.ComponentType.SelectMenu){
-
-                    // Request a weapon
-                    await FNBRMENA.Weapon(userData.lang, "", false)
-                    .then(async res => {
-
-                        // Call the weapon image builder
-                        await dropMenuMessage.delete()
-                        
-                        // Filter for names
-                        await res.data.weapons.filter(wid => {
-                            if(wid.id === collected.values[0]) // Find the weapon
-                            
-                            // Call the weapon image builder
-                            weaponImageBuilder(wid)
+                        if(weaponId[x]) weapons.push({
+                            label: `${weaponId[x].name}`,
+                            value: `${weaponId[x].id}`,
+                            emoji: `${emojisObject[weaponId[x].rarity].name}:${emojisObject[weaponId[x].rarity].id}`
                         })
-                    }).catch(async err => {
-                        dropMenuMessage.delete()
-                        FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
-                    })
-                }
-            
-            }).catch(async err => {
-                dropMenuMessage.delete()
-                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
-            })
+                    }
+
+                    // Create a drop menu
+                    var listWeaponsDropMenu = new Discord.SelectMenuBuilder()
+                    listWeaponsDropMenu.setCustomId(`${i}`)
+                    if(userData.lang === "en") listWeaponsDropMenu.setPlaceholder('Nothing selected!')
+                    else if(userData.lang === "ar") listWeaponsDropMenu.setPlaceholder('لم يتم اختيار شيء بعد!')
+                    listWeaponsDropMenu.addOptions(weapons)
+
+                    // Add the drop menu to the categoryDropMenu
+                    components.push(new Discord.ActionRowBuilder().addComponents(listWeaponsDropMenu))
+                    limit = 25 * i
+
+                } components.push(buttonDataRow)
+
+                // Send the message
+                const dropMenuMessage = await message.reply({embeds: [listWeaponsEmbed], components: components})
+
+                // Filtering the user clicker
+                const filter = (i => {
+                    return (i.user.id === message.author.id && i.message.id === dropMenuMessage.id && i.guild.id === message.guild.id)
+                })
+
+                // Await for the user
+                await message.channel.awaitMessageComponent({filter, time: 30000})
+                .then(async collected => {
+                    collected.deferUpdate();
+
+                    // If cancel button has been clicked
+                    if(collected.customId === "Cancel") dropMenuMessage.delete()
+                    else if(collected.type === Discord.ComponentType.SelectMenu){
+
+                        // Request a weapon
+                        await FNBRMENA.Weapon(userData.lang, "", false)
+                        .then(async res => {
+
+                            // Call the weapon image builder
+                            await dropMenuMessage.delete()
+                            
+                            // Filter for names
+                            await res.data.weapons.filter(wid => {
+                                if(wid.id === collected.values[0]) // Find the weapon
+                                
+                                // Call the weapon image builder
+                                weaponImageBuilder(wid)
+                            })
+                        }).catch(async err => {
+                            dropMenuMessage.delete()
+                            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
+                        })
+                    }
+                
+                }).catch(async err => {
+                    dropMenuMessage.delete()
+                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
+                })
+
+            }else{
+
+                // Too large entry
+                const requestEntryTooLargeError = new Discord.EmbedBuilder()
+                requestEntryTooLargeError.setColor(FNBRMENA.Colors("embedError"))
+                if(userData.lang === "en") requestEntryTooLargeError.setTitle(`Request entry too large ${emojisObject.errorEmoji}`)
+                else if(userData.lang === "ar") requestEntryTooLargeError.setTitle(`تم تخطي الكميه المحدودة ${emojisObject.errorEmoji}`)
+                message.reply({embeds: [requestEntryTooLargeError]})
+            }
             
         }else if(weaponId.length === 1){
 
@@ -406,4 +419,4 @@ module.exports = {
             message.reply({embeds: [noWeaponsFoundError]})
         }
     }
-}    
+}

@@ -12,7 +12,7 @@ module.exports = {
         // Set of rarity colors
         const colors = {
             mythic: '#ffbe00',
-            transcendent: '#00FF69',
+            exotic: '#00FF69',
             legendary: '#ff8800',
             epic: '#bc4afd',
             rare: '#2cc1ff',
@@ -23,7 +23,7 @@ module.exports = {
         // Translations
         const translation = {
             mythic: 'خرافي',
-            transcendent: 'عجيب',
+            exotic: 'عجيب',
             legendary: 'الأسطوري',
             epic: 'ملحمي',
             rare: 'نادر',
@@ -419,4 +419,4 @@ module.exports = {
             message.reply({embeds: [noWeaponsFoundError]})
         }
     }
-}
+}    

@@ -28,7 +28,7 @@ module.exports = {
             if(userData.lang === "en"){
                 ctx.textAlign = obj.textAlignEN
                 ctx.font = `${obj.font}px Burbank Big Condensed`
-                ctx.fillText(obj.nameEN, obj.xEN, obj.y)
+                ctx.fillText(obj.nameEN.toUpperCase(), obj.xEN, obj.y)
 
             }else if(userData.lang === "ar"){
                 ctx.textAlign = obj.textAlignEN
@@ -79,9 +79,9 @@ module.exports = {
                     nameAR: 'الندرة',
                     textAlignEN: 'center',
                     textAlignAR: 'center',
-                    xEN: 85,
-                    xAR: canvas.width - 85,
-                    y: 901,
+                    xEN: canvas.width / 2,
+                    xAR: canvas.width / 2,
+                    y: 964,
                     font: 72
                 }, res.data.data.rarity, {
 
@@ -95,7 +95,7 @@ module.exports = {
                     textAlignAR: 'right',
                     xEN: 85,
                     xAR: canvas.width - 85,
-                    y: 1035,
+                    y: 1098,
                     font: 72
                 }, res.data.data.rarity, 0)
 
@@ -107,7 +107,7 @@ module.exports = {
                     textAlignAR: 'right',
                     xEN: 85,
                     xAR: canvas.width - 85,
-                    y: 1169,
+                    y: 1232,
                     font: 72
                 }, res.data.data.rarity, 0)
 
@@ -119,7 +119,7 @@ module.exports = {
                     textAlignAR: 'right',
                     xEN: 85,
                     xAR: canvas.width - 85,
-                    y: 1303,
+                    y: 1366,
                     font: 72
                 }, res.data.data.rarity, 0)
 
@@ -131,7 +131,7 @@ module.exports = {
                     textAlignAR: 'right',
                     xEN: 85,
                     xAR: canvas.width - 85,
-                    y: 1437,
+                    y: 1500,
                     font: 72
                 }, res.data.data.rarity, 0)
 
@@ -143,7 +143,7 @@ module.exports = {
                     textAlignAR: 'right',
                     xEN: 85,
                     xAR: canvas.width - 85,
-                    y: 1571,
+                    y: 1634,
                     font: 72
                 }, res.data.data.rarity, 0)
 

@@ -102,9 +102,14 @@ module.exports = {
                 // Add weapon name
                 ctx.fillStyle = '#ffffff'
                 ctx.textAlign = 'center'
-                if(userData.lang === "en") ctx.font = '80px Burbank Big Condensed'
-                else if(userData.lang === "ar") ctx.font = '80px Arabic'
-                ctx.fillText(res.name.toUpperCase(), canvas.width / 2, 850)
+                if(userData.lang === "en"){
+                    ctx.font = '80px Burbank Big Condensed'
+                    ctx.fillText(res.name.toUpperCase(), canvas.width / 2, 850)
+                }else if(userData.lang === "ar"){
+                    ctx.font = '80px Arabic'
+                    ctx.fillText(res.name.toUpperCase(), canvas.width / 2, 830)
+                }
+                
 
                 // Drop shadow
                 ctx.shadowOffsetY = 20
@@ -314,7 +319,7 @@ module.exports = {
 
                     if(weaponId[x]) weapons.push({
                         label: `${weaponId[x].name}`,
-                        value: `${x}`,
+                        value: `${weaponId[x].id}`,
                         emoji: `${emojisObject[weaponId[x].rarity].name}:${emojisObject[weaponId[x].rarity].id}`
                     })
                 }
@@ -349,8 +354,24 @@ module.exports = {
                 if(collected.customId === "Cancel") dropMenuMessage.delete()
                 else if(collected.type === Discord.ComponentType.SelectMenu){
 
-                    // Call the weapon image builder
-                    weaponImageBuilder(weaponId[collected.values[0]])
+                    // Request a weapon
+                    await FNBRMENA.Weapon(userData.lang, "", false)
+                    .then(async res => {
+
+                        // Call the weapon image builder
+                        await dropMenuMessage.delete()
+                        
+                        // Filter for names
+                        await res.data.weapons.filter(wid => {
+                            if(wid.id === collected.values[0]) // Find the weapon
+                            
+                            // Call the weapon image builder
+                            weaponImageBuilder(wid)
+                        })
+                    }).catch(async err => {
+                        dropMenuMessage.delete()
+                        FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
+                    })
                 }
             
             }).catch(async err => {
@@ -360,8 +381,20 @@ module.exports = {
             
         }else if(weaponId.length === 1){
 
-            // Call the weapon image builder
-            weaponImageBuilder(weaponId[0])
+            // Request a weapon
+            await FNBRMENA.Weapon(userData.lang, "", false)
+            .then(async res => {
+
+                // Filter for names
+                await res.data.weapons.filter(wid => {
+                    if(wid.id === weaponId[0].id) // Find the weapon
+                    
+                    // Call the weapon image builder
+                    weaponImageBuilder(wid)
+                })
+            }).catch(async err => {
+                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
+            })
 
         }else if(weaponId.length === 0){
             

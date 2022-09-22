@@ -38,6 +38,17 @@ module.exports = {
                 const weaponImg = await Canvas.loadImage(res.data.data.images.icon)
                 ctx.drawImage(weaponImg, 100, 100, 650, 650)
 
+                // Add 6 background layers
+                ctx.fillStyle = '#000000'
+                ctx.globalAlpha = 0.4
+                ctx.fillRect(55, 869, 869, 116) // Rarity layer
+                ctx.fillRect(55, 869, 1003, 116) // Damage layer
+                ctx.fillRect(55, 869, 1137, 116) // Headshot damage layer
+                ctx.fillRect(55, 869, 1271, 116) // Clip Size layer
+                ctx.fillRect(55, 869, 1405, 116) // Fire Rate layer
+                ctx.fillRect(55, 869, 1539, 116) // Reload Time layer
+                ctx.globalAlpha = 1
+
                 // Reset shadows
                 ctx.shadowColor = 'rgba(0,0,0,0)';
 

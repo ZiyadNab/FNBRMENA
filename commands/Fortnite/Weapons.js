@@ -29,8 +29,8 @@ module.exports = {
                 ctx.drawImage(background, 0, 0, canvas.width, canvas.height)
 
                 // Drop shadow
-                ctx.shadowOffsetY = 50
-                ctx.shadowOffsetX = 50
+                ctx.shadowOffsetY = 25
+                ctx.shadowOffsetX = 25
                 ctx.shadowColor = "rgba(0, 0, 0, 0.4)";
                 ctx.shadowBlur = 50;
 
@@ -40,7 +40,7 @@ module.exports = {
 
                 // Add 6 background layers
                 ctx.fillStyle = '#000000'
-                ctx.globalAlpha = 0.4
+                ctx.globalAlpha = 0.2
                 ctx.fillRect(55, 869, 740, 116) // Rarity layer
                 ctx.fillRect(55, 1003, 740, 116) // Damage layer
                 ctx.fillRect(55, 1137, 740, 116) // Headshot damage layer

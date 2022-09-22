@@ -28,12 +28,12 @@ module.exports = {
             if(userData.lang === "en"){
                 ctx.textAlign = obj.textAlignEN
                 ctx.font = `${obj.font}px Burbank Big Condensed`
-                ctx.fillText(obj.nameEN, obj.xEN, obj.yEN)
+                ctx.fillText(obj.nameEN, obj.xEN, obj.y)
 
             }else if(userData.lang === "ar"){
                 ctx.textAlign = obj.textAlignEN
                 ctx.font = `${obj.font}px Arabic`
-                ctx.fillText(obj.nameAR, obj.xAR, obj.yAR)
+                ctx.fillText(obj.nameAR, obj.xAR, obj.y)
             }
 
         }
@@ -74,82 +74,76 @@ module.exports = {
                 ctx.fillStyle = '#000000'
                 
                 // Rarity layer
-                layer(ctx, 55, 869, 740, 116, {
+                layer(ctx, 55, 870, 740, 116, {
                     nameEN: "rarity",
                     nameAR: 'الندرة',
                     textAlignEN: 'center',
                     textAlignAR: 'center',
                     xEN: 85,
-                    yEN: 75,
                     xAR: canvas.width - 85,
-                    yAR: canvas.width - 75,
+                    y: 901,
                     font: 72
                 }, res.data.data.rarity, {
 
                 })
 
                 // Damage layer
-                layer(ctx, 55, 1003, 740, 116, {
+                layer(ctx, 55, 1004, 740, 116, {
                     nameEN: "damage",
                     nameAR: 'الضرر',
                     textAlignEN: 'left',
                     textAlignAR: 'right',
                     xEN: 85,
-                    yEN: 75,
                     xAR: canvas.width - 85,
-                    yAR: canvas.width - 75,
+                    y: 1035,
                     font: 72
                 }, res.data.data.rarity, 0)
 
                 // Headshot damage layer
-                layer(ctx, 55, 1137, 740, 116, {
+                layer(ctx, 55, 1138, 740, 116, {
                     nameEN: "headshot damage",
                     nameAR: 'ضرر الرأس',
                     textAlignEN: 'left',
                     textAlignAR: 'right',
                     xEN: 85,
-                    yEN: 75,
                     xAR: canvas.width - 85,
-                    yAR: canvas.width - 75,
+                    y: 1169,
                     font: 72
                 }, res.data.data.rarity, 0)
 
                 // Clip Size layer
-                layer(ctx, 55, 1271, 740, 116, {
+                layer(ctx, 55, 1272, 740, 116, {
                     nameEN: "clip size",
                     nameAR: 'حجم الذخيرة',
                     textAlignEN: 'left',
                     textAlignAR: 'right',
                     xEN: 85,
-                    yEN: 75,
                     xAR: canvas.width - 85,
-                    yAR: canvas.width - 75,
+                    y: 1303,
                     font: 72
                 }, res.data.data.rarity, 0)
 
                 // Fire Rate layer
-                layer(ctx, 55, 1405, 740, 116, {
+                layer(ctx, 55, 1406, 740, 116, {
                     nameEN: "fire rate",
                     nameAR: 'معدل الاطلاق',
                     textAlignEN: 'left',
                     textAlignAR: 'right',
                     xEN: 85,
-                    yEN: 75,
                     xAR: canvas.width - 85,
-                    yAR: canvas.width - 75,
+                    y: 1437,
                     font: 72
                 }, res.data.data.rarity, 0)
 
                 // Reload Time layer
-                layer(ctx, 55, 1539, 740, 116, {
+                layer(ctx, 55, 1540, 740, 116, {
                     nameEN: "reload time",
                     nameAR: 'وقت إعادة التحميل',
                     textAlignEN: 'left',
                     textAlignAR: 'right',
                     xEN: 85,
-                    yEN: 75,
                     xAR: canvas.width - 85,
-                    yAR: canvas.width - 75,
+                    y: 1571,
                     font: 72
                 }, res.data.data.rarity, 0)
 

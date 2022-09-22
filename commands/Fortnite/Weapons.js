@@ -9,15 +9,32 @@ module.exports = {
     permissionError: 'Sorry you do not have acccess to this command',
     callback: async (FNBRMENA, message, args, text, Discord, client, admin, userData, alias, emojisObject) => {
 
+        // Registering fonts
+        Canvas.registerFont('./assets/font/Lalezar-Regular.ttf', {family: 'Arabic',weight: "700",style: "bold"});
+        Canvas.registerFont('./assets/font/BurbankBigCondensed-Black.ttf' ,{family: 'Burbank Big Condensed',weight: "700",style: "bold"})
+
         // Layer
-        const layer = async (x, y, w, h, name, value, number) => {
+        const layer = async (ctx, x, y, w, h, obj, value, number) => {
 
             // Add layer
             ctx.shadowColor = "rgba(0, 0, 0, 0.4)" // Add a shadow color (BLACK)
             ctx.globalAlpha = 0.2 // Change opacity
-            ctx.fillRect(55, 869, 740, 116)
+            ctx.fillRect(x, y, w, h)
             ctx.shadowColor = 'rgba(0,0,0,0)' // Reset shadows
             ctx.globalAlpha = 1 // Reset transparency
+
+            // Add layer name
+            ctx.fillStyle = '#ffffff'
+            if(userData.lang === "en"){
+                ctx.textAlign = obj.textAlignEN
+                ctx.font = `${obj.font}px Burbank Big Condensed`
+                ctx.fillText(obj.nameEN, obj.xEN, obj.yEN)
+
+            }else if(userData.lang === "ar"){
+                ctx.textAlign = obj.textAlignEN
+                ctx.font = `${obj.font}px Arabic`
+                ctx.fillText(obj.nameAR, obj.xAR, obj.yAR)
+            }
 
         }
 
@@ -56,12 +73,85 @@ module.exports = {
                 // Add 6 background layers
                 ctx.fillStyle = '#000000'
                 
-                layer(ctx, 55, 869, 740, 116, "RARITY", res.data.data.rarity, 0) // Rarity layer
-                layer(ctx, 55, 1003, 740, 116, "DAMAGE", res.data.data.rarity, 0) // Damage layer
-                layer(ctx, 55, 1137, 740, 116, "HEADSHOT DAMAGE", res.data.data.rarity, 0) // Headshot damage layer
-                layer(ctx, 55, 1271, 740, 116, "CLIP SIZE", res.data.data.rarity, 0) // Clip Size layer
-                layer(ctx, 55, 1405, 740, 116, "FIRE RATE", res.data.data.rarity, 0) // Fire Rate layer
-                layer(ctx, 55, 1539, 740, 116, "RELOAD TIME", res.data.data.rarity, 0) // Reload Time layer
+                // Rarity layer
+                layer(ctx, 55, 869, 740, 116, {
+                    nameEN: "rarity",
+                    nameAR: 'الندرة',
+                    textAlignEN: 'center',
+                    textAlignAR: 'center',
+                    xEN: 85,
+                    yEN: 75,
+                    xAR: canvas.width - 85,
+                    yAR: canvas.width - 75,
+                    font: 72
+                }, res.data.data.rarity, {
+
+                })
+
+                // Damage layer
+                layer(ctx, 55, 1003, 740, 116, {
+                    nameEN: "damage",
+                    nameAR: 'الضرر',
+                    textAlignEN: 'left',
+                    textAlignAR: 'right',
+                    xEN: 85,
+                    yEN: 75,
+                    xAR: canvas.width - 85,
+                    yAR: canvas.width - 75,
+                    font: 72
+                }, res.data.data.rarity, 0)
+
+                // Headshot damage layer
+                layer(ctx, 55, 1137, 740, 116, {
+                    nameEN: "headshot damage",
+                    nameAR: 'ضرر الرأس',
+                    textAlignEN: 'left',
+                    textAlignAR: 'right',
+                    xEN: 85,
+                    yEN: 75,
+                    xAR: canvas.width - 85,
+                    yAR: canvas.width - 75,
+                    font: 72
+                }, res.data.data.rarity, 0)
+
+                // Clip Size layer
+                layer(ctx, 55, 1271, 740, 116, {
+                    nameEN: "clip size",
+                    nameAR: 'حجم الذخيرة',
+                    textAlignEN: 'left',
+                    textAlignAR: 'right',
+                    xEN: 85,
+                    yEN: 75,
+                    xAR: canvas.width - 85,
+                    yAR: canvas.width - 75,
+                    font: 72
+                }, res.data.data.rarity, 0)
+
+                // Fire Rate layer
+                layer(ctx, 55, 1405, 740, 116, {
+                    nameEN: "fire rate",
+                    nameAR: 'معدل الاطلاق',
+                    textAlignEN: 'left',
+                    textAlignAR: 'right',
+                    xEN: 85,
+                    yEN: 75,
+                    xAR: canvas.width - 85,
+                    yAR: canvas.width - 75,
+                    font: 72
+                }, res.data.data.rarity, 0)
+
+                // Reload Time layer
+                layer(ctx, 55, 1539, 740, 116, {
+                    nameEN: "reload time",
+                    nameAR: 'وقت إعادة التحميل',
+                    textAlignEN: 'left',
+                    textAlignAR: 'right',
+                    xEN: 85,
+                    yEN: 75,
+                    xAR: canvas.width - 85,
+                    yAR: canvas.width - 75,
+                    font: 72
+                }, res.data.data.rarity, 0)
 
                 // Send message
                 const att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `${res.data.data.id}.png`})

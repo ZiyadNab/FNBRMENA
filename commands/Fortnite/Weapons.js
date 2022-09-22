@@ -29,8 +29,8 @@ module.exports = {
                 ctx.drawImage(background, 0, 0, canvas.width, canvas.height)
 
                 // Drop shadow
-                ctx.shadowOffsetY = 90
-                ctx.shadowOffsetX = 90
+                ctx.shadowOffsetY = 50
+                ctx.shadowOffsetX = 50
                 ctx.shadowColor = "rgba(0, 0, 0, 0.4)";
                 ctx.shadowBlur = 50;
 
@@ -41,12 +41,12 @@ module.exports = {
                 // Add 6 background layers
                 ctx.fillStyle = '#000000'
                 ctx.globalAlpha = 0.4
-                ctx.fillRect(55, 869, 869, 116) // Rarity layer
-                ctx.fillRect(55, 869, 1003, 116) // Damage layer
-                ctx.fillRect(55, 869, 1137, 116) // Headshot damage layer
-                ctx.fillRect(55, 869, 1271, 116) // Clip Size layer
-                ctx.fillRect(55, 869, 1405, 116) // Fire Rate layer
-                ctx.fillRect(55, 869, 1539, 116) // Reload Time layer
+                ctx.fillRect(55, 869, 740, 116) // Rarity layer
+                ctx.fillRect(55, 1003, 740, 116) // Damage layer
+                ctx.fillRect(55, 1137, 740, 116) // Headshot damage layer
+                ctx.fillRect(55, 1271, 740, 116) // Clip Size layer
+                ctx.fillRect(55, 1405, 740, 116) // Fire Rate layer
+                ctx.fillRect(55, 1539, 740, 116) // Reload Time layer
                 ctx.globalAlpha = 1
 
                 // Reset shadows

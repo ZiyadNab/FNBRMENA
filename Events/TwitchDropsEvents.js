@@ -1,6 +1,7 @@
 const Discord = require('discord.js')
 const Canvas = require('canvas')
 const moment = require('moment')
+require('moment-timezone')
 const config = require('../Configs/config.json')
 
 module.exports = (FNBRMENA, client, admin, emojisObject) => {
@@ -208,8 +209,8 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                                             {name: "Status", value: `\`${detailed.data.data.user.dropCampaign.status}\``},
                                             {name: "Has Requirements", value: `\`${hasRequirements}\``},
                                             {name: "Required Minutes Watched", value: `\`${detailed.data.data.user.dropCampaign.timeBasedDrops[0].requiredMinutesWatched}\``},
-                                            {name: "Starts At", value: `\`${moment(detailed.data.data.user.dropCampaign.startAt).format("dddd, MMMM Do of YYYY at h PST")}\``},
-                                            {name: "Ends At", value: `\`${moment(detailed.data.data.user.dropCampaign.endAt).format("dddd, MMMM Do of YYYY at h PST")}\``},
+                                            {name: "Starts At", value: `\`${moment(detailed.data.data.user.dropCampaign.startAt).tz('America/Los_Angeles').format("dddd, MMMM Do of YYYY [at] h z")}\``},
+                                            {name: "Ends At", value: `\`${moment(detailed.data.data.user.dropCampaign.endAt).tz('America/Los_Angeles').format("dddd, MMMM Do of YYYY [at] h z")}\``},
                                         )
 
                                         // Set footer

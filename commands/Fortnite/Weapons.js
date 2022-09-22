@@ -21,7 +21,7 @@ module.exports = {
             .then( async msg => {
             
                 // Create canvas
-                const canvas = Canvas.createCanvas(900, 1700);
+                const canvas = Canvas.createCanvas(850, 1700);
                 const ctx = canvas.getContext('2d');
 
                 // Load background
@@ -36,7 +36,7 @@ module.exports = {
 
                 // Load the weapon iamge
                 const weaponImg = await Canvas.loadImage(res.data.data.images.icon)
-                ctx.drawImage(weaponImg, 100, 100, 675, 675)
+                ctx.drawImage(weaponImg, 100, 100, 650, 650)
 
                 // Change the shadow blur
                 ctx.shadowBlur = 60;
@@ -44,12 +44,12 @@ module.exports = {
                 // Add 6 background layers
                 ctx.fillStyle = '#000000'
                 ctx.globalAlpha = 0.2
-                ctx.fillRect(27, 869, 767, 116) // Rarity layer
-                ctx.fillRect(27, 1003, 767, 116) // Damage layer
-                ctx.fillRect(27, 1137, 767, 116) // Headshot damage layer
-                ctx.fillRect(27, 1271, 767, 116) // Clip Size layer
-                ctx.fillRect(27, 1405, 767, 116) // Fire Rate layer
-                ctx.fillRect(27, 1539, 767, 116) // Reload Time layer
+                ctx.fillRect(55, 869, 740, 116) // Rarity layer
+                ctx.fillRect(55, 1003, 740, 116) // Damage layer
+                ctx.fillRect(55, 1137, 740, 116) // Headshot damage layer
+                ctx.fillRect(55, 1271, 740, 116) // Clip Size layer
+                ctx.fillRect(55, 1405, 740, 116) // Fire Rate layer
+                ctx.fillRect(55, 1539, 740, 116) // Reload Time layer
                 ctx.globalAlpha = 1
 
                 // Reset shadows

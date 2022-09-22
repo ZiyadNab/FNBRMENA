@@ -10,12 +10,12 @@ module.exports = {
     callback: async (FNBRMENA, message, args, text, Discord, client, admin, userData, alias, emojisObject) => {
 
         // Layer
-        const layer = async (x, y, w, h, name, value, number) => {
+        const layer = async (ctx, x, y, w, h, name, value, number) => {
 
             // Add layer
             ctx.shadowColor = "rgba(0, 0, 0, 0.4)" // Add a shadow color (BLACK)
             ctx.globalAlpha = 0.2 // Change opacity
-            ctx.fillRect(55, 869, 740, 116)
+            ctx.fillRect(x, y, w, h)
             ctx.shadowColor = 'rgba(0,0,0,0)' // Reset shadows
             ctx.globalAlpha = 1 // Reset transparency
 
@@ -56,12 +56,12 @@ module.exports = {
                 // Add 6 background layers
                 ctx.fillStyle = '#000000'
                 
-                layer(55, 869, 740, 116, "RARITY", res.data.data.rarity, 0) // Rarity layer
-                layer(55, 1003, 740, 116, "DAMAGE", res.data.data.rarity, 0) // Damage layer
-                layer(55, 1137, 740, 116, "HEADSHOT DAMAGE", res.data.data.rarity, 0) // Headshot damage layer
-                layer(55, 1271, 740, 116, "CLIP SIZE", res.data.data.rarity, 0) // Clip Size layer
-                layer(55, 1405, 740, 116, "FIRE RATE", res.data.data.rarity, 0) // Fire Rate layer
-                layer(55, 1539, 740, 116, "RELOAD TIME", res.data.data.rarity, 0) // Reload Time layer
+                layer(ctx, 55, 869, 740, 116, "RARITY", res.data.data.rarity, 0) // Rarity layer
+                layer(ctx, 1003, 740, 116, "DAMAGE", res.data.data.rarity, 0) // Damage layer
+                layer(ctx, 1137, 740, 116, "HEADSHOT DAMAGE", res.data.data.rarity, 0) // Headshot damage layer
+                layer(ctx, 1271, 740, 116, "CLIP SIZE", res.data.data.rarity, 0) // Clip Size layer
+                layer(ctx, 1405, 740, 116, "FIRE RATE", res.data.data.rarity, 0) // Fire Rate layer
+                layer(ctx, 1539, 740, 116, "RELOAD TIME", res.data.data.rarity, 0) // Reload Time layer
 
                 // Send message
                 const att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `${res.data.data.id}.png`})

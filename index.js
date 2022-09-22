@@ -161,6 +161,8 @@ client.on('ready', async () => {
     frozen: client.emojis.cache.get("1009803547153530890"),
     lava: client.emojis.cache.get("1009803465809215660"),
     gaming: client.emojis.cache.get("1009803549200359516"),
+    mythic: client.emojis.cache.get("1022404850027335740"),
+    transcendent : client.emojis.cache.get("1022404848118939689"),
     legendary: client.emojis.cache.get("1009803468300636230"),
     epic: client.emojis.cache.get("1009803517185241108"),
     rare: client.emojis.cache.get("1009803472499134474"),

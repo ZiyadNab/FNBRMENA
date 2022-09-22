@@ -9,12 +9,34 @@ module.exports = {
     permissionError: 'Sorry you do not have acccess to this command',
     callback: async (FNBRMENA, message, args, text, Discord, client, admin, userData, alias, emojisObject) => {
 
+        // Set of rarity colors
+        const colors = {
+            mythic: '#ffbe00',
+            transcendent: '#00FF69',
+            legendary: '#ff8800',
+            epic: '#bc4afd',
+            rare: '#2cc1ff',
+            uncommon: '#87e339',
+            common: '#bebebe'
+        }
+
+        // Translations
+        const translation = {
+            mythic: 'خرافي',
+            transcendent: 'عجيب',
+            legendary: 'الأسطوري',
+            epic: 'ملحمي',
+            rare: 'نادر',
+            uncommon: 'غير شائع',
+            common: 'شائع'
+        }
+
         // Registering fonts
         Canvas.registerFont('./assets/font/Lalezar-Regular.ttf', {family: 'Arabic',weight: "700",style: "bold"});
         Canvas.registerFont('./assets/font/BurbankBigCondensed-Black.ttf' ,{family: 'Burbank Big Condensed',weight: "700",style: "bold"})
 
         // Layer
-        const layer = async (ctx, x, y, w, h, obj, value, number) => {
+        const layer = async (ctx, canvas, x, y, w, h, obj, value, line) => {
 
             // Add layer
             ctx.shadowColor = "rgba(0, 0, 0, 0.4)" // Add a shadow color (BLACK)
@@ -24,18 +46,38 @@ module.exports = {
             ctx.globalAlpha = 1 // Reset transparency
 
             // Add layer name
-            ctx.fillStyle = '#ffffff'
             if(userData.lang === "en"){
-                ctx.textAlign = obj.textAlignEN
+
+                // Layer name
+                ctx.textAlign = 'left'
                 ctx.font = `${obj.font}px Burbank Big Condensed`
-                ctx.fillText(obj.nameEN.toUpperCase(), obj.xEN, obj.y)
+                ctx.fillText(obj.nameEN.toUpperCase(), obj.x, obj.y)
+
+                // Layer value
+                ctx.textAlign = 'right'
+                ctx.font = `${obj.font}px Burbank Big Condensed`
+                ctx.fillText(value, canvas.width - obj.x, obj.y)
+
+                // Add the line range
+                if(line.w <= w) ctx.fillRect(line.x, line.y, line.w, line.h)
+                else ctx.fillRect(line.x, line.y, w, line.h)
 
             }else if(userData.lang === "ar"){
-                ctx.textAlign = obj.textAlignEN
-                ctx.font = `${obj.font}px Arabic`
-                ctx.fillText(obj.nameAR, obj.xAR, obj.y)
-            }
 
+                // Layer name
+                ctx.textAlign = 'right'
+                ctx.font = `${obj.font}px Arabic`
+                ctx.fillText(obj.nameAR, canvas.width - obj.x, obj.y)
+
+                // Layer value
+                ctx.textAlign = 'left'
+                ctx.font = `${obj.font}px Burbank Big Condensed`
+                ctx.fillText(value, obj.x, obj.y)
+
+                // Add the line range
+                if(-line.w <= w) ctx.fillRect(canvas.width - line.x, line.y, -line.w, line.h)
+                else ctx.fillRect(canvas.width - line.x, line.y, w, line.h)
+            }
         }
 
         // Weapon Image BuilderS
@@ -44,8 +86,8 @@ module.exports = {
             //send the generating message
             const generating = new Discord.EmbedBuilder()
             generating.setColor(FNBRMENA.Colors("embed"))
-            if(userData.lang === "en") generating.setTitle(`Loading ${res.data.data.name} weapon ${emojisObject.loadingEmoji}`)
-            else if(userData.lang === "ar") generating.setTitle(`جاري تحميل سلاح ${res.data.data.name} ${emojisObject.loadingEmoji}`)
+            if(userData.lang === "en") generating.setTitle(`Loading ${res.name} weapon ${emojisObject.loadingEmoji}`)
+            else if(userData.lang === "ar") generating.setTitle(`جاري تحميل سلاح ${res.name} ${emojisObject.loadingEmoji}`)
             message.reply({embeds: [generating]})
             .then( async msg => {
             
@@ -54,8 +96,15 @@ module.exports = {
                 const ctx = canvas.getContext('2d');
 
                 // Load background
-                const background = await Canvas.loadImage(`./assets/Rarities/weapons/${res.data.data.rarity}.png`)
+                const background = await Canvas.loadImage(`./assets/Rarities/weapons/${res.rarity}.png`)
                 ctx.drawImage(background, 0, 0, canvas.width, canvas.height)
+
+                // Add weapon name
+                ctx.fillStyle = '#ffffff'
+                ctx.textAlign = 'center'
+                if(userData.lang === "en") ctx.font = '80px Burbank Big Condensed'
+                else if(userData.lang === "ar") ctx.font = '80px Arabic'
+                ctx.fillText(res.name.toUpperCase(), canvas.width / 2, 850)
 
                 // Drop shadow
                 ctx.shadowOffsetY = 20
@@ -64,7 +113,7 @@ module.exports = {
                 ctx.shadowBlur = 40;
 
                 // Load the weapon iamge
-                const weaponImg = await Canvas.loadImage(res.data.data.images.icon)
+                const weaponImg = await Canvas.loadImage(res.images.icon)
                 ctx.drawImage(weaponImg, 100, 100, 650, 650)
 
                 // Change the shadow blur
@@ -72,83 +121,116 @@ module.exports = {
 
                 // Add 6 background layers
                 ctx.fillStyle = '#000000'
-                
-                // Rarity layer
-                layer(ctx, 55, 870, 740, 116, {
-                    nameEN: "rarity",
-                    nameAR: 'الندرة',
-                    textAlignEN: 'center',
-                    textAlignAR: 'center',
-                    xEN: canvas.width / 2,
-                    xAR: canvas.width / 2,
-                    y: 964,
-                    font: 72
-                }, res.data.data.rarity, {
 
-                })
+                // Add layer
+                ctx.shadowColor = "rgba(0, 0, 0, 0.4)" // Add a shadow color (BLACK)
+                ctx.globalAlpha = 0.2 // Change opacity
+                ctx.fillRect(55, 870, 740, 116)
+                ctx.shadowColor = 'rgba(0,0,0,0)' // Reset shadows
+                ctx.globalAlpha = 1 // Reset transparency
+
+                // Add layer name
+                ctx.fillStyle = '#ffffff'
+                if(userData.lang === "en"){
+
+                    // Layer name
+                    ctx.textAlign = 'left'
+                    ctx.font = `72px Burbank Big Condensed`
+                    ctx.fillStyle = colors[res.rarity]
+
+                    // Get rarity width
+                    const rarityW = ctx.measureText(`${res.rarity.toUpperCase()} RARITY`).width
+                    const text = `${res.rarity.toUpperCase()} RARITY`
+
+                    // Draw the rarity
+                    var x = (canvas.width / 2) - (rarityW / 2)
+                    for(let i = 0; i < text.length; i++){
+                        if(text[i] === ' ') ctx.fillStyle = '#ffffff'
+                        ctx.fillText(`${text[i]}`, x, 953)
+                        x += ctx.measureText(text[i]).width
+                    }
+
+                }else if(userData.lang === "ar"){
+                    ctx.textAlign = 'center'
+                    ctx.font = `72px Arabic`
+                    ctx.fillText(`الندرة ${translation[res.rarity]}`, canvas.width / 2, 953)
+                }
+                
+                // Change to white color
+                ctx.fillStyle = '#ffffff'
 
                 // Damage layer
-                layer(ctx, 55, 1004, 740, 116, {
+                layer(ctx, canvas, 55, 1004, 740, 116, {
                     nameEN: "damage",
                     nameAR: 'الضرر',
-                    textAlignEN: 'left',
-                    textAlignAR: 'right',
-                    xEN: 85,
-                    xAR: canvas.width - 85,
-                    y: 1098,
+                    x: 85,
+                    y: 1087,
                     font: 72
-                }, res.data.data.rarity, 0)
+                }, res.mainStats.DmgPB ? res.mainStats.DmgPB | 0 : "?", {
+                    x: 55,
+                    y: 1120,
+                    w: (res.mainStats.DmgPB / 200) * 740,
+                    h: 9
+                })
 
                 // Headshot damage layer
-                layer(ctx, 55, 1138, 740, 116, {
+                layer(ctx, canvas, 55, 1138, 740, 116, {
                     nameEN: "headshot damage",
                     nameAR: 'ضرر الرأس',
-                    textAlignEN: 'left',
-                    textAlignAR: 'right',
-                    xEN: 85,
-                    xAR: canvas.width - 85,
-                    y: 1232,
+                    x: 85,
+                    y: 1221,
                     font: 72
-                }, res.data.data.rarity, 0)
+                }, res.mainStats.DmgPB && res.mainStats.DamageZone_Critical ? (res.mainStats.DmgPB * res.mainStats.DamageZone_Critical) | 0 : "?", {
+                    x: 55,
+                    y: 1254,
+                    w: (res.mainStats.DmgPB * res.mainStats.DamageZone_Critical / 250) * 740,
+                    h: 9
+                })
 
                 // Clip Size layer
-                layer(ctx, 55, 1272, 740, 116, {
+                layer(ctx, canvas, 55, 1272, 740, 116, {
                     nameEN: "clip size",
                     nameAR: 'حجم الذخيرة',
-                    textAlignEN: 'left',
-                    textAlignAR: 'right',
-                    xEN: 85,
-                    xAR: canvas.width - 85,
-                    y: 1366,
+                    x: 85,
+                    y: 1355,
                     font: 72
-                }, res.data.data.rarity, 0)
+                }, res.mainStats.ClipSize ? res.mainStats.ClipSize : "?", {
+                    x: 55,
+                    y: 1388,
+                    w: (res.mainStats.ClipSize / 75) * 740,
+                    h: 9
+                })
 
                 // Fire Rate layer
-                layer(ctx, 55, 1406, 740, 116, {
+                layer(ctx, canvas, 55, 1406, 740, 116, {
                     nameEN: "fire rate",
                     nameAR: 'معدل الاطلاق',
-                    textAlignEN: 'left',
-                    textAlignAR: 'right',
-                    xEN: 85,
-                    xAR: canvas.width - 85,
-                    y: 1500,
+                    x: 85,
+                    y: 1489,
                     font: 72
-                }, res.data.data.rarity, 0)
+                }, res.mainStats.FiringRate ? res.mainStats.FiringRate : "?", {
+                    x: 55,
+                    y: 1522,
+                    w: (res.mainStats.FiringRate / 15) * 740,
+                    h: 9
+                })
 
                 // Reload Time layer
-                layer(ctx, 55, 1540, 740, 116, {
+                layer(ctx, canvas, 55, 1540, 740, 116, {
                     nameEN: "reload time",
                     nameAR: 'وقت إعادة التحميل',
-                    textAlignEN: 'left',
-                    textAlignAR: 'right',
-                    xEN: 85,
-                    xAR: canvas.width - 85,
-                    y: 1634,
+                    x: 85,
+                    y: 1623,
                     font: 72
-                }, res.data.data.rarity, 0)
+                }, res.mainStats.ReloadTime ? res.mainStats.ReloadTime : "?", {
+                    x: 55,
+                    y: 1656,
+                    w: (res.mainStats.ReloadTime / 12) * 740,
+                    h: 9
+                })
 
                 // Send message
-                const att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `${res.data.data.id}.png`})
+                const att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `${res.id}.png`})
                 await message.reply({files: [att]})
                 msg.delete()
 
@@ -232,7 +314,7 @@ module.exports = {
 
                     if(weaponId[x]) weapons.push({
                         label: `${weaponId[x].name}`,
-                        value: `${weaponId[x].id}`,
+                        value: `${x}`,
                         emoji: `${emojisObject[weaponId[x].rarity].name}:${emojisObject[weaponId[x].rarity].id}`
                     })
                 }
@@ -267,17 +349,8 @@ module.exports = {
                 if(collected.customId === "Cancel") dropMenuMessage.delete()
                 else if(collected.type === Discord.ComponentType.SelectMenu){
 
-                    // Request the weapon data
-                    FNBRMENA.Weapon(userData.lang, collected.values[0], true)
-                    .then(async res => {
-
-                        // Call the weapon image builder
-                        await dropMenuMessage.delete()
-                        weaponImageBuilder(res)
-
-                    }).catch(err => {
-                        FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
-                    })
+                    // Call the weapon image builder
+                    weaponImageBuilder(weaponId[collected.values[0]])
                 }
             
             }).catch(async err => {
@@ -287,16 +360,8 @@ module.exports = {
             
         }else if(weaponId.length === 1){
 
-            // Request the weapon data
-            FNBRMENA.Weapon(userData.lang, weaponId[0].id, true)
-            .then(async res => {
-
-                // Call the weapon image builder
-                weaponImageBuilder(res)
-
-            }).catch(err => {
-                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
-            })
+            // Call the weapon image builder
+            weaponImageBuilder(weaponId[0])
 
         }else if(weaponId.length === 0){
             

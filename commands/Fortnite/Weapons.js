@@ -102,7 +102,7 @@ module.exports = {
                 // Weapon status
                 if(res.enabled) var status = await Canvas.loadImage('https://i.imgur.com/j2VNlek.png')
                 else var status = await Canvas.loadImage('https://imgur.com/LlfZAAy.png')
-                ctx.drawImage(status, 10, 10, 100, 100)
+                ctx.drawImage(status, 10, 10, 50, 50)
 
                 // Add weapon name
                 ctx.fillStyle = '#ffffff'

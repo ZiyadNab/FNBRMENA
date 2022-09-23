@@ -99,11 +99,6 @@ module.exports = {
                 const background = await Canvas.loadImage(`./assets/Rarities/weapons/${res.rarity}.png`)
                 ctx.drawImage(background, 0, 0, canvas.width, canvas.height)
 
-                // Weapon status
-                if(res.enabled) var status = await Canvas.loadImage('https://i.imgur.com/j2VNlek.png')
-                else var status = await Canvas.loadImage('https://imgur.com/LlfZAAy.png')
-                ctx.drawImage(status, 10, 10, 50, 50)
-
                 // Add weapon name
                 ctx.fillStyle = '#ffffff'
                 ctx.textAlign = 'center'

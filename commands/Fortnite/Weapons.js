@@ -75,7 +75,7 @@ module.exports = {
                 ctx.fillText(value, obj.x, obj.y)
 
                 // Add the line range
-                if(-line.w <= w) ctx.fillRect(canvas.width - line.x, line.y, -line.w, line.h)
+                if(-line.w >= -w) ctx.fillRect(canvas.width - line.x, line.y, -line.w, line.h)
                 else ctx.fillRect(canvas.width - line.x, line.y, -w, line.h)
             }
         }

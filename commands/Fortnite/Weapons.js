@@ -76,7 +76,7 @@ module.exports = {
 
                 // Add the line range
                 if(-line.w <= w) ctx.fillRect(canvas.width - line.x, line.y, -line.w, line.h)
-                else ctx.fillRect(canvas.width - line.x, line.y, w, line.h)
+                else ctx.fillRect(canvas.width - line.x, line.y, -w, line.h)
             }
         }
 

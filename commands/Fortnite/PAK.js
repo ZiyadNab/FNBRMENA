@@ -102,8 +102,8 @@ module.exports = {
                         else if(userData.lang == "ar")var seasonChapter = `الفصل ${res.data.data[i].introduction.chapter} الموسم ${res.data.data[i].introduction.season}`
 
                     }else{
-                        if(userData.lang === "en") var seasonChapter = `${res.data.data.build.substring(19, 24)}v`
-                        else if(userData.lang == "ar")var seasonChapter = `تحديث ${res.data.data.build.substring(19, 24)}`
+                        if(userData.lang === "en") var seasonChapter = `UNKNOWN`
+                        else if(userData.lang == "ar") var seasonChapter = `مجهول`
                         
                     }
 

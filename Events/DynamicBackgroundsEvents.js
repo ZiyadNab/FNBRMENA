@@ -5,16 +5,16 @@ const config = require('../Configs/config.json')
 module.exports = (FNBRMENA, client, admin, emojisObject) => {
     const message = client.channels.cache.find(channel => channel.id === config.events.Backgrounds)
 
-    //result
+    // Results
     var response = []
     var lastModified = []
     var Counter = 0
     var number = 0
 
-    //handle the blogs
+    // Handle the blogs
     const DynamicBackgrounds = async () => {
 
-        //checking if the bot on or off
+        // Checking if the bot on or off
         admin.database().ref("ERA's").child("Events").child("dynamicbackgrounds").once('value', async function (data) {
             const status = data.val().Active
             const lang = data.val().Lang
@@ -22,66 +22,66 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
             const credit = data.val().Credits
             const role = data.val().Role
 
-            //if the event is set to be true [ON]
+            // If the event is set to be true [ON]
             if(status){
 
                 //request data
                 await FNBRMENA.EpicContentEndpoint(lang)
                 .then(async res => {
 
-                    //constant response to make working easy
+                    // Constant response to make working easy
                     const backgroundsDATA = res.data.dynamicbackgrounds.backgrounds.backgrounds
 
-                    //storing the first start up
+                    // Storing the first start up
                     if(number === 0){
 
-                        //storing dynamicbackgrounds
+                        // Storing dynamicbackgrounds
                         Counter = 0
                         lastModified = await res.data.dynamicbackgrounds.lastModified
                         for(let i = 0; i < backgroundsDATA.length; i++){
 
-                            //if there is an image
+                            // If there is an image
                             if(backgroundsDATA[i].backgroundimage !== undefined){
                                 response[Counter] = backgroundsDATA[i]
                                 Counter++
                             }
                         }
 
-                        //stop from storing again
+                        // Stop from storing again
                         number++
                     }
 
-                    //if push is enabled
+                    // If push is enabled
                     if(push.Status){
                         lastModified = ""
                         for(let i = 0; i < response.length; i++) if(response[i].key === push.Key) response[i] = []
                     }
 
-                    //if the data was modified 
+                    // If the data was modified 
                     if(res.data.dynamicbackgrounds.lastModified !== lastModified){
 
-                        //a data has been changed
+                        // A data has been changed
                         for(let i = 0; i < backgroundsDATA.length; i++){
 
-                            //if there is an image
+                            // If there is an image
                             if(backgroundsDATA[i].backgroundimage !== undefined){
 
-                                //if the image is new
+                                //If the image is new
                                 if(!JSON.stringify(response).includes(JSON.stringify(backgroundsDATA[i]))){
 
-                                    //registering fonts
+                                    // Registering fonts
                                     Canvas.registerFont('./assets/font/Lalezar-Regular.ttf', {family: 'Arabic',weight: "700"});
                                     Canvas.registerFont('./assets/font/BurbankBigCondensed-Black.ttf', {family: 'Burbank Big Condensed', weight: "700", style: "italic"})
 
-                                    //canvas
+                                    // Create a canvas
                                     const backgroundIMG = await Canvas.loadImage(backgroundsDATA[i].backgroundimage)
-                                    const canvas = Canvas.createCanvas(backgroundIMG.width, backgroundIMG.height);
+                                    const canvas = Canvas.createCanvas(2560, 1440);
                                     const ctx = canvas.getContext('2d')
 
-                                    //draw the image
+                                    // Draw the image
                                     ctx.drawImage(backgroundIMG, 0, 0, canvas.width, canvas.height)
 
-                                    //credits
+                                    // Add credits
                                     if(credit){
                                         ctx.fillStyle = '#ffffff';
                                         ctx.textAlign='left';
@@ -89,29 +89,29 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                                         ctx.fillText("FNBRMENA", 15, 55);
                                     }
 
-                                    //attachments
+                                    // Add attachments
                                     const att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `${backgroundsDATA[i].stage}.png`})
 
-                                    //send the image
+                                    // Send the image
                                     if(role.Status) await message.send({content: `<@&${role.roleID}> New ${backgroundsDATA[i].key} background has been added`, files: [att]})
                                     else await message.send({content: `New ${backgroundsDATA[i].key} background has been added`, files: [att]})
                                 }
                             }
                         }
 
-                        //storing dynamicbackgrounds
+                        // Storing dynamicbackgrounds
                         Counter = 0
                         lastModified = await res.data.dynamicbackgrounds.lastModified
                         for(let i = 0; i < backgroundsDATA.length; i++){
 
-                            //if there is an image
+                            // If there is an image
                             if(backgroundsDATA[i].backgroundimage !== undefined){
                                 response[Counter] = backgroundsDATA[i]
                                 Counter++
                             }
                         }
 
-                        //trun off push if enabled
+                        // Trun off push if enabled
                         await admin.database().ref("ERA's").child("Events").child("dynamicbackgrounds").child("Push").update({
                             Status: false
                         })

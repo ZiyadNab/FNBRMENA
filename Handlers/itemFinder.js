@@ -2000,10 +2000,10 @@ module.exports = async (FNBRMENA, message, client, lang, emojisObject) => {
         const upcomingEmbed = new Discord.EmbedBuilder()
         upcomingEmbed.setColor(FNBRMENA.Colors("embed"))
         if(lang === "en"){
-            upcomingEmbed.setAuthor({name: `Upcoming`, iconURL: `https://imgur.com/Xx5n7WW.png`})
+            upcomingEmbed.setAuthor({name: `Upcoming`, iconURL: `https://imgur.com/ZPlqPhO.png`})
             upcomingEmbed.setDescription(`Please click on the Drop-Down menu and choose if the cosmetic is upcoming or not.`)
         }else if(lang === "ar"){
-            upcomingEmbed.setAuthor({name: `قادم قريبا`, iconURL: `https://imgur.com/Xx5n7WW.png`})
+            upcomingEmbed.setAuthor({name: `قادم قريبا`, iconURL: `https://imgur.com/ZPlqPhO.png`})
             upcomingEmbed.setDescription('الرجاء الضغط على السهم لاختيار ما اذا كان العنصر قادم قريبا ام لا.')
         }
 

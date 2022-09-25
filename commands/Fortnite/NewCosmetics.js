@@ -128,6 +128,10 @@ module.exports = {
 
                                     if(userData.lang === "en") var Source = "BATTLEPASS"
                                     else if(userData.lang === "ar") var Source = "بطاقة المعركة"
+                                }else if(gameplayTag.toLowerCase().includes("firstwin")){
+
+                                    if(userData.lang === "en") var Source = "FIRST WIN"
+                                    else if(userData.lang === "ar") var Source = "اول انتصار"
                                 }else if(gameplayTag.toLowerCase().includes("event")){
 
                                     if(userData.lang === "en") var Source = "EVENT"

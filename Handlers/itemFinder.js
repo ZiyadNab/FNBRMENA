@@ -135,6 +135,11 @@ module.exports = async (FNBRMENA, message, client, lang, emojisObject) => {
                 description: 'Used to specify if the item containg copyrighted audio or not ~ e.g. Yes, No',
                 value: 'copyrighted',
             },
+            {
+                label: 'Upcoming',
+                description: 'Used to specify if the item is upcoming or not ~ e.g. Yes, No',
+                value: 'upcoming',
+            },
         )
 
         //add options for AR
@@ -198,6 +203,11 @@ module.exports = async (FNBRMENA, message, client, lang, emojisObject) => {
                 label: 'حقوق الطبع و النشر',
                 description: 'يستعمل في تحديد اذا العنصر يحتوي على حقوق الطبع و النشر ام لا ~ مثال نعم او لا',
                 value: 'copyrighted',
+            },
+            {
+                label: 'قادم قريبا',
+                description: 'يستعمل في تحديد اذا العنصر قادم قريبا ام لا ~ مثال نعم او لا',
+                value: 'upcoming',
             },
         )
 
@@ -1979,6 +1989,81 @@ module.exports = async (FNBRMENA, message, client, lang, emojisObject) => {
 
             //if a copyrighted option has been chosen
             if(collected.customId === "copyrighted_audio") url += `&copyrighted=${collected.values[0]}`
+            
+        })
+    }
+    
+    //if the user chose upcoming
+    if(values.includes('upcoming')){
+
+        //create an embed
+        const upcomingEmbed = new Discord.EmbedBuilder()
+        upcomingEmbed.setColor(FNBRMENA.Colors("embed"))
+        if(lang === "en"){
+            upcomingEmbed.setAuthor({name: `Upcoming`, iconURL: `https://imgur.com/Xx5n7WW.png`})
+            upcomingEmbed.setDescription(`Please click on the Drop-Down menu and choose if the cosmetic is upcoming or not.`)
+        }else if(lang === "ar"){
+            upcomingEmbed.setAuthor({name: `قادم قريبا`, iconURL: `https://imgur.com/Xx5n7WW.png`})
+            upcomingEmbed.setDescription('الرجاء الضغط على السهم لاختيار ما اذا كان العنصر قادم قريبا ام لا.')
+        }
+
+        //create a row for drop down menu for categories
+        const upcomingRow = new Discord.ActionRowBuilder()
+
+        //create the drop menu
+        const upcomingDropMenu = new Discord.SelectMenuBuilder()
+        upcomingDropMenu.setCustomId('upcoming')
+        if(lang === "en") upcomingDropMenu.setPlaceholder('Nothing selected!')
+        else if(lang === "ar") upcomingDropMenu.setPlaceholder('الرجاء الأختيار!')
+
+        //add options for EN
+        if(lang === "en") upcomingDropMenu.addOptions(
+            {
+                label: 'Yes, it does',
+                value: 'true',
+                emoji: `✅`
+            },
+            {
+                label: 'No, it doesn\'t',
+                value: 'false',
+                emoji: `❎`
+            }
+        )
+
+        //add options for AR
+        if(lang === "ar") upcomingDropMenu.addOptions(
+            {
+                label: 'نعم, انه كذلك',
+                value: 'true',
+                emoji: `✅`
+            },
+            {
+                label: 'لا, انه ليس كذلك',
+                value: 'false',
+                emoji: `❎`
+            }
+        )
+
+        //add the drop menu to its row
+        upcomingRow.addComponents(upcomingDropMenu)
+
+        //edit the orignal image
+        itemFinderMessage.edit({embeds: [upcomingEmbed], components: [upcomingRow, buttonDataRow]})
+        
+        //await for the user
+        await message.channel.awaitMessageComponent({filter, time: limit})
+        .then(async collected => {
+            collected.deferUpdate();
+
+            //if cancel button has been clicked
+            if(collected.customId === "Cancel"){
+                itemFinderMessage.delete() //delete the main message
+                values = [] //empty values
+                url = null //return a null url as the request has been canceled
+            }
+
+            //if a copyrighted option has been chosen
+            if(collected.customId === "upcoming") url += `&upcoming=${collected.values[0]}`
             
         })
     }

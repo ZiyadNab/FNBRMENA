@@ -101,6 +101,11 @@ module.exports = async (FNBRMENA, message, client, lang, emojisObject) => {
                 value: 'searchtags',
             },
             {
+                label: 'Introduction, Chapter',
+                description: 'Used to specify the item chapter introduction ~ e.g. Chatper 2...',
+                value: 'chapter',
+            },
+            {
                 label: 'Introduction',
                 description: 'Used to specify the item introduction ~ e.g. Chatper 2 Season 3...',
                 value: 'introduction',
@@ -168,6 +173,11 @@ module.exports = async (FNBRMENA, message, client, lang, emojisObject) => {
                 label: 'ادوات البحث',
                 description: 'يستعمل في تحديد تصميم العنصر ~ مثل اصفر, اكل...',
                 value: 'searchtags',
+            },
+            {
+                label: 'تقديم العنصر، الفصل',
+                description: 'يستعمل في تحديد متى تم تقديم العنصر ~ مثل الفصل ٢...',
+                value: 'chapter',
             },
             {
                 label: 'تقديم العنصر',
@@ -1054,6 +1064,76 @@ module.exports = async (FNBRMENA, message, client, lang, emojisObject) => {
 
             //if a search tag option has been chosen
             if(collected.customId === "search_tags") url += `&searchTags=${collected.values[0]}`
+            
+        })
+    }
+    
+    //if the user chose introduction, chapter
+    if(values.includes('chapter')){
+        
+        //create an embed
+        const chapterOfCosmeticsEmbed = new Discord.EmbedBuilder()
+        chapterOfCosmeticsEmbed.setColor(FNBRMENA.Colors("embed"))
+        if(lang === "en"){
+            chapterOfCosmeticsEmbed.setTitle(`Introduction, Chapter`)
+            chapterOfCosmeticsEmbed.setDescription(`Please click on the Drop-Down menu and choose the item's chapter.`)
+        }else if(lang === "ar"){
+            chapterOfCosmeticsEmbed.setTitle(`التقديم, الفصل`)
+            chapterOfCosmeticsEmbed.setDescription('الرجاء الضغط على السهم لاختيار الفصل الخاص للعنصر')
+        }
+
+        //loop through seasons
+        const allChapters = [], foundChapters = []
+        for(const chapters of seasonsData){
+
+            if(!foundChapters.includes(chapters.chapter)){
+                foundChapters.push(chapters.chapter)
+                if(lang === "en") allChapters.push(
+                    {
+                        label: `Chapter ${chapters.chapter}`,
+                        value: `${chapters.chapter}`
+                    }
+                )
+
+                else if(lang === "ar") allChapters.push(
+                    {
+                        label: `الفصل ${chapters.chapter}`,
+                        value: `${chapters.chapter}`
+                    }
+                )
+            }
+        }
+
+        //create a row for drop down menu for categories
+        const chapterOfCosmeticsRow = new Discord.ActionRowBuilder()
+
+        //create the drop menu
+        const chapterOfCosmeticsDropMenu = new Discord.SelectMenuBuilder()
+        chapterOfCosmeticsDropMenu.setCustomId('cosmetic_chapter')
+        if(lang === "en") chapterOfCosmeticsDropMenu.setPlaceholder('Select a chapter!')
+        else if(lang === "ar") chapterOfCosmeticsDropMenu.setPlaceholder('اختار فصل!')
+        chapterOfCosmeticsDropMenu.addOptions(allChapters)
+
+        //add the drop menu to its row
+        chapterOfCosmeticsRow.addComponents(chapterOfCosmeticsDropMenu)
+
+        //edit the orignal image
+        itemFinderMessage.edit({embeds: [chapterOfCosmeticsEmbed], components: [chapterOfCosmeticsRow, buttonDataRow]})
+        
+        //await for the user
+        await message.channel.awaitMessageComponent({filter, time: limit})
+        .then(async collected => {
+            collected.deferUpdate();
+
+            //if cancel button has been clicked
+            if(collected.customId === "Cancel"){
+                itemFinderMessage.delete() //delete the main message
+                values = [] //empty values
+                url = null //return a null url as the request has been canceled
+            }
+
+            //if a search tag option has been chosen
+            if(collected.customId === "cosmetic_chapter") url += `&introduction.chapter=Chapter ${collected.values[0]}`
             
         })
     }

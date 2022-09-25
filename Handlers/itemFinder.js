@@ -101,6 +101,11 @@ module.exports = async (FNBRMENA, message, client, lang, emojisObject) => {
                 value: 'searchtags',
             },
             {
+                label: 'Introduction, Season',
+                description: 'Used to specify the item season introduction ~ e.g. Season 3...',
+                value: 'season',
+            },
+            {
                 label: 'Introduction, Chapter',
                 description: 'Used to specify the item chapter introduction ~ e.g. Chatper 2...',
                 value: 'chapter',
@@ -173,6 +178,11 @@ module.exports = async (FNBRMENA, message, client, lang, emojisObject) => {
                 label: 'ادوات البحث',
                 description: 'يستعمل في تحديد تصميم العنصر ~ مثل اصفر, اكل...',
                 value: 'searchtags',
+            },
+            {
+                label: 'تقديم العنصر، الموسم',
+                description: 'يستعمل في تحديد متى تم تقديم العنصر ~ مثل الموسم ٢...',
+                value: 'season',
             },
             {
                 label: 'تقديم العنصر، الفصل',
@@ -1065,6 +1075,137 @@ module.exports = async (FNBRMENA, message, client, lang, emojisObject) => {
             //if a search tag option has been chosen
             if(collected.customId === "search_tags") url += `&searchTags=${collected.values[0]}`
             
+        })
+    }
+    
+    //if the user chose introduction, season
+    if(values.includes('season')){
+        
+        //create an embed
+        const seasonOfCosmeticsEmbed = new Discord.EmbedBuilder()
+        seasonOfCosmeticsEmbed.setColor(FNBRMENA.Colors("embed"))
+        if(lang === "en"){
+            seasonOfCosmeticsEmbed.setTitle(`Introduction, Season`)
+            seasonOfCosmeticsEmbed.setDescription(`Please click on the Drop-Down menu and choose the item's season.`)
+        }else if(lang === "ar"){
+            seasonOfCosmeticsEmbed.setTitle(`التقديم, الموسم`)
+            seasonOfCosmeticsEmbed.setDescription('الرجاء الضغط على السهم لاختيار الموسم الخاص للعنصر')
+        }
+        
+        //create a row for drop down menu for categories
+        const seasonOfCosmeticsRow = new Discord.ActionRowBuilder()
+
+        //create the drop menu
+        const seasonOfCosmeticsDropMenu = new Discord.SelectMenuBuilder()
+        seasonOfCosmeticsDropMenu.setCustomId('cosmetic_season')
+        if(lang === "en") seasonOfCosmeticsDropMenu.setPlaceholder('Select a season!')
+        else if(lang === "ar") seasonOfCosmeticsDropMenu.setPlaceholder('اختار موسم!')
+        if(lang === "en") seasonOfCosmeticsDropMenu.addOptions(
+            {
+                label: "Season 1",
+                value: `&introduction.season=Season 1`
+            },
+            {
+                label: "Season 2",
+                value: `&introduction.season=Season 2`
+            },
+            {
+                label: "Season 3",
+                value: `&introduction.season=Season 3`
+            },
+            {
+                label: "Season 4",
+                value: `&introduction.season=Season 4`
+            },
+            {
+                label: "Season 5",
+                value: `&introduction.season=Season 5`
+            },
+            {
+                label: "Season 6",
+                value: `&introduction.season=Season 6`
+            },
+            {
+                label: "Season 7",
+                value: `&introduction.season=Season 7`
+            },
+            {
+                label: "Season 8",
+                value: `&introduction.season=Season 8`
+            },
+            {
+                label: "Season 9",
+                value: `&introduction.season=Season 9`
+            },
+            {
+                label: "Season 10",
+                value: `&introduction.season=Season 10&introduction.season=Season X`
+            },
+        )
+        
+        else if(lang === "ar") seasonOfCosmeticsDropMenu.addOptions(
+            {
+                label: "الموسم 1",
+                value: `&introduction.season=Season 1`
+            },
+            {
+                label: "الموسم 2",
+                value: `&introduction.season=Season 2`
+            },
+            {
+                label: "الموسم 3",
+                value: `&introduction.season=Season 3`
+            },
+            {
+                label: "الموسم 4",
+                value: `&introduction.season=Season 4`
+            },
+            {
+                label: "الموسم 5",
+                value: `&introduction.season=Season 5`
+            },
+            {
+                label: "الموسم 6",
+                value: `&introduction.season=Season 6`
+            },
+            {
+                label: "الموسم 7",
+                value: `&introduction.season=Season 7`
+            },
+            {
+                label: "الموسم 8",
+                value: `&introduction.season=Season 8`
+            },
+            {
+                label: "الموسم 9",
+                value: `&introduction.season=Season 9`
+            },
+            {
+                label: "الموسم 10",
+                value: `&introduction.season=Season 10&introduction.season=Season X`
+            },
+        )
+
+        //add the drop menu to its row
+        seasonOfCosmeticsRow.addComponents(seasonOfCosmeticsDropMenu)
+
+        //edit the orignal image
+        itemFinderMessage.edit({embeds: [seasonOfCosmeticsEmbed], components: [seasonOfCosmeticsRow, buttonDataRow]})
+                
+        //await for the user
+        await message.channel.awaitMessageComponent({filter, time: limit})
+        .then(async collected => {
+            collected.deferUpdate();
+            
+            //if cancel button has been clicked
+            if(collected.customId === "Cancel"){
+                itemFinderMessage.delete() //delete the main message
+                values = [] //empty values
+                url = null //return a null url as the request has been canceled
+            }
+
+            //if a search tag option has been chosen
+            if(collected.customId === "cosmetic_season") url += `&${collected.values[0]}`
         })
     }
     

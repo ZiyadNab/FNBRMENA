@@ -166,7 +166,7 @@ module.exports = {
                 else if(userData.lang === "ar") ctx.font = '60px Arabic'
 
                 //objectIcon
-                if(objectIcon !== 'no data') ctx.drawImage(objectIcon, x - 220, y - 20, 210, 210)
+                if(objectIcon !== 'no data') ctx.drawImage(objectIcon, x - 220, y - 20, (objectIcon.width - objectIcon.height) % 210, 210)
 
                 //add the line background color to ctx
                 ctx.fillStyle = "white"

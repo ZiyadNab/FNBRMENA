@@ -168,8 +168,8 @@ module.exports = {
                 //add the image
                 if(image.Status){
                     console.log(image)
-                    if(userData.lang === "en") var objectIcon = await Canvas.loadImage(data.Image.Urls.EN)
-                    else if(userData.lang === "ar") var objectIcon = await Canvas.loadImage(data.Image.Urls.AR)
+                    if(userData.lang === "en") var objectIcon = await Canvas.loadImage(image.Urls.EN)
+                    else if(userData.lang === "ar") var objectIcon = await Canvas.loadImage(image.Urls.AR)
                     
                     //check scalings
                     if(image.Scales.Status) ctx.drawImage(objectIcon, x - (image.Scales.W + 5), y - 20, image.Scales.W, image.Scales.H)

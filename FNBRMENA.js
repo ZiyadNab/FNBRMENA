@@ -1098,7 +1098,7 @@ class FNBRMENA {
         const logs = new Discord.EmbedBuilder()
         logs.setColor(this.Colors("embedError"))
         logs.setTitle(`Error happened in ${event.toUpperCase()} event`)
-        if(err.isAxiosError) logs.setDescription(`Event: \`${event}\`\nDate: \`${new Date()}\`\nRequest Status: \`${err.response.status}\`\n\nError:\`\`\`json\n${JSON.stringify(err.response.data)}\`\`\``)
+        if(err.isAxiosError) logs.setDescription(`Event: \`${event}\`\nDate: \`${new Date()}\`\n\nError:\`\`\`json\n${JSON.stringify(err.response.data)}\`\`\``)
         else logs.setDescription(`Event: \`${event}\`\nDate: \`${new Date()}\`\n\nError:\`\`\`json\n${JSON.stringify(err.stack)}\`\`\``)
         logsChannel.send({embeds: [logs]})
     }

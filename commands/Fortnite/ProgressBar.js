@@ -332,7 +332,18 @@ module.exports = {
             //Crew Object
             const Ends = moment.tz(moment(`${Now.format("YYYY")}-${moment().add(1, 'months').format("MM")}-01T00:00:00.000Z`), userData.timezone)
             const Starts = moment.tz(moment(`${Now.format("YYYY")}-${Now.format("MM")}-01T00:00:00.000Z`), userData.timezone)
-            const crew = await Canvas.loadImage('https://imgur.com/7Sp9z5H.png')
+            const crew = {
+                Status: true,
+                Urls: {
+                    EN: 'https://cdn2.unrealengine.com/en-subscriptions-fn-crew-png-wordmark-2200x1400-582022337.png',
+                    AR: 'https://cdn2.unrealengine.com/ar-subscriptions-fn-crew-png-wordmark-2200x1400-582022286.png'
+                },
+                Scales: {
+                    Status: true,
+                    W: 300,
+                    H: 210,
+                }
+            }
 
             //adding the gradiant
             const grd = ctx.createLinearGradient(x, 1500, x + 1500, 3000)

@@ -171,8 +171,8 @@ module.exports = {
                     else if(userData.lang === "ar") var objectIcon = await Canvas.loadImage(image.Urls.AR)
                     
                     //check scalings
-                    if(image.Scales.Status) ctx.drawImage(objectIcon, x - (image.Scales.W + 5), (y + 75) - (image.Scales.H / 2), image.Scales.W, image.Scales.H)
-                    else ctx.drawImage(objectIcon, x - 215, (y + 75) - (210 / 2), 210, 210)
+                    if(image.Scales.Status) ctx.drawImage(objectIcon, x - (image.Scales.W + image.Scales.X), (y + 75) - (image.Scales.H / 2), image.Scales.W, image.Scales.H)
+                    else ctx.drawImage(objectIcon, x - (210 + image.Scales.X), (y + 75) - (210 / 2), 210, 210)
                 }
 
                 //add the line background color to ctx
@@ -392,6 +392,7 @@ module.exports = {
                 },
                 Scales: {
                     Status: true,
+                    X: 5,
                     W: 350,
                     H: 260,
                 }

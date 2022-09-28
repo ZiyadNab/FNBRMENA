@@ -159,14 +159,21 @@ module.exports = {
 
             //creating progress object
             const CreatingObj = async (grd, x, y, gone, goneText, left, leftText, length, objectPercent, 
-                colors, objectIcon, finishedStringEN, finishedStringAR, previewDay) => {
+                colors, image, finishedStringEN, finishedStringAR, previewDay) => {
 
                 //font
                 if(userData.lang === "en") ctx.font = '60px Burbank Big Condensed'
                 else if(userData.lang === "ar") ctx.font = '60px Arabic'
 
-                //objectIcon
-                if(objectIcon !== 'no data') ctx.drawImage(objectIcon, x - 220, y - 20, 210, 210)
+                //add the image
+                if(image.Status){
+                    if(userData.lang === "en") var objectIcon = await Canvas.loadImage(data.Image.Urls.EN)
+                    else if(userData.lang === "ar") var objectIcon = await Canvas.loadImage(data.Image.Urls.AR)
+                    
+                    //check scalings
+                    if(image.Scales.Status) ctx.drawImage(objectIcon, x - image.Scales.Status.W, y- 20, image.Scales.Status.W, image.Scales.Status.H)
+                    else ctx.drawImage(objectIcon, x - 210, y - 20, 210, 210)
+                }
 
                 //add the line background color to ctx
                 ctx.fillStyle = "white"
@@ -259,10 +266,6 @@ module.exports = {
                 //if the bar is set to active
                 if(data.Status){
 
-                    //get the object image
-                    if(data.Image.includes('/')) var objectIcon = await Canvas.loadImage(data.Image)
-                    else var objectIcon = 'no data'
-
                     //adding the gradiant
                     const grd = ctx.createLinearGradient(x, 1500, x + 1500, 3000)
 
@@ -319,7 +322,7 @@ module.exports = {
 
                     //calling the object
                     await CreatingObj(grd, x, y, goneDays, goneText, leftDays, leftText, length, objectPercent, 
-                       data.Colors, objectIcon, finishedStringEN, finishedStringAR, previewDay)
+                       data.Colors, data.Image, finishedStringEN, finishedStringAR, previewDay)
 
                     y += 420
 

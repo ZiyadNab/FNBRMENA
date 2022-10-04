@@ -22,8 +22,8 @@ module.exports = {
                 zolanEmbed.setDescription(data.val().description)
 
                 // Check if color is present
-                if(data.val().color) zolanEmbed.setColor(FNBRMENA.Colors("embed"))
-                else zolanEmbed.setColor(data.val().color)
+                if(data.val().color) zolanEmbed.setColor(data.val().color)
+                else zolanEmbed.setColor(FNBRMENA.Colors("embed")) 
 
                 // Check if image is present
                 if(data.val().image) zolanEmbed.setImage(data.val().image)
@@ -142,6 +142,7 @@ module.exports = {
 
                 // If the user clicked on edit
                 if(collected.customId === "edit"){
+                    zolanMessage.delete()
                     await collected.showModal(zolanModal)
 
                     // Listen for modal submission
@@ -157,7 +158,10 @@ module.exports = {
                         var image = modalCollect.fields.getTextInputValue('imageInput');
                         var url = modalCollect.fields.getTextInputValue('urlInput');
 
-                        console.log(color, image, url)
+                        // Check for empty fields
+                        if(color == "") color = false
+                        if(image == "") image = false
+                        if(url == "") url = false
 
                         // Udate data
                         admin.database().ref("ERA's").child("Zolan").update({

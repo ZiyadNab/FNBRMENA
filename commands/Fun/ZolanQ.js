@@ -60,7 +60,7 @@ module.exports = {
             buttonData.addComponents(
                 new Discord.ButtonBuilder()
                 .setCustomId('edit')
-                .setStyle(Discord.ButtonStyle.Secondary)
+                .setStyle(Discord.ButtonStyle.Success)
                 .setLabel("Edit")
             )
 
@@ -124,7 +124,7 @@ module.exports = {
 
             // Filtering the user clicker
             const filter = (i => {
-                return (i.user.id === message.author.id && i.message.id === zolanMessage.id && i.guild.id === message.guild.id)
+                return (i.user.id === message.author.id && i.guild.id === message.guild.id)
             })
 
             // Await for the user
@@ -154,6 +154,8 @@ module.exports = {
                         var image = modalCollect.fields.getTextInputValue('imageInput');
                         var url = modalCollect.fields.getTextInputValue('urlInput');
 
+                        console.log(color, image, url)
+
                         // Udate data
                         admin.database().ref("ERA's").child("Zolan").update({
                             title: title,
@@ -164,6 +166,9 @@ module.exports = {
                         })
                     })
                 }
+            }).catch(async err => {
+                zolanMessage.delete()
+                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
             })
         }else showZolanEmbed()
     }

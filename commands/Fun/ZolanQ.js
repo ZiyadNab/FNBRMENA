@@ -124,7 +124,7 @@ module.exports = {
 
             // Filtering the user clicker
             const filter = (i => {
-                return (i.user.id === message.author.id && i.message.id === commandsMessage.id && i.guild.id === message.guild.id)
+                return (i.user.id === message.author.id && i.message.id === zolanMessage.id && i.guild.id === message.guild.id)
             })
 
             // Await for the user

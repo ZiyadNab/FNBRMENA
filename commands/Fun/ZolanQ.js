@@ -120,11 +120,11 @@ module.exports = {
             )
 
             // Edit the orignal image
-            const zolanMessage = message.reply({embeds: [chooseTypeEmbed], components: [buttonData]})
+            const zolanMessage = await message.reply({embeds: [chooseTypeEmbed], components: [buttonData]})
 
             // Filtering the user clicker
             const filter = (i => {
-                return (i.user.id === message.author.id && i.guild.id === message.guild.id)
+                return (i.user.id === message.author.id && i.message.id === zolanMessage.id && i.guild.id === message.guild.id)
             })
 
             // Await for the user
@@ -135,7 +135,10 @@ module.exports = {
                 if(collected.customId === "cancel") zolanMessage.delete() //delete the main message
 
                 // If the user clicked on view
-                if(collected.customId === "view") showZolanEmbed()
+                if(collected.customId === "view"){
+                    zolanMessage.delete()
+                    showZolanEmbed()
+                }
 
                 // If the user clicked on edit
                 if(collected.customId === "edit"){

@@ -11,8 +11,6 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
     var response = []
     var bundleOfferIDs = []
     var number = 0
-    var vbucks = 0
-    var outfitQuestData
 
     const Bundle = async () => {
 
@@ -71,12 +69,14 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                                     if(obj.offerId === bundleOfferIDs[i]) searchedBundleData = obj
                                 })
 
-                                //canvas variables
+                                //variables
                                 var width = 0
                                 var height = 1024
                                 var newline = 0
                                 var x = 0
                                 var y = 0
+                                var vbucks = 0
+                                var outfitQuestData
 
                                 //canvas length
                                 var length = searchedBundleData.granted.length

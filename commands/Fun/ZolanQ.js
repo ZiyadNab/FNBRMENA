@@ -42,13 +42,8 @@ module.exports = {
             // Create an embed
             const chooseTypeEmbed = new Discord.EmbedBuilder()
             chooseTypeEmbed.setColor(FNBRMENA.Colors("embed"))
-            if(lang === "en"){
-                chooseTypeEmbed.setTitle(`Cosmetic Update Version`)
-                chooseTypeEmbed.setDescription(`Please click on the start button to add a cosmetic update version.`)
-            }else if(lang === "ar"){
-                chooseTypeEmbed.setTitle(`رقم تحديث العنصر`)
-                chooseTypeEmbed.setDescription('الرجاء الضغط على زر البدء لتحديد رقم تحديث العنصر.')
-            }
+            chooseTypeEmbed.setTitle(`Zolan Command`)
+            chooseTypeEmbed.setDescription(`Please choose an action.`)
 
             // Create a row for buttons
             const buttonData = new Discord.ActionRowBuilder()
@@ -127,8 +122,13 @@ module.exports = {
             // Edit the orignal image
             const zolanMessage = message.reply({embeds: [chooseTypeEmbed], components: [buttonData]})
 
+            // Filtering the user clicker
+            const filter = (i => {
+                return (i.user.id === message.author.id && i.message.id === commandsMessage.id && i.guild.id === message.guild.id)
+            })
+
             // Await for the user
-            await message.channel.awaitMessageComponent({filter, time: limit})
+            await message.channel.awaitMessageComponent({filter, time: 2 * 60000})
             .then(async collected => {
 
                 // If the user clicked on cancel

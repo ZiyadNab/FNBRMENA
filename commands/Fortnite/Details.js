@@ -80,7 +80,7 @@ module.exports = {
 
                 //Reactive
                 if(res.data.items[num].reactive){
-                    if(userData.lang === "en") var reactive = `\`Yss, it is\``
+                    if(userData.lang === "en") var reactive = `\`Yes, it is\``
                     else if(userData.lang === "ar") var reactive = `\`نعم انه كذلك\``
                 }else{
                     if(userData.lang === "en") var reactive = `\`No, it is not\``
@@ -89,7 +89,7 @@ module.exports = {
 
                 //Copyrightd
                 if(res.data.items[num].copyrightedAudio){
-                    if(userData.lang === "en") var copyrightedAudio = `\`Yss, it is\``
+                    if(userData.lang === "en") var copyrightedAudio = `\`Yes, it is\``
                     else if(userData.lang === "ar") var copyrightedAudio = `\`نعم انه كذلك\``
                 }else{
                     if(userData.lang === "en") var copyrightedAudio = `\`No, it is not\``
@@ -98,7 +98,7 @@ module.exports = {
 
                 //Upcoming
                 if(res.data.items[num].upcoming){
-                    if(userData.lang === "en") var upcoming = `\`Yss, it is\``
+                    if(userData.lang === "en") var upcoming = `\`Yes, it is\``
                     else if(userData.lang === "ar") var upcoming = `\`نعم انه كذلك\``
                 }else{
                     if(userData.lang === "en") var upcoming = `\`No, it is not\``

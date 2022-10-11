@@ -226,7 +226,7 @@ module.exports = {
             const cosmeticStyles = async (num) => {
 
                 //check if there is a style in the files
-                const cosmeticvariants = await FNBRMENA.List(userData.lang, "cosmeticvariant")
+                const cosmeticvariants = await FNBRMENA.Search(userData.lang, "custom", `&apiTags=cosmeticItem:${res.data.items[num].id}`)
 
                 //filtering
                 var styles = []
@@ -248,15 +248,9 @@ module.exports = {
                 }else{
 
                     //add the searched item first
-                    styles[0] = res.data.items[num]
+                    styles = cosmeticvariants.data.items
+                    styles.splice(0, 0, res.data.items[num])
 
-                    //get the styles if there is any
-                    var Counter = 1
-                    for(let i = 0; i < cosmeticvariants.data.items.length; i++){
-                        if(await cosmeticvariants.data.items[i].description.trim().includes(res.data.items[num].name.trim()) &&
-                        cosmeticvariants.data.items[i].rarity.id === res.data.items[num].rarity.id) styles[Counter++] = await cosmeticvariants.data.items[i]
-                        
-                    }
                 }
 
                 if(styles.length > 1){

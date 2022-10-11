@@ -238,7 +238,7 @@ module.exports = {
 
                         //set the item info
                         var name = res.data.items[num].name
-                        if(res.data.items[num].images.icon) var image = 'https://imgur.com/HVH5sqV.png'
+                        if(res.data.items[num].images.icon === null) var image = 'https://imgur.com/HVH5sqV.png'
                         else var image = res.data.items[num].images.icon
                         if(res.data.items[num].series !== null) var rarity = res.data.items[num].series.id
                         else var rarity = res.data.items[num].rarity.id

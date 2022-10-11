@@ -400,7 +400,8 @@ module.exports = {
                             }else var Source = styles[i].type.name.toUpperCase()
 
                             var name = styles[i].name;
-                            var image = styles[i].images.icon
+                            if(styles[i].images.icon) var image = 'https://imgur.com/HVH5sqV.png'
+                            else var image = styles[i].images.icon
                             if(styles[i].series === null) var rarity = styles[i].rarity.id
                             else var rarity = styles[i].series.id
                             newline = newline + 1;
@@ -874,7 +875,8 @@ module.exports = {
                             }else var Source = grants[i].type.name.toUpperCase()
 
                             var name = grants[i].name;
-                            var image = grants[i].images.icon
+                            if(grants[i].images.icon) var image = 'https://imgur.com/HVH5sqV.png'
+                            else var image = grants[i].images.icon
                             if(grants[i].series === null) var rarity = grants[i].rarity.id
                             else var rarity = grants[i].series.id
                             newline = newline + 1;

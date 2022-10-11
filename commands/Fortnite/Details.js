@@ -225,9 +225,6 @@ module.exports = {
             //handle cosmetics styles image
             const cosmeticStyles = async (num) => {
 
-                //check if there is a style in the files
-                const cosmeticvariants = await FNBRMENA.Search(userData.lang, "custom", `&apiTags=cosmeticItem:${res.data.items[num].id}`)
-
                 //filtering
                 var styles = []
 
@@ -246,6 +243,9 @@ module.exports = {
 
                     }
                 }else{
+
+                    //check if there is a style in the files
+                    const cosmeticvariants = await FNBRMENA.Search(userData.lang, "custom", `&apiTags=cosmeticItem:${res.data.items[num].id}`)
 
                     //add the searched item first
                     styles = cosmeticvariants.data.items

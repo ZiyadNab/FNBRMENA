@@ -1,5 +1,5 @@
 module.exports = {
-    commands: 'towak',
+    commands: 'extreme',
     type: 'Fun',
     minArgs: null,
     maxArgs: null,
@@ -7,42 +7,42 @@ module.exports = {
     permissionError: 'Sorry you do not have acccess to this command',
     callback: async (FNBRMENA, message, args, text, Discord, client, admin, userData, alias, emojisObject) => {
 
-        // Show towak embed function
-        async function showTowakEmbed(){
+        // Show extreme embed function
+        async function showExtremeEmbed(){
 
             // Request data from the databse
-            await admin.database().ref("ERA's").child("The Boys").child("Towak").once('value')
+            await admin.database().ref("ERA's").child("The Boys").child("Extreme").once('value')
             .then(async data => {
 
                 // Create embed
-                const towakEmbed = new Discord.EmbedBuilder()
+                const extremeEmbed = new Discord.EmbedBuilder()
 
                 // Set title and description
-                towakEmbed.setTitle(data.val().title)
-                towakEmbed.setDescription(data.val().description)
+                extremeEmbed.setTitle(data.val().title)
+                extremeEmbed.setDescription(data.val().description)
 
                 // Check if color is present
-                if(data.val().color) towakEmbed.setColor(data.val().color)
-                else towakEmbed.setColor(FNBRMENA.Colors("embed")) 
+                if(data.val().color) extremeEmbed.setColor(data.val().color)
+                else extremeEmbed.setColor(FNBRMENA.Colors("embed")) 
 
                 // Check if image is present
-                if(data.val().image) towakEmbed.setImage(data.val().image)
+                if(data.val().image) extremeEmbed.setImage(data.val().image)
 
                 // Check if a url is present
-                if(data.val().url) towakEmbed.setURL(data.val().url)
+                if(data.val().url) extremeEmbed.setURL(data.val().url)
 
-                // Send towak embed
-                message.reply({embeds: [towakEmbed]})
+                // Send extreme embed
+                message.reply({embeds: [extremeEmbed]})
             })
         }
 
-        // If towak or Ewew typed the command
+        // If extreme or Ewew typed the command
         if(message.author.id === "769012535168598046" || message.author.id === "325507145871130624"){
             
             // Create an embed
             const chooseTypeEmbed = new Discord.EmbedBuilder()
             chooseTypeEmbed.setColor(FNBRMENA.Colors("embed"))
-            chooseTypeEmbed.setTitle(`Towak Command`)
+            chooseTypeEmbed.setTitle(`Extreme Command`)
             chooseTypeEmbed.setDescription(`Please choose an action.`)
 
             // Create a row for buttons
@@ -73,10 +73,10 @@ module.exports = {
             )
 
             // Create the modal and add text fields
-            const towakModal = new Discord.ModalBuilder()
+            const extremeModal = new Discord.ModalBuilder()
 
             // Request data from the databse
-            await admin.database().ref("ERA's").child("The Boys").child("Towak").once('value')
+            await admin.database().ref("ERA's").child("The Boys").child("Extreme").once('value')
             .then(async data => {
 
                 // Default value
@@ -100,9 +100,9 @@ module.exports = {
                 else var defaultUrl = ''
                 
                 // Set data
-                towakModal.setCustomId('towak')
-                towakModal.setTitle('Towak Command')
-                towakModal.addComponents(
+                extremeModal.setCustomId('extreme')
+                extremeModal.setTitle('Extreme Command')
+                extremeModal.addComponents(
                     new Discord.ActionRowBuilder().addComponents(
                         new Discord.TextInputBuilder()
                         .setCustomId('titleInput')
@@ -152,11 +152,11 @@ module.exports = {
             })
 
             // Edit the orignal image
-            const towakMessage = await message.reply({embeds: [chooseTypeEmbed], components: [buttonData]})
+            const extremeMessage = await message.reply({embeds: [chooseTypeEmbed], components: [buttonData]})
 
             // Filtering the user clicker
             const filter = (i => {
-                return (i.user.id === message.author.id && i.message.id === towakMessage.id && i.guild.id === message.guild.id)
+                return (i.user.id === message.author.id && i.message.id === extremeMessage.id && i.guild.id === message.guild.id)
             })
 
             // Await for the user
@@ -164,21 +164,21 @@ module.exports = {
             .then(async collected => {
 
                 // If the user clicked on cancel
-                if(collected.customId === "cancel") towakMessage.delete() //delete the main message
+                if(collected.customId === "cancel") extremeMessage.delete() //delete the main message
 
                 // If the user clicked on view
                 if(collected.customId === "view"){
-                    towakMessage.delete()
-                    showTowakEmbed()
+                    extremeMessage.delete()
+                    showExtremeEmbed()
                 }
 
                 // If the user clicked on edit
                 if(collected.customId === "edit"){
-                    towakMessage.delete()
-                    await collected.showModal(towakModal)
+                    extremeMessage.delete()
+                    await collected.showModal(extremeModal)
 
                     // Listen for modal submission
-                    const modalFilter = (interaction) => interaction.customId === 'towak';
+                    const modalFilter = (interaction) => interaction.customId === 'extreme';
                     await collected.awaitModalSubmit({modalFilter, time: 10 * 60000})
                     .then(async modalCollect => {
                         modalCollect.deferUpdate();
@@ -196,7 +196,7 @@ module.exports = {
                         if(url == "") url = false
 
                         // Udate data
-                        admin.database().ref("ERA's").child("The Boys").child("Towak").update({
+                        admin.database().ref("ERA's").child("The Boys").child("Extreme").update({
                             title: title,
                             description: description,
                             color: color,
@@ -210,6 +210,6 @@ module.exports = {
             }).catch(async err => {
                 FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
             })
-        }else showTowakEmbed()
+        }else showExtremeEmbed()
     }
 }

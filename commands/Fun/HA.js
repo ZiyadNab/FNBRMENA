@@ -1,5 +1,5 @@
 module.exports = {
-    commands: 'zolan',
+    commands: 'ha',
     type: 'Fun',
     minArgs: null,
     maxArgs: null,
@@ -7,42 +7,42 @@ module.exports = {
     permissionError: 'Sorry you do not have acccess to this command',
     callback: async (FNBRMENA, message, args, text, Discord, client, admin, userData, alias, emojisObject) => {
 
-        // Show xolan embed function
-        async function showZolanEmbed(){
+        // Show ha268 embed function
+        async function showHa268Embed(){
 
             // Request data from the databse
-            await admin.database().ref("ERA's").child("The Boys").child("Zolan").once('value')
+            await admin.database().ref("ERA's").child("The Boys").child("Ha268").once('value')
             .then(async data => {
 
                 // Create embed
-                const zolanEmbed = new Discord.EmbedBuilder()
+                const ha268Embed = new Discord.EmbedBuilder()
 
                 // Set title and description
-                zolanEmbed.setTitle(data.val().title)
-                zolanEmbed.setDescription(data.val().description)
+                ha268Embed.setTitle(data.val().title)
+                ha268Embed.setDescription(data.val().description)
 
                 // Check if color is present
-                if(data.val().color) zolanEmbed.setColor(data.val().color)
-                else zolanEmbed.setColor(FNBRMENA.Colors("embed")) 
+                if(data.val().color) ha268Embed.setColor(data.val().color)
+                else ha268Embed.setColor(FNBRMENA.Colors("embed")) 
 
                 // Check if image is present
-                if(data.val().image) zolanEmbed.setImage(data.val().image)
+                if(data.val().image) ha268Embed.setImage(data.val().image)
 
                 // Check if a url is present
-                if(data.val().url) zolanEmbed.setURL(data.val().url)
+                if(data.val().url) ha268Embed.setURL(data.val().url)
 
-                // Send zolan embed
-                message.reply({embeds: [zolanEmbed]})
+                // Send ha268 embed
+                message.reply({embeds: [ha268Embed]})
             })
         }
 
-        // If Zolan or Ewew typed the command
-        if(message.author.id === "670067434278879235" || message.author.id === "325507145871130624"){
+        // If ha268 or Ewew typed the command
+        if(message.author.id === "804230882693087242" || message.author.id === "325507145871130624"){
             
             // Create an embed
             const chooseTypeEmbed = new Discord.EmbedBuilder()
             chooseTypeEmbed.setColor(FNBRMENA.Colors("embed"))
-            chooseTypeEmbed.setTitle(`Zolan Command`)
+            chooseTypeEmbed.setTitle(`Ha268 Command`)
             chooseTypeEmbed.setDescription(`Please choose an action.`)
 
             // Create a row for buttons
@@ -73,10 +73,10 @@ module.exports = {
             )
 
             // Create the modal and add text fields
-            const zolanModal = new Discord.ModalBuilder()
+            const ha268Modal = new Discord.ModalBuilder()
 
             // Request data from the databse
-            await admin.database().ref("ERA's").child("The Boys").child("Zolan").once('value')
+            await admin.database().ref("ERA's").child("The Boys").child("Ha268").once('value')
             .then(async data => {
 
                 // Default value
@@ -100,9 +100,9 @@ module.exports = {
                 else var defaultUrl = ''
                 
                 // Set data
-                zolanModal.setCustomId('zolan')
-                zolanModal.setTitle('Zolan Command')
-                zolanModal.addComponents(
+                ha268Modal.setCustomId('ha268')
+                ha268Modal.setTitle('Ha268 Command')
+                ha268Modal.addComponents(
                     new Discord.ActionRowBuilder().addComponents(
                         new Discord.TextInputBuilder()
                         .setCustomId('titleInput')
@@ -152,11 +152,11 @@ module.exports = {
             })
 
             // Edit the orignal image
-            const zolanMessage = await message.reply({embeds: [chooseTypeEmbed], components: [buttonData]})
+            const ha268Message = await message.reply({embeds: [chooseTypeEmbed], components: [buttonData]})
 
             // Filtering the user clicker
             const filter = (i => {
-                return (i.user.id === message.author.id && i.message.id === zolanMessage.id && i.guild.id === message.guild.id)
+                return (i.user.id === message.author.id && i.message.id === ha268Message.id && i.guild.id === message.guild.id)
             })
 
             // Await for the user
@@ -164,21 +164,21 @@ module.exports = {
             .then(async collected => {
 
                 // If the user clicked on cancel
-                if(collected.customId === "cancel") zolanMessage.delete() //delete the main message
+                if(collected.customId === "cancel") ha268Message.delete() //delete the main message
 
                 // If the user clicked on view
                 if(collected.customId === "view"){
-                    zolanMessage.delete()
-                    showZolanEmbed()
+                    ha268Message.delete()
+                    showHa268Embed()
                 }
 
                 // If the user clicked on edit
                 if(collected.customId === "edit"){
-                    zolanMessage.delete()
-                    await collected.showModal(zolanModal)
+                    ha268Message.delete()
+                    await collected.showModal(ha268Modal)
 
                     // Listen for modal submission
-                    const modalFilter = (interaction) => interaction.customId === 'zolan';
+                    const modalFilter = (interaction) => interaction.customId === 'ha268';
                     await collected.awaitModalSubmit({modalFilter, time: 10 * 60000})
                     .then(async modalCollect => {
                         modalCollect.deferUpdate();
@@ -196,7 +196,7 @@ module.exports = {
                         if(url == "") url = false
 
                         // Udate data
-                        admin.database().ref("ERA's").child("The Boys").child("Zolan").update({
+                        admin.database().ref("ERA's").child("The Boys").child("Ha268").update({
                             title: title,
                             description: description,
                             color: color,
@@ -210,6 +210,6 @@ module.exports = {
             }).catch(async err => {
                 FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
             })
-        }else showZolanEmbed()
+        }else showHa268Embed()
     }
 }

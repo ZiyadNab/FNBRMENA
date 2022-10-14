@@ -37,7 +37,7 @@ module.exports = {
         }
 
         // If extreme or Ewew typed the command
-        if(message.author.id === "769012535168598046" || message.author.id === "325507145871130624"){
+        if(message.author.id === "680499496416837718" || message.author.id === "325507145871130624"){
             
             // Create an embed
             const chooseTypeEmbed = new Discord.EmbedBuilder()

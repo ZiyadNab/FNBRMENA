@@ -56,7 +56,7 @@ module.exports = {
 
                 // Create the modal and add text fields
                 const talkTextModal = new Discord.ModalBuilder()
-                talkTextModal.setCustomId('talkText')
+                talkTextModal.setCustomId(`talkText-${message.id}`)
                 talkTextModal.setTitle('Brrrr, Please fill the fields.')
                 talkTextModal.addComponents(
                     new Discord.ActionRowBuilder().addComponents(
@@ -64,12 +64,17 @@ module.exports = {
                         .setCustomId('textChannelID')
                         .setLabel("Please insert the text channel ID")
                         .setStyle(Discord.TextInputStyle.Short)
+                        .setPlaceholder("Type something...")
+                        .setRequired(true)
+                        .setValue("1010198781561667648")
                     ),
                     new Discord.ActionRowBuilder().addComponents(
                         new Discord.TextInputBuilder()
                         .setCustomId('contentText')
                         .setLabel("What do you want me to say?")
                         .setStyle(Discord.TextInputStyle.Paragraph)
+                        .setPlaceholder("Type something...")
+                        .setRequired(true)
                     )
                 )
 
@@ -77,8 +82,10 @@ module.exports = {
                 await collected.showModal(talkTextModal)
 
                 // Listen for modal submission
-                const modalFilter = (interaction) => interaction.customId === 'talkText';
-                await collected.awaitModalSubmit({modalFilter, time: 10 * 60000})
+                const filter = (i => {
+                    return i.customId === `talkText-${message.id}` && i.user.id === message.author.id && i.guild.id === message.guild.id
+                })
+                await collected.awaitModalSubmit({filter, time: 10 * 60000})
                 .then(async modalCollect => {
 
                     // Get all the submited input values
@@ -108,7 +115,7 @@ module.exports = {
                 
                 // Create the modal and add text fields
                 const talkEmbedModal = new Discord.ModalBuilder()
-                talkEmbedModal.setCustomId('talkEmbed')
+                talkEmbedModal.setCustomId(`talkEmbed-${message.id}`)
                 talkEmbedModal.setTitle('Brrrr, Please fill the fields.')
                 talkEmbedModal.addComponents(
                     new Discord.ActionRowBuilder().addComponents(
@@ -116,24 +123,33 @@ module.exports = {
                         .setCustomId('textChannelID')
                         .setLabel("Please insert the text channel ID")
                         .setStyle(Discord.TextInputStyle.Short)
+                        .setPlaceholder("Type something...")
+                        .setRequired(true)
+                        .setValue("1010198781561667648")
                     ),
                     new Discord.ActionRowBuilder().addComponents(
                         new Discord.TextInputBuilder()
                         .setCustomId('embedColor')
                         .setLabel("Embed color (HEX), type * for default")
                         .setStyle(Discord.TextInputStyle.Short)
+                        .setPlaceholder("Leave it empty to skip")
+                        .setRequired(false)
                     ),
                     new Discord.ActionRowBuilder().addComponents(
                         new Discord.TextInputBuilder()
                         .setCustomId('embedTitle')
                         .setLabel("Please type the embed title here")
                         .setStyle(Discord.TextInputStyle.Short)
+                        .setPlaceholder("Type something...")
+                        .setRequired(true)
                     ),
                     new Discord.ActionRowBuilder().addComponents(
                         new Discord.TextInputBuilder()
                         .setCustomId('embedDescription')
                         .setLabel("Please type the embed description here")
                         .setStyle(Discord.TextInputStyle.Paragraph)
+                        .setPlaceholder("Type something...")
+                        .setRequired(true)
                     )
                 )
 
@@ -141,8 +157,10 @@ module.exports = {
                 await collected.showModal(talkEmbedModal)
 
                 // Listen for modal submission
-                const modalFilter = (interaction) => interaction.customId === 'talkEmbed';
-                await collected.awaitModalSubmit({modalFilter, time: 10 * 60000})
+                const filter = (i => {
+                    return i.customId === `talkEmbed-${message.id}` && i.user.id === message.author.id && i.guild.id === message.guild.id
+                })
+                await collected.awaitModalSubmit({filter, time: 10 * 60000})
                 .then(async modalCollect => {
 
                     // Get all the submited input values
@@ -158,7 +176,7 @@ module.exports = {
 
                         // Create embed
                         const talkEmbed = new Discord.EmbedBuilder()
-                        if(embedColor !== "*") talkEmbed.setColor(embedColor)
+                        if(embedColor !== "") talkEmbed.setColor(embedColor)
                         else talkEmbed.setColor(FNBRMENA.Colors("embed"))
                         talkEmbed.setTitle(embedTitle)
                         talkEmbed.setDescription(embedDescription)

@@ -100,7 +100,7 @@ module.exports = {
                 else var defaultUrl = ''
                 
                 // Set data
-                zolanModal.setCustomId('zolan')
+                zolanModal.setCustomId(`zolan-${message.id}`)
                 zolanModal.setTitle('Zolan Command')
                 zolanModal.addComponents(
                     new Discord.ActionRowBuilder().addComponents(
@@ -178,8 +178,10 @@ module.exports = {
                     await collected.showModal(zolanModal)
 
                     // Listen for modal submission
-                    const modalFilter = (interaction) => interaction.customId === 'zolan';
-                    await collected.awaitModalSubmit({modalFilter, time: 10 * 60000})
+                    const filter = (i => {
+                        return i.customId === `zolan-${message.id}` && i.user.id === message.author.id && i.guild.id === message.guild.id
+                    })
+                    await collected.awaitModalSubmit({filter, time: 10 * 60000})
                     .then(async modalCollect => {
                         modalCollect.deferUpdate();
 
@@ -195,7 +197,7 @@ module.exports = {
                         if(image == "") image = false
                         if(url == "") url = false
 
-                        // Udate data
+                        // Update data
                         admin.database().ref("ERA's").child("The Boys").child("Zolan").update({
                             title: title,
                             description: description,

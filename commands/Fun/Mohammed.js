@@ -100,7 +100,7 @@ module.exports = {
                 else var defaultUrl = ''
                 
                 // Set data
-                extremeModal.setCustomId('extreme')
+                extremeModal.setCustomId(`extreme-${message.id}`)
                 extremeModal.setTitle('Extreme Command')
                 extremeModal.addComponents(
                     new Discord.ActionRowBuilder().addComponents(
@@ -178,8 +178,10 @@ module.exports = {
                     await collected.showModal(extremeModal)
 
                     // Listen for modal submission
-                    const modalFilter = (interaction) => interaction.customId === 'extreme';
-                    await collected.awaitModalSubmit({modalFilter, time: 10 * 60000})
+                    const filter = (i => {
+                        return i.customId === `extreme-${message.id}` && i.user.id === message.author.id && i.guild.id === message.guild.id
+                    })
+                    await collected.awaitModalSubmit({filter, time: 10 * 60000})
                     .then(async modalCollect => {
                         modalCollect.deferUpdate();
 

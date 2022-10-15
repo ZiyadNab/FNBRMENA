@@ -100,7 +100,7 @@ module.exports = {
                 else var defaultUrl = ''
                 
                 // Set data
-                ha268Modal.setCustomId('ha268')
+                ha268Modal.setCustomId(`ha268-${message.id}`)
                 ha268Modal.setTitle('Ha268 Command')
                 ha268Modal.addComponents(
                     new Discord.ActionRowBuilder().addComponents(
@@ -178,8 +178,10 @@ module.exports = {
                     await collected.showModal(ha268Modal)
 
                     // Listen for modal submission
-                    const modalFilter = (interaction) => interaction.customId === 'ha268';
-                    await collected.awaitModalSubmit({modalFilter, time: 10 * 60000})
+                    const filter = (i => {
+                        return i.customId === `ha268-${message.id}` && i.user.id === message.author.id && i.guild.id === message.guild.id
+                    })
+                    await collected.awaitModalSubmit({filter, time: 10 * 60000})
                     .then(async modalCollect => {
                         modalCollect.deferUpdate();
 
@@ -195,7 +197,7 @@ module.exports = {
                         if(image == "") image = false
                         if(url == "") url = false
 
-                        // Udate data
+                        // Update data
                         admin.database().ref("ERA's").child("The Boys").child("Ha268").update({
                             title: title,
                             description: description,

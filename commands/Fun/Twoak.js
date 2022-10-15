@@ -100,7 +100,7 @@ module.exports = {
                 else var defaultUrl = ''
                 
                 // Set data
-                towakModal.setCustomId('towak')
+                towakModal.setCustomId(`towak-${message.id}`)
                 towakModal.setTitle('Towak Command')
                 towakModal.addComponents(
                     new Discord.ActionRowBuilder().addComponents(
@@ -178,8 +178,10 @@ module.exports = {
                     await collected.showModal(towakModal)
 
                     // Listen for modal submission
-                    const modalFilter = (interaction) => interaction.customId === 'towak';
-                    await collected.awaitModalSubmit({modalFilter, time: 10 * 60000})
+                    const filter = (i => {
+                        return i.customId === `towak-${message.id}` && i.user.id === message.author.id && i.guild.id === message.guild.id
+                    })
+                    await collected.awaitModalSubmit({filter, time: 10 * 60000})
                     .then(async modalCollect => {
                         modalCollect.deferUpdate();
 
@@ -195,7 +197,7 @@ module.exports = {
                         if(image == "") image = false
                         if(url == "") url = false
 
-                        // Udate data
+                        // Update data
                         admin.database().ref("ERA's").child("The Boys").child("Towak").update({
                             title: title,
                             description: description,

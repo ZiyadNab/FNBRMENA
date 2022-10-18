@@ -334,8 +334,13 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                 //skin informations
                 var name = type[i].displayName
                 var price = type[i].price.finalPrice
-                if(type[i].displayAssets.length !== 0) var image = type[i].displayAssets[0].url
-                else var image = type[i].granted[0].images.icon
+                if(type[i].displayAssets.length !== 0){
+                    if(type[i].displayAssets[0].url !== null) var image = type[i].displayAssets[0].url
+                    else if(type[i].granted[0].images.icon !== null) var image = type[i].granted[0].images.icon
+                    else var image = 'https://imgur.com/HVH5sqV.png'
+                    
+                }else if(type[i].granted[0].images.icon !== null) var image = type[i].granted[0].images.icon
+                else var image = 'https://imgur.com/HVH5sqV.png'
                 if(type[i].series === null) var rarity = type[i].rarity.id
                 else  var rarity = type[i].series.id
                 var newItem = false

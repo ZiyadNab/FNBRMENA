@@ -32,8 +32,25 @@ module.exports = {
         }
 
         // Registering fonts
-        Canvas.registerFont('./assets/font/Lalezar-Regular.ttf', {family: 'Arabic',weight: "700",style: "bold"});
-        Canvas.registerFont('./assets/font/BurbankBigCondensed-Black.ttf' ,{family: 'Burbank Big Condensed',weight: "700",style: "bold"})
+        Canvas.registerFont('./assets/font/Lalezar-Regular.ttf', {
+            family: 'Arabic',
+            style: "bold"
+        });
+        Canvas.registerFont('./assets/font/BurbankBigCondensed-Black.ttf' ,{
+            family: 'Burbank Big Condensed',
+            style: "bold"
+        })
+
+        //aplyText
+        const applyText = (canvas, text, width, font) => {
+            const ctx = canvas.getContext('2d');
+            let fontSize = font;
+            do {
+                if(userData.lang === "en") ctx.font = `${fontSize -= 1}px Burbank Big Condensed`;
+                else if(userData.lang === "ar") ctx.font = `${fontSize -= 1}px Arabic`;
+            } while (ctx.measureText(text).width > width);
+            return ctx.font;
+        }
 
         // Layer
         const layer = async (ctx, canvas, x, y, w, h, obj, value, line) => {
@@ -102,14 +119,9 @@ module.exports = {
                 // Add weapon name
                 ctx.fillStyle = '#ffffff'
                 ctx.textAlign = 'center'
-                if(userData.lang === "en"){
-                    ctx.font = '80px Burbank Big Condensed'
-                    ctx.fillText(res.name.toUpperCase(), canvas.width / 2, 850)
-                }else if(userData.lang === "ar"){
-                    ctx.font = '80px Arabic'
-                    ctx.fillText(res.name.toUpperCase(), canvas.width / 2, 830)
-                }
-                
+                ctx.font = applyText(canvas, res.name.toUpperCase(), 850, 80)
+                if(userData.lang === "en") ctx.fillText(res.name.toUpperCase(), canvas.width / 2, 850)
+                else if(userData.lang === "ar") ctx.fillText(res.name, canvas.width / 2, 830)
 
                 // Drop shadow
                 ctx.shadowOffsetY = 20
@@ -295,14 +307,14 @@ module.exports = {
                 // Add buttons
                 if(userData.lang === "en") buttonDataRow.addComponents(
                     new Discord.ButtonBuilder()
-                        .setCustomId('Cancel')
+                        .setCustomId(`Cancel-${alias}`)
                         .setStyle(Discord.ButtonStyle.Danger)
                         .setLabel("Cancel")
                     )
 
                 else if(userData.lang === "ar") buttonDataRow.addComponents(
                     new Discord.ButtonBuilder()
-                        .setCustomId('Cancel')
+                        .setCustomId(`Cancel-${alias}`)
                         .setStyle(Discord.ButtonStyle.Danger)
                         .setLabel("اغلاق")
                     )
@@ -354,23 +366,35 @@ module.exports = {
                     collected.deferUpdate();
 
                     // If cancel button has been clicked
-                    if(collected.customId === "Cancel") dropMenuMessage.delete()
+                    if(collected.customId === `Cancel-${alias}`) dropMenuMessage.delete()
                     else if(collected.type === Discord.ComponentType.SelectMenu){
 
                         // Request a weapon
                         await FNBRMENA.Weapon(userData.lang, "", false)
                         .then(async res => {
 
-                            // Call the weapon image builder
-                            await dropMenuMessage.delete()
-                            
-                            // Filter for names
-                            await res.data.weapons.filter(wid => {
-                                if(wid.id === collected.values[0]) // Find the weapon
-                                
+                            // Check if there is a data
+                            if(res.data.result){
+
                                 // Call the weapon image builder
-                                weaponImageBuilder(wid)
-                            })
+                                await dropMenuMessage.delete()
+                                
+                                // Filter for names
+                                await res.data.weapons.filter(wid => {
+                                    if(wid.id === collected.values[0]) // Find the weapon
+                                    
+                                    // Call the weapon image builder
+                                    weaponImageBuilder(wid)
+                                })
+                            }else{
+
+                                // No result found
+                                const noResultFoundError = new Discord.EmbedBuilder()
+                                noResultFoundError.setColor(FNBRMENA.Colors("embedError"))
+                                if(userData.lang === "en") noResultFoundError.setTitle(`Nos result found (API Error) ${emojisObject.errorEmoji}`)
+                                else if(userData.lang === "ar") noResultFoundError.setTitle(`لم يتم العثور على نتائج (مشكلة API) ${emojisObject.errorEmoji}`)
+                                message.reply({embeds: [noResultFoundError]})
+                            }
                         }).catch(async err => {
                             dropMenuMessage.delete()
                             FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
@@ -398,13 +422,25 @@ module.exports = {
             await FNBRMENA.Weapon(userData.lang, "", false)
             .then(async res => {
 
-                // Filter for names
-                await res.data.weapons.filter(wid => {
-                    if(wid.id === weaponId[0].id) // Find the weapon
-                    
-                    // Call the weapon image builder
-                    weaponImageBuilder(wid)
-                })
+                // Check if there is a data
+                if(res.data.result){
+
+                    // Filter for names
+                    await res.data.weapons.filter(wid => {
+                        if(wid.id === weaponId[0].id) // Find the weapon
+                        
+                        // Call the weapon image builder
+                        weaponImageBuilder(wid)
+                    })
+                }else{
+
+                    // No result found
+                    const noResultFoundError = new Discord.EmbedBuilder()
+                    noResultFoundError.setColor(FNBRMENA.Colors("embedError"))
+                    if(userData.lang === "en") noResultFoundError.setTitle(`Nos result found (API Error) ${emojisObject.errorEmoji}`)
+                    else if(userData.lang === "ar") noResultFoundError.setTitle(`لم يتم العثور على نتائج (مشكلة API) ${emojisObject.errorEmoji}`)
+                    message.reply({embeds: [noResultFoundError]})
+                }
             }).catch(async err => {
                 FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
             })

@@ -42,7 +42,7 @@ module.exports = {
                         //back 20
                         buttonsDataRow.addComponents(
                             new Discord.ButtonBuilder()
-                            .setCustomId('BACK20')
+                            .setCustomId(`BACK20-${alias}`)
                             .setStyle(Discord.ButtonStyle.Primary)
                             .setLabel("Back 20 Tier")
                         )
@@ -50,7 +50,7 @@ module.exports = {
                         //back 1
                         buttonsDataRow.addComponents(
                             new Discord.ButtonBuilder()
-                            .setCustomId('BACK')
+                            .setCustomId(`BACK-${alias}`)
                             .setStyle(Discord.ButtonStyle.Primary)
                             .setLabel("Back 1 Tier")
                         )
@@ -58,7 +58,7 @@ module.exports = {
                         //next 1
                         buttonsDataRow.addComponents(
                             new Discord.ButtonBuilder()
-                            .setCustomId('NEXT')
+                            .setCustomId(`NEXT-${alias}`)
                             .setStyle(Discord.ButtonStyle.Primary)
                             .setLabel("Next 1 Tier")
                         )
@@ -66,7 +66,7 @@ module.exports = {
                         //next 20
                         buttonsDataRow.addComponents(
                             new Discord.ButtonBuilder()
-                            .setCustomId('NEXT20')
+                            .setCustomId(`NEXT20-${alias}`)
                             .setStyle(Discord.ButtonStyle.Primary)
                             .setLabel("Next 20 Tier")
                         )
@@ -74,7 +74,7 @@ module.exports = {
                         //stop
                         buttonsDataRow.addComponents(
                             new Discord.ButtonBuilder()
-                            .setCustomId('STOP')
+                            .setCustomId(`STOP-${alias}`)
                             .setStyle(Discord.ButtonStyle.Danger)
                             .setLabel("Stop!")
                         )
@@ -82,7 +82,7 @@ module.exports = {
                         //back 20
                         buttonsDataRow.addComponents(
                             new Discord.ButtonBuilder()
-                            .setCustomId('BACK20')
+                            .setCustomId(`BACK20-${alias}`)
                             .setStyle(Discord.ButtonStyle.Primary)
                             .setLabel("ارجع 20 مستوى")
                         )
@@ -90,7 +90,7 @@ module.exports = {
                         //back 1
                         buttonsDataRow.addComponents(
                             new Discord.ButtonBuilder()
-                            .setCustomId('BACK')
+                            .setCustomId(`BACK-${alias}`)
                             .setStyle(Discord.ButtonStyle.Primary)
                             .setLabel("ارجع 1 مستوى")
                         )
@@ -98,7 +98,7 @@ module.exports = {
                         //next 1
                         buttonsDataRow.addComponents(
                             new Discord.ButtonBuilder()
-                            .setCustomId('NEXT')
+                            .setCustomId(`NEXT-${alias}`)
                             .setStyle(Discord.ButtonStyle.Primary)
                             .setLabel("تقدم 1 مستوى")
                         )
@@ -106,7 +106,7 @@ module.exports = {
                         //next 20
                         buttonsDataRow.addComponents(
                             new Discord.ButtonBuilder()
-                            .setCustomId('NEXT20')
+                            .setCustomId(`NEXT20-${alias}`)
                             .setStyle(Discord.ButtonStyle.Primary)
                             .setLabel("تقدم 20 مستوى")
                         )
@@ -114,7 +114,7 @@ module.exports = {
                         //stop
                         buttonsDataRow.addComponents(
                             new Discord.ButtonBuilder()
-                            .setCustomId('STOP')
+                            .setCustomId(`STOP-${alias}`)
                             .setStyle(Discord.ButtonStyle.Danger)
                             .setLabel("إيقات!")
                         )
@@ -265,7 +265,7 @@ module.exports = {
                         collected.deferUpdate();
 
                         //back 20 button clicked
-                        if(collected.customId === "BACK20"){
+                        if(collected.customId === `BACK20-${alias}`){
 
                             if(tierIndex > res.data.rewards.length) tierIndex = res.data.rewards.length
 
@@ -289,7 +289,7 @@ module.exports = {
                         }
 
                         //back button clicked
-                        if(collected.customId === "BACK"){
+                        if(collected.customId === `BACK-${alias}`){
 
                             if(tierIndex > res.data.rewards.length) tierIndex = res.data.rewards.length
 
@@ -313,7 +313,7 @@ module.exports = {
                         }
 
                         //next button clicked
-                        if(collected.customId === "NEXT"){
+                        if(collected.customId === `NEXT-${alias}`){
 
                             //if there is no more tiers
                             if(tierIndex + 1 <= res.data.rewards.length){
@@ -328,7 +328,7 @@ module.exports = {
                         }
 
                         //next button clicked
-                        if(collected.customId === "NEXT20"){
+                        if(collected.customId === `NEXT20-${alias}`){
 
                             //if there is no more tiers
                             if(tierIndex + 20 <= res.data.rewards.length){
@@ -347,7 +347,7 @@ module.exports = {
                         }
 
                         //stop listening
-                        if(collected.customId === "STOP") collector.stop()
+                        if(collected.customId === `STOP-${alias}`) collector.stop()
                         
                     })
 

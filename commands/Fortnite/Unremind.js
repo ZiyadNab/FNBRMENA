@@ -50,14 +50,14 @@ module.exports = {
                 if(userData.lang === "en"){
                     buttonDataRow.addComponents(
                         new Discord.ButtonBuilder()
-                        .setCustomId('All')
+                        .setCustomId(`All-${alias}`)
                         .setStyle(Discord.ButtonStyle.Primary)
                         .setLabel("Delete All")
                     )
 
                     buttonDataRow.addComponents(
                         new Discord.ButtonBuilder()
-                        .setCustomId('Cancel')
+                        .setCustomId(`Cancel-${alias}`)
                         .setStyle(Discord.ButtonStyle.Danger)
                         .setLabel("Cancel")
                     )
@@ -66,14 +66,14 @@ module.exports = {
                 else if(userData.lang === "ar"){
                     buttonDataRow.addComponents(
                         new Discord.ButtonBuilder()
-                        .setCustomId('All')
+                        .setCustomId(`All-${alias}`)
                         .setStyle(Discord.ButtonStyle.Primary)
                         .setLabel("حذف الكل")
                     )
 
                     buttonDataRow.addComponents(
                         new Discord.ButtonBuilder()
-                        .setCustomId('Cancel')
+                        .setCustomId(`Cancel-${alias}`)
                         .setStyle(Discord.ButtonStyle.Danger)
                         .setLabel("اغلاق")
                     )
@@ -115,7 +115,7 @@ module.exports = {
                 
                 //create a drop menu
                 const listAllRemindersDropMenu = new Discord.SelectMenuBuilder()
-                listAllRemindersDropMenu.setCustomId('Unremind')
+                listAllRemindersDropMenu.setCustomId(`Unremind-${alias}`)
                 listAllRemindersDropMenu.setMaxValues(1)
                 listAllRemindersDropMenu.setMaxValues(snapshot.size)
                 if(userData.lang === "en") listAllRemindersDropMenu.setPlaceholder('Select an item!')
@@ -139,13 +139,13 @@ module.exports = {
                     collected.deferUpdate();
 
                     //if cancel button has been clicked
-                    if(collected.customId === "Cancel"){
+                    if(collected.customId === `Cancel-${alias}`){
                         msg.delete()
                         dropMenuMessage.delete()
                     }
 
                     //if all button is clicked
-                    if(collected.customId === "All"){
+                    if(collected.customId === `All-${alias}`){
                         await dropMenuMessage.delete()
 
                         //delete the right item
@@ -165,7 +165,7 @@ module.exports = {
                     }
 
                     //if the user chose a type
-                    if(collected.customId === "Unremind"){
+                    if(collected.customId === `Unremind-${alias}`){
                         dropMenuMessage.delete()
 
                         //loop through all values

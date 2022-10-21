@@ -34,7 +34,7 @@ module.exports = {
                 var y = 0
 
                 //creating length
-                var length = res.data.data.length
+                var length = res.data.items.length
                 if(length <= 2) length = length
                 else if(length > 2 && length <= 4) length = length / 2
                 else if(length > 4 && length <= 7) length = length / 3
@@ -47,11 +47,11 @@ module.exports = {
                 }
 
                 //creating width
-                if(res.data.data.length === 1) width = 1024
+                if(res.data.items.length === 1) width = 1024
                 else width += (length * 1024) + (length * 10) - 10
 
                 //creating height
-                for(let i = 0; i < res.data.data.length; i++){
+                for(let i = 0; i < res.data.items.length; i++){
                     
                     if(newline === length){
                         height += 1024 + 10
@@ -86,59 +86,81 @@ module.exports = {
                 //reseting newline
                 newline = 0
 
-                for(let i = 0; i < res.data.data.length; i++){
+                for(let i = 0; i < res.data.items.length; i++){
                     ctx.fillStyle = '#ffffff';
 
                     //skin informations
-                    if(res.data.data[i].introduction != null){
-                        if(userData.lang === "en") var seasonChapter = `C${res.data.data[i].introduction.chapter}S${res.data.data[i].introduction.season}`
-                        else if(userData.lang == "ar")var seasonChapter = `الفصل ${res.data.data[i].introduction.chapter} الموسم ${res.data.data[i].introduction.season}`
+                    if(res.data.items[i].introduction != null){
+                        var chapter = res.data.items[i].introduction.chapter.substring(res.data.items[i].introduction.chapter.indexOf(" "), res.data.items[i].introduction.chapter.length).trim()
+
+                        if(userData.lang === "en"){
+                            var season = res.data.items[i].introduction.season.substring(res.data.items[i].introduction.season.indexOf(" "), res.data.items[i].introduction.season.length).trim()
+                            if(userData.lang === "en") var seasonChapter = `C${chapter}S${season}`
+
+                        }else if(userData.lang == "ar"){
+                            if(res.data.items[i].introduction.season.includes("X")) var seasonChapter = `الفصل ${chapter} الموسم X`
+                            else{
+                                var season = res.data.items[i].introduction.season.substring(res.data.items[i].introduction.season.indexOf(" "), res.data.items[i].introduction.season.length).trim()
+                                var seasonChapter = `الفصل ${chapter} الموسم ${season}`
+                            }
+                        }
 
                     }else{
-                        if(userData.lang === "en") var seasonChapter = `UNKNOWN`
-                        else if(userData.lang == "ar") var seasonChapter = `مجهول`
+
+                        if(userData.lang === "en") var seasonChapter = `${res.data.items[i].added.version}v`
+                        else if(userData.lang == "ar") var seasonChapter = `تحديث ${res.data.items[i].added.version}`
                         
                     }
 
-                    if(res.data.data[i].gameplayTags.length != 0){
-                        for(let j = 0; j < res.data.data[i].gameplayTags.length; j++){
-                            if(res.data.data[i].gameplayTags[j].includes('Source')){
+                    if(res.data.items[i].gameplayTags.length != 0){
+                        for(let j = 0; j < res.data.items[i].gameplayTags.length; j++){
+                            if(res.data.items[i].gameplayTags[j].includes('Source')){
 
-                                if(res.data.data[i].gameplayTags[j].toLowerCase().includes("itemshop")){
+                                if(res.data.items[i].gameplayTags[j].toLowerCase().includes("itemshop")){
 
                                     if(userData.lang === "en") var Source = "ITEMSHOP"
                                     else if(userData.lang === "ar") var Source = "متجر العناصر"
-                                }else if(res.data.data[i].gameplayTags[j].toLowerCase().includes("battlepass")){
+                                }else if(res.data.items[i].gameplayTags[j].toLowerCase().includes("seasonshop")){
+
+                                    if(userData.lang === "en") var Source = "SEASON SHOP"
+                                    else if(userData.lang === "ar") var Source = "متجر الموسم"
+                                }else if(res.data.items[i].gameplayTags[j].toLowerCase().includes("battlepass")){
 
                                     if(userData.lang === "en") var Source = "BATTLEPASS"
                                     else if(userData.lang === "ar") var Source = "بطاقة المعركة"
-                                }else if(res.data.data[i].gameplayTags[j].toLowerCase().includes("firstwin")){
+                                }else if(res.data.items[i].gameplayTags[j].toLowerCase().includes("firstwin")){
 
                                     if(userData.lang === "en") var Source = "FIRST WIN"
                                     else if(userData.lang === "ar") var Source = "اول انتصار"
-                                }else if(res.data.data[i].gameplayTags[j].toLowerCase().includes("event")){
+                                }else if(res.data.items[i].gameplayTags[j].toLowerCase().includes("event")){
 
                                     if(userData.lang === "en") var Source = "EVENT"
                                     else if(userData.lang === "ar") var Source = "حدث"
-                                }else if(res.data.data[i].gameplayTags[j].toLowerCase().includes("platform") || (res.data.data[i].gameplayTags[j].toLowerCase().includes("promo"))){
+                                }else if(res.data.items[i].gameplayTags[j].toLowerCase().includes("platform") || (res.data.items[i].gameplayTags[j].toLowerCase().includes("promo"))){
 
                                     if(userData.lang === "en") var Source = "EXCLUSIVE"
                                     else if(userData.lang === "ar") var Source = "حصري"
                                 }
 
                                 break
-                            }else var Source = res.data.data[i].type.displayValue.toUpperCase()
+                            }else var Source = res.data.items[i].type.name.toUpperCase()
                         }
-                    }else var Source = res.data.data[i].type.displayValue.toUpperCase()
 
-                    var name = res.data.data[i].name
-                    if(res.data.data[i].images.icon === null) var image = res.data.data[i].images.smallIcon
-                    else var image = res.data.data[i].images.icon
-                    var rarity = res.data.data[i].rarity.value
+                    }else var Source = res.data.items[i].type.name.toUpperCase()
+
+                    if(res.data.items[i].name !== "") var name = res.data.items[i].name
+                    else{
+                        if(userData.lang === "en") var name = 'NAME NOT FOUND'
+                        else if(userData.lang === "ar") var name = 'لا يوجد اسم'
+                    }
+                    if(res.data.items[i].images.icon === null) var image = 'https://imgur.com/HVH5sqV.png'
+                    else var image = res.data.items[i].images.icon
+                    if(res.data.items[i].series !== null) var rarity = res.data.items[i].series.id
+                    else var rarity = res.data.items[i].rarity.id
                     newline = newline + 1;
 
                     //searching...
-                    if(rarity === "legendary"){
+                    if(rarity === "Legendary"){
 
                         //creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/legendary.png')
@@ -148,7 +170,7 @@ module.exports = {
                         const skinborder = await Canvas.loadImage('./assets/Rarities/newStyle/borderLegendary.png')
                         ctx.drawImage(skinborder, x, y, 1024, 1024)
 
-                    }else if(rarity === "epic"){
+                    }else if(rarity === "Epic"){
 
                         //creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/epic.png')
@@ -158,7 +180,7 @@ module.exports = {
                         const skinborder = await Canvas.loadImage('./assets/Rarities/newStyle/borderEpic.png')
                         ctx.drawImage(skinborder, x, y, 1024, 1024)
 
-                    }else if(rarity === "rare"){
+                    }else if(rarity === "Rare"){
 
                         //creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/rare.png')
@@ -168,7 +190,7 @@ module.exports = {
                         const skinborder = await Canvas.loadImage('./assets/Rarities/newStyle/borderRare.png')
                         ctx.drawImage(skinborder, x, y, 1024, 1024)
 
-                    }else if(rarity === "uncommon"){
+                    }else if(rarity === "Uncommon"){
 
                         //creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/uncommon.png')
@@ -178,7 +200,7 @@ module.exports = {
                         const skinborder = await Canvas.loadImage('./assets/Rarities/newStyle/borderUncommon.png')
                         ctx.drawImage(skinborder, x, y, 1024, 1024)
 
-                    }else if(rarity === "common"){
+                    }else if(rarity === "Common"){
 
                         //creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/common.png')
@@ -188,7 +210,7 @@ module.exports = {
                         const skinborder = await Canvas.loadImage('./assets/Rarities/newStyle/borderCommon.png')
                         ctx.drawImage(skinborder, x, y, 1024, 1024)
 
-                    }else if(rarity === "marvel"){
+                    }else if(rarity === "MarvelSeries"){
                         
                         //creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/marvel.png')
@@ -198,7 +220,7 @@ module.exports = {
                         const skinborder = await Canvas.loadImage('./assets/Rarities/newStyle/borderMarvel.png')
                         ctx.drawImage(skinborder, x, y, 1024, 1024)
 
-                    }else if(rarity === "dc"){
+                    }else if(rarity === "DCUSeries"){
 
                         //creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/dc.png')
@@ -208,7 +230,7 @@ module.exports = {
                         const skinborder = await Canvas.loadImage('./assets/Rarities/newStyle/borderDc.png')
                         ctx.drawImage(skinborder, x, y, 1024, 1024)
 
-                    }else if(rarity === "dark"){
+                    }else if(rarity === "CUBESeries"){
 
                         //creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/dark.png')
@@ -218,7 +240,7 @@ module.exports = {
                         const skinborder = await Canvas.loadImage('./assets/Rarities/newStyle/borderDark.png')
                         ctx.drawImage(skinborder, x, y, 1024, 1024)
 
-                    }else if(rarity === "icon"){
+                    }else if(rarity === "CreatorCollabSeries"){
 
                         //creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/icon.png')
@@ -228,7 +250,7 @@ module.exports = {
                         const skinborder = await Canvas.loadImage('./assets/Rarities/newStyle/borderIcon.png')
                         ctx.drawImage(skinborder, x, y, 1024, 1024)
 
-                    }else if(rarity === "starwars"){
+                    }else if(rarity === "ColumbusSeries"){
 
                         //creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/starwars.png')
@@ -238,7 +260,7 @@ module.exports = {
                         const skinborder = await Canvas.loadImage('./assets/Rarities/newStyle/borderStarwars.png')
                         ctx.drawImage(skinborder, x, y, 1024, 1024)
 
-                    }else if(rarity === "shadow"){
+                    }else if(rarity === "ShadowSeries"){
 
                         //creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/shadow.png')
@@ -248,7 +270,7 @@ module.exports = {
                         const skinborder = await Canvas.loadImage('./assets/Rarities/newStyle/borderShadow.png')
                         ctx.drawImage(skinborder, x, y, 1024, 1024)
 
-                    }else if(rarity === "slurp"){
+                    }else if(rarity === "SlurpSeries"){
 
                         //creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/slurp.png')
@@ -258,7 +280,7 @@ module.exports = {
                         const skinborder = await Canvas.loadImage('./assets/Rarities/newStyle/borderSlurp.png')
                         ctx.drawImage(skinborder, x, y, 1024, 1024)
 
-                    }else if(rarity === "frozen"){
+                    }else if(rarity === "FrozenSeries"){
 
                         //creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/frozen.png')
@@ -268,7 +290,7 @@ module.exports = {
                         const skinborder = await Canvas.loadImage('./assets/Rarities/newStyle/borderFrozen.png')
                         ctx.drawImage(skinborder, x, y, 1024, 1024)
 
-                    }else if(rarity === "lava"){
+                    }else if(rarity === "LavaSeries"){
 
                         //creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/lava.png')
@@ -278,7 +300,7 @@ module.exports = {
                         const skinborder = await Canvas.loadImage('./assets/Rarities/newStyle/borderLava.png')
                         ctx.drawImage(skinborder, x, y, 1024, 1024)
 
-                    }else if(rarity === "gaminglegends"){
+                    }else if(rarity === "PlatformSeries"){
 
                         //creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/gaming.png')
@@ -338,10 +360,10 @@ module.exports = {
                     var yTags = 7 + y
                     var xTags = ((1024 - wTags) - 7) + x
 
-                    for(let t = 0; t < res.data.data[i].gameplayTags.length; t++){
+                    for(let t = 0; t < res.data.items[i].gameplayTags.length; t++){
 
                         //if the item is animated
-                        if(res.data.data[i].gameplayTags[t].includes('Animated')){
+                        if(res.data.items[i].gameplayTags[t].includes('Animated')){
 
                             //add the animated icon
                             const Animated = await Canvas.loadImage('./assets/Tags/T-Icon-Animated-64.png')
@@ -351,7 +373,7 @@ module.exports = {
                         }
 
                         //if the item is reactive
-                        if(res.data.data[i].gameplayTags[t].includes('Reactive')){
+                        if(res.data.items[i].gameplayTags[t].includes('Reactive')){
 
                             //add the reactive icon
                             const Reactive = await Canvas.loadImage('./assets/Tags/T-Icon-Adaptive-64.png')
@@ -362,7 +384,7 @@ module.exports = {
                         }
 
                         //if the item is synced emote
-                        if(res.data.data[i].gameplayTags[t].includes('Synced')){
+                        if(res.data.items[i].gameplayTags[t].includes('Synced')){
 
                             //add the Synced icon
                             const Synced = await Canvas.loadImage('./assets/Tags/T-Icon-Synced-64x.png')
@@ -373,7 +395,7 @@ module.exports = {
                         }
 
                         //if the item is traversal
-                        if(res.data.data[i].gameplayTags[t].includes('Traversal')){
+                        if(res.data.items[i].gameplayTags[t].includes('Traversal')){
 
                             //add the Traversal icon
                             const Traversal = await Canvas.loadImage('./assets/Tags/T-Icon-Traversal-64.png')
@@ -383,7 +405,7 @@ module.exports = {
                         }
 
                         //if the item has styles
-                        if(res.data.data[i].gameplayTags[t].includes('HasVariants') || res.data.data[i].gameplayTags[t].includes('HasUpgradeQuests')){
+                        if(res.data.items[i].gameplayTags[t].includes('HasVariants') || res.data.items[i].gameplayTags[t].includes('HasUpgradeQuests')){
 
                             //add the HasVariants icon
                             const HasVariants = await Canvas.loadImage('./assets/Tags/T-Icon-Variant-64.png')
@@ -391,6 +413,24 @@ module.exports = {
 
                             yTags += hTags + 10
                         }
+                    }
+
+                    //if the item contains copyrited audio
+                    if(res.data.items[i].copyrightedAudio){
+
+                        //add the copyrightedAudio icon
+                        const copyrightedAudio = await Canvas.loadImage('./assets/Tags/mute.png')
+                        ctx.drawImage(copyrightedAudio, xTags, yTags, wTags, hTags)
+
+                        yTags += hTags + 10
+                    }
+
+                    //if the item contains built in emote
+                    if(res.data.items[i].builtInEmote != null){
+
+                        //add the builtInEmote icon
+                        const builtInEmote = await Canvas.loadImage(res.data.items[i].builtInEmote.images.icon)
+                        ctx.drawImage(builtInEmote, xTags - 15, yTags, ((1024 / 512) * 30) + x, ((1024 / 512) * 30) + y)
                     }
 
                     //changing x and y
@@ -408,30 +448,30 @@ module.exports = {
 
                 //loop throw every item
                 var string = ""
-                for(let i = 0; i < res.data.data.length; i++){
-                    string += `\n• ${1 + i}: ${res.data.data[i].name}`
+                for(let i = 0; i < res.data.items.length; i++){
+                    string += `\n• ${1 + i}: ${res.data.items[i].name}`
                 }
 
                 //if user userData.lang is english
                 if(userData.lang === "en"){
-                    string += `\n\n• All Cosmetic ${res.data.data.length}`
-                    setEmbed.setTitle(`All cosmetics in set ${res.data.data[0].set.value}`)
+                    string += `\n\n• All Cosmetic ${res.data.items.length}`
+                    setEmbed.setTitle(`All cosmetics in set ${res.data.items[0].set.name}`)
                     
                 }else if(userData.lang === "ar"){
-                    string += `\n\n• المجموع ${res.data.data.length} عناصر`
-                    setEmbed.setTitle(`جميع العناصر في مجموعة ${res.data.data[0].set.value}`)
+                    string += `\n\n• المجموع ${res.data.items.length} عناصر`
+                    setEmbed.setTitle(`جميع العناصر في مجموعة ${res.data.items[0].set.name}`)
                     
                 }
 
                 //set description
                 setEmbed.setDescription(string)
                 try{
-                    var att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `${text}.png`})
+                    var att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `${res.data.items[0].set.id}.png`})
                     await message.reply({embeds: [setEmbed],files: [att]})
                     msg.delete()
 
                 }catch{
-                    var att = new Discord.AttachmentBuilder(canvas.toBuffer('image/jpeg'), {name: `${text}.jpg`})
+                    var att = new Discord.AttachmentBuilder(canvas.toBuffer('image/jpeg'), {name: `${res.data.items[0].set.id}.jpg`})
                     await message.reply({embeds: [setEmbed],files: [att]})
                     msg.delete()
 

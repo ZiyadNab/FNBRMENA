@@ -119,7 +119,7 @@ module.exports = {
                 // Add weapon name
                 ctx.fillStyle = '#ffffff'
                 ctx.textAlign = 'center'
-                ctx.font = applyText(canvas, res.name.toUpperCase(), 850, 80)
+                ctx.font = applyText(canvas, res.name.toUpperCase(), 800, 80)
                 if(userData.lang === "en") ctx.fillText(res.name.toUpperCase(), canvas.width / 2, 850)
                 else if(userData.lang === "ar") ctx.fillText(res.name, canvas.width / 2, 830)
 

@@ -28,7 +28,7 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
             const ownering = data.val().Ownering
 
             // If the event is set to be true [ON]
-            if(true){
+            if(status){
 
                 // Request data
                 await FNBRMENA.TwitchCampaign(auth)
@@ -102,7 +102,8 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                                         }
                                         
                                         // Creating width
-                                        width += (length * 160) + (length * 2) - 2
+                                        if(detailed.data.data.user.dropCampaign.timeBasedDrops.length === 1) width = 160
+                                        else width += (length * 160) + (length * 2) - 2
 
                                         // Creating height
                                         for(let i = 0; i < detailed.data.data.user.dropCampaign.timeBasedDrops.length; i++){
@@ -182,6 +183,12 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                                                 .setLabel("LINK YOUR ACCOUNT")
                                                 .setURL(detailed.data.data.user.dropCampaign.accountLinkURL)
                                             )
+                                            row.addComponents( // Participating channels
+                                                new Discord.ButtonBuilder()
+                                                .setStyle(Discord.ButtonStyle.Link)
+                                                .setLabel("PARTICIPATING CHANNELS")
+                                                .setURL(`https://www.twitch.tv/directory/game/${detailed.data.data.user.dropCampaign.game.displayName}?tl=dropsenabled`)
+                                            )
                                         }
 
                                         // Create buttons for ar
@@ -199,18 +206,28 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                                                 .setLabel("اربط حسابك")
                                                 .setURL(detailed.data.data.user.dropCampaign.accountLinkURL)
                                             )
+                                            row.addComponents( // Participating channels
+                                                new Discord.ButtonBuilder()
+                                                .setStyle(Discord.ButtonStyle.Link)
+                                                .setLabel("القنوات المشاركة")
+                                                .setURL(`https://www.twitch.tv/directory/game/${detailed.data.data.user.dropCampaign.game.displayName}?tl=dropsenabled`)
+                                            )
                                         }
 
                                         if(hasRequirements) hasRequirements = "Yes, it does. Please check twitch drops page for more information."
                                         else hasRequirements = "No, it doesn't."
 
+                                        // Required Minutes Watched
+                                        var requiredMinutesWatched = ``
+                                        for(let i = 0; i < detailed.data.data.user.dropCampaign.timeBasedDrops.length; i++) requiredMinutesWatched += `${detailed.data.data.user.dropCampaign.timeBasedDrops[i].requiredMinutesWatched}m for ${detailed.data.data.user.dropCampaign.timeBasedDrops[i].name}\n`
+
                                         // Add fields
                                         twitchDropsEmbed.addFields(
                                             {name: "Status", value: `\`${detailed.data.data.user.dropCampaign.status}\``},
                                             {name: "Has Requirements", value: `\`${hasRequirements}\``},
-                                            {name: "Required Minutes Watched", value: `\`${detailed.data.data.user.dropCampaign.timeBasedDrops[0].requiredMinutesWatched}\``},
-                                            {name: "Starts At", value: `\`${moment(detailed.data.data.user.dropCampaign.startAt).tz('America/Los_Angeles').format("dddd, MMMM Do of YYYY [at] h z")}\``},
-                                            {name: "Ends At", value: `\`${moment(detailed.data.data.user.dropCampaign.endAt).tz('America/Los_Angeles').format("dddd, MMMM Do of YYYY [at] h z")}\``},
+                                            {name: "Required Minutes Watched", value: `\`${requiredMinutesWatched}\``},
+                                            {name: "Starts At", value: `\`${moment(detailed.data.data.user.dropCampaign.startAt).tz('America/Los_Angeles').format("dddd, MMMM Do of YYYY [at] h A z")}\``},
+                                            {name: "Ends At", value: `\`${moment(detailed.data.data.user.dropCampaign.endAt).tz('America/Los_Angeles').format("dddd, MMMM Do of YYYY [at] h A z")}\``},
                                         )
 
                                         // Set footer

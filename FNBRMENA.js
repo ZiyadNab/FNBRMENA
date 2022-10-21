@@ -626,7 +626,7 @@ class FNBRMENA {
      * 
      */
      async Set(Lang, Text){
-        return axios.get(`https://fortnite-api.com/v2/cosmetics/br/search/all?language=${Lang}&set=${Text}`)
+        return axios.get(`https://fortniteapi.io/v2/items/list?lang=${Lang}&set.name=${Text}`, { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io")}})
     }
 
     /**

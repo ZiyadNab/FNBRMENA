@@ -173,6 +173,7 @@ client.on('ready', async () => {
     uncommon: client.emojis.cache.get("1009803505852227596"),
     common: client.emojis.cache.get("1009803510449188937"),
     outfit: client.emojis.cache.get("1009803716448231445"),
+    bundle: client.emojis.cache.get("1033039994413121638"),
     backpack: client.emojis.cache.get("1009803705845022750"),
     emote: client.emojis.cache.get("1009803708185444393"),
     loadingscreen: client.emojis.cache.get("1009803712291676160"),

@@ -237,7 +237,11 @@ module.exports = {
                         }else var Source = res.data.items[num].type.name.toUpperCase()
 
                         //set the item info
-                        var name = res.data.items[num].name
+                        if(res.data.items[num].name !== "") var name = res.data.items[num].name
+                        else{
+                            if(userData.lang === "en") var name = 'NAME NOT FOUND'
+                            else if(userData.lang === "ar") var name = 'لا يوجد اسم'
+                        }
                         if(res.data.items[num].images.icon === null) var image = 'https://imgur.com/HVH5sqV.png'
                         else var image = res.data.items[num].images.icon
                         if(res.data.items[num].series !== null) var rarity = res.data.items[num].series.id

@@ -23,20 +23,20 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
             if(status){
 
                 //request data
-                await FNBRMENA.Crew("active", lang)
+                await FNBRMENA.Crew("list", lang)
                 .then(async res => {
                     if(number === 0){
-                        data = await res.data.currentCrew
+                        data = await res.data.history[0]
                         number++
                     }
 
                     //if the client wants to pust data
                     if(push) data = []
 
-                    if(data.date != res.data.currentCrew.date){
+                    if(data.date != res.data.history[0].date){
 
                         //creating length
-                        var length = res.data.currentCrew.rewards.length
+                        var length = res.data.history[0].rewards.length
 
                         //variables
                         var width = 0
@@ -61,7 +61,7 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                         width += (length * 1024) + (length * 10) - 10
 
                         //creating height
-                        for(let i = 0; i < res.data.currentCrew.rewards.length; i++){
+                        for(let i = 0; i < res.data.history[0].rewards.length; i++){
                             
                             if(newline === length){
                                 height += 1024 + 10
@@ -103,27 +103,33 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                         newline = 0
 
                         //items
-                        for(let i = 0; i < res.data.currentCrew.rewards.length; i++){
+                        for(let i = 0; i < res.data.history[0].rewards.length; i++){
                             ctx.fillStyle = '#ffffff';
 
                             //skin informations
-                            if(res.data.currentCrew.rewards[i].item.introduction != null){
-                                var chapter = res.data.currentCrew.rewards[i].item.introduction.chapter.substring(res.data.currentCrew.rewards[i].item.introduction.chapter.indexOf(" "), res.data.currentCrew.rewards[i].item.introduction.chapter.length).trim()
-                                var season = res.data.currentCrew.rewards[i].item.introduction.season.substring(res.data.currentCrew.rewards[i].item.introduction.season.indexOf(" "), res.data.currentCrew.rewards[i].item.introduction.season.length).trim()
+                            if(res.data.history[0].rewards[i].item.introduction != null){
+                                var chapter = res.data.history[0].rewards[i].item.introduction.chapter.substring(res.data.history[0].rewards[i].item.introduction.chapter.indexOf(" "), res.data.history[0].rewards[i].item.introduction.chapter.length).trim()
+                                var season = res.data.history[0].rewards[i].item.introduction.season.substring(res.data.history[0].rewards[i].item.introduction.season.indexOf(" "), res.data.history[0].rewards[i].item.introduction.season.length).trim()
 
                                 if(lang === "en") var seasonChapter = `C${chapter}S${season}`
                                 else if(lang == "ar")var seasonChapter = `الفصل ${chapter} الموسم ${season}`
 
                             }else{
 
-                                if(lang === "en") var seasonChapter = `${res.data.currentCrew.rewards[i].item.added.version}v`
-                                else if(lang == "ar")var seasonChapter = `تحديث ${res.data.currentCrew.rewards[i].item.added.version}`
+                                if(lang === "en") var seasonChapter = `${res.data.history[0].rewards[i].item.added.version}v`
+                                else if(lang == "ar")var seasonChapter = `تحديث ${res.data.history[0].rewards[i].item.added.version}`
                                 
                             }
-                            var name = res.data.currentCrew.rewards[i].item.name;
-                            var image = res.data.currentCrew.rewards[i].item.images.icon
-                            if(res.data.currentCrew.rewards[i].item.series === null) var rarity = res.data.currentCrew.rewards[i].item.rarity.id
-                            else var rarity = res.data.currentCrew.rewards[i].item.series.id
+                            
+                            if(res.data.history[0].rewards[i].item.name !== "") var name = res.data.history[0].rewards[i].item.name
+                            else{
+                                if(lang === "en") var name = 'NAME NOT FOUND'
+                                else if(lang === "ar") var name = 'لا يوجد اسم'
+                            }
+                            if(res.data.history[0].rewards[i].item.images.icon === null) var image = 'https://imgur.com/HVH5sqV.png'
+                            else var image = res.data.history[0].rewards[i].item.images.icon
+                            if(res.data.history[0].rewards[i].item.series === null) var rarity = res.data.history[0].rewards[i].item.rarity.id
+                            else var rarity = res.data.history[0].rewards[i].item.series.id
                             newline = newline + 1;
 
                             //searching...
@@ -327,10 +333,10 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                             var yTags = 7 + y
                             var xTags = ((1024 - wTags) - 7) + x
 
-                            for(let t = 0; t < res.data.currentCrew.rewards[i].item.gameplayTags.length; t++){
+                            for(let t = 0; t < res.data.history[0].rewards[i].item.gameplayTags.length; t++){
 
                                 //if the item is animated
-                                if(res.data.currentCrew.rewards[i].item.gameplayTags[t].includes('Animated')){
+                                if(res.data.history[0].rewards[i].item.gameplayTags[t].includes('Animated')){
 
                                     //add the animated icon
                                     const Animated = await Canvas.loadImage('./assets/Tags/T-Icon-Animated-64.png')
@@ -340,7 +346,7 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                                 }
 
                                 //if the item is reactive
-                                if(res.data.currentCrew.rewards[i].item.gameplayTags[t].includes('Reactive')){
+                                if(res.data.history[0].rewards[i].item.gameplayTags[t].includes('Reactive')){
 
                                     //add the reactive icon
                                     const Reactive = await Canvas.loadImage('./assets/Tags/T-Icon-Adaptive-64.png')
@@ -351,7 +357,7 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                                 }
 
                                 //if the item is synced emote
-                                if(res.data.currentCrew.rewards[i].item.gameplayTags[t].includes('Synced')){
+                                if(res.data.history[0].rewards[i].item.gameplayTags[t].includes('Synced')){
 
                                     //add the Synced icon
                                     const Synced = await Canvas.loadImage('./assets/Tags/T-Icon-Synced-64x.png')
@@ -362,7 +368,7 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                                 }
 
                                 //if the item is traversal
-                                if(res.data.currentCrew.rewards[i].item.gameplayTags[t].includes('Traversal')){
+                                if(res.data.history[0].rewards[i].item.gameplayTags[t].includes('Traversal')){
 
                                     //add the Traversal icon
                                     const Traversal = await Canvas.loadImage('./assets/Tags/T-Icon-Traversal-64.png')
@@ -372,7 +378,7 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                                 }
 
                                 //if the item has styles
-                                if(res.data.currentCrew.rewards[i].item.gameplayTags[t].includes('HasVariants') || res.data.currentCrew.rewards[i].item.gameplayTags[t].includes('HasUpgradeQuests')){
+                                if(res.data.history[0].rewards[i].item.gameplayTags[t].includes('HasVariants') || res.data.history[0].rewards[i].item.gameplayTags[t].includes('HasUpgradeQuests')){
 
                                     //add the HasVariants icon
                                     const HasVariants = await Canvas.loadImage('./assets/Tags/T-Icon-Variant-64.png')
@@ -383,7 +389,7 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                             }
 
                             //if the item contains copyrited audio
-                            if(res.data.currentCrew.rewards[i].item.copyrightedAudio){
+                            if(res.data.history[0].rewards[i].item.copyrightedAudio){
 
                                 //add the copyrightedAudio icon
                                 const copyrightedAudio = await Canvas.loadImage('./assets/Tags/mute.png')
@@ -393,10 +399,10 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                             }
 
                             //if the item contains built in emote
-                            if(res.data.currentCrew.rewards[i].item.builtInEmote != null){
+                            if(res.data.history[0].rewards[i].item.builtInEmote != null){
 
                                 //add the builtInEmote icon
-                                const builtInEmote = await Canvas.loadImage(res.data.currentCrew.rewards[i].item.builtInEmote.images.icon)
+                                const builtInEmote = await Canvas.loadImage(res.data.history[0].rewards[i].item.builtInEmote.images.icon)
                                 ctx.drawImage(builtInEmote, xTags - 15, yTags, ((1024 / 512) * 30) + x, ((1024 / 512) * 30) + y)
                             }
 
@@ -409,29 +415,29 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                             }
                         }
 
-                        const year = res.data.currentCrew.date.substring(0, 4)
-                        const month = res.data.currentCrew.date.substring(5, 7)
+                        const year = res.data.history[0].date.substring(0, 4)
+                        const month = res.data.history[0].date.substring(5, 7)
 
                         //the crew data has been found lets cread an embed
                         const crewData = new Discord.EmbedBuilder()
-                        crewData.setColor(res.data.currentCrew.colors.A)
+                        crewData.setColor(res.data.history[0].colors.A)
 
                         if(lang === "en") crewData.setTitle(`The Fortnite Crew for month ${month} of ${year}`)
                         else if(lang === "ar") crewData.setTitle(`حزمة طاقم فورت نايت لشهر ${month} سنه ${year}`)
-                        crewData.setImage(res.data.currentCrew.images.apiRender)
+                        crewData.setImage(res.data.history[0].images.apiRender)
 
                         //creating a row
                         const row = new Discord.ActionRowBuilder()
 
                         //check if there is a video link
-                        if(res.data.currentCrew.video != null){
+                        if(res.data.history[0].video != null){
 
                             //creating button
                             if(lang === "en") row.addComponents(
                                 new Discord.ButtonBuilder()
                                 .setStyle(Discord.ButtonStyle.Link)
                                 .setLabel("Crew Pack Trailer")
-                                .setURL(res.data.currentCrew.video)
+                                .setURL(res.data.history[0].video)
                             )
 
                             //creating button
@@ -439,24 +445,24 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                                 new Discord.ButtonBuilder()
                                 .setStyle(Discord.ButtonStyle.Link)
                                 .setLabel("عرض طاقم فورت نايت")
-                                .setURL(res.data.currentCrew.video)
+                                .setURL(res.data.history[0].video)
                             )
 
                             //send embed
-                            const att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `${res.data.currentCrew.date}.png`})
+                            const att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `${res.data.history[0].date}.png`})
                             if(role.Status) await message.send({content: `<@&${role.roleID}>`, embeds: [crewData], files: [att], components: [row]})
                             else await message.send({embeds: [crewData], files: [att], components: [row]})
 
                         }else{
 
                             //send embed
-                            const att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `${res.data.currentCrew.date}.png`})
+                            const att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `${res.data.history[0].date}.png`})
                             if(role.Status) await message.send({content: `<@&${role.roleID}>`, embeds: [crewData], files: [att]})
                             else await message.send({embeds: [crewData], files: [att]})
                         }
 
                         //store the new data
-                        data = await res.data.currentCrew
+                        data = await res.data.history[0]
 
                         //trun off push if enabled
                         admin.database().ref("ERA's").child("Events").child("crew").update({

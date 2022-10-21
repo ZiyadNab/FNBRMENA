@@ -9,9 +9,6 @@ module.exports = {
     permissionError: 'Sorry you do not have acccess to this command',
     callback: async (FNBRMENA, message, args, text, Discord, client, admin, userData, alias, emojisObject) => {
 
-        // Setup database storage
-        const storage = admin.storage().bucket()
-
         // Create image
         const cosmeticsImage = async (items, build) => {
 
@@ -22,16 +19,6 @@ module.exports = {
             else if(userData.lang === "ar") generating.setTitle(`تحميل جميع العناصر بمجموع ${items.length} عنصر الرجاء الانتظار... ${emojisObject.loadingEmoji}`)
             message.reply({embeds: [generating]})
             .then( async msg => {
-
-            // Delete the old existing new file [JPG]
-            await admin.storage().bucket().deleteFiles({
-                prefix: `preloadedcommands/new/en/emoji-++Fortnite+Release-21.50-CL-21657658-Windows.jpg`,
-            })
-
-            // Delete the old existing new file [PNG]
-            await admin.storage().bucket().deleteFiles({
-                prefix: `preloadedcommands/new/en/emoji-++Fortnite+Release-21.50-CL-21657658-Windows.png`
-            })
 
             //variables
             var x = 0

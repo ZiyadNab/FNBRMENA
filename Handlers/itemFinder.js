@@ -285,6 +285,11 @@ module.exports = async (FNBRMENA, message, client, lang, emojisObject) => {
                 emoji: `${emojisObject.outfit}`
             },
             {
+                label: 'Bundle',
+                value: 'bundle',
+                emoji: `${emojisObject.bundle}`
+            },
+            {
                 label: 'Style',
                 value: 'cosmeticvariant',
             },
@@ -361,6 +366,11 @@ module.exports = async (FNBRMENA, message, client, lang, emojisObject) => {
                 label: 'الزي',
                 value: 'outfit',
                 emoji: `${emojisObject.outfit}`
+            },
+            {
+                label: 'الحزم',
+                value: 'bundle',
+                emoji: `${emojisObject.bundle}`
             },
             {
                 label: 'النمط',

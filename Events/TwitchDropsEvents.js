@@ -291,15 +291,29 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                                 client.channels.fetch(config.events.Twitch)
                                 .then(async channel => {
 
-                                    // Get the message from the channel and delete it
-                                    channel.messages.delete(drops[i].messageId);
+                                    // Check if messages got manulay deleted
+                                    await channel.messages.fetch(drops[i].messageId)
+                                    .then(async msg => {
 
-                                    // Delete the drop
-                                    drops.splice(i, 1)
+                                        // Get the message from the channel and delete it
+                                        msg.delete(drops[i].messageId)
 
-                                    // Update data
-                                    await admin.database().ref("ERA's").child("Events").child("twitchdrops").update({
-                                        Drops: drops
+                                        // Delete the drop
+                                        drops.splice(i, 1)
+
+                                        // Update data
+                                        await admin.database().ref("ERA's").child("Events").child("twitchdrops").update({
+                                            Drops: drops
+                                        })
+                                    }).catch(async err => {
+
+                                        // Delete the drop
+                                        drops.splice(i, 1)
+
+                                        // Update data
+                                        await admin.database().ref("ERA's").child("Events").child("twitchdrops").update({
+                                            Drops: drops
+                                        })
                                     })
                                 })
                             }

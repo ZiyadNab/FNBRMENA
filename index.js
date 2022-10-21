@@ -143,6 +143,10 @@ client.on('ready', async () => {
 
   // Initializing emojis
   const emojisObject = {
+    overall: client.emojis.cache.get("1032987970300559391"),
+    keyboard: client.emojis.cache.get("1032984199663198228"),
+    controller: client.emojis.cache.get("1032987555232235541"),
+    touchpad: client.emojis.cache.get("1032987178516631622"),
     countEmoji: client.emojis.cache.get("932316012001525760"),
     endEmoji: client.emojis.cache.get("920024867603120168"),
     errorEmoji: client.emojis.cache.get("836454225344856066"),

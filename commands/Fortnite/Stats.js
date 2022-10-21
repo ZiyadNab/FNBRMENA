@@ -13,7 +13,7 @@ module.exports = {
     argsExample: ['Ninja', 'SypherPK'],
     minArgs: 1,
     maxArgs: null,
-    cooldown: -1,
+    cooldown: 5,
     permissionError: 'Sorry you do not have acccess to this command',
     callback: async (FNBRMENA, message, args, text, LL, client, admin, userData, alias, emojisObject) => {
 
@@ -39,7 +39,14 @@ module.exports = {
             'A6FF00,588701',
             'F4FF00,818701',
             'FFAA00,895C01',
-            '9E00FF,D086FD'
+            '9E00FF,D086FD',
+            '000000,000000',
+            '003AFF,031B6B',
+            '00F2F9,F900F9',
+            '002DF9,00F9F5',
+            '6D00F9,F900EE',
+            '00F939,DFFE00',
+            'FEC400,3E00FF'
         ]
 
         // List of types
@@ -57,7 +64,7 @@ module.exports = {
         ]
 
         // Draw player stats
-        const drawPlayerStats = async (res, outfit, loadingscreen, color) => {
+        const drawPlayerStats = async (res, stats, outfit, loadingscreen, color) => {
 
             // Generating message
             const generating = new Discord.EmbedBuilder()
@@ -69,15 +76,15 @@ module.exports = {
 
                 // Push add, solo, duo, squads and LTM's
                 const statsData = []
-                if(res.data.data.stats.all.overall !== null) statsData.push(res.data.data.stats.all.overall)
+                if(stats.overall !== null) statsData.push(stats.overall)
                 else statsData.push({ })
-                if(res.data.data.stats.all.solo !== null) statsData.push(res.data.data.stats.all.solo)
+                if(stats.solo !== null) statsData.push(stats.solo)
                 else statsData.push({ })
-                if(res.data.data.stats.all.duo !== null) statsData.push(res.data.data.stats.all.duo)
+                if(stats.duo !== null) statsData.push(stats.duo)
                 else statsData.push({ })
-                if(res.data.data.stats.all.squad !== null) statsData.push(res.data.data.stats.all.squad)
+                if(stats.squad !== null) statsData.push(stats.squad)
                 else statsData.push({ })
-                if(res.data.data.stats.all.ltm !== null) statsData.push(res.data.data.stats.all.ltm)
+                if(stats.ltm !== null) statsData.push(stats.ltm)
                 else statsData.push({ })
 
                 // Loop throw every stats feild
@@ -220,7 +227,39 @@ module.exports = {
                     ctx.fillStyle = '#ffffff';
                     ctx.textAlign='left';
                     ctx.font = '100px Burbank Big Condensed'
-                    ctx.fillText(`FNBRMENA | ${res.data.data.account.name}`, 30, 110)
+                    ctx.fillText(`FNBRMENA | ${userInput.name.toUpperCase()}`, 30, 110)
+
+                    // Add stats type
+                    if(userInput.type === "all"){
+                        const allTypeIMG = await Canvas.loadImage('https://imgur.com/IGV05Yq.png')
+                        ctx.drawImage(allTypeIMG, 30, 120, 120, 120)
+                    }
+                    if(userInput.type === "kbm"){
+                        const kbmTypeIMG = await Canvas.loadImage('https://imgur.com/gUCgxuZ.png')
+                        ctx.drawImage(kbmTypeIMG, 30, 120, 120, 120)
+                    }
+                    if(userInput.type === "controller"){
+                        const controllerTypeIMG = await Canvas.loadImage('https://imgur.com/BfRpXon.png')
+                        ctx.drawImage(controllerTypeIMG, 30, 120, 120, 120)
+                    }
+                    if(userInput.type === "touch"){
+                        const touchTypeIMG = await Canvas.loadImage('https://imgur.com/mVWCmjy.png')
+                        ctx.drawImage(touchTypeIMG, 30, 120, 120, 120)
+                    }
+
+                    // Add player's platform
+                    if(userInput.platform === "epic"){
+                        const allTypeIMG = await Canvas.loadImage('https://imgur.com/tSDjS5L.png')
+                        ctx.drawImage(allTypeIMG, 30, 250, 120, 120)
+                    }
+                    if(userInput.platform === "psn"){
+                        const allTypeIMG = await Canvas.loadImage('https://imgur.com/gnVRNSs.png')
+                        ctx.drawImage(allTypeIMG, 30, 250, 120, 120)
+                    }
+                    if(userInput.platform === "xbl"){
+                        const allTypeIMG = await Canvas.loadImage('https://imgur.com/zmJKwQw.png')
+                        ctx.drawImage(allTypeIMG, 30, 250, 120, 120)
+                    }
 
                 }
 
@@ -494,18 +533,17 @@ module.exports = {
         })
 
         // Await for user input
-        const colllector = await message.channel.createMessageComponentCollector({filter, time: 60000, errors: ['time'] })
+        const colllector = await message.channel.createMessageComponentCollector({filter, time: 3 * 60000, errors: ['time'] })
         colllector.on('collect', async collected => {
+            collected.deferUpdate();
 
             // If cancel button has been clicked
             if(collected.customId === `Cancel-${alias}`){
-                collected.deferUpdate();
                 colllector.stop()
             }
 
             // If the user selected a platform
             if(collected.customId === `Platform-${alias}`){
-                collected.deferUpdate();
 
                 // Add the chosen platform to userInput obj
                 userInput.platform = collected.values[0]
@@ -563,24 +601,48 @@ module.exports = {
                 // Add options for en
                 if(userData.lang === "en") statsTypeDropMenu.addOptions(
                     {
-                        label: `Lifetime`,
-                        value: `lifetime`,
+                        label: `All`,
+                        value: `all`,
+                        emoji: `${emojisObject.overall.name}:${emojisObject.overall.id}`
                     },
                     {
-                        label: `Seasonal`,
-                        value: `season`,
+                        label: `Keyboard And Mouse`,
+                        value: `kbm`,
+                        emoji: `${emojisObject.keyboard.name}:${emojisObject.keyboard.id}`
+                    },
+                    {
+                        label: `Controller`,
+                        value: `controller`,
+                        emoji: `${emojisObject.controller.name}:${emojisObject.controller.id}`
+                    },
+                    {
+                        label: `Touch`,
+                        value: `touch`,
+                        emoji: `${emojisObject.touchpad.name}:${emojisObject.touchpad.id}`
                     }
                 )
 
                 // Add options for ar
                 else if(userData.lang === "ar") statsTypeDropMenu.addOptions(
                     {
-                        label: `جميع المواسم`,
-                        value: `lifetime`,
+                        label: `الكل`,
+                        value: `all`,
+                        emoji: `${emojisObject.overall.name}:${emojisObject.overall.id}`
                     },
                     {
-                        label: `موسمي`,
-                        value: `season`,
+                        label: `لوحة المفاتيح`,
+                        value: `kbm`,
+                        emoji: `${emojisObject.keyboard.name}:${emojisObject.keyboard.id}`
+                    },
+                    {
+                        label: `يد التحكم`,
+                        value: `controller`,
+                        emoji: `${emojisObject.controller.name}:${emojisObject.controller.id}`
+                    },
+                    {
+                        label: `اللمس`,
+                        value: `touch`,
+                        emoji: `${emojisObject.touchpad.name}:${emojisObject.touchpad.id}`
                     }
                 )
 
@@ -594,7 +656,6 @@ module.exports = {
 
             // If the user selected a type
             if(collected.customId === `Type-${alias}`){
-                collected.deferUpdate();
 
                 // Add the chosen type to userInput obj
                 userInput.type = collected.values[0]
@@ -646,28 +707,56 @@ module.exports = {
                 // Add options for en
                 if(userData.lang === "en") statsTypeRow.components[0].setOptions(
                     {
-                        label: `Lifetime`,
-                        value: `lifetime`,
-                        default: (userInput.type === 'lifetime'),
+                        label: `All`,
+                        value: `all`,
+                        default: (userInput.type === 'all'),
+                        emoji: `${emojisObject.overall.name}:${emojisObject.overall.id}`
                     },
                     {
-                        label: `Seasonal`,
-                        value: `season`,
-                        default: (userInput.type === 'season'),
+                        label: `Keyboard And Mouse`,
+                        value: `kbm`,
+                        default: (userInput.type === 'kbm'),
+                        emoji: `${emojisObject.keyboard.name}:${emojisObject.keyboard.id}`
+                    },
+                    {
+                        label: `Controller`,
+                        value: `controller`,
+                        default: (userInput.type === 'controller'),
+                        emoji: `${emojisObject.controller.name}:${emojisObject.controller.id}`
+                    },
+                    {
+                        label: `Touch`,
+                        value: `touch`,
+                        default: (userInput.type === 'touch'),
+                        emoji: `${emojisObject.touchpad.name}:${emojisObject.touchpad.id}`
                     }
                 )
 
                 // Add options for ar
                 else if(userData.lang === "ar") statsTypeRow.components[0].setOptions(
                     {
-                        label: `جميع المواسم`,
-                        value: `lifetime`,
-                        default: (userInput.type === 'lifetime'),
+                        label: `الكل`,
+                        value: `all`,
+                        default: (userInput.type === 'all'),
+                        emoji: `${emojisObject.overall.name}:${emojisObject.overall.id}`
                     },
                     {
-                        label: `موسمي`,
-                        value: `season`,
-                        default: (userInput.type === 'season'),
+                        label: `لوحة المفاتيح`,
+                        value: `kbm`,
+                        default: (userInput.type === 'kbm'),
+                        emoji: `${emojisObject.keyboard.name}:${emojisObject.keyboard.id}`
+                    },
+                    {
+                        label: `يد التحكم`,
+                        value: `controller`,
+                        default: (userInput.type === 'controller'),
+                        emoji: `${emojisObject.controller.name}:${emojisObject.controller.id}`
+                    },
+                    {
+                        label: `اللمس`,
+                        value: `touch`,
+                        default: (userInput.type === 'touch'),
+                        emoji: `${emojisObject.touchpad.name}:${emojisObject.touchpad.id}`
                     }
                 )
 
@@ -677,33 +766,32 @@ module.exports = {
                 // Add buttons
                 if(userData.lang === "en") buttonDataRow.addComponents(
                     new Discord.ButtonBuilder()
-                    .setCustomId(`Generate-${alias}`)
+                    .setCustomId(`Lifetime-${alias}`)
                     .setStyle(Discord.ButtonStyle.Primary)
-                    .setLabel("Generate")
+                    .setLabel("Lifetime")
                 )
 
                 else if(userData.lang === "ar") buttonDataRow.addComponents(
                     new Discord.ButtonBuilder()
-                    .setCustomId(`Generate-${alias}`)
+                    .setCustomId(`Lifetime-${alias}`)
                     .setStyle(Discord.ButtonStyle.Primary)
-                    .setLabel("انشاء")
+                    .setLabel("جميع المواسم")
                 )
 
                 if(userData.lang === "en") buttonDataRow.addComponents(
                     new Discord.ButtonBuilder()
-                    .setCustomId(`Custom-${alias}`)
+                    .setCustomId(`Seasonal-${alias}`)
                     .setStyle(Discord.ButtonStyle.Success)
-                    .setLabel("Custom")
+                    .setLabel("Seasonal")
                 )
 
                 else if(userData.lang === "ar") buttonDataRow.addComponents(
                     new Discord.ButtonBuilder()
-                    .setCustomId(`Custom-${alias}`)
+                    .setCustomId(`Seasonal-${alias}`)
                     .setStyle(Discord.ButtonStyle.Success)
-                    .setLabel("اختياري")
+                    .setLabel("موسمي")
                 )
 
-                // Add buttons
                 if(userData.lang === "en") buttonDataRow.addComponents(
                     new Discord.ButtonBuilder()
                     .setCustomId(`Cancel-${alias}`)
@@ -720,19 +808,22 @@ module.exports = {
 
                 // Edit the main message
                 await dropMenuMessage.edit({embeds: [statsPlatformEmbed], components: [statsPlatformRow, statsTypeRow, buttonDataRow]})
+
             }
 
-            // If the user selected a type
-            if(collected.customId === `Generate-${alias}`){
+            // If lifetime button has been clicked
+            if(collected.customId === `Lifetime-${alias}`){
                 colllector.stop()
-                collected.deferUpdate();
-
+                
                 //request data
-                await FNBRMENA.Stats(userInput.name, userInput.platform, userInput.type)
+                await FNBRMENA.Stats(userInput.name, userInput.platform, 'lifetime')
                 .then(async res =>{
 
                     // Draw the stats
-                    drawPlayerStats(res, false, false, false)
+                    if(userInput.type === "all") drawPlayerStats(res, res.data.data.stats.all, false, false, false)
+                    if(userInput.type === "kbm") drawPlayerStats(res, res.data.data.stats.keyboardMouse, false, false, false)
+                    if(userInput.type === "controller") drawPlayerStats(res, res.data.data.stats.gamepad, false, false, false)
+                    if(userInput.type === "touch") drawPlayerStats(res, res.data.data.stats.touch, false, false, false)
                 
                 }).catch(async err => {
                     if(err.response.data.status === 404){
@@ -779,143 +870,62 @@ module.exports = {
                 })
             }
 
-            // If the user selected a type
-            if(collected.customId === `Custom-${alias}`){
+            // If seasonal button has been clicked
+            if(collected.customId === `Seasonal-${alias}`){
+                colllector.stop()
+                
+                //request data
+                await FNBRMENA.Stats(userInput.name, userInput.platform, 'season')
+                .then(async res =>{
 
-                // Create the modal and add text fields
-                const customModal = new Discord.ModalBuilder()
-
-                // Set data
-                customModal.setCustomId(`customStatsModal-${message.id}`)
-                customModal.setTitle('Custom Stats')
-                customModal.addComponents(
-                    new Discord.ActionRowBuilder().addComponents(
-                        new Discord.TextInputBuilder()
-                        .setCustomId('outfitInput')
-                        .setLabel("Type the outfit name.")
-                        .setPlaceholder("Leave it empty to skip")
-                        .setStyle(Discord.TextInputStyle.Short)
-                        .setValue('Scarlet Witch')
-                    ),
-                    new Discord.ActionRowBuilder().addComponents(
-                        new Discord.TextInputBuilder()
-                        .setCustomId('loadingscreenInput')
-                        .setLabel("Type the loadingscreen name.")
-                        .setPlaceholder("Leave it empty to skip")
-                        .setStyle(Discord.TextInputStyle.Short)
-                        .setValue('Through the Mirror Dimension')
-                    ),
-                    new Discord.ActionRowBuilder().addComponents(
-                        new Discord.TextInputBuilder()
-                        .setCustomId('colorInputA')
-                        .setLabel("Type the color A (HEX only).")
-                        .setPlaceholder("Leave it empty to skip")
-                        .setStyle(Discord.TextInputStyle.Short)
-                        .setValue('FF0000')
-                    ),
-                    new Discord.ActionRowBuilder().addComponents(
-                        new Discord.TextInputBuilder()
-                        .setCustomId('colorInputB')
-                        .setLabel("Type the color B (HEX only).")
-                        .setPlaceholder("Leave it empty to skip")
-                        .setStyle(Discord.TextInputStyle.Short)
-                        .setValue('8C0000')
-                    )
-                )
-
-                await collected.showModal(customModal)
-
-                // Listen for modal submission
-                const filter = (i => {
-                    return i.customId === `customStatsModal-${message.id}` && i.user.id === message.author.id && i.guild.id === message.guild.id
-                })
-
-                await collected.awaitModalSubmit({filter, time: 10 * 60000})
-                .then(async modalCollect => {
-
-                    // Fields
-                    var outfit = modalCollect.fields.getTextInputValue('outfitInput')
-                    var loadingscreen = modalCollect.fields.getTextInputValue('loadingscreenInput')
-                    var color = `${modalCollect.fields.getTextInputValue('colorInputA')},${modalCollect.fields.getTextInputValue('colorInputB')}`
-
-                    // Check for empty fields
-                    if(outfit == "") outfit = false
-                    if(loadingscreen == "") loadingscreen = false
-                    if(color == ",") color = false
-
-                    //request data
-                    await FNBRMENA.Stats(userInput.name, userInput.platform, userInput.type)
-                    .then(async res =>{
-
-                        // Specify parms
-                        var type = "name"
-
-                        // Search by id
-                        if(outfit.includes("_")) type = "id"
-
-                        // Request outfit image
-                        if(outfit) outfit = await FNBRMENA.Search(userData.lang, type, outfit)
-
-                        // Search by id
-                        if(loadingscreen.includes("_")) type = "id"
-
-                        // Request loadingscreen image
-                        if(loadingscreen) loadingscreen = await FNBRMENA.Search(userData.lang, type, loadingscreen)
-
-                        // Draw the stats
-                        if(outfit.data.items.length > 0 && loadingscreen.data.items.length > 0){
-                            modalCollect.deferUpdate()
-                            await colllector.stop()
-                            drawPlayerStats(res, outfit, loadingscreen, color)
-
-                        }else modalCollect.reply({content: 'Outfit name or loadingscreen name are not valid', ephemeral: true})
-                    
-                    }).catch(async err => {
-                        if(err.response.data.status === 404){
-
-                            if(err.response.data.error === "the requested account does not exist"){
-
-                                // Epic games string
-                                if(userInput.platform === "epic" && userData.lang === "en") var usedPlatform = 'Epicgames'
-                                else if(userInput.platform === "epic" && userData.lang === "ar") var usedPlatform = 'ايبك قيمز'
-
-                                // Psn string
-                                if(userInput.platform === "psn" && userData.lang === "en") var usedPlatform = 'Playstation'
-                                else if(userInput.platform === "psn" && userData.lang === "ar") var usedPlatform = 'بلايستيشن'
-
-                                // Xbl string
-                                if(userInput.platform === "xbl" && userData.lang === "en") var usedPlatform = 'XBOX'
-                                else if(userInput.platform === "xbl" && userData.lang === "ar") var usedPlatform = 'اكسبوكس'
-
-                                const noUserHasBeenFoundError = new Discord.EmbedBuilder()
-                                noUserHasBeenFoundError.setColor(FNBRMENA.Colors("embedError"))
-                                if(userData.lang === "en") noUserHasBeenFoundError.setTitle(`Can't find ${text} in ${usedPlatform} platform. Please try again ${emojisObject.errorEmoji}`)
-                                else if(userData.lang === "ar") noUserHasBeenFoundError.setTitle(`لا يمكنني العثور على حساب ${text} في منصه ${usedPlatform}. حاول مجددا ${emojisObject.errorEmoji}`)
-                                await message.reply({embeds: [noUserHasBeenFoundError]})
-
-                            }else if(err.response.data.error === "the requested profile didnt play any match yet"){
-
-                                const noMatchsPlayedYetError = new Discord.EmbedBuilder()
-                                noMatchsPlayedYetError.setColor(FNBRMENA.Colors("embedError"))
-                                if(userData.lang === "en") noMatchsPlayedYetError.setTitle(`The ${text} account hasn't played any matchs yet ${emojisObject.errorEmoji}`)
-                                else if(userData.lang === "ar") noMatchsPlayedYetError.setTitle(`صاحب حساب ${text} لم يلعب اي مباراة حتى الأن ${emojisObject.errorEmoji}`)
-                                await message.reply({embeds: [noMatchsPlayedYetError]})
-
-                            }
-
-                        }else if(err.response.data.status === 403){
-
-                            const theUserAccountIsPrivate = new Discord.EmbedBuilder()
-                            theUserAccountIsPrivate.setColor(FNBRMENA.Colors("embedError"))
-                            if(userData.lang === "en") theUserAccountIsPrivate.setTitle(`Can't get access to ${text} because the user account is private. ${emojisObject.errorEmoji}`)
-                            else if(userData.lang === "ar") theUserAccountIsPrivate.setTitle(`لا يمكنني الحصول على صلاحية إحصائيات ${text} بسبب ان الحساب خاص. ${emojisObject.errorEmoji}`)
-                            await message.reply({embeds: [theUserAccountIsPrivate]})
-
-                        }else FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
-                    })
-
+                    // Draw the stats
+                    if(userInput.type === "all") drawPlayerStats(res, res.data.data.stats.all, false, false, false)
+                    if(userInput.type === "kbm") drawPlayerStats(res, res.data.data.stats.keyboardMouse, false, false, false)
+                    if(userInput.type === "controller") drawPlayerStats(res, res.data.data.stats.gamepad, false, false, false)
+                    if(userInput.type === "touch") drawPlayerStats(res, res.data.data.stats.touch, false, false, false)
+                
                 }).catch(async err => {
-                    if(!err.message.includes("time")) FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
+                    if(err.response.data.status === 404){
+
+                        if(err.response.data.error === "the requested account does not exist"){
+
+                            // Epic games string
+                            if(userInput.platform === "epic" && userData.lang === "en") var usedPlatform = 'Epicgames'
+                            else if(userInput.platform === "epic" && userData.lang === "ar") var usedPlatform = 'ايبك قيمز'
+
+                            // Psn string
+                            if(userInput.platform === "psn" && userData.lang === "en") var usedPlatform = 'Playstation'
+                            else if(userInput.platform === "psn" && userData.lang === "ar") var usedPlatform = 'بلايستيشن'
+
+                            // Xbl string
+                            if(userInput.platform === "xbl" && userData.lang === "en") var usedPlatform = 'XBOX'
+                            else if(userInput.platform === "xbl" && userData.lang === "ar") var usedPlatform = 'اكسبوكس'
+
+                            const noUserHasBeenFoundError = new Discord.EmbedBuilder()
+                            noUserHasBeenFoundError.setColor(FNBRMENA.Colors("embedError"))
+                            if(userData.lang === "en") noUserHasBeenFoundError.setTitle(`Can't find ${text} in ${usedPlatform} platform. Please try again ${emojisObject.errorEmoji}`)
+                            else if(userData.lang === "ar") noUserHasBeenFoundError.setTitle(`لا يمكنني العثور على حساب ${text} في منصه ${usedPlatform}. حاول مجددا ${emojisObject.errorEmoji}`)
+                            await message.reply({embeds: [noUserHasBeenFoundError]})
+
+                        }else if(err.response.data.error === "the requested profile didnt play any match yet"){
+
+                            const noMatchsPlayedYetError = new Discord.EmbedBuilder()
+                            noMatchsPlayedYetError.setColor(FNBRMENA.Colors("embedError"))
+                            if(userData.lang === "en") noMatchsPlayedYetError.setTitle(`The ${text} account hasn't played any matchs yet ${emojisObject.errorEmoji}`)
+                            else if(userData.lang === "ar") noMatchsPlayedYetError.setTitle(`صاحب حساب ${text} لم يلعب اي مباراة حتى الأن ${emojisObject.errorEmoji}`)
+                            await message.reply({embeds: [noMatchsPlayedYetError]})
+
+                        }
+
+                    }else if(err.response.data.status === 403){
+
+                        const theUserAccountIsPrivate = new Discord.EmbedBuilder()
+                        theUserAccountIsPrivate.setColor(FNBRMENA.Colors("embedError"))
+                        if(userData.lang === "en") theUserAccountIsPrivate.setTitle(`Can't get access to ${text} because the user account is private. ${emojisObject.errorEmoji}`)
+                        else if(userData.lang === "ar") theUserAccountIsPrivate.setTitle(`لا يمكنني الحصول على صلاحية إحصائيات ${text} بسبب ان الحساب خاص. ${emojisObject.errorEmoji}`)
+                        await message.reply({embeds: [theUserAccountIsPrivate]})
+
+                    }else FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
                 })
             }
         })

@@ -404,7 +404,7 @@ module.exports = {
 
                     moment.locale(userData.lang)
                     if(userData.lang === "en") crewData.setTitle(`The Fortnite Crew for ${moment(res.data.history[num].date).format("dddd, MMMM Do of YYYY")}`)
-                    else if(userData.lang === "ar") crewData.setTitle(`حزمة طاقم فورت نايت لـ ${moment(res.data.history[num].date).format("dddd, MMMM Do من YYYY")}`)
+                    else if(userData.lang === "ar") crewData.setTitle(`حزمة طاقم فورت نايت ليوم ${moment(res.data.history[num].date).format("dddd, MMMM Do من YYYY")}`)
                     crewData.setImage(res.data.history[num].images.apiRender)
 
                     //creating a row

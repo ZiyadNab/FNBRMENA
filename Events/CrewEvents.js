@@ -1,4 +1,4 @@
-const axios = require('axios')
+const moment = require('moment')
 const Discord = require('discord.js')
 const Canvas = require('canvas')
 const config = require('../Configs/config.json')
@@ -415,15 +415,13 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                             }
                         }
 
-                        const year = res.data.history[0].date.substring(0, 4)
-                        const month = res.data.history[0].date.substring(5, 7)
-
                         //the crew data has been found lets cread an embed
                         const crewData = new Discord.EmbedBuilder()
                         crewData.setColor(res.data.history[0].colors.A)
 
-                        if(lang === "en") crewData.setTitle(`The Fortnite Crew for month ${month} of ${year}`)
-                        else if(lang === "ar") crewData.setTitle(`حزمة طاقم فورت نايت لشهر ${month} سنه ${year}`)
+                        moment.locale(lang)
+                        if(lang === "en") crewData.setTitle(`The Fortnite Crew for ${moment(res.data.history[0].date).format("dddd, MMMM Do of YYYY")}`)
+                        else if(lang === "ar") crewData.setTitle(`حزمة طاقم فورت نايت ليوم ${moment(res.data.history[0].date).format("dddd, MMMM Do من YYYY")}`)
                         crewData.setImage(res.data.history[0].images.apiRender)
 
                         //creating a row

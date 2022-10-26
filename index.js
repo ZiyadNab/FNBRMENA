@@ -143,6 +143,8 @@ client.on('ready', async () => {
 
   // Initializing emojis
   const emojisObject = {
+    up: client.emojis.cache.get("1034950916396298341"),
+    down: client.emojis.cache.get("1034950950688923668"),
     overall: client.emojis.cache.get("1032987970300559391"),
     keyboard: client.emojis.cache.get("1032984199663198228"),
     controller: client.emojis.cache.get("1032987555232235541"),

@@ -717,6 +717,17 @@ class FNBRMENA {
      * 
      * 
      */
+     async AESGM(){
+
+        //return the crew data
+        return await axios.get(`https://fortnitecentral.gmatrixgames.ga/api/v1/aes`)
+    }
+
+    /**
+     * Return data about the current aes
+     * 
+     * 
+     */
      async AES(){
 
         //return the crew data

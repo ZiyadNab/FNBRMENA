@@ -397,15 +397,13 @@ module.exports = {
                         }
                     }
 
-                    const year = res.data.history[num].date.substring(0, 4)
-                    const month = res.data.history[num].date.substring(5, 7)
-
                     //the crew data has been found lets cread an embed
                     const crewData = new Discord.EmbedBuilder()
                     crewData.setColor(res.data.history[num].colors.A)
 
-                    if(userData.lang === "en") crewData.setTitle(`The Fortnite Crew for month ${month} of ${year}`)
-                    else if(userData.lang === "ar") crewData.setTitle(`حزمة طاقم فورت نايت لشهر ${month} سنه ${year}`)
+                    moment.locale(userData.lang)
+                    if(userData.lang === "en") crewData.setTitle(`The Fortnite Crew for ${moment(res.data.history[num].date).format("dddd, MMMM Do of YYYY")}`)
+                    else if(userData.lang === "ar") crewData.setTitle(`حزمة طاقم فورت نايت لـ ${moment(res.data.history[num].date).format("dddd, MMMM Do من YYYY")}`)
                     crewData.setImage(res.data.history[num].images.apiRender)
 
                     //creating a row

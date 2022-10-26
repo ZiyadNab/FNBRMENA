@@ -46,12 +46,12 @@ module.exports = {
 
                     // Check if high texture
                     if(key.hasHighResTextures){
-                        if(userData.lang === "en") var highTexture = `\`Yes, it is. ${emojisObject.up.name}:${emojisObject.up.id}\``
-                        else if(userData.lang === "ar") var highTexture = `\`نعم! ${emojisObject.up.name}:${emojisObject.up.id}\``
+                        if(userData.lang === "en") var highTexture = `\`Yes, it is.\` ${emojisObject.up}`
+                        else if(userData.lang === "ar") var highTexture = `\`نعم!\` ${emojisObject.up}`
                     }
                     else{
-                        if(userData.lang === "en") var highTexture = `\`No, it is not.\` ${emojisObject.down.name}:${emojisObject.down.id}`
-                        else if(userData.lang === "ar") var highTexture = `\`لا! ${emojisObject.down.name}:${emojisObject.down.id}\``
+                        if(userData.lang === "en") var highTexture = `\`No, it is not.\` ${emojisObject.down}`
+                        else if(userData.lang === "ar") var highTexture = `\`لا!\` ${emojisObject.down}`
                     }
 
                     // Add the field
@@ -70,12 +70,12 @@ module.exports = {
 
                     // Check if high texture
                     if(key.hasHighResTextures){
-                        if(userData.lang === "en") var highTexture = `\`Yes, it is. ${emojisObject.up.name}:${emojisObject.up.id}\``
-                        else if(userData.lang === "ar") var highTexture = `\`نعم! ${emojisObject.up.name}:${emojisObject.up.id}\``
+                        if(userData.lang === "en") var highTexture = `\`Yes, it is.\` ${emojisObject.up}`
+                        else if(userData.lang === "ar") var highTexture = `\`نعم!\` ${emojisObject.up}`
                     }
                     else{
-                        if(userData.lang === "en") var highTexture = `\`No, it is not.\` ${emojisObject.down.name}:${emojisObject.down.id}`
-                        else if(userData.lang === "ar") var highTexture = `\`لا! ${emojisObject.down.name}:${emojisObject.down.id}\``
+                        if(userData.lang === "en") var highTexture = `\`No, it is not.\` ${emojisObject.down}`
+                        else if(userData.lang === "ar") var highTexture = `\`لا!\` ${emojisObject.down}`
                     }
                     
                     // Add the field

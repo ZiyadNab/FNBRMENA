@@ -1,4 +1,5 @@
-const Canvas = require('canvas');
+const Canvas = require('canvas')
+const moment = require('moment')
 
 module.exports = {
     commands: 'crew',

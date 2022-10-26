@@ -226,8 +226,8 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                                             {name: "Status", value: `\`${detailed.data.data.user.dropCampaign.status}\``},
                                             {name: "Has Requirements", value: `\`${hasRequirements}\``},
                                             {name: "Required Minutes Watched", value: `\`${requiredMinutesWatched}\``},
-                                            {name: "Starts At", value: `\`${moment(detailed.data.data.user.dropCampaign.startAt).tz('America/Los_Angeles').format("dddd, MMMM Do of YYYY [at] h A z")}\``},
-                                            {name: "Ends At", value: `\`${moment(detailed.data.data.user.dropCampaign.endAt).tz('America/Los_Angeles').format("dddd, MMMM Do of YYYY [at] h A z")}\``},
+                                            {name: "Starts At", value: `\`${moment(detailed.data.data.user.dropCampaign.startAt).tz('America/Los_Angeles').format("dddd, MMMM Do of YYYY [at] h:m A z")}\``},
+                                            {name: "Ends At", value: `\`${moment(detailed.data.data.user.dropCampaign.endAt).tz('America/Los_Angeles').format("dddd, MMMM Do of YYYY [at] h:m A z")}\``},
                                         )
 
                                         // Set footer

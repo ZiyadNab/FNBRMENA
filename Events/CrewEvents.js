@@ -26,14 +26,14 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                 await FNBRMENA.Crew("list", lang)
                 .then(async res => {
                     if(number === 0){
-                        data = await res.data.history[0]
+                        data = await res.data.history[0].date
                         number++
                     }
 
                     //if the client wants to pust data
                     if(push) data = []
 
-                    if(data.date != res.data.history[0].date){
+                    if(data != res.data.history[0].date){
 
                         //creating length
                         var length = res.data.history[0].rewards.length
@@ -460,7 +460,7 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                         }
 
                         //store the new data
-                        data = await res.data.history[0]
+                        data = await res.data.history[0].date
 
                         //trun off push if enabled
                         admin.database().ref("ERA's").child("Events").child("crew").update({

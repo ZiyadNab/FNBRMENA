@@ -257,6 +257,46 @@ class FNBRMENA {
     }
 
     /**
+     * Return data about a file
+     * 
+     * @param {String} Path
+     * @example
+     * FNBRMENA.Export(Path)
+     * .then(async res => {
+     * 
+     *        //you will get a response weather the requested data has been found or not
+     * 
+     * })
+     * 
+     */
+     async Export(Path){
+
+        //request the data and return the response
+        return await axios.get(`https://fortnitecentral.gmatrixgames.ga/api/v1/export?path=${Path}`)
+
+    }
+
+    /**
+     * Return data about a file
+     * 
+     * @param {String} Path
+     * @example
+     * FNBRMENA.arrayBufferExport(Path)
+     * .then(async res => {
+     * 
+     *        //you will get a response weather the requested data has been found or not
+     * 
+     * })
+     * 
+     */
+     async arrayBufferExport(Path){
+
+        //request the data and return the response
+        return await axios.get(`https://fortnitecentral.gmatrixgames.ga/api/v1/export?path=${Path}`, {responseType: 'arraybuffer'})
+
+    }
+
+    /**
      * Return data about the crew
      * 
      * @param {String} Type

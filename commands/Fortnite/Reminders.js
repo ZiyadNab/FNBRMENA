@@ -11,7 +11,7 @@ module.exports = {
     callback: async (FNBRMENA, message, args, text, Discord, client, admin, userData, alias, emojisObject) => {
 
         // Get the userId
-        if(args.length === 0) var userId = message.author.id
+        if(args.length === 0) var userId = message
         else{
 
             // Check if its a tag or an id

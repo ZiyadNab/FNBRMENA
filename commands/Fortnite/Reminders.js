@@ -21,8 +21,8 @@ module.exports = {
             }else var userId = text
 
             // Check user
-            const user = await message.guild.members.cache.get(userId)
-            if(!user){
+            userId = await message.guild.members.cache.get(userId)
+            if(!userId){
 
                 // Create embed
                 const userIdNotValidError = new Discord.EmbedBuilder()
@@ -37,8 +37,8 @@ module.exports = {
         // Send a generate message
         const generating = new Discord.EmbedBuilder()
         generating.setColor(FNBRMENA.Colors("embed"))
-        if(userData.lang === "en") generating.setTitle(`Getting all of the reminders under your account ${emojisObject.loadingEmoji}`)
-        if(userData.lang === "ar") generating.setTitle(`جاري جلب جميع التنبيهات لحسابك ${emojisObject.loadingEmoji}`)
+        if(userData.lang === "en") generating.setTitle(`Getting all of the reminders for ${userId.user.username} account ${emojisObject.loadingEmoji}`)
+        if(userData.lang === "ar") generating.setTitle(`جاري جلب جميع التنبيهات لحساب ${userId.user.username} ${emojisObject.loadingEmoji}`)
         message.reply({embeds: [generating]})
         .then(async msg => {
 
@@ -46,7 +46,7 @@ module.exports = {
             var db = await admin.firestore()
 
             // Define the collection
-            const docRef = await db.collection("Users").doc(`${userId}`).collection("Reminders")
+            const docRef = await db.collection("Users").doc(`${userId.user.id}`).collection("Reminders")
 
             // Get the collection data
             const snapshot = await docRef.get()
@@ -502,20 +502,20 @@ module.exports = {
                 const remindersEmbed = new Discord.EmbedBuilder()
                 remindersEmbed.setColor(FNBRMENA.Colors("embed"))
                 if(userData.lang === "en"){
-                    remindersEmbed.setTitle(`Reminders for ${message.author.username}`)
+                    remindersEmbed.setTitle(`Reminders for ${userId.user.username}`)
                     remindersEmbed.setDescription(`You will be notified when these items are in the Item Shop.Add & remove items with remind and unremind. \n\n${string}\n\n${emojisObject.starwars} You can add ${20 - snapshot.size} more reminders (${snapshot.size}/20).`)
                 }else if(userData.lang === "ar"){
-                    remindersEmbed.setTitle(`التذكيرات لـ ${message.author.username}`)
+                    remindersEmbed.setTitle(`التذكيرات لـ ${userId.user.username}`)
                     remindersEmbed.setDescription(`سوف يتم تنبيهك في حال توفر احد العناصر التاليه في متجر العناصر. اضف & احذف العناصر بأستخدام remind و unremind. \n\n${string}\n\n${emojisObject.starwars} يمكنك اضافة ${20 - snapshot.size} من المذكرات (${snapshot.size}/20).`)
                 }
 
                 try{
-                    var att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `${userId}.png`})
+                    var att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `${userId.user.id}.png`})
                     await message.reply({embeds: [remindersEmbed],files: [att]})
                     msg.delete()
 
                 }catch{
-                    var att = new Discord.AttachmentBuilder(canvas.toBuffer('image/jpeg'), {name: `${userId}.jpg`})
+                    var att = new Discord.AttachmentBuilder(canvas.toBuffer('image/jpeg'), {name: `${userId.user.id}.jpg`})
                     await message.reply({embeds: [remindersEmbed],files: [att]})
                     msg.delete()
 

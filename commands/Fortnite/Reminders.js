@@ -526,8 +526,8 @@ module.exports = {
                 // Create embed
                 const noRemindersFoundError = new Discord.EmbedBuilder()
                 noRemindersFoundError.setColor(FNBRMENA.Colors("embedError"))
-                if(userData.lang === "en") noRemindersFoundError.setTitle(`You dont have any reminders ${emojisObject.errorEmoji}`)
-                else if(userData.lang === "ar") noRemindersFoundError.setTitle(`ليس لديك اي عنصر للتذكير ${emojisObject.errorEmoji}`)
+                if(userData.lang === "en") noRemindersFoundError.setTitle(`${userId.user.username} doesn't have any reminders ${emojisObject.errorEmoji}`)
+                else if(userData.lang === "ar") noRemindersFoundError.setTitle(`لا يوجد لدى ${userId.user.username} اي تنبيهات ${emojisObject.errorEmoji}`)
                 msg.edit({embeds: [noRemindersFoundError]})
             }
             

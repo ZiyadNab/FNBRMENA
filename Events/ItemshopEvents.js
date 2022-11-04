@@ -1472,15 +1472,19 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
 
                     //if there is a change is shop
                     if(JSON.stringify(res.data.lastUpdate.uid) !== JSON.stringify(UID)){
-                        UID = await res.data.lastUpdate.uid
+                        
+                        //if fullShop is true
+                        if(res.data.fullShop){
+                            UID = await res.data.lastUpdate.uid
 
-                        //trun off push if enabled
-                        admin.database().ref("ERA's").child("Events").child("itemshop").update({
-                            Push: false
-                        })
+                            //trun off push if enabled
+                            admin.database().ref("ERA's").child("Events").child("itemshop").update({
+                                Push: false
+                            })
 
-                        //call pring function
-                        Send(res.data, lang, role)
+                            //call pring function
+                            Send(res.data, lang, role)
+                        }
 
                     }
 

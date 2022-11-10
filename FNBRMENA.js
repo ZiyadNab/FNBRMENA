@@ -1130,26 +1130,30 @@ class FNBRMENA {
     }
 
     /**
-     * 
-     * Event Name: eventsLogs
-     * 
-     * Required passed parameters
-     * @param {firebase} admin
-     * @param {client} client 
-     * @param {Error} err 
-     * @param {String} event
-     * 
-     */
+    * 
+    * Event Name: eventsLogs
+    * 
+    * Required passed parameters
+    * @param {firebase} admin
+    * @param {client} client 
+    * @param {Error} err 
+    * @param {String} event
+    * 
+    */
     eventsLogs(admin, client, err, event){
 
+        //response
+        if(err.response) var response = err.response.data
+        else var response = 'UNKNOWN'
+    
         //logs channel
         const logsChannel = client.channels.cache.find(channel => channel.id === require('./Configs/config.json').events.Logs)
-
+    
         //logs
         const logs = new Discord.EmbedBuilder()
         logs.setColor(this.Colors("embedError"))
         logs.setTitle(`Error happened in ${event.toUpperCase()} event`)
-        if(err.isAxiosError) logs.setDescription(`Event: \`${event}\`\nDate: \`${new Date()}\`\n\nError:\`\`\`json\n${JSON.stringify(err.response.data)}\`\`\``)
+        if(err.isAxiosError) logs.setDescription(`Event: \`${event}\`\nDate: \`${new Date()}\`\nRequest Status: \`${err.response.status}\`\n\nError:\`\`\`json\n${JSON.stringify(response)}\`\`\``)
         else logs.setDescription(`Event: \`${event}\`\nDate: \`${new Date()}\`\n\nError:\`\`\`json\n${JSON.stringify(err.stack)}\`\`\``)
         logsChannel.send({embeds: [logs]})
     }

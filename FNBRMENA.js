@@ -1208,131 +1208,65 @@ class FNBRMENA {
      * @param {String} Type 
      * 
      */
-    async Admin(Admin, Message, Alias, Type){
+     async Admin(Admin, Message, Alias, Type){
 
         //seeting up the db firestore
         var db = await Admin.firestore()
-        
-        //get the prefix from the database
-        if(Type === "Prefix"){
-            var prefix = await Admin.database().ref("ERA's").child("Prefix").once('value')
-            .then(async data => {
-                return data.val()
-            })
-            return prefix
-        }
-
-        //get the user timezone
-        if(Type === "Timezone"){
-            var Timezone = await Admin.database().ref("ERA's").child("Users").child(Message.author.id).once('value')
-            .then(async data => {
-                return data.val().timezone;
-            })
-            
-            if(Timezone !== undefined) return Timezone
-            else return "America/Los_Angeles"
-        }
-
-        //get the user language
-        if(Type === "Lang"){
-            var Lang = await Admin.database().ref("ERA's").child("Users").child(Message.author.id).once('value')
-            .then(async data => {
-                return data.val().lang;
-            })
-            return Lang
-        }
 
         //get the user data
         if(Type === "User"){
-            var User = await db.collection("Users").doc(Message.author.id).get()
+            return db.collection("Users").doc(Message.author.id).get()
             .then(async data => {
                 return data.data();
             })
-            return User
         }
 
-        //get the bot status
-        if(Type === "Status"){
-            var status = await Admin.database().ref("ERA's").child("Server").child("Status").once('value')
+        //get the server
+        if(Type === "Server"){
+            return Admin.database().ref("ERA's").child("Server").once('value')
             .then(async data => {
-                return data.val().Bot;
+                return data.val();
             })
-            return status
         }
 
         //get the command data
         if(Type === "Command"){
-            var command = await db.collection("Commands").doc(Alias).get()
+            return db.collection("Commands").doc(Alias).get()
             .then(async data => {
                 return data.data();
             })
-            return command
-        }
-
-        //get the moderation data
-        if(Type === "Moderation"){
-            var command = await db.collection("Moderation").doc("Roles").get()
-            .then(async data => {
-                return data.data();
-            })
-            return command
-        }
-
-        //check perms for an a command
-        if(Type === "Perms"){
-            var perms = await db.collection("Commands").doc(Alias).get()
-            .then(async data => {
-                return data.data().commandData.permissions
-            })
-            return perms
         }
 
         //get the events status
         if(Type === "Events"){
-            var events = await Admin.database().ref("ERA's").child("Events").once('value')
+            return Admin.database().ref("ERA's").child("Events").once('value')
             .then(async data => {
-                if(data.val() !== null){
-                    return events = data.val()
-                }else{
-                    return []
-                }
+                return events = data.val()
             })
-            return events
         }
 
         //get the progress status
         if(Type === "Progress"){
-            var progress = await Admin.database().ref("ERA's").child("Progress").once('value')
+            return Admin.database().ref("ERA's").child("Progress").once('value')
             .then(async data => {
-                if(data.val() !== null){
-                    return progress = data.val()
-                }else{
-                    return []
-                }
+                return data.val()
             })
-            return progress
         }
 
         //get the shopsections status
         if(Type === "ShopSections"){
-            var sectionsGradient = await Admin.database().ref("ERA's").child("ShopSections").once('value')
+            return Admin.database().ref("ERA's").child("ShopSections").once('value')
             .then(async data => {
-                if(data.val() !== null){
-                    return sectionsGradient = data.val()
-                }else{
-                    return []
-                }
+                return data.val()
             })
-            return sectionsGradient
         }
 
         //get the Games status
         if(Type === "Games"){
-            var Games = await Admin.database().ref("ERA's").child("Games").once('value')
+            return Admin.database().ref("ERA's").child("Games").once('value')
             .then(async data => {
                 return data.val()
             })
-            return Games
         }
     }
 }

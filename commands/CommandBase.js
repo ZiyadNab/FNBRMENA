@@ -37,6 +37,12 @@ module.exports.listen = async (client, admin, emojisObject) => {
     client.on('messageCreate', async (message) => {
         const { member, content, guild } = await message
 
+        // Get user's data from database
+        const userData = await FNBRMENA.Admin(admin, message, "", "User");
+
+        // Get bot's server data from database
+        const serverStats = await FNBRMENA.Admin(admin, message, "", "Server")
+
         // If a user send a direct message
         if(message.channel.type === Discord.ChannelType.DM && content !== ""){
 
@@ -44,22 +50,10 @@ module.exports.listen = async (client, admin, emojisObject) => {
             const newDirectMessage = new Discord.EmbedBuilder()
             newDirectMessage.setColor(FNBRMENA.Colors('embed'))
             newDirectMessage.setTitle('New DM Message')
-            newDirectMessage.setDescription(`**User:** ${message.author.tag}\n**ID:** ${message.author.id}\n**User Language:** ${await FNBRMENA.Admin(admin, message, "", "Lang")}\n**Date:** ${new Date()}\n\n**Content:** \`\`\`bash\n"${content}"\`\`\``)
+            newDirectMessage.setDescription(`**User:** ${message.author.tag}\n**ID:** ${message.author.id}\n**User Language:** ${userData.lang}\n**Date:** ${new Date()}\n\n**Content:** \`\`\`bash\n"${content}"\`\`\``)
             const logsChannel = client.channels.cache.find(channel => channel.id === '839544462568980510')
             logsChannel.send(newDirectMessage)
         }
-
-        // Get the bot's prefix from database
-        const prefix = await FNBRMENA.Admin(admin, message, "", "Prefix")
-
-        // Get user's data from database
-        const userData = await FNBRMENA.Admin(admin, message, "", "User");
-
-        // Get moderation roles from database
-        const moderationRoles = await FNBRMENA.Admin(admin, message, "", "Moderation");
-
-        // Get bot's status from database
-        const botStats = await FNBRMENA.Admin(admin, message, "", "Status")
 
         // Exceeding Numbers Game
         if(message.channel.id === config.channels.numbers){
@@ -91,11 +85,11 @@ module.exports.listen = async (client, admin, emojisObject) => {
 
         // Remove the command which is the first index
         const commandUsed = args.shift().toLowerCase()
-        const alias = commandUsed.replace(prefix, '')
+        const alias = commandUsed.replace(serverStats.Prefix, '')
 
         // If the message starts with the bot's prefix
-        if(commandUsed.startsWith(prefix) && message.channel.id != config.channels.numbers){
-            const command = allCommands[commandUsed.replace(prefix,'')]
+        if(commandUsed.startsWith(serverStats.Prefix) && message.channel.id != config.channels.numbers){
+            const command = allCommands[commandUsed.replace(serverStats.Prefix,'')]
             if(!command){
                 return
             }
@@ -123,7 +117,7 @@ module.exports.listen = async (client, admin, emojisObject) => {
             const commandData = await FNBRMENA.Admin(admin, message, alias, "Command")
 
             // // If a user has quick access
-            for(const roleID of moderationRoles.roleIDs){
+            for(const roleID of serverStats.Moderation.roleIDs){
 
                 // Ensure the user has a moderation role
                 if(member.roles.cache.has(roleID) || userData.quickAccess){
@@ -155,7 +149,7 @@ module.exports.listen = async (client, admin, emojisObject) => {
                             syntaxError.addFields(
                                 {name: `Command guide:`, value: `\n\n\`${expectedArgsEN}\``},
                                 {name: `Examples:`, value: `\`${Examples}\``},
-                                {name: `ًWhere:`, value: `(${prefix}) Sign: The prefix\n(${alias}) Word: The command used\n${Symbol}`}
+                                {name: `ًWhere:`, value: `(${serverStats.Prefix}) Sign: The prefix\n(${alias}) Word: The command used\n${Symbol}`}
                             )
 
                             // Command hint
@@ -170,7 +164,7 @@ module.exports.listen = async (client, admin, emojisObject) => {
                             syntaxError.addFields(
                                 {name: `ارشادات الأستخدام:`, value: `\n\n\`${expectedArgsAR}\``},
                                 {name: `أمثلة:`, value: `\`${Examples}\``},
-                                {name: `حيث أن:`, value: `علامة (${prefix}): تعني العلامة المسبوقة\nكلمة (${alias}): تعني الأمر المستعمل\n${Symbol}`}
+                                {name: `حيث أن:`, value: `علامة (${serverStats.Prefix}): تعني العلامة المسبوقة\nكلمة (${alias}): تعني الأمر المستعمل\n${Symbol}`}
                             )
 
                             // Command hint
@@ -192,7 +186,7 @@ module.exports.listen = async (client, admin, emojisObject) => {
             }
 
             // Check if the bot online or offline
-            if(botStats){
+            if(serverStats.Status){
       
                 // Check if the command is active
                 if(commandData.commandData.commandStatus.status){
@@ -294,7 +288,7 @@ module.exports.listen = async (client, admin, emojisObject) => {
                             syntaxError.addFields(
                                 {name: `Command guide:`, value: `\n\n\`${expectedArgsEN}\``},
                                 {name: `Examples:`, value: `\`${Examples}\``},
-                                {name: `ًWhere:`, value: `(${prefix}) Sign: The prefix\n(${alias}) Word: The command used\n${Symbol}`}
+                                {name: `ًWhere:`, value: `(${serverStats.Prefix}) Sign: The prefix\n(${alias}) Word: The command used\n${Symbol}`}
                             )
 
                             // Command hint
@@ -309,7 +303,7 @@ module.exports.listen = async (client, admin, emojisObject) => {
                             syntaxError.addFields(
                                 {name: `ارشادات الأستخدام:`, value: `\n\n\`${expectedArgsAR}\``},
                                 {name: `أمثلة:`, value: `\`${Examples}\``},
-                                {name: `حيث أن:`, value: `علامة (${prefix}): تعني العلامة المسبوقة\nكلمة (${alias}): تعني الأمر المستعمل\n${Symbol}`}
+                                {name: `حيث أن:`, value: `علامة (${serverStats.Prefix}): تعني العلامة المسبوقة\nكلمة (${alias}): تعني الأمر المستعمل\n${Symbol}`}
                             )
 
                             // Command hint

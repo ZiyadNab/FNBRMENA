@@ -7,7 +7,7 @@ const client = new Discord.Client({ intents: [Discord.GatewayIntentBits.DirectMe
   Discord.GatewayIntentBits.GuildEmojisAndStickers, Discord.GatewayIntentBits.GuildIntegrations, Discord.GatewayIntentBits.GuildInvites, Discord.GatewayIntentBits.GuildMembers,
   Discord.GatewayIntentBits.GuildMessages, Discord.GatewayIntentBits.GuildMessageReactions, Discord.GatewayIntentBits.GuildMessageTyping, Discord.GatewayIntentBits.GuildPresences,
   Discord.GatewayIntentBits.GuildVoiceStates, Discord.GatewayIntentBits.GuildWebhooks, Discord.GatewayIntentBits.MessageContent], partials: [Discord.Partials.Channel]})
-const { DisTube } = require('distube')
+const { DisTube, StreamType } = require('distube')
 const { SoundCloudPlugin  } = require("@distube/soundcloud")
 const { YtDlpPlugin } = require("@distube/yt-dlp")
 const { SpotifyPlugin } = require("@distube/spotify")
@@ -16,19 +16,20 @@ const path = require('path')
 const FNBRMENA = new Data()
 const fs = require('fs')
 
-//Get access to the database
+// Get access to the database
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
   databaseURL: "https://fnbrmena-1-default-rtdb.firebaseio.com",
   storageBucket: 'gs://fnbrmena-1.appspot.com'
 });
 
-//define the distube on client
+// Define the distube on client
 client.disTube = new DisTube(client, {
+  leaveOnEmpty: true,
+  emptyCooldown: 30,
   leaveOnStop: false,
+  streamType: StreamType.OPUS,
   emitNewSongOnly: true,
-  emitAddSongWhenCreatingQueue: false,
-  emitAddListWhenCreatingQueue: false,
   plugins: [
     new SoundCloudPlugin({
       emitEventsAfterFetching: true
@@ -42,7 +43,7 @@ client.disTube = new DisTube(client, {
 client.disTube
     .on('playSong', async (queue, song) => {
 
-        //play the requested song
+        // Play the requested song
         const musicPlaying = new Discord.EmbedBuilder()
         musicPlaying.setColor(FNBRMENA.Colors("embed"))
         musicPlaying.setTitle(`Playing \`${song.name}\``)
@@ -61,7 +62,7 @@ client.disTube
     })
     .on('addSong', (queue, song) => {
 
-        //add song to the queue
+        // Add song to the queue
         const addSong = new Discord.EmbedBuilder()
         addSong.setColor(FNBRMENA.Colors("embed"))
         addSong.setTitle(`\`${song.name}\``)
@@ -83,41 +84,58 @@ client.disTube
       console.log(err)
     })
 
-//client event listner
+// Client event listner
 client.on('ready', async () => {
   console.log('FNBRMENA Bot is online!')
 
-  //get the prefix from database
-  const prefix = await FNBRMENA.Admin(admin, "", "", "Prefix")
+  // Get the prefix from database
+  const serverStats = await FNBRMENA.Admin(admin, "", "", "Server")
 
-  //list of status
-  const status = [
-    `FNBRMENA | ${prefix}Commands to start`,
-    `FNBRMENA | Read Rules First`,
-    `FNBRMENA | Twitter: FNBRMENA`,
-    `FNBRMENA | Tiktok: FNBRMENA`,
+  // List of status
+  const statusOptions = [
+    {
+      type: Discord.ActivityType.Watching,
+      text: `FNBRMENA | Read Rules First`,
+      status: 'idle'
+    },
+    {
+      type: Discord.ActivityType.Listening,
+      text: `FNBRMENA | ${serverStats.Prefix}Commands to start`,
+      status: 'online'
+    },
+    {
+      type: Discord.ActivityType.Playing,
+      text: `FNBRMENA | Twitter: FNBRMENA`,
+      status: 'online'
+    },
+    {
+      type: Discord.ActivityType.Playing,
+      text: `FNBRMENA | Tiktok: FNBRMENA`,
+      status: 'online'
+    },
   ]
 
-  //status index
+  // Status index
   var index = 0
 
-  //set interval to change the status
+  // Set interval to change the status
   setInterval(async () => {
-    client.user.setPresence({ 
+    
+    // setPresence
+    client.user.setPresence({
       activities: [
-        {name: status[index],
-        type: 'PLAYING'}
+        {
+          name: statusOptions[index].text,
+          type: statusOptions[index].type,
+        }
       ],
-      status: 'online'
-  
-      })
+      status: statusOptions[index].status,
+    })
 
-      //change the index status
-      if(index < (status.length - 1)){
-        index++
-      }else{
-        index = 0
-      }
+    // Change the index status
+    if(index < (statusOptions.length - 1)) index++
+    else index = 0
+      
   }, 30000)
 
   const baseFile = 'CommandBase.js'
@@ -125,7 +143,7 @@ client.on('ready', async () => {
   const Array = []
   const commandsData = []
 
-  //read all commands
+  // Read all commands
   const readCommands = (dir) => {
     const files = fs.readdirSync(path.join(__dirname, dir))
     for (const file of files) {

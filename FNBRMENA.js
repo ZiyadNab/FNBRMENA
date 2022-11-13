@@ -1231,9 +1231,9 @@ class FNBRMENA {
 
         //get the server
         if(Type === "Server"){
-            return Admin.database().ref("ERA's").child("Server").once('value')
+            return db.collection("Server").doc("Data").get()
             .then(async data => {
-                return data.val();
+                return data.data()
             })
         }
 

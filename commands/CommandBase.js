@@ -117,7 +117,7 @@ module.exports.listen = async (client, admin, emojisObject) => {
             const commandData = await FNBRMENA.Admin(admin, message, alias, "Command")
 
             // // If a user has quick access
-            for(const roleID of serverStats.Moderation.roleIDs){
+            for(const roleID of serverStats.Moderation){
 
                 // Ensure the user has a moderation role
                 if(member.roles.cache.has(roleID) || userData.quickAccess){

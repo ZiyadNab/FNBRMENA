@@ -7,14 +7,40 @@ const client = new Discord.Client({ intents: [Discord.GatewayIntentBits.DirectMe
   Discord.GatewayIntentBits.GuildEmojisAndStickers, Discord.GatewayIntentBits.GuildIntegrations, Discord.GatewayIntentBits.GuildInvites, Discord.GatewayIntentBits.GuildMembers,
   Discord.GatewayIntentBits.GuildMessages, Discord.GatewayIntentBits.GuildMessageReactions, Discord.GatewayIntentBits.GuildMessageTyping, Discord.GatewayIntentBits.GuildPresences,
   Discord.GatewayIntentBits.GuildVoiceStates, Discord.GatewayIntentBits.GuildWebhooks, Discord.GatewayIntentBits.MessageContent], partials: [Discord.Partials.Channel]})
-const { DisTube, StreamType } = require('distube')
-const { SoundCloudPlugin  } = require("@distube/soundcloud")
-const { YtDlpPlugin } = require("@distube/yt-dlp")
-const { SpotifyPlugin } = require("@distube/spotify")
 const Data = require('./FNBRMENA')
 const path = require('path')
 const FNBRMENA = new Data()
 const fs = require('fs')
+const { Player } = require('discord-player');
+
+client.player = new Player(client, {
+  smoothVolume: true,
+  ytdlOptions: {
+    quality: "highestaudio",
+    highWaterMark: 1 << 25
+  }
+})
+
+client.player
+  .on("trackStart", (queue, track) => {
+
+    // Emitted a new song
+    const musicPlaying = new Discord.EmbedBuilder()
+    musicPlaying.setColor(FNBRMENA.Colors("embed"))
+    musicPlaying.setTitle(`Now Playing \`${track.title}\``)
+    musicPlaying.setDescription(`Duration: \`${track.duration}\` Queue: \`${queue.tracks.length}\``)
+    musicPlaying.setThumbnail(track.thumbnail)
+    musicPlaying.setAuthor({name: `Played By ${track.requestedBy.username}`, iconURL: `https://cdn.discordapp.com/avatars/${track.requestedBy.id}/${track.requestedBy.avatar}.jpeg`})
+    queue.metadata.channel.send({embeds: [musicPlaying], components: [
+      new Discord.ActionRowBuilder()
+      .addComponents(
+        new Discord.ButtonBuilder()
+         .setStyle(Discord.ButtonStyle.Link)
+         .setLabel("Music Link")
+         .setURL(track.url)
+      )
+    ]})
+  })
 
 // Get access to the database
 admin.initializeApp({
@@ -22,67 +48,6 @@ admin.initializeApp({
   databaseURL: "https://fnbrmena-1-default-rtdb.firebaseio.com",
   storageBucket: 'gs://fnbrmena-1.appspot.com'
 });
-
-// Define the distube on client
-client.disTube = new DisTube(client, {
-  leaveOnEmpty: true,
-  emptyCooldown: 30,
-  leaveOnStop: false,
-  streamType: StreamType.OPUS,
-  emitNewSongOnly: true,
-  plugins: [
-    new SoundCloudPlugin({
-      emitEventsAfterFetching: true
-    }),
-    new YtDlpPlugin(),
-    new SpotifyPlugin()
-  ],
-})
-
-// DisTube event listeners, more in the documentation page
-client.disTube
-    .on('playSong', async (queue, song) => {
-
-        // Play the requested song
-        const musicPlaying = new Discord.EmbedBuilder()
-        musicPlaying.setColor(FNBRMENA.Colors("embed"))
-        musicPlaying.setTitle(`Playing \`${song.name}\``)
-        musicPlaying.setDescription(`Duration: \`${song.formattedDuration}\` Queue Duration: ${queue.duration}`)
-        musicPlaying.setImage(song.thumbnail)
-        musicPlaying.setAuthor({name: "Played By " + song.user.username})
-        queue.textChannel.send({embeds: [musicPlaying], components: [
-          new Discord.ActionRowBuilder()
-          .addComponents(
-            new Discord.ButtonBuilder()
-             .setStyle(Discord.ButtonStyle.Link)
-             .setLabel("Music Link")
-             .setURL(song.url)
-          )
-        ]})
-    })
-    .on('addSong', (queue, song) => {
-
-        // Add song to the queue
-        const addSong = new Discord.EmbedBuilder()
-        addSong.setColor(FNBRMENA.Colors("embed"))
-        addSong.setTitle(`\`${song.name}\``)
-        addSong.setDescription(`Duration: \`${song.formattedDuration}\``)
-        addSong.setImage(song.thumbnail)
-        addSong.setAuthor({name: "Added By " + song.user.username})
-        queue.textChannel.send({embeds: [addSong], components: [
-          new Discord.ActionRowBuilder()
-          .addComponents(
-            new Discord.ButtonBuilder()
-             .setStyle(Discord.ButtonStyle.Link)
-             .setLabel("Music Link")
-             .setURL(song.url)
-          )
-        ]})
-
-    })
-    .on('error', async (err) => {
-      console.log(err)
-    })
 
 // Client event listner
 client.on('ready', async () => {
@@ -96,7 +61,7 @@ client.on('ready', async () => {
     {
       type: Discord.ActivityType.Watching,
       text: `FNBRMENA | Read Rules First`,
-      status: 'idle'
+      status: 'online'
     },
     {
       type: Discord.ActivityType.Listening,

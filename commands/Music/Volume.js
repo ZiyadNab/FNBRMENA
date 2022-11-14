@@ -15,41 +15,50 @@ module.exports = {
             return message.reply({embeds: [notInAVoiceChannelErr]})
             
         }
-
-        //check if the given value is negative
-        if (Number(text) < 0){
-            const negativeNumberError = new Discord.EmbedBuilder()
-            negativeNumberError.setColor(FNBRMENA.Colors("embedError"))
-            negativeNumberError.setTitle(`Volume must be non negative, Provide a such. ${emojisObject.errorEmoji}`)
-            return message.reply({embeds: [negativeNumberError]})
-            
-        }
         
-        //get the queue
-        const queue = client.disTube.getQueue(message)
+        // Get the queue
+        const queue = client.player.getQueue(message.guild.id)
 
-        //check if the queue is empty
+        // Check if the queue is empty
         if (!queue){
             const noMusicPlayingErr = new Discord.EmbedBuilder()
             noMusicPlayingErr.setColor(FNBRMENA.Colors("embedError"))
-            noMusicPlayingErr.setTitle(`There is no music is playing at the moment ${emojisObject.errorEmoji}`)
+            noMusicPlayingErr.setTitle(`There is no music currently playing ${emojisObject.errorEmoji}.`)
             return message.reply({embeds: [noMusicPlayingErr]})
+
         }
 
-        //chech if the user added a volume or not
+        // Check if the given value is negative
+        if (Number(text) < 0){
+            const negativeNumberError = new Discord.EmbedBuilder()
+            negativeNumberError.setColor(FNBRMENA.Colors("embedError"))
+            negativeNumberError.setTitle(`Volume must be non negative, Provide a such ${emojisObject.errorEmoji}.`)
+            return message.reply({embeds: [negativeNumberError]})
+
+        }
+
+        if(Number(text) > 100){
+            const tooMuchVolNumberError = new Discord.EmbedBuilder()
+            tooMuchVolNumberError.setColor(FNBRMENA.Colors("embedError"))
+            tooMuchVolNumberError.setTitle(`Volume must be less than 100 ${emojisObject.errorEmoji}.`)
+            return message.reply({embeds: [tooMuchVolNumberError]})
+
+        }
+
+        // Chech if the user added a volume or not
         if(args.length === 0){
             const currentVolume = new Discord.EmbedBuilder()
             currentVolume.setColor(FNBRMENA.Colors("embedSuccess"))
-            currentVolume.setTitle(`The current volume is set to \`${queue.volume}\``)
+            currentVolume.setTitle(`The current volume is set to \`${queue.setVolume()}\``)
             return message.reply({embeds: [currentVolume]})
 
         }else{
             await queue.setVolume(parseInt(text))
             const volumeHasBeenChanged = new Discord.EmbedBuilder()
             volumeHasBeenChanged.setColor(FNBRMENA.Colors("embedSuccess"))
-            volumeHasBeenChanged.setTitle(`The volume has changed to \`${queue.volume}\` ${emojisObject.checkEmoji}`)
+            volumeHasBeenChanged.setTitle(`The volume has changed to \`${text}\` ${emojisObject.checkEmoji}`)
             return message.reply({embeds: [volumeHasBeenChanged]})
-        }
 
+        }
     }
 }

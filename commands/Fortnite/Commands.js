@@ -14,7 +14,7 @@ module.exports = {
         const firestoreCommands = await db.collection("Commands")
         const commandList = await firestoreCommands.get()
 
-        //index to start the commands from and how many commands in a single pagedsfwsefawef
+        //index to start the commands from and how many commands in a single page
         var index = 0
         var pagesLength = 0
         var page = 1

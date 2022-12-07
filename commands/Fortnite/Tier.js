@@ -380,7 +380,7 @@ module.exports = {
             }
 
         }).catch(err => {
-            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
+            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
         })
     }
 }

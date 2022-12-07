@@ -48,8 +48,8 @@ module.exports = {
                     generating.setColor(FNBRMENA.Colors("embed"))
                     if(userData.lang === "en") generating.setTitle(`Getting Player fish info... ${emojisObject.loadingEmoji}`)
                     else if(userData.lang === "ar") generating.setTitle(`جاري تحميل بيانات اللاعب... ${emojisObject.loadingEmoji}`)
-                    message.reply({embeds: [generating]})
-                    .then(async msg => {
+                    const msg = await message.reply({embeds: [generating]})
+                    try {
 
                         //variables
                         var x = 50
@@ -258,10 +258,10 @@ module.exports = {
                         await message.reply({files: [att]})
                         msg.delete()
 
-                    }).catch(err => {
-                        FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
+                    }catch(err) {
+                        FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
 
-                    })
+                    }
                 }else{
 
                     //not valid season error
@@ -272,7 +272,7 @@ module.exports = {
                     message.reply({embeds: [notValidSeasonError]})
                 }
             }).catch(err => {
-                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
+                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
 
             })
         }else{

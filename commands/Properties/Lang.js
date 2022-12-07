@@ -59,7 +59,7 @@ module.exports = {
         }).catch(err => {
 
             //time has passed
-            if(err instanceof Error) FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
+            if(err instanceof Error) FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
             else{
                 const timeError = new Discord.EmbedBuilder()
                 timeError.setColor(FNBRMENA.Colors("embedError"))

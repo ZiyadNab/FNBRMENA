@@ -143,7 +143,7 @@ module.exports = {
                                 notify.delete()
         
                                 //time has passed
-                                if(err instanceof Error) FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
+                                if(err instanceof Error) FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
                                 else{
                                     const timeError = new Discord.EmbedBuilder()
                                     timeError.setColor(FNBRMENA.Colors("embedError"))
@@ -153,7 +153,7 @@ module.exports = {
                             })
                         }).catch(async err => {
                             errorHandleing++
-                            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
+                            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
                             
                         })
                     }
@@ -202,7 +202,7 @@ module.exports = {
                         else if(userData.lang === "ar") requestEntryTooLargeError.setTitle(`تم تخطي الكميه المحدودة ${emojisObject.errorEmoji}`)
                         message.reply({embeds: [requestEntryTooLargeError]})
 
-                    }else FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
+                    }else FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
                     
                 })
                 
@@ -219,8 +219,8 @@ module.exports = {
             generating.setColor(FNBRMENA.Colors("embed"))
             if(userData.lang === "en") generating.setTitle(`Loading a total ${mergedItemsDataList.length} items... ${emojisObject.loadingEmoji}`)
             else if(userData.lang === "ar") generating.setTitle(`جاري تحميل ${mergedItemsDataList.length} عنصر... ${emojisObject.loadingEmoji}`)
-            message.reply({embeds: [generating]})
-            .then(async msg => {
+            const msg = await message.reply({embeds: [generating]})
+            try {
 
                 //registering fonts
                 Canvas.registerFont('./assets/font/Lalezar-Regular.ttf', {family: 'Arabic',weight: "400",style: "bold"});
@@ -651,10 +651,10 @@ module.exports = {
 
                 }
 
-            }).catch(async err => {
-                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
+            }catch(err) {
+                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
                 
-            })
+            }
         }
 
         await listItems()

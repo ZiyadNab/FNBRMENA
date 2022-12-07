@@ -1091,14 +1091,32 @@ class FNBRMENA {
      * 
      */
      Logs(admin, client, Discord, message, alias, lang, text, err, emojisObject){
+        if(msg) msg.delete()
 
         //if user took to long to excute the command
-        if(err.message.includes("time")){
+        if(err.message.includes("too large")){
+            const requestEntryTooLargeError = new Discord.EmbedBuilder()
+            requestEntryTooLargeError.setColor(this.Colors("embedError"))
+            if(lang === "en") requestEntryTooLargeError.setTitle(`Request entry too large ${emojisObject.errorEmoji}`)
+            else if(lang === "ar") requestEntryTooLargeError.setTitle(`تم تخطي الكميه المحدودة ${emojisObject.errorEmoji}`)
+            message.reply({embeds: [requestEntryTooLargeError]})
+
+        }else if(err.message.includes("time")){
                         
             const outOfTimeError = new Discord.EmbedBuilder()
             outOfTimeError.setColor(this.Colors("embedError"))
-            outOfTimeError.setTitle(`${this.Errors("Time", lang)} ${emojisObject.errorEmoji}`)
+            if(lang === "en") outOfTimeError.setTitle(`Sorry we canceled your process becuase no action has been taken ${emojisObject.errorEmoji}`)
+            else if(lang === "ar") outOfTimeError.setTitle(`لقد تم ايقاف العملية لعدم اختيار طريقة ${emojisObject.errorEmoji}`)
             message.reply({embeds: [outOfTimeError], components: []})
+
+        }else if(err.message.includes("outOfRange")){
+
+            //create out of range embed
+            const outOfRangeError = new Discord.EmbedBuilder()
+            outOfRangeError.setColor(this.Colors("embedError"))
+            if(lang === "en") outOfRangeError.setTitle(`Sorry we canceled your process becuase u selected a number out of range ${emojisObject.errorEmoji}`)
+            else if(lang === "ar") outOfRangeError.setTitle(`تم ايقاف الامر بسبب اختيارك لرقم خارج النطاق ${emojisObject.errorEmoji}`)
+            message.reply({embeds: [outOfRangeError]})
 
         }else{
 
@@ -1249,7 +1267,7 @@ class FNBRMENA {
         if(Type === "Events"){
             return Admin.database().ref("ERA's").child("Events").once('value')
             .then(async data => {
-                return events = data.val()
+                return data.val()
             })
         }
 

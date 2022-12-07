@@ -35,8 +35,8 @@ module.exports = {
                 generating.setColor(FNBRMENA.Colors("embed"))
                 if(userData.lang === "en") generating.setTitle(`Searching for Cosmetics... ${emojisObject.loadingEmoji}`)
                 else if(userData.lang === "ar") generating.setTitle(`جاري البحث عن عناصر... ${emojisObject.loadingEmoji}`)
-                message.reply({embeds: [generating]})
-                .then(async msg => {
+                const msg = await message.reply({embeds: [generating]})
+                try {
 
                     // Variables
                     var width = 0
@@ -490,14 +490,14 @@ module.exports = {
                     }
                 
 
-                }).catch((err) => {
-                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
+                }catch(err) {
+                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
         
-                })
+                }
             }
         
         }).catch((err) => {
-            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
+            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
 
         })
     }

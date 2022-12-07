@@ -136,8 +136,8 @@ module.exports = {
                                     generating.setColor(FNBRMENA.Colors("embed"))
                                     if(userData.lang === "en") generating.setTitle(`Loading the ${res.data.items[0].name}... ${emojisObject.loadingEmoji}`)
                                     else if(userData.lang === "ar") generating.setTitle(`جاري تحميل بيانات ${res.data.items[0].name}... ${emojisObject.loadingEmoji}`)
-                                    message.reply({embeds: [generating]})
-                                    .then(async msg => {
+                                    const msg = await message.reply({embeds: [generating]})
+                                    try {
 
                                         try{
                                             
@@ -154,14 +154,14 @@ module.exports = {
                                             await message.reply({content: res.data.items[0].previewVideos[collected.values[0]].url})
                                             msg.delete()
                                         }
-                                    }).catch(err => {
-                                        FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
-                                    })
+                                    }catch(err) {
+                                        FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
+                                    }
                                 }
                             
                             }).catch(async err => {
                                 dropMenuMessage.delete()
-                                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
+                                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
                             })
                         }
 
@@ -173,8 +173,8 @@ module.exports = {
                             generating.setColor(FNBRMENA.Colors("embed"))
                             if(userData.lang === "en") generating.setTitle(`Loading the ${res.data.items[0].name}... ${emojisObject.loadingEmoji}`)
                             else if(userData.lang === "ar") generating.setTitle(`جاري تحميل بيانات ${res.data.items[0].name}... ${emojisObject.loadingEmoji}`)
-                            message.reply({embeds: [generating]})
-                            .then(async msg => {
+                            const msg = await message.reply({embeds: [generating]})
+                            try {
 
                                 try{
                                     
@@ -191,9 +191,9 @@ module.exports = {
                                     await message.reply({content: res.data.items[0].previewVideos[0].url})
                                     msg.delete()
                                 }
-                            }).catch(err => {
-                                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
-                            })
+                            }catch(err) {
+                                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
+                            }
                         }
                     }else{
 
@@ -226,7 +226,7 @@ module.exports = {
             }
 
         }).catch(err => {
-            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
+            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
         })
     }
 }

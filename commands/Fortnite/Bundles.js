@@ -87,7 +87,7 @@ module.exports = {
                     })
 
                 }).catch(err => {
-                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
+                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
                 })
             }
             
@@ -102,7 +102,7 @@ module.exports = {
             }
 
         }).catch(err => {
-            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
+            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
         })
 
         if(offerID != null){
@@ -111,8 +111,8 @@ module.exports = {
             generating.setColor(FNBRMENA.Colors("embed"))
             if(userData.lang === "en") generating.setTitle(`Loading the bundle data... ${emojisObject.loadingEmoji}`)
             else if(userData.lang === "ar") generating.setTitle(`جاري تحميل معلومات الحزمة... ${emojisObject.loadingEmoji}`)
-            message.reply({embeds: [generating]})
-            .then(async msg => {
+            const msg = await message.reply({embeds: [generating]})
+            try {
 
                 var searchedBundleData
                 await FNBRMENA.getBundles(userData.lang)
@@ -124,7 +124,7 @@ module.exports = {
                     })
                     
                 }).catch(err => {
-                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
+                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
                     
                 })
 
@@ -518,7 +518,7 @@ module.exports = {
                                 newline = 0;
                             }
                         }).catch(err => {
-                            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
+                            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
                             
                         })
 
@@ -847,10 +847,10 @@ module.exports = {
                 await message.reply({files: [att], embeds: [bundleEmbed]})
                 msg.delete()
 
-            }).catch(err => {
-                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
+            }catch(err) {
+                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
                 
-            })
+            }
         }
     }
 }

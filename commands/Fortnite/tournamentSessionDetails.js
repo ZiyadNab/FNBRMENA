@@ -51,8 +51,8 @@ module.exports = {
                 generating.setColor(FNBRMENA.Colors("embed"));
                 if(userData.lang === "en") generating.setTitle(`Loading ${searchedContentTournamentObj[0].long_format_title} results... ${emojisObject.loadingEmoji}`);
                 else if(userData.lang === "ar") generating.setTitle(`جاري تحميل احصائيات بطولة ${searchedContentTournamentObj[0].long_format_title}... ${emojisObject.loadingEmoji}`);
-                await message.reply({embeds: [generating]})
-                .then( async msg => {
+                const msg = await message.reply({embeds: [generating]})
+                try {
 
                     //start working with the data
                     //...
@@ -323,10 +323,10 @@ module.exports = {
                     await message.reply({files: [att]});
                     msg.delete()
 
-                }).catch(async err => {
-                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
+                }catch(err) {
+                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
 
-                })
+                }
 
             }else{
 
@@ -338,7 +338,7 @@ module.exports = {
                 message.reply({embeds: [NoSessionsHasBeenFoundError]})
             }
         }).catch(async err => {
-            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
+            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
 
         })
     }

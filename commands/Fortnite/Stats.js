@@ -1,6 +1,5 @@
 const Canvas = require('canvas')
 const moment = require('moment')
-const Discord = require('discord.js')
 require('moment-timezone')
 
 module.exports = {
@@ -15,7 +14,7 @@ module.exports = {
     maxArgs: null,
     cooldown: 5,
     permissionError: 'Sorry you do not have acccess to this command',
-    callback: async (FNBRMENA, message, args, text, LL, client, admin, userData, alias, emojisObject) => {
+    callback: async (FNBRMENA, message, args, text, Discord, client, admin, userData, alias, emojisObject) => {
 
         // User input
         var userInput = {
@@ -71,8 +70,8 @@ module.exports = {
             generating.setColor(FNBRMENA.Colors("embed"))
             if(userData.lang === "en") generating.setTitle(`Loading player's data... ${emojisObject.loadingEmoji}`)
             else if(userData.lang === "ar") generating.setTitle(`جاري تحميل بيانات اللاعب... ${emojisObject.loadingEmoji}`)
-            message.reply({embeds: [generating]})
-            .then(async msg => {
+            const msg = await message.reply({embeds: [generating]})
+            try {
 
                 // Push add, solo, duo, squads and LTM's
                 const statsData = []
@@ -431,10 +430,10 @@ module.exports = {
                 await message.reply({files: [att]})
                 msg.delete()
 
-            }).catch(async err => {
-                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
+            }catch(err) {
+                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
 
-            })
+            }
         }
 
         // Create an embed
@@ -866,7 +865,7 @@ module.exports = {
                         else if(userData.lang === "ar") theUserAccountIsPrivate.setTitle(`لا يمكنني الحصول على صلاحية إحصائيات ${text} بسبب ان الحساب خاص. ${emojisObject.errorEmoji}`)
                         await message.reply({embeds: [theUserAccountIsPrivate]})
 
-                    }else FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
+                    }else FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
                 })
             }
 
@@ -925,7 +924,7 @@ module.exports = {
                         else if(userData.lang === "ar") theUserAccountIsPrivate.setTitle(`لا يمكنني الحصول على صلاحية إحصائيات ${text} بسبب ان الحساب خاص. ${emojisObject.errorEmoji}`)
                         await message.reply({embeds: [theUserAccountIsPrivate]})
 
-                    }else FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
+                    }else FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
                 })
             }
         })

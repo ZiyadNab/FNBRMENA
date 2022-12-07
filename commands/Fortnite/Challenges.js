@@ -26,8 +26,8 @@ module.exports = {
                 generating.setColor(FNBRMENA.Colors("embed"))
                 if(userData.lang === "en") generating.setTitle(`Loading ${targetQuest.name}... ${emojisObject.loadingEmoji}`)
                 else if(userData.lang === "ar") generating.setTitle(`تحميل ${targetQuest.name}... ${emojisObject.loadingEmoji}`)
-                message.reply({embeds: [generating]})
-                .then(async msg => {
+                const msg = await message.reply({embeds: [generating]})
+                try {
 
                     // Setup variables
                     var width = 3500
@@ -274,9 +274,9 @@ module.exports = {
                     await message.reply({files: [att]})
                     msg.delete()
 
-                }).catch(err => {
-                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
-                })
+                }catch(err) {
+                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
+                }
             }
 
             // Create an embed for choosing a category
@@ -456,7 +456,7 @@ module.exports = {
             })
             
         }).catch(err => {
-            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
+            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
         })
     }
 }

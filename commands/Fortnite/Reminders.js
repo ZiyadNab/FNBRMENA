@@ -72,8 +72,8 @@ module.exports = {
         generating.setColor(FNBRMENA.Colors("embed"))
         if(userData.lang === "en") generating.setTitle(`Getting all of the reminders for ${userId.username} account ${emojisObject.loadingEmoji}`)
         if(userData.lang === "ar") generating.setTitle(`جاري جلب جميع التنبيهات لحساب ${userId.username} ${emojisObject.loadingEmoji}`)
-        message.reply({embeds: [generating]})
-        .then(async msg => {
+        const msg = await message.reply({embeds: [generating]})
+        try {
 
             // Variables
             var width = 0
@@ -514,7 +514,7 @@ module.exports = {
 
                 // Handeling errors
                 }).catch(err => {
-                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
+                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
 
                 })
             }
@@ -543,9 +543,9 @@ module.exports = {
             }
 
         // Handeling errors
-        }).catch(err => {
-            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
+        }catch(err) {
+            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
 
-        })
+        }
     }
 }

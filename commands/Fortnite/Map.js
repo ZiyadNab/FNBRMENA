@@ -26,8 +26,8 @@ module.exports = {
             generating.setColor(FNBRMENA.Colors("embed"))
             if(userData.lang === "en") generating.setTitle(`Loading... ${emojisObject.loadingEmoji}`)
             else if(userData.lang == "ar") generating.setTitle(`جاري التحميل... ${emojisObject.loadingEmoji}`)
-            message.reply({embeds: [generating]})
-            .then(async msg => {
+            const msg = await message.reply({embeds: [generating]})
+            try {
 
                 //request data
                 FNBRMENA.Map(userData.lang)
@@ -55,13 +55,13 @@ module.exports = {
                     msg.delete()
 
                 }).catch(err => {
-                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
+                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
                     
                 })
-            }).catch(err => {
-                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
+            }catch(err) {
+                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
                 
-            })
+            }
                 
         }else{
 
@@ -175,8 +175,8 @@ module.exports = {
                             generating.setColor(FNBRMENA.Colors("embed"))
                             if(userData.lang === "en") generating.setTitle(`Loading ${allAvaliableVersions[collected.values[0]].patchVersion}'s map... ${emojisObject.loadingEmoji}`)
                             else if(userData.lang == "ar") generating.setTitle(`جاري التحميل ماب ${allAvaliableVersions[collected.values[0]].patchVersion}... ${emojisObject.loadingEmoji}`)
-                            message.reply({embeds: [generating]})
-                            .then(async msg => {
+                            const msg = await message.reply({embeds: [generating]})
+                            try {
                                 
                                 //creating canvas
                                 const canvas = Canvas.createCanvas(2048, 2048);
@@ -195,14 +195,14 @@ module.exports = {
                                 await message.reply({files: [att]})
                                 msg.delete()
 
-                            }).catch(err => {
-                                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
+                            }catch(err) {
+                                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
                                 
-                            })
+                            }
                         }
                     }).catch(async err => {
                         allAvaliableVersionsDropDownMessage.delete()
-                        FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
+                        FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
                     })
 
                 }else{
@@ -216,7 +216,7 @@ module.exports = {
 
                 }
             }).catch(err => {
-                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
+                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
                 
             })
         }

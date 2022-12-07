@@ -16,8 +16,8 @@ module.exports = {
         generating.setColor(FNBRMENA.Colors("embed"))
         if(userData.lang === "en") generating.setTitle(`Loading sections... ${emojisObject.loadingEmoji}`)
         else if(userData.lang === "ar") generating.setTitle(`جاري تحميل الأقسام... ${emojisObject.loadingEmoji}`)
-        message.reply({embeds: [generating]})
-        .then(async msg => {
+        const msg = await message.reply({embeds: [generating]})
+        try {
             
             //get the sections data from database
             const SectionsData = await FNBRMENA.Admin(admin, message, "", "ShopSections")
@@ -372,13 +372,13 @@ module.exports = {
                 msg.delete()
                 
             }).catch((err) => {
-                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
+                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
     
             })
 
-        }).catch((err) => {
-            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
+        }catch(err) {
+            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
 
-        })
+        }
     }
 }

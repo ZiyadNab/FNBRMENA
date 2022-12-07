@@ -19,16 +19,16 @@ module.exports = {
                 generating.setColor(FNBRMENA.Colors("embed"))
                 if(userData.lang === "en") generating.setTitle(`Loading ${res.data.jsonOutput[0].Name}... ${emojisObject.loadingEmoji}`)
                 else if(userData.lang === "ar") generating.setTitle(`جاري تحميل بيانات ${res.data.jsonOutput[0].Name}... ${emojisObject.loadingEmoji}`)
-                message.reply({embeds: [generating]})
-                .then(async msg => {
+                const msg = await message.reply({embeds: [generating]})
+                try {
 
                     // Send the file
                     const att = new Discord.AttachmentBuilder(Buffer.from(JSON.stringify(res.data.jsonOutput[0], null, 2)), {name: `${res.data.jsonOutput[0].Name}.json`})
                     await message.reply({files: [att], embeds: []})
                     msg.delete()
-                }).catch(err => {
-                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
-                })
+                }catch(err) {
+                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
+                }
             }
 
             // File type is an image
@@ -39,8 +39,8 @@ module.exports = {
                 generating.setColor(FNBRMENA.Colors("embed"))
                 if(userData.lang === "en") generating.setTitle(`Loading the image file... ${emojisObject.loadingEmoji}`)
                 else if(userData.lang === "ar") generating.setTitle(`جاري تحميل ملف الصورة... ${emojisObject.loadingEmoji}`)
-                message.reply({embeds: [generating]})
-                .then(async msg => {
+                const msg = await message.reply({embeds: [generating]})
+                try {
 
                     // Send the file
                     await FNBRMENA.arrayBufferExport(text)
@@ -50,11 +50,11 @@ module.exports = {
                         await message.reply({files: [att], embeds: []})
                         msg.delete() 
                     }).catch(err => {
-                        FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
+                        FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
                     })
-                }).catch(err => {
-                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
-                })
+                }catch(err) {
+                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
+                }
             }
 
             // File type is an image
@@ -65,8 +65,8 @@ module.exports = {
                 generating.setColor(FNBRMENA.Colors("embed"))
                 if(userData.lang === "en") generating.setTitle(`Loading the audio file... ${emojisObject.loadingEmoji}`)
                 else if(userData.lang === "ar") generating.setTitle(`جاري تحميل ملف الصوت... ${emojisObject.loadingEmoji}`)
-                message.reply({embeds: [generating]})
-                .then(async msg => {
+                const msg = await message.reply({embeds: [generating]})
+                try {
 
                     // Send the file
                     await FNBRMENA.arrayBufferExport(text)
@@ -76,11 +76,11 @@ module.exports = {
                         await message.reply({files: [att], embeds: []})
                         msg.delete()
                     }).catch(err => {
-                        FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
+                        FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
                     })
-                }).catch(err => {
-                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
-                })
+                }catch(err) {
+                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
+                }
 
                 // Not supported file type
             }else{
@@ -102,7 +102,7 @@ module.exports = {
                 else if(userData.lang === "ar") noPackageHasBeenFoundError.setTitle(`لا يمكنني العثور على الملف الرجاء التأكد من مسار الملف ${emojisObject.errorEmoji}`)
                 message.reply({embeds: [noPackageHasBeenFoundError]})
 
-            }else  FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
+            }else FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
         })
     }
 }

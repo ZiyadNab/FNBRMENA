@@ -90,8 +90,8 @@ module.exports = {
                             generating.setColor(FNBRMENA.Colors("embed"))
                             if(userData.lang === "en") generating.setTitle(`Loading the ${res.data.items[0].name}... ${emojisObject.loadingEmoji}`)
                             else if(userData.lang === "ar") generating.setTitle(`جاري تحميل بيانات ${res.data.items[0].name}... ${emojisObject.loadingEmoji}`)
-                            message.reply({embeds: [generating]})
-                            .then(async msg => {
+                            const msg = await message.reply({embeds: [generating]})
+                            try {
 
                                 try{
 
@@ -110,14 +110,14 @@ module.exports = {
                                     else if(collected.customId === "Audio") await message.reply(res.data.items[0].audio)
                                     msg.delete()
                                 }
-                            }).catch(err => {
-                                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
+                            }catch(err) {
+                                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
                     
-                            })
+                            }
                         }
                     }).catch(async err => {
                         musicTypeMessage.delete()
-                        FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
+                        FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
                     })
 
                 }else{
@@ -141,7 +141,7 @@ module.exports = {
             }
 
         }).catch(err => {
-            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
+            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
 
         })
     }

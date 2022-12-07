@@ -29,8 +29,8 @@ module.exports = {
             generating.setColor(FNBRMENA.Colors("embed"))
             if(userData.lang === "en") generating.setTitle(`Loading a total ${res.data.data.length} cosmetics please wait... ${emojisObject.loadingEmoji}`)
             else if(userData.lang === "ar") generating.setTitle(`تحميل جميع العناصر بمجموع ${res.data.data.length} عنصر الرجاء الانتظار... ${emojisObject.loadingEmoji}`)
-            message.reply({embeds: [generating]})
-            .then( async msg => {
+            const msg = await message.reply({embeds: [generating]})
+            try {
 
                 //creating length
                 var length = res.data.data.length
@@ -468,10 +468,10 @@ module.exports = {
                 await message.reply({embeds: [info], files: [att]})
                 msg.delete()
 
-            }).catch(err => {
-                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
+            }catch(err) {
+                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
                 
-            })
+            }
         }
 
         //if args == 0
@@ -560,11 +560,11 @@ module.exports = {
 
                 }).catch(async err => {
                     dropMenuMessage.delete()
-                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
+                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
                 })
                 
             }).catch(err => {
-                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
+                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
                 
             })
 
@@ -583,7 +583,7 @@ module.exports = {
                     else if(userData.lang === "ar") noPakHasBeenFoundError.setTitle(`لم يتم العثور على ملف! ${emojisObject.errorEmoji}`)
                     await message.reply({embeds: [noPakHasBeenFoundError]})
 
-                }else FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject) //other errors
+                }else FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null) //other errors
                 
             })
         }

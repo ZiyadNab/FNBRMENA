@@ -99,8 +99,8 @@ module.exports = {
                         generating.setColor(FNBRMENA.Colors("embed"))
                         if(userData.lang === "en") generating.setTitle(`Getting the image for ${res.data.list[collected.values[0]].name} ${emojisObject.loadingEmoji}`)
                         else if(userData.lang === "ar") generating.setTitle(`جاري البحث عن صور ${res.data.list[collected.values[0]].name} ${emojisObject.loadingEmoji}`)
-                        message.reply({embeds: [generating]})
-                        .then(async msg => {
+                        const msg = await message.reply({embeds: [generating]})
+                        try {
 
                             //Registering fonts
                             Canvas.registerFont('./assets/font/BurbankBigCondensed-Black.ttf' ,{family: 'Burbank Big Condensed',weight: "700",style: "bold"})
@@ -138,15 +138,15 @@ module.exports = {
                             await message.reply({files: [att]})
                             msg.delete()
 
-                        }).catch(async err => {
-                            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
+                        }catch(err) {
+                            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
 
-                        })
+                        }
                     }
 
                 }).catch(async err => {
                     dropMenuMessage.delete()
-                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
+                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
                 })
 
             }else{
@@ -160,7 +160,7 @@ module.exports = {
             }
 
         }).catch(async err => {
-            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
+            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
 
         })
     }

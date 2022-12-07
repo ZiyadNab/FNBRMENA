@@ -40,8 +40,8 @@ module.exports = {
                 generating.setColor(FNBRMENA.Colors("embed"))
                 if(userData.lang === "en") generating.setTitle(`Loading ${res.data.list.length} POIs ${emojisObject.loadingEmoji}`)
                 else if(userData.lang === "ar") generating.setTitle(`جاري تحميل ${res.data.list.length} منطقة ${emojisObject.loadingEmoji}`)
-                message.reply({embeds: [generating]})
-                .then(async msg => {
+                const msg = await message.reply({embeds: [generating]})
+                try {
 
                     //get a random number
                     var randomImage = Math.floor(Math.random() * res.data.list.length)
@@ -107,12 +107,12 @@ module.exports = {
 
                     }).catch(async err => {
                         PickingLandingSpotAgainMessage.delete()
-                        FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
+                        FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
                     })
-                }).catch(err => {
-                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
+                }catch(err) {
+                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
                     
-                })
+                }
             }
 
             //create random landing embed message
@@ -167,11 +167,11 @@ module.exports = {
                 }
             }).catch(async err => {
                 randomLanderMessage.delete()
-                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
+                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
             })
 
         }).catch(err => {
-            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
+            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
             
         })
     }

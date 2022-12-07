@@ -153,8 +153,8 @@ module.exports = {
                     generating.setColor(FNBRMENA.Colors("embed"))
                     if(userData.lang === "en") generating.setTitle(`Loading item data... ${emojisObject.loadingEmoji}`)
                     else if(userData.lang === "ar") generating.setTitle(`تحميل معلومات العنصر... ${emojisObject.loadingEmoji}`)
-                    message.reply({embeds: [generating]})
-                    .then(async msg => {
+                    const msg = await message.reply({embeds: [generating]})
+                    try {
 
                         //aplyText
                         const applyText = (canvas, text, width, font) => {
@@ -633,12 +633,12 @@ module.exports = {
                         await message.reply({embeds: [itemInfo], files: [att]})
                         msg.delete()
 
-                    }).catch(err => {
-                        FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
-                    })
+                    }catch(err) {
+                        FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
+                    }
                 }
             }).catch(err => {
-                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
+                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
             })
         }
     }

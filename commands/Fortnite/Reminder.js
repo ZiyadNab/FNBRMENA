@@ -108,7 +108,7 @@ module.exports = {
                         notify.delete()
 
                         //time has passed
-                        if(err instanceof Error) FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
+                        if(err instanceof Error) FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
                         else{
                             const timeError = new Discord.EmbedBuilder()
                             timeError.setColor(FNBRMENA.Colors("embedError"))
@@ -117,7 +117,7 @@ module.exports = {
                         }
                     })
                 }).catch(async err => {
-                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
+                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
 
                 })
             }
@@ -150,8 +150,8 @@ module.exports = {
                                 generating.setColor(FNBRMENA.Colors("embed"))
                                 if(userData.lang === "en") generating.setTitle(`Getting info about the item ${emojisObject.loadingEmoji}`)
                                 else if(userData.lang === "ar") generating.setTitle(`جاري البحث عن معلومات العنصر ${emojisObject.loadingEmoji}`)
-                                message.reply({embeds: [generating]})
-                                .then(async msg => {
+                                const msg = await message.reply({embeds: [generating]})
+                                try {
 
                                     //registering fonts
                                     Canvas.registerFont('./assets/font/Lalezar-Regular.ttf', {
@@ -562,10 +562,10 @@ module.exports = {
                                         lang: userData.lang
                                     })
 
-                                }).catch(async err => {
-                                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
+                                }catch(err) {
+                                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
 
-                                })
+                                }
                             }else{
 
                                 //if the reminders passed the limit
@@ -608,7 +608,7 @@ module.exports = {
 
             //handeling errors
         }).catch(err => {
-            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
+            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
 
         })
     }

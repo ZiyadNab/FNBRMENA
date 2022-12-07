@@ -14,8 +14,8 @@ module.exports = {
         generating.setColor(FNBRMENA.Colors("embed"))
         if(userData.lang === "en") generating.setTitle(`Getting all of the reminders under your account ${emojisObject.loadingEmoji}`)
         else if(userData.lang === "ar") generating.setTitle(`جاري جلب جميع التنبيهات لحسابك ${emojisObject.loadingEmoji}`)
-        message.reply({embeds: [generating]})
-        .then(async msg => {
+        const msg = await message.reply({embeds: [generating]})
+        try {
         
             //seeting up the db firestore
             var db = admin.firestore()
@@ -197,7 +197,7 @@ module.exports = {
                     }
                 }).catch(async err => {
                     dropMenuMessage.delete()
-                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
+                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
                 })
 
             }else{
@@ -210,9 +210,9 @@ module.exports = {
                 msg.edit({embeds: [noRemindersHasBeenFoundError]})
 
             }
-        }).catch(async err => {
-            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject.errorEmoji)
+        }catch(err) {
+            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject.errorEmoji, msg)
 
-        })
+        }
     }
 }

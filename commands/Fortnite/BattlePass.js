@@ -29,8 +29,8 @@ module.exports = {
                     generating.setColor(FNBRMENA.Colors("embed"))
                     if(userData.lang === "en") generating.setTitle(`Loading a total ${length} cosmetics please wait... ${emojisObject.loadingEmoji}`)
                     else if(userData.lang === "ar") generating.setTitle(`تحميل جميع العناصر بمجموع ${length} عنصر الرجاء الانتظار... ${emojisObject.loadingEmoji}`)
-                    message.reply({embeds: [generating]})
-                    .then(async msg => {
+                    const msg = await message.reply({embeds: [generating]})
+                    try {
 
                         //variables
                         var width = 62
@@ -448,10 +448,10 @@ module.exports = {
                         await message.reply({embeds: [info], components: [row], files: [att]})
                         msg.delete()
                         
-                    }).catch(err => {
-                        FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
+                    }catch(err) {
+                        FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
                         
-                    })
+                    }
                                 
                 }else{
 
@@ -464,7 +464,7 @@ module.exports = {
                 }
 
             }).catch(err => {
-                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
+                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
                 
             })
         }
@@ -611,15 +611,15 @@ module.exports = {
                             
                         }).catch(async err => {
                             battlepassMessage.delete()
-                            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
+                            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
                         })
                     }
                 }).catch(async err => {
                     battlepassMessage.delete()
-                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
+                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
                 })
             }).catch(async err => {
-                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
+                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
             })
 
         }else battlepass(text) //user has specified a season number

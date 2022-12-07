@@ -129,24 +129,6 @@ module.exports = {
                     //if the item is not from the itemshop
                     else infoEmbed.addFields({name: "Battlepass", value: `The \`${res.data.items[num].name} ${res.data.items[num].type.name}\` is not from the battlepass`, inline: true})
 
-                    //add styles
-                    if(res.data.items[num].styles.length > 0 && res.data.items[num].styles.length <= 25){
-                        for(let i = 0; i < res.data.items[num].styles.length; i++){
-
-                            //is style default
-                            if(res.data.items[num].styles[i].isDefault) var isDefault = `Yes, it is default`
-                            else var isDefault = `No, it is not default`
-
-                            //is hideIfNotOwned
-                            if(res.data.items[num].styles[i].hideIfNotOwned) var hideIfNotOwned = `Yes, it is hidden if you don't own the style`
-                            else var hideIfNotOwned = `No, it is not hidden`
-
-                            infoEmbed.addFields(
-                                {name: `Style ${i + 1}`, value: `Name: \`${res.data.items[num].styles[i].name}\`\nisDefault: \`${isDefault}\`\nhideIfNotOwned: \`${hideIfNotOwned}\``}
-                            )
-                        }
-                    }else infoEmbed.addFields({name:`Styles`, value: `\`No styles for ${res.data.items[num].name}\``})
-
                     //if the item has a shop history
                     if(res.data.items[num].shopHistory !== null) infoEmbed.addFields({name: "Shop History", value: `\`${res.data.items[num].shopHistory.join("\n")}\``, inline: true})
 
@@ -184,24 +166,6 @@ module.exports = {
                     //if the item is not from the itemshop
                     else infoEmbed.addFields({name: "باتل باس", value: `\`${res.data.items[num].type.name} ${res.data.items[num].name}\` ليس من الباتل باس`, inline: true})
 
-                    //add styles
-                    if(res.data.items[num].styles.length > 0 && res.data.items[num].styles.length <= 25){
-                        for(let i = 0; i < res.data.items[num].styles.length; i++){
-
-                            //is style default
-                            if(res.data.items[num].styles[i].isDefault) var isDefault = `نعم الستايل أساسي`
-                            else var isDefault = `لا الستايل ليس أساسي`
-
-                            //is hideIfNotOwned
-                            if(res.data.items[num].styles[i].hideIfNotOwned) var hideIfNotOwned = `نعم اذا ما تملك الستايل ماراح تقدر تستعملة`
-                            else var hideIfNotOwned = `لا الستايل ليس مخفي`
-
-                            infoEmbed.addFields(
-                                {name: `الستايل رقم ${i + 1}`, value: `الأسم: \`${res.data.items[num].styles[i].name}\`\nهل الستايل أساسي: \`${isDefault}\`\nمخفي اذا ما تملك الستايل: \`${hideIfNotOwned}\``}
-                            )
-                        }
-                    }else infoEmbed.addFields({name:`الستايلات`, value: `\`لا يوجد ستايلات لـ ${res.data.items[num].name}\``})
-
                     //if the item has a shop history
                     if(res.data.items[num].shopHistory !== null) infoEmbed.addFields({name: "تاريخ الشوب", value: `\`${res.data.items[num].shopHistory.join("\n")}\``, inline: true})
 
@@ -229,7 +193,7 @@ module.exports = {
                 var styles = []
 
                 if(res.data.items[num].displayAssets.length > 1){
-                    for(let i = 0; i < res.data.items[num].displayAssets.length; i++) styles[i] ={
+                    for(let i = 0; i < res.data.items[num].displayAssets.length; i++) styles[i] = {
                         name: res.data.items[num].name,
                         type: res.data.items[num].type,
                         images: {
@@ -237,6 +201,7 @@ module.exports = {
                         },
                         rarity: res.data.items[num].rarity,
                         series: res.data.items[num].series,
+                        added: res.data.items[num].added,
                         introduction: res.data.items[num].introduction,
                         gameplayTags: res.data.items[num].gameplayTags,
                         apiTags: res.data.items[num].apiTags,
@@ -327,8 +292,8 @@ module.exports = {
                     generating.setColor(FNBRMENA.Colors("embed"))
                     if(userData.lang === "en") generating.setTitle(`Getting all ${styles.length} styles for ${res.data.items[num].name} ${emojisObject.loadingEmoji}`)
                     else if(userData.lang === "ar") generating.setTitle(`جاري تحميل جميع الستايلات الـ ${styles.length} الخاصة بـ ${res.data.items[num].name} ${emojisObject.loadingEmoji}`)
-                    message.reply({embeds: [generating]})
-                    .then( async msg => {
+                    const msg = await message.reply({embeds: [generating]})
+                    try {
 
                         //items
                         for(let i = 0; i < styles.length; i++){
@@ -695,9 +660,9 @@ module.exports = {
                             msg.delete()
                         }
 
-                    }).catch(async err => {
-                        FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
-                    })
+                    } catch(err) {
+                        FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
+                    }
 
                 }else{
 
@@ -802,8 +767,8 @@ module.exports = {
                     generating.setColor(FNBRMENA.Colors("embed"))
                     if(userData.lang === "en") generating.setTitle(`Getting all ${grants.length} grants for ${res.data.items[num].name} ${emojisObject.loadingEmoji}`)
                     else if(userData.lang === "ar") generating.setTitle(`جاري تحميل جميع المرفقات الـ ${grants.length} الخاصة بـ ${res.data.items[num].name} ${emojisObject.loadingEmoji}`)
-                    message.reply({embeds: [generating]})
-                    .then( async msg => {
+                    const msg = await message.reply({embeds: [generating]})
+                    try {
 
                         //items
                         for(let i = 0; i < grants.length; i++){
@@ -1170,9 +1135,9 @@ module.exports = {
                             msg.delete()
                         }
 
-                    }).catch(async err => {
-                        FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
-                    })
+                    }catch(err) {
+                        FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
+                    }
 
                 }else{
 
@@ -1250,7 +1215,7 @@ module.exports = {
                     })
 
                 }).catch(async err => {
-                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
+                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
                 })
             }
 
@@ -1305,35 +1270,35 @@ module.exports = {
                 if(userData.lang === "en") categoryDropMenu.addOptions(
                     {
                         label: `${res.data.items[num].name}'s Information`,
-                        description: `Returns you a list full of all possible data about the ${res.data.items[num].name} ${res.data.items[num].type.name}.`,
                         value: `info`,
+                        emoji: `${emojisObject.info.name}:${emojisObject.info.id}`
                     },
                     {
                         label: `${res.data.items[num].name}'s Styles`,
-                        description: `Returns you an image contains all ${res.data.items[num].name} ${res.data.items[num].type.name} styles.`,
                         value: `styles`,
+                        emoji: `${emojisObject.style.name}:${emojisObject.style.id}`
                     },
                     {
                         label: `${res.data.items[num].name}'s Grants`,
-                        description: `Returns you an image of what the ${res.data.items[num].name} ${res.data.items[num].type.name} grants you when purchasing.`,
                         value: `grants`,
+                        emoji: `${emojisObject.grant.name}:${emojisObject.grant.id}`
                     }
                 )
                 else if(userData.lang === "ar") categoryDropMenu.addOptions(
                     {
                         label: `معلومات ${res.data.items[num].type.name} ${res.data.items[num].name}`,
-                        description: `استرجاع جميع المعلومات الممكنة حول ${res.data.items[num].type.name} ${res.data.items[num].name}.`,
                         value: `info`,
+                        emoji: `${emojisObject.info.name}:${emojisObject.info.id}`
                     },
                     {
                         label: `ازياء ${res.data.items[num].type.name} ${res.data.items[num].name}`,
-                        description: `استرجاع صورة تحتوي على جميع ازياء ${res.data.items[num].type.name} ${res.data.items[num].name}.`,
                         value: `styles`,
+                        emoji: `${emojisObject.style.name}:${emojisObject.style.id}`
                     },
                     {
                         label: `مرفقات ${res.data.items[num].type.name} ${res.data.items[num].name}`,
-                        description: `استرجاع صورد تحتوي على جميع العناصر المرفقه الخاصة بـ ${res.data.items[num].type.name} ${res.data.items[num].name} اثناء الشراء.`,
                         value: `grants`,
+                        emoji: `${emojisObject.grant.name}:${emojisObject.grant.id}`
                     }
                 )
 
@@ -1371,12 +1336,12 @@ module.exports = {
 
                 }).catch(async err => {
                     detailsDropDownMessage.delete()
-                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
+                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
                 })
             }
 
         }).catch(async err => {
-            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
+            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
         })
     }
 }

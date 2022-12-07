@@ -21,8 +21,8 @@ module.exports = {
             generating.setColor(FNBRMENA.Colors("embed"))
             if(userData.lang === "en") generating.setTitle(`Getting News ... ${emojisObject.loadingEmoji}`)
             if(userData.lang === "ar") generating.setTitle(`جاري تحميل الاخبار ... ${emojisObject.loadingEmoji}`)
-            message.reply({embeds: [generating]})
-            .then(async msg => {
+            const msg = await message.reply({embeds: [generating]})
+            try {
 
                 // If the image doesn't exists on the db storage
                 if(!push[0]){
@@ -204,9 +204,9 @@ module.exports = {
                     msg.delete()
                 }
 
-            }).catch(async err => {
-                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
-            })
+            }catch(err) {
+                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
+            }
         }
         
         // Request data
@@ -292,10 +292,10 @@ module.exports = {
                 }
             }).catch(async err => {
                 newsTypeMessage.delete()
-                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
+                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
             })
         }).catch(async err => {
-            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject)
+            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
         })
     }
 }

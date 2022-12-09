@@ -21,7 +21,10 @@ module.exports = {
             name: text,
             platform: null,
             type: null,
-            custom: false
+            custom: false,
+            platformOptions: [],
+            typeOptions: [],
+            statsTypeRow: null
         }
 
         // List of colors
@@ -466,18 +469,10 @@ module.exports = {
         )
 
         // Create a row for drop down menu for categories
-        const statsTypeRow = new Discord.ActionRowBuilder()
-
-        // Create a row for drop down menu for categories
         const statsPlatformRow = new Discord.ActionRowBuilder()
 
-        const statsPlatformDropMenu = new Discord.SelectMenuBuilder()
-        statsPlatformDropMenu.setCustomId(`Platform-${alias}`)
-        if(userData.lang === "en") statsPlatformDropMenu.setPlaceholder('Nothing selected!')
-        else if(userData.lang === "ar") statsPlatformDropMenu.setPlaceholder('الرجاء الأختيار!')
-
-        // Add options for en
-        if(userData.lang === "en") statsPlatformDropMenu.addOptions([
+        // Add English options
+        if(userData.lang === "en") userInput.platformOptions.push(
             {
                 label: `Epic Games`,
                 value: `epic`,
@@ -495,11 +490,11 @@ module.exports = {
                 value: `xbl`,
                 default: false,
                 emoji: `${emojisObject.xbox.name}:${emojisObject.xbox.id}`
-            }]
+            }
         )
 
-        // Add options for ar
-        else if(userData.lang === "ar") statsPlatformDropMenu.addOptions([
+        // Add Arabic options
+        else if(userData.lang === "ar") userInput.platformOptions.push(
             {
                 label: `ايبك قيمز`,
                 value: `epic`,
@@ -517,8 +512,14 @@ module.exports = {
                 value: `xbl`,
                 default: false,
                 emoji: `${emojisObject.xbox.name}:${emojisObject.xbox.id}`
-            }]
+            }
         )
+
+        const statsPlatformDropMenu = new Discord.SelectMenuBuilder()
+        statsPlatformDropMenu.setCustomId(`Platform-${alias}`)
+        if(userData.lang === "en") statsPlatformDropMenu.setPlaceholder('Nothing selected!')
+        else if(userData.lang === "ar") statsPlatformDropMenu.setPlaceholder('الرجاء الأختيار!')
+        statsPlatformDropMenu.addOptions(userInput.platformOptions)
 
         // Add the drop menu to the categoryDropMenu
         statsPlatformRow.addComponents(statsPlatformDropMenu)
@@ -547,58 +548,12 @@ module.exports = {
                 // Add the chosen platform to userInput obj
                 userInput.platform = collected.values[0]
 
-                // Add options for en
-                if(userData.lang === "en") statsPlatformRow.components[0].setOptions(
-                    {
-                        label: `Epic Games`,
-                        value: `epic`,
-                        default: (userInput.platform === 'epic'),
-                        emoji: `${emojisObject.epicgames.name}:${emojisObject.epicgames.id}`
-                    },
-                    {
-                        label: `Playstation`,
-                        value: `psn`,
-                        default: (userInput.platform === 'psn'),
-                        emoji: `${emojisObject.playstation.name}:${emojisObject.playstation.id}`
-                    },
-                    {
-                        label: `Xbox`,
-                        value: `xbl`,
-                        default: (userInput.platform === 'xbl'),
-                        emoji: `${emojisObject.xbox.name}:${emojisObject.xbox.id}`
-                    }
-                )
+                // Set platform options
+                userInput.platformOptions.forEach(e => (userInput.platform === e.value) ? e.default = true : e.default = false)
+                statsPlatformRow.components[0].setOptions(userInput.platformOptions)
 
-                // Add options for ar
-                else if(userData.lang === "ar")statsPlatformRow.components[0].setOptions(
-                    {
-                        label: `ايبك قيمز`,
-                        value: `epic`,
-                        default: (userInput.platform === 'epic'),
-                        emoji: `${emojisObject.epicgames.name}:${emojisObject.epicgames.id}`
-                    },
-                    {
-                        label: `بلايستيشن`,
-                        value: `psn`,
-                        default: (userInput.platform === 'psn'),
-                        emoji: `${emojisObject.playstation.name}:${emojisObject.playstation.id}`
-                    },
-                    {
-                        label: `اكسبوكس`,
-                        value: `xbl`,
-                        default: (userInput.platform === 'xbl'),
-                        emoji: `${emojisObject.xbox.name}:${emojisObject.xbox.id}`
-                    }
-                )
-
-                // Stats Seasonal/Lifetime 
-                const statsTypeDropMenu = new Discord.SelectMenuBuilder()
-                statsTypeDropMenu.setCustomId(`Type-${alias}`)
-                if(userData.lang === "en") statsTypeDropMenu.setPlaceholder('Nothing selected!')
-                else if(userData.lang === "ar") statsTypeDropMenu.setPlaceholder('الرجاء الأختيار!')
-
-                // Add options for en
-                if(userData.lang === "en") statsTypeDropMenu.addOptions(
+                // Add English options
+                if(userData.lang === "en") userInput.typeOptions = [
                     {
                         label: `All`,
                         value: `all`,
@@ -619,10 +574,10 @@ module.exports = {
                         value: `touch`,
                         emoji: `${emojisObject.touchpad.name}:${emojisObject.touchpad.id}`
                     }
-                )
+                ]
 
-                // Add options for ar
-                else if(userData.lang === "ar") statsTypeDropMenu.addOptions(
+                // Add Arabic options
+                else if(userData.lang === "ar") userInput.typeOptions = [
                     {
                         label: `الكل`,
                         value: `all`,
@@ -643,13 +598,21 @@ module.exports = {
                         value: `touch`,
                         emoji: `${emojisObject.touchpad.name}:${emojisObject.touchpad.id}`
                     }
-                )
+                ]
+
+                // Stats Seasonal/Lifetime 
+                const statsTypeDropMenu = new Discord.SelectMenuBuilder()
+                statsTypeDropMenu.setCustomId(`Type-${alias}`)
+                if(userData.lang === "en") statsTypeDropMenu.setPlaceholder('Nothing selected!')
+                else if(userData.lang === "ar") statsTypeDropMenu.setPlaceholder('الرجاء الأختيار!')
+                statsTypeDropMenu.addOptions(userInput.typeOptions)
 
                 // Add the drop menu to the categoryDropMenu
-                statsTypeRow.addComponents(statsTypeDropMenu)
+                userInput.statsTypeRow = new Discord.ActionRowBuilder()
+                userInput.statsTypeRow.addComponents(statsTypeDropMenu)
 
                 // Edit the main message
-                await dropMenuMessage.edit({embeds: [statsPlatformEmbed], components: [statsPlatformRow, statsTypeRow, cancelButtonDataRow]})
+                await dropMenuMessage.edit({embeds: [statsPlatformEmbed], components: [statsPlatformRow, userInput.statsTypeRow, cancelButtonDataRow]})
                 
             }
 
@@ -659,105 +622,13 @@ module.exports = {
                 // Add the chosen type to userInput obj
                 userInput.type = collected.values[0]
 
-                // Add options for en
-                if(userData.lang === "en") statsPlatformRow.components[0].setOptions(
-                    {
-                        label: `Epic Games`,
-                        value: `epic`,
-                        default: (userInput.platform === 'epic'),
-                        emoji: `${emojisObject.epicgames.name}:${emojisObject.epicgames.id}`
-                    },
-                    {
-                        label: `Playstation`,
-                        value: `psn`,
-                        default: (userInput.platform === 'psn'),
-                        emoji: `${emojisObject.playstation.name}:${emojisObject.playstation.id}`
-                    },
-                    {
-                        label: `Xbox`,
-                        value: `xbl`,
-                        default: (userInput.platform === 'xbl'),
-                        emoji: `${emojisObject.xbox.name}:${emojisObject.xbox.id}`
-                    }
-                )
+                // Set platform options
+                userInput.platformOptions.forEach(e => (userInput.platform === e.value) ? e.default = true : e.default = false)
+                statsPlatformRow.components[0].setOptions(userInput.platformOptions)
 
-                // Add options for ar
-                else if(userData.lang === "ar")statsPlatformRow.components[0].setOptions(
-                    {
-                        label: `ايبك قيمز`,
-                        value: `epic`,
-                        default: (userInput.platform === 'epic'),
-                        emoji: `${emojisObject.epicgames.name}:${emojisObject.epicgames.id}`
-                    },
-                    {
-                        label: `بلايستيشن`,
-                        value: `psn`,
-                        default: (userInput.platform === 'psn'),
-                        emoji: `${emojisObject.playstation.name}:${emojisObject.playstation.id}`
-                    },
-                    {
-                        label: `اكسبوكس`,
-                        value: `xbl`,
-                        default: (userInput.platform === 'xbl'),
-                        emoji: `${emojisObject.xbox.name}:${emojisObject.xbox.id}`
-                    }
-                )
-
-                // Add options for en
-                if(userData.lang === "en") statsTypeRow.components[0].setOptions(
-                    {
-                        label: `All`,
-                        value: `all`,
-                        default: (userInput.type === 'all'),
-                        emoji: `${emojisObject.overall.name}:${emojisObject.overall.id}`
-                    },
-                    {
-                        label: `Keyboard And Mouse`,
-                        value: `kbm`,
-                        default: (userInput.type === 'kbm'),
-                        emoji: `${emojisObject.keyboard.name}:${emojisObject.keyboard.id}`
-                    },
-                    {
-                        label: `Controller`,
-                        value: `controller`,
-                        default: (userInput.type === 'controller'),
-                        emoji: `${emojisObject.controller.name}:${emojisObject.controller.id}`
-                    },
-                    {
-                        label: `Touch`,
-                        value: `touch`,
-                        default: (userInput.type === 'touch'),
-                        emoji: `${emojisObject.touchpad.name}:${emojisObject.touchpad.id}`
-                    }
-                )
-
-                // Add options for ar
-                else if(userData.lang === "ar") statsTypeRow.components[0].setOptions(
-                    {
-                        label: `الكل`,
-                        value: `all`,
-                        default: (userInput.type === 'all'),
-                        emoji: `${emojisObject.overall.name}:${emojisObject.overall.id}`
-                    },
-                    {
-                        label: `لوحة المفاتيح`,
-                        value: `kbm`,
-                        default: (userInput.type === 'kbm'),
-                        emoji: `${emojisObject.keyboard.name}:${emojisObject.keyboard.id}`
-                    },
-                    {
-                        label: `يد التحكم`,
-                        value: `controller`,
-                        default: (userInput.type === 'controller'),
-                        emoji: `${emojisObject.controller.name}:${emojisObject.controller.id}`
-                    },
-                    {
-                        label: `اللمس`,
-                        value: `touch`,
-                        default: (userInput.type === 'touch'),
-                        emoji: `${emojisObject.touchpad.name}:${emojisObject.touchpad.id}`
-                    }
-                )
+                // Set type options
+                userInput.typeOptions.forEach(e => (userInput.type === e.value) ? e.default = true : e.default = false)
+                userInput.statsTypeRow.components[0].setOptions(userInput.typeOptions)
 
                 // Create a row for buttons
                 const buttonDataRow = new Discord.ActionRowBuilder()
@@ -806,7 +677,7 @@ module.exports = {
                 )
 
                 // Edit the main message
-                await dropMenuMessage.edit({embeds: [statsPlatformEmbed], components: [statsPlatformRow, statsTypeRow, buttonDataRow]})
+                await dropMenuMessage.edit({embeds: [statsPlatformEmbed], components: [statsPlatformRow, userInput.statsTypeRow, buttonDataRow]})
 
             }
 

@@ -1341,7 +1341,7 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
             //Limited Time
             Lines = 0
             if(lang === "en"){
-                x = 256
+                x = 125
                 y = canvas.height - (150 + 75 + 512)
                 for(let i = 0; i< LimitedTime.length; i++){
                     if(Lines === 3){

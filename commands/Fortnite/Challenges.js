@@ -334,6 +334,7 @@ module.exports = {
                 categoriesOptions[i] = {
                     label: name,
                     description: description,
+                    default: false,
                     value: `${i}`,
                 }
             }
@@ -369,6 +370,13 @@ module.exports = {
 
                     // Update categoriesIndex value
                     categoriesIndex = Number(collected.values[0])
+
+                    // Update options
+                    categoriesOptions.forEach(e => e.default = false)
+                    categoriesOptions[categoriesIndex].default = true
+
+                    // Set options
+                    categoriesRow.components[0].setOptions(categoriesOptions)
 
                     var size = (res.data.bundles[categoriesIndex].bundles.length / 25), components = [categoriesRow], limit = 0
                     if(size % 2 !== 0 && size != 1){
@@ -443,7 +451,6 @@ module.exports = {
                     printQuests(Number(collected.values[0]))
                     
                 }
-
             })
 
             //when time has ended

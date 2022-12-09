@@ -75,7 +75,6 @@ module.exports = async (client, admin, commandsDataList) => {
                     reasonEN: null,
                     reasonAR: null,
                 },
-                userBans: [],
                 permissions: [],
                 roles: [],
             }

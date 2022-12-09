@@ -1090,7 +1090,7 @@ class FNBRMENA {
      * @param {Object} emojisObject
      * 
      */
-     Logs(admin, client, Discord, message, alias, lang, text, err, emojisObject){
+     Logs(admin, client, Discord, message, alias, lang, text, err, emojisObject, msg){
         if(msg) msg.delete()
 
         //if user took to long to excute the command
@@ -1129,11 +1129,11 @@ class FNBRMENA {
             anErrorHappened.setThumbnail('https://imgur.com/yjMpDe3.png')
             if(lang === "en"){
                 anErrorHappened.setTitle(`Ouch, Errr thats awkward ${emojisObject.errorEmoji}`)
-                anErrorHappened.setDescription(`An error occurred while getting data for the \`${alias}\` command. A complete log has been sent to the developer and a fix is being worked on right now. If this issue took longer than necessary, please [__CONTACT OUR SUPPORT TEAM__](https://discord.com/channels/746143287383031878) ASAP.\n\nWe're sorry for the inconvenience\n\`\`\`yaml\n${err.message}\`\`\``)
+                anErrorHappened.setDescription(`An error occurred while getting data for the \`${alias}\` command. A complete log has been sent to the developer and a fix is being worked on right now. If this issue took longer than necessary, please [__CONTACT OUR SUPPORT TEAM__](https://discord.com/channels/756464693492842496/800405068880281661) ASAP.\n\nWe're sorry for the inconvenience\n\`\`\`yaml\n${err.message}\`\`\``)
             }
             else if(lang === "ar"){
                 anErrorHappened.setTitle(`عذرا لقد حصلت مشكلة ${emojisObject.errorEmoji}`)
-                anErrorHappened.setDescription(`لقد حدثت مشكلة ما اثناء جمع بيانات امر \`${alias}\`. تم ارسال ملف تسجيل يحتوي على جميع المعلومات المهمه للمطورين و المشكلة يتم حلها حاليا. في حال المشكلة اخذت وقت اكثر من المعتاد, من فضلك [__تواصل مع فريق الدعم__](https://discord.com/channels/746143287383031878) في اسرع وقت ممكن.\n\nنأسف على الإزعاج\n\`\`\`yaml\n${err.message}\`\`\``)
+                anErrorHappened.setDescription(`لقد حدثت مشكلة ما اثناء جمع بيانات امر \`${alias}\`. تم ارسال ملف تسجيل يحتوي على جميع المعلومات المهمه للمطورين و المشكلة يتم حلها حاليا. في حال المشكلة اخذت وقت اكثر من المعتاد, من فضلك [__تواصل مع فريق الدعم__](https://discord.com/channels/756464693492842496/800405068880281661) في اسرع وقت ممكن.\n\nنأسف على الإزعاج\n\`\`\`yaml\n${err.message}\`\`\``)
             }
             message.reply({embeds: [anErrorHappened]})
 
@@ -1257,10 +1257,22 @@ class FNBRMENA {
 
         //get the command data
         if(Type === "Command"){
-            return db.collection("Commands").doc(Alias).get()
+            const data = await db.collection("Commands").doc(Alias)
+
+            const commandData = await data.get()
             .then(async data => {
                 return data.data();
             })
+
+            const usersBanned = await data.collection(`usersBanned`).doc(`${Message.author.id}`).get()
+            .then(async data => {
+                return data.data();
+            })
+
+            return {
+                command: commandData,
+                usersBanned
+            }
         }
 
         //get the events status

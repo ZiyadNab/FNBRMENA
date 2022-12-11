@@ -19,6 +19,14 @@ module.exports = async (client, admin) => {
             
             //get the user's doc and delete it
             await admin.firestore().collection("Users").doc(member.id).delete()
+            
+            //delete the right item
+            snapshot.forEach(async doc => {
+                batch.delete(doc.ref)
+            })
+
+            //commit all changes
+            batch.commit();
         }
     }) 
 

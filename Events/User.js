@@ -17,8 +17,20 @@ module.exports = async (client, admin) => {
     client.on('guildMemberRemove', async member => {
         if(!member.user.bot){
             
+            //define the collection
+            const docRef = await admin.firestore().collection("Users").doc(`${message.author.id}`).collection("Reminders").get()
+            
+            //delete the right item
+            await docRef.forEach(async doc => {
+                admin.firestore().batch().delete(doc.ref)
+            })
+
+            //commit all changes
+            await admin.firestore().batch().commit();
+            
             //get the user's doc and delete it
-            await admin.firestore().collection("Users").doc(member.id).delete()
+            admin.firestore().collection("Users").doc(member.id).delete()
+            
         }
     }) 
 

@@ -50,6 +50,10 @@ module.exports = {
                 label: `Events Status`,
                 value: `eventsStatus`
             },
+            {
+                label: `Users`,
+                value: `users`,
+            },
         )
 
         // Add the drop menu to the categoryDropMenu
@@ -120,6 +124,11 @@ module.exports = {
 
                     // Edit the message
                     dropMenuMessage.edit({embeds: [botStatusEmbed], components: [botStatusButtonDataRow]})
+
+                    // Filtering the admin clicker
+                    const filter = (i => {
+                        return (i.user.id === message.author.id && i.message.id === dropMenuMessage.id && i.guild.id === message.guild.id)
+                    })
 
                     // Await for the admin
                     await message.channel.awaitMessageComponent({filter, time: 30000})
@@ -416,6 +425,11 @@ module.exports = {
                                         // Edit the message
                                         dropMenuMessage.edit({embeds: [commandStatusEmbed], components: [commandStatusButtonDataRow]})
 
+                                        // Filtering the admin clicker
+                                        const filter = (i => {
+                                            return (i.user.id === message.author.id && i.message.id === dropMenuMessage.id && i.guild.id === message.guild.id)
+                                        })
+
                                         // Await for the admin
                                         await message.channel.awaitMessageComponent({filter, time: 5 * 60000})
                                         .then(async collected => {
@@ -448,7 +462,7 @@ module.exports = {
                                             // If the admin wants to disable a command
                                             if(collected.customId === "Disable"){
 
-                                                // Show modal
+                                                // showModal
                                                 collected.showModal(commandStatusModal)
 
                                                 // Listen for modal submission
@@ -531,6 +545,11 @@ module.exports = {
 
                                         // Edit the message
                                         dropMenuMessage.edit({embeds: [commandStatusEmbed], components: [appearanceButtonDataRow]})
+
+                                        // Filtering the admin clicker
+                                        const filter = (i => {
+                                            return (i.user.id === message.author.id && i.message.id === dropMenuMessage.id && i.guild.id === message.guild.id)
+                                        })
 
                                         // Await for the admin
                                         await message.channel.awaitMessageComponent({filter, time: 30000})
@@ -658,6 +677,11 @@ module.exports = {
                                         // Edit the message
                                         dropMenuMessage.edit({embeds: [banUnbanEmbed], components: [banUnbanButtonDataRow]})
 
+                                        // Filtering the admin clicker
+                                        const filter = (i => {
+                                            return (i.user.id === message.author.id && i.message.id === dropMenuMessage.id && i.guild.id === message.guild.id)
+                                        })
+
                                         // Await for the admin
                                         await message.channel.awaitMessageComponent({filter, time: 5 * 60000})
                                         .then(async collected => {
@@ -668,7 +692,7 @@ module.exports = {
                                             // Ban has been selected
                                             if(collected.customId === "Ban"){
 
-                                                // Show modal
+                                                // showModal
                                                 collected.showModal(banAUserModal)
 
                                                 // Listen for modal submission
@@ -713,7 +737,7 @@ module.exports = {
                                             // Unban has been selected
                                             if(collected.customId === "Unban"){
 
-                                                // Show modal
+                                                // showModal
                                                 collected.showModal(unbanAUserModal)
 
                                                 // Listen for modal submission
@@ -797,6 +821,11 @@ module.exports = {
 
                                         // Edit the message
                                         dropMenuMessage.edit({embeds: [banUnbanEmbed], components: [banUnbanButtonDataRow]})
+
+                                        // Filtering the admin clicker
+                                        const filter = (i => {
+                                            return (i.user.id === message.author.id && i.message.id === dropMenuMessage.id && i.guild.id === message.guild.id)
+                                        })
 
                                         // Await for the admin
                                         await message.channel.awaitMessageComponent({filter, time: 5 * 60000})
@@ -907,6 +936,11 @@ module.exports = {
                                         // Edit the message
                                         dropMenuMessage.edit({embeds: [commandCooldownEmbed], components: [cooldownButtonDataRow]})
 
+                                        // Filtering the admin clicker
+                                        const filter = (i => {
+                                            return (i.user.id === message.author.id && i.message.id === dropMenuMessage.id && i.guild.id === message.guild.id)
+                                        })
+
                                         // Await for the admin
                                         await message.channel.awaitMessageComponent({filter, time: 60000})
                                         .then(async collected => {
@@ -917,7 +951,7 @@ module.exports = {
                                             // Show has been selected
                                             if(collected.customId === "Edit"){
                             
-                                                // Show modal
+                                                // showModal
                                                 collected.showModal(commandCooldownModal)
 
                                                 // Listen for modal submission
@@ -1025,7 +1059,7 @@ module.exports = {
 
                                         // Create the modal and add text fields
                                         const addRolesModal = new Discord.ModalBuilder()
-                                        addRolesModal.setCustomId('roles')
+                                        addRolesModal.setCustomId(`roles-${message.id}`)
                                         addRolesModal.setTitle(`Manage A Role For ${commandName}`) // Set modal title
                                         addRolesModal.addComponents( // Add fields
                                             new Discord.ActionRowBuilder().addComponents(
@@ -1039,6 +1073,11 @@ module.exports = {
                                         // Edit the message
                                         dropMenuMessage.edit({embeds: [addRolesEmbed], components: [addRolesButtonDataRow]})
 
+                                        // Filtering the admin clicker
+                                        const filter = (i => {
+                                            return (i.user.id === message.author.id && i.message.id === dropMenuMessage.id && i.guild.id === message.guild.id)
+                                        })
+
                                         // Await for the admin
                                         await message.channel.awaitMessageComponent({filter, time: 30000})
                                         .then(async collected => {
@@ -1048,10 +1087,14 @@ module.exports = {
 
                                             // Add has been selected
                                             if(collected.customId === "Add"){
-                                                collected.showModal(addRolesModal) // Show modal
+
+                                                // showModal
+                                                collected.showModal(addRolesModal)
 
                                                 // Listen for modal submission
-                                                const modalFilter = (interaction) => interaction.customId === 'roles';
+                                                const filter = (i => {
+                                                    return i.customId === `roles-${message.id}` && i.user.id === message.author.id && i.guild.id === message.guild.id
+                                                })
                                                 await collected.awaitModalSubmit({modalFilter, time: 2 * 60000})
                                                 .then(async modalCollect => {
                                                     modalCollect.deferUpdate();
@@ -1090,11 +1133,15 @@ module.exports = {
 
                                             // Remove has been selected
                                             if(collected.customId === "Remove"){
-                                                collected.showModal(addRolesModal) // Show modal
+
+                                                // showModal
+                                                collected.showModal(addRolesModal)
 
                                                 // Listen for modal submission
-                                                const modalFilter = (interaction) => interaction.customId === 'roles';
-                                                await collected.awaitModalSubmit({modalFilter, time: 2 * 60000})
+                                                const filter = (i => {
+                                                    return i.customId === `roles-${message.id}` && i.user.id === message.author.id && i.guild.id === message.guild.id
+                                                })
+                                                await collected.awaitModalSubmit({filter, time: 2 * 60000})
                                                 .then(async modalCollect => {
                                                     modalCollect.deferUpdate()
                                                     
@@ -1208,6 +1255,11 @@ module.exports = {
                     // Edit the message
                     dropMenuMessage.edit({embeds: [eventsStatusEmbed], components: [eventsStatusButtonDataRow]})
 
+                    // Filtering the admin clicker
+                    const filter = (i => {
+                        return (i.user.id === message.author.id && i.message.id === dropMenuMessage.id && i.guild.id === message.guild.id)
+                    })
+
                     // Await for the admin
                     await message.channel.awaitMessageComponent({filter, time: 30000})
                     .then(async collected => {
@@ -1279,6 +1331,11 @@ module.exports = {
                                 // Edit the message
                                 dropMenuMessage.edit({embeds: [eventsListEmbed], components: components})
 
+                                // Filtering the admin clicker
+                                const filter = (i => {
+                                    return (i.user.id === message.author.id && i.message.id === dropMenuMessage.id && i.guild.id === message.guild.id)
+                                })
+
                                 // Await for the admin
                                 await message.channel.awaitMessageComponent({filter, time: 30000})
                                 .then(async collected => {
@@ -1338,6 +1395,11 @@ module.exports = {
                                         // Edit the message
                                         dropMenuMessage.edit({embeds: [eventOperationEmbed], components: [eventOperationButtonDataRow]})
 
+                                        // Filtering the admin clicker
+                                        const filter = (i => {
+                                            return (i.user.id === message.author.id && i.message.id === dropMenuMessage.id && i.guild.id === message.guild.id)
+                                        })
+
                                         // Await for the admin
                                         await message.channel.awaitMessageComponent({filter, time: 30000})
                                         .then(async collected => {
@@ -1382,6 +1444,11 @@ module.exports = {
 
                                                 // Edit the message
                                                 dropMenuMessage.edit({embeds: [eventStatusEmbed], components: [eventStatusButtonDataRow]})
+
+                                                // Filtering the admin clicker
+                                                const filter = (i => {
+                                                    return (i.user.id === message.author.id && i.message.id === dropMenuMessage.id && i.guild.id === message.guild.id)
+                                                })
 
                                                 // Await for the admin
                                                 await message.channel.awaitMessageComponent({filter, time: 30000})
@@ -1490,6 +1557,11 @@ module.exports = {
                                                 // Edit the message
                                                 dropMenuMessage.edit({embeds: [eventLanguageEmbed], components: [eventLanguageButtonDataRow]})
 
+                                                // Filtering the admin clicker
+                                                const filter = (i => {
+                                                    return (i.user.id === message.author.id && i.message.id === dropMenuMessage.id && i.guild.id === message.guild.id)
+                                                })
+
                                                 // Await for the admin
                                                 await message.channel.awaitMessageComponent({filter, time: 30000})
                                                 .then(async collected => {
@@ -1575,6 +1647,11 @@ module.exports = {
 
                                                 // Edit the message
                                                 dropMenuMessage.edit({embeds: [eventRoleEmbed], components: [eventRoleButtonDataRow]})
+
+                                                // Filtering the admin clicker
+                                                const filter = (i => {
+                                                    return (i.user.id === message.author.id && i.message.id === dropMenuMessage.id && i.guild.id === message.guild.id)
+                                                })
 
                                                 // Await for the admin
                                                 await message.channel.awaitMessageComponent({filter, time: 30000})
@@ -1742,6 +1819,190 @@ module.exports = {
                             }).catch(err => {
                                 FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
                             })
+                        }
+
+                    }).catch(err => {
+                        FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                    })
+                }
+
+                // Users status has been selected
+                if(collected.values[0] === `users`){
+
+                    // Create the modal and add text fields
+                    const userIDModal = new Discord.ModalBuilder()
+                    userIDModal.setCustomId(`userID-${message.id}`)
+                    userIDModal.setTitle('User ID') // Set modal title
+                    userIDModal.addComponents( // Add fields
+                        new Discord.ActionRowBuilder().addComponents(
+                            new Discord.TextInputBuilder()
+                            .setCustomId('id')
+                            .setLabel("Please type the user ID.")
+                            .setStyle(Discord.TextInputStyle.Short)
+                            .setRequired(true)
+                        )
+                    )
+
+                    // showModal
+                    collected.showModal(userIDModal)
+
+                    // Listen for modal submission
+                    const filter = (i => {
+                        return i.customId === `userID-${message.id}` && i.user.id === message.author.id && i.guild.id === message.guild.id
+                    })
+                    await collected.awaitModalSubmit({filter, time: 2 * 60000})
+                    .then(async modalCollect => {
+                        modalCollect.deferUpdate();
+
+                        // User document
+                        const userData = await db.collection("Users").doc(`${modalCollect.fields.getTextInputValue('id')}`).get()
+
+                        // Check if the user given is already exists 
+                        if(userData.exists){
+
+                            // Get user data from djs
+                            client.users.fetch(userData.data().id)
+                            .then(async userInfo => {
+
+                                // Create an embed
+                                const userOperationsEmbed = new Discord.EmbedBuilder()
+                                userOperationsEmbed.setColor(FNBRMENA.Colors("embed"))
+                                userOperationsEmbed.setTitle(`User Operations, ${userInfo.username}`)
+                                userOperationsEmbed.setDescription('Please choose an operation.\n\`You have only 30 seconds until this operation ends, Make it quick\`')
+
+                                // Add a button row
+                                const userOperationsButtonDataRow = new Discord.ActionRowBuilder()
+                                                    
+                                // Add buttons to the row
+                                if(userData.data().quickAccess) userOperationsButtonDataRow.addComponents(
+                                    new Discord.ButtonBuilder()
+                                    .setCustomId('RemoveQA')
+                                    .setStyle(Discord.ButtonStyle.Success)
+                                    .setLabel("Remove Quick Access")
+                                )
+
+                                else userOperationsButtonDataRow.addComponents(
+                                    new Discord.ButtonBuilder()
+                                    .setCustomId('GiveQA')
+                                    .setStyle(Discord.ButtonStyle.Success)
+                                    .setLabel("Give Quick Access")
+                                )
+
+                                if(userData.data().premium) userOperationsButtonDataRow.addComponents(
+                                    new Discord.ButtonBuilder()
+                                    .setCustomId('RemoveP')
+                                    .setStyle(Discord.ButtonStyle.Primary)
+                                    .setLabel("Remove Premium")
+                                )
+
+                                else userOperationsButtonDataRow.addComponents(
+                                    new Discord.ButtonBuilder()
+                                    .setCustomId('GiveP')
+                                    .setStyle(Discord.ButtonStyle.Primary)
+                                    .setLabel("Give Premium")
+                                )
+
+                                userOperationsButtonDataRow.addComponents(
+                                    new Discord.ButtonBuilder()
+                                    .setCustomId('Cancel')
+                                    .setStyle(Discord.ButtonStyle.Danger)
+                                    .setLabel("Cancel")
+                                )
+
+                                // Edit the message
+                                dropMenuMessage.edit({embeds: [userOperationsEmbed], components: [userOperationsButtonDataRow]})
+
+                                // Filtering the admin clicker
+                                const filter = (i => {
+                                    return (i.user.id === message.author.id && i.message.id === dropMenuMessage.id && i.guild.id === message.guild.id)
+                                })
+
+                                // Await for the admin
+                                await message.channel.awaitMessageComponent({filter, time: 30000})
+                                .then(async collected => {
+                                    collected.deferUpdate();
+
+                                    // Cancel has been selected
+                                    if(collected.customId === "Cancel") dropMenuMessage.delete()
+
+                                    // Remove Quick Access has been selected
+                                    if(collected.customId === "RemoveQA"){
+
+                                        // Update the data
+                                        await db.collection("Users").doc(`${userInfo.id}`).update({
+                                            'quickAccess': false
+                                        })
+
+                                        // Successfully updated
+                                        const quickAccessUpdatedEmbed = new Discord.EmbedBuilder()
+                                        quickAccessUpdatedEmbed.setColor(FNBRMENA.Colors("embedSuccess"))
+                                        quickAccessUpdatedEmbed.setTitle(`The quick access has been taken from ${userInfo.username} successfully ${emojisObject.checkEmoji}.`)
+                                        dropMenuMessage.edit({embeds: [quickAccessUpdatedEmbed], components: []})
+
+                                    }
+
+                                    // Give Quick Access has been selected
+                                    if(collected.customId === "GiveQA"){
+
+                                        // Update the data
+                                        await db.collection("Users").doc(`${userInfo.id}`).update({
+                                            'quickAccess': true
+                                        })
+
+                                        // Successfully updated
+                                        const quickAccessUpdatedEmbed = new Discord.EmbedBuilder()
+                                        quickAccessUpdatedEmbed.setColor(FNBRMENA.Colors("embedSuccess"))
+                                        quickAccessUpdatedEmbed.setTitle(`The quick access has been given to ${userInfo.username} successfully ${emojisObject.checkEmoji}.`)
+                                        dropMenuMessage.edit({embeds: [quickAccessUpdatedEmbed], components: []})
+
+                                    }
+
+                                    // Remove Premium has been selected
+                                    if(collected.customId === "RemoveP"){
+
+                                        // Update the data
+                                        await db.collection("Users").doc(`${userInfo.id}`).update({
+                                            'premium': false
+                                        })
+
+                                        // Successfully updated
+                                        const quickAccessUpdatedEmbed = new Discord.EmbedBuilder()
+                                        quickAccessUpdatedEmbed.setColor(FNBRMENA.Colors("embedSuccess"))
+                                        quickAccessUpdatedEmbed.setTitle(`The premium has been taken from ${userInfo.username} successfully ${emojisObject.checkEmoji}.`)
+                                        dropMenuMessage.edit({embeds: [quickAccessUpdatedEmbed], components: []})
+
+                                    }
+
+                                    // Give Premium has been selected
+                                    if(collected.customId === "GiveP"){
+
+                                        // Update the data
+                                        await db.collection("Users").doc(`${userInfo.id}`).update({
+                                            'premium': true
+                                        })
+
+                                        // Successfully updated
+                                        const quickAccessUpdatedEmbed = new Discord.EmbedBuilder()
+                                        quickAccessUpdatedEmbed.setColor(FNBRMENA.Colors("embedSuccess"))
+                                        quickAccessUpdatedEmbed.setTitle(`The premium has been given to ${userInfo.username} successfully ${emojisObject.checkEmoji}.`)
+                                        dropMenuMessage.edit({embeds: [quickAccessUpdatedEmbed], components: []})
+
+                                    }
+
+                                }).catch(err => {
+                                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                                })
+
+                            }).catch(err => {
+                                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                            })
+                        }else{
+
+                            // User not found
+                            const userNotFoundEmbed = new Discord.EmbedBuilder()
+                            userNotFoundEmbed.setColor(FNBRMENA.Colors("embedError"))
+                            userNotFoundEmbed.setTitle(`User not found ${emojisObject.errorEmoji}.`)
+                            dropMenuMessage.edit({embeds: [userNotFoundEmbed], components: []})
                         }
 
                     }).catch(err => {

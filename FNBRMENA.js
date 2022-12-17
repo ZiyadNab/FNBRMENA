@@ -37,6 +37,7 @@ class FNBRMENA {
      Colors(Type){
 
         if(Type === "embed") return "#00ffff"
+        if(Type === "embedWarning") return "#eed202"
         if(Type === "embedError") return "#FF0000"
         if(Type === "embedSuccess") return "#0CFF00"
         if(Type === "syntaxError") return "#0000fe"
@@ -512,6 +513,26 @@ class FNBRMENA {
 
         //request the data and return the response
         return await axios.get(encodeURI(`https://fortniteapi.io/v2/shop?lang=${Lang}`), { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
+
+    }
+
+    /**
+     * Return data about the Augments
+     * 
+     * @param {String} Lang
+     * @example
+     * FNBRMENA.Augments(Lang)
+     * .then(async res => {
+     * 
+     *        //you will get a response weather the requested data has been found or not
+     * 
+     * })
+     * 
+     */
+    async Augments(Lang){
+
+        //request the data and return the response
+        return await axios.get(`https://fortniteapi.io/v1/game/augments?lang=${Lang}`, { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
 
     }
 

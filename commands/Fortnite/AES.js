@@ -4,7 +4,6 @@ module.exports = {
     minArgs: 0,
     maxArgs: 0,
     cooldown: -1,
-    permissionError: 'Sorry you do not have acccess to this command',
     callback: async (FNBRMENA, message, args, text, Discord, client, admin, userData, alias, emojisObject) => {
 
         // Index to start the AES from and how many dynamicKeys in a single page
@@ -26,8 +25,8 @@ module.exports = {
             generating.setColor(FNBRMENA.Colors("embed"))
             if(userData.lang === "en") generating.setTitle(`Loading a total ${res.data.dynamicKeys.length + res.data.unloaded.length}, please wait... ${emojisObject.loadingEmoji}`)
             else if(userData.lang === "ar") generating.setTitle(`جاري تحميل ${res.data.dynamicKeys.length + res.data.unloaded.length} مفتاح , الرجاء الانتظار... ${emojisObject.loadingEmoji}`)
-            message.reply({embeds: [generating]})
-            .then(async msg => {
+            const msg = await message.reply({embeds: [generating]})
+            try {
 
                 // Create an embed, row
                 const row = new Discord.ActionRowBuilder()
@@ -144,13 +143,12 @@ module.exports = {
                 }
 
                 
-                // Send the embed
-                const aesMessage = await message.reply({embeds: [aesEmbed], components: [row]})
-                msg.delete()
+                // Edit the loadingt message
+                msg.edit({embeds: [aesEmbed], components: [row]})
 
                 //filtering the user clicker
                 const filter = (i => {
-                    return (i.user.id === message.author.id && i.message.id === aesMessage.id && i.guild.id === message.guild.id)
+                    return (i.user.id === message.author.id && i.message.id === msg.id && i.guild.id === message.guild.id)
                 })
 
                 const colllector = message.channel.createMessageComponentCollector({filter, time: 2 * 60000, errors: ['time'] })
@@ -158,7 +156,7 @@ module.exports = {
                     collected.deferUpdate();
 
                     // Delete button was clicked
-                    if(collected.customId === "cancel") aesMessage.delete()
+                    if(collected.customId === "cancel") msg.delete()
                     
                     // One page prev was clicked
                     if(collected.customId === "prev"){
@@ -200,7 +198,7 @@ module.exports = {
                         else if(userData.lang === "ar") backwardPage.setTitle(`لقد وصلت لاخر صفحه ${emojisObject.errorEmoji}`)
 
                         //edit the message
-                        aesMessage.edit({embeds: [backwardPage], components: [row]})
+                        msg.edit({embeds: [backwardPage], components: [row]})
                     }
 
                     // One page next was clicked
@@ -240,7 +238,7 @@ module.exports = {
                         else if(userData.lang === "ar") forwardPage.setTitle(`لقد وصلت لاخر صفحه ${emojisObject.errorEmoji}`)
 
                         //edit the message
-                        aesMessage.edit({embeds: [forwardPage], components: [row]})
+                        msg.edit({embeds: [forwardPage], components: [row]})
                     }
 
                 })
@@ -248,12 +246,14 @@ module.exports = {
                 // If time has ended
                 colllector.on('end', async () => {
                     try {
-                        await aesMessage.delete()
+                        msg.delete()
                     } catch {
                         
                     }
                 })
-            })
+            } catch (err) {
+                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
+            }
         })
     }
 }

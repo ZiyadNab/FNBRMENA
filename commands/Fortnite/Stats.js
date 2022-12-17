@@ -13,7 +13,6 @@ module.exports = {
     minArgs: 1,
     maxArgs: null,
     cooldown: 5,
-    permissionError: 'Sorry you do not have acccess to this command',
     callback: async (FNBRMENA, message, args, text, Discord, client, admin, userData, alias, emojisObject) => {
 
         // User input
@@ -73,7 +72,7 @@ module.exports = {
             generating.setColor(FNBRMENA.Colors("embed"))
             if(userData.lang === "en") generating.setTitle(`Loading player's data... ${emojisObject.loadingEmoji}`)
             else if(userData.lang === "ar") generating.setTitle(`جاري تحميل بيانات اللاعب... ${emojisObject.loadingEmoji}`)
-            const msg = await message.reply({embeds: [generating]})
+            const msg = await message.reply({embeds: [generating], embeds: [], components: [], files: []})
             try {
 
                 // Push add, solo, duo, squads and LTM's
@@ -428,10 +427,23 @@ module.exports = {
 
                 }
 
-                // Send the stats message
-                const att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `${res.data.data.account.name}.png`})
-                await message.reply({files: [att]})
-                msg.delete()
+                // Send the image
+                var att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `${res.data.data.account.name}.png`})
+                msg.edit({embeds: [remindersEmbed], components: [], files: [att]})
+                .catch(err => {
+
+                    // Try sending it on jpg file format [LOWER QUALITY]
+                    var att = new Discord.AttachmentBuilder(canvas.toBuffer('image/jpeg'), {name: `${res.data.data.account.name}.jpg`})
+                    msg.edit({embeds: [remindersEmbed], components: [], files: [att]})
+                    .catch(err => {
+                        FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
+                    })
+                })
+
+                msg.edit({embeds: [], components: [], files: [att]})
+                .catch(err => {
+                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
+                })
 
             }catch(err) {
                 FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
@@ -525,7 +537,7 @@ module.exports = {
         statsPlatformRow.addComponents(statsPlatformDropMenu)
 
         // Send the message
-        const dropMenuMessage = await message.reply({embeds: [statsPlatformEmbed], components: [statsPlatformRow, cancelButtonDataRow]})
+        const dropMenuMessage = await message.reply({embeds: [statsPlatformEmbed], components: [statsPlatformRow, cancelButtonDataRow], files: []})
 
         // Filtering the user clicker
         const filter = (i => {
@@ -612,7 +624,10 @@ module.exports = {
                 userInput.statsTypeRow.addComponents(statsTypeDropMenu)
 
                 // Edit the main message
-                await dropMenuMessage.edit({embeds: [statsPlatformEmbed], components: [statsPlatformRow, userInput.statsTypeRow, cancelButtonDataRow]})
+                dropMenuMessage.edit({embeds: [statsPlatformEmbed], components: [statsPlatformRow, userInput.statsTypeRow, cancelButtonDataRow], files: []})
+                .catch(err => {
+                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                })
                 
             }
 
@@ -677,7 +692,10 @@ module.exports = {
                 )
 
                 // Edit the main message
-                await dropMenuMessage.edit({embeds: [statsPlatformEmbed], components: [statsPlatformRow, userInput.statsTypeRow, buttonDataRow]})
+                dropMenuMessage.edit({embeds: [statsPlatformEmbed], components: [statsPlatformRow, userInput.statsTypeRow, buttonDataRow], files: []})
+                .catch(err => {
+                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                })
 
             }
 
@@ -716,7 +734,7 @@ module.exports = {
                             noUserHasBeenFoundError.setColor(FNBRMENA.Colors("embedError"))
                             if(userData.lang === "en") noUserHasBeenFoundError.setTitle(`Can't find ${text} in ${usedPlatform} platform. Please try again ${emojisObject.errorEmoji}`)
                             else if(userData.lang === "ar") noUserHasBeenFoundError.setTitle(`لا يمكنني العثور على حساب ${text} في منصه ${usedPlatform}. حاول مجددا ${emojisObject.errorEmoji}`)
-                            await message.reply({embeds: [noUserHasBeenFoundError]})
+                            await message.reply({embeds: [noUserHasBeenFoundError], components: [], files: []})
 
                         }else if(err.response.data.error === "the requested profile didnt play any match yet"){
 
@@ -724,7 +742,7 @@ module.exports = {
                             noMatchsPlayedYetError.setColor(FNBRMENA.Colors("embedError"))
                             if(userData.lang === "en") noMatchsPlayedYetError.setTitle(`The ${text} account hasn't played any matchs yet ${emojisObject.errorEmoji}`)
                             else if(userData.lang === "ar") noMatchsPlayedYetError.setTitle(`صاحب حساب ${text} لم يلعب اي مباراة حتى الأن ${emojisObject.errorEmoji}`)
-                            await message.reply({embeds: [noMatchsPlayedYetError]})
+                            await message.reply({embeds: [noMatchsPlayedYetError], components: [], files: []})
 
                         }
 
@@ -734,7 +752,7 @@ module.exports = {
                         theUserAccountIsPrivate.setColor(FNBRMENA.Colors("embedError"))
                         if(userData.lang === "en") theUserAccountIsPrivate.setTitle(`Can't get access to ${text} because the user account is private. ${emojisObject.errorEmoji}`)
                         else if(userData.lang === "ar") theUserAccountIsPrivate.setTitle(`لا يمكنني الحصول على صلاحية إحصائيات ${text} بسبب ان الحساب خاص. ${emojisObject.errorEmoji}`)
-                        await message.reply({embeds: [theUserAccountIsPrivate]})
+                        await message.reply({embeds: [theUserAccountIsPrivate], components: [], files: []})
 
                     }else FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
                 })
@@ -775,7 +793,7 @@ module.exports = {
                             noUserHasBeenFoundError.setColor(FNBRMENA.Colors("embedError"))
                             if(userData.lang === "en") noUserHasBeenFoundError.setTitle(`Can't find ${text} in ${usedPlatform} platform. Please try again ${emojisObject.errorEmoji}`)
                             else if(userData.lang === "ar") noUserHasBeenFoundError.setTitle(`لا يمكنني العثور على حساب ${text} في منصه ${usedPlatform}. حاول مجددا ${emojisObject.errorEmoji}`)
-                            await message.reply({embeds: [noUserHasBeenFoundError]})
+                            await message.reply({embeds: [noUserHasBeenFoundError], components: [], files: []})
 
                         }else if(err.response.data.error === "the requested profile didnt play any match yet"){
 
@@ -783,7 +801,7 @@ module.exports = {
                             noMatchsPlayedYetError.setColor(FNBRMENA.Colors("embedError"))
                             if(userData.lang === "en") noMatchsPlayedYetError.setTitle(`The ${text} account hasn't played any matchs yet ${emojisObject.errorEmoji}`)
                             else if(userData.lang === "ar") noMatchsPlayedYetError.setTitle(`صاحب حساب ${text} لم يلعب اي مباراة حتى الأن ${emojisObject.errorEmoji}`)
-                            await message.reply({embeds: [noMatchsPlayedYetError]})
+                            await message.reply({embeds: [noMatchsPlayedYetError], components: [], files: []})
 
                         }
 
@@ -793,7 +811,7 @@ module.exports = {
                         theUserAccountIsPrivate.setColor(FNBRMENA.Colors("embedError"))
                         if(userData.lang === "en") theUserAccountIsPrivate.setTitle(`Can't get access to ${text} because the user account is private. ${emojisObject.errorEmoji}`)
                         else if(userData.lang === "ar") theUserAccountIsPrivate.setTitle(`لا يمكنني الحصول على صلاحية إحصائيات ${text} بسبب ان الحساب خاص. ${emojisObject.errorEmoji}`)
-                        await message.reply({embeds: [theUserAccountIsPrivate]})
+                        await message.reply({embeds: [theUserAccountIsPrivate], components: [], files: []})
 
                     }else FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
                 })

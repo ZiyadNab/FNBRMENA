@@ -11,35 +11,34 @@ module.exports = {
     minArgs: 1,
     maxArgs: null,
     cooldown: 40,
-    permissionError: 'Sorry you do not have acccess to this command',
     callback: async (FNBRMENA, message, args, text, Discord, client, admin, userData, alias, emojisObject) => {
 
-        //tier index
+        // Tier index
         let tierIndex = 0
 
-         //if the user added a tier to start
+         // If the user added a tier to start
          if(text.includes("+")){
 
-            //extract the season from the text string
+            // Extract the season from the text string
             var season = text.substring(0, text.indexOf("+"))
             tierIndex = text.substring(text.indexOf("+") + 1, text.length).trim()
 
         }else var season = text
 
-        //request data
+        // Request data
         FNBRMENA.getBattlepassRewards(userData.lang, season)
         .then(async res => {
 
-            //check season validity
+            // Check season validity
             if(res.data.result){
 
-                //if the started index above the rewards length
+                // If the started index above the rewards length
                 if(Number(tierIndex) < res.data.rewards.length){
 
                     const buttonsDataRow = new Discord.ActionRowBuilder()
                     if(userData.lang === "en"){
                         
-                        //back 20
+                        // Back 20
                         buttonsDataRow.addComponents(
                             new Discord.ButtonBuilder()
                             .setCustomId(`BACK20-${alias}`)
@@ -47,7 +46,7 @@ module.exports = {
                             .setLabel("Back 20 Tier")
                         )
 
-                        //back 1
+                        // Back 1
                         buttonsDataRow.addComponents(
                             new Discord.ButtonBuilder()
                             .setCustomId(`BACK-${alias}`)
@@ -55,7 +54,7 @@ module.exports = {
                             .setLabel("Back 1 Tier")
                         )
 
-                        //next 1
+                        // Next 1
                         buttonsDataRow.addComponents(
                             new Discord.ButtonBuilder()
                             .setCustomId(`NEXT-${alias}`)
@@ -63,7 +62,7 @@ module.exports = {
                             .setLabel("Next 1 Tier")
                         )
 
-                        //next 20
+                        // Next 20
                         buttonsDataRow.addComponents(
                             new Discord.ButtonBuilder()
                             .setCustomId(`NEXT20-${alias}`)
@@ -71,7 +70,7 @@ module.exports = {
                             .setLabel("Next 20 Tier")
                         )
 
-                        //stop
+                        // Stop
                         buttonsDataRow.addComponents(
                             new Discord.ButtonBuilder()
                             .setCustomId(`STOP-${alias}`)
@@ -79,7 +78,7 @@ module.exports = {
                             .setLabel("Stop!")
                         )
                     }else if(userData.lang === "ar"){
-                        //back 20
+                        // Back 20
                         buttonsDataRow.addComponents(
                             new Discord.ButtonBuilder()
                             .setCustomId(`BACK20-${alias}`)
@@ -87,7 +86,7 @@ module.exports = {
                             .setLabel("ارجع 20 مستوى")
                         )
 
-                        //back 1
+                        // Back 1
                         buttonsDataRow.addComponents(
                             new Discord.ButtonBuilder()
                             .setCustomId(`BACK-${alias}`)
@@ -95,7 +94,7 @@ module.exports = {
                             .setLabel("ارجع 1 مستوى")
                         )
 
-                        //next 1
+                        // Next 1
                         buttonsDataRow.addComponents(
                             new Discord.ButtonBuilder()
                             .setCustomId(`NEXT-${alias}`)
@@ -103,7 +102,7 @@ module.exports = {
                             .setLabel("تقدم 1 مستوى")
                         )
 
-                        //next 20
+                        // Next 20
                         buttonsDataRow.addComponents(
                             new Discord.ButtonBuilder()
                             .setCustomId(`NEXT20-${alias}`)
@@ -111,7 +110,7 @@ module.exports = {
                             .setLabel("تقدم 20 مستوى")
                         )
 
-                        //stop
+                        // Stop
                         buttonsDataRow.addComponents(
                             new Discord.ButtonBuilder()
                             .setCustomId(`STOP-${alias}`)
@@ -120,25 +119,25 @@ module.exports = {
                         )
                     }
 
-                    //preview tier details based on the given index
+                    // Preview tier details based on the given index
                     const tierViewer = async () => {
 
-                        //get tier data by filtering
+                        // Get tier data by filtering
                         const TierData = res.data.rewards[tierIndex]
 
-                        //inisilizing tierDATA
+                        // Inisilizing tierDATA
                         const tierDataEmbed = new Discord.EmbedBuilder()
 
-                        //set the embed color is there is no rarity then use the default
+                        // Set the embed color is there is no rarity then use the default
                         if(TierData !== undefined){
                             if(TierData.item.series !== null) tierDataEmbed.setColor(FNBRMENA.Colors(TierData.item.series.id))
                             else tierDataEmbed.setColor(FNBRMENA.Colors(TierData.item.rarity.id))
                         }else tierDataEmbed.setColor(FNBRMENA.Colors("embed"))
 
-                        //if the index is not -1
+                        // If the index is not -1
                         if(tierIndex < res.data.rewards.length){
 
-                            //set title
+                            // Set title
                             if(await TierData.page !== null){
                                 if(userData.lang === "en") await tierDataEmbed.setAuthor({name: `${res.data.displayInfo.chapterSeason} | Page ${TierData.page}`, iconURL: TierData.item.images.icon})
                                 else if(userData.lang === "ar") await tierDataEmbed.setAuthor({name: `${res.data.displayInfo.chapterSeason} | صفحة ${TierData.page}`, iconURL: TierData.item.images.icon})
@@ -147,12 +146,12 @@ module.exports = {
                                 else if(userData.lang === "ar") await tierDataEmbed.setAuthor({name: `${res.data.displayInfo.chapterSeason} | مستوى ${TierData.tier}`, iconURL: TierData.item.images.icon})
                             }
                             
-                            //set title
+                            // Set title
                             tierDataEmbed.setTitle(`${emojisObject.battlepassTiers} ${TierData.item.name}`)
                             tierDataEmbed.setDescription(TierData.item.description)
                             tierDataEmbed.setThumbnail(TierData.item.images.icon)
 
-                            //add styles
+                            // Add styles
                             var Styles = ``
                             if(TierData.item.styles.length !== 0){
                                 for(let i = 0; i < TierData.item.styles.length; i++){
@@ -161,7 +160,7 @@ module.exports = {
                             }else if(userData.lang === "en") Styles = `\`No styles for ${TierData.item.name} ${TierData.item.type.name}.\``
                             else if(userData.lang === "ar") Styles = `\`لا يوجد ستايلات لـ ${TierData.item.type.name} ${TierData.item.name}.\``
 
-                            //add grants
+                            // Add grants
                             var Grants = ``
                             if(TierData.item.grants.length !== 0){
                                 for(let i = 0; i < TierData.item.grants.length; i++){
@@ -171,7 +170,7 @@ module.exports = {
                             }else if(userData.lang === "en") Grants = `\`The ${TierData.item.name} ${TierData.item.type.name} doesn't grants you anything.\``
                             else if(userData.lang === "ar") Grants = `\`لا يمنحك ${TierData.item.type.name} ${TierData.item.name} عناصر أضافية.\``
 
-                            //add gameplayTags
+                            // Add gameplayTags
                             var gameplayTags = ``
                             if(TierData.item.gameplayTags.length !== 0){
                                 for(let i = 0; i < TierData.item.gameplayTags.length; i++){
@@ -180,30 +179,30 @@ module.exports = {
                             }else if(userData.lang === "en") gameplayTags = `\`No gameplayTags for ${TierData.item.name} ${TierData.item.type.name}.\``
                             else if(userData.lang === "ar") gameplayTags = `\`لا يوجد شعارات لـ ${TierData.item.type.name} ${TierData.item.name}\``
 
-                            //add rarity
+                            // Add rarity
                             var rarity = ``
                             if(TierData.item.series !== null) rarity = TierData.item.series.name
                             else rarity = TierData.item.rarity.name
 
-                            //add set
+                            // Add set
                             if(userData.lang === "en") var set = `\`No set for ${TierData.item.name} ${TierData.item.type.name}.\``
                             else if(userData.lang === "ar") var set = `\`لا يوجد مجموعة للعنصر ${TierData.item.type.name} ${TierData.item.name}.\``
                             if(TierData.item.set !== null) set = TierData.item.set.partOf
 
-                            //add introduction
+                            // Add introduction
                             if(userData.lang === "en") var introduction = `No introduction for ${TierData.item.name}`
                             else if(userData.lang === "ar") var introduction = `لا يوجد تقديم للعنصر ${TierData.item.name}`
                             if(TierData.item.introduction !== null) introduction = TierData.item.introduction.text
 
-                            //add price
+                            // Add price
                             if(userData.lang === "en") var price = `\`No prices for ${TierData.item.name} ${TierData.item.type.name}.\``
                             else if(userData.lang === "ar") var price = `\`لا يوجد اسعار لـ ${TierData.item.type.name} ${TierData.item.name}.\``
                             if(TierData.price !== null) price = `${TierData.price.amount} ${emojisObject.battlepassStars}`
 
-                            //add fields
+                            // Add fields
                             if(userData.lang === "en"){
 
-                                //battlepass type
+                                // Battlepass type
                                 const battlepassType = TierData.battlepass.charAt(0).toUpperCase() + TierData.battlepass.slice(1)
 
                                 tierDataEmbed.addFields(
@@ -222,7 +221,7 @@ module.exports = {
                                 )
                             }else if(userData.lang === "ar"){
 
-                                //battlepass type
+                                // Battlepass type
                                 let battlepassType = `مدفوع`
                                 if(TierData.battlepass === 'free') battlepassType = `مجاني`
 
@@ -243,7 +242,7 @@ module.exports = {
                             }
                         }else{
 
-                            //set description
+                            // Set description
                             if(userData.lang === "en") tierDataEmbed.setDescription(`You are the the last page please use backward or stop button to continue ${emojisObject.errorEmoji}`)
                             else if(userData.lang === "ar") tierDataEmbed.setDescription(`انت الأن في اخر صفحه الرجاء استعمال زر الرجوع او الإيقاف للأستمرار ${emojisObject.errorEmoji}`)
                         }
@@ -251,107 +250,107 @@ module.exports = {
                         return tierDataEmbed
                     }
 
-                    //send the data
-                    const sendTierDataViewer = await message.reply({components: [buttonsDataRow], embeds: [await tierViewer()]})
+                    // Send the data
+                    const sendTierDataViewer = await message.reply({embeds: [await tierViewer()], components: [buttonsDataRow], files: []})
 
-                    //filtering the user clicker
+                    // Filtering the user clicker
                     const filter = (i => {
                         return (i.user.id === message.author.id && i.message.id === sendTierDataViewer.id && i.guild.id === message.guild.id)
                     })
 
-                    //await the user click
+                    // Await the user click
                     const collector = message.channel.createMessageComponentCollector({filter, time: 2 * 60000, errors: ['time'] })
                     collector.on('collect', async collected => {
                         collected.deferUpdate();
 
-                        //back 20 button clicked
+                        // Back 20 button clicked
                         if(collected.customId === `BACK20-${alias}`){
 
                             if(tierIndex > res.data.rewards.length) tierIndex = res.data.rewards.length
 
-                            //if there is no more tiers
+                            // If there is no more tiers
                             if(tierIndex - 20 > 0){
 
-                                //move to the 20 back index
+                                // Move to the 20 back index
                                 tierIndex -= 20
 
-                                //edit the message
-                                await sendTierDataViewer.edit({embeds: [await tierViewer()]})
+                                // Edit the message
+                                await sendTierDataViewer.edit({embeds: [await tierViewer()], components: [], files: []})
 
                             }else{
 
                                 tierIndex = 0
 
-                                //edit the message
-                                await sendTierDataViewer.edit({embeds: [await tierViewer()]})
+                                // Edit the message
+                                await sendTierDataViewer.edit({embeds: [await tierViewer()], components: [], files: []})
 
                             }
                         }
 
-                        //back button clicked
+                        // Back button clicked
                         if(collected.customId === `BACK-${alias}`){
 
                             if(tierIndex > res.data.rewards.length) tierIndex = res.data.rewards.length
 
-                            //if there is no more tiers
+                            // If there is no more tiers
                             if(tierIndex - 1 > 0){
 
-                                //move to the back index
+                                // Move to the back index
                                 tierIndex--
 
-                                //edit the message
-                                await sendTierDataViewer.edit({embeds: [await tierViewer()]})
+                                // Edit the message
+                                await sendTierDataViewer.edit({embeds: [await tierViewer()], components: [], files: []})
 
                             }else{
 
                                 tierIndex = 0
 
-                                //edit the message
-                                await sendTierDataViewer.edit({embeds: [await tierViewer()]})
+                                // Edit the message
+                                await sendTierDataViewer.edit({embeds: [await tierViewer()], components: [], files: []})
 
                             }
                         }
 
-                        //next button clicked
+                        // Next button clicked
                         if(collected.customId === `NEXT-${alias}`){
 
-                            //if there is no more tiers
+                            // If there is no more tiers
                             if(tierIndex + 1 <= res.data.rewards.length){
                                     
-                                //move to the next index
+                                // Move to the next index
                                 tierIndex++
 
-                                //edit the message
-                                await sendTierDataViewer.edit({embeds: [await tierViewer()]})
+                                // Edit the message
+                                await sendTierDataViewer.edit({embeds: [await tierViewer()], components: [], files: []})
                                 
-                            }else await sendTierDataViewer.edit({embeds: [await tierViewer()]})
+                            }else await sendTierDataViewer.edit({embeds: [await tierViewer()], components: [], files: []})
                         }
 
-                        //next button clicked
+                        // Next button clicked
                         if(collected.customId === `NEXT20-${alias}`){
 
-                            //if there is no more tiers
+                            // If there is no more tiers
                             if(tierIndex + 20 <= res.data.rewards.length){
 
-                                //move to the next index
+                                // Move to the next index
                                 tierIndex += 20
 
-                                //edit the message
-                                await sendTierDataViewer.edit({embeds: [await tierViewer()]})
+                                // Edit the message
+                                await sendTierDataViewer.edit({embeds: [await tierViewer()], components: [], files: []})
 
                             }else{
 
                                 tierIndex = res.data.rewards.length
-                                await sendTierDataViewer.edit({embeds: [await tierViewer()]})
+                                await sendTierDataViewer.edit({embeds: [await tierViewer()], components: [], files: []})
                             }
                         }
 
-                        //stop listening
+                        // Stop listening
                         if(collected.customId === `STOP-${alias}`) collector.stop()
                         
                     })
 
-                    //when time has ended
+                    // When time has ended
                     collector.on('end', async () => {
                         try {
                             await sendTierDataViewer.delete()
@@ -362,21 +361,21 @@ module.exports = {
 
                 }else{
 
-                    //create error embed
+                    // Create error embed
                     const startTierIsNotValidError = new Discord.EmbedBuilder()
                     startTierIsNotValidError.setColor(FNBRMENA.Colors("embedError"))
                     if(userData.lang === "en") startTierIsNotValidError.setTitle(`The given tier is incorrect ${emojisObject.errorEmoji}`)
                     else if(userData.lang === "ar") startTierIsNotValidError.setTitle(`المستوى غير صحيح ${emojisObject.errorEmoji}`)
-                    message.reply({embeds: [startTierIsNotValidError]})
+                    message.reply({embeds: [startTierIsNotValidError], components: [], files: []})
                 }
             }else{
 
-                //create error embed
+                // Create error embed
                 const noBattlepassFoundError = new Discord.EmbedBuilder()
                 noBattlepassFoundError.setColor(FNBRMENA.Colors("embedError"))
                 if(userData.lang === "en") noBattlepassFoundError.setTitle(`There is no battlepass with that number ${emojisObject.errorEmoji}`)
                 else if(userData.lang === "ar") noBattlepassFoundError.setTitle(`لا يوجد باتل باس بهذا الرقم ${emojisObject.errorEmoji}`)
-                message.reply({embeds: [noBattlepassFoundError]})
+                message.reply({embeds: [noBattlepassFoundError], components: [], files: []})
             }
 
         }).catch(err => {

@@ -4,6 +4,7 @@ const Discord = require('discord.js')
 const moment = require('moment')
 require('moment-timezone')
 const config = require('./../Configs/config.json')
+const fs = require('fs')
 
 const allCommands = {}
 
@@ -32,6 +33,22 @@ let recentlyRan = []
 let startTimeMS = 0
 
 module.exports.listen = async (client, admin, emojisObject) => {
+    var aax = []
+    for(const i of Object.keys(allCommands)){
+        aax.push({
+            command: i,
+            type: allCommands[i].type !== undefined ? allCommands[i].type : "UNKNOWN",
+            descriptionEN: allCommands[i].descriptionEN !== undefined ? allCommands[i].descriptionEN : "There is no explaination for this command YET",
+            descriptionAR: allCommands[i].descriptionAR !== undefined ? allCommands[i].descriptionAR : "لايوجد تعليمات على هذا الأمر للأن",
+            expectedArgsEN: allCommands[i].expectedArgsEN !== undefined ? allCommands[i].expectedArgsEN : "Just use the command its self no arguments needed",
+            hintEN: allCommands[i].hintEN !== undefined ? allCommands[i].hintEN : "UNKNOWN",
+            hintAR: allCommands[i].hintAR !== undefined ? allCommands[i].hintAR : "UNKNOWN",
+            expectedArgsAR: allCommands[i].expectedArgsAR !== undefined ? allCommands[i].expectedArgsAR : "فقط استعمل الأمر بدون اي شي اضافي",
+            argsExample: allCommands[i].argsExample !== undefined ? allCommands[i].argsExample : "UNKNOWN",
+        })
+    }
+
+    fs.writeFileSync('./data.json', JSON.stringify(aax, null, 2))
 
     // Listen for messages
     client.on('messageCreate', async (message) => {
@@ -107,7 +124,6 @@ module.exports.listen = async (client, admin, emojisObject) => {
                 minArgs = 0,
                 maxArgs = null,
                 cooldown = -1,
-                permissionError = "Sorry you do not have acccess to this command",
                 callback,
             } = command
 
@@ -172,7 +188,7 @@ module.exports.listen = async (client, admin, emojisObject) => {
                     syntaxError.setThumbnail('https://imgur.com/auAsgQN.png')
 
                     // Send a guided message
-                    await message.reply({embeds: [syntaxError]})
+                    await message.reply({embeds: [syntaxError], components: [], files: []})
                     return
                 }
 
@@ -225,7 +241,7 @@ module.exports.listen = async (client, admin, emojisObject) => {
                                 )
                             }
                         }
-                        message.reply({embeds: [userBanErr]})
+                        message.reply({embeds: [userBanErr], components: [], files: []})
                         return
                     }
 
@@ -235,9 +251,9 @@ module.exports.listen = async (client, admin, emojisObject) => {
                         if(!userData.premium){
                             const premiumErr = new Discord.EmbedBuilder()
                             premiumErr.setColor(FNBRMENA.Colors("embedError"))
-                            if(userData.lang === "en") premiumErr.setTitle(`This command is only for premium users please buy access first ${emojisObject.errorEmoji}`)
-                            else if(userData.lang === "en") premiumErr.setTitle(`الأمر فقط لأصحاب الوصول الخاص و الرجاء اولا الشراء ${emojisObject.errorEmoji}`)
-                            message.reply({embeds: [premiumErr]})
+                            if(userData.lang === "en") premiumErr.setTitle(`This command is only for premium users please buy access first ${emojisObject.errorEmoji}.`)
+                            else if(userData.lang === "en") premiumErr.setTitle(`الأمر فقط لأصحاب الوصول الخاص و الرجاء اولا الشراء ${emojisObject.errorEmoji}.`)
+                            message.reply({embeds: [premiumErr], components: [], files: []})
                             return
                         }
                     }
@@ -248,9 +264,9 @@ module.exports.listen = async (client, admin, emojisObject) => {
                             
                             const permissionErr = new Discord.EmbedBuilder()
                             permissionErr.setColor(FNBRMENA.Colors("embedError"))
-                            if(userData.lang === "en") permissionErr.setTitle(`${permissionError} ${emojisObject.errorEmoji}`)
-                            else if(userData.lang === "ar") permissionErr.setTitle(`عذرا ليس لديك صلاحية لهذا الامر ${emojisObject.errorEmoji}`)
-                            message.reply({embeds: [permissionErr]})
+                            if(userData.lang === "en") permissionErr.setTitle(`Sorry you do not have acccess to this command ${emojisObject.errorEmoji}.`)
+                            else if(userData.lang === "ar") permissionErr.setTitle(`عذرا ليس لديك صلاحية لهذا الامر ${emojisObject.errorEmoji}.`)
+                            message.reply({embeds: [permissionErr], components: [], files: []})
                             return
                         }
                     }
@@ -263,9 +279,9 @@ module.exports.listen = async (client, admin, emojisObject) => {
 
                             const roleErr = new Discord.EmbedBuilder()
                             roleErr.setColor(FNBRMENA.Colors("embedError"))
-                            if(userData.lang === "en") roleErr.setTitle(`You must have the "${requiredRole}" role to use this command ${emojisObject.errorEmoji}`)
-                            else if(userData.lang === "ar") roleErr.setTitle(`يجب عليك الحصول على رول "${requiredRole}" لأستخدام الامر ${emojisObject.errorEmoji}`)
-                            message.reply({embeds: [roleErr]})
+                            if(userData.lang === "en") roleErr.setTitle(`You must have the "${(role === undefined ? requiredRole : role.name)}" role to use this command ${emojisObject.errorEmoji}.`)
+                            else if(userData.lang === "ar") roleErr.setTitle(`يجب عليك الحصول على رول "${(role === undefined ? requiredRole : role.name)}" لأستخدام الامر ${emojisObject.errorEmoji}.`)
+                            message.reply({embeds: [roleErr], components: [], files: []})
                             return
                         }
                     }
@@ -283,9 +299,9 @@ module.exports.listen = async (client, admin, emojisObject) => {
 
                         const cooldownErr = new Discord.EmbedBuilder()
                         cooldownErr.setColor(FNBRMENA.Colors("embedError"))
-                        if(userData.lang === "en") cooldownErr.setTitle(`You can't run this command too soon please wait ${timeRemaning} sec... ${emojisObject.errorEmoji}`)
-                        else if(userData.lang === "ar") cooldownErr.setTitle(`لا يمكنك استعمال الامر اكثر من مرا بنفس الوقت الرجاء انتظر ${timeRemaning} ثانية ${emojisObject.errorEmoji}`)
-                        message.reply({embeds: [cooldownErr]})
+                        if(userData.lang === "en") cooldownErr.setTitle(`You can't run this command too soon please wait ${timeRemaning} sec... ${emojisObject.errorEmoji}.`)
+                        else if(userData.lang === "ar") cooldownErr.setTitle(`لا يمكنك استعمال الامر اكثر من مرا بنفس الوقت الرجاء انتظر ${timeRemaning} ثانية ${emojisObject.errorEmoji}.`)
+                        message.reply({embeds: [cooldownErr], components: [], files: []})
                         return
                     }
 
@@ -342,7 +358,7 @@ module.exports.listen = async (client, admin, emojisObject) => {
                         syntaxError.setThumbnail('https://imgur.com/auAsgQN.png')
 
                         // Send a guided message
-                        message.reply({embeds: [syntaxError]})
+                        message.reply({embeds: [syntaxError], components: [], files: []})
                         return
                     }
 
@@ -365,38 +381,42 @@ module.exports.listen = async (client, admin, emojisObject) => {
 
                     // The command used is disabled
                     const commandTurnedOffErr = new Discord.EmbedBuilder()
-                    commandTurnedOffErr.setColor(FNBRMENA.Colors("embedError"))
+                    commandTurnedOffErr.setColor(FNBRMENA.Colors("embedWarning"))
+                    commandTurnedOffErr.setThumbnail('https://cdn-icons-png.flaticon.com/512/1008/1008928.png')
                     moment.locale(userData.lang)
 
-                    // Get the user name
-                    const commanedTurnedOffBy = client.users.cache.get(commandData.command.commandData.commandStatus.by)
-
-                    // An explanation message
                     if(userData.lang === "en"){
+                        commandTurnedOffErr.setTitle(`TEMPORARILY DISABLED!`)
+                        commandTurnedOffErr.setFooter({text: `Disabled ${(moment().diff(moment(commandData.command.commandData.commandStatus.date), 'days') === 0) ? `${(moment().diff(moment(commandData.command.commandData.commandStatus.date), 'hours') === 0) ? `${moment().diff(moment(commandData.command.commandData.commandStatus.date), 'minutes')} minute(s)` : `${moment().diff(moment(commandData.command.commandData.commandStatus.date), 'hours')} hour(s)`}` : `${moment().diff(moment(commandData.command.commandData.commandStatus.date), 'days')} days`} ago`})
+                        if(commandData.command.commandData.commandStatus.reasonEN === null) commandTurnedOffErr.setDescription(`ًWe are sorry to interrupt you, The command ${commandData.command.aliases[0].toUpperCase()} has been temporarily disabled until further notice, Yet reasons are unknown please bear with us until we finish maintenance, Keep in mind it MIGHT take longer times than expected to finish maintenance. Thank you.`)
+                        else{
 
-                        commandTurnedOffErr.setTitle(`Status: ${emojisObject.redStatus}`)
-                        if(commanedTurnedOffBy){
-                            if(commandData.command.commandData.commandStatus.reasonEN === null) commandTurnedOffErr.setDescription(`Reason: \`Sorry this command is offline at the moment, please try again later\`\nBy: \`${commanedTurnedOffBy.tag}\`\nDate: \`${moment.tz(commandData.command.commandData.commandStatus.date, userData.timezone).format("dddd, MMMM Do of YYYY")}\`\nAgo:  \`${moment.tz(moment(), userData.timezone).diff(moment.tz(commandData.command.commandData.commandStatus.date, userData.timezone), 'days')} days ago\``)
-                            else commandTurnedOffErr.setDescription(`Reason: \`${commandData.command.commandData.commandStatus.reasonEN}\`\nBy: \`${commanedTurnedOffBy.tag}\`\nDate: \`${moment.tz(commandData.command.commandData.commandStatus.date, userData.timezone).format("dddd, MMMM Do of YYYY")}\`\nAgo:  \`${moment.tz(moment(), userData.timezone).diff(moment.tz(commandData.command.commandData.commandStatus.date, userData.timezone), 'days')} days ago\``)
-                        }else{
-                            if(commandData.command.commandData.commandStatus.reasonEN === null) commandTurnedOffErr.setDescription(`Reason: \`Sorry this command is offline at the moment, please try again later\`\nBy: \`${commandData.command.commandData.commandStatus.by}\`\nDate: \`${moment.tz(commandData.command.commandData.commandStatus.date, userData.timezone).format("dddd, MMMM Do of YYYY")}\`\nAgo:  \`${moment.tz(moment(), userData.timezone).diff(moment.tz(commandData.command.commandData.commandStatus.date, userData.timezone), 'days')} days ago\``)
-                            else commandTurnedOffErr.setDescription(`Reason: \`${commandData.command.commandData.commandStatus.reasonEN}\`\nBy: \`${commandData.command.commandData.commandStatus.by}\`\nDate: \`${moment.tz(commandData.command.commandData.commandStatus.date, userData.timezone).format("dddd, MMMM Do of YYYY")}\`\nAgo: \`${moment.tz(moment(), userData.timezone).diff(moment.tz(commandData.command.commandData.commandStatus.date, userData.timezone), 'days')} days ago\``)
+                            commandTurnedOffErr.setDescription(`We are sorry to interrupt you, The command ${commandData.command.aliases[0].toUpperCase()} has been temporarily disabled until further notice, Keep in mind it **MIGHT** take longer times than expected to finish maintenance. Thank you.`)
+                            commandTurnedOffErr.addFields(
+                                {
+                                    name: `Reason`,
+                                    value: `\`${commandData.command.commandData.commandStatus.reasonEN}\``,
+                                }
+                            )
                         }
-                    }
-                    else if(userData.lang === "ar"){
+                    }else if(userData.lang === "ar"){
+                        commandTurnedOffErr.setTitle(`موقوف مؤقتا!`)
+                        commandTurnedOffErr.setFooter({text: `موقوف منذ ${(moment().diff(moment(commandData.command.commandData.commandStatus.date), 'days') === 0) ? `${(moment().diff(moment(commandData.command.commandData.commandStatus.date), 'hours') === 0) ? `${moment().diff(moment(commandData.command.commandData.commandStatus.date), 'minutes')} دقيقة` : `${moment().diff(moment(commandData.command.commandData.commandStatus.date), 'hours')} ساعة`}` : `${moment().diff(moment(commandData.command.commandData.commandStatus.date), 'days')} يوم`}`})
+                        if(commandData.command.commandData.commandStatus.reasonAR === null) commandTurnedOffErr.setDescription(`نأسف لمقاطعتك ، الأمر ${commandData.command.aliases[0].toUpperCase()} تم تعطيله مؤقتًا حتى إشعار آخر ، ولكن الأسباب غير معروفة ، يرجى تحملنا حتى ننتهي من الصيانة ، ضع في اعتبارك أنه **من الممكن** يستغرق وقتًا أطول من المتوقع لإنهاء الصيانة.  شكرًا لك.`)
+                        else{
 
-                        commandTurnedOffErr.setTitle(`الحالة: ${emojisObject.redStatus}`)
-                        if(commanedTurnedOffBy){
-                            if(commandData.command.commandData.commandStatus.reasonAR === null) commandTurnedOffErr.setDescription(`\`السبب: \`نأسف تم ايقاف الامر لمدة معينة نرجوا المحاولة لاحقا\nمن: \`${commanedTurnedOffBy.tag}\`\nالتاريخ: \`${moment.tz(commandData.command.commandData.commandStatus.date, userData.timezone).format("dddd, MMMM Do من YYYY")}\`\nقبل: \`${moment.tz(moment(), userData.timezone).diff(moment.tz(commandData.command.commandData.commandStatus.date, userData.timezone), 'days')} يوم مضى\``)
-                            else commandTurnedOffErr.setDescription(`السبب: \`${commandData.command.commandData.commandStatus.reasonAR}\`\nمن: \`${commanedTurnedOffBy.tag}\`\nالتاريخ: \`${moment.tz(commandData.command.commandData.commandStatus.date, userData.timezone).format("dddd, MMMM Do من YYYY")}\`\nقبل:  \`${moment.tz(moment(), userData.timezone).diff(moment.tz(commandData.command.commandData.commandStatus.date, userData.timezone), 'days')} يوم مضى\``)
-                        }else{
-                            if(commandData.command.commandData.commandStatus.reasonAR === null) commandTurnedOffErr.setDescription(`\`السبب: \`نأسف تم ايقاف الامر لمدة معينة نرجوا المحاولة لاحقا\nمن: \`${commandData.command.commandData.commandStatus.by}\`\nالتاريخ: \`${moment.tz(commandData.command.commandData.commandStatus.date, userData.timezone).format("dddd, MMMM Do من YYYY")}\`\nقبل: \`${moment.tz(moment(), userData.timezone).diff(moment.tz(commandData.command.commandData.commandStatus.date, userData.timezone), 'days')} يوم مضى\``)
-                            commandTurnedOffErr.setDescription(`السبب: \`${commandData.command.commandData.commandStatus.reasonAR}\`\nمن: \`${commandData.command.commandData.commandStatus.by}\`\nالتاريخ: \`${moment.tz(commandData.command.commandData.commandStatus.date, userData.timezone).format("dddd, MMMM Do من YYYY")}\`\nقبل:  \`${moment.tz(moment(), userData.timezone).diff(moment.tz(commandData.command.commandData.commandStatus.date, userData.timezone), 'days')} يوم مضى\``)
+                            commandTurnedOffErr.setDescription(`نأسف لمقاطعتك ، الأمر ${commandData.command.aliases[0].toUpperCase()} تم تعطيله مؤقتًا حتى إشعار آخر ، ضع في اعتبارك أنه **من الممكن** يستغرق وقتًا أطول من المتوقع لإنهاء الصيانة.  شكرًا لك.`)
+                            commandTurnedOffErr.addFields(
+                                {
+                                    name: `السبب`,
+                                    value: `\`${commandData.command.commandData.commandStatus.reasonEN}\``,
+                                }
+                            )
                         }
                     }
 
                     // Send the message
-                    message.reply({embeds: [commandTurnedOffErr]})
+                    message.reply({embeds: [commandTurnedOffErr], components: [], files: []})
                 }
             }else{
                 
@@ -405,7 +425,7 @@ module.exports.listen = async (client, admin, emojisObject) => {
                 botStatusOfflineErr.setColor(FNBRMENA.Colors("embedError"))
                 if(userData.lang === "en") botStatusOfflineErr.setTitle(`Errr, Sorry the bot is off at the moment ${emojisObject.errorEmoji}`)
                 else if(userData.lang === "ar") botStatusOfflineErr.setTitle(`عذرا البوت مغلق بالوقت الحالي ${emojisObject.errorEmoji}`)
-                message.reply({embeds: [botStatusOfflineErr]})
+                message.reply({embeds: [botStatusOfflineErr], components: [], files: []})
             }
         }
     })

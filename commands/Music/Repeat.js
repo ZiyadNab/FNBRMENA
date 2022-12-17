@@ -4,7 +4,6 @@ module.exports = {
     minArgs: 0,
     maxArgs: 0,
     cooldown: -1,
-    permissionError: 'Sorry you do not have acccess to this command',
     callback: async (FNBRMENA, message, args, text, Discord, client, admin, userData, alias, emojisObject) => {
 
         // If the user isnt in a voice chat
@@ -12,7 +11,7 @@ module.exports = {
             const notInAVoiceChannelErr = new Discord.EmbedBuilder()
             notInAVoiceChannelErr.setColor(FNBRMENA.Colors("embedError"))
             notInAVoiceChannelErr.setTitle(`Please join a voice channel first ${emojisObject.errorEmoji}.`)
-            return message.reply({embeds: [notInAVoiceChannelErr]})
+            return message.reply({embeds: [notInAVoiceChannelErr], components: [], files: []})
             
         }
         
@@ -24,7 +23,7 @@ module.exports = {
             const noMusicPlayingErr = new Discord.EmbedBuilder()
             noMusicPlayingErr.setColor(FNBRMENA.Colors("embedError"))
             noMusicPlayingErr.setTitle(`There is no music is playing at the moment ${emojisObject.errorEmoji}`)
-            return message.reply({embeds: [noMusicPlayingErr]})
+            return message.reply({embeds: [noMusicPlayingErr], components: [], files: []})
         }
 
         // Create random landing embed message
@@ -58,7 +57,7 @@ module.exports = {
         buttonsDataRow.addComponents(repeatSongButton, repeatQueueButton, stopRepeatButton)
 
         // Send the button
-        const musicRepeatMessage = await message.reply({embeds: [musicRepeatEmbed], components: [buttonsDataRow]})
+        const musicRepeatMessage = await message.reply({embeds: [musicRepeatEmbed], components: [buttonsDataRow], files: []})
 
         // Filtering the user clicker
         const filter = (i => {
@@ -79,7 +78,7 @@ module.exports = {
                 const songRepeating = new Discord.EmbedBuilder()
                 songRepeating.setColor(FNBRMENA.Colors("embedSuccess"))
                 songRepeating.setTitle(`The ${queue.nowPlaying().title} will be repeated until repeating is disabled ${emojisObject.checkEmoji}.`)
-                return message.reply({embeds: [songRepeating]})
+                return message.reply({embeds: [songRepeating], components: [], files: []})
             }
 
             // If the user wants to repeat the queue
@@ -91,7 +90,7 @@ module.exports = {
                 const queueRepeating = new Discord.EmbedBuilder()
                 queueRepeating.setColor(FNBRMENA.Colors("embedSuccess"))
                 queueRepeating.setTitle(`The whole queue will be repeated until repeating is disabled ${emojisObject.checkEmoji}.`)
-                return message.reply({embeds: [queueRepeating]})
+                return message.reply({embeds: [queueRepeating], components: [], files: []})
             }
 
             // If the user wants to stop repeating
@@ -103,7 +102,7 @@ module.exports = {
                 const stopRepeating = new Discord.EmbedBuilder()
                 stopRepeating.setColor(FNBRMENA.Colors("embedSuccess"))
                 stopRepeating.setTitle(`Repeating has been disabled ${emojisObject.checkEmoji}.`)
-                return message.reply({embeds: [stopRepeating]})
+                return message.reply({embeds: [stopRepeating], components: [], files: []})
             }
         })
     }

@@ -16,11 +16,11 @@ module.exports = {
 
         const battlepass = async (season) => {
 
-            //request data
+            // Request data
             FNBRMENA.getBattlepassRewards(userData.lang, season)
             .then(async res => {
                 
-                //if there a battlepass data found
+                // If there a battlepass data found
                 if(res.data.result){
 
                     // generating animation
@@ -29,10 +29,10 @@ module.exports = {
                     generating.setColor(FNBRMENA.Colors("embed"))
                     if(userData.lang === "en") generating.setTitle(`Loading a total ${length} cosmetics please wait... ${emojisObject.loadingEmoji}`)
                     else if(userData.lang === "ar") generating.setTitle(`تحميل جميع العناصر بمجموع ${length} عنصر الرجاء الانتظار... ${emojisObject.loadingEmoji}`)
-                    const msg = await message.reply({embeds: [generating]})
+                    const msg = await message.reply({embeds: [generating], components: [], files: []})
                     try {
 
-                        //variables
+                        // Variables
                         var width = 62
                         var height = 300
                         var newline = 0
@@ -41,10 +41,10 @@ module.exports = {
                         var paid = 0
                         var free = 0
 
-                        //width
+                        // Width
                         width += (10 * 107) + (10 * 37) + 37
 
-                        //height
+                        // Height
                         for(let i = 0; i < length; i++){
                             if(10 === newline){
                                 height += 107 + 37
@@ -53,58 +53,58 @@ module.exports = {
                             newline += 1
                         }
 
-                        //register fonts
+                        // Register fonts
                         Canvas.registerFont('./assets/font/Lalezar-Regular.ttf', {family: 'Arabic',weight: "700",style: "bold"});
                         Canvas.registerFont('./assets/font/BurbankBigCondensed-Black.ttf' ,{family: 'Burbank Big Condensed',weight: "700",style: "bold"})
 
-                        //canvas
+                        // Canvas
                         const canvas = Canvas.createCanvas(width, height);
                         const ctx = canvas.getContext('2d');
 
-                        //background
+                        // Background
                         ctx.fillStyle = '#47178f'
                         ctx.fillRect(0, 0, canvas.width, canvas.height)
 
-                        //upper
+                        // Upper
                         ctx.fillStyle = '#25076b'
                         ctx.fillRect(0, 0, canvas.width, 75)
 
-                        //fnbrmena
+                        // Fnbrmena
                         ctx.fillStyle = '#ffffff';
                         ctx.textAlign='left';
                         ctx.font = '50px Burbank Big Condensed'
                         ctx.fillText("FNBRMENA", 12, 53)
 
-                        //season
+                        // Season
                         ctx.fillStyle = '#ffffff';
                         ctx.textAlign='right';
                         if(userData.lang === "en") ctx.font = '50px Burbank Big Condensed'
                         else if (userData.lang === "ar") ctx.font = '50px Arabic'
                         ctx.fillText(res.data.displayInfo.chapterSeason, (canvas.width - 12), 53)
 
-                        //res.dataeting new line
+                        // Res.dataeting new line
                         newline = 0
 
-                        //loop through every item
+                        // Loop through every item
                         for(let i = 0; i < length; i++){
 
-                            //if the item is paid
+                            // If the item is paid
                             if(res.data.rewards[i].battlepass === 'paid') paid += 1
 
-                            //if the item is free
+                            // If the item is free
                             if(res.data.rewards[i].battlepass === 'free') free += 1
 
-                            //add new line
+                            // Add new line
                             newline += 1
 
-                            //variables
+                            // Variables
                             if(res.data.rewards[i].price === null) var tier = res.data.rewards[i].tier
                             else var tier = res.data.rewards[i].price.amount
                             var image = res.data.rewards[i].item.images.icon
                             if(res.data.rewards[i].item.series === null) var rarity = res.data.rewards[i].item.rarity.id
                             else var rarity = res.data.rewards[i].item.series.id
 
-                            //searching...
+                            // Searching...
                             if(rarity === "Legendary"){
                                 const holder = await Canvas.loadImage('./assets/Rarities/newStyle/legendary.png')
                                 ctx.drawImage(holder, x, y, 107, 107)
@@ -386,25 +386,25 @@ module.exports = {
                             }
                         }
 
-                        //create info embed
+                        // Create info embed
                         const info = new Discord.EmbedBuilder()
                         info.setColor(FNBRMENA.Colors("embed"))
                         info.setTitle(`${res.data.displayInfo.chapterSeason}, ${res.data.displayInfo.battlepassName}`)
 
-                        //set title and add fields
+                        // Set title and add fields
                         if(userData.lang === "en") info.setDescription(`All Cosmetics: \`${length}\`\nPaid Cosmetics: \`${paid}\`\nFree Cosmetics: \`${free}\``)
                         else if(userData.lang === "ar") info.setDescription(`جميع العناصر: \`${length}\`\nالعناصر المدفوعة: \`${paid}\`\nالعناصر المجانية: \`${free}\``)
 
-                        //creating a row
+                        // Creating a row
                         const row = new Discord.ActionRowBuilder()
 
                         //get videos
                         for(let i = 0; i < res.data.videos.length; i++){
 
-                            //if the video is a battlepass trailer
+                            // If the video is a battlepass trailer
                             if(res.data.videos[i].type === "bp"){
 
-                                //creating button
+                                // Creating button
                                 if(userData.lang === "en") row.addComponents(
                                     new Discord.ButtonBuilder()
                                     .setStyle(Discord.ButtonStyle.Link)
@@ -412,7 +412,7 @@ module.exports = {
                                     .setURL(res.data.videos[i].url)
                                 )
 
-                                //creating button
+                                // Creating button
                                 else if(userData.lang === "ar") row.addComponents(
                                     new Discord.ButtonBuilder()
                                     .setStyle(Discord.ButtonStyle.Link)
@@ -422,10 +422,10 @@ module.exports = {
 
                             }else
 
-                            //if the video is a season story trailer
+                            // If the video is a season story trailer
                             if(res.data.videos[i].type === "trailer"){
 
-                                //creating button
+                                // Creating button
                                 if(userData.lang === "en") row.addComponents(
                                     new Discord.ButtonBuilder()
                                     .setStyle(Discord.ButtonStyle.Link)
@@ -433,7 +433,7 @@ module.exports = {
                                     .setURL(res.data.videos[i].url)
                                 )
 
-                                //creating button
+                                // Creating button
                                 else if(userData.lang === "ar") row.addComponents(
                                     new Discord.ButtonBuilder()
                                     .setStyle(Discord.ButtonStyle.Link)
@@ -443,10 +443,12 @@ module.exports = {
                             }
                         }
 
-                        //send the info embed
+                        // Send the info embed
                         const att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `season${res.data.season}.png`})
-                        await message.reply({embeds: [info], components: [row], files: [att]})
-                        msg.delete()
+                        msg.edit({embeds: [info], components: [row], files: [att]})
+                        .catch(err => {
+                            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
+                        })
                         
                     }catch(err) {
                         FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
@@ -455,12 +457,13 @@ module.exports = {
                                 
                 }else{
 
-                    //create error embed
+                    // Create error embed
                     const noBattlepassFoundError = new Discord.EmbedBuilder()
                     noBattlepassFoundError.setColor(FNBRMENA.Colors("embedError"))
                     if(userData.lang === "en") noBattlepassFoundError.setTitle(`There is no battlepass with that number ${emojisObject.errorEmoji}`)
                     else if(userData.lang === "ar") noBattlepassFoundError.setTitle(`لا يوجد باتل باس بهذا الرقم ${emojisObject.errorEmoji}`)
-                    message.reply({embeds: [noBattlepassFoundError]})
+                    message.reply({embeds: [noBattlepassFoundError], components: [], files: []})
+                    
                 }
 
             }).catch(err => {
@@ -469,13 +472,13 @@ module.exports = {
             })
         }
 
-        //if args == 0
+        // If args == 0
         if(args.length === 0){
 
             await FNBRMENA.Seasons(userData.lang)
             .then(async res => {
 
-                //create an embed
+                // Create an embed
                 const battlepassChapterEmbed = new Discord.EmbedBuilder()
                 battlepassChapterEmbed.setColor(FNBRMENA.Colors("embed"))
                 if(userData.lang === "en"){
@@ -486,10 +489,10 @@ module.exports = {
                     battlepassChapterEmbed.setDescription('الرجاء الضغط على السهم لاختيار فصل بطاقة المعركة')
                 }
 
-                //create a row for cancel button
+                // Create a row for cancel button
                 const buttonDataRow = new Discord.ActionRowBuilder()
 
-                //add buttons
+                // Add buttons
                 if(userData.lang === "en") buttonDataRow.addComponents(
                     new Discord.ButtonBuilder()
                         .setCustomId('Cancel')
@@ -506,7 +509,7 @@ module.exports = {
                     )
                 
 
-                //loop through seasons
+                // Loop through seasons
                 const allChapters = [], foundChapters = []
                 for(const season of res.data.seasons){
 
@@ -528,37 +531,39 @@ module.exports = {
                     }
                 }
 
-                //create a row for drop down menu for categories
+                // Create a row for drop down menu for categories
                 const battlepassChapterRow = new Discord.ActionRowBuilder()
 
-                //create the drop menu
+                // Create the drop menu
                 const battlepassChapterDropMenu = new Discord.SelectMenuBuilder()
                 battlepassChapterDropMenu.setCustomId('chapter')
                 if(userData.lang === "en") battlepassChapterDropMenu.setPlaceholder('Select a chapter!')
                 else if(userData.lang === "ar") battlepassChapterDropMenu.setPlaceholder('اختار فصل!')
                 battlepassChapterDropMenu.addOptions(allChapters)
 
-                //add the drop menu to its row
+                // Add the drop menu to its row
                 battlepassChapterRow.addComponents(battlepassChapterDropMenu)
 
-                //edit the orignal image
-                const battlepassMessage = await message.reply({embeds: [battlepassChapterEmbed], components: [battlepassChapterRow, buttonDataRow]})
+                // Edit the orignal image
+                const dropMenuMessage = await message.reply({embeds: [battlepassChapterEmbed], components: [battlepassChapterRow, buttonDataRow], files: []})
 
-                //filtering the user clicker
-                const filter = i => i.user.id === message.author.id
+                // Filtering the user clicker
+                const filter = (i => {
+                    return (i.user.id === message.author.id && i.message.id === dropMenuMessage.id && i.guild.id === message.guild.id)
+                })
                 
-                //await for the user
+                // Await for the user
                 await message.channel.awaitMessageComponent({filter, time: 30000})
                 .then(async collected => {
                     collected.deferUpdate();
 
-                    //if cancel button has been clicked
-                    if(collected.customId === "Cancel") battlepassMessage.delete()
+                    // If cancel button has been clicked
+                    if(collected.customId === "Cancel") dropMenuMessage.delete()
 
-                    //if a search tag option has been chosen
+                    // If a search tag option has been chosen
                     if(collected.customId === "chapter"){
 
-                        //create an embed
+                        // Create an embed
                         const battlepassSeasonEmbed = new Discord.EmbedBuilder()
                         battlepassSeasonEmbed.setColor(FNBRMENA.Colors("embed"))
                         if(userData.lang === "en"){
@@ -569,7 +574,7 @@ module.exports = {
                             battlepassSeasonEmbed.setDescription('الرجاء الضغط على السهم لاختيار موسم بطاقة المعركة')
                         }
 
-                        //loop through seasons
+                        // Loop through seasons
                         const allSeasons = []
                         for(const seasons of res.data.seasons){
 
@@ -579,49 +584,50 @@ module.exports = {
                                 })
                         }
 
-                        //create a row for drop down menu for categories
+                        // Create a row for drop down menu for categories
                         const battlepassSeasonRow = new Discord.ActionRowBuilder()
 
-                        //create the drop menu
+                        // Create the drop menu
                         const battlepassSeasonDropMenu = new Discord.SelectMenuBuilder()
                         battlepassSeasonDropMenu.setCustomId('season')
                         if(userData.lang === "en") battlepassSeasonDropMenu.setPlaceholder('Select a season!')
                         else if(userData.lang === "ar") battlepassSeasonDropMenu.setPlaceholder('اختار موسم!')
                         battlepassSeasonDropMenu.addOptions(allSeasons)
 
-                        //add the drop menu to its row
+                        // Add the drop menu to its row
                         battlepassSeasonRow.addComponents(battlepassSeasonDropMenu)
 
-                        //edit the orignal image
-                        battlepassMessage.edit({embeds: [battlepassSeasonEmbed], components: [battlepassSeasonRow, buttonDataRow]})
+                        // Edit the orignal image
+                        dropMenuMessage.edit({embeds: [battlepassSeasonEmbed], components: [battlepassSeasonRow, buttonDataRow], files: []})
+                        .catch(err => {
+                            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                        })
                         
-                        //await for the user
+                        // Await for the user
                         await message.channel.awaitMessageComponent({filter, time: 30000})
                         .then(async collected => {
                             collected.deferUpdate();
 
-                            //if cancel button has been clicked
-                            if(collected.customId === "Cancel") battlepassMessage.delete()
+                            // If cancel button has been clicked
+                            if(collected.customId === "Cancel") dropMenuMessage.delete()
 
-                            //if a search tag option has been chosen
+                            // If a search tag option has been chosen
                             if(collected.customId === "season"){
-                                battlepassMessage.delete()
+                                await dropMenuMessage.delete()
                                 battlepass(collected.values[0])
                             }
                             
                         }).catch(async err => {
-                            battlepassMessage.delete()
-                            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
+                            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
                         })
                     }
                 }).catch(async err => {
-                    battlepassMessage.delete()
-                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
+                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
                 })
             }).catch(async err => {
                 FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
             })
 
-        }else battlepass(text) //user has specified a season number
+        }else battlepass(text) // User has specified a season number
     }
 }

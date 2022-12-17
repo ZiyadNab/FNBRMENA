@@ -15,30 +15,29 @@ module.exports = {
     minArgs: 1,
     maxArgs: null,
     cooldown: 40,
-    permissionError: 'Sorry you do not have acccess to this command',
     callback: async (FNBRMENA, message, args, text, Discord, client, admin, userData, alias, emojisObject) => {
 
-        //if the user added a numberOfRanks
+        // If the user added a numberOfRanks
         let numberOfRanks = 10;
         if(text.includes("+")){
 
-            //extract the season from the text string
+            // Extract the season from the text string
             var windowID = text.substring(0, text.indexOf("+"))
             numberOfRanks = text.substring(text.indexOf("+") + 1, text.length).trim()
 
         }else var windowID = text
 
-        //request data by the windowID
+        // Request data by the windowID
         FNBRMENA.tournamentSessions(windowID)
         .then(async res => {
 
-            //if the windowID is valid
+            // If the windowID is valid
             if(res.data.result){
 
-                //get the actual tornament id from Content Endpoint
+                // Get the actual tornament id from Content Endpoint
                 const contentEndpointResponse = await FNBRMENA.EpicContentEndpoint("en");
 
-                //loop and find the object that matches the given eventId to get extended data
+                // Loop and find the object that matches the given eventId to get extended data
                 let searchedContentTournamentObj = []
                 for(let i = 0; i < contentEndpointResponse.data.tournamentinformation.tournament_info.tournaments.length; i++){
                     if(await contentEndpointResponse.data.tournamentinformation.tournament_info.tournaments[i].tournament_display_id === await res.data.session.eventDisplayId){
@@ -46,28 +45,28 @@ module.exports = {
                     };
                 };
 
-                //loading message
+                // Loading message
                 const generating = new Discord.EmbedBuilder();
                 generating.setColor(FNBRMENA.Colors("embed"));
                 if(userData.lang === "en") generating.setTitle(`Loading ${searchedContentTournamentObj[0].long_format_title} results... ${emojisObject.loadingEmoji}`);
                 else if(userData.lang === "ar") generating.setTitle(`جاري تحميل احصائيات بطولة ${searchedContentTournamentObj[0].long_format_title}... ${emojisObject.loadingEmoji}`);
-                const msg = await message.reply({embeds: [generating]})
+                const msg = await message.reply({embeds: [generating], components: [], files: []})
                 try {
 
-                    //start working with the data
+                    // Start working with the data
                     //...
 
-                    //hieght, x and y measures
+                    // Hieght, x and y measures
                     let height = 480 + 160;
                     var x = 150;
                     var y = 480;
 
-                    //loop throw every rank
+                    // Loop throw every rank
                     for(let i = 0; i < numberOfRanks; i++){
                         height += 90 + 20;
                     }
 
-                    //applytext
+                    // Applytext
                     const applyText = (canvas, text) => {
                         const ctx = canvas.getContext('2d')
                         let fontSize = 70
@@ -78,15 +77,15 @@ module.exports = {
                         return ctx.font
                     }
 
-                    //registering fonts
+                    // Registering fonts
                     Canvas.registerFont('./assets/font/Lalezar-Regular.ttf', {family: 'Arabic',weight: "700",style: "bold"});
                     Canvas.registerFont('./assets/font/BurbankBigCondensed-Black.ttf' ,{family: 'Burbank Big Condensed',weight: "700",style: "bold"});
 
-                    //creating canvas
+                    // Creating canvas
                     const canvas = Canvas.createCanvas(2800, height);
                     const ctx = canvas.getContext('2d');
 
-                    //create background grediant
+                    // Create background grediant
                     const grediant = ctx.createLinearGradient(0, canvas.height, canvas.width, 0);
 
                     /**
@@ -98,21 +97,21 @@ module.exports = {
                     grediant.addColorStop(0, `#${searchedContentTournamentObj[0].background_left_color}`);
                     grediant.addColorStop(1, `#${searchedContentTournamentObj[0].background_right_color}`);
 
-                    //add the background color to ctx
+                    // Add the background color to ctx
                     ctx.fillStyle = grediant;
                     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-                    //add the credits
+                    // Add the credits
                     ctx.fillStyle = '#ffffff'
                     ctx.textAlign='right'
                     ctx.font = '75px Burbank Big Condensed'
                     ctx.fillText(`FNBRMENA`, canvas.width - 30, 80)
 
-                    //if the tournament is live or not
+                    // If the tournament is live or not
                     var finished = ``
                     if(moment(res.data.session.beginTime).diff(moment()) <= 0 && moment(res.data.session.endTime).diff(moment()) >= 0){
 
-                        //get the duration
+                        // Get the duration
                         const diffDuration = moment.duration(moment(res.data.session.endTime).diff(moment()))
                         if(diffDuration.minutes() > 9) finished += `The current data is live at the moment,\nTime Remaining: 0${diffDuration.hours()}:${diffDuration.minutes()} hours`
                         else finished += `The current data is live at the moment,\nTime Remaining: 0${diffDuration.hours()}:0${diffDuration.minutes()} hours`
@@ -131,7 +130,7 @@ module.exports = {
                         else finished += `Tournament will start after ${diffDuration.days()} day(s) and ${diffDuration.hours()} hour(s)`
                     }
 
-                    //add the tournament name and its data
+                    // Add the tournament name and its data
                     ctx.fillStyle = '#ffffff'
                     ctx.textAlign='left'
                     ctx.font = '150px Burbank Big Condensed'
@@ -139,24 +138,24 @@ module.exports = {
                     ctx.font = '48px Burbank Big Condensed'
                     ctx.fillText(`Match Cap: ${res.data.session.matchCap}\nStarts: ${moment.tz(res.data.session.beginTime, "America/Los_Angeles").format("MMMM Do [of] YYYY [at] h A")} PST,\nEnds: ${moment.tz(res.data.session.endTime, "America/Los_Angeles").format("MMMM Do [of] YYYY [at] h A")} PST\nStatus: ${finished}`, 30, 220)
 
-                    //loop throw every top ${numberOfRanks} number
+                    // Loop throw every top ${numberOfRanks} number
                     for(let i = 0; i < numberOfRanks; i++){
 
-                        //add the color to ctx
+                        // Add the color to ctx
                         ctx.fillStyle = `#${searchedContentTournamentObj[0].shadow_color}`;
 
-                        //draw the line
+                        // Draw the line
                         ctx.fillRect(x, y, canvas.width - 300, 90);
 
-                        //change the y value
+                        // Change the y value
                         y += 90 + 20
 
                     } y = 480
 
-                    //add the sideways lines for the stats [language matters]
+                    // Add the sideways lines for the stats [language matters]
                     x += 40
 
-                    //add the line tags
+                    // Add the line tags
                     if(userData.lang === "en"){
 
                         ctx.fillStyle = '#ffffff'
@@ -177,42 +176,42 @@ module.exports = {
                         ctx.fillText(`النقاط`, 2035, 400)
                     }
 
-                    //add the color to ctx
+                    // Add the color to ctx
                     if(searchedContentTournamentObj[0].secondary_color !== searchedContentTournamentObj[0].shadow_color) ctx.fillStyle = `#${searchedContentTournamentObj[0].secondary_color}`;
                     else ctx.fillStyle = `#${searchedContentTournamentObj[0].background_right_color}`;
 
-                    //change the opacity to 0.5
+                    // Change the opacity to 0.5
                     ctx.globalAlpha = 0.5
 
-                    //draw the line
+                    // Draw the line
                     ctx.fillRect(x, (y - 40), 90, (canvas.height - y) + 40);
 
-                    //change the x value
+                    // Change the x value
                     x += 1050
 
-                    //loop throw 4 indexes
+                    // Loop throw 4 indexes
                     for(let i = 0; i < 4; i++){
 
-                        //draw the line
+                        // Draw the line
                         ctx.fillRect(x, (y - 40), 140, (canvas.height - y) + 40);
 
-                        //change the x value
+                        // Change the x value
                         x += 100 + 140
 
                     } x = 150
 
-                    //change the opacity back to 1
+                    // Change the opacity back to 1
                     ctx.globalAlpha = 1
 
-                    //add the ppl data
+                    // Add the ppl data
                     for(let i = 0; i < numberOfRanks; i++){
 
-                        //chenge the color to white
+                        // Chenge the color to white
                         ctx.fillStyle = '#ffffff'
                         ctx.textAlign='center'
                         ctx.font = '45px Burbank Big Condensed'
 
-                        //first thing draw the user rank
+                        // First thing draw the user rank
                         var rankNumber = i + 1
                         if(rankNumber.toString().split('').pop() === "1") rankNumber += `st`
                         else if(rankNumber.toString().split('').pop() === "2") rankNumber += `nd`
@@ -220,77 +219,77 @@ module.exports = {
                         else rankNumber += `th`
                         ctx.fillText(rankNumber, x + 85, y + 60)
 
-                        //team names
+                        // Team names
                         if(res.data.session.results !== null){
-                            //store all the participating players
+                            // Store all the participating players
                             var playersNames = `${res.data.session.results[i].teamAccountNames[0].name}`
                             for(let p = 1; p < res.data.session.results[i].teamAccountNames.length; p++){
                                 playersNames += ` - ${res.data.session.results[i].teamAccountNames[p].name}`
                             }
 
-                            //draw the players names
+                            // Draw the players names
                             await applyText(canvas, playersNames)
                             ctx.fillText(playersNames, x + 600, y + 60)
 
                         }else if(userData.lang === "en"){
 
-                            //no data available
+                            /// No data available
                             var playersNames = `No data added yet...`
 
-                            //draw the players names
+                            // Draw the players names
                             ctx.font = '45px Burbank Big Condensed'
                             await applyText(canvas, playersNames)
                             ctx.fillText(playersNames, x + 600, y + 60)
 
                         }else if(userData.lang === "ar"){
 
-                            //no data available
+                            /// No data available
                             var playersNames = `لم تتم اضافة المعلومات حتى الأن...`
 
-                            //draw the players names
+                            // Draw the players names
                             ctx.font = '45px Arabic'
                             await applyText(canvas, playersNames)
                             ctx.fillText(playersNames, x + 600, y + 60)
                         }
 
-                        //team game played
+                        // Team game played
                         if(res.data.session.results !== null){
-                            //draw the match played for a team
+                            // Draw the match played for a team
                             ctx.font = '47px Burbank Big Condensed'
                             ctx.fillText(`${res.data.session.results[i].sessionHistory.length}/${res.data.session.matchCap}`, x + 1157, y + 60)
                         }else ctx.fillText(`0/${res.data.session.matchCap}`, x + 1157, y + 60)
 
-                        //team kills
+                        // Team kills
                         var teamKills = 0
                         if(res.data.session.results !== null){
 
-                            //draw the kiils for a team
+                            // Draw the kiils for a team
                             for(let p = 0; p < res.data.session.results[i].sessionHistory.length; p++){
                                 teamKills += res.data.session.results[i].sessionHistory[p].trackedStats.TEAM_ELIMS_STAT_INDEX
                             }
                         } ctx.fillText(`${teamKills}`, x + 1400, y + 60)
 
-                        //victory royales
+                        // Victory royales
                         var victoryRoyale = 0
                         if(res.data.session.results !== null){
 
-                            //draw the victory royales for a team
+                            // Draw the victory royales for a team
                             for(let p = 0; p < res.data.session.results[i].sessionHistory.length; p++){
                                 victoryRoyale += res.data.session.results[i].sessionHistory[p].trackedStats.VICTORY_ROYALE_STAT
                             } 
                         } ctx.fillText(`${victoryRoyale}`, x + 1640, y + 60)
 
-                        //team points
+                        // Team points
                         if(res.data.session.results !== null){
 
-                            //draw team points
+                            // Draw team points
                             ctx.fillText(`${res.data.session.results[i].pointsEarned}`, x + 1880, y + 60)
                         } else ctx.fillText(`0`, x + 1880, y + 60)
 
-                        //team ids
+                        // Team ids
                         if(res.data.session.results !== null){
 
-                            //get team id (first 5 digit of the id)
+                            // Get team id (first 5 digit of the id)
                             var teamIDs = ``
                             for(let p = 0; p < res.data.session.results[i].teamAccountNames.length; p++){
                                 teamIDs += `${res.data.session.results[i].teamAccountNames[p].id.substring(0, 5)}`
@@ -298,19 +297,19 @@ module.exports = {
                             
                         }else if(userData.lang === "en"){
 
-                            //no data available
+                            /// No data available
                             var teamIDs = `No data...`
 
-                            //draw the players names
+                            // Draw the players names
                             ctx.font = '45px Burbank Big Condensed'
                             ctx.fillText(teamIDs, x + 2225, y + 60)
 
                         }else if(userData.lang === "ar"){
 
-                            //no data available
+                            /// No data available
                             var teamIDs = `لا يوجد معلومات...`
 
-                            //draw the players names
+                            // Draw the players names
                             ctx.font = '45px Arabic'
                             ctx.fillText(teamIDs, x + 2225, y + 60)
 
@@ -318,10 +317,12 @@ module.exports = {
 
                     }
 
-                    //send
+                    // Send
                     const att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `${res.data.session.windowId}.png`});
-                    await message.reply({files: [att]});
-                    msg.delete()
+                    msg.edit({embeds: [], components: [], files: [att]})
+                    .catch(err => {
+                        FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
+                    })
 
                 }catch(err) {
                     FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
@@ -330,12 +331,12 @@ module.exports = {
 
             }else{
 
-                //no session has been found
+                /// No session has been found
                 const NoSessionsHasBeenFoundError = new Discord.EmbedBuilder()
                 NoSessionsHasBeenFoundError.setColor(FNBRMENA.Colors("embedError"))
                 if(userData.lang === "en") NoSessionsHasBeenFoundError.setTitle(`No session has been found check your window id and try again ${emojisObject.errorEmoji}`)
                 else if(userData.lang === "ar") NoSessionsHasBeenFoundError.setTitle(`لا يمكنني العثور على جلسة الرجاء التأكد من كتابة معرف البطولة بشكل صحيح ${emojisObject.errorEmoji}`)
-                message.reply({embeds: [NoSessionsHasBeenFoundError]})
+                message.reply({embeds: [NoSessionsHasBeenFoundError], components: [], files: []})
             }
         }).catch(async err => {
             FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)

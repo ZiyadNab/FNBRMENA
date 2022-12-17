@@ -10,21 +10,21 @@ module.exports = {
     permissionError: 'Sorry you do not have acccess to this command',
     callback: async (FNBRMENA, message, args, text, Discord, client, admin, userData, alias, emojisObject) => {
 
-        //create the crew image
+        // Create the crew image
         const drawCrewPack = async (res, num) => {
 
-            //if the num index is a valid index
+            // If the num index is a valid index
             if(res.data.history[num] !== undefined){
 
-                //send the generating message
+                // Send the generating message
                 const generating = new Discord.EmbedBuilder()
                 generating.setColor(FNBRMENA.Colors("embed"))
                 if(userData.lang === "en") generating.setTitle(`Loading the crew information ${emojisObject.loadingEmoji}`)
                 else if(userData.lang === "ar") generating.setTitle(`جاري تحميل بيانات طاقم فورت نايت ${emojisObject.loadingEmoji}`)
-                const msg = await message.reply({embeds: [generating]})
+                const msg = await message.reply({embeds: [generating], components: [], files: []})
                 try {
 
-                    //creating length
+                    // Creating length
                     var length = res.data.history[num].rewards.length
 
                     //variables
@@ -46,10 +46,10 @@ module.exports = {
                         length = length | 0
                     }
 
-                    //creating width
+                    // Creating width
                     width += (length * 1024) + (length * 10) - 10
 
-                    //creating height
+                    // Creating height
                     for(let i = 0; i < res.data.history[num].rewards.length; i++){
                         
                         if(newline === length){
@@ -59,7 +59,7 @@ module.exports = {
                         newline++
                     }
 
-                    //registering fonts
+                    // Registering fonts
                     Canvas.registerFont('./assets/font/Lalezar-Regular.ttf', {
                         family: 'Arabic',
                         style: "bold"
@@ -69,7 +69,7 @@ module.exports = {
                         style: "bold"
                     })
 
-                    //aplyText
+                    // AplyText
                     const applyText = (canvas, text, width, font) => {
                         const ctx = canvas.getContext('2d');
                         let fontSize = font;
@@ -80,22 +80,22 @@ module.exports = {
                         return ctx.font;
                     };
 
-                    //creating canvas
+                    // Creating canvas
                     const canvas = Canvas.createCanvas(width, height);
                     const ctx = canvas.getContext('2d');
 
-                    //background
+                    // Background
                     const background = await Canvas.loadImage('./assets/backgroundwhite.jpg')
                     ctx.drawImage(background, 0, 0, canvas.width, canvas.height)
 
-                    //res.data.historyet newline
+                    // Edit newline
                     newline = 0
 
-                    //items
+                    // Items
                     for(let i = 0; i < res.data.history[num].rewards.length; i++){
                         ctx.fillStyle = '#ffffff';
 
-                        //skin informations
+                        // Skin informations
                         if(res.data.history[num].rewards[i].item.introduction != null){
                             var chapter = res.data.history[num].rewards[i].item.introduction.chapter.substring(res.data.history[num].rewards[i].item.introduction.chapter.indexOf(" "), res.data.history[num].rewards[i].item.introduction.chapter.length).trim()
                             var season = res.data.history[num].rewards[i].item.introduction.season.substring(res.data.history[num].rewards[i].item.introduction.season.indexOf(" "), res.data.history[num].rewards[i].item.introduction.season.length).trim()
@@ -115,10 +115,10 @@ module.exports = {
                         else var rarity = res.data.history[num].rewards[i].item.series.id
                         newline = newline + 1;
 
-                        //searching...
+                        // Searching...
                         if(rarity === "Legendary"){
 
-                            //creating image
+                            // Creating image
                             const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/legendary.png')
                             ctx.drawImage(skinholder, x, y, 1024, 1024)
                             const skin = await Canvas.loadImage(image);
@@ -128,7 +128,7 @@ module.exports = {
 
                         }else if(rarity === "Epic"){
 
-                            //creating image
+                            // Creating image
                             const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/epic.png')
                             ctx.drawImage(skinholder, x, y, 1024, 1024)
                             const skin = await Canvas.loadImage(image);
@@ -138,7 +138,7 @@ module.exports = {
 
                         }else if(rarity === "Rare"){
 
-                            //creating image
+                            // Creating image
                             const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/rare.png')
                             ctx.drawImage(skinholder, x, y, 1024, 1024)
                             const skin = await Canvas.loadImage(image);
@@ -148,7 +148,7 @@ module.exports = {
 
                         }else if(rarity === "Uncommon"){
 
-                            //creating image
+                            // Creating image
                             const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/uncommon.png')
                             ctx.drawImage(skinholder, x, y, 1024, 1024)
                             const skin = await Canvas.loadImage(image);
@@ -158,7 +158,7 @@ module.exports = {
 
                         }else if(rarity === "Common"){
 
-                            //creating image
+                            // Creating image
                             const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/common.png')
                             ctx.drawImage(skinholder, x, y, 1024, 1024)
                             const skin = await Canvas.loadImage(image);
@@ -168,7 +168,7 @@ module.exports = {
 
                         }else if(rarity === "MarvelSeries"){
                             
-                            //creating image
+                            // Creating image
                             const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/marvel.png')
                             ctx.drawImage(skinholder, x, y, 1024, 1024)
                             const skin = await Canvas.loadImage(image);
@@ -178,7 +178,7 @@ module.exports = {
 
                         }else if(rarity === "DCUSeries"){
 
-                            //creating image
+                            // Creating image
                             const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/dc.png')
                             ctx.drawImage(skinholder, x, y, 1024, 1024)
                             const skin = await Canvas.loadImage(image);
@@ -188,7 +188,7 @@ module.exports = {
 
                         }else if(rarity === "CUBESeries"){
 
-                            //creating image
+                            // Creating image
                             const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/dark.png')
                             ctx.drawImage(skinholder, x, y, 1024, 1024)
                             const skin = await Canvas.loadImage(image);
@@ -198,7 +198,7 @@ module.exports = {
 
                         }else if(rarity === "CreatorCollabSeries"){
 
-                            //creating image
+                            // Creating image
                             const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/icon.png')
                             ctx.drawImage(skinholder, x, y, 1024, 1024)
                             const skin = await Canvas.loadImage(image);
@@ -208,7 +208,7 @@ module.exports = {
 
                         }else if(rarity === "ColumbusSeries"){
 
-                            //creating image
+                            // Creating image
                             const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/starwars.png')
                             ctx.drawImage(skinholder, x, y, 1024, 1024)
                             const skin = await Canvas.loadImage(image);
@@ -218,7 +218,7 @@ module.exports = {
 
                         }else if(rarity === "ShadowSeries"){
 
-                            //creating image
+                            // Creating image
                             const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/shadow.png')
                             ctx.drawImage(skinholder, x, y, 1024, 1024)
                             const skin = await Canvas.loadImage(image);
@@ -228,7 +228,7 @@ module.exports = {
 
                         }else if(rarity === "SlurpSeries"){
 
-                            //creating image
+                            // Creating image
                             const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/slurp.png')
                             ctx.drawImage(skinholder, x, y, 1024, 1024)
                             const skin = await Canvas.loadImage(image);
@@ -238,7 +238,7 @@ module.exports = {
 
                         }else if(rarity === "FrozenSeries"){
 
-                            //creating image
+                            // Creating image
                             const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/frozen.png')
                             ctx.drawImage(skinholder, x, y, 1024, 1024)
                             const skin = await Canvas.loadImage(image);
@@ -248,7 +248,7 @@ module.exports = {
 
                         }else if(rarity === "LavaSeries"){
 
-                            //creating image
+                            // Creating image
                             const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/lava.png')
                             ctx.drawImage(skinholder, x, y, 1024, 1024)
                             const skin = await Canvas.loadImage(image);
@@ -258,7 +258,7 @@ module.exports = {
 
                         }else if(rarity === "PlatformSeries"){
 
-                            //creating image
+                            // Creating image
                             const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/gaming.png')
                             ctx.drawImage(skinholder, x, y, 1024, 1024)
                             const skin = await Canvas.loadImage(image);
@@ -268,7 +268,7 @@ module.exports = {
 
                         }else{
 
-                            //creating image
+                            // Creating image
                             const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/common.png')
                             ctx.drawImage(skinholder, x, y, 1024, 1024)
                             const skin = await Canvas.loadImage(image);
@@ -278,19 +278,19 @@ module.exports = {
 
                         }
 
-                        //add the item name
+                        // Add the item name
                         ctx.textAlign = 'center';
                         ctx.font = applyText(canvas, name, 900, 72)
 
                         if(userData.lang === "en"){
                             ctx.fillText(name, 512 + x, (1024 - 30) + y)
 
-                            //add the item season chapter text
+                            // Add the item season chapter text
                             ctx.textAlign = "left"
                             ctx.font = applyText(canvas, seasonChapter, 900, 40)
                             ctx.fillText(seasonChapter, 5 + x, (1024 - 7.5) + y)
 
-                            //add the item source
+                            // Add the item source
                             ctx.textAlign = "right"
                             ctx.font = applyText(canvas, "CREW", 900, 40)
                             ctx.fillText("CREW", (1024 - 5) + x, (1024 - 7.5) + y)
@@ -298,19 +298,19 @@ module.exports = {
                         }else if(userData.lang === "ar"){
                             ctx.fillText(name, 512 + x, (1024 - 60) + y)
 
-                            //add season chapter text
+                            // Add season chapter text
                             ctx.textAlign = "left"
                             ctx.font = applyText(canvas, seasonChapter, 900, 40)
                             ctx.fillText(seasonChapter, 5 + x, (1024 - 12.5) + y)
 
-                            //add the item source
+                            // Add the item source
                             ctx.textAlign = "right"
                             ctx.font = applyText(canvas, "طاقم فورت نايت", 900, 40)
                             ctx.fillText("طاقم فورت نايت", (1024 - 5) + x, (1024 - 12.5) + y)
 
                         }
 
-                        //inilizing tags
+                        // Inilizing tags
                         var wTags = (1024 / 512) * 15
                         var hTags = (1024 / 512) * 15
                         var yTags = 7 + y
@@ -318,20 +318,20 @@ module.exports = {
 
                         for(let t = 0; t < res.data.history[num].rewards[i].item.gameplayTags.length; t++){
 
-                            //if the item is animated
+                            // If the item is animated
                             if(res.data.history[num].rewards[i].item.gameplayTags[t].includes('Animated')){
 
-                                //add the animated icon
+                                // Add the animated icon
                                 const Animated = await Canvas.loadImage('./assets/Tags/T-Icon-Animated-64.png')
                                 ctx.drawImage(Animated, xTags, yTags, wTags, hTags)
 
                                 yTags += hTags + 10
                             }
 
-                            //if the item is reactive
+                            // If the item is reactive
                             if(res.data.history[num].rewards[i].item.gameplayTags[t].includes('Reactive')){
 
-                                //add the reactive icon
+                                // Add the reactive icon
                                 const Reactive = await Canvas.loadImage('./assets/Tags/T-Icon-Adaptive-64.png')
                                 ctx.drawImage(Reactive, xTags, yTags, wTags, hTags)
 
@@ -339,10 +339,10 @@ module.exports = {
                                 
                             }
 
-                            //if the item is synced emote
+                            // If the item is synced emote
                             if(res.data.history[num].rewards[i].item.gameplayTags[t].includes('Synced')){
 
-                                //add the Synced icon
+                                // Add the Synced icon
                                 const Synced = await Canvas.loadImage('./assets/Tags/T-Icon-Synced-64x.png')
                                 ctx.drawImage(Synced, xTags, yTags, wTags, hTags)
 
@@ -350,20 +350,20 @@ module.exports = {
                                 
                             }
 
-                            //if the item is traversal
+                            // If the item is traversal
                             if(res.data.history[num].rewards[i].item.gameplayTags[t].includes('Traversal')){
 
-                                //add the Traversal icon
+                                // Add the Traversal icon
                                 const Traversal = await Canvas.loadImage('./assets/Tags/T-Icon-Traversal-64.png')
                                 ctx.drawImage(Traversal, xTags, yTags, wTags, hTags)
 
                                 yTags += hTags + 10
                             }
 
-                            //if the item has styles
+                            // If the item has styles
                             if(res.data.history[num].rewards[i].item.gameplayTags[t].includes('HasVariants') || res.data.history[num].rewards[i].item.gameplayTags[t].includes('HasUpgradeQuests')){
 
-                                //add the HasVariants icon
+                                // Add the HasVariants icon
                                 const HasVariants = await Canvas.loadImage('./assets/Tags/T-Icon-Variant-64.png')
                                 ctx.drawImage(HasVariants, xTags, yTags, wTags, hTags)
 
@@ -371,25 +371,25 @@ module.exports = {
                             }
                         }
 
-                        //if the item contains copyrited audio
+                        // If the item contains copyrited audio
                         if(res.data.history[num].rewards[i].item.copyrightedAudio){
 
-                            //add the copyrightedAudio icon
+                            // Add the copyrightedAudio icon
                             const copyrightedAudio = await Canvas.loadImage('./assets/Tags/mute.png')
                             ctx.drawImage(copyrightedAudio, xTags, yTags, wTags, hTags)
 
                             yTags += hTags + 10
                         }
 
-                        //if the item contains built in emote
+                        // If the item contains built in emote
                         if(res.data.history[num].rewards[i].item.builtInEmote != null){
 
-                            //add the builtInEmote icon
+                            // Add the builtInEmote icon
                             const builtInEmote = await Canvas.loadImage(res.data.history[num].rewards[i].item.builtInEmote.images.icon)
                             ctx.drawImage(builtInEmote, xTags - 15, yTags, ((1024 / 512) * 30) + x, ((1024 / 512) * 30) + y)
                         }
 
-                        //changing x and y
+                        // Changing x and y
                         x = x + 10 + 1024; 
                         if(length === newline){
                             y = y + 10 + 1024;
@@ -398,7 +398,7 @@ module.exports = {
                         }
                     }
 
-                    //the crew data has been found lets cread an embed
+                    // Create an embed
                     const crewData = new Discord.EmbedBuilder()
                     crewData.setColor(res.data.history[num].colors.A)
 
@@ -407,13 +407,13 @@ module.exports = {
                     else if(userData.lang === "ar") crewData.setTitle(`حزمة طاقم فورت نايت ليوم ${moment(res.data.history[num].date).format("dddd, MMMM Do من YYYY")}`)
                     crewData.setImage(res.data.history[num].images.apiRender)
 
-                    //creating a row
-                    const row = new Discord.ActionRowBuilder()
-
-                    //check if there is a video link
+                    // Check if there is a video link
                     if(res.data.history[num].video != null){
 
-                        //creating button
+                        // Creating a row
+                        const row = new Discord.ActionRowBuilder()
+
+                        // Creating button
                         if(userData.lang === "en") row.addComponents(
                             new Discord.ButtonBuilder()
                             .setStyle(Discord.ButtonStyle.Link)
@@ -421,7 +421,7 @@ module.exports = {
                             .setURL(res.data.history[num].video)
                         )
 
-                        //creating button
+                        // Creating button
                         else if(userData.lang === "ar") row.addComponents(
                             new Discord.ButtonBuilder()
                             .setStyle(Discord.ButtonStyle.Link)
@@ -429,17 +429,21 @@ module.exports = {
                             .setURL(res.data.history[num].video)
                         )
 
-                        //send embed
+                        // Send embed
                         const att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `${res.data.history[num].date}.png`})
-                        await message.reply({embeds: [crewData], files: [att], components: [row]})
-                        msg.delete()
+                        msg.edit({embeds: [crewData], components: [row], files: [att]})
+                        .catch(err => {
+                            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
+                        })
 
                     }else{
 
-                        //send embed
+                        // Send embed
                         const att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `${res.data.history[num].date}.png`})
-                        await message.reply({embeds: [crewData], files: [att]})
-                        msg.delete()
+                        msg.edit({embeds: [crewData], components: [], files: [att]})
+                        .catch(err => {
+                            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
+                        })
                     }
                     
                 }catch(err) {
@@ -448,11 +452,11 @@ module.exports = {
             }
         }
 
-        //request crew data
+        // Request crew data
         await FNBRMENA.Crew("list", userData.lang)
         .then(async res => {
 
-            //create an embed
+            // Create an embed
             const yearCrewPickerEmbed = new Discord.EmbedBuilder()
             yearCrewPickerEmbed.setColor(FNBRMENA.Colors("embed"))
             if(userData.lang === "en"){
@@ -463,10 +467,10 @@ module.exports = {
                 yearCrewPickerEmbed.setDescription('الرجاء الضغط على السهم لاختيار سنه الطاقم.\n`لديك فقط 30 ثانية حتى تنتهي العملية, استعجل`!')
             }
 
-            //create a row for cancel button
+            // Create a row for cancel button
             const buttonDataRow = new Discord.ActionRowBuilder()
 
-            //add EN cancel button
+            // Add EN cancel button
             if(userData.lang === "en") buttonDataRow.addComponents(
                 new Discord.ButtonBuilder()
                 .setCustomId('Cancel')
@@ -481,10 +485,10 @@ module.exports = {
                 .setLabel("اغلاق")
             )
 
-            //create a row for drop down menu for categories
+            // Create a row for drop down menu for categories
             const yearCrewPickerRow = new Discord.ActionRowBuilder()
 
-            //loop throw every patch
+            // Loop throw every patch
             var yearsAvalaible = [], stored = []
             for(const obj of res.data.history){
 
@@ -504,29 +508,29 @@ module.exports = {
             else if(userData.lang === "ar") yearCrewPickerDropMenu.setPlaceholder('اختر سنة!')
             yearCrewPickerDropMenu.addOptions(yearsAvalaible)
 
-            //add the drop menu to the categoryDropMenu
+            // Add the drop menu to the categoryDropMenu
             yearCrewPickerRow.addComponents(yearCrewPickerDropMenu)
 
-            //send the message
-            const dropMenuMessage = await message.reply({embeds: [yearCrewPickerEmbed], components: [yearCrewPickerRow, buttonDataRow]})
+            // Send the message
+            const dropMenuMessage = await message.reply({embeds: [yearCrewPickerEmbed], components: [yearCrewPickerRow, buttonDataRow], files: []})
 
-            //filtering the user clicker
+            // Filtering the user clicker
             const filter = (i => {
                 return (i.user.id === message.author.id && i.message.id === dropMenuMessage.id && i.guild.id === message.guild.id)
             })
 
-            //await for the user
+            // Await for the user
             await message.channel.awaitMessageComponent({filter, time: 30000})
             .then(async collected => {
                 collected.deferUpdate();
 
-                //if cancel button has been clicked
+                // If cancel button has been clicked
                 if(collected.customId === "Cancel") dropMenuMessage.delete()
 
-                //if a year has been selected
+                // If a year has been selected
                 if(collected.customId === "crewYear"){
 
-                    //create an embed
+                    // Create an embed
                     const crewPickerEmbed = new Discord.EmbedBuilder()
                     crewPickerEmbed.setColor(FNBRMENA.Colors("embed"))
                     if(userData.lang === "en"){
@@ -537,10 +541,10 @@ module.exports = {
                         crewPickerEmbed.setDescription('الان الرجاء الضغط على السهم لاختيار حزمة الطاقم فورت نايت.\n`لديك فقط 30 ثانية حتى تنتهي العملية, استعجل`!')
                     }
 
-                    //create a row for drop down menu for categories
+                    // Create a row for drop down menu for categories
                     const crewPickerRow = new Discord.ActionRowBuilder()
 
-                    //loop throw every patch
+                    // Loop throw every patch
                     var crewsInAYear = []
                     for(let i = 0; i < res.data.history.length; i++){
 
@@ -556,38 +560,39 @@ module.exports = {
                     else if(userData.lang === "ar") crewPickerDropMenu.setPlaceholder('اختر حزمة طاقم فورت نايت!')
                     crewPickerDropMenu.addOptions(crewsInAYear)
 
-                    //add the drop menu to the categoryDropMenu
+                    // Add the drop menu to the categoryDropMenu
                     crewPickerRow.addComponents(crewPickerDropMenu)
 
-                    //send the message
-                    await dropMenuMessage.edit({embeds: [crewPickerEmbed], components: [crewPickerRow, buttonDataRow]})
+                    // Send the message
+                    dropMenuMessage.edit({embeds: [crewPickerEmbed], components: [crewPickerRow, buttonDataRow], files: []})
+                    .catch(err => {
+                        FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                    })
 
-                    //filtering the user clicker
+                    // Filtering the user clicker
                     const filter = (i => {
                         return (i.user.id === message.author.id && i.message.id === dropMenuMessage.id && i.guild.id === message.guild.id)
                     })
 
-                    //await for the user
+                    // Await for the user
                     await message.channel.awaitMessageComponent({filter, time: 30000})
                     .then(async collected => {
 
-                        //if cancel button has been clicked
+                        // If cancel button has been clicked
                         if(collected.customId === "Cancel") dropMenuMessage.delete()
 
-                        //if a user selected a crew pack
+                        // If a user selected a crew pack
                         if(collected.customId === "crewPack"){
                             await dropMenuMessage.delete()
                             drawCrewPack(res, collected.values[0])
                         }
                     }).catch(async err => {
-                        dropMenuMessage.delete()
-                        FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
+                        FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
                     })
                 }
             
             }).catch(async err => {
-                dropMenuMessage.delete()
-                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
+                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
             })
 
         }).catch(async err => {

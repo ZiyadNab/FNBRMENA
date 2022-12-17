@@ -4,7 +4,6 @@ module.exports = {
     type: 'Fortnite Private Server Athena File',
     minArgs: 0,
     maxArgs: 0,
-    permissionError: 'Sorry you do not have acccess to this command',
     callback: async (FNBRMENA, message, args, text, Discord, client, admin, userData, alias, emojisObject) => {
 
         //creating initial message and its buttons
@@ -55,7 +54,7 @@ module.exports = {
         }
 
         //send the message
-        const athenaGen = await message.reply({embeds: [info], components: [row]})
+        const athenaGen = await message.reply({embeds: [info], components: [row], files: []})
 
         //filtering the user clicker
         const filter = (i => {
@@ -77,7 +76,7 @@ module.exports = {
                 waitingMessage.setColor(FNBRMENA.Colors("embed"))
                 if(userData.lang === "en") waitingMessage.setTitle(`File will be sent in a few seconds please wait... ${emojisObject.loadingEmoji}`)
                 else if(userData.lang === "ar") waitingMessage.setTitle(`سوف يتم ارسال الملف خلال ثواني الرجاء الانتظار... ${emojisObject.loadingEmoji}`)
-                athenaGen.edit({embeds: [waitingMessage], components: []}) // edit the message
+                athenaGen.edit({embeds: [waitingMessage], components: [], files: []}) // edit the message
 
                 //when Fortnite-Api is clicked
                 if(collected.customId === "start"){
@@ -150,20 +149,20 @@ module.exports = {
                             }
 
                         }).catch(err => {
-                            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
+                            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, athenaGen)
                         })
 
                     }).catch(err => {
-                        FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
+                        FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, athenaGen)
                     })
                 }
 
                 //send the file
                 const att = new Discord.AttachmentBuilder(Buffer.from(JSON.stringify(profile_athena, null, 2)), {name: `profile_athena.json`})
-                await athenaGen.edit({files: [att], embeds: [], components: []})
+                await athenaGen.edit({embeds: [], components: [], files: [att]})
             }
         }).catch(err => {
-            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
+            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, athenaGen)
         })
     }
 }

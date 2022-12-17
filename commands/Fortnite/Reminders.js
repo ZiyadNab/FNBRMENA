@@ -7,7 +7,6 @@ module.exports = {
     minArgs: 0,
     maxArgs: 1,
     cooldown: -1,
-    permissionError: 'Sorry you do not have acccess to this command',
     callback: async (FNBRMENA, message, args, text, Discord, client, admin, userData, alias, emojisObject) => {
 
         // Get the userId
@@ -42,7 +41,7 @@ module.exports = {
             userIdABotError.setColor(FNBRMENA.Colors("embedError"))
             if(userData.lang === "en") userIdABotError.setTitle(`You can't tag a bot ${emojisObject.errorEmoji}.`)
             else if(userData.lang === "ar") userIdABotError.setTitle(`لا يمكنك ادخال اسم روبوت ${emojisObject.errorEmoji}.`)
-            message.reply({embeds: [userIdABotError]})
+            message.reply({embeds: [userIdABotError], components: [], files: []})
             return
         }
 
@@ -63,7 +62,7 @@ module.exports = {
             noRemindersFoundError.setColor(FNBRMENA.Colors("embedError"))
             if(userData.lang === "en") noRemindersFoundError.setTitle(`${userId.username} doesn't have any reminders yet ${emojisObject.errorEmoji}.`)
             else if(userData.lang === "ar") noRemindersFoundError.setTitle(`لا يوجد لدى ${userId.username} اي تنبيهات ${emojisObject.errorEmoji}.`)
-            message.reply({embeds: [noRemindersFoundError]})
+            message.reply({embeds: [noRemindersFoundError], components: [], files: []})
             return
         }
 
@@ -72,7 +71,7 @@ module.exports = {
         generating.setColor(FNBRMENA.Colors("embed"))
         if(userData.lang === "en") generating.setTitle(`Getting all of the reminders for ${userId.username} account ${emojisObject.loadingEmoji}`)
         if(userData.lang === "ar") generating.setTitle(`جاري جلب جميع التنبيهات لحساب ${userId.username} ${emojisObject.loadingEmoji}`)
-        const msg = await message.reply({embeds: [generating]})
+        const msg = await message.reply({embeds: [generating], components: [], files: []})
         try {
 
             // Variables
@@ -144,7 +143,7 @@ module.exports = {
                 .then(async res => {
                     ctx.fillStyle = '#ffffff';
 
-                    //skin informations
+                    // Skin informations
                     if(res.data.items[0].introduction != null){
                         var chapter = res.data.items[0].introduction.chapter.substring(res.data.items[0].introduction.chapter.indexOf(" "), res.data.items[0].introduction.chapter.length).trim()
 
@@ -208,7 +207,7 @@ module.exports = {
                         if(userData.lang === "en") var name = 'NAME NOT FOUND'
                         else if(userData.lang === "ar") var name = 'لا يوجد اسم'
                     }
-                    if(res.data.items[0].images.icon === null) var image = 'https:// Imgur.com/HVH5sqV.png'
+                    if(res.data.items[0].images.icon === null) var image = 'https://imgur.com/HVH5sqV.png'
                     else var image = res.data.items[0].images.icon
                     if(res.data.items[0].series !== null) var rarity = res.data.items[0].series.id
                     else var rarity = res.data.items[0].rarity.id
@@ -514,7 +513,7 @@ module.exports = {
 
                 // Handeling errors
                 }).catch(err => {
-                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
+                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
 
                 })
             }
@@ -530,17 +529,18 @@ module.exports = {
                 remindersEmbed.setDescription(`سوف يتم تنبيهك في حال توفر احد العناصر التاليه في متجر العناصر. اضف & احذف العناصر بأستخدام remind و unremind. \n\n${string}\n\n${emojisObject.starwars} يمكنك اضافة ${20 - snapshot.size} من المذكرات (${snapshot.size}/20).`)
             }
 
-            try{
-                var att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `${userId.id}.png`})
-                await message.reply({embeds: [remindersEmbed],files: [att]})
-                msg.delete()
+            // Send the image
+            var att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `${userId.id}.png`})
+            msg.edit({embeds: [remindersEmbed], components: [], files: [att]})
+            .catch(err => {
 
-            }catch{
+                // Try sending it on jpg file format [LOWER QUALITY]
                 var att = new Discord.AttachmentBuilder(canvas.toBuffer('image/jpeg'), {name: `${userId.id}.jpg`})
-                await message.reply({embeds: [remindersEmbed],files: [att]})
-                msg.delete()
-
-            }
+                msg.edit({embeds: [remindersEmbed], components: [], files: [att]})
+                .catch(err => {
+                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
+                })
+            })
 
         // Handeling errors
         }catch(err) {

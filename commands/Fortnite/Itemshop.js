@@ -7,62 +7,61 @@ module.exports = {
     minArgs: 0,
     maxArgs: 0,
     cooldown: 30,
-    permissionError: 'Sorry you do not have acccess to this command',
     callback: async (FNBRMENA, message, args, text, Discord, client, admin, userData, alias, emojisObject) => {
 
         FNBRMENA.itemshop(userData.lang)
         .then(async res => {
 
-            //generating animation
+            // Generating animation
             const generating = new Discord.EmbedBuilder()
             generating.setColor(FNBRMENA.Colors("embed"))
             if(userData.lang === "en") generating.setTitle(`Loading a total ${res.data.shop.length} cosmetics please wait... ${emojisObject.loadingEmoji}`)
             else if(userData.lang === "ar") generating.setTitle(`تحميل جميع العناصر بمجموع ${res.data.shop.length} عنصر الرجاء الانتظار... ${emojisObject.loadingEmoji}`)
-            message.reply({embeds: [generating]})
-            .then( async msg => {
+            const msg = await message.reply({embeds: [generating], components: [], files: []})
+            try {
 
-                //creating array of objects
+                // Creating array of objects
                 var Featured = []
                 var Daily = []
                 var SpecialFeatured = []
                 var LimitedTime = []
 
-                //creating each array index
+                // Creating each array index
                 var FeaturedIndex = 0
                 var DailyIndex = 0
                 var SpecialFeaturedIndex = 0
                 var LimitedTimeIndex = 0
 
-                //storing items into there arrays
+                // Storing items into there arrays
                 for(let i = 0; i < res.data.shop.length; i++){
 
-                    //if its an a Featured item
+                    // If its an a Featured item
                     if(res.data.shop[i].section.id === "Featured" || res.data.shop[i].section.id === "Featured2" || res.data.shop[i].section.id === "Featured3"){
                         Featured[FeaturedIndex] = res.data.shop[i]
-                        //changing its index
+                        // Changing its index
                         FeaturedIndex++
                     }else
                     
-                    //if its an a Daily item
+                    // If its an a Daily item
                     if(res.data.shop[i].section.id === "Daily"){
                         Daily[DailyIndex] = res.data.shop[i]
                         DailyIndex++
                     }else
                     
-                    //if its an a LimitedTime item
+                    // If its an a LimitedTime item
                     if(res.data.shop[i].section.id === "LimitedTime"){
                         LimitedTime[LimitedTimeIndex] = res.data.shop[i]
                         LimitedTimeIndex++
                     }else
 
-                    //if its other items then store it here 
+                    // If its other items then store it here 
                     {
                         SpecialFeatured[SpecialFeaturedIndex] = res.data.shop[i]
                         SpecialFeaturedIndex++
                     }
                 }
                 
-                //canvas stuff
+                // Canvas stuff
                 var FeaturedSection = 0
                 var SpecialFeaturedSection = 0
                 var LengthSection
@@ -73,22 +72,22 @@ module.exports = {
                 var x = 125;
                 var y = 125;
 
-                //checing if there is Special items
+                // Checing if there is Special items
                 if(SpecialFeatured.length !== 0){
-                    //there is Special items lets check who is bigget (=
+                    // There is Special items lets check who is bigget (=
                     if(Featured.length >= SpecialFeatured.length){
                         //Featured is bigger than SpecialFeatured
                         LengthSection = Featured.length
-                        //checking if we will devide this from 3 or 5
+                        // Checking if we will devide this from 3 or 5
                         if(Featured.length >= 1 && Featured.length <= 12){
                             FeaturedSection = 3
                             SpecialFeaturedSection = 3
                             Division = 3
 
-                            //creating width
+                            // Creating width
                             width = (9 * 256) + (12 * 9) + 500;
 
-                            //creating height
+                            // Creating height
                             for(let i = 0; i<=LengthSection; i++){
                                 Lines++;
                                 if(Division === Lines){
@@ -101,17 +100,17 @@ module.exports = {
                             FeaturedSection = 5
                             SpecialFeaturedSection = 3
                             
-                            //see what the division will be
+                            // See what the division will be
                             if((Featured.length / FeaturedSection) > (SpecialFeatured.length / SpecialFeaturedSection)){
                                 Division = 5
                             }else{
                                 Division = 3
                             }
 
-                            //creating width
+                            // Creating width
                             width = (12*256) + (12 * 12) + 250;
 
-                            //creating height
+                            // Creating height
                             for(let i = 0; i<LengthSection; i++){
                                 Lines++;
                                 if(Division === Lines){
@@ -127,10 +126,10 @@ module.exports = {
                             SpecialFeaturedSection = 3
                             Division = 3
 
-                            //creating width
+                            // Creating width
                             width = (9 * 256) + (12 * 9) + 500;
 
-                            //creating height
+                            // Creating height
                             for(let i = 0; i<=LengthSection; i++){
                                 Lines++;
                                 if(Division === Lines){
@@ -142,17 +141,17 @@ module.exports = {
                             FeaturedSection = 3
                             SpecialFeaturedSection = 5
                             
-                            //see what the division will be
+                            // See what the division will be
                             if((Featured.length / FeaturedSection) > (SpecialFeatured.length / SpecialFeaturedSection)){
                                 Division = 3
                             }else{
                                 Division = 5
                             }
 
-                            //creating width
+                            // Creating width
                             width = (12 * 256) + (12 * 12) + 250;
                             
-                            //creating height
+                            // Creating height
                             for(let i = 0; i < LengthSection; i++){
                                 Lines++;
                                 if(Division === Lines){
@@ -168,10 +167,10 @@ module.exports = {
                     SpecialFeaturedSection = 1;
                     Division = 3
 
-                    //creating width
+                    // Creating width
                     width = (6 * 256) + (12 * 6) + 375;
 
-                    //creating height
+                    // Creating height
                     for(let i = 0; i <= LengthSection; i++){
                         Lines++;
                         if(Division === Lines){
@@ -185,10 +184,10 @@ module.exports = {
                     SpecialFeaturedSection = 1;
                     Division = 5
 
-                    //creating width
+                    // Creating width
                     width = (8 * 256) + (12 * 8) + 375;
 
-                    //creating height
+                    // Creating height
                     for(let i = 0; i < LengthSection; i++){
                         Lines++;
                         if(Division === Lines){
@@ -197,7 +196,7 @@ module.exports = {
                         }
                     }
                 }
-                //changing the value of the lines to 0
+                // Changing the value of the lines to 0
                 Lines = 0;
                 if(LimitedTime.length !== 0){
                     if(userData.lang === "en"){
@@ -266,7 +265,7 @@ module.exports = {
                 }
                 height += 200
 
-                //applyText
+                // ApplyText
                 const applyText = (canvas, text, type) => {
                     const ctx = canvas.getContext('2d');
                     if(JSON.stringify(type) === JSON.stringify(LimitedTime)){
@@ -291,19 +290,19 @@ module.exports = {
                     return ctx.font;
                 };
 
-                //Register fonts
+                // Register fonts
                 Canvas.registerFont('./assets/font/Lalezar-Regular.ttf', {family: 'Arabic',weight: "700",style: "bold"});
                 Canvas.registerFont('./assets/font/BurbankBigCondensed-Black.ttf' ,{family: 'Burbank Big Condensed',weight: "700",style: "bold"})
 
-                //creating canvas
+                // Creating canvas
                 const canvas = Canvas.createCanvas(width, height);
                 const ctx = canvas.getContext('2d');
 
-                //background
+                // Background
                 const background = await Canvas.loadImage('./assets/Itemshop/background.png')
                 ctx.drawImage(background, 0, 0, canvas.width, canvas.height)
 
-                //code
+                // Code
                 if(userData.lang === "en"){
                     const code = await Canvas.loadImage('./assets/Credits/code.png')
                     ctx.drawImage(code, 50, (height - 150), 500, 100)
@@ -312,7 +311,7 @@ module.exports = {
                     ctx.drawImage(code, (canvas.width - 550), (height - 150), 500, 100)
                 }
 
-                //date
+                // Date
                 var date
                 if(userData.lang === "en"){
                     moment.locale("en")
@@ -330,12 +329,12 @@ module.exports = {
                     ctx.fillText(date, (width / 2), (height - 50))
                 }
 
-                //display items method
+                // Display items method
                 const DisplayShop = async (ctx, canvas, x, y, i, type, WidthC, HeightC
                     ,NameX, NameY, PriceX, PriceY, DayX, DayY, vBucksX, vBucksY, vBucksW
                     ,vBucksH, CreditX, CreditY, CreditW, CreditH, textSize, BannerW, BannerH) => {
 
-                    //skin informations
+                    // Skin informations
                     var name = type[i].displayName;
                     var price = type[i].price.finalPrice;
                     if(type[i].displayAssets.length !== 0){
@@ -358,7 +357,7 @@ module.exports = {
                     }
                     var vbucks = "https://media.fortniteapi.io/images/652b99f7863db4ba398c40c326ac15a9/transparent.png";
 
-                    //moment
+                    // Moment
                     var Now = moment();
                     var last
                     if(type[i].previousReleaseDate !== null){
@@ -369,7 +368,7 @@ module.exports = {
                     const day = Now.diff(last, 'days');
 
                     if(rarity === 'Legendary'){
-                        //creating image
+                        // Creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/legendary.png')
                         ctx.drawImage(skinholder, x, y, WidthC, HeightC)
                         const skin = await Canvas.loadImage(image);
@@ -425,7 +424,7 @@ module.exports = {
                         // ctx.drawImage(credit, (CreditX + x), (y + CreditY), CreditW, CreditH);
                     }else
                     if(rarity === 'Epic'){
-                        //creating image
+                        // Creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/epic.png')
                         ctx.drawImage(skinholder, x, y, WidthC, HeightC)
                         const skin = await Canvas.loadImage(image);
@@ -481,7 +480,7 @@ module.exports = {
                         // ctx.drawImage(credit, (CreditX + x), (y + CreditY), CreditW, CreditH);
                     }else
                     if(rarity === 'Rare'){
-                        //creating image
+                        // Creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/rare.png')
                         ctx.drawImage(skinholder, x, y, WidthC, HeightC)
                         const skin = await Canvas.loadImage(image);
@@ -537,7 +536,7 @@ module.exports = {
                         // ctx.drawImage(credit, (CreditX + x), (y + CreditY), CreditW, CreditH);
                     }else
                     if(rarity === 'Uncommon'){
-                        //creating image
+                        // Creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/uncommon.png')
                         ctx.drawImage(skinholder, x, y, WidthC, HeightC)
                         const skin = await Canvas.loadImage(image);
@@ -593,7 +592,7 @@ module.exports = {
                         // ctx.drawImage(credit, (CreditX + x), (y + CreditY), CreditW, CreditH);
                     }else
                     if(rarity === 'Common'){
-                        //creating image
+                        // Creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/common.png')
                         ctx.drawImage(skinholder, x, y, WidthC, HeightC)
                         const skin = await Canvas.loadImage(image);
@@ -649,7 +648,7 @@ module.exports = {
                         // ctx.drawImage(credit, (CreditX + x), (y + CreditY), CreditW, CreditH);
                     }else
                     if(rarity === 'MarvelSeries'){
-                        //creating image
+                        // Creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/marvel.png')
                         ctx.drawImage(skinholder, x, y, WidthC, HeightC)
                         const skin = await Canvas.loadImage(image);
@@ -704,7 +703,7 @@ module.exports = {
                         }
                     }else
                     if(rarity === 'DCUSeries'){
-                        //creating image
+                        // Creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/dc.png')
                         ctx.drawImage(skinholder, x, y, WidthC, HeightC)
                         const skin = await Canvas.loadImage(image);
@@ -760,7 +759,7 @@ module.exports = {
                         // ctx.drawImage(credit, (CreditX + x), (y + CreditY), CreditW, CreditH);
                     }else
                     if(rarity === 'CUBESeries'){
-                        //creating image
+                        // Creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/dark.png')
                         ctx.drawImage(skinholder, x, y, WidthC, HeightC)
                         const skin = await Canvas.loadImage(image);
@@ -816,7 +815,7 @@ module.exports = {
                         // ctx.drawImage(credit, (CreditX + x), (y + CreditY), CreditW, CreditH);
                     }else
                     if(rarity === 'CreatorCollabSeries'){
-                        //creating image
+                        // Creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/icon.png')
                         ctx.drawImage(skinholder, x, y, WidthC, HeightC)
                         const skin = await Canvas.loadImage(image);
@@ -872,7 +871,7 @@ module.exports = {
                         // ctx.drawImage(credit, (CreditX + x), (y + CreditY), CreditW, CreditH);
                     }else
                     if(rarity === 'ColumbusSeries'){
-                        //creating image
+                        // Creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/starwars.png')
                         ctx.drawImage(skinholder, x, y, WidthC, HeightC)
                         const skin = await Canvas.loadImage(image);
@@ -928,7 +927,7 @@ module.exports = {
                         // ctx.drawImage(credit, (CreditX + x), (y + CreditY), CreditW, CreditH);
                     }else
                     if(rarity === 'ShadowSeries'){
-                        //creating image
+                        // Creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/shadow.png')
                         ctx.drawImage(skinholder, x, y, WidthC, HeightC)
                         const skin = await Canvas.loadImage(image);
@@ -984,7 +983,7 @@ module.exports = {
                         // ctx.drawImage(credit, (CreditX + x), (y + CreditY), CreditW, CreditH);
                     }else
                     if(rarity === 'SlurpSeries'){
-                        //creating image
+                        // Creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/slurp.png')
                         ctx.drawImage(skinholder, x, y, WidthC, HeightC)
                         const skin = await Canvas.loadImage(image);
@@ -1040,7 +1039,7 @@ module.exports = {
                         // ctx.drawImage(credit, (CreditX + x), (y + CreditY), CreditW, CreditH);  
                     }else
                     if(rarity === 'FrozenSeries'){
-                        //creating image
+                        // Creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/frozen.png')
                         ctx.drawImage(skinholder, x, y, WidthC, HeightC)
                         const skin = await Canvas.loadImage(image);
@@ -1096,7 +1095,7 @@ module.exports = {
                         // ctx.drawImage(credit, (CreditX + x), (y + CreditY), CreditW, CreditH);
                     }else
                     if(rarity === 'LavaSeries'){
-                        //creating image
+                        // Creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/lava.png')
                         ctx.drawImage(skinholder, x, y, WidthC, HeightC)
                         const skin = await Canvas.loadImage(image);
@@ -1152,7 +1151,7 @@ module.exports = {
                         // ctx.drawImage(credit, (CreditX + x), (y + CreditY), CreditW, CreditH);                            
                     }else
                     if(rarity === 'PlatformSeries'){
-                        //creating image
+                        // Creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/gaming.png')
                         ctx.drawImage(skinholder, x, y, WidthC, HeightC)
                         const skin = await Canvas.loadImage(image);
@@ -1207,7 +1206,7 @@ module.exports = {
                         // const credit = await Canvas.loadImage('assets/Credits/FNBR_MENA.png');
                         // ctx.drawImage(credit, (CreditX + x), (y + CreditY), CreditW, CreditH);
                     }else{
-                        //creating image
+                        // Creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/standard/common.png')
                         ctx.drawImage(skinholder, x, y, WidthC, HeightC)
                         const skin = await Canvas.loadImage(image);
@@ -1265,7 +1264,7 @@ module.exports = {
                     return canvas, ctx
                 }
 
-                //sending data to DisplayShop function
+                // Sending data to DisplayShop function
                 Lines = 0
 
                 //Featured
@@ -1290,10 +1289,10 @@ module.exports = {
 
                 //Featured Loop
                 for(let i = 0; i < Featured.length; i++){
-                    //changing the lines
+                    // Changing the lines
                     Lines++
 
-                    //width and height
+                    // Width and height
                     var WidthC = 256
                     var HeightC = 256
                     var NameX = 125
@@ -1314,7 +1313,7 @@ module.exports = {
                     var BannerW = 55
                     var BannerH = 33
 
-                    //calling the function
+                    // Calling the function
                     await DisplayShop(ctx, canvas, x, y, i, Featured, WidthC, HeightC
                         ,NameX, NameY, PriceX, PriceY, DayX, DayY, vBucksX, vBucksY, vBucksW
                         ,vBucksH, CreditX, CreditY, CreditW, CreditH, textSize, BannerW, BannerH)
@@ -1328,7 +1327,7 @@ module.exports = {
                     }
                 }
                 
-                //switching from Featured to Daily
+                // Switching from Featured to Daily
                 Lines = 0
                 if(FeaturedSection == 3){
                     x = 1043;
@@ -1338,7 +1337,7 @@ module.exports = {
                     y = 125;
                 }
 
-                //Daily
+                // Daily
 
                 if(userData.lang === "en"){
                     ctx.fillStyle = '#ffffff';
@@ -1350,12 +1349,12 @@ module.exports = {
                     ctx.font = '75px Arabic'
                     ctx.fillText("يومي", x + 793, (y - 30))
                 }
-                //Daile Loop
+                // Daily Loop
                 for(let i = 0; i < Daily.length; i++){
-                    //changing the lines
+                    // Changing the lines
                     Lines++
 
-                    //width and height
+                    // Width and height
                     var WidthC = 256
                     var HeightC = 256
                     var NameX = 125
@@ -1376,7 +1375,7 @@ module.exports = {
                     var BannerW = 55
                     var BannerH = 33
 
-                    //calling the function
+                    // Calling the function
                     await DisplayShop(ctx, canvas, x, y, i, Daily, WidthC, HeightC
                         ,NameX, NameY, PriceX, PriceY, DayX, DayY, vBucksX, vBucksY, vBucksW
                         ,vBucksH, CreditX, CreditY, CreditW, CreditH, textSize, BannerW, BannerH)
@@ -1394,7 +1393,7 @@ module.exports = {
                     }
                 }
 
-                //Switching from Daily to SpecialFeatured
+                // Switching from Daily to SpecialFeatured
                 Lines = 0
                 if (SpecialFeaturedSection == 5){
                     x = 1873 + 125;
@@ -1409,7 +1408,7 @@ module.exports = {
                     }
                 }
 
-                //SpecialFeatured
+                // SpecialFeatured
                 if(userData.lang === "en"){
                     ctx.fillStyle = '#ffffff';
                     ctx.font = '75px Burbank Big Condensed'
@@ -1428,12 +1427,12 @@ module.exports = {
                     }
                 }
             
-                //SpecialFeatured Loop
+                // SpecialFeatured Loop
                 for(let i = 0; i < SpecialFeatured.length; i++){
-                    //changing the lines
+                    // Changing the lines
                     Lines++
 
-                    //width and height
+                    // Width and height
                     var WidthC = 256
                     var HeightC = 256
                     var NameX = 125
@@ -1454,7 +1453,7 @@ module.exports = {
                     var BannerW = 55
                     var BannerH = 33
 
-                    //calling the function
+                    // Calling the function
                     await DisplayShop(ctx, canvas, x, y, i, SpecialFeatured, WidthC, HeightC
                         ,NameX, NameY, PriceX, PriceY, DayX, DayY, vBucksX, vBucksY, vBucksW
                         ,vBucksH, CreditX, CreditY, CreditW, CreditH, textSize, BannerW, BannerH)
@@ -1476,7 +1475,7 @@ module.exports = {
                     }
                 }
 
-                //Limited Time
+                // Limited Time
                 Lines = 0
                 if(userData.lang === "en"){
                     x = 125
@@ -1511,13 +1510,13 @@ module.exports = {
                     }
                 }
 
-                //Limited Time Loop
+                // Limited Time Loop
                 Lines = 0
                 for(let i = 0; i < LimitedTime.length; i++){
-                    //changing the lines
+                    // Changing the lines
                     Lines++
 
-                    //width and height
+                    // Width and height
                     var WidthC = 512
                     var HeightC = 512
                     var NameX = 256
@@ -1536,7 +1535,7 @@ module.exports = {
                     var CreditH = 40
                     var textSize = 40
 
-                    //calling the function
+                    // Calling the function
                     await DisplayShop(ctx, canvas, x, y, i, LimitedTime, WidthC, HeightC
                         ,NameX, NameY, PriceX, PriceY, DayX, DayY, vBucksX, vBucksY, vBucksW
                         ,vBucksH, CreditX, CreditY, CreditW, CreditH, textSize, BannerW, BannerH)
@@ -1560,17 +1559,26 @@ module.exports = {
                     }
                 }
 
-                //sending message
+                // Sending message
                 const sending = new Discord.EmbedBuilder()
                 sending.setColor(FNBRMENA.Colors("embed"))
                 if(userData.lang === "en") sending.setTitle(`Sending the image please wait ${emojisObject.loadingEmoji}`)
                 else if(userData.lang === "ar") sending.setTitle(`جاري ارسال الصورة الرجاء الانتظار ${emojisObject.loadingEmoji}`)
-                msg.edit(sending)
+                msg.edit({embeds: [sending], components: [], files: []})
+                .catch(err => {
+                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
+                })
 
                 const att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `${res.data.lastUpdate.uid}.png`})
-                await message.reply({files: [att]})
-                msg.delete()
-            })
+                msg.edit({embeds: [], components: [], files: [att]})
+                .catch(err => {
+                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
+                })
+            } catch(err) {
+                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
+            }
+        }).catch(err => {
+            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
         })
-    },
+    }
 }

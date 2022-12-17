@@ -4,7 +4,6 @@ module.exports = {
     minArgs: 0,
     maxArgs: 1,
     cooldown: -1,
-    permissionError: 'Sorry you do not have acccess to this command',
     callback: async (FNBRMENA, message, args, text, Discord, client, admin, userData, alias, emojisObject) => {
 
         //if the user isnt in a voice chat
@@ -12,7 +11,7 @@ module.exports = {
             const notInAVoiceChannelErr = new Discord.EmbedBuilder()
             notInAVoiceChannelErr.setColor(FNBRMENA.Colors("embedError"))
             notInAVoiceChannelErr.setTitle(`Please join a voice channel first. ${emojisObject.errorEmoji}`)
-            return message.reply({embeds: [notInAVoiceChannelErr]})
+            return message.reply({embeds: [notInAVoiceChannelErr], components: [], files: []})
             
         }
         
@@ -24,7 +23,7 @@ module.exports = {
             const noMusicPlayingErr = new Discord.EmbedBuilder()
             noMusicPlayingErr.setColor(FNBRMENA.Colors("embedError"))
             noMusicPlayingErr.setTitle(`There is no music currently playing ${emojisObject.errorEmoji}.`)
-            return message.reply({embeds: [noMusicPlayingErr]})
+            return message.reply({embeds: [noMusicPlayingErr], components: [], files: []})
 
         }
 
@@ -33,7 +32,7 @@ module.exports = {
             const negativeNumberError = new Discord.EmbedBuilder()
             negativeNumberError.setColor(FNBRMENA.Colors("embedError"))
             negativeNumberError.setTitle(`Volume must be non negative, Provide a such ${emojisObject.errorEmoji}.`)
-            return message.reply({embeds: [negativeNumberError]})
+            return message.reply({embeds: [negativeNumberError], components: [], files: []})
 
         }
 
@@ -41,7 +40,7 @@ module.exports = {
             const tooMuchVolNumberError = new Discord.EmbedBuilder()
             tooMuchVolNumberError.setColor(FNBRMENA.Colors("embedError"))
             tooMuchVolNumberError.setTitle(`Volume must be less than 100 ${emojisObject.errorEmoji}.`)
-            return message.reply({embeds: [tooMuchVolNumberError]})
+            return message.reply({embeds: [tooMuchVolNumberError], components: [], files: []})
 
         }
 
@@ -50,14 +49,14 @@ module.exports = {
             const currentVolume = new Discord.EmbedBuilder()
             currentVolume.setColor(FNBRMENA.Colors("embedSuccess"))
             currentVolume.setTitle(`The current volume is set to \`${queue.setVolume()}\``)
-            return message.reply({embeds: [currentVolume]})
+            return message.reply({embeds: [currentVolume], components: [], files: []})
 
         }else{
             await queue.setVolume(parseInt(text))
             const volumeHasBeenChanged = new Discord.EmbedBuilder()
             volumeHasBeenChanged.setColor(FNBRMENA.Colors("embedSuccess"))
             volumeHasBeenChanged.setTitle(`The volume has changed to \`${text}\` ${emojisObject.checkEmoji}`)
-            return message.reply({embeds: [volumeHasBeenChanged]})
+            return message.reply({embeds: [volumeHasBeenChanged], components: [], files: []})
 
         }
     }

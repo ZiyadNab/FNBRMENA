@@ -6,7 +6,6 @@ module.exports = {
     minArgs: 1,
     maxArgs: null,
     cooldown: -1,
-    permissionError: 'Sorry you do not have acccess to this command',
     callback: async (FNBRMENA, message, args, text, Discord, client, admin, userData, alias, emojisObject) => {
 
         // If the user isnt in a voice chat
@@ -14,7 +13,7 @@ module.exports = {
             const notInAVoiceChannelErr = new Discord.EmbedBuilder()
             notInAVoiceChannelErr.setColor(FNBRMENA.Colors("embedError"))
             notInAVoiceChannelErr.setTitle(`Please join a voice channel first ${emojisObject.errorEmoji}.`)
-            return message.reply({embeds: [notInAVoiceChannelErr]})
+            return message.reply({embeds: [notInAVoiceChannelErr], components: [], files: []})
             
         }
 
@@ -37,7 +36,7 @@ module.exports = {
             const noResultsErr = new Discord.EmbedBuilder()
             noResultsErr.setColor(FNBRMENA.Colors("embedError"))
             noResultsErr.setTitle(`Couldn't find what you are looking for. ${emojisObject.errorEmoji}`)
-            return message.reply({embeds: [noResultsErr]})
+            return message.reply({embeds: [noResultsErr], components: [], files: []})
         }
 
         // Song variable
@@ -58,7 +57,7 @@ module.exports = {
              .setLabel("Music Link")
              .setURL(song.url)
           )
-        ]})
+        ], files: []})
 
         // Add the song to the queue track
         await queue.addTrack(song)

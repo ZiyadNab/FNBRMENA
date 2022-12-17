@@ -22,7 +22,24 @@ module.exports = async (client, admin, commandsDataList) => {
 
     // If the command in database doesn't have a file then delete it
     for(const data of commandList.docs)
-        if(!commands.includes(data.id)) await firestoreCommands.doc(data.id).delete()
+        if(!commands.includes(data.id)){
+
+            // Get the user usersBanned
+            const usersBanned = await firestoreCommands.doc(data.id).collection("usersBanned").get()
+
+            // Batch
+            const batch = await admin.firestore().batch()
+            
+            // Delete all usersBanned if there is any
+            await usersBanned.forEach(async doc => {
+                batch.delete(doc.ref)
+            })
+
+            // Commit all changes
+            await batch.commit()
+
+            await firestoreCommands.doc(data.id).delete()
+        }
 
     // Loop through every command from the bot
     for(var data of commandsDataList){
@@ -61,7 +78,7 @@ module.exports = async (client, admin, commandsDataList) => {
                 argsExample: argsExample,
                 minArgs: minArgs,
                 maxArgs: maxArgs,
-                showInCommands: true,
+                showInCommands: false,
                 premium: false,
                 cooldown: {
                     filesSource: true,

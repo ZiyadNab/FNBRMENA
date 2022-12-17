@@ -4,7 +4,6 @@ module.exports = {
     minArgs: 0,
     maxArgs: 0,
     cooldown: -1,
-    permissionError: 'Sorry you do not have acccess to this command',
     callback: async (FNBRMENA, message, args, text, Discord, client, admin, userData, alias, emojisObject) => {
 
         // Create an embed
@@ -37,7 +36,7 @@ module.exports = {
         )
 
         // Send the message
-        const showModalMessage = await message.reply({embeds: [roleSelectionEmbed], components: [buttonDataRow]})
+        const showModalMessage = await message.reply({embeds: [roleSelectionEmbed], components: [buttonDataRow], files: []})
 
         // Filtering the user clicker
         const filter = (i => {
@@ -97,13 +96,12 @@ module.exports = {
                     if(channel){ // Check if the channel given does exist
                         modalCollect.deferUpdate()
                         await channel.send({content: contentSent})
-                        await showModalMessage.delete()
 
                         // Create a successfull embed message
                         const successfulMessageEmbed = new Discord.EmbedBuilder()
                         successfulMessageEmbed.setColor(FNBRMENA.Colors("embedSuccess"))
                         successfulMessageEmbed.setTitle(`The message has been sent to \`${channel.name}\`'s channel successfully ${emojisObject.checkEmoji}.`)
-                        await message.reply({embeds: [successfulMessageEmbed]})
+                        showModalMessage.edit({embeds: [successfulMessageEmbed], components: [], files: []})
 
                     }else modalCollect.reply({content: 'Please try again and specify a valid text channel id.', ephemeral: true})
                     
@@ -183,13 +181,12 @@ module.exports = {
 
                         // Send the embed message
                         await channel.send({embeds: [talkEmbed]})
-                        await showModalMessage.delete()
 
                         // Create a successfull embed message
                         const successfulMessageEmbed = new Discord.EmbedBuilder()
                         successfulMessageEmbed.setColor(FNBRMENA.Colors("embedSuccess"))
                         successfulMessageEmbed.setTitle(`The message has been sent to \`${channel.name}\`'s channel successfully ${emojisObject.checkEmoji}.`)
-                        await message.reply({embeds: [successfulMessageEmbed]})
+                        showModalMessage.edit({embeds: [successfulMessageEmbed], components: [], files: []})
 
                     }else modalCollect.reply({content: 'Please try again and specify a valid text channel id.', ephemeral: true})
                     
@@ -197,8 +194,7 @@ module.exports = {
             }
 
         }).catch(async err => {
-            showModalMessage.delete()
-            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
+            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, showModalMessage)
         })
     }
 }

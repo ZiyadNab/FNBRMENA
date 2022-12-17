@@ -3,7 +3,6 @@ module.exports = {
     type: 'User Data',
     minArgs: 0,
     maxArgs: 0,
-    permissionError: 'Sorry you do not have acccess to this command',
     callback: async (FNBRMENA, message, args, text, Discord, client, admin, userData, alias, emojisObject) => {
 
         // Seeting up the db firestore
@@ -80,7 +79,7 @@ module.exports = {
         languageRow.addComponents(languageDropMenu)
 
         // Send the message
-        const dropMenuMessage = await message.reply({embeds: [languageEmbed], components: [languageRow, buttonDataRow]})
+        const dropMenuMessage = await message.reply({embeds: [languageEmbed], components: [languageRow, buttonDataRow], files: []})
 
         // Filtering the user clicker
         const filter = (i => {
@@ -99,7 +98,6 @@ module.exports = {
 
             // Language has been selected
             if(collected.customId === "language"){
-                dropMenuMessage.delete()
 
                 // Update the user's language
                 await db.collection("Users").doc(message.member.user.id).update({
@@ -111,7 +109,7 @@ module.exports = {
                 successfullyUpatedEmbed.setColor(FNBRMENA.Colors("embedSuccess"))
                 if(userData.lang === "en") successfullyUpatedEmbed.setTitle(`You have successfully changed your language ${emojisObject.checkEmoji}.`)
                 else if(userData.lang === "ar") successfullyUpatedEmbed.setTitle(`تم تغير اللغة الخاصه بك بنجاح ${emojisObject.checkEmoji}.`)
-                message.reply({embeds: [successfullyUpatedEmbed]})
+                dropMenuMessage.edit({embeds: [successfullyUpatedEmbed], components: [], files: []})
             }
         }).catch(async err => {
             FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)

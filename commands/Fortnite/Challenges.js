@@ -26,7 +26,7 @@ module.exports = {
                 generating.setColor(FNBRMENA.Colors("embed"))
                 if(userData.lang === "en") generating.setTitle(`Loading ${targetQuest.name}... ${emojisObject.loadingEmoji}`)
                 else if(userData.lang === "ar") generating.setTitle(`تحميل ${targetQuest.name}... ${emojisObject.loadingEmoji}`)
-                const msg = await message.reply({embeds: [generating]})
+                const msg = await message.reply({embeds: [generating], components: [], files: []})
                 try {
 
                     // Setup variables
@@ -271,8 +271,10 @@ module.exports = {
                     }
                     
                     const att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `${targetQuest.id}.png`})
-                    await message.reply({files: [att]})
-                    msg.delete()
+                    msg.edit({embeds: [], components: [], files: [att]})
+                    .catch(err => {
+                        FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
+                    })
 
                 }catch(err) {
                     FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
@@ -350,7 +352,7 @@ module.exports = {
             categoriesRow.addComponents(categoryDropMenu)
 
             // Send the message
-            const challengeCategoryMessage = await message.reply({embeds: [dropDownMenuEmbed], components: [categoriesRow, buttonDataRow]})
+            const challengeCategoryMessage = await message.reply({embeds: [dropDownMenuEmbed], components: [categoriesRow, buttonDataRow], files: []})
 
             // Filtering the user clicker
             const filter = (i => {
@@ -442,7 +444,10 @@ module.exports = {
                     } components.push(buttonDataRow)
 
                     // Edit the message
-                    await challengeCategoryMessage.edit({embeds: [dropDownMenuEmbed], components: components})
+                    challengeCategoryMessage.edit({embeds: [dropDownMenuEmbed], components: components, files: []})
+                    .catch(err => {
+                        FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, challengeCategoryMessage)
+                    })
                     
                 }
 
@@ -456,7 +461,7 @@ module.exports = {
             //when time has ended
             colllector.on('end', async () => {
                 try {
-                    await challengeCategoryMessage.delete()
+                    challengeCategoryMessage.delete()
                 } catch {
                     
                 }

@@ -4,35 +4,34 @@ module.exports = {
     minArgs: 0,
     maxArgs: 0,
     cooldown: -1,
-    permissionError: 'Sorry you do not have acccess to this command',
     callback: async (FNBRMENA, message, args, text, Discord, client, admin, userData, alias, emojisObject) => {
 
-        //seeting up the db firestore
+        // Setting up the db firestore
         const db = await admin.firestore()
 
-        //commands collection
+        // Commands collection
         const firestoreCommands = await db.collection("Commands")
         const commandList = await firestoreCommands.get()
 
-        //index to start the commands from and how many commands in a single page
+        // Index to start the commands from and how many commands in a single page
         var index = 0
         var pagesLength = 0
         var page = 1
         var pageCommands = 3
         var newPage = 0
 
-        //commands
+        // Commands
         const Commands = []
 
-        //add all the commands to an array
+        // Add all the commands to an array
         for(const data of commandList.docs){
 
-            //check if 
+            // Check if 
             if(data.data().commandData.showInCommands){
 
-                //command status
-                if(data.data().commandData.commandStatus.status) var Status = `${emojisObject.greenStatus}`
-                else var Status = `${emojisObject.redStatus}`
+                // Command status
+                if(data.data().commandData.commandStatus.status) var Status = `${emojisObject.uncommon}`
+                else var Status = `${emojisObject.marvel}`
 
                 if(data.data().commandData.cooldown.filesSource){
                     if(data.data().commandData.cooldown.filesCooldown != -1) var cooldown = data.data().commandData.cooldown.filesCooldown
@@ -58,33 +57,33 @@ module.exports = {
             }
         }
 
-        //creating an embed and its row
+        // Creating an embed and its row
         const row = new Discord.ActionRowBuilder()
         const list = new Discord.EmbedBuilder()
         list.setColor(FNBRMENA.Colors("embed"))
 
-        //see how many pages
+        // See how many pages
         pagesLength = Commands.length / pageCommands
         
-        //forcing to be an int
+        // Forcing to be an int
         if(pagesLength % 2 !== 0){
             pagesLength += 1
             pagesLength = pagesLength | 0
         }
 
-        //add footer for page number
+        // Add footer for page number
         list.setFooter({text: `( ${page}/${pagesLength} )`})
         
-        //list the first 5 commands
+        // List the first 5 commands
         for(let i = index; i < pageCommands; i++){
 
-            //get commands from the en array
+            // Get commands from the en array
             list.addFields(
                 Commands[i]
             )
         }
 
-        //add the button for ?x previous page
+        // Add the button for ?x previous page
         row.addComponents(
             new Discord.ButtonBuilder()
             .setCustomId('prevD')
@@ -92,7 +91,7 @@ module.exports = {
             .setEmoji('985226016735776788')
         )
 
-        //add the button for previous page
+        // Add the button for previous page
         row.addComponents(
             new Discord.ButtonBuilder()
             .setCustomId('prev')
@@ -100,7 +99,7 @@ module.exports = {
             .setEmoji('985226010599497728')
         )
 
-        //add the button for next page
+        // Add the button for next page
         row.addComponents(
             new Discord.ButtonBuilder()
             .setCustomId('next')
@@ -108,7 +107,7 @@ module.exports = {
             .setEmoji('985226013044797531')
         )
 
-        //add the button for ?x next page
+        // Add the button for ?x next page
         row.addComponents(
             new Discord.ButtonBuilder()
             .setCustomId('nextD')
@@ -116,7 +115,7 @@ module.exports = {
             .setEmoji('985226020795863121')
         )
 
-        //add the button for Cancel button
+        // Add the button for Cancel button
         if(userData.lang === "en"){
             row.addComponents(
                 new Discord.ButtonBuilder()
@@ -134,10 +133,10 @@ module.exports = {
         }
 
         
-        //send the embed
-        const commandsMessage = await message.reply({embeds: [list], components: [row]})
+        // Send the embed
+        const commandsMessage = await message.reply({embeds: [list], components: [row], files: []})
 
-        //filtering the user clicker
+        // Filtering the user clicker
         const filter = (i => {
             return (i.user.id === message.author.id && i.message.id === commandsMessage.id && i.guild.id === message.guild.id)
         })
@@ -146,43 +145,43 @@ module.exports = {
         colllector.on('collect', async collected => {
             collected.deferUpdate();
 
-            //delete button was clicked
+            // Delete button was clicked
             if(collected.customId === "cancel") commandsMessage.delete()
 
-            //prev to page 1 was clicked
+            // Prev to page 1 was clicked
             if(collected.customId === "prevD"){
 
-                //create embed
+                // Create embed
                 const firstPage = new Discord.EmbedBuilder()
                 firstPage.setColor(FNBRMENA.Colors("embed"))
                 
-                //change the page value
+                // Change the page value
                 page = 1
 
-                //change the commands list
+                // Change the commands list
                 index = 0
                 newPage = pageCommands
 
-                //set footer
+                // Set footer
                 list.setFooter({text: `( ${page}/${pagesLength} )`})
 
-                //list the next page
+                // List the next page
                 for(let i = index; i < newPage; i++){
 
-                    //get commands from the en array
+                    // Get commands from the en array
                     firstPage.addFields(
                         Commands[i]
                     )
                 }
 
-                //edit the message
-                commandsMessage.edit({embeds: [firstPage], components: [row]})
+                // Edit the message
+                commandsMessage.edit({embeds: [firstPage], components: [row], files: []})
             }
             
-            //one page prev was clicked
+            // One page prev was clicked
             if(collected.customId === "prev"){
 
-                //create embed
+                // Create embed
                 const backwardPage = new Discord.EmbedBuilder()
                 backwardPage.setColor(FNBRMENA.Colors("embed"))
 
@@ -191,27 +190,27 @@ module.exports = {
                     return
                 }
 
-                //change the page value
+                // Change the page value
                 page--
 
-                //change the commands list
+                // Change the commands list
                 index -= pageCommands
                 newPage = pageCommands + index
 
-                //add footer for page number
+                // Add footer for page number
                 backwardPage.setFooter({text: `( ${page}/${pagesLength} )`})
 
-                //check for undefined commands
+                // Check for undefined commands
                 while(newPage > Commands.length){
                     newPage--
                 }
 
                 if(index < Commands.length){
 
-                    //list the next page
+                    // List the next page
                     for(let i = index; i < newPage; i++){
 
-                        //get commands from the en array
+                        // Get commands from the en array
                         backwardPage.addFields(
                             Commands[i]
                         )
@@ -220,38 +219,38 @@ module.exports = {
                 }else if(userData.lang === "en") backwardPage.setTitle(`Sorry, this is the last page ${emojisObject.errorEmoji}`)
                 else if(userData.lang === "ar") backwardPage.setTitle(`لقد وصلت لاخر صفحه ${emojisObject.errorEmoji}`)
 
-                //edit the message
-                commandsMessage.edit({embeds: [backwardPage], components: [row]})
+                // Edit the message
+                commandsMessage.edit({embeds: [backwardPage], components: [row], files: []})
             }
 
-            //one page next was clicked
+            // One page next was clicked
             if(collected.customId === "next"){
 
-                //create embed
+                // Create embed
                 const forwardPage = new Discord.EmbedBuilder()
                 forwardPage.setColor(FNBRMENA.Colors("embed"))
 
-                //change the page value
+                // Change the page value
                 page++
 
-                //change the commands list
+                // Change the commands list
                 index += pageCommands
                 newPage = index + pageCommands
 
-                //add footer for page number
+                // Add footer for page number
                 forwardPage.setFooter({text: `( ${page}/${pagesLength} )`})
 
-                //check for undefined commands
+                // Check for undefined commands
                 while(newPage > Commands.length){
                     newPage--
                 }
 
                 if(index < Commands.length){
 
-                    //list the next page
+                    // List the next page
                     for(let i = index; i < newPage; i++){
 
-                        //get commands from the en array
+                        // Get commands from the en array
                         forwardPage.addFields(
                             Commands[i]
                         )
@@ -260,48 +259,48 @@ module.exports = {
                 }else if(userData.lang === "en") forwardPage.setTitle(`Sorry, this is the last page ${emojisObject.errorEmoji}`)
                 else if(userData.lang === "ar") forwardPage.setTitle(`لقد وصلت لاخر صفحه ${emojisObject.errorEmoji}`)
 
-                //edit the message
-                commandsMessage.edit({embeds: [forwardPage], components: [row]})
+                // Edit the message
+                commandsMessage.edit({embeds: [forwardPage], components: [row], files: []})
             }
 
-            //next to the last page was clicked
+            // Next to the last page was clicked
             if(collected.customId === "nextD"){
 
-                //create embed
+                // Create embed
                 const firstPage = new Discord.EmbedBuilder()
                 firstPage.setColor(FNBRMENA.Colors("embed"))
                 
-                //change the page value
+                // Change the page value
                 page = pagesLength
 
-                //change the commands list
+                // Change the commands list
                 index = pagesLength * pageCommands
                 newPage = pagesLength * pageCommands
                 index  -= pageCommands
 
-                //set footer
+                // Set footer
                 firstPage.setFooter({text: `( ${page}/${pagesLength} )`})
                     
-                //check for undefined commands
+                // Check for undefined commands
                 while(newPage > Commands.length){
                     newPage--
                 }
 
-                //list the next page
+                // List the next page
                 for(let i = index; i < newPage; i++){
 
-                    //get commands from the en array
+                    // Get commands from the en array
                     firstPage.addFields(
                         Commands[i]
                     )
                 }
 
-                //edit the message
-                commandsMessage.edit({embeds: [firstPage], components: [row]})
+                // Edit the message
+                commandsMessage.edit({embeds: [firstPage], components: [row], files: []})
             }
         })
 
-        //if time has ended
+        // If time has ended
         colllector.on('end', async () => {
             try {
                 await commandsMessage.delete()

@@ -9,25 +9,24 @@ module.exports = {
     minArgs: 1,
     maxArgs: null,
     cooldown: -1,
-    permissionError: 'Sorry you do not have acccess to this command',
     callback: async (FNBRMENA, message, args, text, Discord, client, admin, userData, alias, emojisObject) => {
 
-        //inisilizing data
+        // Inisilizing data
         var SearchType = "name"
 
-        //if input is an id
+        // If input is an id
         if(text.includes("_")) SearchType = "id"
 
-        //request the emote video
+        // Request the emote video
         FNBRMENA.SearchByType(userData.lang, text, 'music', SearchType)
         .then(async res => {
 
-            //check if the user entered a valid emote name
+            // Check if the user entered a valid emote name
             if(res.data.items.length > 0){
 
                 if(res.data.items[0].video !== null || res.data.items[0].audio !== null){
 
-                    //create random landing embed message
+                    // Create random landing embed message
                     const musicTypeEmbed = new Discord.EmbedBuilder()
                     musicTypeEmbed.setColor(FNBRMENA.Colors("embed"))
                     if(userData.lang === "en"){
@@ -38,18 +37,18 @@ module.exports = {
                         musicTypeEmbed.setDescription('الرجاء اختيار نوع اخراج الملف صوت او فيديو.\n.`لديك فقط 30 ثانية حتى تنتهي العملية, استعجل`!')
                     }
                     
-                    //create a row for buttons
+                    // Create a row for buttons
                     const buttonsDataRow = new Discord.ActionRowBuilder()
 
-                    //audio button
+                    // Audio button
                     const audioButton = new Discord.ButtonBuilder()
                     audioButton.setCustomId('Audio')
-                    audioButton.setStyle(Discord.ButtonStyle.Primary)
+                    audioButton.setStyle(Discord.ButtonStyle.Success)
                     if(res.data.items[0].audio === null) audioButton.setDisabled(true)
                     if(userData.lang === "en") audioButton.setLabel("Audio")
                     else if(userData.lang === "ar") audioButton.setLabel("صوت")
 
-                    //audio button
+                    // Video button
                     const videoButton = new Discord.ButtonBuilder()
                     videoButton.setCustomId('Video')
                     videoButton.setStyle(Discord.ButtonStyle.Primary)
@@ -57,87 +56,90 @@ module.exports = {
                     if(userData.lang === "en") videoButton.setLabel("Video")
                     else if(userData.lang === "ar") videoButton.setLabel("فيديو")
 
-                    //cancle button
+                    // Cancle button
                     const cancelButton = new Discord.ButtonBuilder()
                     cancelButton.setCustomId('Cancel')
                     cancelButton.setStyle(Discord.ButtonStyle.Danger)
                     if(userData.lang === "en") cancelButton.setLabel("Cancel")
                     else if(userData.lang === "ar") cancelButton.setLabel("اغلاق")
                     
-                    //add the buttons to the buttonsDataRow
+                    // Add the buttons to the buttonsDataRow
                     buttonsDataRow.addComponents(audioButton, videoButton, cancelButton)
 
-                    //send the button
+                    // Send the button
                     const musicTypeMessage = await message.reply({embeds: [musicTypeEmbed], components: [buttonsDataRow]})
 
-                    //filtering the user clicker
+                    // Filtering the user clicker
                     const filter = (i => {
                         return (i.user.id === message.author.id && i.message.id === musicTypeMessage.id && i.guild.id === message.guild.id)
                     })
 
-                    //await the user click
+                    // Await the user click
                     await message.channel.awaitMessageComponent({filter, time: 30000})
                     .then(async collected => {
                         collected.deferUpdate();
 
-                        //if canel button has been clicked
+                        // If canel button has been clicked
                         if(collected.customId === "Cancel") musicTypeMessage.delete()
                         else{
                             musicTypeMessage.delete()
 
-                            //send the generating message
+                            // Send the generating message
                             const generating = new Discord.EmbedBuilder()
                             generating.setColor(FNBRMENA.Colors("embed"))
                             if(userData.lang === "en") generating.setTitle(`Loading the ${res.data.items[0].name}... ${emojisObject.loadingEmoji}`)
                             else if(userData.lang === "ar") generating.setTitle(`جاري تحميل بيانات ${res.data.items[0].name}... ${emojisObject.loadingEmoji}`)
-                            const msg = await message.reply({embeds: [generating]})
+                            const msg = await message.reply({embeds: [generating], components: [], files: []})
                             try {
 
-                                try{
+                                // Send attatchment
+                                if(collected.customId === "Video") var att = new Discord.AttachmentBuilder(res.data.items[0].video)
+                                else if(collected.customId === "Audio") var att = new Discord.AttachmentBuilder(res.data.items[0].audio)
 
-                                    //send attatchment
-                                    if(collected.customId === "Video") var att = await new Discord.AttachmentBuilder(res.data.items[0].video)
-                                    else if(collected.customId === "Audio") var att = await new Discord.AttachmentBuilder(res.data.items[0].audio)
+                                // Send the music video
+                                msg.edit({embeds: [], components: [], files: [att]})
+                                .catch(err => {
 
-                                    //send the emote video
-                                    await message.reply({files: [att]})
-                                    msg.delete()
-
-                                }catch{
-
-                                    //send the emote video
-                                    if(collected.customId === "Video") await message.reply(res.data.items[0].video)
-                                    else if(collected.customId === "Audio") await message.reply(res.data.items[0].audio)
-                                    msg.delete()
-                                }
+                                    // Try sending it as a contect message
+                                    if(collected.customId === "Video"){
+                                        msg.edit(res.data.items[0].video)
+                                        .catch(err => {
+                                            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
+                                        })
+                                    }else if(collected.customId === "Audio"){
+                                        msg.edit(res.data.items[0].audio)
+                                        .catch(err => {
+                                            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
+                                        })
+                                    }
+                                })
                             }catch(err) {
                                 FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
                     
                             }
                         }
                     }).catch(async err => {
-                        musicTypeMessage.delete()
-                        FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
+                        FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, musicTypeMessage)
                     })
 
                 }else{
 
-                    //no data for the music has been found
+                    // No data for the music has been found
                     const noDataForTheMusicHasBeenFoundError = new Discord.EmbedBuilder()
                     noDataForTheMusicHasBeenFoundError.setColor(FNBRMENA.Colors("embedError"))
                     if(userData.lang === "en") noDataForTheMusicHasBeenFoundError.setTitle(`This music doesn't have any video or audio yet, please check back again later ${emojisObject.errorEmoji}`)
                     else if(userData.lang === "ar") noDataForTheMusicHasBeenFoundError.setTitle(`لا تحتوي هاذي الموسيقى على فيديو او صوت, اعد المحاولة مرا اخرى في وقت لاحق ${emojisObject.errorEmoji}`)
-                    message.reply({embeds: [noDataForTheMusicHasBeenFoundError]})
+                    message.reply({embeds: [noDataForTheMusicHasBeenFoundError], components: [], files: []})
                 }
 
             }else{
                 
-                //no music has been found
+                // No music has been found
                 const noMusicHasBeenFoundError = new Discord.EmbedBuilder()
                 noMusicHasBeenFoundError.setColor(FNBRMENA.Colors("embedError"))
                 if(userData.lang === "en") noMusicHasBeenFoundError.setTitle(`No music pack has been found please check your speling and try again ${emojisObject.errorEmoji}`)
                 else if(userData.lang === "ar") noMusicHasBeenFoundError.setTitle(`لا يمكنني العثور على الموسيقى الرجاء التأكد من كتابة الاسم بشكل صحيح ${emojisObject.errorEmoji}`)
-                message.reply({embeds: [noMusicHasBeenFoundError]})
+                message.reply({embeds: [noMusicHasBeenFoundError], components: [], files: []})
             }
 
         }).catch(err => {

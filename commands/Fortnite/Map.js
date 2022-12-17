@@ -14,48 +14,49 @@ module.exports = {
     minArgs: 0,
     maxArgs: 1,
     cooldown: -1,
-    permissionError: 'Sorry you do not have acccess to this command',
     callback: async (FNBRMENA, message, args, text, Discord, client, admin, userData, alias, emojisObject) => {
         moment.locale(userData.lang)
 
-        // if the use did not add any season number
+        // If the use did not add any season number
         if(text === ''){
 
-            //generating animation
+            // Generating animation
             const generating = new Discord.EmbedBuilder()
             generating.setColor(FNBRMENA.Colors("embed"))
             if(userData.lang === "en") generating.setTitle(`Loading... ${emojisObject.loadingEmoji}`)
             else if(userData.lang == "ar") generating.setTitle(`جاري التحميل... ${emojisObject.loadingEmoji}`)
-            const msg = await message.reply({embeds: [generating]})
+            const msg = await message.reply({embeds: [generating], components: [], files: []})
             try {
 
-                //request data
+                // Request data
                 FNBRMENA.Map(userData.lang)
                 .then(async res => {
 
-                    //get the image data
+                    // Get the image data
                     if(res.data.data.images.pois === null) var image = res.data.data.images.blank
                     else var image = res.data.data.images.pois
                     
-                    //creating canvas
+                    // Creating canvas
                     const canvas = Canvas.createCanvas(2048, 2048);
                     const ctx = canvas.getContext('2d');
 
-                    //map image
+                    // Map image
                     const map = await Canvas.loadImage(image)
                     ctx.drawImage(map, 0, 0, canvas.width, canvas.height)
 
-                    //fnbrmena credits
+                    // Fnbrmena credits
                     const border = await Canvas.loadImage('./assets/NPC/border.png')
                     ctx.drawImage(border, 0, 0, canvas.width, canvas.height)
 
-                    //send the map image
+                    // Send the map image
                     const att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: 'map.png'})
-                    await message.reply({files: [att]})
-                    msg.delete()
+                    msg.edit({embeds: [], components: [], files: [att]})
+                    .catch(err => {
+                        FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
+                    })
 
                 }).catch(err => {
-                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
+                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
                     
                 })
             }catch(err) {
@@ -65,30 +66,30 @@ module.exports = {
                 
         }else{
 
-            //request data
+            // Request data
             FNBRMENA.MapIO()
             .then(async res => {
 
-                //check if user entered a valid season that has images
+                // Check if user entered a valid season that has images
                 var allAvaliableVersions = []
                 var Counter = 0
 
-                //loop throw every map avaliable
+                // Loop throw every map avaliable
                 for(let i = 0; i < res.data.maps.length; i++){
 
                     //only go in when the version first number matches the user input
                     if(res.data.maps[i].patchVersion.substring(0, res.data.maps[i].patchVersion.indexOf(".")) == text){
 
-                        //store the all avaliable versions in the array
+                        // Store the all avaliable versions in the array
                         allAvaliableVersions[Counter++] = res.data.maps[i]
 
                     }
                 }
 
-                //if the allAvaliableVersions is empty then no matching game version found
+                // If the allAvaliableVersions is empty then no matching game version found
                 if(allAvaliableVersions.length != 0){
 
-                    //create an embed
+                    // Create an embed
                     const allAvaliableVersionsEmbed = new Discord.EmbedBuilder()
                     allAvaliableVersionsEmbed.setColor(FNBRMENA.Colors("embed"))
                     if(userData.lang === "en"){
@@ -99,10 +100,10 @@ module.exports = {
                         allAvaliableVersionsEmbed.setDescription('الرجاء الضغط على السهم لاختيار تحديث.\n`لديك فقط 30 ثانية حتى تنتهي العملية, استعجل`!')
                     }
 
-                    //create a row for cancel button
+                    // Create a row for cancel button
                     const buttonDataRow = new Discord.ActionRowBuilder()
 
-                    //add EN cancel button
+                    // Add EN cancel button
                     if(userData.lang === "en") buttonDataRow.addComponents(
                         new Discord.ButtonBuilder()
                         .setCustomId('Cancel')
@@ -110,7 +111,7 @@ module.exports = {
                         .setLabel("Cancel")
                     )
                     
-                    //add AR cancel button
+                    // Add AR cancel button
                     else if(userData.lang === "ar") buttonDataRow.addComponents(
                         new Discord.ButtonBuilder()
                         .setCustomId('Cancel')
@@ -118,10 +119,10 @@ module.exports = {
                         .setLabel("اغلاق")
                     )
                     
-                    //create a row for drop down menu for categories
+                    // Create a row for drop down menu for categories
                     const allAvaliableVersionsRow = new Discord.ActionRowBuilder()
 
-                    //loop throw every patch
+                    // Loop throw every patch
                     var versionsFound = []
                     for(let i = 0; i < allAvaliableVersions.length; i++){
 
@@ -147,72 +148,75 @@ module.exports = {
                     else if(userData.lang === "ar") allAvaliableVersionsDropMenu.setPlaceholder('الرجاء الأختيار!')
                     allAvaliableVersionsDropMenu.addOptions(versionsFound)
 
-                    //add the drop menu to the categoryDropMenu
+                    // Add the drop menu to the categoryDropMenu
                     allAvaliableVersionsRow.addComponents(allAvaliableVersionsDropMenu)
 
-                    //send the message
-                    const allAvaliableVersionsDropDownMessage = await message.reply({embeds: [allAvaliableVersionsEmbed], components: [allAvaliableVersionsRow, buttonDataRow]})
+                    // Send the message
+                    const dropMenuMessage = await message.reply({embeds: [allAvaliableVersionsEmbed], components: [allAvaliableVersionsRow, buttonDataRow], files: []})
 
-                    //filtering the user clicker
+                    // Filtering the user clicker
                     const filter = (i => {
-                        return (i.user.id === message.author.id && i.message.id === allAvaliableVersionsDropDownMessage.id && i.guild.id === message.guild.id)
+                        return (i.user.id === message.author.id && i.message.id === dropMenuMessage.id && i.guild.id === message.guild.id)
                     })
 
-                    //await the user click
+                    // Await the user click
                     await message.channel.awaitMessageComponent({filter, time: 30000})
                     .then(async collected => {
                         collected.deferUpdate();
 
-                        //if cancel button has been clicked
-                        if(collected.customId === "Cancel") allAvaliableVersionsDropDownMessage.delete()
+                        // If cancel button has been clicked
+                        if(collected.customId === "Cancel") dropMenuMessage.delete()
                         
-                        //if the user selected a map version
+                        // If the user selected a map version
                         if(collected.customId === "versions"){
-                            allAvaliableVersionsDropDownMessage.delete()
 
-                            //generating animation
+                            // Generating animation
                             const generating = new Discord.EmbedBuilder()
                             generating.setColor(FNBRMENA.Colors("embed"))
                             if(userData.lang === "en") generating.setTitle(`Loading ${allAvaliableVersions[collected.values[0]].patchVersion}'s map... ${emojisObject.loadingEmoji}`)
                             else if(userData.lang == "ar") generating.setTitle(`جاري التحميل ماب ${allAvaliableVersions[collected.values[0]].patchVersion}... ${emojisObject.loadingEmoji}`)
-                            const msg = await message.reply({embeds: [generating]})
+                            dropMenuMessage.edit({embeds: [generating], components: [], files: []})
+                            .catch(err => {
+                                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                            })
                             try {
                                 
-                                //creating canvas
+                                // Creating canvas
                                 const canvas = Canvas.createCanvas(2048, 2048);
                                 const ctx = canvas.getContext('2d');
 
-                                //map image
+                                // Map image
                                 const map = await Canvas.loadImage(allAvaliableVersions[collected.values[0]].url)
                                 ctx.drawImage(map, 0, 0, canvas.width, canvas.height)
 
-                                //fnbrmena credits
+                                // Fnbrmena credits
                                 const border = await Canvas.loadImage('./assets/NPC/border.png')
                                 ctx.drawImage(border, 0, 0, canvas.width, canvas.height)
 
-                                //send the map image
+                                // Send the map image
                                 const att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `${allAvaliableVersions[collected.values[0]].patchVersion}.png`})
-                                await message.reply({files: [att]})
-                                msg.delete()
+                                dropMenuMessage.edit({embeds: [], components: [], files: [att]})
+                                .catch(err => {
+                                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                                })
 
                             }catch(err) {
-                                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
+                                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
                                 
                             }
                         }
                     }).catch(async err => {
-                        allAvaliableVersionsDropDownMessage.delete()
-                        FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
+                        FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
                     })
 
                 }else{
 
-                    //create embed handleing the season error
+                    // Create embed handleing the season error
                     const noSeasonHasBeenFoundError = new Discord.EmbedBuilder()
                     noSeasonHasBeenFoundError.setColor(FNBRMENA.Colors("embedError"))
                     if(userData.lang === "en") noSeasonHasBeenFoundError.setTitle(`Sorry there is no season with that number ${emojisObject.errorEmoji}`)
                     else if(userData.lang === "ar") noSeasonHasBeenFoundError.setTitle(`عذرا لا يوجد موسم بنفس هذا الرقم ${emojisObject.errorEmoji}`)
-                    message.reply({embeds: [noSeasonHasBeenFoundError]})
+                    message.reply({embeds: [noSeasonHasBeenFoundError], components: [], files: []})
 
                 }
             }).catch(err => {

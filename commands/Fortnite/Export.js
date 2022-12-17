@@ -4,11 +4,10 @@ module.exports = {
     minArgs: 1,
     maxArgs: 1,
     cooldown: -1,
-    permissionError: 'Sorry you do not have acccess to this command',
     callback: async (FNBRMENA, message, args, text, Discord, client, admin, userData, alias, emojisObject) => {
         
         // Request Data
-        await FNBRMENA.Export(text)
+        FNBRMENA.Export(text)
         .then(async res => {
 
             // File type is json
@@ -19,13 +18,15 @@ module.exports = {
                 generating.setColor(FNBRMENA.Colors("embed"))
                 if(userData.lang === "en") generating.setTitle(`Loading ${res.data.jsonOutput[0].Name}... ${emojisObject.loadingEmoji}`)
                 else if(userData.lang === "ar") generating.setTitle(`جاري تحميل بيانات ${res.data.jsonOutput[0].Name}... ${emojisObject.loadingEmoji}`)
-                const msg = await message.reply({embeds: [generating]})
+                const msg = await message.reply({embeds: [generating], components: [], files: []})
                 try {
 
                     // Send the file
                     const att = new Discord.AttachmentBuilder(Buffer.from(JSON.stringify(res.data.jsonOutput[0], null, 2)), {name: `${res.data.jsonOutput[0].Name}.json`})
-                    await message.reply({files: [att], embeds: []})
-                    msg.delete()
+                    msg.edit({embeds: [], components: [], files: [att]})
+                    .catch(err => {
+                        FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
+                    })
                 }catch(err) {
                     FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
                 }
@@ -39,16 +40,18 @@ module.exports = {
                 generating.setColor(FNBRMENA.Colors("embed"))
                 if(userData.lang === "en") generating.setTitle(`Loading the image file... ${emojisObject.loadingEmoji}`)
                 else if(userData.lang === "ar") generating.setTitle(`جاري تحميل ملف الصورة... ${emojisObject.loadingEmoji}`)
-                const msg = await message.reply({embeds: [generating]})
+                const msg = await message.reply({embeds: [generating], components: [], files: []})
                 try {
 
                     // Send the file
-                    await FNBRMENA.arrayBufferExport(text)
+                    FNBRMENA.arrayBufferExport(text)
                     .then(async resArrayBuf => {
 
                         const att = new Discord.AttachmentBuilder(Buffer.from(resArrayBuf.data), {name: `${text.substring(text.lastIndexOf('/'), text.length)}.png`})
-                        await message.reply({files: [att], embeds: []})
-                        msg.delete() 
+                        msg.edit({embeds: [], components: [], files: [att]})
+                        .catch(err => {
+                            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
+                        })
                     }).catch(err => {
                         FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
                     })
@@ -65,16 +68,18 @@ module.exports = {
                 generating.setColor(FNBRMENA.Colors("embed"))
                 if(userData.lang === "en") generating.setTitle(`Loading the audio file... ${emojisObject.loadingEmoji}`)
                 else if(userData.lang === "ar") generating.setTitle(`جاري تحميل ملف الصوت... ${emojisObject.loadingEmoji}`)
-                const msg = await message.reply({embeds: [generating]})
+                const msg = await message.reply({embeds: [generating], components: [], files: []})
                 try {
 
                     // Send the file
-                    await FNBRMENA.arrayBufferExport(text)
+                    FNBRMENA.arrayBufferExport(text)
                     .then(async resArrayBuf => {
 
                         const att = new Discord.AttachmentBuilder(Buffer.from(resArrayBuf.data), {name: `${text.substring(text.lastIndexOf('/'), text.length)}.ogg`})
-                        await message.reply({files: [att], embeds: []})
-                        msg.delete()
+                        msg.edit({embeds: [], components: [], files: [att]})
+                        .catch(err => {
+                            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
+                        })
                     }).catch(err => {
                         FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
                     })
@@ -88,7 +93,7 @@ module.exports = {
                 noSupportedFileTypeError.setColor(FNBRMENA.Colors("embedError"))
                 if(userData.lang === "en") noSupportedFileTypeError.setTitle(`The file type ${res.headers['content-type']} isn't supported. ${emojisObject.errorEmoji}`)
                 else if(userData.lang === "ar") noSupportedFileTypeError.setTitle(`نوع الملف ${res.headers['content-type']} ليس مدعوم${emojisObject.errorEmoji}`)
-                message.reply({embeds: [noSupportedFileTypeError]})
+                message.reply({embeds: [noSupportedFileTypeError], components: [], files: []})
             }
         }).catch(err => {
 
@@ -100,7 +105,7 @@ module.exports = {
                 noPackageHasBeenFoundError.setColor(FNBRMENA.Colors("embedError"))
                 if(userData.lang === "en") noPackageHasBeenFoundError.setTitle(`No package has been found, check your path. ${emojisObject.errorEmoji}`)
                 else if(userData.lang === "ar") noPackageHasBeenFoundError.setTitle(`لا يمكنني العثور على الملف الرجاء التأكد من مسار الملف ${emojisObject.errorEmoji}`)
-                message.reply({embeds: [noPackageHasBeenFoundError]})
+                message.reply({embeds: [noPackageHasBeenFoundError], components: [], files: []})
 
             }else FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
         })

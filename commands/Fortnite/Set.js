@@ -11,7 +11,6 @@ module.exports = {
     minArgs: 1,
     maxArgs: null,
     cooldown: 10,
-    permissionError: 'Sorry you do not have acccess to this command',
     callback: async (FNBRMENA, message, args, text, Discord, client, admin, userData, alias, emojisObject) => {
         
         // Request a specific set
@@ -26,7 +25,7 @@ module.exports = {
                 noSetHasBeenFoundError.setColor(FNBRMENA.Colors("embedError"))
                 if(userData.lang === "en") noSetHasBeenFoundError.setTitle(`Sorry, No cosmetics has been found ${emojisObject.errorEmoji}`)
                 else if(userData.lang === "ar") noSetHasBeenFoundError.setTitle(`عذرا لم يتم العثور على عناصر ${emojisObject.errorEmoji}`)
-                message.reply({embeds: [noSetHasBeenFoundError]})
+                message.reply({embeds: [noSetHasBeenFoundError], components: [], files: []})
 
             }else{
 
@@ -35,7 +34,7 @@ module.exports = {
                 generating.setColor(FNBRMENA.Colors("embed"))
                 if(userData.lang === "en") generating.setTitle(`Searching for Cosmetics... ${emojisObject.loadingEmoji}`)
                 else if(userData.lang === "ar") generating.setTitle(`جاري البحث عن عناصر... ${emojisObject.loadingEmoji}`)
-                const msg = await message.reply({embeds: [generating]})
+                const msg = await message.reply({embeds: [generating], components: [], files: []})
                 try {
 
                     // Variables
@@ -165,7 +164,7 @@ module.exports = {
                             if(userData.lang === "en") var name = 'NAME NOT FOUND'
                             else if(userData.lang === "ar") var name = 'لا يوجد اسم'
                         }
-                        if(res.data.items[i].images.icon === null) var image = 'https:// Imgur.com/HVH5sqV.png'
+                        if(res.data.items[i].images.icon === null) var image = 'https://imgur.com/HVH5sqV.png'
                         else var image = res.data.items[i].images.icon
                         if(res.data.items[i].series !== null) var rarity = res.data.items[i].series.id
                         else var rarity = res.data.items[i].rarity.id
@@ -477,28 +476,28 @@ module.exports = {
 
                     // Set description
                     setEmbed.setDescription(string)
-                    try{
-                        var att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `${res.data.items[0].set.id}.png`})
-                        await message.reply({embeds: [setEmbed],files: [att]})
-                        msg.delete()
+                    
+                    // Send the image
+                    var att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `${res.data.items[0].set.id}.png`})
+                    msg.edit({embeds: [setEmbed], components: [], files: [att]})
+                    .catch(err => {
 
-                    }catch{
+                        // Try sending it on jpg file format [LOWER QUALITY]
                         var att = new Discord.AttachmentBuilder(canvas.toBuffer('image/jpeg'), {name: `${res.data.items[0].set.id}.jpg`})
-                        await message.reply({embeds: [setEmbed],files: [att]})
-                        msg.delete()
-
-                    }
+                        msg.edit({embeds: [setEmbed], components: [], files: [att]})
+                        .catch(err => {
+                            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
+                        })
+                    })
                 
 
                 }catch(err) {
                     FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
-        
                 }
             }
         
         }).catch((err) => {
             FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
-
         })
     }
 }

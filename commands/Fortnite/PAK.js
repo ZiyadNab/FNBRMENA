@@ -11,7 +11,6 @@ module.exports = {
     minArgs: 0,
     maxArgs: 1,
     cooldown: 10,
-    permissionError: 'Sorry you do not have acccess to this command',
     callback: async (FNBRMENA, message, args, text, Discord, client, admin, userData, alias, emojisObject) => {
 
         //pak viewer
@@ -24,15 +23,15 @@ module.exports = {
             var height = 1024
             var newline = 0
 
-            //generating animation
+            // Generating animation
             const generating = new Discord.EmbedBuilder()
             generating.setColor(FNBRMENA.Colors("embed"))
             if(userData.lang === "en") generating.setTitle(`Loading a total ${res.data.data.length} cosmetics please wait... ${emojisObject.loadingEmoji}`)
             else if(userData.lang === "ar") generating.setTitle(`تحميل جميع العناصر بمجموع ${res.data.data.length} عنصر الرجاء الانتظار... ${emojisObject.loadingEmoji}`)
-            const msg = await message.reply({embeds: [generating]})
+            const msg = await message.reply({embeds: [generating], components: [], files: []})
             try {
 
-                //creating length
+                // Creating length
                 var length = res.data.data.length
                 
                 if(length <= 2) length = length
@@ -47,11 +46,11 @@ module.exports = {
                     length = length | 0;
                 }
 
-                //creating width
+                // Creating width
                 if(res.data.data.length === 1) width = 1024
                 else width = (length * 1024) + (length * 10) - 10
 
-                //creating height
+                // Creating height
                 for(let i = 0; i < res.data.data.length; i++){
                     if(newline === length){
                         height += 1024 + 10
@@ -60,7 +59,7 @@ module.exports = {
                     newline++
                 }
 
-                //registering fonts
+                // Registering fonts
                 Canvas.registerFont('./assets/font/Lalezar-Regular.ttf', {
                     family: 'Arabic',
                     style: "bold"
@@ -70,7 +69,7 @@ module.exports = {
                     style: "bold"
                 })
 
-                //aplyText
+                // AplyText
                 const applyText = (canvas, text, width, font) => {
                     const ctx = canvas.getContext('2d');
                     let fontSize = font;
@@ -81,22 +80,22 @@ module.exports = {
                     return ctx.font;
                 }
 
-                //creating canvas
+                // Creating canvas
                 const canvas = Canvas.createCanvas(width, height);
                 const ctx = canvas.getContext('2d');
                 
-                //creating the background
+                // Creating the background
                 const background = await Canvas.loadImage('./assets/backgroundwhite.jpg')
                 ctx.drawImage(background, 0, 0, canvas.width, canvas.height)
 
-                //reseting newline
+                // Reseting newline
                 newline = 0
 
-                //loop throw every item
+                // Loop through every item
                 for(let i = 0; i < res.data.data.length; i++){
                     ctx.fillStyle = '#ffffff';
 
-                    //skin informations
+                    // Skin informations
                     if(res.data.data[i].introduction != null){
                         if(userData.lang === "en") var seasonChapter = `C${res.data.data[i].introduction.chapter}S${res.data.data[i].introduction.season}`
                         else if(userData.lang == "ar")var seasonChapter = `الفصل ${res.data.data[i].introduction.chapter} الموسم ${res.data.data[i].introduction.season}`
@@ -144,10 +143,10 @@ module.exports = {
                     var rarity = res.data.data[i].rarity.value
                     newline = newline + 1;
 
-                    //searching...
+                    // Searching...
                     if(rarity === "legendary"){
 
-                        //creating image
+                        // Creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/legendary.png')
                         ctx.drawImage(skinholder, x, y, 1024, 1024)
                         const skin = await Canvas.loadImage(image);
@@ -157,7 +156,7 @@ module.exports = {
 
                     }else if(rarity === "epic"){
 
-                        //creating image
+                        // Creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/epic.png')
                         ctx.drawImage(skinholder, x, y, 1024, 1024)
                         const skin = await Canvas.loadImage(image);
@@ -167,7 +166,7 @@ module.exports = {
 
                     }else if(rarity === "rare"){
 
-                        //creating image
+                        // Creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/rare.png')
                         ctx.drawImage(skinholder, x, y, 1024, 1024)
                         const skin = await Canvas.loadImage(image);
@@ -177,7 +176,7 @@ module.exports = {
 
                     }else if(rarity === "uncommon"){
 
-                        //creating image
+                        // Creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/uncommon.png')
                         ctx.drawImage(skinholder, x, y, 1024, 1024)
                         const skin = await Canvas.loadImage(image);
@@ -187,7 +186,7 @@ module.exports = {
 
                     }else if(rarity === "common"){
 
-                        //creating image
+                        // Creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/common.png')
                         ctx.drawImage(skinholder, x, y, 1024, 1024)
                         const skin = await Canvas.loadImage(image);
@@ -197,7 +196,7 @@ module.exports = {
 
                     }else if(rarity === "marvel"){
                         
-                        //creating image
+                        // Creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/marvel.png')
                         ctx.drawImage(skinholder, x, y, 1024, 1024)
                         const skin = await Canvas.loadImage(image);
@@ -207,7 +206,7 @@ module.exports = {
 
                     }else if(rarity === "dc"){
 
-                        //creating image
+                        // Creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/dc.png')
                         ctx.drawImage(skinholder, x, y, 1024, 1024)
                         const skin = await Canvas.loadImage(image);
@@ -217,7 +216,7 @@ module.exports = {
 
                     }else if(rarity === "dark"){
 
-                        //creating image
+                        // Creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/dark.png')
                         ctx.drawImage(skinholder, x, y, 1024, 1024)
                         const skin = await Canvas.loadImage(image);
@@ -227,7 +226,7 @@ module.exports = {
 
                     }else if(rarity === "icon"){
 
-                        //creating image
+                        // Creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/icon.png')
                         ctx.drawImage(skinholder, x, y, 1024, 1024)
                         const skin = await Canvas.loadImage(image);
@@ -237,7 +236,7 @@ module.exports = {
 
                     }else if(rarity === "starwars"){
 
-                        //creating image
+                        // Creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/starwars.png')
                         ctx.drawImage(skinholder, x, y, 1024, 1024)
                         const skin = await Canvas.loadImage(image);
@@ -247,7 +246,7 @@ module.exports = {
 
                     }else if(rarity === "shadow"){
 
-                        //creating image
+                        // Creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/shadow.png')
                         ctx.drawImage(skinholder, x, y, 1024, 1024)
                         const skin = await Canvas.loadImage(image);
@@ -257,7 +256,7 @@ module.exports = {
 
                     }else if(rarity === "slurp"){
 
-                        //creating image
+                        // Creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/slurp.png')
                         ctx.drawImage(skinholder, x, y, 1024, 1024)
                         const skin = await Canvas.loadImage(image);
@@ -267,7 +266,7 @@ module.exports = {
 
                     }else if(rarity === "frozen"){
 
-                        //creating image
+                        // Creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/frozen.png')
                         ctx.drawImage(skinholder, x, y, 1024, 1024)
                         const skin = await Canvas.loadImage(image);
@@ -277,7 +276,7 @@ module.exports = {
 
                     }else if(rarity === "lava"){
 
-                        //creating image
+                        // Creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/lava.png')
                         ctx.drawImage(skinholder, x, y, 1024, 1024)
                         const skin = await Canvas.loadImage(image);
@@ -287,7 +286,7 @@ module.exports = {
 
                     }else if(rarity === "gaminglegends"){
 
-                        //creating image
+                        // Creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/gaming.png')
                         ctx.drawImage(skinholder, x, y, 1024, 1024)
                         const skin = await Canvas.loadImage(image);
@@ -297,7 +296,7 @@ module.exports = {
 
                     }else{
 
-                        //creating image
+                        // Creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/common.png')
                         ctx.drawImage(skinholder, x, y, 1024, 1024)
                         const skin = await Canvas.loadImage(image);
@@ -307,19 +306,19 @@ module.exports = {
 
                     }
 
-                    //add the item name
+                    // Add the item name
                     ctx.textAlign = 'center';
                     ctx.font = applyText(canvas, name, 900, 72)
 
                     if(userData.lang === "en"){
                         ctx.fillText(name, 512 + x, (1024 - 30) + y)
 
-                        //add the item season chapter text
+                        // Add the item season chapter text
                         ctx.textAlign = "left"
                         ctx.font = applyText(canvas, seasonChapter, 900, 40)
                         ctx.fillText(seasonChapter, 5 + x, (1024 - 7.5) + y)
 
-                        //add the item source
+                        // Add the item source
                         ctx.textAlign = "right"
                         ctx.font = applyText(canvas, Source, 900, 40)
                         ctx.fillText(Source, (1024 - 5) + x, (1024 - 7.5) + y)
@@ -327,19 +326,19 @@ module.exports = {
                     }else if(userData.lang === "ar"){
                         ctx.fillText(name, 512 + x, (1024 - 60) + y)
 
-                        //add season chapter text
+                        // Add season chapter text
                         ctx.textAlign = "left"
                         ctx.font = applyText(canvas, seasonChapter, 900, 40)
                         ctx.fillText(seasonChapter, 5 + x, (1024 - 12.5) + y)
 
-                        //add the item source
+                        // Add the item source
                         ctx.textAlign = "right"
                         ctx.font = applyText(canvas, Source, 900, 40)
                         ctx.fillText(Source, (1024 - 5) + x, (1024 - 12.5) + y)
 
                     }
 
-                    //inilizing tags
+                    // Inilizing tags
                     var wTags = (1024 / 512) * 15
                     var hTags = (1024 / 512) * 15
                     var yTags = 7 + y
@@ -347,20 +346,20 @@ module.exports = {
 
                     for(let t = 0; t < res.data.data[i].gameplayTags.length; t++){
 
-                        //if the item is animated
+                        // If the item is animated
                         if(res.data.data[i].gameplayTags[t].includes('Animated')){
 
-                            //add the animated icon
+                            // Add the animated icon
                             const Animated = await Canvas.loadImage('./assets/Tags/T-Icon-Animated-64.png')
                             ctx.drawImage(Animated, xTags, yTags, wTags, hTags)
 
                             yTags += hTags + 10
                         }
 
-                        //if the item is reactive
+                        // If the item is reactive
                         if(res.data.data[i].gameplayTags[t].includes('Reactive')){
 
-                            //add the reactive icon
+                            // Add the reactive icon
                             const Reactive = await Canvas.loadImage('./assets/Tags/T-Icon-Adaptive-64.png')
                             ctx.drawImage(Reactive, xTags, yTags, wTags, hTags)
 
@@ -368,10 +367,10 @@ module.exports = {
                             
                         }
 
-                        //if the item is synced emote
+                        // If the item is synced emote
                         if(res.data.data[i].gameplayTags[t].includes('Synced')){
 
-                            //add the Synced icon
+                            // Add the Synced icon
                             const Synced = await Canvas.loadImage('./assets/Tags/T-Icon-Synced-64x.png')
                             ctx.drawImage(Synced, xTags, yTags, wTags, hTags)
 
@@ -379,20 +378,20 @@ module.exports = {
                             
                         }
 
-                        //if the item is traversal
+                        // If the item is traversal
                         if(res.data.data[i].gameplayTags[t].includes('Traversal')){
 
-                            //add the Traversal icon
+                            // Add the Traversal icon
                             const Traversal = await Canvas.loadImage('./assets/Tags/T-Icon-Traversal-64.png')
                             ctx.drawImage(Traversal, xTags, yTags, wTags, hTags)
 
                             yTags += hTags + 10
                         }
 
-                        //if the item has styles
+                        // If the item has styles
                         if(res.data.data[i].gameplayTags[t].includes('HasVariants') || res.data.data[i].gameplayTags[t].includes('HasUpgradeQuests')){
 
-                            //add the HasVariants icon
+                            // Add the HasVariants icon
                             const HasVariants = await Canvas.loadImage('./assets/Tags/T-Icon-Variant-64.png')
                             ctx.drawImage(HasVariants, xTags, yTags, wTags, hTags)
 
@@ -400,7 +399,7 @@ module.exports = {
                         }
                     }
 
-                    //changing x and y
+                    // Changing x and y
                     x = x + 10 + 1024; 
                     if(length === newline){
                         y = y + 10 + 1024;
@@ -409,64 +408,66 @@ module.exports = {
                     }
                 }
                     
-                //create info embed
+                // Create info embed
                 const info = new Discord.EmbedBuilder()
                 info.setColor(FNBRMENA.Colors(rarity))
 
-                //adding string
+                // Adding string
                 var string = ``
                 if(userData.lang === "en"){
 
-                    //set the title
+                    // Set the title
                     info.setTitle(`All cosmetic names in pak ${pak}`)
 
-                    //loop throw every item found
+                    // Loop through every item found
                     for(let i = 0; i < res.data.data.length; i++){
                         var num = 1 + i
                         string += `\n• ${num}: ${res.data.data[i].name}`
                     }
 
-                    //add the total string
+                    // Add the total string
                     string += `\n\n• ${res.data.data.length} Cosmetic(s) in total`
 
-                    //add the introduction
+                    // Add the introduction
                     string += `\n• ${res.data.data[0].introduction.text}`
 
-                    //add the set if avalabile
+                    // Add the set if avalabile
                     if(res.data.data[0].set !== null){
                         string += `\n• ${res.data.data[0].set.text}`
                     }
 
                 }else if(userData.lang === "ar"){
 
-                    //set the title
+                    // Set the title
                     info.setTitle(`جميع العناصر في باك ${pak}`)
 
-                    //loop throw every item found
+                    // Loop through every item found
                     for(let i = 0; i < res.data.data.length; i++){
                         var num = 1 + i
                         string += `\n• ${num}: ${res.data.data[i].name}`
                     }
 
-                    //add the total string
+                    // Add the total string
                     string += `\n\n• المجموع ${res.data.data.length} عناصر`
 
-                    //add the introduction
+                    // Add the introduction
                     string += `\n• ${res.data.data[0].introduction.text}`
 
-                    //add the set if avalabile
+                    // Add the set if avalabile
                     if(res.data.data[0].set !== null){
                         string += `\n• ${res.data.data[0].set.text}`
                     }
                 }
 
-                //set description
+                // Set description
                 info.setDescription(string)
 
-                //send the image to discord channel
+                // Send the image to discord channel
                 const att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `${pak}.png`})
-                await message.reply({embeds: [info], files: [att]})
-                msg.delete()
+                msg.edit({embeds: [info], components: [], files: [att]})
+                .catch(err => {
+                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
+                })
 
             }catch(err) {
                 FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
@@ -474,14 +475,14 @@ module.exports = {
             }
         }
 
-        //if args == 0
+        // If args == 0
         if(args.length === 0){
 
-            //requesting data
+            // Requesting data
             FNBRMENA.PAK(userData.lang, "hasDynamicPakId=true")
             .then(async res => {
 
-                //create an embed
+                // Create an embed
                 const paksEmbed = new Discord.EmbedBuilder()
                 paksEmbed.setColor(FNBRMENA.Colors("embed"))
                 if(userData.lang === "en"){
@@ -492,10 +493,10 @@ module.exports = {
                     paksEmbed.setDescription('الرجاء الضغط على السهم لاختيار ملف.\n`لديك فقط 30 ثانية حتى تنتهي العملية, استعجل`!')
                 }
 
-                //create a row for cancel button
+                // Create a row for cancel button
                 const buttonDataRow = new Discord.ActionRowBuilder()
                 
-                //add EN cancel button
+                // Add EN cancel button
                 if(userData.lang === "en") buttonDataRow.addComponents(
                     new Discord.ButtonBuilder()
                     .setCustomId('Cancel')
@@ -511,10 +512,10 @@ module.exports = {
                     .setLabel("اغلاق")
                 )
 
-                //create a row for drop down menu for categories
+                // Create a row for drop down menu for categories
                 const allAvaliablePaksRow = new Discord.ActionRowBuilder()
 
-                //loop through all the cosmetics
+                // Loop through all the cosmetics
                 const avalabilePaks = [], foundPaks = []
                 for(const item of res.data.data){
                     if(!foundPaks.includes(item.dynamicPakId)){
@@ -533,34 +534,33 @@ module.exports = {
                 else if(userData.lang === "ar") allAvaliablePaksDropMenu.setPlaceholder('الرجاء الأختيار!')
                 allAvaliablePaksDropMenu.addOptions(avalabilePaks)
 
-                //add the drop menu to the categoryDropMenu
+                // Add the drop menu to the categoryDropMenu
                 allAvaliablePaksRow.addComponents(allAvaliablePaksDropMenu)
 
-                //send the message
-                const dropMenuMessage = await message.reply({embeds: [paksEmbed], components: [allAvaliablePaksRow, buttonDataRow]})
+                // Send the message
+                const dropMenuMessage = await message.reply({embeds: [paksEmbed], components: [allAvaliablePaksRow, buttonDataRow], files: []})
 
-                //filtering the user clicker
+                // Filtering the user clicker
                 const filter = (i => {
                     return (i.user.id === message.author.id && i.message.id === dropMenuMessage.id && i.guild.id === message.guild.id)
                 })
 
-                //await for the user
+                // Await for the user
                 await message.channel.awaitMessageComponent({filter, time: 30000})
                 .then(async collected => {
                     collected.deferUpdate()
 
-                    //if canecl button has been clicked
+                    // If canecl button has been clicked
                     if(collected.customId === "Cancel") dropMenuMessage.delete()
 
-                    //if the user chose a type
+                    // If the user chose a type
                     if(collected.customId === "Paks"){
                         dropMenuMessage.delete()
                         pak(await FNBRMENA.PAK(userData.lang, `dynamicPakId=${collected.values[0]}`), collected.values[0])
                     }
 
                 }).catch(async err => {
-                    dropMenuMessage.delete()
-                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
+                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
                 })
                 
             }).catch(err => {
@@ -569,7 +569,7 @@ module.exports = {
             })
 
         }else{
-            await FNBRMENA.PAK(userData.lang, `dynamicPakId=${text}`)
+            FNBRMENA.PAK(userData.lang, `dynamicPakId=${text}`)
             .then(async res => {
                 pak(res, text) //user has specified a pak file
 
@@ -581,7 +581,7 @@ module.exports = {
                     noPakHasBeenFoundError.setColor(FNBRMENA.Colors("embedError"))
                     if(userData.lang === "en") noPakHasBeenFoundError.setTitle(`No pak file has been found! ${emojisObject.errorEmoji}`)
                     else if(userData.lang === "ar") noPakHasBeenFoundError.setTitle(`لم يتم العثور على ملف! ${emojisObject.errorEmoji}`)
-                    await message.reply({embeds: [noPakHasBeenFoundError]})
+                    await message.reply({embeds: [noPakHasBeenFoundError], components: [], files: []})
 
                 }else FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null) //other errors
                 

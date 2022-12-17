@@ -7,32 +7,31 @@ module.exports = {
     minArgs: 0,
     maxArgs: 0,
     cooldown: -1,
-    permissionError: 'Sorry you do not have acccess to this command',
     callback: async (FNBRMENA, message, args, text, Discord, client, admin, userData, alias, emojisObject) => {
 
         const generating = new Discord.EmbedBuilder()
         generating.setColor(FNBRMENA.Colors("embed"))
         if(userData.lang === "en") generating.setTitle(`Getting all of the reminders under your account ${emojisObject.loadingEmoji}`)
         else if(userData.lang === "ar") generating.setTitle(`جاري جلب جميع التنبيهات لحسابك ${emojisObject.loadingEmoji}`)
-        const msg = await message.reply({embeds: [generating]})
+        const msg = await message.reply({embeds: [generating], components: [], files: []})
         try {
         
-            //seeting up the db firestore
+            // Seeting up the db firestore
             var db = admin.firestore()
 
-            //define the collection
+            // Define the collection
             const docRef = await db.collection("Users").doc(`${message.author.id}`).collection("Reminders")
 
-            //get the collection data
+            // Get the collection data
             const snapshot = await docRef.get()
 
-            //batch
+            // Batch
             const batch = await db.batch()
 
-            //if the user has no reminders
+            // If the user has no reminders
             if(snapshot.size > 0){
 
-                //creeate embed
+                // Creeate embed
                 const listAllRemindersEmbed = new Discord.EmbedBuilder()
                 listAllRemindersEmbed.setColor(FNBRMENA.Colors("embed"))
                 if(userData.lang === "en"){
@@ -43,10 +42,10 @@ module.exports = {
                     listAllRemindersEmbed.setDescription('الرجاء الضغط على السهم لاختيار العنصر المراد حذفه.\n`لديك فقط 30 ثانية حتى تنتهي العملية, استعجل`!')
                 }
 
-                //create a row for cancel button
+                // Create a row for cancel button
                 const buttonDataRow = new Discord.ActionRowBuilder()
                 
-                //add EN cancel button
+                // Add cancel button
                 if(userData.lang === "en"){
                     buttonDataRow.addComponents(
                         new Discord.ButtonBuilder()
@@ -79,32 +78,32 @@ module.exports = {
                     )
                 }
 
-                //create a row for drop down menu for categories
+                // Create a row for drop down menu for categories
                 const listAllRemindersRow = new Discord.ActionRowBuilder()
 
-                //loop throw every patch
+                // Loop through every patch
                 var reminders = []
                 for(let i = 0; i < snapshot.size; i++){
 
-                    //get the item name
+                    // Get the item name
                     await FNBRMENA.Search(userData.lang, "id", snapshot.docs[i].id)
                     .then(async res => {
 
-                        //long client has been waiting for
+                        // Long client has been waiting for
                         moment.locale(userData.lang)
                         const lastModified = moment.duration(moment.tz(moment(), userData.timezone).diff(moment.tz(moment(snapshot.docs[i].data().date), userData.timezone)))
                         const days = lastModified.asDays().toString().substring(0, lastModified.asDays().toString().indexOf("."))
                         
-                        //add every reminder to the options array
+                        // Add every reminder to the options array
                         if(userData.lang === "en") reminders.push({
                             label: `${res.data.items[0].name}`,
                             description: `You have been waiting for ${days} days.`,
-                            value: `${res.data.items[0].id}-${res.data.items[0].name}`,
+                            value: `${res.data.items[0].id}`,
                         })
                         else if(userData.lang === "ar") reminders.push({
                             label: `${res.data.items[0].name}`,
                             description: `لقد كنت تنتظر ${days} يوم.`,
-                            value: `${res.data.items[0].id}-${res.data.items[0].name}`,
+                            value: `${res.data.items[0].id}`,
                         })
 
                     }).catch(async err => {
@@ -113,7 +112,7 @@ module.exports = {
                     })
                 }
                 
-                //create a drop menu
+                // Create a drop menu
                 const listAllRemindersDropMenu = new Discord.SelectMenuBuilder()
                 listAllRemindersDropMenu.setCustomId(`Unremind-${alias}`)
                 listAllRemindersDropMenu.setMaxValues(1)
@@ -122,92 +121,85 @@ module.exports = {
                 else if(userData.lang === "ar") listAllRemindersDropMenu.setPlaceholder('اختر عنصر!')
                 listAllRemindersDropMenu.addOptions(reminders)
 
-                //add the drop menu to the categoryDropMenu
+                // Add the drop menu to the categoryDropMenu
                 listAllRemindersRow.addComponents(listAllRemindersDropMenu)
 
-                //send the message
-                const dropMenuMessage = await message.reply({embeds: [listAllRemindersEmbed], components: [listAllRemindersRow, buttonDataRow]})
-
-                //filtering the user clicker
-                const filter = (i => {
-                    return (i.user.id === message.author.id && i.message.id === dropMenuMessage.id && i.guild.id === message.guild.id)
+                // Edit the message
+                msg.edit({embeds: [listAllRemindersEmbed], components: [listAllRemindersRow, buttonDataRow], files: []})
+                .catch(err => {
+                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
                 })
 
-                //await for the user
+                // Filtering the user clicker
+                const filter = (i => {
+                    return (i.user.id === message.author.id && i.message.id === msg.id && i.guild.id === message.guild.id)
+                })
+
+                // Await for the user
                 await message.channel.awaitMessageComponent({filter, time: 30000})
                 .then(async collected => {
                     collected.deferUpdate();
 
-                    //if cancel button has been clicked
-                    if(collected.customId === `Cancel-${alias}`){
-                        msg.delete()
-                        dropMenuMessage.delete()
-                    }
+                    // If cancel button has been clicked
+                    if(collected.customId === `Cancel-${alias}`) msg.delete()
 
-                    //if all button is clicked
+                    // If all button is clicked
                     if(collected.customId === `All-${alias}`){
-                        await dropMenuMessage.delete()
 
-                        //delete the right item
+                        // Delete the right item
                         await snapshot.forEach(async doc => {
                             batch.delete(doc.ref)
                         })
 
-                        //commit all changes
-                        await batch.commit();
+                        // Commit all changes
+                        await batch.commit()
 
-                        //create embed
+                        // Create embed
                         const itemsHasBeenDeletedSuccessfully = new Discord.EmbedBuilder()
                         itemsHasBeenDeletedSuccessfully.setColor(FNBRMENA.Colors("embedSuccess"))
                         if(userData.lang === "en") itemsHasBeenDeletedSuccessfully.setTitle(`All items registered has been deleted successfully ${emojisObject.checkEmoji}.`)
                         else if(userData.lang === "ar") itemsHasBeenDeletedSuccessfully.setTitle(`تم حذف جميع العناصر المحفوظة ${emojisObject.checkEmoji}.`)
-                        await msg.edit({embeds: [itemsHasBeenDeletedSuccessfully]})
+                        msg.edit({embeds: [itemsHasBeenDeletedSuccessfully], components: [], files: []})
+                        .catch(err => {
+                            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
+                        })
                     }
 
-                    //if the user chose a type
+                    // If the user chose a type
                     if(collected.customId === `Unremind-${alias}`){
-                        dropMenuMessage.delete()
 
-                        //loop through all values
+                        // Loop through all values
                         for(const val of collected.values){
 
-                            //get the name and id
-                            const itemID = val.substring(0, val.indexOf("-"))
-                            const itemName = val.substring(val.indexOf("-") + 1, val.length)
-
-                            //delete the right item
-                            for(let i = 0; i < snapshot.size; i++){
-
-                                //insure that the data is valid and its from the same author
-                                if(itemID === snapshot.docs[i].id){
-
-                                    //delete the item
-                                    await docRef.doc(`${snapshot.docs[i].id}`).delete()
-                                
-                                }
-                            }
+                            // Delete the item
+                            await docRef.doc(`${val}`).delete()
                         }
 
-                        //create embed
+                        // Create embed
                         const itemHasBeenDeletedSuccessfully = new Discord.EmbedBuilder()
                         itemHasBeenDeletedSuccessfully.setColor(FNBRMENA.Colors("embedSuccess"))
-                        if(userData.lang === "en") itemHasBeenDeletedSuccessfully.setTitle(`${collected.values.length} items has been removed successfully ${emojisObject.checkEmoji}.`)
+                        if(userData.lang === "en") itemHasBeenDeletedSuccessfully.setTitle(`${collected.values.length} item(s) has been removed successfully ${emojisObject.checkEmoji}.`)
                         else if(userData.lang === "ar") itemHasBeenDeletedSuccessfully.setTitle(`تم حذف ${collected.values.length} عنصر بنجاح ${emojisObject.checkEmoji}.`)
-                        await msg.edit({embeds: [itemHasBeenDeletedSuccessfully]})
+                        msg.edit({embeds: [itemHasBeenDeletedSuccessfully], components: [], files: []})
+                        .catch(err => {
+                            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
+                        })
                     }
                 }).catch(async err => {
-                    dropMenuMessage.delete()
-                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
+                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
                 })
 
             }else{
 
-                //create embed
+                // Create embed
                 const noRemindersHasBeenFoundError = new Discord.EmbedBuilder()
                 noRemindersHasBeenFoundError.setColor(FNBRMENA.Colors("embedError"))
                 if(userData.lang === "en") noRemindersHasBeenFoundError.setTitle(`You dont have any reminders ${emojisObject.errorEmoji}.`)
                 else if(userData.lang === "ar") noRemindersHasBeenFoundError.setTitle(`ليس لديك اي عنصر للتذكير ${emojisObject.errorEmoji}.`)
-                msg.edit({embeds: [noRemindersHasBeenFoundError]})
+                msg.edit({embeds: [noRemindersHasBeenFoundError], components: [], files: []})
+                .catch(err => {
+                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
+                })
 
             }
         }catch(err) {

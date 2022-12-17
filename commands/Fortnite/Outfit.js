@@ -9,7 +9,6 @@ module.exports = {
     minArgs: 1,
     maxArgs: null,
     cooldown: -1,
-    permissionError: 'Sorry you do not have acccess to this command',
     callback: async (FNBRMENA, message, args, text, Discord, client, admin, userData, alias, emojisObject) => {
 
         // Search Type
@@ -112,7 +111,7 @@ module.exports = {
                             } components.push(buttonDataRow)
 
                             // Send the message
-                            const dropMenuMessage = await message.reply({embeds: [itemVariantsEmbed], components: components})
+                            const dropMenuMessage = await message.reply({embeds: [itemVariantsEmbed], components: components, files: []})
 
                             // Filtering the user clicker
                             const filter = (i => {
@@ -129,39 +128,36 @@ module.exports = {
 
                                 // If all button is clicked
                                 else{
-                                    dropMenuMessage.delete()
 
                                     // Aend the generating message
                                     const generating = new Discord.EmbedBuilder()
                                     generating.setColor(FNBRMENA.Colors("embed"))
                                     if(userData.lang === "en") generating.setTitle(`Loading the ${res.data.items[0].name}... ${emojisObject.loadingEmoji}`)
                                     else if(userData.lang === "ar") generating.setTitle(`جاري تحميل بيانات ${res.data.items[0].name}... ${emojisObject.loadingEmoji}`)
-                                    const msg = await message.reply({embeds: [generating]})
+                                    dropMenuMessage.edit({embeds: [generating]})
                                     try {
 
-                                        try{
+                                        // Aend attatchment
+                                        const att = new Discord.AttachmentBuilder(res.data.items[0].previewVideos[collected.values[0]].url)
+
+                                        // Send the outfit video
+                                        dropMenuMessage.edit({embeds: [], components: [], files: [att]})
+                                        .catch(err => {
                                             
-                                            // Aend attatchment
-                                            const att = await new Discord.AttachmentBuilder(res.data.items[0].previewVideos[collected.values[0]].url)
+                                            // Try sending it as a contect message
+                                            dropMenuMessage.edit({content: res.data.items[0].previewVideos[collected.values[0]].url, embeds: [], components: []})
+                                            .catch(err => {
+                                                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                                            })
+                                        })
 
-                                            // Send the outfit video
-                                            await message.reply({files: [att]})
-                                            msg.delete()
-
-                                        }catch{
-
-                                            // Send the outfit video
-                                            await message.reply({content: res.data.items[0].previewVideos[collected.values[0]].url})
-                                            msg.delete()
-                                        }
                                     }catch(err) {
-                                        FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
+                                        FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
                                     }
                                 }
                             
                             }).catch(async err => {
-                                dropMenuMessage.delete()
-                                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
+                                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
                             })
                         }
 
@@ -173,24 +169,23 @@ module.exports = {
                             generating.setColor(FNBRMENA.Colors("embed"))
                             if(userData.lang === "en") generating.setTitle(`Loading the ${res.data.items[0].name}... ${emojisObject.loadingEmoji}`)
                             else if(userData.lang === "ar") generating.setTitle(`جاري تحميل بيانات ${res.data.items[0].name}... ${emojisObject.loadingEmoji}`)
-                            const msg = await message.reply({embeds: [generating]})
+                            const msg = await message.reply({embeds: [generating], components: [], files: []})
                             try {
 
-                                try{
+                                // Aend attatchment
+                                const att = new Discord.AttachmentBuilder(res.data.items[0].previewVideos[0].url)
+
+                                // Send the outfit video
+                                msg.edit({files: [att]})
+                                .catch(err => {
                                     
-                                    // Aend attatchment
-                                    const att = await new Discord.AttachmentBuilder(res.data.items[0].previewVideos[0].url)
+                                    // Try sending it as a contect message
+                                    msg.edit({content: res.data.items[0].previewVideos[0].url})
+                                    .catch(err => {
+                                        FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
+                                    })
+                                })
 
-                                    // Send the outfit video
-                                    await message.reply({files: [att]})
-                                    msg.delete()
-
-                                }catch{
-
-                                    // Send the outfit video
-                                    await message.reply({content: res.data.items[0].previewVideos[0].url})
-                                    msg.delete()
-                                }
                             }catch(err) {
                                 FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
                             }
@@ -202,7 +197,7 @@ module.exports = {
                         exceeded125StylesError.setColor(FNBRMENA.Colors("embedError"))
                         if(userData.lang === "en") exceeded125StylesError.setTitle(`The ${res.data.items[0].name} outfit has more than 125 styles ${emojisObject.errorEmoji}.`)
                         else if(userData.lang === "ar") exceeded125StylesError.setTitle(`زي ${res.data.items[0].name} يحتوي على اكثر من 125 نمط ${emojisObject.errorEmoji}.`)
-                        message.reply({embeds: [exceeded125StylesError]})
+                        message.reply({embeds: [exceeded125StylesError], components: [], files: []})
                     }
                 }else{
 
@@ -211,7 +206,7 @@ module.exports = {
                     noVideoFoundError.setColor(FNBRMENA.Colors("embedError"))
                     if(userData.lang === "en") noVideoFoundError.setTitle(`There is no video for ${res.data.items[0].name} yet ${emojisObject.errorEmoji}.`)
                     else if(userData.lang === "ar") noVideoFoundError.setTitle(`لا يوجد فيديو لزي ${res.data.items[0].name} ${emojisObject.errorEmoji}.`)
-                    message.reply({embeds: [noVideoFoundError]})
+                    message.reply({embeds: [noVideoFoundError], components: [], files: []})
                 }
 
             }else{
@@ -221,7 +216,7 @@ module.exports = {
                 noItemHasBeenFoundError.setColor(FNBRMENA.Colors("embedError"))
                 if(userData.lang === "en") noItemHasBeenFoundError.setTitle(`No outfit has been found check your speling and try again ${emojisObject.errorEmoji}.`)
                 else if(userData.lang === "ar") noItemHasBeenFoundError.setTitle(`لا يمكنني العثور على الزي الرجاء التأكد من كتابة الاسم بشكل صحيح ${emojisObject.errorEmoji}.`)
-                message.reply({embeds: [noItemHasBeenFoundError]})
+                message.reply({embeds: [noItemHasBeenFoundError], components: [], files: []})
 
             }
 

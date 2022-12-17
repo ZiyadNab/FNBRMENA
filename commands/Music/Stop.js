@@ -4,7 +4,6 @@ module.exports = {
     minArgs: 0,
     maxArgs: 0,
     cooldown: -1,
-    permissionError: 'Sorry you do not have acccess to this command',
     callback: async (FNBRMENA, message, args, text, Discord, client, admin, userData, alias, emojisObject) => {
 
         // If the user isnt in a voice chat
@@ -12,7 +11,7 @@ module.exports = {
             const notInAVoiceChannelErr = new Discord.EmbedBuilder()
             notInAVoiceChannelErr.setColor(FNBRMENA.Colors("embedError"))
             notInAVoiceChannelErr.setTitle(`Please join a voice channel first ${emojisObject.errorEmoji}.`)
-            return message.reply({embeds: [notInAVoiceChannelErr]})
+            return message.reply({embeds: [notInAVoiceChannelErr], components: [], files: []})
             
         }
         
@@ -32,7 +31,7 @@ module.exports = {
         const stopPlaying = new Discord.EmbedBuilder()
         stopPlaying.setColor(FNBRMENA.Colors("embedSuccess"))
         stopPlaying.setTitle(`Queue has been destroyed ${emojisObject.checkEmoji}.`)
-        return message.reply({embeds: [stopPlaying]})
+        return message.reply({embeds: [stopPlaying], components: [], files: []})
 
     }
 }

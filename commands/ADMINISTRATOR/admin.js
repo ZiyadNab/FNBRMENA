@@ -1095,7 +1095,7 @@ module.exports = {
                                                 const filter = (i => {
                                                     return i.customId === `roles-${message.id}` && i.user.id === message.author.id && i.guild.id === message.guild.id
                                                 })
-                                                await collected.awaitModalSubmit({modalFilter, time: 2 * 60000})
+                                                await collected.awaitModalSubmit({filter, time: 2 * 60000})
                                                 .then(async modalCollect => {
                                                     modalCollect.deferUpdate();
                                                     
@@ -1185,6 +1185,7 @@ module.exports = {
                                                 let string = ``
                                                 for(const role of serversRoles){
                                                     if(message.guild.roles.cache.has(role)) string += `${message.guild.roles.cache.get(role).name} --> ${role}\n`
+                                                    else string += `UNKNOWN --> ${role}\n`
                                                 }
 
                                                 // List all roles
@@ -1469,7 +1470,7 @@ module.exports = {
                                                         // Successfully updated
                                                         const eventStatusUpdatedEmbed = new Discord.EmbedBuilder()
                                                         eventStatusUpdatedEmbed.setColor(FNBRMENA.Colors("embedSuccess"))
-                                                        eventStatusUpdatedEmbed.setTitle(`The ${res[eventID].name} has been added turned on successfully ${emojisObject.checkEmoji}.`)
+                                                        eventStatusUpdatedEmbed.setTitle(`The ${res[eventID].name} has been turned on successfully ${emojisObject.checkEmoji}.`)
                                                         dropMenuMessage.edit({embeds: [eventStatusUpdatedEmbed], components: []})
                                                     }
 
@@ -1484,7 +1485,7 @@ module.exports = {
                                                         // Successfully updated
                                                         const eventStatusUpdatedEmbed = new Discord.EmbedBuilder()
                                                         eventStatusUpdatedEmbed.setColor(FNBRMENA.Colors("embedSuccess"))
-                                                        eventStatusUpdatedEmbed.setTitle(`The ${res[eventID].name} has been added turned off successfully ${emojisObject.checkEmoji}.`)
+                                                        eventStatusUpdatedEmbed.setTitle(`The ${res[eventID].name} has been turned off successfully ${emojisObject.checkEmoji}.`)
                                                         dropMenuMessage.edit({embeds: [eventStatusUpdatedEmbed], components: []})
                                                     }
 
@@ -1861,137 +1862,132 @@ module.exports = {
                         if(userData.exists){
 
                             // Get user data from djs
-                            client.users.fetch(userData.data().id)
-                            .then(async userInfo => {
+                            const userInfo = client.users.cache.get(userData.data().id)
+                            
+                            // Create an embed
+                            const userOperationsEmbed = new Discord.EmbedBuilder()
+                            userOperationsEmbed.setColor(FNBRMENA.Colors("embed"))
+                            userOperationsEmbed.setTitle(`User Operations, ${userInfo.username}`)
+                            userOperationsEmbed.setDescription('Please choose an operation.\n\`You have only 30 seconds until this operation ends, Make it quick\`')
 
-                                // Create an embed
-                                const userOperationsEmbed = new Discord.EmbedBuilder()
-                                userOperationsEmbed.setColor(FNBRMENA.Colors("embed"))
-                                userOperationsEmbed.setTitle(`User Operations, ${userInfo.username}`)
-                                userOperationsEmbed.setDescription('Please choose an operation.\n\`You have only 30 seconds until this operation ends, Make it quick\`')
+                            // Add a button row
+                            const userOperationsButtonDataRow = new Discord.ActionRowBuilder()
+                                                
+                            // Add buttons to the row
+                            if(userData.data().quickAccess) userOperationsButtonDataRow.addComponents(
+                                new Discord.ButtonBuilder()
+                                .setCustomId('RemoveQA')
+                                .setStyle(Discord.ButtonStyle.Success)
+                                .setLabel("Remove Quick Access")
+                            )
 
-                                // Add a button row
-                                const userOperationsButtonDataRow = new Discord.ActionRowBuilder()
-                                                    
-                                // Add buttons to the row
-                                if(userData.data().quickAccess) userOperationsButtonDataRow.addComponents(
-                                    new Discord.ButtonBuilder()
-                                    .setCustomId('RemoveQA')
-                                    .setStyle(Discord.ButtonStyle.Success)
-                                    .setLabel("Remove Quick Access")
-                                )
+                            else userOperationsButtonDataRow.addComponents(
+                                new Discord.ButtonBuilder()
+                                .setCustomId('GiveQA')
+                                .setStyle(Discord.ButtonStyle.Success)
+                                .setLabel("Give Quick Access")
+                            )
 
-                                else userOperationsButtonDataRow.addComponents(
-                                    new Discord.ButtonBuilder()
-                                    .setCustomId('GiveQA')
-                                    .setStyle(Discord.ButtonStyle.Success)
-                                    .setLabel("Give Quick Access")
-                                )
+                            if(userData.data().premium) userOperationsButtonDataRow.addComponents(
+                                new Discord.ButtonBuilder()
+                                .setCustomId('RemoveP')
+                                .setStyle(Discord.ButtonStyle.Primary)
+                                .setLabel("Remove Premium")
+                            )
 
-                                if(userData.data().premium) userOperationsButtonDataRow.addComponents(
-                                    new Discord.ButtonBuilder()
-                                    .setCustomId('RemoveP')
-                                    .setStyle(Discord.ButtonStyle.Primary)
-                                    .setLabel("Remove Premium")
-                                )
+                            else userOperationsButtonDataRow.addComponents(
+                                new Discord.ButtonBuilder()
+                                .setCustomId('GiveP')
+                                .setStyle(Discord.ButtonStyle.Primary)
+                                .setLabel("Give Premium")
+                            )
 
-                                else userOperationsButtonDataRow.addComponents(
-                                    new Discord.ButtonBuilder()
-                                    .setCustomId('GiveP')
-                                    .setStyle(Discord.ButtonStyle.Primary)
-                                    .setLabel("Give Premium")
-                                )
+                            userOperationsButtonDataRow.addComponents(
+                                new Discord.ButtonBuilder()
+                                .setCustomId('Cancel')
+                                .setStyle(Discord.ButtonStyle.Danger)
+                                .setLabel("Cancel")
+                            )
 
-                                userOperationsButtonDataRow.addComponents(
-                                    new Discord.ButtonBuilder()
-                                    .setCustomId('Cancel')
-                                    .setStyle(Discord.ButtonStyle.Danger)
-                                    .setLabel("Cancel")
-                                )
+                            // Edit the message
+                            dropMenuMessage.edit({embeds: [userOperationsEmbed], components: [userOperationsButtonDataRow]})
 
-                                // Edit the message
-                                dropMenuMessage.edit({embeds: [userOperationsEmbed], components: [userOperationsButtonDataRow]})
+                            // Filtering the admin clicker
+                            const filter = (i => {
+                                return (i.user.id === message.author.id && i.message.id === dropMenuMessage.id && i.guild.id === message.guild.id)
+                            })
 
-                                // Filtering the admin clicker
-                                const filter = (i => {
-                                    return (i.user.id === message.author.id && i.message.id === dropMenuMessage.id && i.guild.id === message.guild.id)
-                                })
+                            // Await for the admin
+                            await message.channel.awaitMessageComponent({filter, time: 30000})
+                            .then(async collected => {
+                                collected.deferUpdate();
 
-                                // Await for the admin
-                                await message.channel.awaitMessageComponent({filter, time: 30000})
-                                .then(async collected => {
-                                    collected.deferUpdate();
+                                // Cancel has been selected
+                                if(collected.customId === "Cancel") dropMenuMessage.delete()
 
-                                    // Cancel has been selected
-                                    if(collected.customId === "Cancel") dropMenuMessage.delete()
+                                // Remove Quick Access has been selected
+                                if(collected.customId === "RemoveQA"){
 
-                                    // Remove Quick Access has been selected
-                                    if(collected.customId === "RemoveQA"){
+                                    // Update the data
+                                    await db.collection("Users").doc(`${userInfo.id}`).update({
+                                        'quickAccess': false
+                                    })
 
-                                        // Update the data
-                                        await db.collection("Users").doc(`${userInfo.id}`).update({
-                                            'quickAccess': false
-                                        })
+                                    // Successfully updated
+                                    const quickAccessUpdatedEmbed = new Discord.EmbedBuilder()
+                                    quickAccessUpdatedEmbed.setColor(FNBRMENA.Colors("embedSuccess"))
+                                    quickAccessUpdatedEmbed.setTitle(`The quick access has been taken from ${userInfo.username} successfully ${emojisObject.checkEmoji}.`)
+                                    dropMenuMessage.edit({embeds: [quickAccessUpdatedEmbed], components: []})
 
-                                        // Successfully updated
-                                        const quickAccessUpdatedEmbed = new Discord.EmbedBuilder()
-                                        quickAccessUpdatedEmbed.setColor(FNBRMENA.Colors("embedSuccess"))
-                                        quickAccessUpdatedEmbed.setTitle(`The quick access has been taken from ${userInfo.username} successfully ${emojisObject.checkEmoji}.`)
-                                        dropMenuMessage.edit({embeds: [quickAccessUpdatedEmbed], components: []})
+                                }
 
-                                    }
+                                // Give Quick Access has been selected
+                                if(collected.customId === "GiveQA"){
 
-                                    // Give Quick Access has been selected
-                                    if(collected.customId === "GiveQA"){
+                                    // Update the data
+                                    await db.collection("Users").doc(`${userInfo.id}`).update({
+                                        'quickAccess': true
+                                    })
 
-                                        // Update the data
-                                        await db.collection("Users").doc(`${userInfo.id}`).update({
-                                            'quickAccess': true
-                                        })
+                                    // Successfully updated
+                                    const quickAccessUpdatedEmbed = new Discord.EmbedBuilder()
+                                    quickAccessUpdatedEmbed.setColor(FNBRMENA.Colors("embedSuccess"))
+                                    quickAccessUpdatedEmbed.setTitle(`The quick access has been given to ${userInfo.username} successfully ${emojisObject.checkEmoji}.`)
+                                    dropMenuMessage.edit({embeds: [quickAccessUpdatedEmbed], components: []})
 
-                                        // Successfully updated
-                                        const quickAccessUpdatedEmbed = new Discord.EmbedBuilder()
-                                        quickAccessUpdatedEmbed.setColor(FNBRMENA.Colors("embedSuccess"))
-                                        quickAccessUpdatedEmbed.setTitle(`The quick access has been given to ${userInfo.username} successfully ${emojisObject.checkEmoji}.`)
-                                        dropMenuMessage.edit({embeds: [quickAccessUpdatedEmbed], components: []})
+                                }
 
-                                    }
+                                // Remove Premium has been selected
+                                if(collected.customId === "RemoveP"){
 
-                                    // Remove Premium has been selected
-                                    if(collected.customId === "RemoveP"){
+                                    // Update the data
+                                    await db.collection("Users").doc(`${userInfo.id}`).update({
+                                        'premium': false
+                                    })
 
-                                        // Update the data
-                                        await db.collection("Users").doc(`${userInfo.id}`).update({
-                                            'premium': false
-                                        })
+                                    // Successfully updated
+                                    const quickAccessUpdatedEmbed = new Discord.EmbedBuilder()
+                                    quickAccessUpdatedEmbed.setColor(FNBRMENA.Colors("embedSuccess"))
+                                    quickAccessUpdatedEmbed.setTitle(`The premium has been taken from ${userInfo.username} successfully ${emojisObject.checkEmoji}.`)
+                                    dropMenuMessage.edit({embeds: [quickAccessUpdatedEmbed], components: []})
 
-                                        // Successfully updated
-                                        const quickAccessUpdatedEmbed = new Discord.EmbedBuilder()
-                                        quickAccessUpdatedEmbed.setColor(FNBRMENA.Colors("embedSuccess"))
-                                        quickAccessUpdatedEmbed.setTitle(`The premium has been taken from ${userInfo.username} successfully ${emojisObject.checkEmoji}.`)
-                                        dropMenuMessage.edit({embeds: [quickAccessUpdatedEmbed], components: []})
+                                }
 
-                                    }
+                                // Give Premium has been selected
+                                if(collected.customId === "GiveP"){
 
-                                    // Give Premium has been selected
-                                    if(collected.customId === "GiveP"){
+                                    // Update the data
+                                    await db.collection("Users").doc(`${userInfo.id}`).update({
+                                        'premium': true
+                                    })
 
-                                        // Update the data
-                                        await db.collection("Users").doc(`${userInfo.id}`).update({
-                                            'premium': true
-                                        })
+                                    // Successfully updated
+                                    const quickAccessUpdatedEmbed = new Discord.EmbedBuilder()
+                                    quickAccessUpdatedEmbed.setColor(FNBRMENA.Colors("embedSuccess"))
+                                    quickAccessUpdatedEmbed.setTitle(`The premium has been given to ${userInfo.username} successfully ${emojisObject.checkEmoji}.`)
+                                    dropMenuMessage.edit({embeds: [quickAccessUpdatedEmbed], components: []})
 
-                                        // Successfully updated
-                                        const quickAccessUpdatedEmbed = new Discord.EmbedBuilder()
-                                        quickAccessUpdatedEmbed.setColor(FNBRMENA.Colors("embedSuccess"))
-                                        quickAccessUpdatedEmbed.setTitle(`The premium has been given to ${userInfo.username} successfully ${emojisObject.checkEmoji}.`)
-                                        dropMenuMessage.edit({embeds: [quickAccessUpdatedEmbed], components: []})
-
-                                    }
-
-                                }).catch(err => {
-                                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
-                                })
+                                }
 
                             }).catch(err => {
                                 FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
@@ -2011,7 +2007,7 @@ module.exports = {
                 }
             }
         }).catch(err => {
-            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
+            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
         })
     }
 }

@@ -12,6 +12,9 @@ module.exports = {
             notInAVoiceChannelErr.setColor(FNBRMENA.Colors("embedError"))
             notInAVoiceChannelErr.setTitle(`Please join a voice channel first ${emojisObject.errorEmoji}.`)
             return message.reply({embeds: [notInAVoiceChannelErr], components: [], files: []})
+            .catch(err => {
+                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+            })
             
         }
         
@@ -24,6 +27,9 @@ module.exports = {
             noMusicPlayingErr.setColor(FNBRMENA.Colors("embedError"))
             noMusicPlayingErr.setTitle(`There is no music currently playing ${emojisObject.errorEmoji}.`)
             return message.reply({embeds: [noMusicPlayingErr], components: [], files: []})
+            .catch(err => {
+                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+            })
         }
 
         // Check if there is previous tracks
@@ -32,6 +38,9 @@ module.exports = {
             noPreviousSongsError.setColor(FNBRMENA.Colors("embedError"))
             noPreviousSongsError.setTitle(`There isn't any previous tracks ${emojisObject.errorEmoji}.`)
             return message.reply({embeds: [noPreviousSongsError], components: [], files: []})
+            .catch(err => {
+                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+            })
         }
 
         // Get prev

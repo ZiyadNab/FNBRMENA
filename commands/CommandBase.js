@@ -4,7 +4,6 @@ const Discord = require('discord.js')
 const moment = require('moment')
 require('moment-timezone')
 const config = require('./../Configs/config.json')
-const fs = require('fs')
 
 const allCommands = {}
 
@@ -33,26 +32,10 @@ let recentlyRan = []
 let startTimeMS = 0
 
 module.exports.listen = async (client, admin, emojisObject) => {
-    var aax = []
-    for(const i of Object.keys(allCommands)){
-        aax.push({
-            command: i,
-            type: allCommands[i].type !== undefined ? allCommands[i].type : "UNKNOWN",
-            descriptionEN: allCommands[i].descriptionEN !== undefined ? allCommands[i].descriptionEN : "There is no explaination for this command YET",
-            descriptionAR: allCommands[i].descriptionAR !== undefined ? allCommands[i].descriptionAR : "لايوجد تعليمات على هذا الأمر للأن",
-            expectedArgsEN: allCommands[i].expectedArgsEN !== undefined ? allCommands[i].expectedArgsEN : "Just use the command its self no arguments needed",
-            hintEN: allCommands[i].hintEN !== undefined ? allCommands[i].hintEN : "UNKNOWN",
-            hintAR: allCommands[i].hintAR !== undefined ? allCommands[i].hintAR : "UNKNOWN",
-            expectedArgsAR: allCommands[i].expectedArgsAR !== undefined ? allCommands[i].expectedArgsAR : "فقط استعمل الأمر بدون اي شي اضافي",
-            argsExample: allCommands[i].argsExample !== undefined ? allCommands[i].argsExample : "UNKNOWN",
-        })
-    }
-
-    fs.writeFileSync('./data.json', JSON.stringify(aax, null, 2))
 
     // Listen for messages
     client.on('messageCreate', async (message) => {
-        const { member, content, guild } = await message
+        const { member, content, guild } = message
 
         // Get user's data from database
         const userData = await FNBRMENA.Admin(admin, message, "", "User");
@@ -68,8 +51,8 @@ module.exports.listen = async (client, admin, emojisObject) => {
             newDirectMessage.setColor(FNBRMENA.Colors('embed'))
             newDirectMessage.setTitle('New DM Message')
             newDirectMessage.setDescription(`**User:** ${message.author.tag}\n**ID:** ${message.author.id}\n**User Language:** ${userData.lang}\n**Date:** ${new Date()}\n\n**Content:** \`\`\`bash\n"${content}"\`\`\``)
-            const logsChannel = client.channels.cache.find(channel => channel.id === '839544462568980510')
-            logsChannel.send(newDirectMessage)
+            const logsChannel = client.channels.cache.find(channel => channel.id === config.events.Logs)
+            return logsChannel.send({embeds: [newDirectMessage]})
         }
 
         // Exceeding Numbers Game
@@ -133,7 +116,7 @@ module.exports.listen = async (client, admin, emojisObject) => {
             const commandData = await FNBRMENA.Admin(admin, message, alias, "Command")
 
             // If a user has quick access
-            if(userData.quickAccess){
+            if(userData.quickAccess && (serverStats.quickAccess || member.id === serverStats.owner)){
 
                 // Ensure we have the correct number of args
                 if(args.length < minArgs || (maxArgs !== null && args.length > maxArgs)){
@@ -157,8 +140,8 @@ module.exports.listen = async (client, admin, emojisObject) => {
 
                         // An explanation message
                         syntaxError.setAuthor({name: `Syntax Error`})
-                        if(commandData.command.commandData.commandStatus.status) syntaxError.setDescription(`Command Used: ${alias}\nCommand Status: ${emojisObject.greenStatus}\n\n${descriptionEN}\n`)
-                        else syntaxError.setDescription(`Command Used: ${alias}\nCommand Status: ${emojisObject.redStatus}\n\n${descriptionEN}\n`)
+                        if(commandData.command.commandData.commandStatus.status) syntaxError.setDescription(`Command Used: \`${alias.toUpperCase()}\`\nCommand Status: ${emojisObject.uncommon}\n\n${descriptionEN}\n`)
+                        else syntaxError.setDescription(`Command Used: \`${alias.toUpperCase()}\`\nCommand Status: ${emojisObject.marvel}\n\n${descriptionEN}\n`)
                         syntaxError.addFields(
                             {name: `Command guide:`, value: `\n\n\`${expectedArgsEN}\``},
                             {name: `Examples:`, value: `\`${Examples}\``},
@@ -172,8 +155,8 @@ module.exports.listen = async (client, admin, emojisObject) => {
 
                         // An explanation message
                         syntaxError.setAuthor({name: `عملية خاطئة`})
-                        if(commandData.command.commandData.commandStatus.status) syntaxError.setDescription(`الأمر المستعمل: ${alias}\nحالة الأمر: ${emojisObject.greenStatus}\n\n${descriptionAR}\n`)
-                        else syntaxError.setDescription(`الأمر المستعمل: ${alias}\nحالة الأمر: ${emojisObject.redStatus}\n\n${descriptionAR}\n`)
+                        if(commandData.command.commandData.commandStatus.status) syntaxError.setDescription(`الأمر المستعمل: \`${alias.toUpperCase()}\`\nحالة الأمر: ${emojisObject.uncommon}\n\n${descriptionAR}\n`)
+                        else syntaxError.setDescription(`الأمر المستعمل: \`${alias.toUpperCase()}\`\nحالة الأمر: ${emojisObject.marvel}\n\n${descriptionAR}\n`)
                         syntaxError.addFields(
                             {name: `ارشادات الأستخدام:`, value: `\n\n\`${expectedArgsAR}\``},
                             {name: `أمثلة:`, value: `\`${Examples}\``},
@@ -188,7 +171,7 @@ module.exports.listen = async (client, admin, emojisObject) => {
                     syntaxError.setThumbnail('https://imgur.com/auAsgQN.png')
 
                     // Send a guided message
-                    await message.reply({embeds: [syntaxError], components: [], files: []})
+                    message.reply({embeds: [syntaxError], components: [], files: []})
                     return
                 }
 
@@ -327,8 +310,8 @@ module.exports.listen = async (client, admin, emojisObject) => {
 
                             // An explanation message
                             syntaxError.setAuthor({name: `Syntax Error`})
-                            if(commandData.command.commandData.commandStatus.status) syntaxError.setDescription(`Command Used: ${alias}\nCommand Status: ${emojisObject.greenStatus}\n\n${descriptionEN}\n`)
-                            else syntaxError.setDescription(`Command Used: ${alias}\nCommand Status: ${emojisObject.redStatus}\n\n${descriptionEN}\n`)
+                            if(commandData.command.commandData.commandStatus.status) syntaxError.setDescription(`Command Used: \`${alias.toUpperCase()}\`\nCommand Status: ${emojisObject.uncommon}\n\n${descriptionEN}\n`)
+                            else syntaxError.setDescription(`Command Used: \`${alias.toUpperCase()}\`\nCommand Status: ${emojisObject.marvel}\n\n${descriptionEN}\n`)
                             syntaxError.addFields(
                                 {name: `Command guide:`, value: `\n\n\`${expectedArgsEN}\``},
                                 {name: `Examples:`, value: `\`${Examples}\``},
@@ -342,8 +325,8 @@ module.exports.listen = async (client, admin, emojisObject) => {
 
                             // An explanation message
                             syntaxError.setAuthor({name: `عملية خاطئة`})
-                            if(commandData.command.commandData.commandStatus.status) syntaxError.setDescription(`الأمر المستعمل: ${alias}\nحالة الأمر: ${emojisObject.greenStatus}\n\n${descriptionAR}\n`)
-                            else syntaxError.setDescription(`الأمر المستعمل: ${alias}\nحالة الأمر: ${emojisObject.redStatus}\n\n${descriptionAR}\n`)
+                            if(commandData.command.commandData.commandStatus.status) syntaxError.setDescription(`الأمر المستعمل: \`${alias.toUpperCase()}\`\nحالة الأمر: ${emojisObject.uncommon}\n\n${descriptionAR}\n`)
+                            else syntaxError.setDescription(`الأمر المستعمل: \`${alias.toUpperCase()}\`\nحالة الأمر: ${emojisObject.marvel}\n\n${descriptionAR}\n`)
                             syntaxError.addFields(
                                 {name: `ارشادات الأستخدام:`, value: `\n\n\`${expectedArgsAR}\``},
                                 {name: `أمثلة:`, value: `\`${Examples}\``},

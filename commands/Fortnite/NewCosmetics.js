@@ -3,6 +3,8 @@ const Canvas = require('canvas');
 module.exports = {
     commands: 'new',
     type: 'Fortnite',
+    descriptionEN: 'Get all the new cosmetics as an image.',
+    descriptionAR: 'احصل على جميع العناصر الجديدة كصورة.',
     minArgs: 0,
     maxArgs: 0,
     cooldown: 8,
@@ -449,6 +451,7 @@ module.exports = {
                     .setCustomId('All')
                     .setStyle(Discord.ButtonStyle.Success)
                     .setLabel("All")
+                    .setDisabled(res.data.data.items.length > 50)
                 )
 
                 buttonDataRow.addComponents(
@@ -465,6 +468,7 @@ module.exports = {
                     .setCustomId('All')
                     .setStyle(Discord.ButtonStyle.Success)
                     .setLabel("الكل")
+                    .setDisabled(res.data.data.items.length > 50)
                 )
 
                 buttonDataRow.addComponents(
@@ -505,6 +509,9 @@ module.exports = {
 
             // Send the message
             const dropMenuMessage = await message.reply({embeds: [cosmeticsTypesEmbed], components: [allAvaliableTypesRow, buttonDataRow], files: []})
+            .catch(err => {
+                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
+            })
 
             // Filtering the user clicker
             const filter = (i => {

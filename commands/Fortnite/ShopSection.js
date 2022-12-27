@@ -5,6 +5,8 @@ const Canvas = require('canvas')
 module.exports = {
     commands: 'section',
     type: 'Fortnite',
+    descriptionEN: 'ُReturns an image about all the active sections.',
+    descriptionAR: 'إرجاع صورة عن كل الأقسام النشطة.',
     minArgs: 0,
     maxArgs: 0,
     cooldown: -1,
@@ -16,6 +18,10 @@ module.exports = {
         if(userData.lang === "en") generating.setTitle(`Loading sections... ${emojisObject.loadingEmoji}`)
         else if(userData.lang === "ar") generating.setTitle(`جاري تحميل الأقسام... ${emojisObject.loadingEmoji}`)
         const msg = await message.reply({embeds: [generating], components: [], files: []})
+        .catch(err => {
+            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
+        })
+
         try {
             
             // Get the sections data from database
@@ -85,7 +91,7 @@ module.exports = {
             }
             
             //request data
-            await FNBRMENA.Sections(userData.lang, "Yes")
+            FNBRMENA.Sections(userData.lang, "Yes")
             .then(async res => {
 
                 // Get the sections as a minpulated data
@@ -366,10 +372,16 @@ module.exports = {
                 SectionsEmbed.setDescription(string)
 
                 // Send
-                const att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `${moment()}.png`})
+                var att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `${moment()}.png`})
                 msg.edit({embeds: [SectionsEmbed], components: [], files: [att]})
                 .catch(err => {
-                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
+
+                    // Try sending it on jpg file format [LOWER QUALITY]
+                    var att = new Discord.AttachmentBuilder(canvas.toBuffer('image/jpeg'), {name: `${moment()}.jpg`})
+                    msg.edit({embeds: [SectionsEmbed], components: [], files: [att]})
+                    .catch(err => {
+                        FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
+                    })
                 })
                 
             }).catch((err) => {

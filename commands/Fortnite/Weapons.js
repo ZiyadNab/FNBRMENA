@@ -3,6 +3,13 @@ const Canvas = require('canvas');
 module.exports = {
     commands: 'weapon',
     type: 'Fortnite',
+    descriptionEN: 'Return an image about any weapon.',
+    descriptionAR: 'استرجاع صورة عن أي سلاح..',
+    expectedArgsEN: 'To use the command you need to specify a weapon name.',
+    expectedArgsAR: 'من اجل استخدام الأمر يجب عليك تحديد أسم سلاح.',
+    hintEN: 'You can search for a weapon with just one word. You don\'t need to spell the weapon\'s full name. Just type the words you know. For example, search by (Roc), (Rocket), or by its full name (Rocket Launcher), And the bot will list all possible weapons that match your input.',
+    hintAR: 'يمكنك البحث عن سلاح بكلمة واحدة فقط. لست بحاجة إلى تهجئة الاسم الكامل للسلاح. فقط اكتب الكلمات التي تعرفها. على سبيل المثال ، ابحث عن طريق (Roc) ، (Rocket) ، أو باسمه الكامل (Rocket Launcher) ، وسوف يسرد الروبوت جميع الأسلحة الممكنة التي تطابق إدخالك.',
+    argsExample: ['Rocket Launcher', 'Rocket', 'Roc'],
     minArgs: 1,
     maxArgs: null,
     cooldown: 5,
@@ -105,6 +112,10 @@ module.exports = {
             if(userData.lang === "en") generating.setTitle(`Loading ${res.name} weapon ${emojisObject.loadingEmoji}.`)
             else if(userData.lang === "ar") generating.setTitle(`جاري تحميل سلاح ${res.name} ${emojisObject.loadingEmoji}.`)
             const msg = await message.reply({embeds: [generating], components: [], files: []})
+            .catch(err => {
+                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
+            })
+
             try {
             
                 // Create canvas
@@ -291,8 +302,10 @@ module.exports = {
             noWeaponsFoundError.setColor(FNBRMENA.Colors("embedError"))
             if(userData.lang === "en") noWeaponsFoundError.setTitle(`No weapons has been found ${emojisObject.errorEmoji}.`)
             else if(userData.lang === "ar") noWeaponsFoundError.setTitle(`لم يتم العثور على اسلحه ${emojisObject.errorEmoji}.`)
-            message.reply({embeds: [noWeaponsFoundError], components: [], files: []})
-            return
+            return message.reply({embeds: [noWeaponsFoundError], components: [], files: []})
+            .catch(err => {
+                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
+            })
         }
 
         // If only one item has been found
@@ -303,24 +316,26 @@ module.exports = {
             .then(async res => {
 
                 // Check if there is a data
-                if(res.data.result){
-
-                    // Filter for names
-                    res.data.weapons.filter(wid => {
-                        if(wid.id === weaponId[0].id) // Find the weapon
-                        
-                        // Call the weapon image builder
-                        weaponImageBuilder(wid)
-                    })
-                }else{
+                if(!res.data.result){
 
                     // No result found
                     const noResultFoundError = new Discord.EmbedBuilder()
                     noResultFoundError.setColor(FNBRMENA.Colors("embedError"))
                     if(userData.lang === "en") noResultFoundError.setTitle(`No result found (API Error) ${emojisObject.errorEmoji}.`)
                     else if(userData.lang === "ar") noResultFoundError.setTitle(`لم يتم العثور على نتائج (مشكلة API) ${emojisObject.errorEmoji}.`)
-                    message.reply({embeds: [noResultFoundError], components: [], files: []})
+                    return message.reply({embeds: [noResultFoundError], components: [], files: []})
+                    .catch(err => {
+                        FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
+                    })
                 }
+
+                // Filter for names
+                res.data.weapons.filter(wid => {
+                    if(wid.id === weaponId[0].id) // Find the weapon
+                    
+                    // Call the weapon image builder
+                    weaponImageBuilder(wid)
+                })
             }).catch(async err => {
                 FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
             })
@@ -338,8 +353,10 @@ module.exports = {
                 requestEntryTooLargeError.setColor(FNBRMENA.Colors("embedError"))
                 if(userData.lang === "en") requestEntryTooLargeError.setTitle(`Request entry too large ${emojisObject.errorEmoji}`)
                 else if(userData.lang === "ar") requestEntryTooLargeError.setTitle(`تم تخطي الكميه المحدودة ${emojisObject.errorEmoji}`)
-                message.reply({embeds: [requestEntryTooLargeError], components: [], files: []})
-                return
+                return message.reply({embeds: [requestEntryTooLargeError], components: [], files: []})
+                .catch(err => {
+                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
+                })
 
             }
 
@@ -409,6 +426,9 @@ module.exports = {
 
             // Send the message
             const dropMenuMessage = await message.reply({embeds: [listWeaponsEmbed], components: components, files: []})
+            .catch(err => {
+                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
+            })
 
             // Filtering the user clicker
             const filter = (i => {
@@ -429,27 +449,27 @@ module.exports = {
                     .then(async res => {
 
                         // Check if there is a data
-                        if(res.data.result){
-
-                            // Call the weapon image builder
-                            await dropMenuMessage.delete()
-                            
-                            // Filter for names
-                            res.data.weapons.filter(wid => {
-                                if(wid.id === collected.values[0]) // Find the weapon
-                                
-                                // Call the weapon image builder
-                                weaponImageBuilder(wid)
-                            })
-                        }else{
+                        if(!res.data.result){
 
                             // No result found
                             const noResultFoundError = new Discord.EmbedBuilder()
                             noResultFoundError.setColor(FNBRMENA.Colors("embedError"))
                             if(userData.lang === "en") noResultFoundError.setTitle(`No result found (API Error) ${emojisObject.errorEmoji}.`)
                             else if(userData.lang === "ar") noResultFoundError.setTitle(`لم يتم العثور على نتائج (مشكلة API) ${emojisObject.errorEmoji}.`)
-                            dropMenuMessage.edit({embeds: [noResultFoundError], components: [], files: []})
+                            return dropMenuMessage.edit({embeds: [noResultFoundError], components: [], files: []})
+                            
                         }
+
+                        // Call the weapon image builder
+                        await dropMenuMessage.delete()
+                            
+                        // Filter for names
+                        res.data.weapons.filter(wid => {
+                            if(wid.id === collected.values[0]) // Find the weapon
+                            
+                            // Call the weapon image builder
+                            weaponImageBuilder(wid)
+                        })
                     }).catch(async err => {
                         FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
                     })
@@ -459,5 +479,6 @@ module.exports = {
                 FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
             })
         }
+
     }
 }    

@@ -12,6 +12,9 @@ module.exports = {
             notInAVoiceChannelErr.setColor(FNBRMENA.Colors("embedError"))
             notInAVoiceChannelErr.setTitle(`Please join a voice channel first ${emojisObject.errorEmoji}.`)
             return message.reply({embeds: [notInAVoiceChannelErr], components: [], files: []})
+            .catch(err => {
+                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+            })
             
         }
         
@@ -24,6 +27,9 @@ module.exports = {
             noMusicPlayingErr.setColor(FNBRMENA.Colors("embedError"))
             noMusicPlayingErr.setTitle(`There is no music is playing at the moment ${emojisObject.errorEmoji}`)
             return message.reply({embeds: [noMusicPlayingErr], components: [], files: []})
+            .catch(err => {
+                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+            })
         }
 
         // Create random landing embed message
@@ -58,6 +64,9 @@ module.exports = {
 
         // Send the button
         const musicRepeatMessage = await message.reply({embeds: [musicRepeatEmbed], components: [buttonsDataRow], files: []})
+        .catch(err => {
+            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+        })
 
         // Filtering the user clicker
         const filter = (i => {
@@ -79,6 +88,9 @@ module.exports = {
                 songRepeating.setColor(FNBRMENA.Colors("embedSuccess"))
                 songRepeating.setTitle(`The ${queue.nowPlaying().title} will be repeated until repeating is disabled ${emojisObject.checkEmoji}.`)
                 return message.reply({embeds: [songRepeating], components: [], files: []})
+                .catch(err => {
+                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                })
             }
 
             // If the user wants to repeat the queue
@@ -91,6 +103,9 @@ module.exports = {
                 queueRepeating.setColor(FNBRMENA.Colors("embedSuccess"))
                 queueRepeating.setTitle(`The whole queue will be repeated until repeating is disabled ${emojisObject.checkEmoji}.`)
                 return message.reply({embeds: [queueRepeating], components: [], files: []})
+                .catch(err => {
+                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                })
             }
 
             // If the user wants to stop repeating
@@ -103,6 +118,9 @@ module.exports = {
                 stopRepeating.setColor(FNBRMENA.Colors("embedSuccess"))
                 stopRepeating.setTitle(`Repeating has been disabled ${emojisObject.checkEmoji}.`)
                 return message.reply({embeds: [stopRepeating], components: [], files: []})
+                .catch(err => {
+                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                })
             }
         })
     }

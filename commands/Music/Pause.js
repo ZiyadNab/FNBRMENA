@@ -12,6 +12,9 @@ module.exports = {
             notInAVoiceChannelErr.setColor(FNBRMENA.Colors("embedError"))
             notInAVoiceChannelErr.setTitle(`Please join a voice channel first ${emojisObject.errorEmoji}.`)
             return message.reply({embeds: [notInAVoiceChannelErr], components: [], files: []})
+            .catch(err => {
+                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+            })
             
         }
         
@@ -24,6 +27,9 @@ module.exports = {
             noMusicPlayingErr.setColor(FNBRMENA.Colors("embedError"))
             noMusicPlayingErr.setTitle(`There is no music currently playing ${emojisObject.errorEmoji}.`)
             return message.reply({embeds: [noMusicPlayingErr], components: [], files: []})
+            .catch(err => {
+                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+            })
         }
 
         // If the music already puased
@@ -35,6 +41,9 @@ module.exports = {
             queueResume.setColor(FNBRMENA.Colors("embedSuccess"))
             queueResume.setTitle(`Queue already paused, Resuming now ${emojisObject.checkEmoji}.`)
             return message.reply({embeds: [queueResume], components: [], files: []})
+            .catch(err => {
+                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+            })
         }
 
         // Queue pause
@@ -43,6 +52,9 @@ module.exports = {
         queuePause.setColor(FNBRMENA.Colors("embedSuccess"))
         queuePause.setTitle(`The queue has been paused ${emojisObject.checkEmoji}.`)
         return message.reply({embeds: [queuePause], components: [], files: []})
+        .catch(err => {
+            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+        })
 
     }
 }

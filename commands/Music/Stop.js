@@ -12,6 +12,9 @@ module.exports = {
             notInAVoiceChannelErr.setColor(FNBRMENA.Colors("embedError"))
             notInAVoiceChannelErr.setTitle(`Please join a voice channel first ${emojisObject.errorEmoji}.`)
             return message.reply({embeds: [notInAVoiceChannelErr], components: [], files: []})
+            .catch(err => {
+                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+            })
             
         }
         
@@ -24,6 +27,9 @@ module.exports = {
             noMusicPlayingErr.setColor(FNBRMENA.Colors("embedError"))
             noMusicPlayingErr.setTitle(`There is no music currently playing ${emojisObject.errorEmoji}.`)
             return message.reply({embeds: [noMusicPlayingErr]})
+            .catch(err => {
+                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+            })
         }
 
         // Destroy queue
@@ -32,6 +38,9 @@ module.exports = {
         stopPlaying.setColor(FNBRMENA.Colors("embedSuccess"))
         stopPlaying.setTitle(`Queue has been destroyed ${emojisObject.checkEmoji}.`)
         return message.reply({embeds: [stopPlaying], components: [], files: []})
+        .catch(err => {
+            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+        })
 
     }
 }

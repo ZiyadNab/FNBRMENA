@@ -3,13 +3,13 @@ const Canvas = require('canvas')
 module.exports = {
     commands: 'details',
     type: 'Fortnite',
-    descriptionEN: 'A command gives you access to every single detail about a cosmetic e.g. Info, Styles, Grants',
-    descriptionAR: 'أمر يعطيك الصلاحية لجميع التفاصيل لأي عنصر مثل معلومات، ستايلات، تصريحات',
-    expectedArgsEN: 'Use the command then right after use any cosmetic in-game',
-    expectedArgsAR: 'فقط استعمل الأمر ثم اسم اي عنصر باللعبة',
-    hintEN: 'You will get 3 options:\n• Info: returns all the info of the searched cosmetic like shop history...\n• Styles: Returns all the styles of the searched cosmetics (Not all items supported).\n• Grants: Returns what you will get if you purchesed the item.',
-    hintAR: 'راح تحصل على ثلاث خيارات: \n• معلومات: يسترجع لك جميع المعلومات للعنصر مثل تاريخ متجر العناصر...\n• الستايلات: يسترجع لك جميع الستايلات للعنصر (ليس جميع العناصر مدعومة)\n• العناصر المعطاه: يسترجع لك جميع العناصر الي راح تحصل عليها في حال شرائك للعنصر',
-    argsExample: ['Ninja', 'Wildcat'],
+    descriptionEN: 'Get detailed information about any cosmetic.',
+    descriptionAR: 'احصل على معلومات مفصلة عن أي عنصر.',
+    expectedArgsEN: 'To use the command you need to specify any item name.',
+    expectedArgsAR: 'لاستخدام الأمر ، تحتاج إلى تحديد اسم أي عنصر.',
+    hintEN: 'You will get three options:\n• Info: returns all the information of the searched cosmetics like shop history...\n• Styles: Returns all the styles of the searched cosmetics.\n• Grants: Returns what you will get if you have purchased the item.',
+    hintAR: 'ستحصل على ثلاثة خيارات: \n • معلومات: إرجاع جميع المعلومات الخاصة بالعنصر الذي تم البحث عنه مثل سجل المتجر ... \n • الأنماط: إرجاع جميع أنماط العنصر الذي تم البحث عنه. \n • المنح: إرجاع ما ستحصل عليه إذا اشتريت العنصر.',
+    argsExample: ['Poki', 'Wildcat'],
     minArgs: 1,
     maxArgs: null,
     cooldown: -1,
@@ -24,9 +24,6 @@ module.exports = {
 
         // Iake over the index
         var num = 0
-
-        // Handeling errors
-        var errorHandleing = 0
 
         // If the search type is an id
         if(text.includes("_")) SearchType = "id"
@@ -1192,68 +1189,44 @@ module.exports = {
                 // Add the reply
                 if(userData.lang === "en") var reply = `please choose your item, listening will be stopped after 20 seconds`
                 else if(userData.lang === "ar") var reply = `الرجاء كتابة اسم العنصر، راح يتوقف الامر بعد ٢٠ ثانية`
-                
-                await message.reply({content: reply, embeds: [list]})
-                .then(async notify => {
-
-                    // Listen for user input
-                    await message.channel.awaitMessages({filter, max: 1, time: 20000, errors: ['time']})
-                    .then( async collected => {
-
-                        // Delete messages
-                        await notify.delete()
-
-                        // If the user chosen inside range
-                        if(collected.first().content >= 0 && collected.first().content < res.data.items.length) num = collected.first().content
-                        else{
-
-                            // Add an error
-                            errorHandleing++
-
-                            // Create out of range embed
-                            const outOfRangeError = new Discord.EmbedBuilder()
-                            outOfRangeError.setColor(FNBRMENA.Colors("embedError"))
-                            if(userData.lang === "en") outOfRangeError.setTitle(`${FNBRMENA.Errors("outOfRange", userData.lang)} ${emojisObject.errorEmoji}`)
-                            message.reply({embeds: [outOfRangeError], components: [], files: []})
-                            
-                        }
-                    }).catch(err => {
-
-                        // Add error
-                        handleErrors++
-
-                        // Deleting messages
-                        notify.delete()
-
-                        // Iime has passed
-                        const timeError = new Discord.EmbedBuilder()
-                        timeError.setColor(FNBRMENA.Colors("embedError"))
-                        timeError.setTitle(`${FNBRMENA.Errors("Time", userData.lang)} ${emojisObject.errorEmoji}`)
-                        message.reply({embeds: [timeError], components: [], files: []})
-                    })
-
-                }).catch(async err => {
+                const notify = await message.reply({content: reply, embeds: [list]})
+                .catch(async err => {
                     FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
                 })
+
+                // Listen for user input
+                const collected = await message.channel.awaitMessages({filter, max: 1, time: 20000, errors: ['time']})
+                .catch(err => {
+                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, { message: "Time" }, emojisObject, notify)
+                })
+
+                // Check for collected messages
+                if(!collected) return
+
+                // Delete messages
+                notify.delete()
+
+                // If the user chosen inside range
+                if(collected.first().content >= 0 && collected.first().content < res.data.items.length) num = collected.first().content
+                else return FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, { message: "outOfRange" }, emojisObject, null)
             }
 
             // If there is no item found
             if(res.data.items.length === 0){
-
-                // Add an error
-                errorHandleing++
 
                 // If user typed a number out of range
                 const noCosmeticsFoundError = new Discord.EmbedBuilder()
                 noCosmeticsFoundError.setColor(FNBRMENA.Colors("embedError"))
                 if(userData.lang === "en") noCosmeticsFoundError.setTitle(`No cosmetic has been found check your speling and try again ${emojisObject.errorEmoji}`)
                 else if(userData.lang === "ar") noCosmeticsFoundError.setTitle(`لا يمكنني العثور على العنصر الرجاء التأكد من كتابة الاسم بشكل صحيح ${emojisObject.errorEmoji}`)
-                message.reply({embeds: [noCosmeticsFoundError], components: [], files: []})
-                
+                return message.reply({embeds: [noCosmeticsFoundError], components: [], files: []})
+                .catch(err => {
+                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
+                })
             }
 
             // If everything is correct
-            if(res.data.items.length > 0 && errorHandleing == 0){
+            if(res.data.items.length > 0){
 
                 // Create an embed
                 const dropDownMenuEmbed = new Discord.EmbedBuilder()
@@ -1325,6 +1298,9 @@ module.exports = {
 
                 // Send the message
                 const dropMenuMessage = await message.reply({embeds: [dropDownMenuEmbed], components: [categoriesRow, buttonDataRow], files: []})
+                .catch(err => {
+                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
+                })
 
                 // Filtering the user clicker
                 const filter = (i => {

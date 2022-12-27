@@ -1111,33 +1111,32 @@ class FNBRMENA {
      * @param {Object} emojisObject
      * 
      */
-     Logs(admin, client, Discord, message, alias, lang, text, err, emojisObject, msg){
-        if(msg) msg.delete()
+    Logs(admin, client, Discord, message, alias, lang, text, err, emojisObject, msg){
 
         //if user took to long to excute the command
-        if(err.message.includes("too large")){
+        if(err.message.toLowerCase().includes("too large")){
             const requestEntryTooLargeError = new Discord.EmbedBuilder()
             requestEntryTooLargeError.setColor(this.Colors("embedError"))
-            if(lang === "en") requestEntryTooLargeError.setTitle(`Request entry too large ${emojisObject.errorEmoji}`)
-            else if(lang === "ar") requestEntryTooLargeError.setTitle(`تم تخطي الكميه المحدودة ${emojisObject.errorEmoji}`)
-            message.reply({embeds: [requestEntryTooLargeError]})
+            if(lang === "en") requestEntryTooLargeError.setTitle(`Request entry is too large ${emojisObject.errorEmoji}.`)
+            else if(lang === "ar") requestEntryTooLargeError.setTitle(`إدخال الطلب كبير جدًا ${emojisObject.errorEmoji}.`)
+            msg.edit({content: '', embeds: [requestEntryTooLargeError], components: [], files: []})
 
-        }else if(err.message.includes("time")){
+        }else if(err.message.toLowerCase().includes("time")){
                         
             const outOfTimeError = new Discord.EmbedBuilder()
             outOfTimeError.setColor(this.Colors("embedError"))
-            if(lang === "en") outOfTimeError.setTitle(`Sorry we canceled your process becuase no action has been taken ${emojisObject.errorEmoji}`)
-            else if(lang === "ar") outOfTimeError.setTitle(`لقد تم ايقاف العملية لعدم اختيار طريقة ${emojisObject.errorEmoji}`)
-            message.reply({embeds: [outOfTimeError], components: []})
+            if(lang === "en") outOfTimeError.setTitle(`Your proccess has been terminated due: \`Time\` ${emojisObject.errorEmoji}.`)
+            else if(lang === "ar") outOfTimeError.setTitle(`تم إنهاء عمليتك بسبب: \`الوقت\` ${emojisObject.errorEmoji}.`)
+            msg.edit({content: '', embeds: [outOfTimeError], components: [], files: []})
 
-        }else if(err.message.includes("outOfRange")){
+        }else if(err.message.toLowerCase().includes("outofrange")){
 
             //create out of range embed
             const outOfRangeError = new Discord.EmbedBuilder()
             outOfRangeError.setColor(this.Colors("embedError"))
-            if(lang === "en") outOfRangeError.setTitle(`Sorry we canceled your process becuase u selected a number out of range ${emojisObject.errorEmoji}`)
-            else if(lang === "ar") outOfRangeError.setTitle(`تم ايقاف الامر بسبب اختيارك لرقم خارج النطاق ${emojisObject.errorEmoji}`)
-            message.reply({embeds: [outOfRangeError]})
+            if(lang === "en") outOfRangeError.setTitle(`Out of range input, Please try again ${emojisObject.errorEmoji}.`)
+            else if(lang === "ar") outOfRangeError.setTitle(`خارج النطاق الإدخال ، يرجى المحاولة مرة أخرى ${emojisObject.errorEmoji}.`)
+            msg.edit({content: '', embeds: [outOfRangeError], components: [], files: []})
 
         }else{
 
@@ -1156,7 +1155,7 @@ class FNBRMENA {
                 anErrorHappened.setTitle(`عذرا لقد حصلت مشكلة ${emojisObject.errorEmoji}`)
                 anErrorHappened.setDescription(`لقد حدثت مشكلة ما اثناء جمع بيانات امر \`${alias}\`. تم ارسال ملف تسجيل يحتوي على جميع المعلومات المهمه للمطورين و المشكلة يتم حلها حاليا. في حال المشكلة اخذت وقت اكثر من المعتاد, من فضلك [__تواصل مع فريق الدعم__](https://discord.com/channels/756464693492842496/800405068880281661) في اسرع وقت ممكن.\n\nنأسف على الإزعاج\n\`\`\`yaml\n${err.message}\`\`\``)
             }
-            message.reply({embeds: [anErrorHappened]})
+            msg.edit({content: '', embeds: [anErrorHappened], components: [], files: []})
 
             //logs
             const logs = new Discord.EmbedBuilder()

@@ -4,6 +4,13 @@ const wrap = require('word-wrap')
 module.exports = {
     commands: 'augment',
     type: 'Fortnite',
+    descriptionEN: 'Generates images for augments.',
+    descriptionAR: 'استخراج صور لتعزيزات الواقع.',
+    expectedArgsEN: 'To use the command you need to specifiy an augment name.',
+    expectedArgsAR: 'من اجل استخدام الأمر يجب عليك تحديد أسم تعزيز الواقع.',
+    hintEN: 'You can search for any augment with just one word. You don\'t need to spell the augment\'s full name. Just type the words you know. For example, search by (F), (Fir), or by its full name (First Assault), And the bot will list all possible augments.',
+    hintAR: 'يمكنك البحث عن أي تعزيز الواقع بحرف واحدة فقط. لا تحتاج إلى تهجئة الاسم الكامل لتعزيز الواقع. فقط اكتب الأحرف التي تعرفها. على سبيل المثال ، ابحث عن طريق (F) أو (Fir) أو باسمه الكامل (First Assault) ، وسوف يسرد الروبوت جميع التعزيزات الممكنة.',
+    argsExample: ['First Assault', 'F', 'Fir'],
     minArgs: 1,
     maxArgs: null,
     cooldown: -1,
@@ -28,8 +35,10 @@ module.exports = {
                 const notSupportedError = new Discord.EmbedBuilder()
                 notSupportedError.setColor(FNBRMENA.Colors("embedError"))
                 notSupportedError.setTitle(`Arabic is not supported yet ${emojisObject.errorEmoji}.`)
-                message.reply({embeds: [notSupportedError], components: [], files: []})
-                return
+                return message.reply({embeds: [notSupportedError], components: [], files: []})
+                .catch(err => {
+                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
+                })
             }
 
             // Send the loading message
@@ -38,6 +47,10 @@ module.exports = {
             if(userData.lang === "en") generating.setTitle(`Loading ${res.name} augment ${emojisObject.loadingEmoji}.`)
             else if(userData.lang === "ar") generating.setTitle(`جاري تحميل تعزيز ${res.name} ${emojisObject.loadingEmoji}.`)
             const msg = await message.reply({embeds: [generating], components: [], files: []})
+            .catch(err => {
+                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
+            })
+            
             try {
 
                 // English augments
@@ -156,10 +169,16 @@ module.exports = {
                     ctx.fillText(textings.description.text, textings.description.x, textings.description.y)
 
                     // Send message
-                    const att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `${res.id}.png`})
+                    var att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `${res.id}.png`})
                     msg.edit({embeds: [], components: [], files: [att]})
                     .catch(err => {
-                        FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
+
+                        // Try sending it on jpg file format [LOWER QUALITY]
+                        var att = new Discord.AttachmentBuilder(canvas.toBuffer('image/jpeg'), {name: `${res.id}.jpg`})
+                        msg.edit({embeds: [], components: [], files: [att]})
+                        .catch(err => {
+                            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
+                        })
                     })
                 }
 
@@ -203,8 +222,10 @@ module.exports = {
             noAugmentssFoundError.setColor(FNBRMENA.Colors("embedError"))
             if(userData.lang === "en") noAugmentssFoundError.setTitle(`No augments has been found ${emojisObject.errorEmoji}.`)
             else if(userData.lang === "ar") noAugmentssFoundError.setTitle(`لم يتم العثور على اي تعزيزات الواقع ${emojisObject.errorEmoji}.`)
-            message.reply({embeds: [noAugmentssFoundError], components: [], files: []})
-            return
+            return message.reply({embeds: [noAugmentssFoundError], components: [], files: []})
+            .catch(err => {
+                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
+            })
         }
 
         // If only one item has been found
@@ -215,24 +236,27 @@ module.exports = {
             .then(async res => {
 
                 // Check if there is data
-                if(res.data.result){
-
-                    // Filter for names
-                    res.data.augments.filter(aid => {
-                        if(aid.id === augmentId[0].id) // Find the augment
-                        
-                        // Call the augment image builder
-                        augmentsImageBuilder(aid)
-                    })
-                }else{
+                if(!res.data.result){
 
                     // No result found
                     const noResultFoundError = new Discord.EmbedBuilder()
                     noResultFoundError.setColor(FNBRMENA.Colors("embedError"))
                     if(userData.lang === "en") noResultFoundError.setTitle(`No result found (API Error) ${emojisObject.errorEmoji}`)
                     else if(userData.lang === "ar") noResultFoundError.setTitle(`لم يتم العثور على نتائج (مشكلة API) ${emojisObject.errorEmoji}`)
-                    message.reply({embeds: [noResultFoundError], components: [], files: []})
+                    return message.reply({embeds: [noResultFoundError], components: [], files: []})
+                    .catch(err => {
+                        FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
+                    })
                 }
+
+                // Filter for names
+                res.data.augments.filter(aid => {
+                    if(aid.id === augmentId[0].id) // Find the augment
+                    
+                    // Call the augment image builder
+                    augmentsImageBuilder(aid)
+                })
+
             }).catch(async err => {
                 FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
             })
@@ -250,9 +274,10 @@ module.exports = {
                 requestEntryTooLargeError.setColor(FNBRMENA.Colors("embedError"))
                 if(userData.lang === "en") requestEntryTooLargeError.setTitle(`Request entry too large ${emojisObject.errorEmoji}`)
                 else if(userData.lang === "ar") requestEntryTooLargeError.setTitle(`تم تخطي الكميه المحدودة ${emojisObject.errorEmoji}`)
-                message.reply({embeds: [requestEntryTooLargeError], components: [], files: []})
-                return
-
+                return message.reply({embeds: [requestEntryTooLargeError], components: [], files: []})
+                .catch(err => {
+                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
+                })
             }
 
             // Create an embed
@@ -320,6 +345,9 @@ module.exports = {
 
             // Send the message
             const dropMenuMessage = await message.reply({embeds: [listAugmentsEmbed], components: components, files: []})
+            .catch(err => {
+                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
+            })
 
             // Filtering the user clicker
             const filter = (i => {
@@ -340,27 +368,29 @@ module.exports = {
                     .then(async res => {
 
                         // Check if there is a data
-                        if(res.data.result){
-
-                            // Call the augment image builder
-                            await dropMenuMessage.delete()
-                            
-                            // Filter for names
-                            res.data.augments.filter(aid => {
-                                if(aid.id === collected.values[0]) // Find the augment
-                                
-                                // Call the augment image builder
-                                augmentsImageBuilder(aid)
-                            })
-                        }else{
+                        if(!res.data.result){
 
                             // No result found
                             const noResultFoundError = new Discord.EmbedBuilder()
                             noResultFoundError.setColor(FNBRMENA.Colors("embedError"))
                             if(userData.lang === "en") noResultFoundError.setTitle(`No result found (API Error) ${emojisObject.errorEmoji}.`)
                             else if(userData.lang === "ar") noResultFoundError.setTitle(`لم يتم العثور على نتائج (مشكلة API) ${emojisObject.errorEmoji}.`)
-                            dropMenuMessage.edit({embeds: [noResultFoundError], components: [], files: []})
+                            return dropMenuMessage.edit({embeds: [noResultFoundError], components: [], files: []})
+                            .catch(err => {
+                                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                            })
                         }
+
+                        // Call the augment image builder
+                        await dropMenuMessage.delete()
+                            
+                        // Filter for names
+                        res.data.augments.filter(aid => {
+                            if(aid.id === collected.values[0]) // Find the augment
+                            
+                            // Call the augment image builder
+                            augmentsImageBuilder(aid)
+                        })
                     }).catch(async err => {
                         FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
                     })

@@ -55,6 +55,9 @@ module.exports = {
 
         //send the message
         const athenaGen = await message.reply({embeds: [info], components: [row], files: []})
+        .catch(err => {
+            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+        })
 
         //filtering the user clicker
         const filter = (i => {
@@ -77,6 +80,9 @@ module.exports = {
                 if(userData.lang === "en") waitingMessage.setTitle(`File will be sent in a few seconds please wait... ${emojisObject.loadingEmoji}`)
                 else if(userData.lang === "ar") waitingMessage.setTitle(`سوف يتم ارسال الملف خلال ثواني الرجاء الانتظار... ${emojisObject.loadingEmoji}`)
                 athenaGen.edit({embeds: [waitingMessage], components: [], files: []}) // edit the message
+                .catch(err => {
+                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                })
 
                 //when Fortnite-Api is clicked
                 if(collected.customId === "start"){
@@ -160,6 +166,9 @@ module.exports = {
                 //send the file
                 const att = new Discord.AttachmentBuilder(Buffer.from(JSON.stringify(profile_athena, null, 2)), {name: `profile_athena.json`})
                 await athenaGen.edit({embeds: [], components: [], files: [att]})
+                .catch(err => {
+                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                })
             }
         }).catch(err => {
             FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, athenaGen)

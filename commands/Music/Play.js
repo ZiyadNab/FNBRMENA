@@ -14,6 +14,9 @@ module.exports = {
             notInAVoiceChannelErr.setColor(FNBRMENA.Colors("embedError"))
             notInAVoiceChannelErr.setTitle(`Please join a voice channel first ${emojisObject.errorEmoji}.`)
             return message.reply({embeds: [notInAVoiceChannelErr], components: [], files: []})
+            .catch(err => {
+                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+            })
             
         }
 
@@ -37,6 +40,9 @@ module.exports = {
             noResultsErr.setColor(FNBRMENA.Colors("embedError"))
             noResultsErr.setTitle(`Couldn't find what you are looking for. ${emojisObject.errorEmoji}`)
             return message.reply({embeds: [noResultsErr], components: [], files: []})
+            .catch(err => {
+                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+            })
         }
 
         // Song variable
@@ -58,6 +64,9 @@ module.exports = {
              .setURL(song.url)
           )
         ], files: []})
+        .catch(err => {
+            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+        })
 
         // Add the song to the queue track
         await queue.addTrack(song)

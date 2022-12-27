@@ -1,10 +1,10 @@
 module.exports = {
     commands: 'sac',
     type: 'Fortnite',
-    descriptionEN: 'Use this command to extract the support a creator data.',
-    descriptionAR: 'أستعمل الأمر لأستخراج معلومات كود الشوب.',
+    descriptionEN: 'Extracts informations support a creator data.',
+    descriptionAR: 'أستخراج معلومات عن معرف المتجر.',
     expectedArgsEN: 'Use this command then type the SAC name.',
-    expectedArgsAR: 'أستعمل الأمر ثم اكتب اسم كود الشوب.',
+    expectedArgsAR: 'أستعمل الأمر ثم اكتب معرف المتجر.',
     argsExample: ['AV2', 'AV2', 'AV2'],
     minArgs: 1,
     maxArgs: 1,
@@ -35,6 +35,9 @@ module.exports = {
             // Set description
             SACInfo.setDescription(str)
             message.reply({embeds: [SACInfo], components: [], files: []})
+            .catch(err => {
+                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
+            })
 
         }).catch(async err => {
             if(err.response.data.status === 404 && err.response.data.status !== undefined){

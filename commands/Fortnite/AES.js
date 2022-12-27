@@ -1,6 +1,8 @@
 module.exports = {
     commands: 'aes',
     type: 'Fortnite',
+    descriptionEN: 'Returns general informations about the game files.',
+    descriptionAR: 'إرجاع معلومات عامة حول ملفات اللعبة.',
     minArgs: 0,
     maxArgs: 0,
     cooldown: -1,
@@ -26,6 +28,9 @@ module.exports = {
             if(userData.lang === "en") generating.setTitle(`Loading a total ${res.data.dynamicKeys.length + res.data.unloaded.length}, please wait... ${emojisObject.loadingEmoji}`)
             else if(userData.lang === "ar") generating.setTitle(`جاري تحميل ${res.data.dynamicKeys.length + res.data.unloaded.length} مفتاح , الرجاء الانتظار... ${emojisObject.loadingEmoji}`)
             const msg = await message.reply({embeds: [generating]})
+            .catch(err => {
+                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
+            })
             try {
 
                 // Create an embed, row

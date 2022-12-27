@@ -3,12 +3,11 @@ const Canvas = require('canvas');
 module.exports = {
     commands: 'quests',
     type: 'Fortnite',
-    descriptionEN: 'This command will extract any challengas from the files (even if its leaked).',
-    descriptionAR: 'الأمر هذا راح يستخرج لك اي تحدي من الملفات (حتى اذا كانت مسربة).',
+    descriptionEN: 'Generates an image for any quest.',
+    descriptionAR: 'استخراج صورة لأي مهمة.',
     minArgs: 0,
     maxArgs: 0,
     cooldown: 15,
-    permissionError: 'Sorry you do not have acccess to this command',
     callback: async (FNBRMENA, message, args, text, Discord, client, admin, userData, alias, emojisObject) => {
 
         // Values
@@ -27,6 +26,10 @@ module.exports = {
                 if(userData.lang === "en") generating.setTitle(`Loading ${targetQuest.name}... ${emojisObject.loadingEmoji}`)
                 else if(userData.lang === "ar") generating.setTitle(`تحميل ${targetQuest.name}... ${emojisObject.loadingEmoji}`)
                 const msg = await message.reply({embeds: [generating], components: [], files: []})
+                .catch(err => {
+                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
+                })
+
                 try {
 
                     // Setup variables
@@ -270,10 +273,16 @@ module.exports = {
 
                     }
                     
-                    const att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `${targetQuest.id}.png`})
+                    var att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `${targetQuest.id}.png`})
                     msg.edit({embeds: [], components: [], files: [att]})
                     .catch(err => {
-                        FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
+
+                        // Try sending it on jpg file format [LOWER QUALITY]
+                        var att = new Discord.AttachmentBuilder(canvas.toBuffer('image/jpeg'), {name: `${targetQuest.id}.jpg`})
+                        msg.edit({embeds: [], components: [], files: [att]})
+                        .catch(err => {
+                            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
+                        })
                     })
 
                 }catch(err) {
@@ -353,6 +362,9 @@ module.exports = {
 
             // Send the message
             const challengeCategoryMessage = await message.reply({embeds: [dropDownMenuEmbed], components: [categoriesRow, buttonDataRow], files: []})
+            .catch(err => {
+                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
+            })
 
             // Filtering the user clicker
             const filter = (i => {
@@ -360,7 +372,7 @@ module.exports = {
             })
 
             // Await the user click
-            const colllector = await message.channel.createMessageComponentCollector({filter, time: 60000, errors: ['time'] })
+            const colllector = await message.channel.createMessageComponentCollector({filter, time: 60000, errors: ['time']})
             colllector.on('collect', async collected => {
                 collected.deferUpdate()
 
@@ -374,8 +386,10 @@ module.exports = {
                     categoriesIndex = Number(collected.values[0])
 
                     // Update options
-                    categoriesOptions.forEach(e => e.default = false)
-                    categoriesOptions[categoriesIndex].default = true
+                    categoriesOptions.map(e => {
+                        if(e.value === collected.values[0]) e.default = true
+                        else e.default = false
+                    })
 
                     // Set options
                     categoriesRow.components[0].setOptions(categoriesOptions)
@@ -458,7 +472,7 @@ module.exports = {
                 }
             })
 
-            //when time has ended
+            // When time has ended
             colllector.on('end', async () => {
                 try {
                     challengeCategoryMessage.delete()

@@ -12,6 +12,9 @@ module.exports = {
             notInAVoiceChannelErr.setColor(FNBRMENA.Colors("embedError"))
             notInAVoiceChannelErr.setTitle(`Please join a voice channel first. ${emojisObject.errorEmoji}`)
             return message.reply({embeds: [notInAVoiceChannelErr], components: [], files: []})
+            .catch(err => {
+                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+            })
             
         }
         
@@ -24,6 +27,9 @@ module.exports = {
             noMusicPlayingErr.setColor(FNBRMENA.Colors("embedError"))
             noMusicPlayingErr.setTitle(`There is no music currently playing ${emojisObject.errorEmoji}.`)
             return message.reply({embeds: [noMusicPlayingErr], components: [], files: []})
+            .catch(err => {
+                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+            })
 
         }
 
@@ -33,6 +39,9 @@ module.exports = {
             negativeNumberError.setColor(FNBRMENA.Colors("embedError"))
             negativeNumberError.setTitle(`Volume must be non negative, Provide a such ${emojisObject.errorEmoji}.`)
             return message.reply({embeds: [negativeNumberError], components: [], files: []})
+            .catch(err => {
+                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+            })
 
         }
 
@@ -41,6 +50,9 @@ module.exports = {
             tooMuchVolNumberError.setColor(FNBRMENA.Colors("embedError"))
             tooMuchVolNumberError.setTitle(`Volume must be less than 100 ${emojisObject.errorEmoji}.`)
             return message.reply({embeds: [tooMuchVolNumberError], components: [], files: []})
+            .catch(err => {
+                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+            })
 
         }
 
@@ -50,6 +62,9 @@ module.exports = {
             currentVolume.setColor(FNBRMENA.Colors("embedSuccess"))
             currentVolume.setTitle(`The current volume is set to \`${queue.setVolume()}\``)
             return message.reply({embeds: [currentVolume], components: [], files: []})
+            .catch(err => {
+                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+            })
 
         }else{
             await queue.setVolume(parseInt(text))
@@ -57,6 +72,9 @@ module.exports = {
             volumeHasBeenChanged.setColor(FNBRMENA.Colors("embedSuccess"))
             volumeHasBeenChanged.setTitle(`The volume has changed to \`${text}\` ${emojisObject.checkEmoji}`)
             return message.reply({embeds: [volumeHasBeenChanged], components: [], files: []})
+            .catch(err => {
+                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+            })
 
         }
     }

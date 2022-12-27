@@ -4,6 +4,8 @@ const { DiscordAPIError } = require('discord.js');
 module.exports = {
     commands: 'poi',
     type: 'Fortnite',
+    descriptionEN: 'Get an image for any in-game POI.',
+    descriptionAR: 'احصل على صورة لأي منطقة داخل اللعبة.',
     minArgs: 0,
     maxArgs: null,
     cooldown: -1,
@@ -20,8 +22,10 @@ module.exports = {
             notSupportedVersionError.setColor(FNBRMENA.Colors("embedError"))
             if(userData.lang === "en") notSupportedVersionError.setTitle(`Not supported version, Must be Chapter 2 and above ${emojisObject.errorEmoji}.`)
             else if(userData.lang === "ar") notSupportedVersionError.setTitle(`تحديث غير مدعوم , يجب ان يكون الفصل الثاني وأعلى ${emojisObject.errorEmoji}.`)
-            message.reply({embeds: [notSupportedVersionError], components: [], files: []})
-            return
+            return message.reply({embeds: [notSupportedVersionError], components: [], files: []})
+            .catch(err => {
+                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
+            })
         }
 
         // Request data
@@ -36,9 +40,10 @@ module.exports = {
                 noPOIsFoundError.setColor(FNBRMENA.Colors("embedError"))
                 if(userData.lang === "en") noPOIsFoundError.setTitle(`No POIs found ${emojisObject.errorEmoji}.`)
                 else if(userData.lang === "ar") noPOIsFoundError.setTitle(`لا يمكنني العثور على مناطق ${emojisObject.errorEmoji}.`)
-                message.reply({embeds: [noPOIsFoundError], components: [], files: []})
-                return
-
+                return message.reply({embeds: [noPOIsFoundError], components: [], files: []})
+                .catch(err => {
+                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
+                })
             }
 
             // Creating embed
@@ -96,6 +101,9 @@ module.exports = {
 
             // Send the message
             const dropMenuMessage = await message.reply({embeds: [POIsEmbed], components: [POIsTypesRow, buttonDataRow], files: []})
+            .catch(err => {
+                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
+            })
 
             // Filtering the user clicker
             const filter = (i => {

@@ -4,6 +4,8 @@ const Canvas = require('canvas')
 module.exports = {
     commands: 'reminders',
     type: 'Fortnite',
+    descriptionEN: 'Get a list all of your reminders.',
+    descriptionAR: 'احصل على قائمة بجميع التذكيرات الخاصة بك.',
     minArgs: 0,
     maxArgs: 1,
     cooldown: -1,
@@ -28,8 +30,11 @@ module.exports = {
                 userIdNotValidError.setColor(FNBRMENA.Colors("embedError"))
                 if(userData.lang === "en") userIdNotValidError.setTitle(`Please tag a valid user ${emojisObject.errorEmoji}.`)
                 else if(userData.lang === "ar") userIdNotValidError.setTitle(`الرجاء ادخال اسم صحيح${emojisObject.errorEmoji}.`)
-                message.reply({embeds: [userIdNotValidError]})
-                return
+                return message.reply({embeds: [userIdNotValidError]})
+                .catch(err => {
+                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
+                })
+                
             }else userId = userId.user
         }
 
@@ -41,8 +46,17 @@ module.exports = {
             userIdABotError.setColor(FNBRMENA.Colors("embedError"))
             if(userData.lang === "en") userIdABotError.setTitle(`You can't tag a bot ${emojisObject.errorEmoji}.`)
             else if(userData.lang === "ar") userIdABotError.setTitle(`لا يمكنك ادخال اسم روبوت ${emojisObject.errorEmoji}.`)
-            message.reply({embeds: [userIdABotError], components: [], files: []})
-            return
+            return message.reply({embeds: [userIdABotError], components: [], files: []})
+            .catch(err => {
+                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
+            })
+        }
+
+        // Total vbucks
+        var totalVbucks = {
+            vbucks: 0,
+            found: 0,
+            missing: 0,
         }
 
         // Setting up the db firestore
@@ -62,8 +76,10 @@ module.exports = {
             noRemindersFoundError.setColor(FNBRMENA.Colors("embedError"))
             if(userData.lang === "en") noRemindersFoundError.setTitle(`${userId.username} doesn't have any reminders yet ${emojisObject.errorEmoji}.`)
             else if(userData.lang === "ar") noRemindersFoundError.setTitle(`لا يوجد لدى ${userId.username} اي تنبيهات ${emojisObject.errorEmoji}.`)
-            message.reply({embeds: [noRemindersFoundError], components: [], files: []})
-            return
+            return message.reply({embeds: [noRemindersFoundError], components: [], files: []})
+            .catch(err => {
+                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
+            })
         }
 
         // Send a generate message
@@ -72,6 +88,10 @@ module.exports = {
         if(userData.lang === "en") generating.setTitle(`Getting all of the reminders for ${userId.username} account ${emojisObject.loadingEmoji}`)
         if(userData.lang === "ar") generating.setTitle(`جاري جلب جميع التنبيهات لحساب ${userId.username} ${emojisObject.loadingEmoji}`)
         const msg = await message.reply({embeds: [generating], components: [], files: []})
+        .catch(err => {
+            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
+        })
+        
         try {
 
             // Variables
@@ -511,6 +531,10 @@ module.exports = {
                         else if(userData.lang === "ar") string += `${res.data.items[0].name} \`${day} يوم منتظر.\`\n`
                     }
 
+                    // Calculate total vbucks
+                    if(res.data.items[0].price !== 0) totalVbucks.vbucks += res.data.items[0].price, totalVbucks.found++
+                    else totalVbucks.missing++
+
                 // Handeling errors
                 }).catch(err => {
                     FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
@@ -523,10 +547,10 @@ module.exports = {
             remindersEmbed.setColor(FNBRMENA.Colors("embed"))
             if(userData.lang === "en"){
                 remindersEmbed.setTitle(`Reminders for ${userId.username}`)
-                remindersEmbed.setDescription(`You will be notified when these items are in the Item Shop. Add & remove items with remind and unremind. \n\n${string}\n\n${emojisObject.starwars} You can add ${20 - snapshot.size} more reminders (${snapshot.size}/20).`)
+                remindersEmbed.setDescription(`You will be notified when these items are in the Item Shop. Add & remove items with remind and unremind. \n\n${string}\n\n${emojisObject.vbucks} Your Total Vbucks: \`${totalVbucks.vbucks} for ${totalVbucks.found} item(s)\`${(totalVbucks.missing > 0) ? `\n${emojisObject.marvel} Missing Counted Items: \`${totalVbucks.missing} item(s)\`` : ''}\n${emojisObject.starwars} You can add ${20 - snapshot.size} more reminders (${snapshot.size}/20).`)
             }else if(userData.lang === "ar"){
                 remindersEmbed.setTitle(`التذكيرات لـ ${userId.username}`)
-                remindersEmbed.setDescription(`سوف يتم تنبيهك في حال توفر احد العناصر التاليه في متجر العناصر. اضف & احذف العناصر بأستخدام remind و unremind. \n\n${string}\n\n${emojisObject.starwars} يمكنك اضافة ${20 - snapshot.size} من المذكرات (${snapshot.size}/20).`)
+                remindersEmbed.setDescription(`سوف يتم تنبيهك في حال توفر احد العناصر التاليه في متجر العناصر. اضف & احذف العناصر بأستخدام remind و unremind. \n\n${string}\n\n${emojisObject.vbucks} مجموع الفيبوكس الكلي: \`${totalVbucks.vbucks} لـ ${totalVbucks.found} عنصر\`${(totalVbucks.missing > 0) ? `\n${emojisObject.marvel} تم استثناء: \`${totalVbucks.missing} عنصر\`` : ''}\n${emojisObject.starwars} يمكنك اضافة ${20 - snapshot.size} من المذكرات (${snapshot.size}/20).`)
             }
 
             // Send the image

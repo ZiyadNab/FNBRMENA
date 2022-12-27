@@ -4,6 +4,8 @@ const Canvas = require('canvas');
 module.exports = {
     commands: 'itemshop',
     type: 'Fortnite',
+    descriptionEN: 'Get an image for the current itemshop.',
+    descriptionAR: 'الحصول على صورة لمتجر العنصر الحالي.',
     minArgs: 0,
     maxArgs: 0,
     cooldown: 30,
@@ -18,6 +20,9 @@ module.exports = {
             if(userData.lang === "en") generating.setTitle(`Loading a total ${res.data.shop.length} cosmetics please wait... ${emojisObject.loadingEmoji}`)
             else if(userData.lang === "ar") generating.setTitle(`تحميل جميع العناصر بمجموع ${res.data.shop.length} عنصر الرجاء الانتظار... ${emojisObject.loadingEmoji}`)
             const msg = await message.reply({embeds: [generating], components: [], files: []})
+            .catch(err => {
+                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
+            })
             try {
 
                 // Creating array of objects
@@ -1569,11 +1574,19 @@ module.exports = {
                     FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
                 })
 
-                const att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `${res.data.lastUpdate.uid}.png`})
+                // Send the itemshop image
+                var att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `${res.data.lastUpdate.uid}.png`})
                 msg.edit({embeds: [], components: [], files: [att]})
                 .catch(err => {
-                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
+
+                    // Try sending it on jpg file format [LOWER QUALITY]
+                    var att = new Discord.AttachmentBuilder(canvas.toBuffer('image/jpeg'), {name: `${res.data.lastUpdate.uid}.jpg`})
+                    msg.edit({embeds: [], components: [], files: [att]})
+                    .catch(err => {
+                        FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
+                    })
                 })
+                
             } catch(err) {
                 FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
             }

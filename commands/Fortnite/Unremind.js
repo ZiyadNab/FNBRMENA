@@ -4,6 +4,8 @@ require('moment-timezone')
 module.exports = {
     commands: 'unremind',
     type: 'Fortnite',
+    descriptionEN: 'Remove reminders from your account.',
+    descriptionAR: 'إزالة التذكيرات من حسابك.',
     minArgs: 0,
     maxArgs: 0,
     cooldown: -1,
@@ -14,6 +16,10 @@ module.exports = {
         if(userData.lang === "en") generating.setTitle(`Getting all of the reminders under your account ${emojisObject.loadingEmoji}`)
         else if(userData.lang === "ar") generating.setTitle(`جاري جلب جميع التنبيهات لحسابك ${emojisObject.loadingEmoji}`)
         const msg = await message.reply({embeds: [generating], components: [], files: []})
+        .catch(err => {
+            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
+        })
+        
         try {
         
             // Seeting up the db firestore

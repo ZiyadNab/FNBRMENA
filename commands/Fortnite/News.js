@@ -254,6 +254,7 @@ module.exports = {
 
             // Send the button
             const newsTypeMessage = await message.reply({embeds: [newsTypeEmbed], components: [buttonsDataRow]})
+            
 
             // Filtering the user clicker
             const filter = (i => {

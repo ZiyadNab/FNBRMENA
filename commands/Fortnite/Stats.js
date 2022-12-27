@@ -5,10 +5,12 @@ require('moment-timezone')
 module.exports = {
     commands: 'stats',
     type: 'Fortnite',
-    descriptionEN: 'Use this command to extract the account stats.',
-    descriptionAR: 'أستعمل الأمر لأستخراج جميع احصائيات الحساب.',
-    expectedArgsEN: 'Use this command then type the use EPICGAMES displayname',
-    expectedArgsAR: 'أستعمل الأمر ثم اكتب اسم اي حساب شخص على منصة ايبك قيمز',
+    descriptionEN: 'Generates an image contains statistics about any account.',
+    descriptionAR: 'استرجاع صورة تحتوي على إحصائيات حول أي حساب.',
+    expectedArgsEN: 'To start, use the command then the account display name.',
+    expectedArgsAR: 'للبدء ، استخدم الأمر ثم اسم عرض الحساب.',
+    hintEN: 'You can find statistics about any account regardless of the account platform whether its Xbox, Playstation or, Epic Games.',
+    hintAR: 'يمكنك العثور على إحصائيات حول أي حساب بغض النظر عن النظام الأساسي للحساب سواء كان Xbox أو Playstation أو Epic Games.',
     argsExample: ['Ninja', 'SypherPK'],
     minArgs: 1,
     maxArgs: null,
@@ -73,6 +75,10 @@ module.exports = {
             if(userData.lang === "en") generating.setTitle(`Loading player's data... ${emojisObject.loadingEmoji}`)
             else if(userData.lang === "ar") generating.setTitle(`جاري تحميل بيانات اللاعب... ${emojisObject.loadingEmoji}`)
             const msg = await message.reply({embeds: [generating], embeds: [], components: [], files: []})
+            .catch(err => {
+                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
+            })
+
             try {
 
                 // Push add, solo, duo, squads and LTM's
@@ -429,20 +435,15 @@ module.exports = {
 
                 // Send the image
                 var att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `${res.data.data.account.name}.png`})
-                msg.edit({embeds: [remindersEmbed], components: [], files: [att]})
+                msg.edit({embeds: [], components: [], files: [att]})
                 .catch(err => {
 
                     // Try sending it on jpg file format [LOWER QUALITY]
                     var att = new Discord.AttachmentBuilder(canvas.toBuffer('image/jpeg'), {name: `${res.data.data.account.name}.jpg`})
-                    msg.edit({embeds: [remindersEmbed], components: [], files: [att]})
+                    msg.edit({embeds: [], components: [], files: [att]})
                     .catch(err => {
                         FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
                     })
-                })
-
-                msg.edit({embeds: [], components: [], files: [att]})
-                .catch(err => {
-                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
                 })
 
             }catch(err) {
@@ -538,6 +539,9 @@ module.exports = {
 
         // Send the message
         const dropMenuMessage = await message.reply({embeds: [statsPlatformEmbed], components: [statsPlatformRow, cancelButtonDataRow], files: []})
+        .catch(err => {
+            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
+        })
 
         // Filtering the user clicker
         const filter = (i => {
@@ -735,6 +739,9 @@ module.exports = {
                             if(userData.lang === "en") noUserHasBeenFoundError.setTitle(`Can't find ${text} in ${usedPlatform} platform. Please try again ${emojisObject.errorEmoji}`)
                             else if(userData.lang === "ar") noUserHasBeenFoundError.setTitle(`لا يمكنني العثور على حساب ${text} في منصه ${usedPlatform}. حاول مجددا ${emojisObject.errorEmoji}`)
                             await message.reply({embeds: [noUserHasBeenFoundError], components: [], files: []})
+                            .catch(err => {
+                                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
+                            })
 
                         }else if(err.response.data.error === "the requested profile didnt play any match yet"){
 
@@ -743,6 +750,9 @@ module.exports = {
                             if(userData.lang === "en") noMatchsPlayedYetError.setTitle(`The ${text} account hasn't played any matchs yet ${emojisObject.errorEmoji}`)
                             else if(userData.lang === "ar") noMatchsPlayedYetError.setTitle(`صاحب حساب ${text} لم يلعب اي مباراة حتى الأن ${emojisObject.errorEmoji}`)
                             await message.reply({embeds: [noMatchsPlayedYetError], components: [], files: []})
+                            .catch(err => {
+                                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
+                            })
 
                         }
 
@@ -753,6 +763,9 @@ module.exports = {
                         if(userData.lang === "en") theUserAccountIsPrivate.setTitle(`Can't get access to ${text} because the user account is private. ${emojisObject.errorEmoji}`)
                         else if(userData.lang === "ar") theUserAccountIsPrivate.setTitle(`لا يمكنني الحصول على صلاحية إحصائيات ${text} بسبب ان الحساب خاص. ${emojisObject.errorEmoji}`)
                         await message.reply({embeds: [theUserAccountIsPrivate], components: [], files: []})
+                        .catch(err => {
+                            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
+                        })
 
                     }else FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
                 })
@@ -794,6 +807,9 @@ module.exports = {
                             if(userData.lang === "en") noUserHasBeenFoundError.setTitle(`Can't find ${text} in ${usedPlatform} platform. Please try again ${emojisObject.errorEmoji}`)
                             else if(userData.lang === "ar") noUserHasBeenFoundError.setTitle(`لا يمكنني العثور على حساب ${text} في منصه ${usedPlatform}. حاول مجددا ${emojisObject.errorEmoji}`)
                             await message.reply({embeds: [noUserHasBeenFoundError], components: [], files: []})
+                            .catch(err => {
+                                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
+                            })
 
                         }else if(err.response.data.error === "the requested profile didnt play any match yet"){
 
@@ -802,6 +818,9 @@ module.exports = {
                             if(userData.lang === "en") noMatchsPlayedYetError.setTitle(`The ${text} account hasn't played any matchs yet ${emojisObject.errorEmoji}`)
                             else if(userData.lang === "ar") noMatchsPlayedYetError.setTitle(`صاحب حساب ${text} لم يلعب اي مباراة حتى الأن ${emojisObject.errorEmoji}`)
                             await message.reply({embeds: [noMatchsPlayedYetError], components: [], files: []})
+                            .catch(err => {
+                                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
+                            })
 
                         }
 
@@ -812,6 +831,9 @@ module.exports = {
                         if(userData.lang === "en") theUserAccountIsPrivate.setTitle(`Can't get access to ${text} because the user account is private. ${emojisObject.errorEmoji}`)
                         else if(userData.lang === "ar") theUserAccountIsPrivate.setTitle(`لا يمكنني الحصول على صلاحية إحصائيات ${text} بسبب ان الحساب خاص. ${emojisObject.errorEmoji}`)
                         await message.reply({embeds: [theUserAccountIsPrivate], components: [], files: []})
+                        .catch(err => {
+                            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
+                        })
 
                     }else FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
                 })

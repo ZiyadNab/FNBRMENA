@@ -135,6 +135,9 @@ module.exports = {
         
         // Send the embed
         const commandsMessage = await message.reply({embeds: [list], components: [row], files: []})
+        .catch(err => {
+            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
+        })
 
         // Filtering the user clicker
         const filter = (i => {

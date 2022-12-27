@@ -80,6 +80,9 @@ module.exports = {
 
         // Send the message
         const dropMenuMessage = await message.reply({embeds: [languageEmbed], components: [languageRow, buttonDataRow], files: []})
+        .catch(err => {
+            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+        })
 
         // Filtering the user clicker
         const filter = (i => {
@@ -110,6 +113,9 @@ module.exports = {
                 if(userData.lang === "en") successfullyUpatedEmbed.setTitle(`You have successfully changed your language ${emojisObject.checkEmoji}.`)
                 else if(userData.lang === "ar") successfullyUpatedEmbed.setTitle(`تم تغير اللغة الخاصه بك بنجاح ${emojisObject.checkEmoji}.`)
                 dropMenuMessage.edit({embeds: [successfullyUpatedEmbed], components: [], files: []})
+                .catch(err => {
+                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                })
             }
         }).catch(async err => {
             FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)

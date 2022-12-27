@@ -4,11 +4,11 @@ const Canvas = require('canvas')
 module.exports = {
     commands: 'bundle',
     type: 'Fortnite',
-    descriptionEN: 'By using this command you will be able to get all the informations about a bundle of your choice (Only real money bundles)',
-    descriptionAR: 'بأستعمال الأمر يمكنك استرجاع جميع المعلومات عن أي حزمة بأختيارك (فقط الحزم المالية)',
-    expectedArgsEN: 'To use the command you need to specifiy a bundle name or a bundle name that contains a specifiy word.',
-    expectedArgsAR: 'من اجل استخدام الأمر يجب عليك تحديد أسم الحزمة او اي حرف من اي حزمة',
-    hintEN: 'You can search for a bundle with just one word you dont need to spell the bundle name correctly just type the words you know. e.g. search by (der) that will give u a list of all the bundles contains word der like Derby Dynamo',
+    descriptionEN: 'Return detailed data about any real mony bundle.',
+    descriptionAR: 'استرجاع المعلومات التفصيلية حول أي حزمة أموال حقيقية.',
+    expectedArgsEN: 'To use the command you need to specify a bundle name.',
+    expectedArgsAR: 'من اجل استخدام الأمر يجب عليك تحديد أسم حزمة.',
+    hintEN: 'You can search for a bundle with just one word. You don\'t need to spell the bundle\'s full name. Just type the words you know. For example, search by (Der), (Derby), or by its full name (Derby Dynamo Quest Pack), And the bot will list all possible bundles that match your input.',
     hintAR: 'يمكنك البحث فقط بأسخدام حرف واحد لا تحتاج الى ان تكتب اسم الحزمة بالكامل فقط اكتب الحروف الي تتذكرها من الحزمة. مثل البحث بأستخدام كلمة (der) سوف تحصل على قائمة لجميع الحزم التي تبدأ بكلمة der مثل Derby Dynamo',
     argsExample: ['Derby Dynamo Challenge Pack', 'D'],
     minArgs: 1,
@@ -32,6 +32,19 @@ module.exports = {
                 return obj.name.toLowerCase().includes(text.toLowerCase())
             })
 
+            // No bundle has been found
+            if(listOfBundles.length === 0){
+                
+                const noBundleFoundError = new Discord.EmbedBuilder()
+                noBundleFoundError.setColor(FNBRMENA.Colors("embedError"))
+                if(userData.lang === "en") noBundleFoundError.setTitle(`No bundle has been found check your speling and try again ${emojisObject.errorEmoji}`)
+                else if(userData.lang === "ar") noBundleFoundError.setTitle(`لا يمكنني العثور على الحزمة الرجاء التأكد من كتابة الاسم بشكل صحيح ${emojisObject.errorEmoji}`)
+                message.reply({embeds: [noBundleFoundError]})
+                .catch(err => {
+                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
+                })
+            }
+
             // If there is only one bundle found
             if(listOfBundles.length === 1) data.offerID = listOfBundles[0]['offerId']
 
@@ -53,54 +66,26 @@ module.exports = {
                 // Send the reply to the user
                 if(userData.lang === "en") reply = "please choose a bundle from the list above, will stop listen in 20 sec"
                 else if(userData.lang === "ar") reply = "الرجاء الاختيار من القائمة بالاعلى، سوف ينتهي الامر خلال ٢٠ ثانية"
-
-                // Send the reply
-                await message.reply({content: reply, embeds: [chooseBundleEmbed]})
-                .then(async notify => {
-
-                    // Await messages
-                    await message.channel.awaitMessages({filter, max: 1, time: 20000, errors: ['time']})
-                    .then( async collected => {
-
-                        // Deleting messages
-                        notify.delete()
-
-                        // If the user input in range
-                        if(collected.first().content >= 0 && collected.first().content < listOfBundles.length) data.offerID = listOfBundles[collected.first().content]['offerId']
-                        else{
-
-                            // Create out of range embed
-                            const outOfRangeError = new Discord.EmbedBuilder()
-                            outOfRangeError.setColor(FNBRMENA.Colors("embedError"))
-                            outOfRangeError.setTitle(`${FNBRMENA.Errors("outOfRange", userData.lang)} ${emojisObject.errorEmoji}`)
-                            message.reply({embeds: [outOfRangeError]})
-                            
-                        }
-                    }).catch(err => {
-
-                        // Deleting messages
-                        notify.delete()
-
-                        //time has passed
-                        const timeError = new Discord.EmbedBuilder()
-                        timeError.setColor(FNBRMENA.Colors("embedError"))
-                        timeError.setTitle(`${FNBRMENA.Errors("Time", userData.lang)} ${emojisObject.errorEmoji}`)
-                        message.reply({embeds: [timeError]})
-                    })
-
-                }).catch(err => {
+                const notify = await message.reply({content: reply, embeds: [chooseBundleEmbed]})
+                .catch(err => {
                     FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
                 })
-            }
-            
-            // No bundle has been found
-            if(listOfBundles.length === 0){
-                
-                const noBundleFoundError = new Discord.EmbedBuilder()
-                noBundleFoundError.setColor(FNBRMENA.Colors("embedError"))
-                if(userData.lang === "en") noBundleFoundError.setTitle(`No bundle has been found check your speling and try again ${emojisObject.errorEmoji}`)
-                else if(userData.lang === "ar") noBundleFoundError.setTitle(`لا يمكنني العثور على الحزمة الرجاء التأكد من كتابة الاسم بشكل صحيح ${emojisObject.errorEmoji}`)
-                message.reply({embeds: [noBundleFoundError]})
+
+                // Await messages
+                const collected = await message.channel.awaitMessages({filter, max: 1, time: 20000, errors: ['time']})
+                .catch(async err => {
+                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, { message: "Time" }, emojisObject, notify)
+                })
+
+                // Check for collected messages
+                if(!collected) return
+
+                // Deleting messages
+                notify.delete()
+
+                // If the user input in range
+                if(collected.first().content >= 0 && collected.first().content < listOfBundles.length) data.offerID = listOfBundles[collected.first().content]['offerId']
+                else return FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, { message: "outOfRange" }, emojisObject, null)
             }
 
         }).catch(err => {
@@ -114,6 +99,10 @@ module.exports = {
             if(userData.lang === "en") generating.setTitle(`Loading the bundle data... ${emojisObject.loadingEmoji}`)
             else if(userData.lang === "ar") generating.setTitle(`جاري تحميل معلومات الحزمة... ${emojisObject.loadingEmoji}`)
             const msg = await message.reply({embeds: [generating], components: [], files: []})
+            .catch(err => {
+                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
+            })
+
             try {
 
                 await FNBRMENA.getBundles(userData.lang)
@@ -845,10 +834,16 @@ module.exports = {
                     }
                 }
 
-                const att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `${data.searchedBundleData.offerId}.png`})
+                var att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `${data.searchedBundleData.offerId}.png`})
                 msg.edit({embeds: [bundleEmbed], components: [], files: [att]})
                 .catch(err => {
-                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
+
+                    // Try sending it on jpg file format [LOWER QUALITY]
+                    var att = new Discord.AttachmentBuilder(canvas.toBuffer('image/jpeg'), {name: `${data.searchedBundleData.offerId}.jpg`})
+                    msg.edit({embeds: [bundleEmbed], components: [], files: [att]})
+                    .catch(err => {
+                        FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
+                    })
                 })
 
             }catch(err) {

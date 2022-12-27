@@ -5,6 +5,8 @@ const Canvas = require('canvas')
 module.exports = {
     commands: 'progress',
     type: 'Fortnite',
+    descriptionEN: 'Generates a calendar for Fortnite future events.',
+    descriptionAR: 'استخراج تقويمًا لأحداث Fortnite المستقبلية.',
     minArgs: 0,
     maxArgs: 0,
     cooldown: 15,
@@ -19,6 +21,10 @@ module.exports = {
         if(userData.lang === "en") generating.setTitle(`Loading data ${emojisObject.loadingEmoji}`)
         else if(userData.lang === "ar") generating.setTitle(`جاري تحميل البيانات ${emojisObject.loadingEmoji}`)
         const msg = await message.reply({embeds: [generating], components: [], files: []})
+        .catch(err => {
+            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
+        })
+        
         try {
 
             // Inislizing moment
@@ -70,7 +76,7 @@ module.exports = {
                         // If the index is set to be active
                         if(data.Images[x].Status){
 
-                            // Change the opacity from the database
+                            // Change the opacity from the database and check blur if enabled
                             ctx.globalAlpha = data.Images[x].Opacity
 
                             // Upload the image to canvas

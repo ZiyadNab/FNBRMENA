@@ -1,6 +1,11 @@
 module.exports = {
     commands: 'export',
     type: 'Fortnite',
+    descriptionEN: 'Export any file from the game files.',
+    descriptionAR: 'تصدير أي ملف لملفات اللعبة.',
+    expectedArgsEN: 'To use the command you need to specify any file path.',
+    expectedArgsAR: 'لاستخدام الأمر ، تحتاج إلى تحديد أي مسار للملف.',
+    argsExample: ['FortniteGame/Config/DefaultGameplayTags'],
     minArgs: 1,
     maxArgs: 1,
     cooldown: -1,
@@ -19,6 +24,9 @@ module.exports = {
                 if(userData.lang === "en") generating.setTitle(`Loading ${res.data.jsonOutput[0].Name}... ${emojisObject.loadingEmoji}`)
                 else if(userData.lang === "ar") generating.setTitle(`جاري تحميل بيانات ${res.data.jsonOutput[0].Name}... ${emojisObject.loadingEmoji}`)
                 const msg = await message.reply({embeds: [generating], components: [], files: []})
+                .catch(err => {
+                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
+                })
                 try {
 
                     // Send the file
@@ -41,6 +49,9 @@ module.exports = {
                 if(userData.lang === "en") generating.setTitle(`Loading the image file... ${emojisObject.loadingEmoji}`)
                 else if(userData.lang === "ar") generating.setTitle(`جاري تحميل ملف الصورة... ${emojisObject.loadingEmoji}`)
                 const msg = await message.reply({embeds: [generating], components: [], files: []})
+                .catch(err => {
+                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
+                })
                 try {
 
                     // Send the file
@@ -69,6 +80,9 @@ module.exports = {
                 if(userData.lang === "en") generating.setTitle(`Loading the audio file... ${emojisObject.loadingEmoji}`)
                 else if(userData.lang === "ar") generating.setTitle(`جاري تحميل ملف الصوت... ${emojisObject.loadingEmoji}`)
                 const msg = await message.reply({embeds: [generating], components: [], files: []})
+                .catch(err => {
+                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
+                })
                 try {
 
                     // Send the file
@@ -94,6 +108,9 @@ module.exports = {
                 if(userData.lang === "en") noSupportedFileTypeError.setTitle(`The file type ${res.headers['content-type']} isn't supported. ${emojisObject.errorEmoji}`)
                 else if(userData.lang === "ar") noSupportedFileTypeError.setTitle(`نوع الملف ${res.headers['content-type']} ليس مدعوم${emojisObject.errorEmoji}`)
                 message.reply({embeds: [noSupportedFileTypeError], components: [], files: []})
+                .catch(err => {
+                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
+                })
             }
         }).catch(err => {
 
@@ -106,6 +123,9 @@ module.exports = {
                 if(userData.lang === "en") noPackageHasBeenFoundError.setTitle(`No package has been found, check your path. ${emojisObject.errorEmoji}`)
                 else if(userData.lang === "ar") noPackageHasBeenFoundError.setTitle(`لا يمكنني العثور على الملف الرجاء التأكد من مسار الملف ${emojisObject.errorEmoji}`)
                 message.reply({embeds: [noPackageHasBeenFoundError], components: [], files: []})
+                .catch(err => {
+                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
+                })
 
             }else FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
         })

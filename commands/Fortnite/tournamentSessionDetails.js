@@ -326,12 +326,11 @@ module.exports = {
 
                 }catch(err) {
                     FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
-
                 }
 
             }else{
 
-                /// No session has been found
+                // No session has been found
                 const NoSessionsHasBeenFoundError = new Discord.EmbedBuilder()
                 NoSessionsHasBeenFoundError.setColor(FNBRMENA.Colors("embedError"))
                 if(userData.lang === "en") NoSessionsHasBeenFoundError.setTitle(`No session has been found check your window id and try again ${emojisObject.errorEmoji}`)

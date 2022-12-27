@@ -1429,15 +1429,38 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
             else if(lang === "ar") sending.setTitle(`جاري ارسال الصورة الرجاء الانتظار ${emoji}`)
             msg.edit({embeds: [sending]})
 
-            const att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `${res.lastUpdate.uid}.png`})
-            if(role.Status) await message.send({content: `<@&${role.roleID}>`, files: [att]})
-            else await message.send({files: [att]})
-            msg.delete()
+            var att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `${res.lastUpdate.uid}.png`})
+            if(role.Status){
+                msg.edit({content: `<@&${role.roleID}>`, embeds: [], files: [att]})
+                .catch(err => {
+
+                    // Try sending it on jpg file format [LOWER QUALITY]
+                    var att = new Discord.AttachmentBuilder(canvas.toBuffer('image/jpeg'), {name: `${res.lastUpdate.uid}.jpg`})
+                    msg.edit({content: `<@&${role.roleID}>`, embeds: [], files: [att]})
+                    .catch(async err => {
+                        FNBRMENA.eventsLogs(admin, client, err, 'itemshop')
+            
+                    })
+                })
+            }else{
+                msg.edit({embeds: [], files: [att]})
+                .catch(err => {
+
+                    // Try sending it on jpg file format [LOWER QUALITY]
+                    var att = new Discord.AttachmentBuilder(canvas.toBuffer('image/jpeg'), {name: `${res.lastUpdate.uid}.jpg`})
+                    msg.edit({embeds: [], files: [att]})
+                    .catch(async err => {
+                        FNBRMENA.eventsLogs(admin, client, err, 'itemshop')
+            
+                    })
+                })
+            }
 
             //add the main id
             for(let i = 0; i < res.shop.length; i++){
                 mainId[i] = await res.shop[i].mainId
             }
+
         }).catch(async err => {
             FNBRMENA.eventsLogs(admin, client, err, 'itemshop')
 

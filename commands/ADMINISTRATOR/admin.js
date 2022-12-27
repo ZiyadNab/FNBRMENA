@@ -1,5 +1,4 @@
 const moment = require('moment')
-const Discord = require('discord.js')
 
 module.exports = {
     commands: 'admin',
@@ -7,8 +6,7 @@ module.exports = {
     minArgs: 0,
     maxArgs: 0,
     cooldown: -1,
-    permissionError: 'Sorry you do not have acccess to this command',
-    callback: async (FNBRMENA, message, args, text, S, client, admin, userData, alias, emojisObject) => {
+    callback: async (FNBRMENA, message, args, text, Discord, client, admin, userData, alias, emojisObject) => {
         
         // Seeting up the db firestore
         var db = await admin.firestore()
@@ -54,6 +52,10 @@ module.exports = {
                 label: `Users`,
                 value: `users`,
             },
+            {
+                label: `Talk`,
+                value: `talk`,
+            },
         )
 
         // Add the drop menu to the categoryDropMenu
@@ -61,6 +63,9 @@ module.exports = {
 
         // Send the message
         const dropMenuMessage = await message.reply({embeds: [adminCommandEmbed], components: [adminCommandsRow, buttonDataRow]})
+        .catch(err => {
+            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
+        })
 
         // Filtering the admin clicker
         const filter = (i => {
@@ -124,6 +129,9 @@ module.exports = {
 
                     // Edit the message
                     dropMenuMessage.edit({embeds: [botStatusEmbed], components: [botStatusButtonDataRow]})
+                    .catch(err => {
+                        FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                    })
 
                     // Filtering the admin clicker
                     const filter = (i => {
@@ -154,6 +162,9 @@ module.exports = {
                             statusUpdatedEmbed.setColor(FNBRMENA.Colors("embedSuccess"))
                             statusUpdatedEmbed.setTitle(`The bot is now online ${emojisObject.checkEmoji}.`)
                             dropMenuMessage.edit({embeds: [statusUpdatedEmbed], components: []})
+                            .catch(err => {
+                                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                            })
                         }
 
                         // Turn Off has been selected
@@ -173,6 +184,9 @@ module.exports = {
                             statusUpdatedEmbed.setColor(FNBRMENA.Colors("embedSuccess"))
                             statusUpdatedEmbed.setTitle(`The bot is now offline ${emojisObject.checkEmoji}.`)
                             dropMenuMessage.edit({embeds: [statusUpdatedEmbed], components: []})
+                            .catch(err => {
+                                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                            })
 
                         }
 
@@ -218,6 +232,9 @@ module.exports = {
                                 prefixUpdatedEmbed.setColor(FNBRMENA.Colors("embedSuccess"))
                                 prefixUpdatedEmbed.setTitle(`The bot prefix has been changed from ${serverData.data().prefix} to ${newPrefix} ${emojisObject.checkEmoji}.`)
                                 dropMenuMessage.edit({embeds: [prefixUpdatedEmbed], components: []})
+                                .catch(err => {
+                                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                                })
 
                             }).catch(err => {
                                 FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
@@ -314,6 +331,9 @@ module.exports = {
 
                             // Edit the message
                             dropMenuMessage.edit({embeds: [chooseOperationEmbed], components: [chooseOperationRow, buttonDataRow]})
+                            .catch(err => {
+                                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                            })
 
                             // Filtering the admin clicker
                             const filter = (i => {
@@ -363,6 +383,9 @@ module.exports = {
 
                                         // Edit the message
                                         dropMenuMessage.edit({embeds: [commandOverviewEmbed], components: []})
+                                        .catch(err => {
+                                            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                                        })
                                     }
                                     
                                     // Status has been selected
@@ -424,6 +447,9 @@ module.exports = {
 
                                         // Edit the message
                                         dropMenuMessage.edit({embeds: [commandStatusEmbed], components: [commandStatusButtonDataRow]})
+                                        .catch(err => {
+                                            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                                        })
 
                                         // Filtering the admin clicker
                                         const filter = (i => {
@@ -457,6 +483,9 @@ module.exports = {
                                                 statusUpdatedEmbed.setColor(FNBRMENA.Colors("embedSuccess"))
                                                 statusUpdatedEmbed.setTitle(`The ${commandName} command has been enabled successfully ${emojisObject.checkEmoji}`)
                                                 dropMenuMessage.edit({embeds: [statusUpdatedEmbed], components: []})
+                                                .catch(err => {
+                                                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                                                })
                                             }
 
                                             // If the admin wants to disable a command
@@ -499,6 +528,9 @@ module.exports = {
                                                     statusUpdatedEmbed.setColor(FNBRMENA.Colors("embedSuccess"))
                                                     statusUpdatedEmbed.setTitle(`The ${commandName} command has been disabled successfully ${emojisObject.checkEmoji}`)
                                                     dropMenuMessage.edit({embeds: [statusUpdatedEmbed], components: []})
+                                                    .catch(err => {
+                                                        FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                                                    })
                                                     
                                                 }).catch(err => {
                                                     FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
@@ -534,6 +566,7 @@ module.exports = {
                                             .setCustomId('Hide')
                                             .setStyle(Discord.ButtonStyle.Primary)
                                             .setLabel("Hide")
+                                            .setDisabled(res[eventID].Active)
                                         )
 
                                         appearanceButtonDataRow.addComponents(
@@ -545,6 +578,9 @@ module.exports = {
 
                                         // Edit the message
                                         dropMenuMessage.edit({embeds: [commandStatusEmbed], components: [appearanceButtonDataRow]})
+                                        .catch(err => {
+                                            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                                        })
 
                                         // Filtering the admin clicker
                                         const filter = (i => {
@@ -571,6 +607,9 @@ module.exports = {
                                                 showInCommandsUpdatedEmbed.setColor(FNBRMENA.Colors("embedSuccess"))
                                                 showInCommandsUpdatedEmbed.setTitle(`The ${commandName} command is now visible in commands list ${emojisObject.checkEmoji}.`)
                                                 dropMenuMessage.edit({embeds: [showInCommandsUpdatedEmbed], components: []})
+                                                .catch(err => {
+                                                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                                                })
                                             }
 
                                             // Hide has been selected
@@ -586,6 +625,9 @@ module.exports = {
                                                 showInCommandsUpdatedEmbed.setColor(FNBRMENA.Colors("embedSuccess"))
                                                 showInCommandsUpdatedEmbed.setTitle(`The ${commandName} command is now invisible in commands list ${emojisObject.checkEmoji}.`)
                                                 dropMenuMessage.edit({embeds: [showInCommandsUpdatedEmbed], components: []})
+                                                .catch(err => {
+                                                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                                                })
                                                 
                                             }
 
@@ -676,6 +718,9 @@ module.exports = {
 
                                         // Edit the message
                                         dropMenuMessage.edit({embeds: [banUnbanEmbed], components: [banUnbanButtonDataRow]})
+                                        .catch(err => {
+                                            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                                        })
 
                                         // Filtering the admin clicker
                                         const filter = (i => {
@@ -728,6 +773,9 @@ module.exports = {
                                                     userBannedSuccessfullyEmbed.setColor(FNBRMENA.Colors("embedSuccess"))
                                                     userBannedSuccessfullyEmbed.setTitle(`The user has been banned from using ${commandName} command successfully ${emojisObject.checkEmoji}.`)
                                                     dropMenuMessage.edit({embeds: [userBannedSuccessfullyEmbed], components: []})
+                                                    .catch(err => {
+                                                        FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                                                    })
                                                     
                                                 }).catch(err => {
                                                     FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
@@ -766,6 +814,9 @@ module.exports = {
                                                         userUnBannedSuccessfullyEmbed.setColor(FNBRMENA.Colors("embedSuccess"))
                                                         userUnBannedSuccessfullyEmbed.setTitle(`The user has been unbanned from using ${commandName} command successfully ${emojisObject.checkEmoji}.`)
                                                         dropMenuMessage.edit({embeds: [userUnBannedSuccessfullyEmbed], components: []})
+                                                        .catch(err => {
+                                                            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                                                        })
                                                     }else{
 
                                                         // User ID not found in database
@@ -773,6 +824,9 @@ module.exports = {
                                                         userIDNotFoundEmbed.setColor(FNBRMENA.Colors("embedError"))
                                                         userIDNotFoundEmbed.setTitle(`Cannot find a user in ${commandName} ban list with the given user ID ${emojisObject.errorEmoji}.`)
                                                         dropMenuMessage.edit({embeds: [userIDNotFoundEmbed], components: []})
+                                                        .catch(err => {
+                                                            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                                                        })
                                                     }
                                                     
                                                 }).catch(err => {
@@ -821,6 +875,9 @@ module.exports = {
 
                                         // Edit the message
                                         dropMenuMessage.edit({embeds: [banUnbanEmbed], components: [banUnbanButtonDataRow]})
+                                        .catch(err => {
+                                            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                                        })
 
                                         // Filtering the admin clicker
                                         const filter = (i => {
@@ -847,6 +904,9 @@ module.exports = {
                                                 premiumUpdatedEmbed.setColor(FNBRMENA.Colors("embedSuccess"))
                                                 premiumUpdatedEmbed.setTitle(`The ${commandName} command is now only for premium users ${emojisObject.checkEmoji}.`)
                                                 dropMenuMessage.edit({embeds: [premiumUpdatedEmbed], components: []})
+                                                .catch(err => {
+                                                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                                                })
                                             }
 
                                             // Remove has been selected
@@ -862,6 +922,9 @@ module.exports = {
                                                 premiumUpdatedEmbed.setColor(FNBRMENA.Colors("embedSuccess"))
                                                 premiumUpdatedEmbed.setTitle(`The ${commandName} command is now for everyone to use ${emojisObject.checkEmoji}.`)
                                                 dropMenuMessage.edit({embeds: [premiumUpdatedEmbed], components: []})
+                                                .catch(err => {
+                                                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                                                })
                                             }
 
                                         }).catch(err => {
@@ -935,6 +998,9 @@ module.exports = {
 
                                         // Edit the message
                                         dropMenuMessage.edit({embeds: [commandCooldownEmbed], components: [cooldownButtonDataRow]})
+                                        .catch(err => {
+                                            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                                        })
 
                                         // Filtering the admin clicker
                                         const filter = (i => {
@@ -974,6 +1040,9 @@ module.exports = {
                                                         incorrectCooldownEmbed.setColor(FNBRMENA.Colors("embedError"))
                                                         incorrectCooldownEmbed.setTitle(`Cooldowns must be a number, provide a such ${emojisObject.errorEmoji}.`)
                                                         dropMenuMessage.edit({embeds: [incorrectCooldownEmbed], components: []})
+                                                        .catch(err => {
+                                                            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                                                        })
                                                         return
                                                     }
 
@@ -985,6 +1054,9 @@ module.exports = {
                                                         incorrectSourceEmbed.setColor(FNBRMENA.Colors("embedError"))
                                                         incorrectSourceEmbed.setTitle(`The valid sorces are files or servers only ${emojisObject.errorEmoji}.`)
                                                         dropMenuMessage.edit({embeds: [incorrectSourceEmbed], components: []})
+                                                        .catch(err => {
+                                                            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                                                        })
                                                         return
                                                     }
 
@@ -1002,6 +1074,9 @@ module.exports = {
                                                     statusUpdatedEmbed.setColor(FNBRMENA.Colors("embedSuccess"))
                                                     statusUpdatedEmbed.setTitle(`The ${commandName} cooldown has been changed successfully ${emojisObject.checkEmoji}.`)
                                                     dropMenuMessage.edit({embeds: [statusUpdatedEmbed], components: []})
+                                                    .catch(err => {
+                                                        FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                                                    })
                                                     
                                                 }).catch(err => {
                                                     FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
@@ -1072,6 +1147,9 @@ module.exports = {
 
                                         // Edit the message
                                         dropMenuMessage.edit({embeds: [addRolesEmbed], components: [addRolesButtonDataRow]})
+                                        .catch(err => {
+                                            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                                        })
 
                                         // Filtering the admin clicker
                                         const filter = (i => {
@@ -1116,6 +1194,9 @@ module.exports = {
                                                         rolesUpdatedEmbed.setColor(FNBRMENA.Colors("embedSuccess"))
                                                         rolesUpdatedEmbed.setTitle(`The ${message.guild.roles.cache.get(modalCollect.fields.getTextInputValue('roleID')).name} has been added successfully ${emojisObject.checkEmoji}.`)
                                                         dropMenuMessage.edit({embeds: [rolesUpdatedEmbed], components: []})
+                                                        .catch(err => {
+                                                            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                                                        })
 
                                                     }else{
 
@@ -1124,6 +1205,9 @@ module.exports = {
                                                         wrongRoleIdError.setColor(FNBRMENA.Colors("embedError"))
                                                         wrongRoleIdError.setTitle(`The ${modalCollect.fields.getTextInputValue('roleID')} role id doesn't exists ${emojisObject.errorEmoji}.`)
                                                         dropMenuMessage.edit({embeds: [wrongRoleIdError], components: []})
+                                                        .catch(err => {
+                                                            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                                                        })
                                                     }
                                                     
                                                 }).catch(err => {
@@ -1164,6 +1248,9 @@ module.exports = {
                                                         rolesUpdatedEmbed.setColor(FNBRMENA.Colors("embedSuccess"))
                                                         rolesUpdatedEmbed.setTitle(`The ${message.guild.roles.cache.get(modalCollect.fields.getTextInputValue('roleID')).name} has been removed successfully ${emojisObject.checkEmoji}.`)
                                                         dropMenuMessage.edit({embeds: [rolesUpdatedEmbed], components: []})
+                                                        .catch(err => {
+                                                            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                                                        })
 
                                                     }else{
 
@@ -1172,6 +1259,9 @@ module.exports = {
                                                         wrongRoleIdError.setColor(FNBRMENA.Colors("embedError"))
                                                         wrongRoleIdError.setTitle(`The ${modalCollect.fields.getTextInputValue('roleID')} role id doesn't exists ${emojisObject.errorEmoji}.`)
                                                         dropMenuMessage.edit({embeds: [wrongRoleIdError], components: []})
+                                                        .catch(err => {
+                                                            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                                                        })
                                                     }
                                                 })
                                             }
@@ -1194,6 +1284,9 @@ module.exports = {
                                                 listAllRolesEmbed.setTitle(`All Roles, ${commandName}`)
                                                 listAllRolesEmbed.setDescription(`Here is all the roles that are assigned to ${commandName} command\n\n${string}`)
                                                 dropMenuMessage.edit({embeds: [listAllRolesEmbed], components: []})
+                                                .catch(err => {
+                                                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                                                })
                                             }
 
                                         }).catch(err => {
@@ -1212,6 +1305,9 @@ module.exports = {
                             commandNotFoundEmbed.setColor(FNBRMENA.Colors("embedError"))
                             commandNotFoundEmbed.setTitle(`Command not found ${emojisObject.errorEmoji}.`)
                             dropMenuMessage.edit({embeds: [commandNotFoundEmbed], components: []})
+                            .catch(err => {
+                                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                            })
                         }
                     }).catch(err => {
                         FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
@@ -1255,6 +1351,9 @@ module.exports = {
 
                     // Edit the message
                     dropMenuMessage.edit({embeds: [eventsStatusEmbed], components: [eventsStatusButtonDataRow]})
+                    .catch(err => {
+                        FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                    })
 
                     // Filtering the admin clicker
                     const filter = (i => {
@@ -1331,6 +1430,9 @@ module.exports = {
 
                                 // Edit the message
                                 dropMenuMessage.edit({embeds: [eventsListEmbed], components: components})
+                                .catch(err => {
+                                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                                })
 
                                 // Filtering the admin clicker
                                 const filter = (i => {
@@ -1395,6 +1497,9 @@ module.exports = {
 
                                         // Edit the message
                                         dropMenuMessage.edit({embeds: [eventOperationEmbed], components: [eventOperationButtonDataRow]})
+                                        .catch(err => {
+                                            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                                        })
 
                                         // Filtering the admin clicker
                                         const filter = (i => {
@@ -1445,6 +1550,9 @@ module.exports = {
 
                                                 // Edit the message
                                                 dropMenuMessage.edit({embeds: [eventStatusEmbed], components: [eventStatusButtonDataRow]})
+                                                .catch(err => {
+                                                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                                                })
 
                                                 // Filtering the admin clicker
                                                 const filter = (i => {
@@ -1472,6 +1580,9 @@ module.exports = {
                                                         eventStatusUpdatedEmbed.setColor(FNBRMENA.Colors("embedSuccess"))
                                                         eventStatusUpdatedEmbed.setTitle(`The ${res[eventID].name} has been turned on successfully ${emojisObject.checkEmoji}.`)
                                                         dropMenuMessage.edit({embeds: [eventStatusUpdatedEmbed], components: []})
+                                                        .catch(err => {
+                                                            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                                                        })
                                                     }
 
                                                     // Turn Off has been selected
@@ -1487,6 +1598,9 @@ module.exports = {
                                                         eventStatusUpdatedEmbed.setColor(FNBRMENA.Colors("embedSuccess"))
                                                         eventStatusUpdatedEmbed.setTitle(`The ${res[eventID].name} has been turned off successfully ${emojisObject.checkEmoji}.`)
                                                         dropMenuMessage.edit({embeds: [eventStatusUpdatedEmbed], components: []})
+                                                        .catch(err => {
+                                                            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                                                        })
                                                     }
 
                                                 }).catch(err => {
@@ -1517,6 +1631,9 @@ module.exports = {
                                                 eventStatusUpdatedEmbed.setColor(FNBRMENA.Colors("embedSuccess"))
                                                 eventStatusUpdatedEmbed.setTitle(`The ${res[eventID].name} has been pushed successfully, Please wait until next rotaion ${emojisObject.checkEmoji}.`)
                                                 dropMenuMessage.edit({embeds: [eventStatusUpdatedEmbed], components: []})
+                                                .catch(err => {
+                                                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                                                })
                                             }
 
                                             // Language has been selected
@@ -1557,6 +1674,9 @@ module.exports = {
 
                                                 // Edit the message
                                                 dropMenuMessage.edit({embeds: [eventLanguageEmbed], components: [eventLanguageButtonDataRow]})
+                                                .catch(err => {
+                                                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                                                })
 
                                                 // Filtering the admin clicker
                                                 const filter = (i => {
@@ -1584,6 +1704,9 @@ module.exports = {
                                                         eventLanguageUpdatedEmbed.setColor(FNBRMENA.Colors("embedSuccess"))
                                                         eventLanguageUpdatedEmbed.setTitle(`The ${res[eventID].name} language has been changed to Arabic successfully ${emojisObject.checkEmoji}.`)
                                                         dropMenuMessage.edit({embeds: [eventLanguageUpdatedEmbed], components: []})
+                                                        .catch(err => {
+                                                            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                                                        })
                                                     }
 
                                                     // English has been selected
@@ -1599,6 +1722,9 @@ module.exports = {
                                                         eventLanguageUpdatedEmbed.setColor(FNBRMENA.Colors("embedSuccess"))
                                                         eventLanguageUpdatedEmbed.setTitle(`The ${res[eventID].name} language has been changed to English successfully ${emojisObject.checkEmoji}.`)
                                                         dropMenuMessage.edit({embeds: [eventLanguageUpdatedEmbed], components: []})
+                                                        .catch(err => {
+                                                            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                                                        })
                                                     }
 
                                                 }).catch(err => {
@@ -1648,6 +1774,9 @@ module.exports = {
 
                                                 // Edit the message
                                                 dropMenuMessage.edit({embeds: [eventRoleEmbed], components: [eventRoleButtonDataRow]})
+                                                .catch(err => {
+                                                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                                                })
 
                                                 // Filtering the admin clicker
                                                 const filter = (i => {
@@ -1675,6 +1804,9 @@ module.exports = {
                                                         eventRoleUpdatedEmbed.setColor(FNBRMENA.Colors("embedSuccess"))
                                                         eventRoleUpdatedEmbed.setTitle(`Role ping for ${res[eventID].name} event has been successfully turned on ${emojisObject.checkEmoji}.`)
                                                         dropMenuMessage.edit({embeds: [eventRoleUpdatedEmbed], components: []})
+                                                        .catch(err => {
+                                                            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                                                        })
                                                     }
 
                                                     // Turn Off has been selected
@@ -1691,6 +1823,9 @@ module.exports = {
                                                         eventRoleUpdatedEmbed.setColor(FNBRMENA.Colors("embedSuccess"))
                                                         eventRoleUpdatedEmbed.setTitle(`Role ping for ${res[eventID].name} event has been successfully turned off ${emojisObject.checkEmoji}.`)
                                                         dropMenuMessage.edit({embeds: [eventRoleUpdatedEmbed], components: []})
+                                                        .catch(err => {
+                                                            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                                                        })
                                                     }
 
                                                     // Role ID Edit has been selected
@@ -1738,6 +1873,9 @@ module.exports = {
                                                                 eventRoleIDUpdatedEmbed.setColor(FNBRMENA.Colors("embedSuccess"))
                                                                 eventRoleIDUpdatedEmbed.setTitle(`Role id for ${res[eventID].name} event has been updated successfully ${emojisObject.checkEmoji}.`)
                                                                 dropMenuMessage.edit({embeds: [eventRoleIDUpdatedEmbed], components: []})
+                                                                .catch(err => {
+                                                                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                                                                })
                                                             }else{
 
                                                                 // Not valid role id
@@ -1745,6 +1883,9 @@ module.exports = {
                                                                 notValidRoleIDEmbed.setColor(FNBRMENA.Colors("embedError"))
                                                                 notValidRoleIDEmbed.setTitle(`Not valid role ID ${emojisObject.errorEmoji}.`)
                                                                 dropMenuMessage.edit({embeds: [notValidRoleIDEmbed], components: []})
+                                                                .catch(err => {
+                                                                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                                                                })
                                                             }
 
                                                         }).catch(err => {
@@ -1816,6 +1957,9 @@ module.exports = {
 
                                 // Send the result
                                 dropMenuMessage.edit({embeds: [eventsOverviewEmbed], components: []})
+                                .catch(err => {
+                                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                                })
 
                             }).catch(err => {
                                 FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
@@ -1911,6 +2055,9 @@ module.exports = {
 
                             // Edit the message
                             dropMenuMessage.edit({embeds: [userOperationsEmbed], components: [userOperationsButtonDataRow]})
+                            .catch(err => {
+                                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                            })
 
                             // Filtering the admin clicker
                             const filter = (i => {
@@ -1938,6 +2085,9 @@ module.exports = {
                                     quickAccessUpdatedEmbed.setColor(FNBRMENA.Colors("embedSuccess"))
                                     quickAccessUpdatedEmbed.setTitle(`The quick access has been taken from ${userInfo.username} successfully ${emojisObject.checkEmoji}.`)
                                     dropMenuMessage.edit({embeds: [quickAccessUpdatedEmbed], components: []})
+                                    .catch(err => {
+                                        FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                                    })
 
                                 }
 
@@ -1954,6 +2104,9 @@ module.exports = {
                                     quickAccessUpdatedEmbed.setColor(FNBRMENA.Colors("embedSuccess"))
                                     quickAccessUpdatedEmbed.setTitle(`The quick access has been given to ${userInfo.username} successfully ${emojisObject.checkEmoji}.`)
                                     dropMenuMessage.edit({embeds: [quickAccessUpdatedEmbed], components: []})
+                                    .catch(err => {
+                                        FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                                    })
 
                                 }
 
@@ -1970,6 +2123,9 @@ module.exports = {
                                     quickAccessUpdatedEmbed.setColor(FNBRMENA.Colors("embedSuccess"))
                                     quickAccessUpdatedEmbed.setTitle(`The premium has been taken from ${userInfo.username} successfully ${emojisObject.checkEmoji}.`)
                                     dropMenuMessage.edit({embeds: [quickAccessUpdatedEmbed], components: []})
+                                    .catch(err => {
+                                        FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                                    })
 
                                 }
 
@@ -1986,6 +2142,9 @@ module.exports = {
                                     quickAccessUpdatedEmbed.setColor(FNBRMENA.Colors("embedSuccess"))
                                     quickAccessUpdatedEmbed.setTitle(`The premium has been given to ${userInfo.username} successfully ${emojisObject.checkEmoji}.`)
                                     dropMenuMessage.edit({embeds: [quickAccessUpdatedEmbed], components: []})
+                                    .catch(err => {
+                                        FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                                    })
 
                                 }
 
@@ -1999,12 +2158,474 @@ module.exports = {
                             userNotFoundEmbed.setColor(FNBRMENA.Colors("embedError"))
                             userNotFoundEmbed.setTitle(`User not found ${emojisObject.errorEmoji}.`)
                             dropMenuMessage.edit({embeds: [userNotFoundEmbed], components: []})
+                            .catch(err => {
+                                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                            })
                         }
 
                     }).catch(err => {
                         FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
                     })
                 }
+
+                // Talk status has been selected
+                if(collected.values[0] === `talk`){
+                    collected.deferUpdate();
+
+                    // Create an embed
+                    const talkEmbed = new Discord.EmbedBuilder()
+                    talkEmbed.setColor(FNBRMENA.Colors("embed"))
+                    talkEmbed.setTitle(`Talk Command Instruction`)
+                    talkEmbed.setDescription('Click on the show modal button and fill the required fields keep in mind that this command is only for staff and using it without permission could result in a ban.\n\`You have only 30 seconds until this operation ends, Make it quick\`')
+
+                    // Create a row for cancel button
+                    const talkButtonDataRow = new Discord.ActionRowBuilder()
+                    
+                    // Add buttons
+                    talkButtonDataRow.addComponents(
+                        new Discord.ButtonBuilder()
+                        .setCustomId('ShowText')
+                        .setStyle(Discord.ButtonStyle.Primary)
+                        .setLabel("Text Based")
+                    )
+                    talkButtonDataRow.addComponents(
+                        new Discord.ButtonBuilder()
+                        .setCustomId('ShowEmbed')
+                        .setStyle(Discord.ButtonStyle.Success)
+                        .setLabel("Embed Based")
+                    )
+                    talkButtonDataRow.addComponents(
+                        new Discord.ButtonBuilder()
+                        .setCustomId('Fetch')
+                        .setStyle(Discord.ButtonStyle.Secondary)
+                        .setLabel("Fetch")
+                    )
+                    talkButtonDataRow.addComponents(
+                        new Discord.ButtonBuilder()
+                        .setCustomId('Cancel')
+                        .setStyle(Discord.ButtonStyle.Danger)
+                        .setLabel("Cancel")
+                    )
+
+                    // Send the message
+                    dropMenuMessage.edit({embeds: [talkEmbed], components: [talkButtonDataRow]})
+                    .catch(err => {
+                        FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                    })
+
+                    // Filtering the user clicker
+                    const filter = (i => {
+                        return (i.user.id === message.author.id && i.message.id === dropMenuMessage.id && i.guild.id === message.guild.id)
+                    })
+
+                    // Await for the user
+                    await message.channel.awaitMessageComponent({filter, time: 3 * 60000})
+                    .then(async collected => {
+
+                        // Cancel has been selected
+                        if(collected.customId === "Cancel") dropMenuMessage.delete()
+                        
+                        // Show Text has been selected
+                        if(collected.customId === "ShowText"){
+
+                            // Create the modal and add text fields
+                            const talkTextModal = new Discord.ModalBuilder()
+                            talkTextModal.setCustomId(`talkText-${message.id}`)
+                            talkTextModal.setTitle('Brrrr, Please fill the fields.')
+                            talkTextModal.addComponents(
+                                new Discord.ActionRowBuilder().addComponents(
+                                    new Discord.TextInputBuilder()
+                                    .setCustomId('textChannelID')
+                                    .setLabel("Please insert the text channel ID")
+                                    .setStyle(Discord.TextInputStyle.Short)
+                                    .setPlaceholder("Type something...")
+                                    .setRequired(true)
+                                    .setValue("1010198781561667648")
+                                ),
+                                new Discord.ActionRowBuilder().addComponents(
+                                    new Discord.TextInputBuilder()
+                                    .setCustomId('contentText')
+                                    .setLabel("What do you want me to say?")
+                                    .setStyle(Discord.TextInputStyle.Paragraph)
+                                    .setPlaceholder("Type something...")
+                                    .setRequired(true)
+                                )
+                            )
+
+                            // Show Modal
+                            await collected.showModal(talkTextModal)
+
+                            // Listen for modal submission
+                            const filter = (i => {
+                                return i.customId === `talkText-${message.id}` && i.user.id === message.author.id && i.guild.id === message.guild.id
+                            })
+                            await collected.awaitModalSubmit({filter, time: 10 * 60000})
+                            .then(async modalCollect => {
+
+                                // Get all the submited input values
+                                const channelID = modalCollect.fields.getTextInputValue('textChannelID');
+                                const contentSent = modalCollect.fields.getTextInputValue('contentText');
+
+                                // Find the given text channel
+                                const channel = client.channels.cache.find(channel => channel.id === channelID)
+                                if(channel){ // Check if the channel given does exist
+                                    modalCollect.deferUpdate()
+                                    await channel.send({content: contentSent})
+
+                                    // Create a successfull embed message
+                                    const successfulMessageEmbed = new Discord.EmbedBuilder()
+                                    successfulMessageEmbed.setColor(FNBRMENA.Colors("embedSuccess"))
+                                    successfulMessageEmbed.setTitle(`The message has been sent to \`${channel.name}\`'s channel successfully ${emojisObject.checkEmoji}.`)
+                                    dropMenuMessage.edit({embeds: [successfulMessageEmbed], components: [], files: []})
+                                    .catch(err => {
+                                        FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                                    })
+
+                                }else modalCollect.reply({content: 'Please try again and specify a valid text channel id.', ephemeral: true})
+                                
+                            }).catch(err => {
+                                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                            })
+                        }
+
+                        // Show Embed has been selected
+                        if(collected.customId === "ShowEmbed"){
+                            
+                            // Create the modal and add text fields
+                            const talkEmbedModal = new Discord.ModalBuilder()
+                            talkEmbedModal.setCustomId(`talkEmbed-${message.id}`)
+                            talkEmbedModal.setTitle('Brrrr, Please fill the fields.')
+                            talkEmbedModal.addComponents(
+                                new Discord.ActionRowBuilder().addComponents(
+                                    new Discord.TextInputBuilder()
+                                    .setCustomId('textChannelID')
+                                    .setLabel("Please insert the text channel ID")
+                                    .setStyle(Discord.TextInputStyle.Short)
+                                    .setPlaceholder("Type something...")
+                                    .setRequired(true)
+                                    .setValue("1010198781561667648")
+                                ),
+                                new Discord.ActionRowBuilder().addComponents(
+                                    new Discord.TextInputBuilder()
+                                    .setCustomId('embedColor')
+                                    .setLabel("Embed color (HEX), type * for default")
+                                    .setStyle(Discord.TextInputStyle.Short)
+                                    .setPlaceholder("Leave it empty to skip")
+                                    .setRequired(false)
+                                ),
+                                new Discord.ActionRowBuilder().addComponents(
+                                    new Discord.TextInputBuilder()
+                                    .setCustomId('embedTitle')
+                                    .setLabel("Please type the embed title here")
+                                    .setStyle(Discord.TextInputStyle.Short)
+                                    .setPlaceholder("Type something...")
+                                    .setRequired(true)
+                                ),
+                                new Discord.ActionRowBuilder().addComponents(
+                                    new Discord.TextInputBuilder()
+                                    .setCustomId('embedDescription')
+                                    .setLabel("Please type the embed description here")
+                                    .setStyle(Discord.TextInputStyle.Paragraph)
+                                    .setPlaceholder("Type something...")
+                                    .setRequired(true)
+                                )
+                            )
+
+                            // Show Modal
+                            await collected.showModal(talkEmbedModal)
+
+                            // Listen for modal submission
+                            const filter = (i => {
+                                return i.customId === `talkEmbed-${message.id}` && i.user.id === message.author.id && i.guild.id === message.guild.id
+                            })
+                            await collected.awaitModalSubmit({filter, time: 10 * 60000})
+                            .then(async modalCollect => {
+
+                                // Get all the submited input values
+                                const channelID = modalCollect.fields.getTextInputValue('textChannelID');
+                                const embedColor = modalCollect.fields.getTextInputValue('embedColor');
+                                const embedTitle = modalCollect.fields.getTextInputValue('embedTitle');
+                                const embedDescription = modalCollect.fields.getTextInputValue('embedDescription');
+
+                                // Find the given text channel
+                                const channel = client.channels.cache.find(channel => channel.id === channelID)
+                                if(channel){ // Check if the channel given does exist
+                                    modalCollect.deferUpdate()
+
+                                    // Create embed
+                                    const talkEmbed = new Discord.EmbedBuilder()
+                                    if(embedColor !== "") talkEmbed.setColor(embedColor)
+                                    else talkEmbed.setColor(FNBRMENA.Colors("embed"))
+                                    talkEmbed.setTitle(embedTitle)
+                                    talkEmbed.setDescription(embedDescription)
+
+                                    // Send the embed message
+                                    await channel.send({embeds: [talkEmbed]})
+
+                                    // Create a successfull embed message
+                                    const successfulMessageEmbed = new Discord.EmbedBuilder()
+                                    successfulMessageEmbed.setColor(FNBRMENA.Colors("embedSuccess"))
+                                    successfulMessageEmbed.setTitle(`The message has been sent to \`${channel.name}\`'s channel successfully ${emojisObject.checkEmoji}.`)
+                                    dropMenuMessage.edit({embeds: [successfulMessageEmbed], components: [], files: []})
+                                    .catch(err => {
+                                        FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                                    })
+
+                                }else modalCollect.reply({content: 'Please try again and specify a valid text channel id.', ephemeral: true})
+                                
+                            }).catch(err => {
+                                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                            })
+                        }
+
+                        // Fetch has been selected
+                        if(collected.customId === "Fetch"){
+                            
+                            // Create the modal and add text fields
+                            const fetchChannelMessageIDModal = new Discord.ModalBuilder()
+                            fetchChannelMessageIDModal.setCustomId(`fetchChannel&MessageID-${message.id}`)
+                            fetchChannelMessageIDModal.setTitle('Channed/Message IDs Fetch.')
+                            fetchChannelMessageIDModal.addComponents(
+                                new Discord.ActionRowBuilder().addComponents(
+                                    new Discord.TextInputBuilder()
+                                    .setCustomId('textChannelID')
+                                    .setLabel("Please type the channel ID.")
+                                    .setStyle(Discord.TextInputStyle.Short)
+                                    .setPlaceholder("Type something...")
+                                    .setRequired(true)
+                                ),
+                                new Discord.ActionRowBuilder().addComponents(
+                                    new Discord.TextInputBuilder()
+                                    .setCustomId('textMessageID')
+                                    .setLabel("Please type the message ID.")
+                                    .setStyle(Discord.TextInputStyle.Short)
+                                    .setPlaceholder("Type something...")
+                                    .setRequired(true)
+                                )
+                            )
+
+                            // Show Modal
+                            await collected.showModal(fetchChannelMessageIDModal)
+
+                            // Listen for modal submission
+                            const filter = (i => {
+                                return i.customId === `fetchChannel&MessageID-${message.id}` && i.user.id === message.author.id && i.guild.id === message.guild.id
+                            })
+                            await collected.awaitModalSubmit({filter, time: 10 * 60000})
+                            .then(async modalCollect => {
+
+                                // Get all the submited input values
+                                const channelID = modalCollect.fields.getTextInputValue('textChannelID');
+                                const messageID = modalCollect.fields.getTextInputValue('textMessageID');
+
+                                // Find the given text channel
+                                const channel = client.channels.cache.find(channel => channel.id === channelID)
+                                if(channel){ // Check if the channel given does exist
+
+                                    // Fetch all the messages in the provided channel
+                                    channel.messages.fetch(messageID)
+                                    .then(async editedMessage => {
+
+                                        if(editedMessage){
+                                            modalCollect.deferUpdate()
+
+                                            // Choose an operation
+                                            const chooseAnOperationEmbed = new Discord.EmbedBuilder()
+                                            chooseAnOperationEmbed.setColor(FNBRMENA.Colors("embed"))
+                                            chooseAnOperationEmbed.setTitle(`Choose An Operation`)
+                                            chooseAnOperationEmbed.setDescription('Please choose your operation.\n\`You have only 30 seconds until this operation ends, Make it quick\`')
+
+                                            // Create a row for cancel button
+                                            const operationsButtonDataRow = new Discord.ActionRowBuilder()
+
+                                            // Add buttons
+                                            operationsButtonDataRow.addComponents(
+                                                new Discord.ButtonBuilder()
+                                                .setCustomId('EditText')
+                                                .setStyle(Discord.ButtonStyle.Primary)
+                                                .setLabel("Text Edit")
+                                            )
+                                            operationsButtonDataRow.addComponents(
+                                                new Discord.ButtonBuilder()
+                                                .setCustomId('EditEmbed')
+                                                .setStyle(Discord.ButtonStyle.Success)
+                                                .setLabel("Embed Edit")
+                                            )
+                                            operationsButtonDataRow.addComponents(
+                                                new Discord.ButtonBuilder()
+                                                .setCustomId('Cancel')
+                                                .setStyle(Discord.ButtonStyle.Danger)
+                                                .setLabel("Cancel")
+                                            )
+
+                                            // Send the message
+                                            dropMenuMessage.edit({embeds: [chooseAnOperationEmbed], components: [operationsButtonDataRow], files: []})
+                                            .catch(err => {
+                                                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                                            })
+
+                                            // Filtering the user clicker
+                                            const filter = (i => {
+                                                return (i.user.id === message.author.id && i.message.id === dropMenuMessage.id && i.guild.id === message.guild.id)
+                                            })
+
+                                            // Await for the user
+                                            await message.channel.awaitMessageComponent({filter, time: 3 * 60000})
+                                            .then(async collected => {
+
+                                                // Cancel has been selected
+                                                if(collected.customId === "Cancel") dropMenuMessage.delete()
+
+                                                // Text Edit has been selected
+                                                if(collected.customId === "EditText"){
+
+                                                    // Create the modal and add text fields
+                                                    const editTextModal = new Discord.ModalBuilder()
+                                                    editTextModal.setCustomId(`editText-${message.id}`)
+                                                    editTextModal.setTitle('Brrrr, Please fill the fields.')
+                                                    editTextModal.addComponents(
+                                                        new Discord.ActionRowBuilder().addComponents(
+                                                            new Discord.TextInputBuilder()
+                                                            .setCustomId('contentText')
+                                                            .setLabel("What do you want me to say?")
+                                                            .setStyle(Discord.TextInputStyle.Paragraph)
+                                                            .setPlaceholder("Type something...")
+                                                            .setValue(editedMessage.content ? editedMessage.content : "")
+                                                            .setRequired(true)
+                                                        )
+                                                    )
+
+                                                    // Show Modal
+                                                    await collected.showModal(editTextModal)
+
+                                                    // Listen for modal submission
+                                                    const filter = (i => {
+                                                        return i.customId === `editText-${message.id}` && i.user.id === message.author.id && i.guild.id === message.guild.id
+                                                    })
+                                                    await collected.awaitModalSubmit({filter, time: 10 * 60000})
+                                                    .then(async modalCollect => {
+                                                        modalCollect.deferUpdate()
+
+                                                        // Get all the submited input values
+                                                        const contentSent = modalCollect.fields.getTextInputValue('contentText');
+
+                                                        // Edit the message
+                                                        editedMessage.edit({content: contentSent, embeds: [], components: [], files: []})
+
+                                                        // Create a successfull embed message
+                                                        const successfulEditedMessageEmbed = new Discord.EmbedBuilder()
+                                                        successfulEditedMessageEmbed.setColor(FNBRMENA.Colors("embedSuccess"))
+                                                        successfulEditedMessageEmbed.setTitle(`The message has been edited successfully ${emojisObject.checkEmoji}.`)
+                                                        dropMenuMessage.edit({embeds: [successfulEditedMessageEmbed], components: [], files: []})
+                                                        .catch(err => {
+                                                            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                                                        })
+                                                        
+                                                    }).catch(err => {
+                                                        FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                                                    })
+                                                }
+
+                                                // Embed Edit has been selected
+                                                if(collected.customId === "EditEmbed"){
+
+                                                    // Create the modal and add text fields
+                                                    const editEmbedModal = new Discord.ModalBuilder()
+                                                    editEmbedModal.setCustomId(`editEmbed-${message.id}`)
+                                                    editEmbedModal.setTitle('Brrrr, Please fill the fields.')
+                                                    editEmbedModal.addComponents(
+                                                        new Discord.ActionRowBuilder().addComponents(
+                                                            new Discord.TextInputBuilder()
+                                                            .setCustomId('embedColor')
+                                                            .setLabel("Embed color (HEX), type * for default")
+                                                            .setStyle(Discord.TextInputStyle.Short)
+                                                            .setPlaceholder("Leave it empty to skip")
+                                                            .setValue(editedMessage.embeds[0].color ? `${editedMessage.embeds[0].color}` : "")
+                                                            .setRequired(false)
+                                                        ),
+                                                        new Discord.ActionRowBuilder().addComponents(
+                                                            new Discord.TextInputBuilder()
+                                                            .setCustomId('embedTitle')
+                                                            .setLabel("Please type the embed title here")
+                                                            .setStyle(Discord.TextInputStyle.Short)
+                                                            .setPlaceholder("Type something...")
+                                                            .setValue(editedMessage.embeds[0].title ? editedMessage.embeds[0].title : "")
+                                                            .setRequired(true)
+                                                        ),
+                                                        new Discord.ActionRowBuilder().addComponents(
+                                                            new Discord.TextInputBuilder()
+                                                            .setCustomId('embedDescription')
+                                                            .setLabel("Please type the embed description here")
+                                                            .setStyle(Discord.TextInputStyle.Paragraph)
+                                                            .setPlaceholder("Type something...")
+                                                            .setValue(editedMessage.embeds[0].description ? editedMessage.embeds[0].description : "")
+                                                            .setRequired(false)
+                                                        )
+                                                    )
+
+                                                    // Show Modal
+                                                    await collected.showModal(editEmbedModal)
+
+                                                    // Listen for modal submission
+                                                    const filter = (i => {
+                                                        return i.customId === `editEmbed-${message.id}` && i.user.id === message.author.id && i.guild.id === message.guild.id
+                                                    })
+                                                    await collected.awaitModalSubmit({filter, time: 10 * 60000})
+                                                    .then(async modalCollect => {
+                                                        modalCollect.deferUpdate()
+
+                                                        // Get all the submited input values
+                                                        const embedColor = modalCollect.fields.getTextInputValue('embedColor');
+                                                        const embedTitle = modalCollect.fields.getTextInputValue('embedTitle');
+                                                        const embedDescription = modalCollect.fields.getTextInputValue('embedDescription');
+
+                                                        // Create embed
+                                                        const talkEmbed = new Discord.EmbedBuilder()
+                                                        if(embedColor !== "") talkEmbed.setColor(embedColor)
+                                                        else talkEmbed.setColor(FNBRMENA.Colors("embed"))
+                                                        talkEmbed.setTitle(embedTitle)
+                                                        talkEmbed.setDescription(embedDescription)
+
+                                                        // Send the embed message
+                                                        editedMessage.edit({content: '', embeds: [talkEmbed], components: [], files: []})
+
+                                                        // Create a successfull embed message
+                                                        const successfulEditedEmbedEmbed = new Discord.EmbedBuilder()
+                                                        successfulEditedEmbedEmbed.setColor(FNBRMENA.Colors("embedSuccess"))
+                                                        successfulEditedEmbedEmbed.setTitle(`The embed has been edited successfully ${emojisObject.checkEmoji}.`)
+                                                        dropMenuMessage.edit({embeds: [successfulEditedEmbedEmbed], components: [], files: []})
+                                                        .catch(err => {
+                                                            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                                                        })
+                                                        
+                                                    }).catch(err => {
+                                                        FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                                                    })
+                                                }
+
+                                            }).catch(err => {
+                                                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                                            })
+
+                                        }else modalCollect.reply({content: 'Please try again and specify a valid channel id.', ephemeral: true})
+
+                                    }).catch(err => {
+                                        FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                                    })
+
+                                }else modalCollect.reply({content: 'Please try again and specify a valid channel id.', ephemeral: true})
+                                
+                            }).catch(err => {
+                                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                            })
+                        }
+
+                    }).catch(async err => {
+                        FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, showModalMessage)
+                    })
+                    
+                }
+
             }
         }).catch(err => {
             FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)

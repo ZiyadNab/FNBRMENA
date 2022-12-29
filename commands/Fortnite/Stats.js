@@ -67,17 +67,16 @@ module.exports = {
         ]
 
         // Draw player stats
-        const drawPlayerStats = async (res, stats, outfit, loadingscreen, color) => {
-            console.log("Joined")
+        const drawPlayerStats = async (res, stats, outfit, loadingscreen, color, msg) => {
 
             // Generating message
             const generating = new Discord.EmbedBuilder()
             generating.setColor(FNBRMENA.Colors("embed"))
             if(userData.lang === "en") generating.setTitle(`Loading player's data... ${emojisObject.loadingEmoji}`)
             else if(userData.lang === "ar") generating.setTitle(`جاري تحميل بيانات اللاعب... ${emojisObject.loadingEmoji}`)
-            const msg = await message.reply({embeds: [generating], embeds: [], components: [], files: []})
+            msg.edit({embeds: [generating], components: [], files: []})
             .catch(err => {
-                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
+                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
             })
 
             try {
@@ -330,7 +329,11 @@ module.exports = {
                         if(Path !== undefined){
                             applyText(canvas, Path, 75, 185, false)
                             ctx.fillText(Path, x += xAxis, y + yAxis) //add the wins
-                        }else ctx.fillText('?', x += xAxis, y + yAxis) //add the wins
+                        }else{
+                            ctx.font = '80px Arabic'
+                            if(userData.lang === "en") ctx.fillText('N/A', x += xAxis, y + yAxis)
+                            else if(userData.lang === "en") ctx.fillText('غ/م', x += xAxis, y + yAxis)
+                        }
 
                         //add the line value name
                         if(i === 0){
@@ -372,8 +375,11 @@ module.exports = {
                                 //else add minutes
                                 else ctx.fillText(`${lastModified.minutes()} دقائق مضت`, x += xAxis, y + yAxis) //add the lastModified
                             }
+                        }else{
+                            ctx.font = '80px Arabic'
+                            if(userData.lang === "en") ctx.fillText('N/A', x += xAxis, y + yAxis)
+                            else if(userData.lang === "en") ctx.fillText('غ/م', x += xAxis, y + yAxis)
                         }
-                        else ctx.fillText('?', x += xAxis, y + yAxis) //add the lastModified
 
                         //add the line value name
                         if(i === 0){
@@ -555,9 +561,7 @@ module.exports = {
             collected.deferUpdate();
 
             // If cancel button has been clicked
-            if(collected.customId === `Cancel-${alias}`){
-                colllector.stop()
-            }
+            if(collected.customId === `Cancel-${alias}`) colllector.stop()
 
             // If the user selected a platform
             if(collected.customId === `Platform-${alias}`){
@@ -704,20 +708,18 @@ module.exports = {
 
             }
 
-            // If lifetime button has been clicked
-            if(collected.customId === `Lifetime-${alias}`){
-                colllector.stop()
+            // If lifetime/seasonal button has been clicked
+            if(collected.customId === `Lifetime-${alias}` || collected.customId === `Seasonal-${alias}`){
                 
                 //request data
-                await FNBRMENA.Stats(userInput.name, userInput.platform, 'lifetime')
-                .then(async res =>{
-                    console.log("userInput: " + userInput.type)
+                FNBRMENA.Stats(userInput.name, userInput.platform, collected.customId === `Lifetime-${alias}` ? 'lifetime' : 'season')
+                .then(async res => {
 
                     // Draw the stats
-                    if(userInput.type === "all") drawPlayerStats(res, res.data.data.stats.all, false, false, false)
-                    if(userInput.type === "kbm") drawPlayerStats(res, res.data.data.stats.keyboardMouse, false, false, false)
-                    if(userInput.type === "controller") drawPlayerStats(res, res.data.data.stats.gamepad, false, false, false)
-                    if(userInput.type === "touch") drawPlayerStats(res, res.data.data.stats.touch, false, false, false)
+                    if(userInput.type === "all") drawPlayerStats(res, res.data.data.stats.all, false, false, false, dropMenuMessage)
+                    if(userInput.type === "kbm") drawPlayerStats(res, res.data.data.stats.keyboardMouse, false, false, false, dropMenuMessage)
+                    if(userInput.type === "controller") drawPlayerStats(res, res.data.data.stats.gamepad, false, false, false, dropMenuMessage)
+                    if(userInput.type === "touch") drawPlayerStats(res, res.data.data.stats.touch, false, false, false, dropMenuMessage)
                 
                 }).catch(async err => {
                     if(err.response.data.status === 404){
@@ -738,8 +740,8 @@ module.exports = {
 
                             const noUserHasBeenFoundError = new Discord.EmbedBuilder()
                             noUserHasBeenFoundError.setColor(FNBRMENA.Colors("embedError"))
-                            if(userData.lang === "en") noUserHasBeenFoundError.setTitle(`Can't find ${text} in ${usedPlatform} platform. Please try again ${emojisObject.errorEmoji}`)
-                            else if(userData.lang === "ar") noUserHasBeenFoundError.setTitle(`لا يمكنني العثور على حساب ${text} في منصه ${usedPlatform}. حاول مجددا ${emojisObject.errorEmoji}`)
+                            if(userData.lang === "en") noUserHasBeenFoundError.setTitle(`Can't find \`${text}\` in ${usedPlatform} platform. Please try again ${emojisObject.errorEmoji}.`)
+                            else if(userData.lang === "ar") noUserHasBeenFoundError.setTitle(`لا يمكنني العثور على حساب \`${text}\` في منصه ${usedPlatform} حاول مجددا ${emojisObject.errorEmoji}.`)
                             await message.reply({embeds: [noUserHasBeenFoundError], components: [], files: []})
                             .catch(err => {
                                 FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
@@ -749,8 +751,8 @@ module.exports = {
 
                             const noMatchsPlayedYetError = new Discord.EmbedBuilder()
                             noMatchsPlayedYetError.setColor(FNBRMENA.Colors("embedError"))
-                            if(userData.lang === "en") noMatchsPlayedYetError.setTitle(`The ${text} account hasn't played any matchs yet ${emojisObject.errorEmoji}`)
-                            else if(userData.lang === "ar") noMatchsPlayedYetError.setTitle(`صاحب حساب ${text} لم يلعب اي مباراة حتى الأن ${emojisObject.errorEmoji}`)
+                            if(userData.lang === "en") noMatchsPlayedYetError.setTitle(`\`${text}\` hasn't played any matchs yet ${emojisObject.errorEmoji}.`)
+                            else if(userData.lang === "ar") noMatchsPlayedYetError.setTitle(`صاحب حساب \`${text}\` لم يلعب اي مباراة حتى الأن ${emojisObject.errorEmoji}.`)
                             await message.reply({embeds: [noMatchsPlayedYetError], components: [], files: []})
                             .catch(err => {
                                 FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
@@ -762,77 +764,8 @@ module.exports = {
 
                         const theUserAccountIsPrivate = new Discord.EmbedBuilder()
                         theUserAccountIsPrivate.setColor(FNBRMENA.Colors("embedError"))
-                        if(userData.lang === "en") theUserAccountIsPrivate.setTitle(`Can't get access to ${text} because the user account is private. ${emojisObject.errorEmoji}`)
-                        else if(userData.lang === "ar") theUserAccountIsPrivate.setTitle(`لا يمكنني الحصول على صلاحية إحصائيات ${text} بسبب ان الحساب خاص. ${emojisObject.errorEmoji}`)
-                        await message.reply({embeds: [theUserAccountIsPrivate], components: [], files: []})
-                        .catch(err => {
-                            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
-                        })
-
-                    }else FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
-                })
-            }
-
-            // If seasonal button has been clicked
-            if(collected.customId === `Seasonal-${alias}`){
-                colllector.stop()
-                
-                //request data
-                await FNBRMENA.Stats(userInput.name, userInput.platform, 'season')
-                .then(async res =>{
-                    console.log("userInput: " + userInput.type)
-
-                    // Draw the stats
-                    if(userInput.type === "all") drawPlayerStats(res, res.data.data.stats.all, false, false, false)
-                    if(userInput.type === "kbm") drawPlayerStats(res, res.data.data.stats.keyboardMouse, false, false, false)
-                    if(userInput.type === "controller") drawPlayerStats(res, res.data.data.stats.gamepad, false, false, false)
-                    if(userInput.type === "touch") drawPlayerStats(res, res.data.data.stats.touch, false, false, false)
-                
-                }).catch(async err => {
-                    if(err.response.data.status === 404){
-
-                        if(err.response.data.error === "the requested account does not exist"){
-
-                            // Epic games string
-                            if(userInput.platform === "epic" && userData.lang === "en") var usedPlatform = 'Epicgames'
-                            else if(userInput.platform === "epic" && userData.lang === "ar") var usedPlatform = 'ايبك قيمز'
-
-                            // Psn string
-                            if(userInput.platform === "psn" && userData.lang === "en") var usedPlatform = 'Playstation'
-                            else if(userInput.platform === "psn" && userData.lang === "ar") var usedPlatform = 'بلايستيشن'
-
-                            // Xbl string
-                            if(userInput.platform === "xbl" && userData.lang === "en") var usedPlatform = 'XBOX'
-                            else if(userInput.platform === "xbl" && userData.lang === "ar") var usedPlatform = 'اكسبوكس'
-
-                            const noUserHasBeenFoundError = new Discord.EmbedBuilder()
-                            noUserHasBeenFoundError.setColor(FNBRMENA.Colors("embedError"))
-                            if(userData.lang === "en") noUserHasBeenFoundError.setTitle(`Can't find ${text} in ${usedPlatform} platform. Please try again ${emojisObject.errorEmoji}.`)
-                            else if(userData.lang === "ar") noUserHasBeenFoundError.setTitle(`لا يمكنني العثور على حساب ${text} في منصه ${usedPlatform}. حاول مجددا ${emojisObject.errorEmoji}.`)
-                            await message.reply({embeds: [noUserHasBeenFoundError], components: [], files: []})
-                            .catch(err => {
-                                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
-                            })
-
-                        }else if(err.response.data.error === "the requested profile didnt play any match yet"){
-
-                            const noMatchsPlayedYetError = new Discord.EmbedBuilder()
-                            noMatchsPlayedYetError.setColor(FNBRMENA.Colors("embedError"))
-                            if(userData.lang === "en") noMatchsPlayedYetError.setTitle(`The ${text} account hasn't played any matchs yet ${emojisObject.errorEmoji}.`)
-                            else if(userData.lang === "ar") noMatchsPlayedYetError.setTitle(`صاحب حساب ${text} لم يلعب اي مباراة حتى الأن ${emojisObject.errorEmoji}.`)
-                            await message.reply({embeds: [noMatchsPlayedYetError], components: [], files: []})
-                            .catch(err => {
-                                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
-                            })
-
-                        }
-
-                    }else if(err.response.data.status === 403){
-
-                        const theUserAccountIsPrivate = new Discord.EmbedBuilder()
-                        theUserAccountIsPrivate.setColor(FNBRMENA.Colors("embedError"))
-                        if(userData.lang === "en") theUserAccountIsPrivate.setTitle(`Can't get access to ${text} because the user account is private. ${emojisObject.errorEmoji}.`)
-                        else if(userData.lang === "ar") theUserAccountIsPrivate.setTitle(`لا يمكنني الحصول على صلاحية إحصائيات ${text} بسبب ان الحساب خاص. ${emojisObject.errorEmoji}.`)
+                        if(userData.lang === "en") theUserAccountIsPrivate.setTitle(`\`${text}\` account is private, Try again later ${emojisObject.errorEmoji}.`)
+                        else if(userData.lang === "ar") theUserAccountIsPrivate.setTitle(`عذرا حساب \`${text}\` خاص ، حاول مجددآ في وقت لاحق ${emojisObject.errorEmoji}.`)
                         await message.reply({embeds: [theUserAccountIsPrivate], components: [], files: []})
                         .catch(err => {
                             FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
@@ -844,12 +777,17 @@ module.exports = {
         })
 
         // When time ends
-        colllector.on('end', async () => {
-            try {
-                await dropMenuMessage.delete()
+        colllector.on('end', async (e) => {
+
+            const map = []
+            e.map(interaction => map.push(interaction.customId))
+
+            if(map.includes("Cancel") || (!map.includes(`Lifetime-${alias}`) && !map.includes(`Seasonal-${alias}`))) try {
+                dropMenuMessage.delete()
             } catch {
-                
+                    
             }
+
         })
     }
 }

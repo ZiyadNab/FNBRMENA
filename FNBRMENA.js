@@ -1158,7 +1158,8 @@ class FNBRMENA {
                 anErrorHappened.setTitle(`عذرا لقد حصلت مشكلة ${emojisObject.errorEmoji}`)
                 anErrorHappened.setDescription(`لقد حدثت مشكلة ما اثناء جمع بيانات امر \`${alias}\`. تم ارسال ملف تسجيل يحتوي على جميع المعلومات المهمه للمطورين و المشكلة يتم حلها حاليا. في حال المشكلة اخذت وقت اكثر من المعتاد, من فضلك [__تواصل مع فريق الدعم__](https://discord.com/channels/756464693492842496/800405068880281661) في اسرع وقت ممكن.\n\nنأسف على الإزعاج\n\`\`\`yaml\n${err.message}\`\`\``)
             }
-            msg.edit({content: '', embeds: [anErrorHappened], components: [], files: []})
+            if(msg) msg.edit({content: '', embeds: [anErrorHappened], components: [], files: []})
+            else message.reply({content: '', embeds: [anErrorHappened], components: [], files: []})
 
             //logs
             const logs = new Discord.EmbedBuilder()

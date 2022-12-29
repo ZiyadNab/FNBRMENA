@@ -1119,7 +1119,8 @@ class FNBRMENA {
             requestEntryTooLargeError.setColor(this.Colors("embedError"))
             if(lang === "en") requestEntryTooLargeError.setTitle(`Request entry is too large ${emojisObject.errorEmoji}.`)
             else if(lang === "ar") requestEntryTooLargeError.setTitle(`إدخال الطلب كبير جدًا ${emojisObject.errorEmoji}.`)
-            msg.edit({content: '', embeds: [requestEntryTooLargeError], components: [], files: []})
+            if(msg) msg.edit({content: '', embeds: [requestEntryTooLargeError], components: [], files: []})
+            else message.reply({content: '', embeds: [requestEntryTooLargeError], components: [], files: []})
 
         }else if(err.message.toLowerCase().includes("time")){
                         
@@ -1127,7 +1128,8 @@ class FNBRMENA {
             outOfTimeError.setColor(this.Colors("embedError"))
             if(lang === "en") outOfTimeError.setTitle(`Your proccess has been terminated due: \`Time\` ${emojisObject.errorEmoji}.`)
             else if(lang === "ar") outOfTimeError.setTitle(`تم إنهاء عمليتك بسبب: \`الوقت\` ${emojisObject.errorEmoji}.`)
-            msg.edit({content: '', embeds: [outOfTimeError], components: [], files: []})
+            if(msg) msg.edit({content: '', embeds: [outOfTimeError], components: [], files: []})
+            else message.reply({content: '', embeds: [outOfTimeError], components: [], files: []})
 
         }else if(err.message.toLowerCase().includes("outofrange")){
 
@@ -1136,7 +1138,8 @@ class FNBRMENA {
             outOfRangeError.setColor(this.Colors("embedError"))
             if(lang === "en") outOfRangeError.setTitle(`Out of range input, Please try again ${emojisObject.errorEmoji}.`)
             else if(lang === "ar") outOfRangeError.setTitle(`خارج النطاق الإدخال ، يرجى المحاولة مرة أخرى ${emojisObject.errorEmoji}.`)
-            msg.edit({content: '', embeds: [outOfRangeError], components: [], files: []})
+            if(msg) msg.edit({content: '', embeds: [outOfRangeError], components: [], files: []})
+            else message.reply({content: '', embeds: [outOfRangeError], components: [], files: []})
 
         }else{
 

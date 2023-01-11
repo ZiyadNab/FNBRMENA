@@ -94,7 +94,8 @@ module.exports = async (client, admin, commandsDataList) => {
                 },
                 permissions: [],
                 roles: [],
-            }
+            },
+            allowedChats: [],
         }
 
         // Get the path for a command in firestore

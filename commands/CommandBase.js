@@ -392,7 +392,7 @@ module.exports.listen = async (client, admin, emojisObject) => {
                             commandTurnedOffErr.addFields(
                                 {
                                     name: `السبب`,
-                                    value: `\`${commandData.command.commandData.commandStatus.reasonEN}\``,
+                                    value: `\`${commandData.command.commandData.commandStatus.reasonAR}\``,
                                 }
                             )
                         }

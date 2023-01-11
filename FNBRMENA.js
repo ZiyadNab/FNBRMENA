@@ -273,7 +273,7 @@ class FNBRMENA {
      async Export(Path){
 
         //request the data and return the response
-        return await axios.get(`https://fortnitecentral.gmatrixgames.ga/api/v1/export?path=${Path}`)
+        return await axios.get(`https://fortnitecentral.genxgames.gg/api/v1/export?path=${Path}`)
 
     }
 
@@ -293,7 +293,7 @@ class FNBRMENA {
      async arrayBufferExport(Path){
 
         //request the data and return the response
-        return await axios.get(`https://fortnitecentral.gmatrixgames.ga/api/v1/export?path=${Path}`, {responseType: 'arraybuffer'})
+        return await axios.get(`https://fortnitecentral.genxgames.gg/api/v1/export?path=${Path}`, {responseType: 'arraybuffer'})
 
     }
 
@@ -781,7 +781,7 @@ class FNBRMENA {
      async AESGM(){
 
         //return the crew data
-        return await axios.get(`https://fortnitecentral.gmatrixgames.ga/api/v1/aes`)
+        return await axios.get(`https://fortnitecentral.genxgames.gg/api/v1/aes`)
     }
 
     /**

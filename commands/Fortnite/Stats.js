@@ -17,6 +17,15 @@ module.exports = {
     cooldown: 5,
     callback: async (FNBRMENA, message, args, text, Discord, client, admin, userData, alias, emojisObject) => {
 
+        /*
+
+                  SECTION   SECTION   SECTION   SECTION .... ->
+                   NAME      NAME       NAME      NAME
+        MODE NAME ////////+/////////+/////////+/////////+//////////////////////////////////////////////////////////// <--- VERTICAL LINE
+        WHERE + MEANS SECTION ENDS
+
+        */
+
         // User input
         var userInput = {
             name: text,
@@ -54,11 +63,11 @@ module.exports = {
 
         // List of types
         const listOfTypes = [
-            'All',
-            'Solo',
-            'Duos',
-            'Squads',
-            'LTMs',
+            'ALL',
+            'SOLOS',
+            'DUOS',
+            'SQUADS',
+            'LTMS',
             'الكل',
             'فردي',
             'زوجي',
@@ -69,13 +78,13 @@ module.exports = {
         // Draw player stats
         const drawPlayerStats = async (res, stats, outfit, loadingscreen, color, msg) => {
 
-            // Generating message
+            // Generating messages
             const generating = new Discord.EmbedBuilder()
             generating.setColor(FNBRMENA.Colors("embed"))
             if(userData.lang === "en") generating.setTitle(`Loading player's data... ${emojisObject.loadingEmoji}`)
             else if(userData.lang === "ar") generating.setTitle(`جاري تحميل بيانات اللاعب... ${emojisObject.loadingEmoji}`)
             msg.edit({embeds: [generating], components: [], files: []})
-            .catch(err => {
+            .catch(async err => {
                 FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
             })
 
@@ -103,21 +112,21 @@ module.exports = {
                     var minutesPlayed = `${statsData[i].minutesPlayed / 60}`
                     if(minutesPlayed.includes('.')) minutesPlayed = minutesPlayed.substring(0, minutesPlayed.indexOf('.'))
 
-                    // List of Coulmn names
+                    // List of Coulmns
                     rowData.push([
-                        {NameEN: 'Matches', NameAR: 'المواجهات', Data: statsData[i].matches, xAxis: 190, yAxis: 97, index: i},
-                        {NameEN: 'Wins', NameAR: 'الإنتصارات', Data: statsData[i].wins, xAxis: 190, yAxis: 97, index: i},
-                        {NameEN: 'Wins Rate', NameAR: 'م/الإنتصارات', Data: statsData[i].winRate, xAxis: 190, yAxis: 97, index: i},
-                        {NameEN: 'Deaths', NameAR: 'الخسارات', Data: statsData[i].deaths, xAxis: 190, yAxis: 97, index: i},
-                        {NameEN: 'Kills', NameAR: 'الذبحات', Data: statsData[i].kills, xAxis: 190, yAxis: 97, index: i},
-                        {NameEN: 'K.P.M', NameAR: 'ذ.ك.م', Data: statsData[i].killsPerMatch, xAxis: 190, yAxis: 97, index: i},
-                        {NameEN: 'K/D', NameAR: 'ك/د', Data: statsData[i].kd, xAxis: 190, yAxis: 97, index: i},
-                        {NameEN: 'Hours Played', NameAR: 'ساعات اللعب', Data: minutesPlayed, xAxis: 190, yAxis: 97, index: i},
-                        {NameEN: 'Top 3', NameAR: 'أفضل 3', Data: statsData[i].top3, xAxis: 190, yAxis: 97, index: i},
-                        {NameEN: 'Top 5', NameAR: 'أفضل 5', Data: statsData[i].top5, xAxis: 190, yAxis: 97, index: i},
-                        {NameEN: 'Top 10', NameAR: 'أفضل 10', Data: statsData[i].top10, xAxis: 190, yAxis: 97, index: i},
-                        {NameEN: 'Top 25', NameAR: 'أفضل 25', Data: statsData[i].top25, xAxis: 190, yAxis: 97, index: i},
-                        {NameEN: 'Last Time Played', NameAR: 'اخر لعب قبل', Data: statsData[i].lastModified, xAxis: 315, yAxis: 97, index: i},
+                        {NameEN: 'HOURS', NameAR: 'الساعات', Data: minutesPlayed, xAxis: 190, yAxis: 105, index: i},
+                        {NameEN: 'MATCHES', NameAR: 'المواجهات', Data: statsData[i].matches, xAxis: 190, yAxis: 105, index: i},
+                        {NameEN: 'WINS', NameAR: 'الإنتصارات', Data: statsData[i].wins, xAxis: 190, yAxis: 105, index: i},
+                        {NameEN: 'WIN RATE', NameAR: 'م/الإنتصارات', Data: statsData[i].winRate, xAxis: 190, yAxis: 105, index: i},
+                        {NameEN: 'DEATHS', NameAR: 'الخسارات', Data: statsData[i].deaths, xAxis: 190, yAxis: 105, index: i},
+                        {NameEN: 'KILLS', NameAR: 'الذبحات', Data: statsData[i].kills, xAxis: 190, yAxis: 105, index: i},
+                        {NameEN: 'K.P.M', NameAR: 'ذ.ك.م', Data: statsData[i].killsPerMatch, xAxis: 190, yAxis: 105, index: i},
+                        {NameEN: 'K/D', NameAR: 'ك/د', Data: statsData[i].kd, xAxis: 190, yAxis: 105, index: i},
+                        {NameEN: 'TOP 3', NameAR: 'أفضل 3', Data: statsData[i].top3, xAxis: 190, yAxis: 105, index: i},
+                        {NameEN: 'TOP 5', NameAR: 'أفضل 5', Data: statsData[i].top5, xAxis: 190, yAxis: 105, index: i},
+                        {NameEN: 'TOP 10', NameAR: 'أفضل 10', Data: statsData[i].top10, xAxis: 190, yAxis: 105, index: i},
+                        {NameEN: 'TOP 25', NameAR: 'أفضل 25', Data: statsData[i].top25, xAxis: 190, yAxis: 105, index: i},
+                        {NameEN: 'LAST TIME PLAYED', NameAR: 'اخر لعب قبل', Data: statsData[i].lastModified, xAxis: 315, yAxis: 105, index: i},
                     ])
                 }
                 
@@ -140,8 +149,8 @@ module.exports = {
                 }
 
                 // Creating canvas
-                const canvas = Canvas.createCanvas(625 + tableWidth * 300, 2160);
-                const ctx = canvas.getContext('2d');
+                const canvas = Canvas.createCanvas(900 + tableWidth * 300, 2160)
+                const ctx = canvas.getContext('2d')
 
                 // Get random color
                 const randomNumber = async (list) => {
@@ -234,38 +243,38 @@ module.exports = {
                     ctx.fillStyle = '#ffffff';
                     ctx.textAlign='left';
                     ctx.font = '100px Burbank Big Condensed'
-                    ctx.fillText(`FNBRMENA | ${userInput.name.toUpperCase()}`, 30, 110)
+                    ctx.fillText(`FNBRMENA | ${userInput.name.toUpperCase()}`, 115, 110)
 
                     // Add stats type
                     if(userInput.type === "all"){
                         const allTypeIMG = await Canvas.loadImage('https://imgur.com/IGV05Yq.png')
-                        ctx.drawImage(allTypeIMG, 30, 120, 120, 120)
+                        ctx.drawImage(allTypeIMG, 115, 120, 120, 120)
                     }
                     if(userInput.type === "kbm"){
                         const kbmTypeIMG = await Canvas.loadImage('https://imgur.com/gUCgxuZ.png')
-                        ctx.drawImage(kbmTypeIMG, 30, 120, 120, 120)
+                        ctx.drawImage(kbmTypeIMG, 115, 120, 120, 120)
                     }
                     if(userInput.type === "controller"){
                         const controllerTypeIMG = await Canvas.loadImage('https://imgur.com/BfRpXon.png')
-                        ctx.drawImage(controllerTypeIMG, 30, 120, 120, 120)
+                        ctx.drawImage(controllerTypeIMG, 115, 120, 120, 120)
                     }
                     if(userInput.type === "touch"){
                         const touchTypeIMG = await Canvas.loadImage('https://imgur.com/mVWCmjy.png')
-                        ctx.drawImage(touchTypeIMG, 30, 120, 120, 120)
+                        ctx.drawImage(touchTypeIMG, 115, 120, 120, 120)
                     }
 
                     // Add player's platform
                     if(userInput.platform === "epic"){
                         const allTypeIMG = await Canvas.loadImage('https://imgur.com/tSDjS5L.png')
-                        ctx.drawImage(allTypeIMG, 30, 250, 120, 120)
+                        ctx.drawImage(allTypeIMG, 115, 250, 120, 120)
                     }
                     if(userInput.platform === "psn"){
                         const allTypeIMG = await Canvas.loadImage('https://imgur.com/gnVRNSs.png')
-                        ctx.drawImage(allTypeIMG, 30, 250, 120, 120)
+                        ctx.drawImage(allTypeIMG, 115, 250, 120, 120)
                     }
                     if(userInput.platform === "xbl"){
                         const allTypeIMG = await Canvas.loadImage('https://imgur.com/zmJKwQw.png')
-                        ctx.drawImage(allTypeIMG, 30, 250, 120, 120)
+                        ctx.drawImage(allTypeIMG, 115, 250, 120, 120)
                     }
 
                 }
@@ -274,42 +283,34 @@ module.exports = {
                 const drawPlayerXP = async () => {
 
                     //define xp bar variables
-                    var w = canvas.width - 1000
-                    var h = 80
-                    var x = 0
-                    var y = canvas.height - h
+                    var w = 75
+                    var h = canvas.height
 
                     //add the xp process
-                    ctx.fillStyle = '#96fe7e';
+                    ctx.fillStyle = `#${randomColor.substring(randomColor.indexOf(',') + 1, randomColor.length)}` // '#96fe7e';
                     ctx.globalAlpha = 0.5
-                    ctx.fillRect(x, y, w + 70, h)
+                    ctx.fillRect(0, 0, w, h)
                     ctx.globalAlpha = 1
-                    ctx.fillStyle = '#00ff00';
-                    ctx.fillRect(x, y, ((res.data.data.battlePass.progress / 100) * w) + 70, h)
+                    ctx.fillStyle = `#${randomColor.substring(0, randomColor.indexOf(','))}` // '#00ff00';
+                    ctx.fillRect(0, canvas.height, w, -((res.data.data.battlePass.progress / 100) * h))
 
-                    //add the progress percentage
+                    // Add the credits
                     ctx.fillStyle = '#ffffff';
-                    ctx.font = '80px Burbank Big Condensed'
-                    ctx.fillText(`${res.data.data.battlePass.progress}%`, ((res.data.data.battlePass.progress / 100) * w) + 80, y + 68)
-
-                    //add the lvl pin
-                    const lvlPIN = await Canvas.loadImage('https://imgur.com/o0AGlt6.png')
-                    ctx.drawImage(lvlPIN, ((res.data.data.battlePass.progress / 100) * w) + 30, y - 80, 80, 80)
-
-                    //add the xp lvl text
-                    ctx.textAlign='center';
-                    if(userData.lang === "en") ctx.fillText(`${res.data.data.battlePass.level} lvl`, ((res.data.data.battlePass.progress / 100) * w) + 70, y - 100)
-                    else{
-                        ctx.font = '80px Arabic'
-                        ctx.fillText(`${res.data.data.battlePass.level} لفل`, ((res.data.data.battlePass.progress / 100) * w) + 70, y - 100)
+                    ctx.textAlign='left';
+                    if(userData.lang === "en"){
+                        ctx.font = '100px Burbank Big Condensed'
+                        ctx.fillText(`${res.data.data.battlePass.level} LEVEL(S), PROGRESSION ${res.data.data.battlePass.progress}%`, 120, canvas.height - 40)
+                    }else if(userData.lang === "ar"){
+                        ctx.font = '100px Arabic'
+                        ctx.fillText(`المستوى ${res.data.data.battlePass.level} , التقدم ${res.data.data.battlePass.progress}%`, 120, canvas.height - 40)
                     }
                 }
 
-                // Line boarders
-                const rowLine = async (x, y, randomColor) => {
+                // Section border
+                const sectionBorder = async (x, y, randomColor) => {
                     ctx.fillStyle = `#${randomColor.substring(randomColor.indexOf(',') + 1, randomColor.length)}`
                     ctx.globalAlpha = 0.5
-                    ctx.fillRect(x, y, 90, 150)
+                    ctx.fillRect(x , y, 90, 150)
                     ctx.globalAlpha = 1
                     ctx.fillStyle = '#ffffff';
 
@@ -318,75 +319,52 @@ module.exports = {
                 // Add tags
                 const Tags = async (text, size) => {
                     ctx.textAlign = 'center';
-                    applyText(canvas, text, 75, size, true)
+                    applyText(canvas, text, 90, size, true)
                     ctx.fillText(text, x, y - 40)
                 }
 
                 // Add new column to the board
-                const newColumn = async (Path ,ColumnNameEN, ColumnNameAR, xAxis, yAxis, i, randomColor) => {
+                const newColumn = async (value ,ColumnNameEN, ColumnNameAR, xAxis, yAxis, i, randomColor) => {
 
-                    if(ColumnNameEN !== "Hours Played" && ColumnNameEN !== "Last Time Played"){
-                        if(Path !== undefined){
-                            applyText(canvas, Path, 75, 185, false)
-                            ctx.fillText(Path, x += xAxis, y + yAxis) //add the wins
+                    if(ColumnNameEN !== "LAST TIME PLAYED"){
+                        if(value !== undefined){
+                            applyText(canvas, value, 95, 185, false)
+                            ctx.fillText(value, x += xAxis, y + yAxis)
                         }else{
-                            ctx.font = '80px Arabic'
-                            if(userData.lang === "en") ctx.fillText('N/A', x += xAxis, y + yAxis)
-                            else if(userData.lang === "en") ctx.fillText('غ/م', x += xAxis, y + yAxis)
-                        }
-
-                        //add the line value name
-                        if(i === 0){
-                            if(userData.lang === "en") Tags(ColumnNameEN, 275)
-                            if(userData.lang === "ar") Tags(ColumnNameAR, 275)
-                        }
-                        
-                        //add the line
-                        await rowLine(x += 100, y, randomColor)
-
-                    }else if(ColumnNameEN === "Last Time Played"){
-
-                        if(Path !== undefined){
-                            moment.locale(userData.lang)
-                            const lastModified = moment.duration(moment.tz(moment(), userData.timezone).diff(moment.tz(moment(Path), userData.timezone)))
-                            const days = lastModified.asDays().toString().substring(0, lastModified.asDays().toString().indexOf("."))
-
                             if(userData.lang === "en"){
-                                ctx.font = '80px Burbank Big Condensed'
-
-                                //if days r more than 1
-                                if(days >= 1) ctx.fillText(`${days} days ago`, x += xAxis, y + yAxis) //add the lastModified
-
-                                //if hours more than 1
-                                else if(lastModified.hours() >= 1) ctx.fillText(`${lastModified.hours()} hours ago`, x += xAxis, y + yAxis) //add the lastModified
-
-                                //else add minutes
-                                else ctx.fillText(`${lastModified.minutes()} minutes ago`, x += xAxis, y + yAxis) //add the lastModified
-
+                                applyText(canvas, 'N/A', 95, 185, true)
+                                ctx.fillText('N/A', x += xAxis, y + yAxis)
                             }else if(userData.lang === "ar"){
-                                ctx.font = '80px Arabic'
-
-                                //if days r more than 1
-                                if(days >= 1) ctx.fillText(`${days} يوم مضى`, x += xAxis, y + yAxis) //add the lastModified
-                                
-                                //if hours more than 1
-                                else if(lastModified.hours() >= 1) ctx.fillText(`${lastModified.hours()} ساعة مضت`, x += xAxis, y + yAxis) //add the lastModified
-
-                                //else add minutes
-                                else ctx.fillText(`${lastModified.minutes()} دقائق مضت`, x += xAxis, y + yAxis) //add the lastModified
+                                applyText(canvas, 'غ/م', 95, 185, true)
+                                ctx.fillText('غ/م', x += xAxis, y + yAxis)
                             }
+                        }
+
+                        // Add the section name
+                        if(i === 0) Tags(userData.lang === "en" ? ColumnNameEN : ColumnNameAR, 275)
+                        
+                        // Add the end of a section
+                        sectionBorder(x += 100, y, randomColor)
+
+                    }else if(ColumnNameEN === "LAST TIME PLAYED"){
+
+                        if(value !== undefined){
+                            moment.locale(userData.lang)
+                            applyText(canvas, moment.tz(moment(value), userData.timezone).fromNow(), 95, 420, true)
+                            ctx.fillText(moment.tz(moment(value), userData.timezone).fromNow(), x += xAxis, y + yAxis) // Add the lastModified
+                            
                         }else{
-                            ctx.font = '80px Arabic'
-                            if(userData.lang === "en") ctx.fillText('N/A', x += xAxis, y + yAxis)
-                            else if(userData.lang === "en") ctx.fillText('غ/م', x += xAxis, y + yAxis)
+                            if(userData.lang === "en"){
+                                applyText(canvas, 'N/A', 95, 185, true)
+                                ctx.fillText('N/A', x += xAxis, y + yAxis)
+                            }else if(userData.lang === "ar"){
+                                applyText(canvas, 'غ/م', 95, 185, true)
+                                ctx.fillText('غ/م', x += xAxis, y + yAxis)
+                            }
                         }
 
-                        //add the line value name
-                        if(i === 0){
-                            if(userData.lang === "en") Tags(ColumnNameEN, 400)
-                            if(userData.lang === "ar") Tags(ColumnNameAR, 400)
-                        }
-
+                        // Add the section name
+                        if(i === 0) Tags(userData.lang === "en" ? ColumnNameEN : ColumnNameAR, 500)
                     }
                 }
 
@@ -401,34 +379,34 @@ module.exports = {
                 await drawPlayerXP()
 
                 // Define x, y and data array
-                var x = 250
-                var y = 500
+                var x = 225
+                var y = 520
 
                 // Loop through every stat
                 for(let i = 0; i < rowData.length; i++){
 
-                    // Set and draw lines color
+                    // Set and draw the vertical line color
                     ctx.fillStyle = `#${randomColor.substring(0, randomColor.indexOf(','))}`
                     ctx.globalAlpha = 0.5
                     ctx.fillRect(x, y, canvas.width - (x * 2), 150)
                     ctx.globalAlpha = 1
 
                     // Change x value
-                    x += 130
+                    x += 155
 
-                    // Add the modes
+                    // Add the mode's name
                     ctx.fillStyle = '#ffffff';
                     ctx.textAlign='center';
                     if(userData.lang === "en"){
                         ctx.font = '97px Burbank Big Condensed'
-                        ctx.fillText(listOfTypes[i], x, y + 97)
+                        ctx.fillText(listOfTypes[i], x, y + 106)
                     }else if(userData.lang === "ar"){
                         ctx.font = '97px Arabic'
                         ctx.fillText(listOfTypes[i + 5], x, y + 97)
                     }
                     
-                    // Loop through the statsDrawer length
-                    await rowLine(x += 150, y, randomColor)
+                    // Add the first end of a section
+                    sectionBorder(x += 150, y, randomColor)
 
                     // Loop through every column
                     for(const lineData of rowData[i])
@@ -436,7 +414,7 @@ module.exports = {
 
                     // Get to the next row
                     y += 150 + 113
-                    x = 250
+                    x = 225
 
                 }
 
@@ -744,7 +722,7 @@ module.exports = {
                             else if(userData.lang === "ar") noUserHasBeenFoundError.setTitle(`لا يمكنني العثور على حساب \`${text}\` في منصه ${usedPlatform} حاول مجددا ${emojisObject.errorEmoji}.`)
                             await message.reply({embeds: [noUserHasBeenFoundError], components: [], files: []})
                             .catch(err => {
-                                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
+                                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
                             })
 
                         }else if(err.response.data.error === "the requested profile didnt play any match yet"){
@@ -755,7 +733,7 @@ module.exports = {
                             else if(userData.lang === "ar") noMatchsPlayedYetError.setTitle(`صاحب حساب \`${text}\` لم يلعب اي مباراة حتى الأن ${emojisObject.errorEmoji}.`)
                             await message.reply({embeds: [noMatchsPlayedYetError], components: [], files: []})
                             .catch(err => {
-                                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
+                                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
                             })
 
                         }
@@ -768,10 +746,10 @@ module.exports = {
                         else if(userData.lang === "ar") theUserAccountIsPrivate.setTitle(`عذرا حساب \`${text}\` خاص ، حاول مجددآ في وقت لاحق ${emojisObject.errorEmoji}.`)
                         await message.reply({embeds: [theUserAccountIsPrivate], components: [], files: []})
                         .catch(err => {
-                            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
+                            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
                         })
 
-                    }else FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
+                    }else FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
                 })
             }
         })

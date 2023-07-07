@@ -1,4 +1,4 @@
-const Canvas = require('canvas');
+const Canvas = require('canvas')
 
 module.exports = {
     commands: 'new',
@@ -11,7 +11,7 @@ module.exports = {
     callback: async (FNBRMENA, message, args, text, Discord, client, admin, userData, alias, emojisObject) => {
 
         // Create image
-        const cosmeticsImage = async (items, build, msg) => {
+        const cosmeticsImage = async (items, msg) => {
 
             // Generating animation
             const generating = new Discord.EmbedBuilder()
@@ -94,56 +94,75 @@ module.exports = {
 
                     // Skin informations
                     if(item.introduction != null){
-                        if(userData.lang === "en") var seasonChapter = `C${item.introduction.chapter}S${item.introduction.season}`
-                        else if(userData.lang == "ar")var seasonChapter = `الفصل ${item.introduction.chapter} الموسم ${item.introduction.season}`
-
+                        var chapter = item.introduction.chapter.substring(item.introduction.chapter.indexOf(" "), item.introduction.chapter.length).trim()
+    
+                            if(userData.lang === "en"){
+                                var season = item.introduction.season.substring(item.introduction.season.indexOf(" "), item.introduction.season.length).trim()
+                                if(userData.lang === "en") var seasonChapter = `C${chapter}S${season}`
+    
+                            }else if(userData.lang == "ar"){
+                                if(item.introduction.season.includes("X")) var seasonChapter = `الفصل ${chapter} الموسم X`
+                                else{
+                                    var season = item.introduction.season.substring(item.introduction.season.indexOf(" "), item.introduction.season.length).trim()
+                                    var seasonChapter = `الفصل ${chapter} الموسم ${season}`
+                                }
+                            }
+    
                     }else{
-                        if(userData.lang === "en") var seasonChapter = `${build.substring(19, 24)}v`
-                        else if(userData.lang == "ar")var seasonChapter = `تحديث ${build.substring(19, 24)}`
+                        if(userData.lang === "en") var seasonChapter = `${item.added.version}v`
+                        else if(userData.lang == "ar")var seasonChapter = `تحديث ${item.added.version}`
                         
                     }
 
-                    if(item.gameplayTags){
-                        if(item.gameplayTags.length !== 0){
-                            for(const gameplayTag of item.gameplayTags){
-                                if(gameplayTag.includes('Source')){
+                    if(item.gameplayTags.length != 0){
+                        for(let j = 0; j < item.gameplayTags.length; j++){
+                            if(item.gameplayTags[j].includes('Source')){
+    
+                                if(item.gameplayTags[j].toLowerCase().includes("itemshop")){
+    
+                                    if(userData.lang === "en") var Source = "ITEMSHOP"
+                                    else if(userData.lang === "ar") var Source = "متجر العناصر"
+                                }else if(item.gameplayTags[j].toLowerCase().includes("seasonshop")){
+    
+                                    if(userData.lang === "en") var Source = "SEASON SHOP"
+                                    else if(userData.lang === "ar") var Source = "متجر الموسم"
+                                }else if(item.gameplayTags[j].toLowerCase().includes("battlepass")){
+    
+                                    if(userData.lang === "en") var Source = "BATTLEPASS"
+                                    else if(userData.lang === "ar") var Source = "بطاقة المعركة"
+                                }else if(item.gameplayTags[j].toLowerCase().includes("firstwin")){
+    
+                                    if(userData.lang === "en") var Source = "FIRST WIN"
+                                    else if(userData.lang === "ar") var Source = "اول انتصار"
+                                }else if(item.gameplayTags[j].toLowerCase().includes("event")){
+    
+                                    if(userData.lang === "en") var Source = "EVENT"
+                                    else if(userData.lang === "ar") var Source = "حدث"
+                                }else if(item.gameplayTags[j].toLowerCase().includes("platform") || (item.gameplayTags[j].toLowerCase().includes("promo"))){
+    
+                                    if(userData.lang === "en") var Source = "EXCLUSIVE"
+                                    else if(userData.lang === "ar") var Source = "حصري"
+                                }else if(item.gameplayTags[j].toLowerCase().includes("starterpack")){
 
-                                    if(gameplayTag.toLowerCase().includes("itemshop")){
-
-                                        if(userData.lang === "en") var Source = "ITEMSHOP"
-                                        else if(userData.lang === "ar") var Source = "متجر العناصر"
-                                    }else if(gameplayTag.toLowerCase().includes("battlepass")){
-
-                                        if(userData.lang === "en") var Source = "BATTLEPASS"
-                                        else if(userData.lang === "ar") var Source = "بطاقة المعركة"
-                                    }else if(gameplayTag.toLowerCase().includes("firstwin")){
-
-                                        if(userData.lang === "en") var Source = "FIRST WIN"
-                                        else if(userData.lang === "ar") var Source = "اول انتصار"
-                                    }else if(gameplayTag.toLowerCase().includes("event")){
-
-                                        if(userData.lang === "en") var Source = "EVENT"
-                                        else if(userData.lang === "ar") var Source = "حدث"
-                                    }else if(gameplayTag.toLowerCase().includes("platform") || (gameplayTag.toLowerCase().includes("promo"))){
-
-                                        if(userData.lang === "en") var Source = "EXCLUSIVE"
-                                        else if(userData.lang === "ar") var Source = "حصري"
-                                    }
-
-                                    break
-                                }else var Source = item.type.displayValue.toUpperCase()
-                            }
-                        }else var Source = item.type.displayValue.toUpperCase()
-                    }else var Source = item.type.displayValue.toUpperCase()
+                                    if(userData.lang === "en") var Source = "Starter Pack"
+                                    else if(userData.lang === "ar") var Source = "حزمة المبتدئين"
+                                }
+    
+                                break
+                            }else var Source = item.type.name.toUpperCase()
+                        }
+    
+                    }else var Source = item.type.name.toUpperCase()
 
                     var name = item.name
-                    if(item.images.icon === null) var image = item.images.smallIcon
+                    if(item.images.icon === null) var image = 'https://imgur.com/HVH5sqV.png'
                     else var image = item.images.icon
-                    var rarity = item.rarity.value
+                    if(item.series === null) var rarity = item.rarity.id
+                    else var rarity = item.series.id
                     newline = newline + 1;
 
                     // Searching...
-                    if(rarity === "legendary"){
+                    if(rarity === "Legendary"){
 
                         // Creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/legendary.png')
@@ -153,7 +172,7 @@ module.exports = {
                         const skinborder = await Canvas.loadImage('./assets/Rarities/newStyle/borderLegendary.png')
                         ctx.drawImage(skinborder, x, y, 1024, 1024)
 
-                    }else if(rarity === "epic"){
+                    }else if(rarity === "Epic"){
 
                         // Creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/epic.png')
@@ -163,7 +182,7 @@ module.exports = {
                         const skinborder = await Canvas.loadImage('./assets/Rarities/newStyle/borderEpic.png')
                         ctx.drawImage(skinborder, x, y, 1024, 1024)
 
-                    }else if(rarity === "rare"){
+                    }else if(rarity === "Rare"){
 
                         // Creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/rare.png')
@@ -173,7 +192,7 @@ module.exports = {
                         const skinborder = await Canvas.loadImage('./assets/Rarities/newStyle/borderRare.png')
                         ctx.drawImage(skinborder, x, y, 1024, 1024)
 
-                    }else if(rarity === "uncommon"){
+                    }else if(rarity === "Uncommon"){
 
                         // Creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/uncommon.png')
@@ -183,7 +202,7 @@ module.exports = {
                         const skinborder = await Canvas.loadImage('./assets/Rarities/newStyle/borderUncommon.png')
                         ctx.drawImage(skinborder, x, y, 1024, 1024)
 
-                    }else if(rarity === "common"){
+                    }else if(rarity === "Common"){
 
                         // Creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/common.png')
@@ -193,7 +212,7 @@ module.exports = {
                         const skinborder = await Canvas.loadImage('./assets/Rarities/newStyle/borderCommon.png')
                         ctx.drawImage(skinborder, x, y, 1024, 1024)
 
-                    }else if(rarity === "marvel"){
+                    }else if(rarity === "MarvelSeries"){
                         
                         // Creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/marvel.png')
@@ -203,7 +222,7 @@ module.exports = {
                         const skinborder = await Canvas.loadImage('./assets/Rarities/newStyle/borderMarvel.png')
                         ctx.drawImage(skinborder, x, y, 1024, 1024)
 
-                    }else if(rarity === "dc"){
+                    }else if(rarity === "DCUSeries"){
 
                         // Creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/dc.png')
@@ -213,7 +232,7 @@ module.exports = {
                         const skinborder = await Canvas.loadImage('./assets/Rarities/newStyle/borderDc.png')
                         ctx.drawImage(skinborder, x, y, 1024, 1024)
 
-                    }else if(rarity === "dark"){
+                    }else if(rarity === "CUBESeries"){
 
                         // Creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/dark.png')
@@ -223,7 +242,7 @@ module.exports = {
                         const skinborder = await Canvas.loadImage('./assets/Rarities/newStyle/borderDark.png')
                         ctx.drawImage(skinborder, x, y, 1024, 1024)
 
-                    }else if(rarity === "icon"){
+                    }else if(rarity === "CreatorCollabSeries"){
 
                         // Creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/icon.png')
@@ -233,7 +252,7 @@ module.exports = {
                         const skinborder = await Canvas.loadImage('./assets/Rarities/newStyle/borderIcon.png')
                         ctx.drawImage(skinborder, x, y, 1024, 1024)
 
-                    }else if(rarity === "starwars"){
+                    }else if(rarity === "ColumbusSeries"){
 
                         // Creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/starwars.png')
@@ -243,7 +262,7 @@ module.exports = {
                         const skinborder = await Canvas.loadImage('./assets/Rarities/newStyle/borderStarwars.png')
                         ctx.drawImage(skinborder, x, y, 1024, 1024)
 
-                    }else if(rarity === "shadow"){
+                    }else if(rarity === "ShadowSeries"){
 
                         // Creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/shadow.png')
@@ -253,7 +272,7 @@ module.exports = {
                         const skinborder = await Canvas.loadImage('./assets/Rarities/newStyle/borderShadow.png')
                         ctx.drawImage(skinborder, x, y, 1024, 1024)
 
-                    }else if(rarity === "slurp"){
+                    }else if(rarity === "SlurpSeries"){
 
                         // Creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/slurp.png')
@@ -263,7 +282,7 @@ module.exports = {
                         const skinborder = await Canvas.loadImage('./assets/Rarities/newStyle/borderSlurp.png')
                         ctx.drawImage(skinborder, x, y, 1024, 1024)
 
-                    }else if(rarity === "frozen"){
+                    }else if(rarity === "FrozenSeries"){
 
                         // Creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/frozen.png')
@@ -273,7 +292,7 @@ module.exports = {
                         const skinborder = await Canvas.loadImage('./assets/Rarities/newStyle/borderFrozen.png')
                         ctx.drawImage(skinborder, x, y, 1024, 1024)
 
-                    }else if(rarity === "lava"){
+                    }else if(rarity === "LavaSeries"){
 
                         // Creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/lava.png')
@@ -283,7 +302,7 @@ module.exports = {
                         const skinborder = await Canvas.loadImage('./assets/Rarities/newStyle/borderLava.png')
                         ctx.drawImage(skinborder, x, y, 1024, 1024)
 
-                    }else if(rarity === "gaminglegends"){
+                    }else if(rarity === "PlatformSeries"){
 
                         // Creating image
                         const skinholder = await Canvas.loadImage('./assets/Rarities/newStyle/gaming.png')
@@ -343,59 +362,77 @@ module.exports = {
                     var yTags = 7 + y
                     var xTags = ((1024 - wTags) - 7) + x
 
-                    if(item.gameplayTags) for(const gameplayTag of item.gameplayTags){
+                    for(let t = 0; t < item.gameplayTags.length; t++){
 
                         // If the item is animated
-                        if(gameplayTag.includes('Animated')){
-
+                        if(item.gameplayTags[t].includes('Animated')){
+    
                             // Add the animated icon
                             const Animated = await Canvas.loadImage('./assets/Tags/T-Icon-Animated-64.png')
                             ctx.drawImage(Animated, xTags, yTags, wTags, hTags)
-
+    
                             yTags += hTags + 10
                         }
-
+    
                         // If the item is reactive
-                        if(gameplayTag.includes('Reactive')){
-
+                        if(item.gameplayTags[t].includes('Reactive')){
+    
                             // Add the reactive icon
                             const Reactive = await Canvas.loadImage('./assets/Tags/T-Icon-Adaptive-64.png')
                             ctx.drawImage(Reactive, xTags, yTags, wTags, hTags)
-
+    
                             yTags += hTags + 10
                             
                         }
-
+    
                         // If the item is synced emote
-                        if(gameplayTag.includes('Synced')){
-
+                        if(item.gameplayTags[t].includes('Synced')){
+    
                             // Add the Synced icon
                             const Synced = await Canvas.loadImage('./assets/Tags/T-Icon-Synced-64x.png')
                             ctx.drawImage(Synced, xTags, yTags, wTags, hTags)
-
+    
                             yTags += hTags + 10
                             
                         }
-
+    
                         // If the item is traversal
-                        if(gameplayTag.includes('Traversal')){
-
+                        if(item.gameplayTags[t].includes('Traversal')){
+    
                             // Add the Traversal icon
                             const Traversal = await Canvas.loadImage('./assets/Tags/T-Icon-Traversal-64.png')
                             ctx.drawImage(Traversal, xTags, yTags, wTags, hTags)
-
+    
                             yTags += hTags + 10
                         }
-
+    
                         // If the item has styles
-                        if(gameplayTag.includes('HasVariants') || gameplayTag.includes('HasUpgradeQuests')){
-
+                        if(item.gameplayTags[t].includes('HasVariants') || item.gameplayTags[t].includes('HasUpgradeQuests')){
+    
                             // Add the HasVariants icon
                             const HasVariants = await Canvas.loadImage('./assets/Tags/T-Icon-Variant-64.png')
                             ctx.drawImage(HasVariants, xTags, yTags, wTags, hTags)
-
+    
                             yTags += hTags + 10
                         }
+                    }
+    
+                    // If the item contains copyrited audio
+                    if(item.copyrightedAudio){
+    
+                        // Add the copyrightedAudio icon
+                        const copyrightedAudio = await Canvas.loadImage('./assets/Tags/mute.png')
+                        ctx.drawImage(copyrightedAudio, xTags, yTags, wTags, hTags)
+    
+                        yTags += hTags + 10
+                    }
+    
+                    // If the item contains built in emote
+                    if(item.builtInEmote != null){
+    
+                        // Add the builtInEmote icon
+                        const builtInEmote = await Canvas.loadImage(item.builtInEmote.images.icon)
+                        ctx.drawImage(builtInEmote, xTags - 15, yTags, ((1024 / 512) * 30) + x, ((1024 / 512) * 30) + y)
                     }
 
                     // Changing x and y
@@ -408,12 +445,12 @@ module.exports = {
                 }
 
                 // Send the image
-                var att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `${build}.png`})
+                var att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `${items[0].added.version}.png`})
                 msg.edit({embeds: [], components: [], files: [att]})
                 .catch(err => {
                     
                     // Try sending it on jpg file format [LOWER QUALITY]
-                    var att = new Discord.AttachmentBuilder(canvas.toBuffer('image/jpeg'), {name: `${build}.jpg`})
+                    var att = new Discord.AttachmentBuilder(canvas.toBuffer('image/jpeg'), {name: `${items[0].added.version}.jpg`})
                     msg.edit({embeds: [], components: [], files: [att]})
                     .catch(err => {
                         FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
@@ -427,8 +464,12 @@ module.exports = {
         }
 
         // Requesting data
-        FNBRMENA.CosmeticsNew(userData.lang)
+        FNBRMENA.List(userData.lang, '')
         .then(async res => {
+
+            const newCosmetics = res.data.items.filter(e => {
+                return e.added.version === res.data.items[res.data.items.length - 1].added.version
+            })
 
             // Create an embed
             const cosmeticsTypesEmbed = new Discord.EmbedBuilder()
@@ -451,7 +492,7 @@ module.exports = {
                     .setCustomId('All')
                     .setStyle(Discord.ButtonStyle.Success)
                     .setLabel("All")
-                    .setDisabled(res.data.data.items.length > 50)
+                    .setDisabled(newCosmetics.length > 50)
                 )
 
                 buttonDataRow.addComponents(
@@ -468,7 +509,7 @@ module.exports = {
                     .setCustomId('All')
                     .setStyle(Discord.ButtonStyle.Success)
                     .setLabel("الكل")
-                    .setDisabled(res.data.data.items.length > 50)
+                    .setDisabled(newCosmetics.length > 50)
                 )
 
                 buttonDataRow.addComponents(
@@ -484,21 +525,20 @@ module.exports = {
 
             // Loop through every patch
             var types = [], foundTypes = []
-            for(const item of res.data.data.items){
+            for(const item of newCosmetics){
 
-                if(!foundTypes.includes(item.type.value)){
-                    foundTypes.push(item.type.value)
-
-                   types.push({
-                        label: `${item.type.displayValue}`,
-                        value: `${item.type.value}`,
-                        emoji: `${emojisObject[item.type.value].name}:${emojisObject[item.type.value].id}`
+                if(!foundTypes.includes(item.type.id)){
+                    foundTypes.push(item.type.id)
+                    types.push({
+                        label: `${item.type.name}`,
+                        value: `${item.type.id}`,
+                        emoji: emojisObject[item.type.id] ? `${emojisObject[item.type.id].name}:${emojisObject[item.type.id].id}` : undefined
                     })
                 }
             }
 
             // Create a drop menu
-            const allAvaliableTypesDropMenu = new Discord.SelectMenuBuilder()
+            const allAvaliableTypesDropMenu = new Discord.StringSelectMenuBuilder()
             allAvaliableTypesDropMenu.setCustomId('Types')
             if(userData.lang === "en") allAvaliableTypesDropMenu.setPlaceholder('Nothing selected!')
             else if(userData.lang === "ar") allAvaliableTypesDropMenu.setPlaceholder('الرجاء الأختيار!')
@@ -527,17 +567,18 @@ module.exports = {
                 if(collected.customId === "Cancel") dropMenuMessage.delete()
 
                 // If all button is clicked
-                if(collected.customId === "All") cosmeticsImage(res.data.data.items, res.data.data.build, dropMenuMessage)
+                if(collected.customId === "All") cosmeticsImage(newCosmetics, dropMenuMessage)
 
                 // If the user chose a type
                 if(collected.customId === "Types"){
 
                     const items = []
-                    res.data.data.items.map(obj => {
-                        if(obj.type.value === collected.values[0]) items.push(obj)
+                    newCosmetics.map(obj => {
+                        if(obj.type.id === collected.values[0]) items.push(obj)
                     })
 
-                    cosmeticsImage(items, res.data.data.build, dropMenuMessage)
+                    console.log(items)
+                    cosmeticsImage(items, dropMenuMessage)
                 }
             
             }).catch(async err => {

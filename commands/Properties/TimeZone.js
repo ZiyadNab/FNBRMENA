@@ -63,7 +63,7 @@ module.exports = {
                 })
 
                 //create a select menu
-                const allTimezonesDropMenu = new Discord.SelectMenuBuilder()
+                const allTimezonesDropMenu = new Discord.StringSelectMenuBuilder()
                 allTimezonesDropMenu.setCustomId('timezone')
                 if(userData.lang === "en") allTimezonesDropMenu.setPlaceholder('Select a time zone!')
                 else if(userData.lang === "ar") allTimezonesDropMenu.setPlaceholder('اختر وحدة زمنية!')

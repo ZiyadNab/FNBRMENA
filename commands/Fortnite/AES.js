@@ -61,11 +61,11 @@ module.exports = {
                     // Add the field
                     if(userData.lang === "en") AES.push({
                         name: `${key.name}`,
-                        value: `Status: ${emojisObject.marvel}\nKey: \`UNKNOWN\`\nHigh Texture: ${highTexture}\nSize: \`${key.size.formatted}\``
+                        value: `Status: ${emojisObject.MarvelSeries}\nKey: \`UNKNOWN\`\nHigh Texture: ${highTexture}\nSize: \`${key.size.formatted}\``
                     })
                     else if(userData.lang === "ar") AES.push({
                         name: `${key.name}`,
-                        value: `الحالة: ${emojisObject.marvel}\nالمفتاح: \`غير معلوم\`\nعالي الجودة: ${highTexture}\nالحجم: \`${key.size.formatted}\``
+                        value: `الحالة: ${emojisObject.MarvelSeries}\nالمفتاح: \`غير معلوم\`\nعالي الجودة: ${highTexture}\nالحجم: \`${key.size.formatted}\``
                     })
                 }
 

@@ -723,58 +723,62 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                                 }else if(lang === "en") bundleEmbed.addFields({name: 'Prices', value: `\`There is no prices yet\``})
                                 else if(lang === "ar") bundleEmbed.addFields({name: 'الاسعار', value: `\`لا يوجد اسعار حاليا\``})
                                 
+                                // Check if there is keyImages field
+                                if(searchedBundleData.keyImages !== undefined){
 
-                                //tumbnail and image
-                                if(searchedBundleData.displayAssets.length !== 0){
+                                    // Add keyImages to the embed
+                                    if(searchedBundleData.keyImages.length !== 0) searchedBundleData.keyImages.map(e => {
+                                        if(e.type.toLowerCase().includes('thumbnail')) bundleEmbed.setThumbnail(e.url)
+                                        if(e.type.toLowerCase().includes('featured')) bundleEmbed.setImage(e.url)
+                                    })
 
-                                    //store the url
-                                    var url = searchedBundleData.displayAssets[0].url
-                                        
-                                    //decode and encode
-                                    url = decodeURI(url);
-                                    url = encodeURI(url);
+                                }
 
-                                    //add thumbnail
-                                    bundleEmbed.setThumbnail(url)
+                                // If there is no image yet
+                                if(bundleEmbed.data.image === undefined){
 
-                                    //add the image
+                                    // Add the image
                                     if(searchedBundleData.thumbnail !== null){
 
-                                        //store the url
+                                        // Store the url
                                         var url = searchedBundleData.thumbnail
                                         
-                                        //decode and encode
+                                        // Decode and encode
                                         url = decodeURI(url);
                                         url = encodeURI(url);
 
-                                        //set the image
+                                        // Set the image
                                         bundleEmbed.setImage(url)
-                                    }else{
+                                    }else if(searchedBundleData.displayAssets.length !== 0){
 
-                                        //store the url
+                                        // Store the url
                                         var url = searchedBundleData.displayAssets[0].background
                                         
-                                        //decode and encode
-                                        url = decodeURI(url);
-                                        url = encodeURI(url);
+                                        // Decode and encode
+                                        url = decodeURI(url)
+                                        url = encodeURI(url)
 
-                                        //set the image
+                                        // Set the image
                                         bundleEmbed.setImage(url)
                                     }
-                                }else{
+                                }
 
-                                    //add the image
-                                    if(searchedBundleData.thumbnail !== null){
+                                // If there is no thumbnail yet
+                                if(bundleEmbed.data.thumbnail === undefined){
 
-                                        //store the url
-                                        var url = searchedBundleData.thumbnail
+                                    // Add the thumbnail image
+                                    if(searchedBundleData.displayAssets.length !== 0){
+
+                                        // Store the url
+                                        var url = searchedBundleData.displayAssets[0].url
+                                            
+                                        // Decode and encode
+                                        url = decodeURI(url)
+                                        url = encodeURI(url)
+
+                                        // Add thumbnail
+                                        bundleEmbed.setThumbnail(url)
                                         
-                                        //decode and encode
-                                        url = decodeURI(url);
-                                        url = encodeURI(url);
-
-                                        //set the image
-                                        bundleEmbed.setImage(url)
                                     }
                                 }
 

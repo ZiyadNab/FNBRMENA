@@ -12,7 +12,7 @@ module.exports = {
     callback: async (FNBRMENA, message, args, text, Discord, client, admin, userData, alias, emojisObject) => {
 
         // Set the request version
-        var version = args.length !== 0 ? text : ``
+        var version = args.length !== 0 ? text : 'current'
 
         // Check version
         if(version < 11){
@@ -90,7 +90,7 @@ module.exports = {
                 }
             }
 
-            const POIsDropMenu = new Discord.SelectMenuBuilder()
+            const POIsDropMenu = new Discord.StringSelectMenuBuilder()
             POIsDropMenu.setCustomId('pois')
             if(userData.lang === "en") POIsDropMenu.setPlaceholder('Select a POI!')
             else if(userData.lang === "ar") POIsDropMenu.setPlaceholder('اختر منطقة!')
@@ -148,21 +148,6 @@ module.exports = {
                         // Add blue fog
                         const fog = await Canvas.loadImage('./assets/News/fog.png')
                         ctx.drawImage(fog, 0, 0, canvas.width, canvas.height)
-
-                        // Credits
-                        if(userData.lang === "en"){
-                            
-                            ctx.fillStyle = '#ffffff';
-                            ctx.textAlign='left';
-                            ctx.font = '60px Burbank Big Condensed'
-                            ctx.fillText(`FNBRMENA | ${res.data.list[collected.values[0]].name}`, 15, 55)
-                        }else{
-
-                            ctx.fillStyle = '#ffffff';
-                            ctx.textAlign='right';
-                            ctx.font = '60px Arabic'
-                            ctx.fillText(`فنبر مينا | ${res.data.list[collected.values[0]].name}`, canvas.width - 15, 55)
-                        }
 
                         // Send the picture
                         const att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `${res.data.list[collected.values[0]].name}.png`})

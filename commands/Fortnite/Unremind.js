@@ -99,17 +99,21 @@ module.exports = {
                         moment.locale(userData.lang)
                         const lastModified = moment.duration(moment.tz(moment(), userData.timezone).diff(moment.tz(moment(snapshot.docs[i].data().date), userData.timezone)))
                         const days = lastModified.asDays().toString().substring(0, lastModified.asDays().toString().indexOf("."))
-                        
+                        if(res.data.items[0].series === null) var rarity = res.data.items[0].rarity.id
+                        else var rarity = res.data.items[0].series.id
+
                         // Add every reminder to the options array
                         if(userData.lang === "en") reminders.push({
                             label: `${res.data.items[0].name}`,
                             description: `You have been waiting for ${days} days.`,
                             value: `${res.data.items[0].id}`,
+                            emoji: `${emojisObject[rarity].name}:${emojisObject[rarity].id}`
                         })
                         else if(userData.lang === "ar") reminders.push({
                             label: `${res.data.items[0].name}`,
                             description: `لقد كنت تنتظر ${days} يوم.`,
                             value: `${res.data.items[0].id}`,
+                            emoji: `${emojisObject[rarity].name}:${emojisObject[rarity].id}`
                         })
 
                     }).catch(async err => {
@@ -119,7 +123,7 @@ module.exports = {
                 }
                 
                 // Create a drop menu
-                const listAllRemindersDropMenu = new Discord.SelectMenuBuilder()
+                const listAllRemindersDropMenu = new Discord.StringSelectMenuBuilder()
                 listAllRemindersDropMenu.setCustomId(`Unremind-${alias}`)
                 listAllRemindersDropMenu.setMaxValues(1)
                 listAllRemindersDropMenu.setMaxValues(snapshot.size)

@@ -92,6 +92,7 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                         };
 
                         //creating canvas
+                        console.log(width, height)
                         const canvas = Canvas.createCanvas(width, height);
                         const ctx = canvas.getContext('2d');
 

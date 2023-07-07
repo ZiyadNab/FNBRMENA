@@ -353,6 +353,10 @@ module.exports = {
 
                                             if(userData.lang === "en") var Source = "EXCLUSIVE"
                                             else if(userData.lang === "ar") var Source = "حصري"
+                                        }else if(styles[i].gameplayTags[j].toLowerCase().includes("starterpack")){
+
+                                            if(userData.lang === "en") var Source = "Starter Pack"
+                                            else if(userData.lang === "ar") var Source = "حزمة المبتدئين"
                                         }
 
                                         break
@@ -836,6 +840,10 @@ module.exports = {
 
                                             if(userData.lang === "en") var Source = "EXCLUSIVE"
                                             else if(userData.lang === "ar") var Source = "حصري"
+                                        }else if(grants[i].gameplayTags[j].toLowerCase().includes("starterpack")){
+
+                                            if(userData.lang === "en") var Source = "Starter Pack"
+                                            else if(userData.lang === "ar") var Source = "حزمة المبتدئين"
                                         }
 
                                         break
@@ -1254,7 +1262,7 @@ module.exports = {
                 // Create a row for drop down menu for categories
                 const categoriesRow = new Discord.ActionRowBuilder()
 
-                const categoryDropMenu = new Discord.SelectMenuBuilder()
+                const categoryDropMenu = new Discord.StringSelectMenuBuilder()
                 categoryDropMenu.setCustomId('categories')
                 if(userData.lang === "en") categoryDropMenu.setPlaceholder('Nothing selected!')
                 else if(userData.lang === "ar") categoryDropMenu.setPlaceholder('الرجاء الأختيار!')

@@ -8,7 +8,7 @@ module.exports = async (FNBRMENA, message, client, lang, emojisObject) => {
     var itemFinderMessage; //store the message as public atter
     var buttonDataRow
     const filter = (i) => i.user.id === message.author.id //filtering the user clicker
-    moment.locale(lang)
+    moment.locale('en')
 
     //request all seasons
     const seasonsData = []
@@ -66,7 +66,7 @@ module.exports = async (FNBRMENA, message, client, lang, emojisObject) => {
         const typeOfItemsRow = new Discord.ActionRowBuilder()
 
         //create the drop menu
-        const typeOfItemsDropMenu = new Discord.SelectMenuBuilder()
+        const typeOfItemsDropMenu = new Discord.StringSelectMenuBuilder()
         typeOfItemsDropMenu.setCustomId('Types')
         typeOfItemsDropMenu.setMinValues(1)
         typeOfItemsDropMenu.setMaxValues(10)
@@ -272,7 +272,7 @@ module.exports = async (FNBRMENA, message, client, lang, emojisObject) => {
         const typeOfCosmeticsRow = new Discord.ActionRowBuilder()
 
         //create the drop menu
-        const typeOfCosmeticsDropMenu = new Discord.SelectMenuBuilder()
+        const typeOfCosmeticsDropMenu = new Discord.StringSelectMenuBuilder()
         typeOfCosmeticsDropMenu.setCustomId('cosmetic_type')
         if(lang === "en") typeOfCosmeticsDropMenu.setPlaceholder('Nothing selected!')
         else if(lang === "ar") typeOfCosmeticsDropMenu.setPlaceholder('الرجاء الأختيار!')
@@ -282,12 +282,12 @@ module.exports = async (FNBRMENA, message, client, lang, emojisObject) => {
             {
                 label: 'Outfit',
                 value: 'outfit',
-                emoji: `${emojisObject.outfit}`
+                //emoji: `${//emojisObject.outfit}`
             },
             {
                 label: 'Bundle',
                 value: 'bundle',
-                emoji: `${emojisObject.bundle}`
+                //emoji: `${//emojisObject.bundle}`
             },
             {
                 label: 'Style',
@@ -296,67 +296,67 @@ module.exports = async (FNBRMENA, message, client, lang, emojisObject) => {
             {
                 label: 'BackBling',
                 value: 'backpack',
-                emoji: `${emojisObject.backpack}`
+                //emoji: `${//emojisObject.backpack}`
             },
             {
                 label: 'Harvesting Tool',
                 value: 'pickaxe',
-                emoji: `${emojisObject.pickaxe}`
+                //emoji: `${//emojisObject.pickaxe}`
             },
             {
                 label: 'Glider',
                 value: 'glider',
-                emoji: `${emojisObject.glider}`
+                //emoji: `${//emojisObject.glider}`
             },
             {
                 label: 'Contrail',
                 value: 'contrail',
-                emoji: `${emojisObject.contrail}`
+                //emoji: `${//emojisObject.contrail}`
             },
             {
                 label: 'Emote',
                 value: 'emote',
-                emoji: `${emojisObject.emote}`
+                //emoji: `${//emojisObject.emote}`
             },
             {
                 label: 'Spray',
                 value: 'spray',
-                emoji: `${emojisObject.spray}`
+                //emoji: `${//emojisObject.spray}`
             },
             {
                 label: 'Emoticon',
-                value: 'emoji',
-                emoji: `${emojisObject.emoji}`
+                value: '//emoji',
+                //emoji: `${//emojisObject.//emoji}`
             },
             {
                 label: 'Toy',
                 value: 'toy',
-                emoji: `${emojisObject.toy}`
+                //emoji: `${//emojisObject.toy}`
             },
             {
                 label: 'Pet',
                 value: 'pet',
-                emoji: `${emojisObject.pet}`
+                //emoji: `${//emojisObject.pet}`
             },
             {
                 label: 'Wrap',
                 value: 'wrap',
-                emoji: `${emojisObject.wrap}`
+                //emoji: `${//emojisObject.wrap}`
             },
             {
                 label: 'Music',
                 value: 'music',
-                emoji: `${emojisObject.music}`
+                //emoji: `${//emojisObject.music}`
             },
             {
                 label: 'Loading Screen',
                 value: 'loadingscreen',
-                emoji: `${emojisObject.loadingscreen}`
+                //emoji: `${//emojisObject.loadingscreen}`
             },
             {
                 label: 'Banner',
                 value: 'bannertoken',
-                emoji: `${emojisObject.banner}`
+                //emoji: `${//emojisObject.banner}`
             },
         )
 
@@ -365,12 +365,12 @@ module.exports = async (FNBRMENA, message, client, lang, emojisObject) => {
             {
                 label: 'الزي',
                 value: 'outfit',
-                emoji: `${emojisObject.outfit}`
+                //emoji: `${//emojisObject.outfit}`
             },
             {
                 label: 'الحزم',
                 value: 'bundle',
-                emoji: `${emojisObject.bundle}`
+                //emoji: `${//emojisObject.bundle}`
             },
             {
                 label: 'النمط',
@@ -379,67 +379,67 @@ module.exports = async (FNBRMENA, message, client, lang, emojisObject) => {
             {
                 label: 'زينة الظهر',
                 value: 'backpack',
-                emoji: `${emojisObject.backpack}`
+                //emoji: `${//emojisObject.backpack}`
             },
             {
                 label: 'أداة الحصاد',
                 value: 'pickaxe',
-                emoji: `${emojisObject.pickaxe}`
+                //emoji: `${//emojisObject.pickaxe}`
             },
             {
                 label: 'الطائرة الشراعية',
                 value: 'glider',
-                emoji: `${emojisObject.glider}`
+                //emoji: `${//emojisObject.glider}`
             },
             {
                 label: 'الخط النفاثي',
                 value: 'contrail',
-                emoji: `${emojisObject.contrail}`
+                //emoji: `${//emojisObject.contrail}`
             },
             {
                 label: 'رقصة',
                 value: 'emote',
-                emoji: `${emojisObject.emote}`
+                //emoji: `${//emojisObject.emote}`
             },
             {
                 label: 'صورة الرش',
                 value: 'spray',
-                emoji: `${emojisObject.spray}`
+                //emoji: `${//emojisObject.spray}`
             },
             {
                 label: 'رمز تعبيري',
-                value: 'emoji',
-                emoji: `${emojisObject.emoji}`
+                value: '//emoji',
+                //emoji: `${//emojisObject.//emoji}`
             },
             {
                 label: 'الدمية',
                 value: 'toy',
-                emoji: `${emojisObject.toy}`
+                //emoji: `${//emojisObject.toy}`
             },
             {
                 label: 'حيوان أليف',
                 value: 'pet',
-                emoji: `${emojisObject.pet}`
+                //emoji: `${//emojisObject.pet}`
             },
             {
                 label: 'الغلاف',
                 value: 'wrap',
-                emoji: `${emojisObject.wrap}`
+                //emoji: `${//emojisObject.wrap}`
             },
             {
                 label: 'الموسيقى',
                 value: 'music',
-                emoji: `${emojisObject.music}`
+                //emoji: `${//emojisObject.music}`
             },
             {
                 label: 'شاشة التحميل',
                 value: 'loadingscreen',
-                emoji: `${emojisObject.loadingscreen}`
+                //emoji: `${//emojisObject.loadingscreen}`
             },
             {
                 label: 'الراية',
                 value: 'bannertoken',
-                emoji: `${emojisObject.banner}`
+                //emoji: `${//emojisObject.banner}`
             },
         )
 
@@ -485,7 +485,7 @@ module.exports = async (FNBRMENA, message, client, lang, emojisObject) => {
         const priceOfCosmeticsRow = new Discord.ActionRowBuilder()
 
         //create the drop menu
-        const priceOfCosmeticsDropMenu = new Discord.SelectMenuBuilder()
+        const priceOfCosmeticsDropMenu = new Discord.StringSelectMenuBuilder()
         priceOfCosmeticsDropMenu.setCustomId('cosmetic_price')
         if(lang === "en") priceOfCosmeticsDropMenu.setPlaceholder('Select a vbucks!')
         else if(lang === "ar") priceOfCosmeticsDropMenu.setPlaceholder('اختار فيبوكس!')
@@ -495,117 +495,117 @@ module.exports = async (FNBRMENA, message, client, lang, emojisObject) => {
             {
                 label: 'Free',
                 value: '0',
-                emoji: `${emojisObject.vbucks}`
+                //emoji: `${//emojisObject.vbucks}`
             },
             {
                 label: '100 V-Bucks',
                 value: '100',
-                emoji: `${emojisObject.vbucks}`
+                //emoji: `${//emojisObject.vbucks}`
             },
             {
                 label: '200 V-Bucks',
                 value: '200',
-                emoji: `${emojisObject.vbucks}`
+                //emoji: `${//emojisObject.vbucks}`
             },
             {
                 label: '300 V-Bucks',
                 value: '300',
-                emoji: `${emojisObject.vbucks}`
+                //emoji: `${//emojisObject.vbucks}`
             },
             {
                 label: '400 V-Bucks',
                 value: '400',
-                emoji: `${emojisObject.vbucks}`
+                //emoji: `${//emojisObject.vbucks}`
             },
             {
                 label: '500 V-Bucks',
                 value: '500',
-                emoji: `${emojisObject.vbucks}`
+                //emoji: `${//emojisObject.vbucks}`
             },
             {
                 label: '600 V-Bucks',
                 value: '600',
-                emoji: `${emojisObject.vbucks}`
+                //emoji: `${//emojisObject.vbucks}`
             },
             {
                 label: '800 V-Bucks',
                 value: '800',
-                emoji: `${emojisObject.vbucks}`
+                //emoji: `${//emojisObject.vbucks}`
             },
             {
                 label: '1200 V-Bucks',
                 value: '1200',
-                emoji: `${emojisObject.vbucks}`
+                //emoji: `${//emojisObject.vbucks}`
             },
             {
                 label: '1400 V-Bucks',
                 value: '1400',
-                emoji: `${emojisObject.vbucks}`
+                //emoji: `${//emojisObject.vbucks}`
             },
             {
                 label: '1500 V-Bucks',
                 value: '1500',
-                emoji: `${emojisObject.vbucks}`
+                //emoji: `${//emojisObject.vbucks}`
             },
             {
                 label: '1600 V-Bucks',
                 value: '1600',
-                emoji: `${emojisObject.vbucks}`
+                //emoji: `${//emojisObject.vbucks}`
             },
             {
                 label: '1800 V-Bucks',
                 value: '1800',
-                emoji: `${emojisObject.vbucks}`
+                //emoji: `${//emojisObject.vbucks}`
             },
             {
                 label: '2000 V-Bucks',
                 value: '2000',
-                emoji: `${emojisObject.vbucks}`
+                //emoji: `${//emojisObject.vbucks}`
             },
             {
                 label: '2100 V-Bucks',
                 value: '2100',
-                emoji: `${emojisObject.vbucks}`
+                //emoji: `${//emojisObject.vbucks}`
             },
             {
                 label: '2200 V-Bucks',
                 value: '2200',
-                emoji: `${emojisObject.vbucks}`
+                //emoji: `${//emojisObject.vbucks}`
             },
             {
                 label: '2300 V-Bucks',
                 value: '2300',
-                emoji: `${emojisObject.vbucks}`
+                //emoji: `${//emojisObject.vbucks}`
             },
             {
                 label: '2400 V-Bucks',
                 value: '2400',
-                emoji: `${emojisObject.vbucks}`
+                //emoji: `${//emojisObject.vbucks}`
             },
             {
                 label: '2500 V-Bucks',
                 value: '2500',
-                emoji: `${emojisObject.vbucks}`
+                //emoji: `${//emojisObject.vbucks}`
             },
             {
                 label: '2600 V-Bucks',
                 value: '2600',
-                emoji: `${emojisObject.vbucks}`
+                //emoji: `${//emojisObject.vbucks}`
             },
             {
                 label: '2800 V-Bucks',
                 value: '2800',
-                emoji: `${emojisObject.vbucks}`
+                //emoji: `${//emojisObject.vbucks}`
             },
             {
                 label: '3000 V-Bucks',
                 value: '3000',
-                emoji: `${emojisObject.vbucks}`
+                //emoji: `${//emojisObject.vbucks}`
             },
             {
                 label: '3500 V-Bucks',
                 value: '3500',
-                emoji: `${emojisObject.vbucks}`
+                //emoji: `${//emojisObject.vbucks}`
             }
         )
 
@@ -614,117 +614,117 @@ module.exports = async (FNBRMENA, message, client, lang, emojisObject) => {
             {
                 label: 'مجاني',
                 value: '0',
-                emoji: `${emojisObject.vbucks}`
+                //emoji: `${//emojisObject.vbucks}`
             },
             {
                 label: '100 فيبوكس',
                 value: '100',
-                emoji: `${emojisObject.vbucks}`
+                //emoji: `${//emojisObject.vbucks}`
             },
             {
                 label: '200 فيبوكس',
                 value: '200',
-                emoji: `${emojisObject.vbucks}`
+                //emoji: `${//emojisObject.vbucks}`
             },
             {
                 label: '300 فيبوكس',
                 value: '300',
-                emoji: `${emojisObject.vbucks}`
+                //emoji: `${//emojisObject.vbucks}`
             },
             {
                 label: '400 فيبوكس',
                 value: '400',
-                emoji: `${emojisObject.vbucks}`
+                //emoji: `${//emojisObject.vbucks}`
             },
             {
                 label: '500 فيبوكس',
                 value: '500',
-                emoji: `${emojisObject.vbucks}`
+                //emoji: `${//emojisObject.vbucks}`
             },
             {
                 label: '600 فيبوكس',
                 value: '600',
-                emoji: `${emojisObject.vbucks}`
+                //emoji: `${//emojisObject.vbucks}`
             },
             {
                 label: '800 فيبوكس',
                 value: '800',
-                emoji: `${emojisObject.vbucks}`
+                //emoji: `${//emojisObject.vbucks}`
             },
             {
                 label: '1200 فيبوكس',
                 value: '1200',
-                emoji: `${emojisObject.vbucks}`
+                //emoji: `${//emojisObject.vbucks}`
             },
             {
                 label: '1400 فيبوكس',
                 value: '1400',
-                emoji: `${emojisObject.vbucks}`
+                //emoji: `${//emojisObject.vbucks}`
             },
             {
                 label: '1500 فيبوكس',
                 value: '1500',
-                emoji: `${emojisObject.vbucks}`
+                //emoji: `${//emojisObject.vbucks}`
             },
             {
                 label: '1600 فيبوكس',
                 value: '1600',
-                emoji: `${emojisObject.vbucks}`
+                //emoji: `${//emojisObject.vbucks}`
             },
             {
                 label: '1800 فيبوكس',
                 value: '1800',
-                emoji: `${emojisObject.vbucks}`
+                //emoji: `${//emojisObject.vbucks}`
             },
             {
                 label: '2000 فيبوكس',
                 value: '2000',
-                emoji: `${emojisObject.vbucks}`
+                //emoji: `${//emojisObject.vbucks}`
             },
             {
                 label: '2100 فيبوكس',
                 value: '2100',
-                emoji: `${emojisObject.vbucks}`
+                //emoji: `${//emojisObject.vbucks}`
             },
             {
                 label: '2200 فيبوكس',
                 value: '2200',
-                emoji: `${emojisObject.vbucks}`
+                //emoji: `${//emojisObject.vbucks}`
             },
             {
                 label: '2300 فيبوكس',
                 value: '2300',
-                emoji: `${emojisObject.vbucks}`
+                //emoji: `${//emojisObject.vbucks}`
             },
             {
                 label: '2400 فيبوكس',
                 value: '2400',
-                emoji: `${emojisObject.vbucks}`
+                //emoji: `${//emojisObject.vbucks}`
             },
             {
                 label: '2500 فيبوكس',
                 value: '2500',
-                emoji: `${emojisObject.vbucks}`
+                //emoji: `${//emojisObject.vbucks}`
             },
             {
                 label: '2600 فيبوكس',
                 value: '2600',
-                emoji: `${emojisObject.vbucks}`
+                //emoji: `${//emojisObject.vbucks}`
             },
             {
                 label: '2800 فيبوكس',
                 value: '2800',
-                emoji: `${emojisObject.vbucks}`
+                //emoji: `${//emojisObject.vbucks}`
             },
             {
                 label: '3000 فيبوكس',
                 value: '3000',
-                emoji: `${emojisObject.vbucks}`
+                //emoji: `${//emojisObject.vbucks}`
             },
             {
                 label: '3500 فيبوكس',
                 value: '3500',
-                emoji: `${emojisObject.vbucks}`
+                //emoji: `${//emojisObject.vbucks}`
             }
         )
 
@@ -771,7 +771,7 @@ module.exports = async (FNBRMENA, message, client, lang, emojisObject) => {
         const seriesOfCosmeticsRow = new Discord.ActionRowBuilder()
 
         //create the drop menu
-        const seriesOfCosmeticsDropMenu = new Discord.SelectMenuBuilder()
+        const seriesOfCosmeticsDropMenu = new Discord.StringSelectMenuBuilder()
         seriesOfCosmeticsDropMenu.setCustomId('cosmetic_series')
         if(lang === "en") seriesOfCosmeticsDropMenu.setPlaceholder('Nothing selected!')
         else if(lang === "ar") seriesOfCosmeticsDropMenu.setPlaceholder('الرجاء الأختيار!')
@@ -781,52 +781,52 @@ module.exports = async (FNBRMENA, message, client, lang, emojisObject) => {
             {
                 label: 'Marvel Series',
                 value: 'MarvelSeries',
-                emoji: `${emojisObject.marvel}`
+                //emoji: `${//emojisObject.MarvelSeries}`
             },
             {
                 label: 'DC Series',
                 value: 'DCUSeries',
-                emoji: `${emojisObject.dc}`
+                //emoji: `${//emojisObject.DCUSeries}`
             },
             {
                 label: 'Starwars Series',
                 value: 'ColumbusSeries',
-                emoji: `${emojisObject.starwars}`
+                //emoji: `${//emojisObject.ColumbusSeries}`
             },
             {
                 label: 'Dark Series',
                 value: 'CUBESeries',
-                emoji: `${emojisObject.dark}`
+                //emoji: `${//emojisObject.CUBESeries}`
             },
             {
                 label: 'Icon Series',
                 value: 'CreatorCollabSeries',
-                emoji: `${emojisObject.icon}`
+                //emoji: `${//emojisObject.CreatorCollabSeries}`
             },
             {
                 label: 'Shadow Series',
                 value: 'ShadowSeries',
-                emoji: `${emojisObject.shadow}`
+                //emoji: `${//emojisObject.ShadowSeries}`
             },
             {
                 label: 'Slurp Series',
                 value: 'SlurpSeries',
-                emoji: `${emojisObject.slurp}`
+                //emoji: `${//emojisObject.SlurpSeries}`
             },
             {
                 label: 'Frozen Series',
                 value: 'FrozenSeries',
-                emoji: `${emojisObject.frozen}`
+                //emoji: `${//emojisObject.FrozenSeries}`
             },
             {
                 label: 'Lava Series',
                 value: 'LavaSeries',
-                emoji: `${emojisObject.lava}`
+                //emoji: `${//emojisObject.LavaSeries}`
             },
             {
                 label: 'Gaming Legends Series',
                 value: 'PlatformSeries',
-                emoji: `${emojisObject.gaming}`
+                //emoji: `${//emojisObject.PlatformSeries}`
             }
         )
 
@@ -835,52 +835,52 @@ module.exports = async (FNBRMENA, message, client, lang, emojisObject) => {
             {
                 label: 'سلسلة مارفل',
                 value: 'MarvelSeries',
-                emoji: `${emojisObject.marvel}`
+                //emoji: `${//emojisObject.MarvelSeries}`
             },
             {
                 label: 'سلسلة دي سي',
                 value: 'DCUSeries',
-                emoji: `${emojisObject.dc}`
+                //emoji: `${//emojisObject.DCUSeries}`
             },
             {
                 label: 'سلسلة ستار وارز',
                 value: 'ColumbusSeries',
-                emoji: `${emojisObject.starwars}`
+                //emoji: `${//emojisObject.ColumbusSeries}`
             },
             {
                 label: 'سلسلة دارك',
                 value: 'CUBESeries',
-                emoji: `${emojisObject.dark}`
+                //emoji: `${//emojisObject.CUBESeries}`
             },
             {
                 label: 'سلسلة المشاهير',
                 value: 'CreatorCollabSeries',
-                emoji: `${emojisObject.icon}`
+                //emoji: `${//emojisObject.CreatorCollabSeries}`
             },
             {
                 label: 'سلسلة الظلال',
                 value: 'ShadowSeries',
-                emoji: `${emojisObject.shadow}`
+                //emoji: `${//emojisObject.ShadowSeries}`
             },
             {
                 label: 'سلسلة الشراب',
                 value: 'SlurpSeries',
-                emoji: `${emojisObject.slurp}`
+                //emoji: `${//emojisObject.SlurpSeries}`
             },
             {
                 label: 'سلسلة التجمد',
                 value: 'FrozenSeries',
-                emoji: `${emojisObject.frozen}`
+                //emoji: `${//emojisObject.FrozenSeries}`
             },
             {
                 label: 'سلسلة الحمم',
                 value: 'LavaSeries',
-                emoji: `${emojisObject.lava}`
+                //emoji: `${//emojisObject.LavaSeries}`
             },
             {
                 label: 'سلسلة أساطير الألعاب',
                 value: 'PlatformSeries',
-                emoji: `${emojisObject.gaming}`
+                //emoji: `${//emojisObject.PlatformSeries}`
             }
         )
 
@@ -926,7 +926,7 @@ module.exports = async (FNBRMENA, message, client, lang, emojisObject) => {
         const rarityOfCosmeticsRow = new Discord.ActionRowBuilder()
 
         //create the drop menu
-        const rarityOfCosmeticsDropMenu = new Discord.SelectMenuBuilder()
+        const rarityOfCosmeticsDropMenu = new Discord.StringSelectMenuBuilder()
         rarityOfCosmeticsDropMenu.setCustomId('cosmetic_rarity')
         if(lang === "en") rarityOfCosmeticsDropMenu.setPlaceholder('Nothing selected!')
         else if(lang === "ar") rarityOfCosmeticsDropMenu.setPlaceholder('الرجاء الأختيار!')
@@ -936,27 +936,27 @@ module.exports = async (FNBRMENA, message, client, lang, emojisObject) => {
             {
                 label: 'Legendary',
                 value: 'Legendary',
-                emoji: `${emojisObject.legendary}`
+                //emoji: `${//emojisObject.Legendary}`
             },
             {
                 label: 'Epic',
                 value: 'Epic',
-                emoji: `${emojisObject.epic}`
+                //emoji: `${//emojisObject.Epic}`
             },
             {
                 label: 'Rare',
                 value: 'Rare',
-                emoji: `${emojisObject.rare}`
+                //emoji: `${//emojisObject.Rare}`
             },
             {
                 label: 'Uncommon',
                 value: 'Uncommon',
-                emoji: `${emojisObject.uncommon}`
+                //emoji: `${//emojisObject.Uncommon}`
             },
             {
                 label: 'Common',
                 value: 'Common',
-                emoji: `${emojisObject.common}`
+                //emoji: `${//emojisObject.Common}`
             }
         )
 
@@ -965,27 +965,27 @@ module.exports = async (FNBRMENA, message, client, lang, emojisObject) => {
             {
                 label: 'أسطوري',
                 value: 'Legendary',
-                emoji: `${emojisObject.legendary}`
+                //emoji: `${//emojisObject.Legendary}`
             },
             {
                 label: 'ملحمي',
                 value: 'Epic',
-                emoji: `${emojisObject.epic}`
+                //emoji: `${//emojisObject.Epic}`
             },
             {
                 label: 'نادر',
                 value: 'Rare',
-                emoji: `${emojisObject.rare}`
+                //emoji: `${//emojisObject.Rare}`
             },
             {
                 label: 'غير شائع',
                 value: 'Uncommon',
-                emoji: `${emojisObject.uncommon}`
+                //emoji: `${//emojisObject.Uncommon}`
             },
             {
                 label: 'شائع',
                 value: 'Common',
-                emoji: `${emojisObject.common}`
+                //emoji: `${//emojisObject.Common}`
             }
         )
 
@@ -1031,7 +1031,7 @@ module.exports = async (FNBRMENA, message, client, lang, emojisObject) => {
         const searchTagsRow = new Discord.ActionRowBuilder()
 
         //create the drop menu
-        const searchTagsDropMenu = new Discord.SelectMenuBuilder()
+        const searchTagsDropMenu = new Discord.StringSelectMenuBuilder()
         searchTagsDropMenu.setCustomId('search_tags')
         if(lang === "en") searchTagsDropMenu.setPlaceholder('Nothing selected!')
         else if(lang === "ar") searchTagsDropMenu.setPlaceholder('الرجاء الأختيار!')
@@ -1041,12 +1041,12 @@ module.exports = async (FNBRMENA, message, client, lang, emojisObject) => {
             {
                 label: 'Yellow',
                 value: 'yellow',
-                emoji: `🟨`
+                //emoji: `🟨`
             },
             {
                 label: 'Food',
                 value: 'food',
-                emoji: `🍔`
+                //emoji: `🍔`
             }
         )
 
@@ -1055,12 +1055,12 @@ module.exports = async (FNBRMENA, message, client, lang, emojisObject) => {
             {
                 label: 'اصفر',
                 value: 'yellow',
-                emoji: `🟨`
+                //emoji: `🟨`
             },
             {
                 label: 'اكل',
                 value: 'food',
-                emoji: `🍔`
+                //emoji: `🍔`
             }
         )
 
@@ -1106,7 +1106,7 @@ module.exports = async (FNBRMENA, message, client, lang, emojisObject) => {
         const seasonOfCosmeticsRow = new Discord.ActionRowBuilder()
 
         //create the drop menu
-        const seasonOfCosmeticsDropMenu = new Discord.SelectMenuBuilder()
+        const seasonOfCosmeticsDropMenu = new Discord.StringSelectMenuBuilder()
         seasonOfCosmeticsDropMenu.setCustomId('cosmetic_season')
         if(lang === "en") seasonOfCosmeticsDropMenu.setPlaceholder('Select a season!')
         else if(lang === "ar") seasonOfCosmeticsDropMenu.setPlaceholder('اختار موسم!')
@@ -1259,7 +1259,7 @@ module.exports = async (FNBRMENA, message, client, lang, emojisObject) => {
         const chapterOfCosmeticsRow = new Discord.ActionRowBuilder()
 
         //create the drop menu
-        const chapterOfCosmeticsDropMenu = new Discord.SelectMenuBuilder()
+        const chapterOfCosmeticsDropMenu = new Discord.StringSelectMenuBuilder()
         chapterOfCosmeticsDropMenu.setCustomId('cosmetic_chapter')
         if(lang === "en") chapterOfCosmeticsDropMenu.setPlaceholder('Select a chapter!')
         else if(lang === "ar") chapterOfCosmeticsDropMenu.setPlaceholder('اختار فصل!')
@@ -1329,7 +1329,7 @@ module.exports = async (FNBRMENA, message, client, lang, emojisObject) => {
         const chapterOfCosmeticsRow = new Discord.ActionRowBuilder()
 
         //create the drop menu
-        const chapterOfCosmeticsDropMenu = new Discord.SelectMenuBuilder()
+        const chapterOfCosmeticsDropMenu = new Discord.StringSelectMenuBuilder()
         chapterOfCosmeticsDropMenu.setCustomId('cosmetic_chapter')
         if(lang === "en") chapterOfCosmeticsDropMenu.setPlaceholder('Select a chapter!')
         else if(lang === "ar") chapterOfCosmeticsDropMenu.setPlaceholder('اختار فصل!')
@@ -1381,7 +1381,7 @@ module.exports = async (FNBRMENA, message, client, lang, emojisObject) => {
                 const seasonOfCosmeticsRow = new Discord.ActionRowBuilder()
 
                 //create the drop menu
-                const seasonOfCosmeticsDropMenu = new Discord.SelectMenuBuilder()
+                const seasonOfCosmeticsDropMenu = new Discord.StringSelectMenuBuilder()
                 seasonOfCosmeticsDropMenu.setCustomId('cosmetic_season')
                 if(lang === "en") seasonOfCosmeticsDropMenu.setPlaceholder('Select a season!')
                 else if(lang === "ar") seasonOfCosmeticsDropMenu.setPlaceholder('اختار موسم!')
@@ -1431,7 +1431,7 @@ module.exports = async (FNBRMENA, message, client, lang, emojisObject) => {
         const tagsRow = new Discord.ActionRowBuilder()
 
         //create the drop menu
-        const tagsDropMenu = new Discord.SelectMenuBuilder()
+        const tagsDropMenu = new Discord.StringSelectMenuBuilder()
         tagsDropMenu.setCustomId('cosmetic_tags')
         tagsDropMenu.setMinValues(1)
         tagsDropMenu.setMaxValues(11)
@@ -1443,57 +1443,57 @@ module.exports = async (FNBRMENA, message, client, lang, emojisObject) => {
             {
                 label: 'Itemshop',
                 value: 'Cosmetics.Source.ItemShop',
-                emoji: `🛒`
+                //emoji: `🛒`
             },
             {
                 label: 'Event',
                 value: 'Cosmetics.Source.Event.*',
-                emoji: `${emojisObject.event}`
+                //emoji: `${//emojisObject.event}`
             },
             {
                 label: 'Has Styles',
                 value: 'Cosmetics.UserFacingFlags.HasVariants',
-                emoji: `${emojisObject.variants}`
+                //emoji: `${//emojisObject.variants}`
             },
             {
                 label: 'FNCS',
                 value: 'Cosmetics.Source.FNCS',
-                emoji: `${emojisObject.fncs}`
+                //emoji: `${//emojisObject.fncs}`
             },
             {
                 label: 'Exclusive',
                 value: 'Cosmetics.Source.Promo',
-                emoji: `${emojisObject.exclusive}`
+                //emoji: `${//emojisObject.exclusive}`
             },
             {
                 label: 'Reactive',
                 value: 'Cosmetics.UserFacingFlags.Reactive',
-                emoji: `${emojisObject.reactive}`
+                //emoji: `${//emojisObject.reactive}`
             },
             {
                 label: 'Traversal',
                 value: 'Cosmetics.UserFacingFlags.Emote.Traversal',
-                emoji: `${emojisObject.traversal}`
+                //emoji: `${//emojisObject.traversal}`
             },
             {
                 label: 'Animated',
                 value: '*Animated',
-                emoji: `${emojisObject.animated}`
+                //emoji: `${//emojisObject.animated}`
             },
             {
                 label: 'Synced',
                 value: 'Cosmetics.UserFacingFlags.Synced',
-                emoji: `${emojisObject.synced}`
+                //emoji: `${//emojisObject.synced}`
             },
             {
                 label: 'Birthday Celebrations',
                 value: 'Cosmetics.Source.Event.Birthday*',
-                emoji: `${emojisObject.birthday}`
+                //emoji: `${//emojisObject.birthday}`
             },
             {
                 label: 'Win Umbrellas',
                 value: '*FirstWin*',
-                emoji: `${emojisObject.umbrella}`
+                //emoji: `${//emojisObject.umbrella}`
             }
         )
 
@@ -1502,57 +1502,57 @@ module.exports = async (FNBRMENA, message, client, lang, emojisObject) => {
             {
                 label: 'متجر العناصر',
                 value: 'Cosmetics.Source.ItemShop',
-                emoji: `🛒`
+                //emoji: `🛒`
             },
             {
                 label: 'حدث',
                 value: 'Cosmetics.Source.Event.*',
-                emoji: `${emojisObject.event}`
+                //emoji: `${//emojisObject.event}`
             },
             {
                 label: 'لديه ستايلات',
                 value: 'Cosmetics.UserFacingFlags.HasVariants',
-                emoji: `${emojisObject.variants}`
+                //emoji: `${//emojisObject.variants}`
             },
             {
                 label: 'بطولة FNCS',
                 value: 'Cosmetics.Source.FNCS',
-                emoji: `${emojisObject.fncs}`
+                //emoji: `${//emojisObject.fncs}`
             },
             {
                 label: 'حصري',
                 value: 'Cosmetics.Source.Promo',
-                emoji: `${emojisObject.exclusive}`
+                //emoji: `${//emojisObject.exclusive}`
             },
             {
                 label: 'متفاعل',
                 value: 'Cosmetics.UserFacingFlags.Reactive',
-                emoji: `${emojisObject.reactive}`
+                //emoji: `${//emojisObject.reactive}`
             },
             {
                 label: 'قابل للمشي',
                 value: 'Cosmetics.UserFacingFlags.Emote.Traversal',
-                emoji: `${emojisObject.traversal}`
+                //emoji: `${//emojisObject.traversal}`
             },
             {
                 label: 'متحرك',
                 value: '*Animated',
-                emoji: `${emojisObject.animated}`
+                //emoji: `${//emojisObject.animated}`
             },
             {
                 label: 'متزامن',
                 value: 'Cosmetics.UserFacingFlags.Synced',
-                emoji: `${emojisObject.synced}`
+                //emoji: `${//emojisObject.synced}`
             },
             {
                 label: 'الذكرى السنوية',
                 value: 'Cosmetics.Source.Event.Birthday*',
-                emoji: `${emojisObject.birthday}`
+                //emoji: `${//emojisObject.birthday}`
             },
             {
                 label: 'مظلات الفوز',
                 value: '*FirstWin*',
-                emoji: `${emojisObject.umbrella}`
+                //emoji: `${//emojisObject.umbrella}`
             }
         )
 
@@ -1699,10 +1699,10 @@ module.exports = async (FNBRMENA, message, client, lang, emojisObject) => {
         const shopHistoryYearOfCosmeticsEmbed = new Discord.EmbedBuilder()
         shopHistoryYearOfCosmeticsEmbed.setColor(FNBRMENA.Colors("embed"))
         if(lang === "en"){
-            shopHistoryYearOfCosmeticsEmbed.setAuthor({name: `Shop History, Year`, iconURL: 'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/160/google/313/shopping-cart_1f6d2.png'})
+            shopHistoryYearOfCosmeticsEmbed.setAuthor({name: `Shop History, Year`, iconURL: 'https:////emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/160/google/313/shopping-cart_1f6d2.png'})
             shopHistoryYearOfCosmeticsEmbed.setDescription(`Please click on the Drop-Down menu and choose the shot history year.`)
         }else if(lang === "ar"){
-            shopHistoryYearOfCosmeticsEmbed.setAuthor({name: `تاريخ الشوب, السنه`, iconURL: 'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/160/google/313/shopping-cart_1f6d2.png'})
+            shopHistoryYearOfCosmeticsEmbed.setAuthor({name: `تاريخ الشوب, السنه`, iconURL: 'https:////emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/160/google/313/shopping-cart_1f6d2.png'})
             shopHistoryYearOfCosmeticsEmbed.setDescription('الرجاء الضغط على السهم لاختيار سنه تاريخ الشوب')
         }
 
@@ -1733,7 +1733,7 @@ module.exports = async (FNBRMENA, message, client, lang, emojisObject) => {
         const shopHistoryYearOfCosmeticsRow = new Discord.ActionRowBuilder()
 
         //create the drop menu
-        const shopHistoryYearOfCosmeticsDropMenu = new Discord.SelectMenuBuilder()
+        const shopHistoryYearOfCosmeticsDropMenu = new Discord.StringSelectMenuBuilder()
         shopHistoryYearOfCosmeticsDropMenu.setCustomId('historyYear')
         if(lang === "en") shopHistoryYearOfCosmeticsDropMenu.setPlaceholder('Select a year!')
         else if(lang === "ar") shopHistoryYearOfCosmeticsDropMenu.setPlaceholder('اختار سنه!')
@@ -1766,10 +1766,10 @@ module.exports = async (FNBRMENA, message, client, lang, emojisObject) => {
                 const shopHistoryMonthOfCosmeticsEmbed = new Discord.EmbedBuilder()
                 shopHistoryMonthOfCosmeticsEmbed.setColor(FNBRMENA.Colors("embed"))
                 if(lang === "en"){
-                    shopHistoryMonthOfCosmeticsEmbed.setAuthor({name: `Shop History, Month`, iconURL: 'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/160/google/313/shopping-cart_1f6d2.png'})
+                    shopHistoryMonthOfCosmeticsEmbed.setAuthor({name: `Shop History, Month`, iconURL: 'https:////emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/160/google/313/shopping-cart_1f6d2.png'})
                     shopHistoryMonthOfCosmeticsEmbed.setDescription(`Please click on the Drop-Down menu and choose the shot history month.`)
                 }else if(lang === "ar"){
-                    shopHistoryMonthOfCosmeticsEmbed.setAuthor({name: `تاريخ الشوب, شهر`, iconURL: 'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/160/google/313/shopping-cart_1f6d2.png'})
+                    shopHistoryMonthOfCosmeticsEmbed.setAuthor({name: `تاريخ الشوب, شهر`, iconURL: 'https:////emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/160/google/313/shopping-cart_1f6d2.png'})
                     shopHistoryMonthOfCosmeticsEmbed.setDescription('الرجاء الضغط على السهم لاختيار شهر تاريخ الشوب')
                 }
 
@@ -1791,7 +1791,7 @@ module.exports = async (FNBRMENA, message, client, lang, emojisObject) => {
                 const shopHistoryMonthOfCosmeticsRow = new Discord.ActionRowBuilder()
 
                 //create the drop menu
-                const shopHistoryMonthOfCosmeticsDropMenu = new Discord.SelectMenuBuilder()
+                const shopHistoryMonthOfCosmeticsDropMenu = new Discord.StringSelectMenuBuilder()
                 shopHistoryMonthOfCosmeticsDropMenu.setCustomId('historyMonth')
                 if(lang === "en") shopHistoryMonthOfCosmeticsDropMenu.setPlaceholder('Select a month!')
                 else if(lang === "ar") shopHistoryMonthOfCosmeticsDropMenu.setPlaceholder('اختار شهر!')
@@ -1823,10 +1823,10 @@ module.exports = async (FNBRMENA, message, client, lang, emojisObject) => {
                         const shopHistoryDayOfCosmeticsEmbed = new Discord.EmbedBuilder()
                         shopHistoryDayOfCosmeticsEmbed.setColor(FNBRMENA.Colors("embed"))
                         if(lang === "en"){
-                            shopHistoryDayOfCosmeticsEmbed.setAuthor({name: `Shop History, Day`, iconURL: 'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/160/google/313/shopping-cart_1f6d2.png'})
+                            shopHistoryDayOfCosmeticsEmbed.setAuthor({name: `Shop History, Day`, iconURL: 'https:////emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/160/google/313/shopping-cart_1f6d2.png'})
                             shopHistoryDayOfCosmeticsEmbed.setDescription(`Please click on the Drop-Down menu and choose the shot history day\n\`First drop menu lists days from 1 to 15 and the second lists the rest.\`.`)
                         }else if(lang === "ar"){
-                            shopHistoryDayOfCosmeticsEmbed.setAuthor({name: `تاريخ الشوب, يوم`, iconURL: 'https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/160/google/313/shopping-cart_1f6d2.png'})
+                            shopHistoryDayOfCosmeticsEmbed.setAuthor({name: `تاريخ الشوب, يوم`, iconURL: 'https:////emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/160/google/313/shopping-cart_1f6d2.png'})
                             shopHistoryDayOfCosmeticsEmbed.setDescription('\n\`اول سهم يحتوي على 15 يوم و السهم الثاني يحتوي على الايام المتبقية.\`الرجاء الضغط على السهم لاختيار يوم تاريخ الشوب')
                         }
 
@@ -1872,14 +1872,14 @@ module.exports = async (FNBRMENA, message, client, lang, emojisObject) => {
                         const shopHistoryDay30OfCosmeticsRow = new Discord.ActionRowBuilder()
 
                         //create the drop menu less tha 15
-                        const shopHistoryDay15OfCosmeticsDropMenu = new Discord.SelectMenuBuilder()
+                        const shopHistoryDay15OfCosmeticsDropMenu = new Discord.StringSelectMenuBuilder()
                         shopHistoryDay15OfCosmeticsDropMenu.setCustomId('historyDay15')
                         if(lang === "en") shopHistoryDay15OfCosmeticsDropMenu.setPlaceholder('Select a day! - 15 Days')
                         else if(lang === "ar") shopHistoryDay15OfCosmeticsDropMenu.setPlaceholder('اختار يوم! - 15 يوم')
                         shopHistoryDay15OfCosmeticsDropMenu.addOptions(daysOfShopHistory15)
 
                         //create the drop menu more tha 15
-                        const shopHistoryDay30OfCosmeticsDropMenu = new Discord.SelectMenuBuilder()
+                        const shopHistoryDay30OfCosmeticsDropMenu = new Discord.StringSelectMenuBuilder()
                         shopHistoryDay30OfCosmeticsDropMenu.setCustomId('historyDay30')
                         if(lang === "en") shopHistoryDay30OfCosmeticsDropMenu.setPlaceholder('Select a day! - +15 Days')
                         else if(lang === "ar") shopHistoryDay30OfCosmeticsDropMenu.setPlaceholder('اختار يوم! - +15 يوم')
@@ -1957,7 +1957,7 @@ module.exports = async (FNBRMENA, message, client, lang, emojisObject) => {
         const chapterOfCosmeticsRow = new Discord.ActionRowBuilder()
 
         //create the drop menu
-        const chapterOfCosmeticsDropMenu = new Discord.SelectMenuBuilder()
+        const chapterOfCosmeticsDropMenu = new Discord.StringSelectMenuBuilder()
         chapterOfCosmeticsDropMenu.setCustomId('cosmetic_chapter')
         if(lang === "en") chapterOfCosmeticsDropMenu.setPlaceholder('Select a chapter!')
         else if(lang === "ar") chapterOfCosmeticsDropMenu.setPlaceholder('اختار فصل!')
@@ -2009,7 +2009,7 @@ module.exports = async (FNBRMENA, message, client, lang, emojisObject) => {
                 const seasonOfCosmeticsRow = new Discord.ActionRowBuilder()
 
                 //create the drop menu
-                const seasonOfCosmeticsDropMenu = new Discord.SelectMenuBuilder()
+                const seasonOfCosmeticsDropMenu = new Discord.StringSelectMenuBuilder()
                 seasonOfCosmeticsDropMenu.setCustomId('cosmetic_season')
                 if(lang === "en") seasonOfCosmeticsDropMenu.setPlaceholder('Select a season!')
                 else if(lang === "ar") seasonOfCosmeticsDropMenu.setPlaceholder('اختار موسم!')
@@ -2167,7 +2167,7 @@ module.exports = async (FNBRMENA, message, client, lang, emojisObject) => {
         const copyrightedRow = new Discord.ActionRowBuilder()
 
         //create the drop menu
-        const copyrightedDropMenu = new Discord.SelectMenuBuilder()
+        const copyrightedDropMenu = new Discord.StringSelectMenuBuilder()
         copyrightedDropMenu.setCustomId('copyrighted_audio')
         if(lang === "en") copyrightedDropMenu.setPlaceholder('Nothing selected!')
         else if(lang === "ar") copyrightedDropMenu.setPlaceholder('الرجاء الأختيار!')
@@ -2177,12 +2177,12 @@ module.exports = async (FNBRMENA, message, client, lang, emojisObject) => {
             {
                 label: 'Yes, it does',
                 value: 'true',
-                emoji: `✅`
+                //emoji: `✅`
             },
             {
                 label: 'No, it doesn\'t',
                 value: 'false',
-                emoji: `❎`
+                //emoji: `❎`
             }
         )
 
@@ -2191,12 +2191,12 @@ module.exports = async (FNBRMENA, message, client, lang, emojisObject) => {
             {
                 label: 'نعم, انه كذلك',
                 value: 'true',
-                emoji: `✅`
+                //emoji: `✅`
             },
             {
                 label: 'لا, انه ليس كذلك',
                 value: 'false',
-                emoji: `❎`
+                //emoji: `❎`
             }
         )
 
@@ -2242,7 +2242,7 @@ module.exports = async (FNBRMENA, message, client, lang, emojisObject) => {
         const upcomingRow = new Discord.ActionRowBuilder()
 
         //create the drop menu
-        const upcomingDropMenu = new Discord.SelectMenuBuilder()
+        const upcomingDropMenu = new Discord.StringSelectMenuBuilder()
         upcomingDropMenu.setCustomId('upcoming')
         if(lang === "en") upcomingDropMenu.setPlaceholder('Nothing selected!')
         else if(lang === "ar") upcomingDropMenu.setPlaceholder('الرجاء الأختيار!')
@@ -2252,12 +2252,12 @@ module.exports = async (FNBRMENA, message, client, lang, emojisObject) => {
             {
                 label: 'Yes, it does',
                 value: 'true',
-                emoji: `✅`
+                //emoji: `✅`
             },
             {
                 label: 'No, it doesn\'t',
                 value: 'false',
-                emoji: `❎`
+                //emoji: `❎`
             }
         )
 
@@ -2266,12 +2266,12 @@ module.exports = async (FNBRMENA, message, client, lang, emojisObject) => {
             {
                 label: 'نعم, انه كذلك',
                 value: 'true',
-                emoji: `✅`
+                //emoji: `✅`
             },
             {
                 label: 'لا, انه ليس كذلك',
                 value: 'false',
-                emoji: `❎`
+                //emoji: `❎`
             }
         )
 

@@ -24,7 +24,7 @@ module.exports = {
             searchedBundleData: null
         }
 
-        await FNBRMENA.getBundles("en")
+        await FNBRMENA.getBundles("en", false)
         .then(async res => {
 
             // Filtering
@@ -105,7 +105,7 @@ module.exports = {
 
             try {
 
-                await FNBRMENA.getBundles(userData.lang)
+                await FNBRMENA.getBundles(userData.lang, false)
                 .then(async res => {
 
                     // Filtering
@@ -779,19 +779,19 @@ module.exports = {
                 }else if(userData.lang === "en") bundleEmbed.addFields({name: 'Prices', value: `\`There is no prices yet\``})
                 else if(userData.lang === "ar") bundleEmbed.addFields({name: 'الاسعار', value: `\`لا يوجد اسعار حاليا\``})
                 
+                // Check if there is keyImages field
+                if(data.searchedBundleData.keyImages !== undefined){
 
-                //tumbnail and image
-                if(data.searchedBundleData.displayAssets.length !== 0){
+                    // Add keyImages to the embed
+                    if(data.searchedBundleData.keyImages.length !== 0) data.searchedBundleData.keyImages.map(e => {
+                        if(e.type.toLowerCase().includes('thumbnail')) bundleEmbed.setThumbnail(e.url)
+                        if(e.type.toLowerCase().includes('featured')) bundleEmbed.setImage(e.url)
+                    })
 
-                    // Store the url
-                    var url = data.searchedBundleData.displayAssets[0].url
-                        
-                    // Decode and encode
-                    url = decodeURI(url);
-                    url = encodeURI(url);
+                }
 
-                    // Add thumbnail
-                    bundleEmbed.setThumbnail(url)
+                // If there is no image yet
+                if(bundleEmbed.data.image === undefined){
 
                     // Add the image
                     if(data.searchedBundleData.thumbnail !== null){
@@ -805,32 +805,36 @@ module.exports = {
 
                         // Set the image
                         bundleEmbed.setImage(url)
-                    }else{
+                    }else if(data.searchedBundleData.displayAssets.length !== 0){
 
                         // Store the url
                         var url = data.searchedBundleData.displayAssets[0].background
                         
                         // Decode and encode
-                        url = decodeURI(url);
-                        url = encodeURI(url);
+                        url = decodeURI(url)
+                        url = encodeURI(url)
 
                         // Set the image
                         bundleEmbed.setImage(url)
                     }
-                }else{
+                }
 
-                    // Add the image
-                    if(data.searchedBundleData.thumbnail !== null){
+                // If there is no thumbnail yet
+                if(bundleEmbed.data.thumbnail === undefined){
+
+                    // Add the thumbnail image
+                    if(data.searchedBundleData.displayAssets.length !== 0){
 
                         // Store the url
-                        var url = data.searchedBundleData.thumbnail
-                        
+                        var url = data.searchedBundleData.displayAssets[0].url
+                            
                         // Decode and encode
-                        url = decodeURI(url);
-                        url = encodeURI(url);
+                        url = decodeURI(url)
+                        url = encodeURI(url)
 
-                        // Set the image
-                        bundleEmbed.setImage(url)
+                        // Add thumbnail
+                        bundleEmbed.setThumbnail(url)
+                        
                     }
                 }
 

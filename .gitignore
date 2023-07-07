@@ -1,5 +1,5 @@
 node_modules
 package-lock.json
-commands/.DS_Store
-.DS_Store
-.DS_Store
+# commands/.DS_Store
+# .DS_Store
+# .DS_Store

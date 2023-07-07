@@ -23,14 +23,14 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
             if(status){
 
                 //request the token
-                await axios.get(`https://fnbrmenaapi.herokuapp.com/api/auth?authType=${token}`)
+                axios.get(`http://fnbrmena.com/api/auth/get/${token}`)
                 .then(async token => {
 
                     //request data
-                    await axios.get('http://lightswitch-public-service-prod.ol.epicgames.com/lightswitch/api/service/fortnite/status', {
+                    axios.get('http://lightswitch-public-service-prod.ol.epicgames.com/lightswitch/api/service/fortnite/status', {
                         headers: {
                             'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${token.data.data.token.access_token}`
+                            'Authorization': `Bearer ${token.data.data.access_token}`
                         }
                     }).then(async res => {
 

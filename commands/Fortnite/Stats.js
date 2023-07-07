@@ -31,9 +31,11 @@ module.exports = {
             name: text,
             platform: null,
             type: null,
+            season: null,
             custom: false,
             platformOptions: [],
             typeOptions: [],
+            avSeasons: [],
             statsTypeRow: null
         }
 
@@ -66,17 +68,19 @@ module.exports = {
             'ALL',
             'SOLOS',
             'DUOS',
+            'TRIOS',
             'SQUADS',
-            'LTMS',
+            'OTHERS',
             'الكل',
             'فردي',
             'زوجي',
+            'ثلاثي',
             'الفِرق',
-            'اطوار'
+            'اخرى'
         ]
 
         // Draw player stats
-        const drawPlayerStats = async (res, stats, outfit, loadingscreen, color, msg) => {
+        const drawPlayerStats = async (res, stats, season, outfit, loadingscreen, color, msg) => {
 
             // Generating messages
             const generating = new Discord.EmbedBuilder()
@@ -94,13 +98,15 @@ module.exports = {
                 const statsData = []
                 if(stats.overall !== null) statsData.push(stats.overall)
                 else statsData.push({ })
-                if(stats.solo !== null) statsData.push(stats.solo)
+                if(stats.solos !== null) statsData.push(stats.solos)
                 else statsData.push({ })
-                if(stats.duo !== null) statsData.push(stats.duo)
+                if(stats.duos !== null) statsData.push(stats.duos)
                 else statsData.push({ })
-                if(stats.squad !== null) statsData.push(stats.squad)
+                if(stats.trios !== null) statsData.push(stats.trios)
                 else statsData.push({ })
-                if(stats.ltm !== null) statsData.push(stats.ltm)
+                if(stats.squads !== null) statsData.push(stats.squads)
+                else statsData.push({ })
+                if(stats.others !== null) statsData.push(stats.others)
                 else statsData.push({ })
 
                 // Loop throw every stats feild
@@ -115,18 +121,18 @@ module.exports = {
                     // List of Coulmns
                     rowData.push([
                         {NameEN: 'HOURS', NameAR: 'الساعات', Data: minutesPlayed, xAxis: 190, yAxis: 105, index: i},
-                        {NameEN: 'MATCHES', NameAR: 'المواجهات', Data: statsData[i].matches, xAxis: 190, yAxis: 105, index: i},
-                        {NameEN: 'WINS', NameAR: 'الإنتصارات', Data: statsData[i].wins, xAxis: 190, yAxis: 105, index: i},
-                        {NameEN: 'WIN RATE', NameAR: 'م/الإنتصارات', Data: statsData[i].winRate, xAxis: 190, yAxis: 105, index: i},
-                        {NameEN: 'DEATHS', NameAR: 'الخسارات', Data: statsData[i].deaths, xAxis: 190, yAxis: 105, index: i},
-                        {NameEN: 'KILLS', NameAR: 'الذبحات', Data: statsData[i].kills, xAxis: 190, yAxis: 105, index: i},
-                        {NameEN: 'K.P.M', NameAR: 'ذ.ك.م', Data: statsData[i].killsPerMatch, xAxis: 190, yAxis: 105, index: i},
-                        {NameEN: 'K/D', NameAR: 'ك/د', Data: statsData[i].kd, xAxis: 190, yAxis: 105, index: i},
-                        {NameEN: 'TOP 3', NameAR: 'أفضل 3', Data: statsData[i].top3, xAxis: 190, yAxis: 105, index: i},
-                        {NameEN: 'TOP 5', NameAR: 'أفضل 5', Data: statsData[i].top5, xAxis: 190, yAxis: 105, index: i},
-                        {NameEN: 'TOP 10', NameAR: 'أفضل 10', Data: statsData[i].top10, xAxis: 190, yAxis: 105, index: i},
-                        {NameEN: 'TOP 25', NameAR: 'أفضل 25', Data: statsData[i].top25, xAxis: 190, yAxis: 105, index: i},
-                        {NameEN: 'LAST TIME PLAYED', NameAR: 'اخر لعب قبل', Data: statsData[i].lastModified, xAxis: 315, yAxis: 105, index: i},
+                        {NameEN: 'MATCHES', NameAR: 'المواجهات', Data: statsData[i].matches !== undefined ? statsData[i].matches : null, xAxis: 190, yAxis: 105, index: i},
+                        {NameEN: 'WINS', NameAR: 'الإنتصارات', Data: statsData[i].wins !== undefined ? statsData[i].wins : null, xAxis: 190, yAxis: 105, index: i},
+                        {NameEN: 'WIN RATE', NameAR: 'م/الإنتصارات', Data: statsData[i].winRate !== undefined ? statsData[i].winRate : null, xAxis: 190, yAxis: 105, index: i},
+                        {NameEN: 'DEATHS', NameAR: 'الخسارات', Data: statsData[i].deaths !== undefined ? statsData[i].deaths : null, xAxis: 190, yAxis: 105, index: i},
+                        {NameEN: 'KILLS', NameAR: 'الذبحات', Data: statsData[i].kills !== undefined ? statsData[i].kills : null, xAxis: 190, yAxis: 105, index: i},
+                        {NameEN: 'K.P.M', NameAR: 'ذ.ك.م', Data: statsData[i].killsPerMatch !== undefined ? statsData[i].killsPerMatch : null, xAxis: 190, yAxis: 105, index: i},
+                        {NameEN: 'K/D', NameAR: 'ك/د', Data: statsData[i].kd !== undefined ? statsData[i].kd : null, xAxis: 190, yAxis: 105, index: i},
+                        {NameEN: 'TOP 3', NameAR: 'أفضل 3', Data: statsData[i].top3 !== undefined ? statsData[i].top3 : null, xAxis: 190, yAxis: 105, index: i},
+                        {NameEN: 'TOP 5', NameAR: 'أفضل 5', Data: statsData[i].top5 !== undefined ? statsData[i].top5 : null, xAxis: 190, yAxis: 105, index: i},
+                        {NameEN: 'TOP 10', NameAR: 'أفضل 10', Data: statsData[i].top10 !== undefined ? statsData[i].top10 : null, xAxis: 190, yAxis: 105, index: i},
+                        {NameEN: 'TOP 25', NameAR: 'أفضل 25', Data: statsData[i].top25 !== undefined ? statsData[i].top25 : null, xAxis: 190, yAxis: 105, index: i},
+                        {NameEN: 'LAST TIME PLAYED', NameAR: 'اخر لعب قبل', Data: statsData[i].lastModified !== undefined ? statsData[i].lastModified : null, xAxis: 315, yAxis: 105, index: i},
                     ])
                 }
                 
@@ -149,7 +155,7 @@ module.exports = {
                 }
 
                 // Creating canvas
-                const canvas = Canvas.createCanvas(900 + tableWidth * 300, 2160)
+                const canvas = Canvas.createCanvas(900 + tableWidth * 300, 2400)
                 const ctx = canvas.getContext('2d')
 
                 // Get random color
@@ -211,7 +217,7 @@ module.exports = {
 
                             // Outfit img 
                             const outfitIMG = await Canvas.loadImage(listOfOutfits.data.items[randomImage].images.featured)
-                            ctx.drawImage(outfitIMG, canvas.width - 1250, 300, 1860, 1860)
+                            ctx.drawImage(outfitIMG, canvas.width - 1550, 300, canvas.height - 300, canvas.height - 300)
                         })
                     }else{
 
@@ -219,7 +225,7 @@ module.exports = {
 
                             // Outfit img 
                             const outfitIMG = await Canvas.loadImage(outfit.data.items[0].images.featured)
-                            ctx.drawImage(outfitIMG, canvas.width - 1250, 300, 1860, 1860)
+                            ctx.drawImage(outfitIMG, canvas.width - 1550, 300, canvas.height - 300, canvas.height - 300)
                         }else{
 
                             // Request data
@@ -234,7 +240,7 @@ module.exports = {
 
                                 // Outfit img 
                                 const outfitIMG = await Canvas.loadImage(listOfOutfits.data.items[randomImage].images.featured)
-                                ctx.drawImage(outfitIMG, canvas.width - 1250, 300, 1860, 1860)
+                                ctx.drawImage(outfitIMG, canvas.width - 1550, 300, canvas.height - 300, canvas.height - 300)
                             })
                         }
                     }
@@ -243,7 +249,7 @@ module.exports = {
                     ctx.fillStyle = '#ffffff';
                     ctx.textAlign='left';
                     ctx.font = '100px Burbank Big Condensed'
-                    ctx.fillText(`FNBRMENA | ${userInput.name.toUpperCase()}`, 115, 110)
+                    ctx.fillText(`FNBRMENA | ${userInput.name.toUpperCase()} | ${season.toUpperCase()}`, 115, 110)
 
                     // Add stats type
                     if(userInput.type === "all"){
@@ -287,7 +293,7 @@ module.exports = {
                     var h = canvas.height
 
                     //add the xp process
-                    ctx.fillStyle = `#${randomColor.substring(randomColor.indexOf(',') + 1, randomColor.length)}` // '#96fe7e';
+                    ctx.fillStyle = `#${randomColor.substring(0, randomColor.indexOf(','))}` // '#96fe7e';
                     ctx.globalAlpha = 0.5
                     ctx.fillRect(0, 0, w, h)
                     ctx.globalAlpha = 1
@@ -327,7 +333,7 @@ module.exports = {
                 const newColumn = async (value ,ColumnNameEN, ColumnNameAR, xAxis, yAxis, i, randomColor) => {
 
                     if(ColumnNameEN !== "LAST TIME PLAYED"){
-                        if(value !== undefined){
+                        if(value !== null){
                             applyText(canvas, value, 95, 185, false)
                             ctx.fillText(value, x += xAxis, y + yAxis)
                         }else{
@@ -348,7 +354,7 @@ module.exports = {
 
                     }else if(ColumnNameEN === "LAST TIME PLAYED"){
 
-                        if(value !== undefined){
+                        if(value !== null){
                             moment.locale(userData.lang)
                             applyText(canvas, moment.tz(moment(value), userData.timezone).fromNow(), 95, 420, true)
                             ctx.fillText(moment.tz(moment(value), userData.timezone).fromNow(), x += xAxis, y + yAxis) // Add the lastModified
@@ -402,7 +408,7 @@ module.exports = {
                         ctx.fillText(listOfTypes[i], x, y + 106)
                     }else if(userData.lang === "ar"){
                         ctx.font = '97px Arabic'
-                        ctx.fillText(listOfTypes[i + 5], x, y + 97)
+                        ctx.fillText(listOfTypes[i + 6], x, y + 97)
                     }
                     
                     // Add the first end of a section
@@ -513,7 +519,7 @@ module.exports = {
             }
         )
 
-        const statsPlatformDropMenu = new Discord.SelectMenuBuilder()
+        const statsPlatformDropMenu = new Discord.StringSelectMenuBuilder()
         statsPlatformDropMenu.setCustomId(`Platform-${alias}`)
         if(userData.lang === "en") statsPlatformDropMenu.setPlaceholder('Nothing selected!')
         else if(userData.lang === "ar") statsPlatformDropMenu.setPlaceholder('الرجاء الأختيار!')
@@ -536,7 +542,7 @@ module.exports = {
         // Await for user input
         const colllector = await message.channel.createMessageComponentCollector({filter, time: 3 * 60000, errors: ['time'] })
         colllector.on('collect', async collected => {
-            collected.deferUpdate();
+            collected.deferUpdate()
 
             // If cancel button has been clicked
             if(collected.customId === `Cancel-${alias}`) colllector.stop()
@@ -600,7 +606,7 @@ module.exports = {
                 ]
 
                 // Stats Seasonal/Lifetime 
-                const statsTypeDropMenu = new Discord.SelectMenuBuilder()
+                const statsTypeDropMenu = new Discord.StringSelectMenuBuilder()
                 statsTypeDropMenu.setCustomId(`Type-${alias}`)
                 if(userData.lang === "en") statsTypeDropMenu.setPlaceholder('Nothing selected!')
                 else if(userData.lang === "ar") statsTypeDropMenu.setPlaceholder('الرجاء الأختيار!')
@@ -686,23 +692,65 @@ module.exports = {
 
             }
 
-            // If lifetime/seasonal button has been clicked
-            if(collected.customId === `Lifetime-${alias}` || collected.customId === `Seasonal-${alias}`){
+            // If seasonal button has been clicked
+            if(collected.customId === `Seasonal-${alias}`){
+
+                // Set platform options
+                userInput.platformOptions.forEach(e => (userInput.platform === e.value) ? e.default = true : e.default = false)
+                statsPlatformRow.components[0].setOptions(userInput.platformOptions)
+
+                // Set type options
+                userInput.typeOptions.forEach(e => (userInput.type === e.value) ? e.default = true : e.default = false)
+                userInput.statsTypeRow.components[0].setOptions(userInput.typeOptions)
+
+                // Request seasons data
+                const listSeasons = await FNBRMENA.Seasons(userData.lang)
+                for(const i of listSeasons.data.seasons) if(i.season >= 10 && i.endDate !== null) userInput.avSeasons.push({
+                    label: `${i.displayName}`,
+                    value: `${i.season}`
+                })
+
+                // Stats Seasonal/Lifetime 
+                const statsSeasonDropMenu = new Discord.StringSelectMenuBuilder()
+                statsSeasonDropMenu.setCustomId(`Season-${alias}`)
+                if(userData.lang === "en") statsSeasonDropMenu.setPlaceholder('Nothing selected!')
+                else if(userData.lang === "ar") statsSeasonDropMenu.setPlaceholder('الرجاء الأختيار!')
+                statsSeasonDropMenu.addOptions(userInput.avSeasons)
+
+                // Add the drop menu to the categoryDropMenu
+                const statsSeasonRow = new Discord.ActionRowBuilder()
+                statsSeasonRow.addComponents(statsSeasonDropMenu)
                 
-                //request data
-                FNBRMENA.Stats(userInput.name, userInput.platform, collected.customId === `Lifetime-${alias}` ? 'lifetime' : 'season')
+                // Edit the main message
+                dropMenuMessage.edit({embeds: [statsPlatformEmbed], components: [statsPlatformRow, userInput.statsTypeRow, statsSeasonRow, cancelButtonDataRow], files: []})
+                .catch(err => {
+                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                })
+            }
+
+            // If Lifetime/Season button has been clicked
+            if(collected.customId === `Lifetime-${alias}` || collected.customId === `Season-${alias}`){
+                
+                // Request stats data
+                FNBRMENA.FNBRMENAStats(userInput.name, userInput.platform, collected.customId === `Lifetime-${alias}` ? false : collected.values[0])
                 .then(async res => {
 
+                    // Season
+                    if(collected.customId === `Lifetime-${alias}`) var season = 'lifetime'
+                    else var season = userInput.avSeasons.filter(e => {
+                        return e.value === collected.values[0]
+                    })[0].label
+
                     // Draw the stats
-                    if(userInput.type === "all") drawPlayerStats(res, res.data.data.stats.all, false, false, false, dropMenuMessage)
-                    if(userInput.type === "kbm") drawPlayerStats(res, res.data.data.stats.keyboardMouse, false, false, false, dropMenuMessage)
-                    if(userInput.type === "controller") drawPlayerStats(res, res.data.data.stats.gamepad, false, false, false, dropMenuMessage)
-                    if(userInput.type === "touch") drawPlayerStats(res, res.data.data.stats.touch, false, false, false, dropMenuMessage)
+                    if(userInput.type === "all") drawPlayerStats(res, res.data.data.stats.all, season, false, false, false, dropMenuMessage)
+                    if(userInput.type === "kbm") drawPlayerStats(res, res.data.data.stats.keyboardmouse, season, false, false, false, dropMenuMessage)
+                    if(userInput.type === "controller") drawPlayerStats(res, res.data.data.stats.gamepad, season, false, false, false, dropMenuMessage)
+                    if(userInput.type === "touch") drawPlayerStats(res, res.data.data.stats.touch, season, false, false, false, dropMenuMessage)
                 
                 }).catch(async err => {
-                    if(err.response.data.status === 404){
+                    if(err.response.status === 404){
 
-                        if(err.response.data.error === "the requested account does not exist"){
+                        if(err.response.data.error === "The requested account does not exist."){
 
                             // Epic games string
                             if(userInput.platform === "epic" && userData.lang === "en") var usedPlatform = 'Epicgames'
@@ -720,31 +768,64 @@ module.exports = {
                             noUserHasBeenFoundError.setColor(FNBRMENA.Colors("embedError"))
                             if(userData.lang === "en") noUserHasBeenFoundError.setTitle(`Can't find \`${text}\` in ${usedPlatform} platform. Please try again ${emojisObject.errorEmoji}.`)
                             else if(userData.lang === "ar") noUserHasBeenFoundError.setTitle(`لا يمكنني العثور على حساب \`${text}\` في منصه ${usedPlatform} حاول مجددا ${emojisObject.errorEmoji}.`)
-                            await message.reply({embeds: [noUserHasBeenFoundError], components: [], files: []})
+                            await dropMenuMessage.edit({embeds: [noUserHasBeenFoundError], components: [], files: []})
                             .catch(err => {
                                 FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
                             })
 
-                        }else if(err.response.data.error === "the requested profile didnt play any match yet"){
+                        }else if(err.response.status){
 
                             const noMatchsPlayedYetError = new Discord.EmbedBuilder()
                             noMatchsPlayedYetError.setColor(FNBRMENA.Colors("embedError"))
                             if(userData.lang === "en") noMatchsPlayedYetError.setTitle(`\`${text}\` hasn't played any matchs yet ${emojisObject.errorEmoji}.`)
                             else if(userData.lang === "ar") noMatchsPlayedYetError.setTitle(`صاحب حساب \`${text}\` لم يلعب اي مباراة حتى الأن ${emojisObject.errorEmoji}.`)
-                            await message.reply({embeds: [noMatchsPlayedYetError], components: [], files: []})
+                            await dropMenuMessage.edit({embeds: [noMatchsPlayedYetError], components: [], files: []})
+                            .catch(err => {
+                                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                            })
+
+                        }else if(err.response.data.error === "The requested profile didn't play any matches yet."){
+
+                            const noMatchsPlayedYetError = new Discord.EmbedBuilder()
+                            noMatchsPlayedYetError.setColor(FNBRMENA.Colors("embedError"))
+                            if(userData.lang === "en") noMatchsPlayedYetError.setTitle(`\`${text}\` hasn't played any matchs yet ${emojisObject.errorEmoji}.`)
+                            else if(userData.lang === "ar") noMatchsPlayedYetError.setTitle(`صاحب حساب \`${text}\` لم يلعب اي مباراة حتى الأن ${emojisObject.errorEmoji}.`)
+                            await dropMenuMessage.edit({embeds: [noMatchsPlayedYetError], components: [], files: []})
                             .catch(err => {
                                 FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
                             })
 
                         }
 
-                    }else if(err.response.data.status === 403){
+                    }else if(err.response.status === 403){
 
                         const theUserAccountIsPrivate = new Discord.EmbedBuilder()
                         theUserAccountIsPrivate.setColor(FNBRMENA.Colors("embedError"))
                         if(userData.lang === "en") theUserAccountIsPrivate.setTitle(`\`${text}\` account is private, Try again later ${emojisObject.errorEmoji}.`)
                         else if(userData.lang === "ar") theUserAccountIsPrivate.setTitle(`عذرا حساب \`${text}\` خاص ، حاول مجددآ في وقت لاحق ${emojisObject.errorEmoji}.`)
-                        await message.reply({embeds: [theUserAccountIsPrivate], components: [], files: []})
+                        await dropMenuMessage.edit({embeds: [theUserAccountIsPrivate], components: [], files: []})
+                        .catch(err => {
+                            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                        })
+
+                    }else if(err.response.status === 400){
+
+                        const theUserAccountIsPrivate = new Discord.EmbedBuilder()
+                        theUserAccountIsPrivate.setColor(FNBRMENA.Colors("embedError"))
+                        if(userData.lang === "en") theUserAccountIsPrivate.setTitle(`Invalid season, please specicy a valid season ${emojisObject.errorEmoji}.`)
+                        else if(userData.lang === "ar") theUserAccountIsPrivate.setTitle(`الموسم المدخل ليس صحيح , الرجاء ادخل موسم صحيح ${emojisObject.errorEmoji}.`)
+                        await dropMenuMessage.edit({embeds: [theUserAccountIsPrivate], components: [], files: []})
+                        .catch(err => {
+                            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                        })
+
+                    }else if(err.response.status === 500){
+
+                        const notCompletedData = new Discord.EmbedBuilder()
+                        notCompletedData.setColor(FNBRMENA.Colors("embedError"))
+                        if(userData.lang === "en") notCompletedData.setTitle(`\`${text}\` account does not have a completed data ${emojisObject.errorEmoji}.`)
+                        else if(userData.lang === "ar") notCompletedData.setTitle(`عذرا حساب \`${text}\` لا يحتوي على معلومات الكامله ${emojisObject.errorEmoji}.`)
+                        await dropMenuMessage.edit({embeds: [notCompletedData], components: [], files: []})
                         .catch(err => {
                             FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
                         })

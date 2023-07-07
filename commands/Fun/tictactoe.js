@@ -5,7 +5,6 @@ module.exports = {
     minArgs: 1,
     maxArgs: 1,
     cooldown: -1,
-    permissionError: 'Sorry you do not have acccess to this command',
     callback: async (FNBRMENA, message, args, text, Discord, client, admin, userData, alias, emojisObject) => {
 
         // Get the last message sent

@@ -541,7 +541,7 @@ module.exports = {
             const battlepassChapterRow = new Discord.ActionRowBuilder()
 
             // Create the drop menu
-            const battlepassChapterDropMenu = new Discord.SelectMenuBuilder()
+            const battlepassChapterDropMenu = new Discord.StringSelectMenuBuilder()
             battlepassChapterDropMenu.setCustomId('Chapter')
             if(userData.lang === "en") battlepassChapterDropMenu.setPlaceholder('Select a chapter!')
             else if(userData.lang === "ar") battlepassChapterDropMenu.setPlaceholder('اختار فصل!')
@@ -606,7 +606,7 @@ module.exports = {
                     const battlepassSeasonRow = new Discord.ActionRowBuilder()
 
                     // Create the drop menu
-                    const battlepassSeasonDropMenu = new Discord.SelectMenuBuilder()
+                    const battlepassSeasonDropMenu = new Discord.StringSelectMenuBuilder()
                     battlepassSeasonDropMenu.setCustomId('Season')
                     if(userData.lang === "en") battlepassSeasonDropMenu.setPlaceholder('Select a season!')
                     else if(userData.lang === "ar") battlepassSeasonDropMenu.setPlaceholder('اختار موسم!')

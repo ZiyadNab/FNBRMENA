@@ -9,7 +9,8 @@ module.exports = async (client, admin) => {
                 lang: "en",
                 timezone: "America/Los_Angeles",
                 premium: false,
-                quickAccess: false
+                quickAccess: false,
+                linkedAccount: null
             })
         }
     })

@@ -95,7 +95,7 @@ module.exports = async (client, admin, commandsDataList) => {
                 permissions: [],
                 roles: [],
             },
-            allowedChats: [],
+            allowedChannels: [],
         }
 
         // Get the path for a command in firestore
@@ -107,7 +107,7 @@ module.exports = async (client, admin, commandsDataList) => {
         else{
 
             // Check if the aliases has been changed
-            if(data.commands !== snapshot.data().aliases){
+            if(JSON.stringify(data.commands) !== JSON.stringify(snapshot.data().aliases)){
 
                 // Json object to store in firestore database 
                 const updatedCommandData = {
@@ -118,11 +118,11 @@ module.exports = async (client, admin, commandsDataList) => {
                 await commandDoc.update(updatedCommandData); 
             }
 
-            if(argsExample !== snapshot.data().commandData.argsExample) await commandDoc.update({
+            if(JSON.stringify(argsExample) !== JSON.stringify(snapshot.data().commandData.argsExample)) await commandDoc.update({
                 'commandData.argsExample': argsExample
             })
 
-            if(cooldown !== snapshot.data().commandData.cooldown) await commandDoc.update({
+            if(cooldown !== snapshot.data().commandData.cooldown.filesCooldown) await commandDoc.update({
                 'commandData.cooldown.filesCooldown': cooldown
             })
 

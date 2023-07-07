@@ -42,7 +42,7 @@ module.exports = {
         const languageRow = new Discord.ActionRowBuilder()
 
         // Create a select menu
-        const languageDropMenu = new Discord.SelectMenuBuilder()
+        const languageDropMenu = new Discord.StringSelectMenuBuilder()
         languageDropMenu.setCustomId('language')
         if(userData.lang === "en") languageDropMenu.setPlaceholder('Select a language!')
         else if(userData.lang === "ar") languageDropMenu.setPlaceholder('اختر لغة!')

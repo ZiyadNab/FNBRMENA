@@ -37,6 +37,7 @@ class FNBRMENA {
      Colors(Type){
 
         if(Type === "embed") return "#00ffff"
+        if(Type === "embedLink") return "#9E00FF"
         if(Type === "embedWarning") return "#eed202"
         if(Type === "embedError") return "#FF0000"
         if(Type === "embedSuccess") return "#0CFF00"
@@ -100,6 +101,25 @@ class FNBRMENA {
     }
 
     /**
+     * Return the dicovery stats
+     * 
+     * @example
+     * FNBRMENA.Discovery()
+     * .then(async res => {
+     * 
+     *        //you will get a response weather the requested data has been found or not
+     * 
+     * })
+     * 
+     */
+    async Discovery(){
+
+        //request the data and return the response
+        return await axios.get(`https://fnbrmena.com/api/v1/fortnite/discovery`)
+
+    }
+
+    /**
      * Return the current sets
      * 
      * @param {String} Lang
@@ -116,6 +136,26 @@ class FNBRMENA {
 
         //request the data and return the response
         return await axios.get(`https://fortniteapi.io/v2/items/sets?lang=${Lang}`, { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
+
+    }
+
+    /**
+     * Return the current sections
+     * 
+     * @param {String} Lang
+     * @example
+     * FNBRMENA.shopSections(Lang)
+     * .then(async res => {
+     * 
+     *        //you will get a response weather the requested data has been found or not
+     * 
+     * })
+     * 
+     */
+    async shopSections(Lang){
+
+        //request the data and return the response
+        return await axios.get(`https://fnbrmena.com/api/v1/fortnite/sections/active?lang=${Lang}`)
 
     }
 
@@ -182,6 +222,24 @@ class FNBRMENA {
         //request the data and return the response
         return await axios.get(`https://fortniteapi.io/v1/events/replay?session=${SessionID}`, { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
 
+    }
+
+    /**
+     * Return data about all assets
+     * 
+     * @example
+     * FNBRMENA.allAssets()
+     * .then(async res => {
+     * 
+     *        //you will get a response weather the requested data has been found or not
+     * 
+     * })
+     * 
+     */
+    async allAssets(){
+
+        //request the data and return the response
+        return await axios.post(`https://fortnitecentral.genxgames.gg/api/v1/assets`)
     }
     
     /**
@@ -372,6 +430,93 @@ class FNBRMENA {
     }
 
     /**
+     * Return data about user account
+     * 
+     * @param {String} Tag
+     * @param {String} Platform
+     * @example
+     * FNBRMENA.AccountID(Tag, Platform)
+     * .then(async res => {
+     * 
+     *        //you will get a response weather the requested data has been found or not
+     * 
+     * })
+     * 
+     */
+    async AccountID(Tag, Platform){
+
+        //request the data and return the response
+        return await axios.get(`https://fortniteapi.io/v1/lookup?username=${Tag}&platform=${Platform}`, { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io")} })
+    
+    }
+
+    /**
+     * Return data about user account
+     * 
+     * @param {String} Id
+     * @example
+     * FNBRMENA.AccountExternalAuths(Tag, Platform)
+     * .then(async res => {
+     * 
+     *        //you will get a response weather the requested data has been found or not
+     * 
+     * })
+     * 
+     */
+    async AccountExternalAuths(Id){
+
+        //request the data and return the response
+        return await axios.get(`https://fortniteapi.io/v1/lookupUsername?id=${Id}`, { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io")} })
+    
+    }
+
+    /**
+     * Return data about the user stats
+     * 
+     * @param {String} playerTag
+     * @param {String} Platform
+     * @param {String} Period
+     * @example
+     * FNBRMENA.FNBRMENAStats(playerTag, Platform, Period)
+     * .then(async res => {
+     * 
+     *        //you will get a response weather the requested data has been found or not
+     * 
+     * })
+     * 
+     */
+    async FNBRMENAStats(playerTag, Platform, Period){
+
+        //request the data and return the response
+        if(Period != false) return await axios.get(encodeURI(`https://fnbrmena.com/api/v1/fortnite/stats?name=${playerTag}&platform=${Platform}&season=${Period}`))
+        else return await axios.get(encodeURI(`https://fnbrmena.com/api/v1/fortnite/stats?name=${playerTag}&platform=${Platform}`))
+
+    }
+
+    /**
+     * Return data about the user stats
+     * 
+     * @param {String} playerTag
+     * @param {String} Platform
+     * @param {String} Type
+     * @example
+     * FNBRMENA.RankedStats(playerTag, Platform, Type)
+     * .then(async res => {
+     * 
+     *        //you will get a response weather the requested data has been found or not
+     * 
+     * })
+     * 
+     */
+    async RankedStats(playerTag, Platform, Type){
+
+        //request the data and return the response
+        if(Type != false) return await axios.get(encodeURI(`https://fnbrmena.com/api/v1/fortnite/ranked/stats?name=${playerTag}&platform=${Platform}&type=${Type}`))
+        else return await axios.get(encodeURI(`https://fnbrmena.com/api/v1/fortnite/ranked/stats?name=${playerTag}&platform=${Platform}`))
+
+    }
+
+    /**
      * Return data about the user stats
      * 
      * @param {String} playerTag
@@ -489,10 +634,10 @@ class FNBRMENA {
      * })
      * 
      */
-     async getBundles(Lang){
+     async getBundles(Lang, Active){
 
         //request the data and return the response
-        return await axios.get(encodeURI(`https://fortniteapi.io/v2/bundles?lang=${Lang}`), { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
+        return await axios.get(encodeURI(`https://fortniteapi.io/v2/bundles?lang=${Lang}&available=${Active}`), { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io"),} })
 
     }
 
@@ -721,8 +866,18 @@ class FNBRMENA {
      * })
      * 
      */
-     async Playlist(Lang){
-        return axios.get(`https://fortniteapi.io/v1/game/modes?lang=${Lang}`, { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io")}})
+     async Playlist(Lang, name){
+        const playlists = await axios.get(`https://fortniteapi.io/v1/game/modes?lang=${Lang}`, { headers: {'Content-Type': 'application/json','Authorization': this.APIKeys("FortniteAPI.io")}})
+        if(name.includes("_")){
+
+            return playlists.data.modes.filter(e => {
+                return `Playlist_${e.id}`.toLowerCase() === name.toLowerCase()
+            })
+        }else{
+            return playlists.data.modes.filter(e => {
+                return `Playlist_${e.id}`.toLowerCase() === name.toLowerCase()
+            })
+        }
     }
 
     /**
@@ -1233,6 +1388,14 @@ class FNBRMENA {
      * 
      */
     APIKeys(Type){
+        if(Type === "guildId"){
+            return "746143287383031878"
+        }
+
+        if(Type === "clientId"){
+            return "813746918789218386"
+        }
+
         if(Type === "FortniteAPI.io"){
             return "d4ce1562-839ff66b-3946ccb6-438eb9cf"
         }
@@ -1242,7 +1405,7 @@ class FNBRMENA {
         }
 
         if(Type === "DiscordBotToken"){
-            return 'Nzk5OTkxNDQ2MDY0MDcwNjU4.YALoFw.9Y3FeQRPrkWTMPzWE1oCSs88O-g'
+            return 'ODEzNzQ2OTE4Nzg5MjE4Mzg2.YDTy4A.f3-p1rLNr3V199oOps1wWk5cIS8'
         }
 
         if(Type === "FNBRJS"){
@@ -1258,14 +1421,14 @@ class FNBRMENA {
      * @param {String} Type 
      * 
      */
-     async Admin(Admin, Message, Alias, Type){
+    async Admin(Admin, Message, Alias, Type, intraction){
 
-        //seeting up the db firestore
+        //setting up the db firestore
         var db = await Admin.firestore()
 
         //get the user data
         if(Type === "User"){
-            return db.collection("Users").doc(Message.author.id).get()
+            return db.collection("Users").doc(intraction ? Message.user.id : Message.author.id).get()
             .then(async data => {
                 return data.data();
             })
@@ -1285,12 +1448,12 @@ class FNBRMENA {
 
             const commandData = await data.get()
             .then(async data => {
-                return data.data();
+                return data.data()
             })
 
             const usersBanned = await data.collection(`usersBanned`).doc(`${Message.author.id}`).get()
             .then(async data => {
-                return data.data();
+                return data.data()
             })
 
             return {

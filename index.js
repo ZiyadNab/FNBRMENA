@@ -6,12 +6,19 @@ const client = new Discord.Client({ intents: [Discord.GatewayIntentBits.DirectMe
   Discord.GatewayIntentBits.DirectMessageTyping, Discord.GatewayIntentBits.Guilds, Discord.GatewayIntentBits.GuildBans, Discord.GatewayIntentBits.GuildEmojisAndStickers,
   Discord.GatewayIntentBits.GuildEmojisAndStickers, Discord.GatewayIntentBits.GuildIntegrations, Discord.GatewayIntentBits.GuildInvites, Discord.GatewayIntentBits.GuildMembers,
   Discord.GatewayIntentBits.GuildMessages, Discord.GatewayIntentBits.GuildMessageReactions, Discord.GatewayIntentBits.GuildMessageTyping, Discord.GatewayIntentBits.GuildPresences,
-  Discord.GatewayIntentBits.GuildVoiceStates, Discord.GatewayIntentBits.GuildWebhooks, Discord.GatewayIntentBits.MessageContent], partials: [Discord.Partials.Channel]})
+  Discord.GatewayIntentBits.GuildVoiceStates, Discord.GatewayIntentBits.GuildWebhooks, Discord.GatewayIntentBits.MessageContent], partials: [Discord.Partials.Channel], allowedMentions:{ parse:["everyone"] }})
 const Data = require('./FNBRMENA')
 const path = require('path')
 const FNBRMENA = new Data()
 const fs = require('fs')
 const { Player } = require('discord-player');
+
+// Get access to the database
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: "https://fnbrmena-1-default-rtdb.firebaseio.com",
+  storageBucket: 'gs://fnbrmena-1.appspot.com'
+});
 
 client.player = new Player(client, {
   smoothVolume: true,
@@ -41,13 +48,6 @@ client.player
       )
     ]})
   })
-
-// Get access to the database
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: "https://fnbrmena-1-default-rtdb.firebaseio.com",
-  storageBucket: 'gs://fnbrmena-1.appspot.com'
-});
 
 // Client event listner
 client.on('ready', async () => {
@@ -115,7 +115,7 @@ client.on('ready', async () => {
       const stat = fs.lstatSync(path.join(__dirname, dir, file))
       if (stat.isDirectory()) {
         readCommands(path.join(dir, file))
-      } else if (file !== baseFile) {
+      } else if (file !== baseFile && !dir.includes('SlashCommands')) {
         const option = require(path.join(__dirname, dir, file))
         Array.push(option.commands)
         commandsData.push(option)
@@ -124,11 +124,28 @@ client.on('ready', async () => {
     }
   }
 
+  client.commands = new Discord.Collection()
+
+  const commandsPath = path.join(__dirname, 'commands/SlashCommands')
+  const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'))
+
+  for (const file of commandFiles) {
+      const filePath = path.join(commandsPath, file)
+      const command = require(filePath)
+      // Set a new item in the Collection with the key as the command name and the value as the exported module
+      if ('data' in command && 'execute' in command) {
+          client.commands.set(command.data.name, command)
+      } else {
+          console.log(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`)
+      }
+  }
+
   // Initializing emojis
   const emojisObject = {
-    info: client.emojis.cache.get("1050039526413844600"),
-    style: client.emojis.cache.get("1050039524685787186"),
-    grant: client.emojis.cache.get("1050039522714468423"),
+    alert: client.emojis.cache.get("1051192598552924200"),
+    info: client.emojis.cache.get("1050021928171216946"),
+    style: client.emojis.cache.get("1050021926191509544"),
+    grant: client.emojis.cache.get("1050021923934973983"),
     up: client.emojis.cache.get("1034950916396298341"),
     down: client.emojis.cache.get("1034950950688923668"),
     overall: client.emojis.cache.get("1032987970300559391"),
@@ -142,31 +159,37 @@ client.on('ready', async () => {
     loadingEmoji: client.emojis.cache.get("862704096312819722"),
     greenStatus: client.emojis.cache.get("855805718363111434"),
     redStatus: client.emojis.cache.get("855805718779002899"),
-    vbucks: client.emojis.cache.get("1009803488009658498"),
-    marvel: client.emojis.cache.get("1009803470322274385"),
-    dc: client.emojis.cache.get("1009803515075506216"),
-    starwars: client.emojis.cache.get("1009803479608463400"),
-    dark: client.emojis.cache.get("1009803512688955525"),
-    icon: client.emojis.cache.get("1009803463984685106"),
-    shadow: client.emojis.cache.get("1009803474965377104"),
-    slurp: client.emojis.cache.get("1009803476856999977"),
-    frozen: client.emojis.cache.get("1009803547153530890"),
-    lava: client.emojis.cache.get("1009803465809215660"),
-    gaming: client.emojis.cache.get("1009803549200359516"),
-    mythic: client.emojis.cache.get("1022404850027335740"),
-    exotic : client.emojis.cache.get("1022404848118939689"),
-    legendary: client.emojis.cache.get("1009803468300636230"),
-    epic: client.emojis.cache.get("1009803517185241108"),
-    rare: client.emojis.cache.get("1009803472499134474"),
-    uncommon: client.emojis.cache.get("1009803505852227596"),
-    common: client.emojis.cache.get("1009803510449188937"),
+    vbucks: client.emojis.cache.get("1006523175712080033"),
+    MarvelSeries: client.emojis.cache.get("1006534539197288479"),
+    DCUSeries: client.emojis.cache.get("1009803515075506216"),
+    ColumbusSeries: client.emojis.cache.get("1006534548277956760"),
+    CUBESeries: client.emojis.cache.get("1009803512688955525"),
+    CreatorCollabSeries: client.emojis.cache.get("1006534565793382531"),
+    ShadowSeries: client.emojis.cache.get("1009803474965377104"),
+    SlurpSeries: client.emojis.cache.get("1009803476856999977"),
+    FrozenSeries: client.emojis.cache.get("1009803547153530890"),
+    LavaSeries: client.emojis.cache.get("1009803465809215660"),
+    PlatformSeries: client.emojis.cache.get("1009803549200359516"),
+    mythic: client.emojis.cache.get("1009803549200359516"),
+    exotic: client.emojis.cache.get("1009803549200359516"),
+    transcendent: client.emojis.cache.get("1009803549200359516"),
+    legendary: client.emojis.cache.get("1006534570004447342"),
+    epic: client.emojis.cache.get("1006534558717587527"),
+    rare: client.emojis.cache.get("1006534541734842428"),
+    uncommon: client.emojis.cache.get("1006534550345748601"),
+    common: client.emojis.cache.get("1006534552451289099"),
+    Legendary: client.emojis.cache.get("1006534570004447342"),
+    Epic: client.emojis.cache.get("1006534558717587527"),
+    Rare: client.emojis.cache.get("1006534541734842428"),
+    Uncommon: client.emojis.cache.get("1006534550345748601"),
+    Common: client.emojis.cache.get("1006534552451289099"),
     outfit: client.emojis.cache.get("1009803716448231445"),
     bundle: client.emojis.cache.get("1033039994413121638"),
     backpack: client.emojis.cache.get("1009803705845022750"),
     emote: client.emojis.cache.get("1009803708185444393"),
     loadingscreen: client.emojis.cache.get("1009803712291676160"),
     music: client.emojis.cache.get("1009803714338504796"),
-    pickaxe: client.emojis.cache.get("1009803695657062531"),
+    pickaxe: client.emojis.cache.get("999122783625805854"),
     contrail: client.emojis.cache.get("1009803718729932930"),
     glider: client.emojis.cache.get("1009803710278414387"),
     wrap: client.emojis.cache.get("1009803703332655125"),
@@ -175,6 +198,7 @@ client.on('ready', async () => {
     spray: client.emojis.cache.get("1009803697485791262"),
     toy: client.emojis.cache.get("1009803699394203788"),
     banner: client.emojis.cache.get("1009803508398182523"),
+    bannertoken: client.emojis.cache.get("1009803508398182523"),
     event: client.emojis.cache.get("1009806747915014194"),
     variants: client.emojis.cache.get("1009807068825407519"),
     fncs: client.emojis.cache.get("1009803544897003610"),
@@ -187,12 +211,14 @@ client.on('ready', async () => {
     umbrella: client.emojis.cache.get("1009803494586318898"),
     battlepassTiers: client.emojis.cache.get("879859225059287040"),
     battlepassStars: client.emojis.cache.get("879823941428973598"),
-    epicgames: client.emojis.cache.get("1009817355058163774"),
-    playstation: client.emojis.cache.get("1009817358321324077"),
-    xbox: client.emojis.cache.get("1009817366827376680"),
+    epicgames: client.emojis.cache.get("1112198989576679464"),
+    playstation: client.emojis.cache.get("1112198991925481594"),
+    xbox: client.emojis.cache.get("1112198996992208956"),
+    build: client.emojis.cache.get("1113505134996095026"),
+    nobuild: client.emojis.cache.get("1113505138951344208"),
   }
 
-  //excute
+  // Excute
   readCommands('commands')
   commandBase.listen(client, admin, emojisObject)
   Events(client, admin, commandsData, emojisObject)

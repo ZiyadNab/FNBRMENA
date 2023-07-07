@@ -157,6 +157,10 @@ module.exports = {
 
                                     if(userData.lang === "en") var Source = "EXCLUSIVE"
                                     else if(userData.lang === "ar") var Source = "حصري"
+                                }else if(res.data.items[i].gameplayTags[j].toLowerCase().includes("starterpack")){
+
+                                    if(userData.lang === "en") var Source = "Starter Pack"
+                                    else if(userData.lang === "ar") var Source = "حزمة المبتدئين"
                                 }
 
                                 break

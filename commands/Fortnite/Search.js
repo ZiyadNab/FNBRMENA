@@ -63,8 +63,14 @@ module.exports = {
                 if(userData.lang === "en") string += `\nFound ${res.data.items.length} item matching your search`
                 else if(userData.lang === "ar") string += `\nيوجد ${res.data.items.length} عنصر يطابق عملية البحث`
 
-                // Set Description
-                itemsMatched.setDescription(string)
+                try {
+                    // Set Description
+                    itemsMatched.setDescription(string)
+                    
+                }catch(err){
+                    return FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, { message: "too large" }, emojisObject, null)
+                }
+                
 
                 // Filtering outfits
                 const filter = async m => m.author.id === message.author.id
@@ -197,6 +203,10 @@ module.exports = {
 
                                     if(userData.lang === "en") var Source = "EXCLUSIVE"
                                     else if(userData.lang === "ar") var Source = "حصري"
+                                }else if(res.data.items[num].gameplayTags[j].toLowerCase().includes("starterpack")){
+
+                                    if(userData.lang === "en") var Source = "Starter Pack"
+                                    else if(userData.lang === "ar") var Source = "حزمة المبتدئين"
                                 }
 
                                 break

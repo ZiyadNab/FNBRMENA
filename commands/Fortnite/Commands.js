@@ -30,8 +30,8 @@ module.exports = {
             if(data.data().commandData.showInCommands){
 
                 // Command status
-                if(data.data().commandData.commandStatus.status) var Status = `${emojisObject.uncommon}`
-                else var Status = `${emojisObject.marvel}`
+                if(data.data().commandData.commandStatus.status) var Status = `${emojisObject.Uncommon}`
+                else var Status = `${emojisObject.MarvelSeries}`
 
                 if(data.data().commandData.cooldown.filesSource){
                     if(data.data().commandData.cooldown.filesCooldown != -1) var cooldown = data.data().commandData.cooldown.filesCooldown
@@ -61,6 +61,19 @@ module.exports = {
         const row = new Discord.ActionRowBuilder()
         const list = new Discord.EmbedBuilder()
         list.setColor(FNBRMENA.Colors("embed"))
+        
+        if(Commands.length === 0){
+
+            // No commands found
+            list.setColor(FNBRMENA.Colors("embedError"))
+            if(userData.lang === "en") list.setTitle(`No commands found ${emojisObject.errorEmoji}.`)
+            else if(userData.lang === "ar") list.setTitle(`لا يمكنني العثور على اوامر ${emojisObject.errorEmoji}.`)
+            return message.reply({embeds: [list], components: [], files: []})
+            .catch(err => {
+                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
+            })
+
+        }
 
         // See how many pages
         pagesLength = Commands.length / pageCommands

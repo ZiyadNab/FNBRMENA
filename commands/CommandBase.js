@@ -1,9 +1,11 @@
 const Data = require('../FNBRMENA')
 const FNBRMENA = new Data()
+const Canvas = require('canvas')
 const Discord = require('discord.js')
 const moment = require('moment')
 require('moment-timezone')
 const config = require('./../Configs/config.json')
+const { translate } = require('bing-translate-api')
 
 const allCommands = {}
 
@@ -37,11 +39,8 @@ module.exports.listen = async (client, admin, emojisObject) => {
     client.on('messageCreate', async (message) => {
         const { member, content, guild } = message
 
-        // Get user's data from database
-        const userData = await FNBRMENA.Admin(admin, message, "", "User");
-
-        // Get bot's server data from database
-        const serverStats = await FNBRMENA.Admin(admin, message, "", "Server")
+        // Ensure bots messages don't request data
+        if(message.author.bot) return
 
         // If a user send a direct message
         if(message.channel.type === Discord.ChannelType.DM && content !== ""){
@@ -50,10 +49,14 @@ module.exports.listen = async (client, admin, emojisObject) => {
             const newDirectMessage = new Discord.EmbedBuilder()
             newDirectMessage.setColor(FNBRMENA.Colors('embed'))
             newDirectMessage.setTitle('New DM Message')
-            newDirectMessage.setDescription(`**User:** ${message.author.tag}\n**ID:** ${message.author.id}\n**User Language:** ${userData.lang}\n**Date:** ${new Date()}\n\n**Content:** \`\`\`bash\n"${content}"\`\`\``)
+            newDirectMessage.setDescription(`**User:** ${message.author.tag}\n**ID:** ${message.author.id}\n**Date:** ${new Date()}\n\n**Content:** \`\`\`bash\n"${content}"\`\`\``)
             const logsChannel = client.channels.cache.find(channel => channel.id === config.events.Logs)
             return logsChannel.send({embeds: [newDirectMessage]})
+
         }
+        
+        // Get bot's server data from database
+        const serverStats = await FNBRMENA.Admin(admin, message, "", "Server")
 
         // Exceeding Numbers Game
         if(message.channel.id === config.channels.numbers){
@@ -76,8 +79,10 @@ module.exports.listen = async (client, admin, emojisObject) => {
                 // Change the user's leaderboard
                 await admin.database().ref("ERA's").child("Games").child("numbersGame").child("leaderboard").child(member.id).update({
                     score: newScore
-                 })
+                })
             }
+
+            return
         }
 
         // Split on any number of spaces
@@ -115,6 +120,9 @@ module.exports.listen = async (client, admin, emojisObject) => {
             // Get the used command data from database
             const commandData = await FNBRMENA.Admin(admin, message, alias, "Command")
 
+            // Get user's data from database
+            const userData = await FNBRMENA.Admin(admin, message, "", "User")
+
             // If a user has quick access
             if(userData.quickAccess && (serverStats.quickAccess || member.id === serverStats.owner)){
 
@@ -140,8 +148,8 @@ module.exports.listen = async (client, admin, emojisObject) => {
 
                         // An explanation message
                         syntaxError.setAuthor({name: `Syntax Error`})
-                        if(commandData.command.commandData.commandStatus.status) syntaxError.setDescription(`Command Used: \`${alias.toUpperCase()}\`\nCommand Status: ${emojisObject.uncommon}\n\n${descriptionEN}\n`)
-                        else syntaxError.setDescription(`Command Used: \`${alias.toUpperCase()}\`\nCommand Status: ${emojisObject.marvel}\n\n${descriptionEN}\n`)
+                        if(commandData.command.commandData.commandStatus.status) syntaxError.setDescription(`Command Used: \`${alias.toUpperCase()}\`\nCommand Status: ${emojisObject.Uncommon}\n\n${descriptionEN}\n`)
+                        else syntaxError.setDescription(`Command Used: \`${alias.toUpperCase()}\`\nCommand Status: ${emojisObject.MarvelSeries}\n\n${descriptionEN}\n`)
                         syntaxError.addFields(
                             {name: `Command guide:`, value: `\n\n\`${expectedArgsEN}\``},
                             {name: `Examples:`, value: `\`${Examples}\``},
@@ -155,8 +163,8 @@ module.exports.listen = async (client, admin, emojisObject) => {
 
                         // An explanation message
                         syntaxError.setAuthor({name: `عملية خاطئة`})
-                        if(commandData.command.commandData.commandStatus.status) syntaxError.setDescription(`الأمر المستعمل: \`${alias.toUpperCase()}\`\nحالة الأمر: ${emojisObject.uncommon}\n\n${descriptionAR}\n`)
-                        else syntaxError.setDescription(`الأمر المستعمل: \`${alias.toUpperCase()}\`\nحالة الأمر: ${emojisObject.marvel}\n\n${descriptionAR}\n`)
+                        if(commandData.command.commandData.commandStatus.status) syntaxError.setDescription(`الأمر المستعمل: \`${alias.toUpperCase()}\`\nحالة الأمر: ${emojisObject.Uncommon}\n\n${descriptionAR}\n`)
+                        else syntaxError.setDescription(`الأمر المستعمل: \`${alias.toUpperCase()}\`\nحالة الأمر: ${emojisObject.MarvelSeries}\n\n${descriptionAR}\n`)
                         syntaxError.addFields(
                             {name: `ارشادات الأستخدام:`, value: `\n\n\`${expectedArgsAR}\``},
                             {name: `أمثلة:`, value: `\`${Examples}\``},
@@ -182,7 +190,7 @@ module.exports.listen = async (client, admin, emojisObject) => {
 
             // Check bot status
             if(serverStats.bot.status){
-      
+    
                 // Check if the command is active
                 if(commandData.command.commandData.commandStatus.status){
                     
@@ -226,6 +234,42 @@ module.exports.listen = async (client, admin, emojisObject) => {
                         }
                         message.reply({embeds: [userBanErr], components: [], files: []})
                         return
+                    }
+
+                    // Ensure the user uses the command in commands channel
+                    if((!serverStats.allowedChannels.includes(message.channel.id) && !commandData.command.allowedChannels.includes(message.channel.id) && serverStats.lockedChannels)){
+
+                        const wrongChat = new Discord.EmbedBuilder()
+                        wrongChat.setThumbnail('https://imgur.com/x7F9Q0K.png')
+                        wrongChat.setColor(FNBRMENA.Colors("syntaxError"))
+                        if(userData.lang === "en"){
+                            wrongChat.setTitle(`INCORRECT CHANNEL ${emojisObject.errorEmoji}.`)
+                            var string = ``
+                            for(const chat of serverStats.allowedChannels) string += `• <#${chat}>\n`
+                            for(const chat of commandData.command.allowedChannels) string += `• <#${chat}>\n`
+                            wrongChat.setDescription(`Commands can only be ran in the following chat(s)\n\n${string}`)
+                        }else if(userData.lang === "ar"){
+                            wrongChat.setTitle(`قناة غير صحيحة ${emojisObject.errorEmoji}.`)
+                            var string = ``
+                            for(const chat of serverStats.allowedChannels) string += `• <#${chat}>\n`
+                            for(const chat of commandData.command.allowedChannels) string += `• <#${chat}>\n`
+                            wrongChat.setDescription(`يمكنك استخدام الاوامر فقط غي القنوات التالية \n\n${string}`)
+                        }
+                        message.reply({embeds: [wrongChat], components: [], files: []})
+                        return
+                    }
+            
+                    // Ensure the user has the required permissions
+                    for(const permission of commandData.command.commandData.permissions) {
+                        if(!member.hasPermission(permission)) {
+                            
+                            const permissionErr = new Discord.EmbedBuilder()
+                            permissionErr.setColor(FNBRMENA.Colors("embedError"))
+                            if(userData.lang === "en") permissionErr.setTitle(`Sorry you do not have acccess to this command ${emojisObject.errorEmoji}.`)
+                            else if(userData.lang === "ar") permissionErr.setTitle(`عذرا ليس لديك صلاحية لهذا الامر ${emojisObject.errorEmoji}.`)
+                            message.reply({embeds: [permissionErr], components: [], files: []})
+                            return
+                        }
                     }
 
                     // Ensure the user has premium access
@@ -310,8 +354,8 @@ module.exports.listen = async (client, admin, emojisObject) => {
 
                             // An explanation message
                             syntaxError.setAuthor({name: `Syntax Error`})
-                            if(commandData.command.commandData.commandStatus.status) syntaxError.setDescription(`Command Used: \`${alias.toUpperCase()}\`\nCommand Status: ${emojisObject.uncommon}\n\n${descriptionEN}\n`)
-                            else syntaxError.setDescription(`Command Used: \`${alias.toUpperCase()}\`\nCommand Status: ${emojisObject.marvel}\n\n${descriptionEN}\n`)
+                            if(commandData.command.commandData.commandStatus.status) syntaxError.setDescription(`Command Used: \`${alias.toUpperCase()}\`\nCommand Status: ${emojisObject.Uncommon}\n\n${descriptionEN}\n`)
+                            else syntaxError.setDescription(`Command Used: \`${alias.toUpperCase()}\`\nCommand Status: ${emojisObject.MarvelSeries}\n\n${descriptionEN}\n`)
                             syntaxError.addFields(
                                 {name: `Command guide:`, value: `\n\n\`${expectedArgsEN}\``},
                                 {name: `Examples:`, value: `\`${Examples}\``},
@@ -325,8 +369,8 @@ module.exports.listen = async (client, admin, emojisObject) => {
 
                             // An explanation message
                             syntaxError.setAuthor({name: `عملية خاطئة`})
-                            if(commandData.command.commandData.commandStatus.status) syntaxError.setDescription(`الأمر المستعمل: \`${alias.toUpperCase()}\`\nحالة الأمر: ${emojisObject.uncommon}\n\n${descriptionAR}\n`)
-                            else syntaxError.setDescription(`الأمر المستعمل: \`${alias.toUpperCase()}\`\nحالة الأمر: ${emojisObject.marvel}\n\n${descriptionAR}\n`)
+                            if(commandData.command.commandData.commandStatus.status) syntaxError.setDescription(`الأمر المستعمل: \`${alias.toUpperCase()}\`\nحالة الأمر: ${emojisObject.Uncommon}\n\n${descriptionAR}\n`)
+                            else syntaxError.setDescription(`الأمر المستعمل: \`${alias.toUpperCase()}\`\nحالة الأمر: ${emojisObject.MarvelSeries}\n\n${descriptionAR}\n`)
                             syntaxError.addFields(
                                 {name: `ارشادات الأستخدام:`, value: `\n\n\`${expectedArgsAR}\``},
                                 {name: `أمثلة:`, value: `\`${Examples}\``},
@@ -409,6 +453,165 @@ module.exports.listen = async (client, admin, emojisObject) => {
                 if(userData.lang === "en") botStatusOfflineErr.setTitle(`Errr, Sorry the bot is off at the moment ${emojisObject.errorEmoji}`)
                 else if(userData.lang === "ar") botStatusOfflineErr.setTitle(`عذرا البوت مغلق بالوقت الحالي ${emojisObject.errorEmoji}`)
                 message.reply({embeds: [botStatusOfflineErr], components: [], files: []})
+            }
+        }
+    })
+
+    client.on(Discord.Events.InteractionCreate, async interaction => {
+
+        if(interaction.isButton()){
+
+            const splittedId = interaction.customId.split('-')
+            if(splittedId[0] === 'Poll'){
+
+                // Setting up the db firestore
+                var db = await admin.firestore()
+
+                const pollRichEmbed = interaction.message.embeds[0]
+                if(!pollRichEmbed) return interaction.reply({content: `Can't find the poll data to process your request.`, ephemeral: true})
+
+                // Poll document
+                const pollData = await db.collection("Polls").doc(`${splittedId[3]}`).get()
+
+                // Check if the poll id given is already exists 
+                if(pollData.exists){
+
+                    // If restrictions are enabled
+                    if(splittedId[4].toLowerCase() === 'true'){
+
+                        // Check if the user has already voted
+                        if(pollData.data().voters.includes(interaction.user.id)) return interaction.reply({content: `Your vote has already been submitted!`, ephemeral: true})
+
+                        // Get the existing voters from the database
+                        const pollVoters = pollData.data().voters
+                        pollVoters.push(interaction.user.id)
+
+                        // Update the data
+                        await db.collection("Polls").doc(`${splittedId[3]}`).update({
+                            voters: pollVoters
+                        })
+                    }
+
+                }else{
+
+                    // If restrictions are enabled
+                    if(splittedId[4].toLowerCase() === 'true'){
+
+                        // Update the data
+                        db.collection("Polls").doc(`${splittedId[3]}`).set({
+                            messageId: interaction.message.id,
+                            channelId: interaction.message.channelId,
+                            voters: [interaction.user.id]
+                        })
+                    }else{
+
+                        db.collection("Polls").doc(`${splittedId[3]}`).set({
+                            messageId: interaction.message.id,
+                            channelId: interaction.message.channelId,
+                        })
+                    }
+                }
+
+                const yesField = pollRichEmbed.fields[0]
+                const noField = pollRichEmbed.fields[1]
+
+                // Creating canvas
+                const canvas = Canvas.createCanvas(2000, 23)
+                const ctx = canvas.getContext('2d')
+
+                // Create a new embed
+                const pollEmbed = new Discord.EmbedBuilder()
+                pollEmbed.setColor(`#${splittedId[5]}`)
+                pollEmbed.setFields(pollRichEmbed.fields)
+                pollEmbed.setFooter(pollRichEmbed.footer)
+                pollEmbed.setDescription(pollRichEmbed.description)
+
+                switch(splittedId[1]){
+                    case "Yes": {
+
+                        // Get the total Yes's/No's count
+                        const newYesCount = parseInt(yesField.value) + 1
+                        const newNoCount = parseInt(noField.value)
+
+                        // Draw Yes's
+                        ctx.fillStyle = `#${splittedId[5]}`
+                        ctx.fillRect(0, 0, (newYesCount / (newYesCount + newNoCount)) * canvas.width, canvas.height)
+
+                        // Draw No's
+                        ctx.fillStyle = `#000000`
+                        ctx.fillRect(canvas.width, 0, -(newNoCount / (newYesCount + newNoCount)) * canvas.width, canvas.height)
+
+                        // Attach the image
+                        const attachment = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `pollFooter.png`})
+                        pollEmbed.setImage('attachment://pollFooter.png')
+
+                        // Update message
+                        yesField.value = newYesCount
+                        interaction.reply({content: `Your vote has been submitted!`, ephemeral: true})
+                        interaction.message.edit({embeds: [pollEmbed], files: [attachment]})
+                    }
+                    break;
+                    case "No": {
+
+                        // Get the total Yes's/No's count
+                        const newYesCount = parseInt(yesField.value)
+                        const newNoCount = parseInt(noField.value) + 1
+
+                        // Draw Yes's
+                        ctx.fillStyle = `#${splittedId[5]}`
+                        ctx.fillRect(0, 0, (newYesCount / (newYesCount + newNoCount)) * canvas.width, canvas.height)
+
+                        // Draw No's
+                        ctx.fillStyle = `#000000`
+                        ctx.fillRect(canvas.width, 0, -(newNoCount / (newYesCount + newNoCount)) * canvas.width, canvas.height)
+
+                        // Attach the image
+                        const attachment = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `pollFooter.png`})
+                        pollEmbed.setImage('attachment://pollFooter.png')
+
+                        // Update message
+                        noField.value = newNoCount
+                        interaction.reply({content: `Your vote has been submitted!`, ephemeral: true})
+                        interaction.message.edit({embeds: [pollEmbed], files: [attachment]})
+
+                    }
+                    break;
+                }
+            }
+
+            if(splittedId[0] === 'Translate'){
+
+                const translateRichEmbed = interaction.message.embeds[0]
+                if(!translateRichEmbed) return interaction.reply({content: `Can't find the embed data to process your request.`, ephemeral: true})
+
+                // Translate data
+                const title = await translate(translateRichEmbed.title, null, 'ar', true)
+                const description = await translate(translateRichEmbed.description, null, 'ar', true)
+
+                // Create a new embed
+                const translateEmbed = new Discord.EmbedBuilder()
+                translateEmbed.setColor(translateRichEmbed.color)
+                translateEmbed.setTitle(title.translation)
+                translateEmbed.setDescription(description.translation)
+
+                interaction.reply({embeds: [translateEmbed], ephemeral: true})
+
+            }
+        }
+
+        if(interaction.isChatInputCommand()){
+
+            const command = interaction.client.commands.get(interaction.commandName)
+
+            // Get user's data from database
+            const userData = await FNBRMENA.Admin(admin, interaction, "", "User", true)
+
+            if (!command) return
+
+            try {
+                await command.execute(FNBRMENA, interaction, Discord, client, admin, userData, emojisObject);
+            } catch (error) {
+                await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
             }
         }
     })

@@ -302,66 +302,78 @@ module.exports = {
             // Add buttons
             if(userData.lang === "en") buttonDataRow.addComponents(
                 new Discord.ButtonBuilder()
-                .setCustomId('Cancel')
-                .setStyle(Discord.ButtonStyle.Danger)
-                .setLabel("Cancel")
+                    .setCustomId('Cancel')
+                    .setStyle(Discord.ButtonStyle.Danger)
+                    .setLabel("Cancel")
             )
             
             else if(userData.lang === "ar") buttonDataRow.addComponents(
                 new Discord.ButtonBuilder()
-                .setCustomId('Cancel')
-                .setStyle(Discord.ButtonStyle.Danger)
-                .setLabel("اغلاق")
+                    .setCustomId('Cancel')
+                    .setStyle(Discord.ButtonStyle.Danger)
+                    .setLabel("اغلاق")
             )
 
-            // Create a row for drop down menu for categories
-            const categoriesRow = new Discord.ActionRowBuilder()
-
-            // Loop thrw every category
-            var categoriesOptions = []
-            for(let i = 0; i < res.data.bundles.length; i++){
-
-                // Add the category name
-                if(res.data.bundles[i].name.length !== 0) var name = res.data.bundles[i].name
-                else if(userData.lang === "en") var name = "TBD"
-                else if(userData.lang === "ar") var name = "لم يتم تحديد الاسم بعد"
-
-                // Check if the category name is longer than 99 letters
-                if(name.length > 99){
-                    if(userData.lang === "en") name = "Sorry, we can't show the quest's name"
-                    else if(userData.lang === "ar") name = "عذرا لا يمكن عرض اسم المهمة"
-                }
-
-                // Add the category description
-                if(userData.lang === "en") var description = `Click here to view all '${name}' quests`
-                else if(userData.lang === "ar") var description = `اضغط هنا لعرض جميع التحديات '${name}'`
-
-                // Check if the category description is longer than 99 letters
-                if(description.length > 99){
-                    if(userData.lang === "en") description = "Sorry, description isnt available"
-                    else if(userData.lang === "ar") description = "عذرا الوصف ليس متاح"
-                }
-
-                categoriesOptions[i] = {
-                    label: name,
-                    description: description,
-                    default: false,
-                    value: `${i}`,
-                }
+            var size = (res.data.bundles.length / 25), components = [], limit = 0
+            if(size % 2 !== 0 && size != 1){
+                size += 1
+                size = size | 0
             }
 
-            // Add an option for each category
-            const categoryDropMenu = new Discord.SelectMenuBuilder()
-            categoryDropMenu.setCustomId('categories')
-            if(userData.lang === "en") categoryDropMenu.setPlaceholder('Nothing selected!')
-            else if(userData.lang === "ar") categoryDropMenu.setPlaceholder('الرجاء الأختيار!')
-            categoryDropMenu.addOptions(categoriesOptions)
+            // Loop through every category
+            for(let i = 1; i <= size; i++){
 
-            // Add the drop menu to the categoryDropMenu
-            categoriesRow.addComponents(categoryDropMenu)
+                var categoriesOptions = []
+                for(let x = limit; x < 25 * i; x++){
+
+                    // Nullptr checker
+                    if(res.data.bundles[x] != undefined){
+
+                        // Add the category name
+                        if(res.data.bundles[x].name.length !== 0) var name = res.data.bundles[x].name
+                        else if(userData.lang === "en") var name = "TBD"
+                        else if(userData.lang === "ar") var name = "لم يتم تحديد الاسم بعد"
+
+                        // Check if the category name is longer than 99 letters
+                        if(name.length > 99){
+                            if(userData.lang === "en") name = "Sorry, we can't show the quest's name"
+                            else if(userData.lang === "ar") name = "عذرا لا يمكن عرض اسم المهمة"
+                        }
+
+                        // Add the category description
+                        if(userData.lang === "en") var description = `Click here to view all '${name}' quests`
+                        else if(userData.lang === "ar") var description = `اضغط هنا لعرض جميع التحديات '${name}'`
+
+                        // Check if the category description is longer than 99 letters
+                        if(description.length > 99){
+                            if(userData.lang === "en") description = "Sorry, description isnt available"
+                            else if(userData.lang === "ar") description = "عذرا الوصف ليس متاح"
+                        }
+
+                        categoriesOptions.push({
+                            label: name,
+                            description: description,
+                            default: false,
+                            value: `${x}`,
+                        })
+                    }
+                }
+
+                // Add an option for each category
+                var categoryDropMenu = new Discord.StringSelectMenuBuilder()
+                categoryDropMenu.setCustomId(`categories${i}`)
+                if(userData.lang === "en") categoryDropMenu.setPlaceholder('Select a categorie!')
+                else if(userData.lang === "ar") categoryDropMenu.setPlaceholder('اختر فئة!')
+                categoryDropMenu.addOptions(categoriesOptions)
+
+                // Add the drop menu to the categoryDropMenu
+                components.push(new Discord.ActionRowBuilder().addComponents(categoryDropMenu))
+                limit = 25 * i
+
+            } components.push(buttonDataRow)
 
             // Send the message
-            const challengeCategoryMessage = await message.reply({embeds: [dropDownMenuEmbed], components: [categoriesRow, buttonDataRow], files: []})
+            const challengeCategoryMessage = await message.reply({embeds: [dropDownMenuEmbed], components: components, files: []})
             .catch(err => {
                 FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
             })
@@ -380,21 +392,39 @@ module.exports = {
                 if(collected.customId === "Cancel") colllector.stop()
 
                 // If a category has been chosen then list all its quests
-                if(collected.customId == "categories"){
+                if(collected.customId.includes('categories')){
 
                     // Update categoriesIndex value
-                    categoriesIndex = Number(collected.values[0])
+                    categoriesIndex = collected.values[0]
 
-                    // Update options
-                    categoriesOptions.map(e => {
-                        if(e.value === collected.values[0]) e.default = true
-                        else e.default = false
-                    })
+                    // Loop through all the components backwords
+                    for(let i = components.length - 1; i >= 0; i--) {
 
-                    // Set options
-                    categoriesRow.components[0].setOptions(categoriesOptions)
+                        // Check if the id contains categories
+                        if(components[i].components[0].data.custom_id.includes('categories')){
 
-                    var size = (res.data.bundles[categoriesIndex].bundles.length / 25), components = [categoriesRow], limit = 0
+                            // Only update matching ids otherwise reset default
+                            if(components[i].components[0].data.custom_id === collected.customId){
+                                
+                                // Update default user choice
+                                components[i].components[0].options.map(o => {
+                                    if(o.data.value === categoriesIndex) o.default = true, o.data.default = true
+                                    else o.default = false, o.data.default = false
+                                })
+
+                                // Update component options
+                                components[i].components[0].setOptions(components[i].components[0].options)
+
+                            }else components[i].components[0].options.map(o => {
+                                o.default = false
+                                o.data.default = false
+                            })
+
+                        // Remove any component that is not a category
+                        }else components.splice(i, 1)
+                    }
+
+                    var size = (res.data.bundles[categoriesIndex].bundles.length / 25), limit = 0
                     if(size % 2 !== 0 && size != 1){
                         size += 1;
                         size = size | 0
@@ -431,8 +461,8 @@ module.exports = {
                                 }
 
                                 // Get the quest status
-                                if(res.data.bundles[categoriesIndex].bundles[x].quests[0].enabled) var status = emojisObject.uncommon //emojisObject.greenStatus
-                                else var status = emojisObject.marvel //emojisObject.redStatus
+                                if(res.data.bundles[categoriesIndex].bundles[x].quests[0].enabled) var status = emojisObject.Uncommon //emojisObject.greenStatus
+                                else var status = emojisObject.MarvelSeries //emojisObject.redStatus
 
                                 // Add the choice option
                                 questsOptions.push({
@@ -445,9 +475,9 @@ module.exports = {
                         }
 
                         // Add an option for each quest
-                        var questsDropMenu = new Discord.SelectMenuBuilder()
+                        var questsDropMenu = new Discord.StringSelectMenuBuilder()
                         questsDropMenu.setCustomId(`quests${i}`)
-                        if(userData.lang === "en") questsDropMenu.setPlaceholder(`Click here to view every ${res.data.bundles[categoriesIndex].name} quests!`)
+                        if(userData.lang === "en") questsDropMenu.setPlaceholder(`Click here to view all ${res.data.bundles[categoriesIndex].name}'s quests!`)
                         else if(userData.lang === "ar") questsDropMenu.setPlaceholder(`اضغط هنا لعرض جميع مهام ${res.data.bundles[categoriesIndex].name}!`)
                         questsDropMenu.addOptions(questsOptions)
 

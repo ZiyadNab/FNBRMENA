@@ -214,6 +214,10 @@ module.exports = {
 
                                     if(userData.lang === "en") var Source = "EXCLUSIVE"
                                     else if(userData.lang === "ar") var Source = "حصري"
+                                }else if(res.data.items[0].gameplayTags[j].toLowerCase().includes("starterpack")){
+
+                                    if(userData.lang === "en") var Source = "Starter Pack"
+                                    else if(userData.lang === "ar") var Source = "حزمة المبتدئين"
                                 }
 
                                 break
@@ -547,10 +551,10 @@ module.exports = {
             remindersEmbed.setColor(FNBRMENA.Colors("embed"))
             if(userData.lang === "en"){
                 remindersEmbed.setTitle(`Reminders for ${userId.username}`)
-                remindersEmbed.setDescription(`You will be notified when these items are in the Item Shop. Add & remove items with remind and unremind. \n\n${string}\n\n${emojisObject.vbucks} Your Total Vbucks: \`${totalVbucks.vbucks} for ${totalVbucks.found} item(s)\`${(totalVbucks.missing > 0) ? `\n${emojisObject.marvel} Missing Counted Items: \`${totalVbucks.missing} item(s)\`` : ''}\n${emojisObject.starwars} You can add ${20 - snapshot.size} more reminders (${snapshot.size}/20).`)
+                remindersEmbed.setDescription(`You will be notified when these items are in the Item Shop. Add & remove items with remind and unremind. \n\n${string}\n\n${emojisObject.vbucks} Your Total Vbucks: \`${totalVbucks.vbucks} for ${totalVbucks.found} item(s)\`${(totalVbucks.missing > 0) ? `\n${emojisObject.MarvelSeries} Missing Counted Items: \`${totalVbucks.missing} item(s)\`` : ''}\n${emojisObject.ColumbusSeries} You can add ${20 - snapshot.size} more reminders (${snapshot.size}/20).`)
             }else if(userData.lang === "ar"){
                 remindersEmbed.setTitle(`التذكيرات لـ ${userId.username}`)
-                remindersEmbed.setDescription(`سوف يتم تنبيهك في حال توفر احد العناصر التاليه في متجر العناصر. اضف & احذف العناصر بأستخدام remind و unremind. \n\n${string}\n\n${emojisObject.vbucks} مجموع الفيبوكس الكلي: \`${totalVbucks.vbucks} لـ ${totalVbucks.found} عنصر\`${(totalVbucks.missing > 0) ? `\n${emojisObject.marvel} تم استثناء: \`${totalVbucks.missing} عنصر\`` : ''}\n${emojisObject.starwars} يمكنك اضافة ${20 - snapshot.size} من المذكرات (${snapshot.size}/20).`)
+                remindersEmbed.setDescription(`سوف يتم تنبيهك في حال توفر احد العناصر التاليه في متجر العناصر. اضف & احذف العناصر بأستخدام remind و unremind. \n\n${string}\n\n${emojisObject.vbucks} مجموع الفيبوكس الكلي: \`${totalVbucks.vbucks} لـ ${totalVbucks.found} عنصر\`${(totalVbucks.missing > 0) ? `\n${emojisObject.MarvelSeries} تم استثناء: \`${totalVbucks.missing} عنصر\`` : ''}\n${emojisObject.ColumbusSeries} يمكنك اضافة ${20 - snapshot.size} من المذكرات (${snapshot.size}/20).`)
             }
 
             // Send the image

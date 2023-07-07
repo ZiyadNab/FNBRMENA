@@ -530,7 +530,7 @@ module.exports = {
                 }
             }
 
-            const yearCrewPickerDropMenu = new Discord.SelectMenuBuilder()
+            const yearCrewPickerDropMenu = new Discord.StringSelectMenuBuilder()
             yearCrewPickerDropMenu.setCustomId('crewYear')
             if(userData.lang === "en") yearCrewPickerDropMenu.setPlaceholder('Select a year!')
             else if(userData.lang === "ar") yearCrewPickerDropMenu.setPlaceholder('اختر سنة!')
@@ -594,7 +594,7 @@ module.exports = {
                         })
                     }
 
-                    const monthCrewPickerDropMenu = new Discord.SelectMenuBuilder()
+                    const monthCrewPickerDropMenu = new Discord.StringSelectMenuBuilder()
                     monthCrewPickerDropMenu.setCustomId('crewPack')
                     if(userData.lang === "en") monthCrewPickerDropMenu.setPlaceholder('Select a crew pack!')
                     else if(userData.lang === "ar") monthCrewPickerDropMenu.setPlaceholder('اختر حزمة طاقم فورت نايت!')

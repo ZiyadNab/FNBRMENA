@@ -228,6 +228,10 @@ module.exports = {
 
                                     if(userData.lang === "en") var Source = "EXCLUSIVE"
                                     else if(userData.lang === "ar") var Source = "حصري"
+                                }else if(res.data.items[num].gameplayTags[j].toLowerCase().includes("starterpack")){
+
+                                    if(userData.lang === "en") var Source = "Starter Pack"
+                                    else if(userData.lang === "ar") var Source = "حزمة المبتدئين"
                                 }
 
                                 break
@@ -545,10 +549,10 @@ module.exports = {
                     // Set titles and fields
                     if(userData.lang == "en"){
                         itemInfo.setAuthor({name: `Reminder Added, ${res.data.items[num].name}`, iconURL: image})
-                        itemInfo.setDescription(`The ${res.data.items[num].name} (${res.data.items[num].type.name}) has been added to your reminders list, And you will now be notified when the ${res.data.items[num].type.name.toLowerCase()} enters the Itemshop.\n\nInformation about ${res.data.items[num].name}:\n**Price:** \`${price}\`\n**Last Appearance:** \`${Last}\`\n\n${emojisObject.starwars}You have ${snapshot.size + 1} reminders out of 20.`)
+                        itemInfo.setDescription(`The ${res.data.items[num].name} (${res.data.items[num].type.name}) has been added to your reminders list, And you will now be notified when the ${res.data.items[num].type.name.toLowerCase()} enters the Itemshop.\n\nInformation about ${res.data.items[num].name}:\n**Price:** \`${price}\`\n**Last Appearance:** \`${Last}\`\n\n${emojisObject.ColumbusSeries}You have ${snapshot.size + 1} reminders out of 20.`)
                     }else if(userData.lang === "ar"){
                         itemInfo.setAuthor({name: `تم اضافة تذكير, ${res.data.items[num].name}`, iconURL: image})
-                        itemInfo.setDescription(`تم اضافة ${res.data.items[num].name} (${res.data.items[num].type.name}) الى قائمة التذكير, و سوف يتم تنبيهك في حال ${res.data.items[num].type.name.toLowerCase()} توفر في متجر العناصر.\n\nمعلومات عن ${res.data.items[num].name}:\n**السعر:** \`${price}\`\n**اخر ظهور:** \`${Last}\`\n\n${emojisObject.starwars} لديك ${snapshot.size} عنصر مضاف من اصل 20.`)
+                        itemInfo.setDescription(`تم اضافة ${res.data.items[num].name} (${res.data.items[num].type.name}) الى قائمة التذكير, و سوف يتم تنبيهك في حال ${res.data.items[num].type.name.toLowerCase()} توفر في متجر العناصر.\n\nمعلومات عن ${res.data.items[num].name}:\n**السعر:** \`${price}\`\n**اخر ظهور:** \`${Last}\`\n\n${emojisObject.ColumbusSeries} لديك ${snapshot.size} عنصر مضاف من اصل 20.`)
                     }
 
                     // Send the message

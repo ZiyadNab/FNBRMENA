@@ -332,5 +332,5 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
             }
         })
     }
-    setInterval(TwitchDrops, 1 * 30000)
+    setInterval(TwitchDrops, 1.5 * 60000)
 }

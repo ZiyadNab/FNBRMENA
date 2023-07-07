@@ -76,98 +76,105 @@ module.exports = {
                 FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
             })
 
-            // If the result is more than one item
-            if(res.data.items.length > 1){
+            // If canceled
+            if(!res) return
 
-                // Create embed
-                const list = new Discord.EmbedBuilder()
-                list.setColor(FNBRMENA.Colors("embed"))
+            try {
 
-                // Loop through every item matching the user input
-                var string = ``
-                for(let i = 0; i < res.data.items.length; i++){
+                // If the result is more than one item
+                if(res.data.items.length > 1){
 
-                    // Store the name to the string
-                    string += `• ${i}: ${res.data.items[i].name} (${res.data.items[i].type.name}) \n`
+                    // Create embed
+                    const list = new Discord.EmbedBuilder()
+                    list.setColor(FNBRMENA.Colors("embed"))
+
+                    // Loop through every item matching the user input
+                    var string = ``
+                    for(let i = 0; i < res.data.items.length; i++){
+
+                        // Store the name to the string
+                        string += `• ${i}: ${res.data.items[i].name} (${res.data.items[i].type.name}) \n`
+                    }
+
+                    if(userData.lang === "en") string += `• -1: Merge them all \nFound ${res.data.items.length} item matching your search`
+                    else if(userData.lang === "ar") string += `• -1: دمج جميع العناصر \n يوجد ${res.data.items.length} عنصر يطابق عملية البحث`
+
+                    // Set Description
+                    if(string.length <= 4096) list.setDescription(string)
+                    else throw new Error("too large")
+
+                    // Filtering outfits
+                    const filter = async m => await m.author.id === message.author.id
+
+                    // Send the reply to the user
+                    if(userData.lang === "en") var reply = `please choose your item, listening will be stopped after 20 seconds`
+                    else if(userData.lang === "ar") var reply = `الرجاء كتابة اسم العنصر، راح يتوقف الامر بعد ٢٠ ثانية`
+                    const notify = await message.reply({content: reply, embeds: [list], components: [], files: []})
+                    .catch(async err => {
+                        FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
+                    })
+
+                    // Await messages
+                    const collected = await message.channel.awaitMessages({filter, max: 1, time: 20000, errors: ['time']})
+                    .catch(async err => {
+                        FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, { message: "Time" }, emojisObject, notify)
+                    })
+
+                    // Check for collected messages
+                    if(!collected) return
+                    
+                    // Deleting messages
+                    notify.delete()
+
+                    // If the user chosen inside range
+                    if(collected.first().content >= 0 && collected.first().content < res.data.items.length || collected.first().content === "-1") num = collected.first().content
+                    else return FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, { message: "outOfRange" }, emojisObject, null)
                 }
 
-                if(userData.lang === "en") string += `• -1: Merge them all \nFound ${res.data.items.length} item matching your search`
-                else if(userData.lang === "ar") string += `• -1: دمج جميع العناصر \n يوجد ${res.data.items.length} عنصر يطابق عملية البحث`
+                // If there is no item found
+                if(res.data.items.length === 0 && list.length > 1){
 
-                // Set Description
-                if(string.length <= 4096) list.setDescription(string)
-                else throw new Error("too large")
+                    // Error happened
+                    const noItemsMatchingError = new Discord.EmbedBuilder()
+                    noItemsMatchingError.setColor(FNBRMENA.Colors("embedError"))
+                    if(userData.lang === "en") noItemsMatchingError.setTitle(`There is no items matching your entry ${emojisObject.errorEmoji}\n\`Attempting to skip '${list[i]}' item.\``)
+                    else if(userData.lang === "ar") noItemsMatchingError.setTitle(`لا يمكنني العثور على عناصر تناسب ادوات البحث الخاصة بك ${emojisObject.errorEmoji}\n\`سوف يتم تخطي '${list[i]}'.\``)
+                    message.reply({embeds: [noItemsMatchingError], components: [], files: []})
+                    .catch(err => {
+                        FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
+                    })
+                }
 
-                // Filtering outfits
-                const filter = async m => await m.author.id === message.author.id
+                // If there is no item found
+                if(res.data.items.length === 0 && list.length <= 1){
 
-                // Send the reply to the user
-                if(userData.lang === "en") var reply = `please choose your item, listening will be stopped after 20 seconds`
-                else if(userData.lang === "ar") var reply = `الرجاء كتابة اسم العنصر، راح يتوقف الامر بعد ٢٠ ثانية`
-                const notify = await message.reply({content: reply, embeds: [list], components: [], files: []})
-                .catch(async err => {
-                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
-                })
+                    // Error happened
+                    const noItemsMatchingError = new Discord.EmbedBuilder()
+                    noItemsMatchingError.setColor(FNBRMENA.Colors("embedError"))
+                    if(userData.lang === "en") noItemsMatchingError.setTitle(`Couldn't find ${list[i]} item, please try again ${emojisObject.errorEmoji}`)
+                    else if(userData.lang === "ar") noItemsMatchingError.setTitle(`لم يمكنني العثور على ${list[i]} من فضلك حاول مجددا ${emojisObject.errorEmoji}`)
+                    return message.reply({embeds: [noItemsMatchingError], components: [], files: []})
+                    .catch(err => {
+                        FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
+                    })
+                    
+                }
 
-                // Await messages
-                const collected = await message.channel.awaitMessages({filter, max: 1, time: 20000, errors: ['time']})
-                .catch(async err => {
-                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, { message: "Time" }, emojisObject, notify)
-                })
+                // If everything is correct start merging
+                if(res.data.items.length > 0){
 
-                // Check for collected messages
-                if(!collected) return
+                    // If the user wants to merge all or not
+                    if(num !== "-1") mergedItemsDataList.push(res.data.items[num])
+                    else res.data.items.forEach(itemData => {
+                        mergedItemsDataList.push(itemData)
+                    })
+                }
                 
-                // Deleting messages
-                notify.delete()
-
-                // If the user chosen inside range
-                if(collected.first().content >= 0 && collected.first().content < res.data.items.length || collected.first().content === "-1") num = collected.first().content
-                else return FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, { message: "outOfRange" }, emojisObject, null)
+                // Change the index
+                num = 0
+            } catch (err) { 
+                return FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
             }
-
-            // If there is no item found
-            if(res.data.items.length === 0 && list.length > 1){
-
-                // Error happened
-                const noItemsMatchingError = new Discord.EmbedBuilder()
-                noItemsMatchingError.setColor(FNBRMENA.Colors("embedError"))
-                if(userData.lang === "en") noItemsMatchingError.setTitle(`There is no items matching your entry ${emojisObject.errorEmoji}\n\`Attempting to skip '${list[i]}' item.\``)
-                else if(userData.lang === "ar") noItemsMatchingError.setTitle(`لا يمكنني العثور على عناصر تناسب ادوات البحث الخاصة بك ${emojisObject.errorEmoji}\n\`سوف يتم تخطي '${list[i]}'.\``)
-                message.reply({embeds: [noItemsMatchingError], components: [], files: []})
-                .catch(err => {
-                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
-                })
-            }
-
-            // If there is no item found
-            if(res.data.items.length === 0 && list.length <= 1){
-
-                // Error happened
-                const noItemsMatchingError = new Discord.EmbedBuilder()
-                noItemsMatchingError.setColor(FNBRMENA.Colors("embedError"))
-                if(userData.lang === "en") noItemsMatchingError.setTitle(`Couldn't find ${list[i]} item, please try again ${emojisObject.errorEmoji}`)
-                else if(userData.lang === "ar") noItemsMatchingError.setTitle(`لم يمكنني العثور على ${list[i]} من فضلك حاول مجددا ${emojisObject.errorEmoji}`)
-                return message.reply({embeds: [noItemsMatchingError], components: [], files: []})
-                .catch(err => {
-                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
-                })
-                
-            }
-
-            // If everything is correct start merging
-            if(res.data.items.length > 0){
-
-                // If the user wants to merge all or not
-                if(num !== "-1") mergedItemsDataList.push(res.data.items[num])
-                else res.data.items.forEach(itemData => {
-                    mergedItemsDataList.push(itemData)
-                })
-            }
-            
-            // Change the index
-            num = 0
-            
         }
 
         // Getting item data loading
@@ -300,6 +307,10 @@ module.exports = {
 
                                 if(userData.lang === "en") var Source = "EXCLUSIVE"
                                 else if(userData.lang === "ar") var Source = "حصري"
+                            }else if(mergedItemsDataList[i].gameplayTags[j].toLowerCase().includes("starterpack")){
+
+                                if(userData.lang === "en") var Source = "Starter Pack"
+                                else if(userData.lang === "ar") var Source = "حزمة المبتدئين"
                             }
 
                             break

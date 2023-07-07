@@ -131,7 +131,7 @@ module.exports = {
                     }
 
                     // Create a drop menu
-                    var itemVariantsDropMenu = new Discord.SelectMenuBuilder()
+                    var itemVariantsDropMenu = new Discord.StringSelectMenuBuilder()
                     itemVariantsDropMenu.setCustomId(`${i}`)
                     if(userData.lang === "en") itemVariantsDropMenu.setPlaceholder('Nothing selected!')
                     else if(userData.lang === "ar") itemVariantsDropMenu.setPlaceholder('لم يتم اختيار شيء بعد!')
@@ -218,7 +218,7 @@ module.exports = {
                     const att = new Discord.AttachmentBuilder(res.data.items[0].previewVideos[0].url)
 
                     // Send the outfit video
-                    msg.edit({files: [att]})
+                    msg.edit({embeds: [], components: [], files: [att]})
                     .catch(err => {
                         
                         // Try sending it as a content message

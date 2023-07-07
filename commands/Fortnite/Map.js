@@ -31,212 +31,238 @@ module.exports = {
             })
             try {
 
-                // Request data
-                FNBRMENA.Map(userData.lang)
-                .then(async res => {
+                // Creating canvas
+                const canvas = Canvas.createCanvas(2048, 2048);
+                const ctx = canvas.getContext('2d');
 
-                    // Get the image data
-                    if(res.data.data.images.pois === null) var image = res.data.data.images.blank
-                    else var image = res.data.data.images.pois
-                    
-                    // Creating canvas
-                    const canvas = Canvas.createCanvas(2048, 2048);
-                    const ctx = canvas.getContext('2d');
+                // Map image
+                const map = await Canvas.loadImage(`https://media.fortniteapi.io/images/map.png?showPOI=true&lang=${userData.lang}`)
+                ctx.drawImage(map, 0, 0, canvas.width, canvas.height)
 
-                    // Map image
-                    const map = await Canvas.loadImage(image)
-                    ctx.drawImage(map, 0, 0, canvas.width, canvas.height)
+                // Fnbrmena credits
+                const border = await Canvas.loadImage('./assets/NPC/border.png')
+                ctx.drawImage(border, 0, 0, canvas.width, canvas.height)
 
-                    // Fnbrmena credits
-                    const border = await Canvas.loadImage('./assets/NPC/border.png')
-                    ctx.drawImage(border, 0, 0, canvas.width, canvas.height)
+                // Send the map image
+                var att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: 'map.png'})
+                msg.edit({embeds: [], components: [], files: [att]})
+                .catch(err => {
 
-                    // Send the map image
-                    var att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: 'map.png'})
+                    // Try sending it on jpg file format [LOWER QUALITY]
+                    var att = new Discord.AttachmentBuilder(canvas.toBuffer('image/jpeg'), {name: `map.jpg`})
                     msg.edit({embeds: [], components: [], files: [att]})
                     .catch(err => {
-
-                        // Try sending it on jpg file format [LOWER QUALITY]
-                        var att = new Discord.AttachmentBuilder(canvas.toBuffer('image/jpeg'), {name: `map.jpg`})
-                        msg.edit({embeds: [], components: [], files: [att]})
-                        .catch(err => {
-                            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
-                        })
+                        FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
                     })
-
-                }).catch(err => {
-                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
-                    
                 })
+
             }catch(err) {
                 FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
                 
             }
-                
         }else{
 
             // Request data
             FNBRMENA.MapIO()
             .then(async res => {
 
-                // Check if user entered a valid season that has images
-                var allAvaliableVersions = []
-                var Counter = 0
+                // Filter user input to return all matching versions
+                var allAvaliableVersions = res.data.maps.filter(e => {
 
-                // Loop throw every map avaliable
-                for(let i = 0; i < res.data.maps.length; i++){
+                    if(e.patchVersion.startsWith(text)) return e
+                })
 
-                    //only go in when the version first number matches the user input
-                    if(res.data.maps[i].patchVersion.substring(0, res.data.maps[i].patchVersion.indexOf(".")) == text){
-
-                        // Store the all avaliable versions in the array
-                        allAvaliableVersions[Counter++] = res.data.maps[i]
-
-                    }
-                }
-
-                // If the allAvaliableVersions is empty then no matching game version found
-                if(allAvaliableVersions.length != 0){
+                // No matching versions found
+                if(allAvaliableVersions.length == 0){
 
                     // Create embed handleing the season error
                     const noSeasonHasBeenFoundError = new Discord.EmbedBuilder()
                     noSeasonHasBeenFoundError.setColor(FNBRMENA.Colors("embedError"))
-                    if(userData.lang === "en") noSeasonHasBeenFoundError.setTitle(`Sorry there is no season with that number ${emojisObject.errorEmoji}`)
-                    else if(userData.lang === "ar") noSeasonHasBeenFoundError.setTitle(`عذرا لا يوجد موسم بنفس هذا الرقم ${emojisObject.errorEmoji}`)
+                    if(userData.lang === "en") noSeasonHasBeenFoundError.setTitle(`No matching versions found ${emojisObject.errorEmoji}.`)
+                    else if(userData.lang === "ar") noSeasonHasBeenFoundError.setTitle(`عذرا , لم العثور على تحديثات ${emojisObject.errorEmoji}.`)
                     return message.reply({embeds: [noSeasonHasBeenFoundError], components: [], files: []})
                     .catch(err => {
                         FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
                     })
                 }
 
-                // Create an embed
-                const allAvaliableVersionsEmbed = new Discord.EmbedBuilder()
-                allAvaliableVersionsEmbed.setColor(FNBRMENA.Colors("embed"))
-                if(userData.lang === "en"){
-                    allAvaliableVersionsEmbed.setAuthor({name: `Map History`, iconURL: `https://fortnite-api.com/images/cosmetics/br/spid_139_tiltedmap/decal.png`})
-                    allAvaliableVersionsEmbed.setDescription('Please click on the Drop-Down menu and choose a game verion.\n`You have only 30 seconds until this operation ends, Make it quick`!')
-                }else if(userData.lang === "ar"){
-                    allAvaliableVersionsEmbed.setAuthor({name: `تاريخ الماب`, iconURL: `https://fortnite-api.com/images/cosmetics/br/spid_139_tiltedmap/decal.png`})
-                    allAvaliableVersionsEmbed.setDescription('الرجاء الضغط على السهم لاختيار تحديث.\n`لديك فقط 30 ثانية حتى تنتهي العملية, استعجل`!')
-                }
+                // Only one matching hit
+                if(allAvaliableVersions.length == 1){
 
-                // Create a row for cancel button
-                const buttonDataRow = new Discord.ActionRowBuilder()
+                    // Generating animation
+                    const generating = new Discord.EmbedBuilder()
+                    generating.setColor(FNBRMENA.Colors("embed"))
+                    if(userData.lang === "en") generating.setTitle(`Loading ${allAvaliableVersions[0].patchVersion}'s map... ${emojisObject.loadingEmoji}`)
+                    else if(userData.lang == "ar") generating.setTitle(`جاري التحميل ماب ${allAvaliableVersions[0].patchVersion}... ${emojisObject.loadingEmoji}`)
+                    const msg = await message.reply({embeds: [generating], components: [], files: []})
+                    .catch(err => {
+                        FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                    })
+                    try {
+                        
+                        // Creating canvas
+                        const canvas = Canvas.createCanvas(2048, 2048);
+                        const ctx = canvas.getContext('2d');
 
-                // Add EN cancel button
-                if(userData.lang === "en") buttonDataRow.addComponents(
-                    new Discord.ButtonBuilder()
-                    .setCustomId('Cancel')
-                    .setStyle(Discord.ButtonStyle.Danger)
-                    .setLabel("Cancel")
-                )
-                
-                // Add AR cancel button
-                else if(userData.lang === "ar") buttonDataRow.addComponents(
-                    new Discord.ButtonBuilder()
-                    .setCustomId('Cancel')
-                    .setStyle(Discord.ButtonStyle.Danger)
-                    .setLabel("اغلاق")
-                )
-                
-                // Create a row for drop down menu for categories
-                const allAvaliableVersionsRow = new Discord.ActionRowBuilder()
+                        // Map image
+                        const map = await Canvas.loadImage(allAvaliableVersions[0].url)
+                        ctx.drawImage(map, 0, 0, canvas.width, canvas.height)
 
-                // Loop throw every patch
-                var versionsFound = []
-                for(let i = 0; i < allAvaliableVersions.length; i++){
+                        // Fnbrmena credits
+                        const border = await Canvas.loadImage('./assets/NPC/border.png')
+                        ctx.drawImage(border, 0, 0, canvas.width, canvas.height)
 
-                    if(userData.lang === "en"){
-                        versionsFound.push({
-                            label: `${allAvaliableVersions[i].patchVersion}'s version\n`,
-                            description: `${moment(allAvaliableVersions[i].releaseDate).fromNow()}`,
-                            value: `${i}`,
+                        // Send the map image
+                        var att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `${allAvaliableVersions[0].patchVersion}.png`})
+                        msg.edit({embeds: [], components: [], files: [att]})
+                        .catch(err => {
+
+                            // Try sending it on jpg file format [LOWER QUALITY]
+                            var att = new Discord.AttachmentBuilder(canvas.toBuffer('image/jpeg'), {name: `${allAvaliableVersions[0].patchVersion}.jpg`})
+                            msg.edit({embeds: [], components: [], files: [att]})
+                            .catch(err => {
+                                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
+                            })
                         })
 
-                    }else if(userData.lang === "ar"){
-                        versionsFound.push({
-                            label: `تحديث ${allAvaliableVersions[i].patchVersion}\n`,
-                            description: `${moment(allAvaliableVersions[i].releaseDate).fromNow()}`,
-                            value: `${i}`,
-                        })
+                    }catch(err) {
+                        FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
+                        
                     }
                 }
 
-                const allAvaliableVersionsDropMenu = new Discord.SelectMenuBuilder()
-                allAvaliableVersionsDropMenu.setCustomId('versions')
-                if(userData.lang === "en") allAvaliableVersionsDropMenu.setPlaceholder('Nothing selected!')
-                else if(userData.lang === "ar") allAvaliableVersionsDropMenu.setPlaceholder('الرجاء الأختيار!')
-                allAvaliableVersionsDropMenu.addOptions(versionsFound)
+                // Found more than 1 hit
+                if(allAvaliableVersions.length > 1){
 
-                // Add the drop menu to the categoryDropMenu
-                allAvaliableVersionsRow.addComponents(allAvaliableVersionsDropMenu)
+                    // Create an embed
+                    const allAvaliableVersionsEmbed = new Discord.EmbedBuilder()
+                    allAvaliableVersionsEmbed.setColor(FNBRMENA.Colors("embed"))
+                    if(userData.lang === "en"){
+                        allAvaliableVersionsEmbed.setAuthor({name: `Map History`, iconURL: `https://fortnite-api.com/images/cosmetics/br/spid_139_tiltedmap/decal.png`})
+                        allAvaliableVersionsEmbed.setDescription('Please click on the Drop-Down menu and choose a game verion.\n`You have only 30 seconds until this operation ends, Make it quick`!')
+                    }else if(userData.lang === "ar"){
+                        allAvaliableVersionsEmbed.setAuthor({name: `تاريخ الماب`, iconURL: `https://fortnite-api.com/images/cosmetics/br/spid_139_tiltedmap/decal.png`})
+                        allAvaliableVersionsEmbed.setDescription('الرجاء الضغط على السهم لاختيار تحديث.\n`لديك فقط 30 ثانية حتى تنتهي العملية, استعجل`!')
+                    }
 
-                // Send the message
-                const dropMenuMessage = await message.reply({embeds: [allAvaliableVersionsEmbed], components: [allAvaliableVersionsRow, buttonDataRow], files: []})
-                .catch(err => {
-                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
-                })
+                    // Create a row for cancel button
+                    const buttonDataRow = new Discord.ActionRowBuilder()
 
-                // Filtering the user clicker
-                const filter = (i => {
-                    return (i.user.id === message.author.id && i.message.id === dropMenuMessage.id && i.guild.id === message.guild.id)
-                })
-
-                // Await the user click
-                await message.channel.awaitMessageComponent({filter, time: 30000})
-                .then(async collected => {
-                    collected.deferUpdate();
-
-                    // If cancel button has been clicked
-                    if(collected.customId === "Cancel") dropMenuMessage.delete()
+                    // Add EN cancel button
+                    if(userData.lang === "en") buttonDataRow.addComponents(
+                        new Discord.ButtonBuilder()
+                        .setCustomId('Cancel')
+                        .setStyle(Discord.ButtonStyle.Danger)
+                        .setLabel("Cancel")
+                    )
                     
-                    // If the user selected a map version
-                    if(collected.customId === "versions"){
+                    // Add AR cancel button
+                    else if(userData.lang === "ar") buttonDataRow.addComponents(
+                        new Discord.ButtonBuilder()
+                        .setCustomId('Cancel')
+                        .setStyle(Discord.ButtonStyle.Danger)
+                        .setLabel("اغلاق")
+                    )
+                    
+                    // Create a row for drop down menu for categories
+                    const allAvaliableVersionsRow = new Discord.ActionRowBuilder()
 
-                        // Generating animation
-                        const generating = new Discord.EmbedBuilder()
-                        generating.setColor(FNBRMENA.Colors("embed"))
-                        if(userData.lang === "en") generating.setTitle(`Loading ${allAvaliableVersions[collected.values[0]].patchVersion}'s map... ${emojisObject.loadingEmoji}`)
-                        else if(userData.lang == "ar") generating.setTitle(`جاري التحميل ماب ${allAvaliableVersions[collected.values[0]].patchVersion}... ${emojisObject.loadingEmoji}`)
-                        dropMenuMessage.edit({embeds: [generating], components: [], files: []})
-                        .catch(err => {
-                            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
-                        })
-                        try {
-                            
-                            // Creating canvas
-                            const canvas = Canvas.createCanvas(2048, 2048);
-                            const ctx = canvas.getContext('2d');
+                    // Loop throw every patch
+                    var versionsFound = []
+                    for(let i = 0; i < allAvaliableVersions.length; i++){
 
-                            // Map image
-                            const map = await Canvas.loadImage(allAvaliableVersions[collected.values[0]].url)
-                            ctx.drawImage(map, 0, 0, canvas.width, canvas.height)
-
-                            // Fnbrmena credits
-                            const border = await Canvas.loadImage('./assets/NPC/border.png')
-                            ctx.drawImage(border, 0, 0, canvas.width, canvas.height)
-
-                            // Send the map image
-                            var att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `${allAvaliableVersions[collected.values[0]].patchVersion}.png`})
-                            dropMenuMessage.edit({embeds: [], components: [], files: [att]})
-                            .catch(err => {
-
-                                // Try sending it on jpg file format [LOWER QUALITY]
-                                var att = new Discord.AttachmentBuilder(canvas.toBuffer('image/jpeg'), {name: `${allAvaliableVersions[collected.values[0]].patchVersion}.jpg`})
-                                msg.edit({embeds: [], components: [], files: [att]})
-                                .catch(err => {
-                                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
-                                })
+                        if(userData.lang === "en"){
+                            versionsFound.push({
+                                label: `${allAvaliableVersions[i].patchVersion}'s version\n`,
+                                description: `${moment(allAvaliableVersions[i].releaseDate).fromNow()}`,
+                                value: `${i}`,
                             })
 
-                        }catch(err) {
-                            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
-                            
+                        }else if(userData.lang === "ar"){
+                            versionsFound.push({
+                                label: `تحديث ${allAvaliableVersions[i].patchVersion}\n`,
+                                description: `${moment(allAvaliableVersions[i].releaseDate).fromNow()}`,
+                                value: `${i}`,
+                            })
                         }
                     }
-                }).catch(async err => {
-                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
-                })
+
+                    const allAvaliableVersionsDropMenu = new Discord.StringSelectMenuBuilder()
+                    allAvaliableVersionsDropMenu.setCustomId('versions')
+                    if(userData.lang === "en") allAvaliableVersionsDropMenu.setPlaceholder('Nothing selected!')
+                    else if(userData.lang === "ar") allAvaliableVersionsDropMenu.setPlaceholder('الرجاء الأختيار!')
+                    allAvaliableVersionsDropMenu.addOptions(versionsFound)
+
+                    // Add the drop menu to the categoryDropMenu
+                    allAvaliableVersionsRow.addComponents(allAvaliableVersionsDropMenu)
+
+                    // Send the message
+                    const dropMenuMessage = await message.reply({embeds: [allAvaliableVersionsEmbed], components: [allAvaliableVersionsRow, buttonDataRow], files: []})
+                    .catch(err => {
+                        FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
+                    })
+
+                    // Filtering the user clicker
+                    const filter = (i => {
+                        return (i.user.id === message.author.id && i.message.id === dropMenuMessage.id && i.guild.id === message.guild.id)
+                    })
+
+                    // Await the user click
+                    await message.channel.awaitMessageComponent({filter, time: 30000})
+                    .then(async collected => {
+                        collected.deferUpdate();
+
+                        // If cancel button has been clicked
+                        if(collected.customId === "Cancel") dropMenuMessage.delete()
+                        
+                        // If the user selected a map version
+                        if(collected.customId === "versions"){
+
+                            // Generating animation
+                            const generating = new Discord.EmbedBuilder()
+                            generating.setColor(FNBRMENA.Colors("embed"))
+                            if(userData.lang === "en") generating.setTitle(`Loading ${allAvaliableVersions[collected.values[0]].patchVersion}'s map... ${emojisObject.loadingEmoji}`)
+                            else if(userData.lang == "ar") generating.setTitle(`جاري التحميل ماب ${allAvaliableVersions[collected.values[0]].patchVersion}... ${emojisObject.loadingEmoji}`)
+                            dropMenuMessage.edit({embeds: [generating], components: [], files: []})
+                            .catch(err => {
+                                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                            })
+                            try {
+                                
+                                // Creating canvas
+                                const canvas = Canvas.createCanvas(2048, 2048);
+                                const ctx = canvas.getContext('2d');
+
+                                // Map image
+                                const map = await Canvas.loadImage(allAvaliableVersions[collected.values[0]].url)
+                                ctx.drawImage(map, 0, 0, canvas.width, canvas.height)
+
+                                // Fnbrmena credits
+                                const border = await Canvas.loadImage('./assets/NPC/border.png')
+                                ctx.drawImage(border, 0, 0, canvas.width, canvas.height)
+
+                                // Send the map image
+                                var att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `${allAvaliableVersions[collected.values[0]].patchVersion}.png`})
+                                dropMenuMessage.edit({embeds: [], components: [], files: [att]})
+                                .catch(err => {
+
+                                    // Try sending it on jpg file format [LOWER QUALITY]
+                                    var att = new Discord.AttachmentBuilder(canvas.toBuffer('image/jpeg'), {name: `${allAvaliableVersions[collected.values[0]].patchVersion}.jpg`})
+                                    dropMenuMessage.edit({embeds: [], components: [], files: [att]})
+                                    .catch(err => {
+                                        FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                                    })
+                                })
+
+                            }catch(err) {
+                                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                                
+                            }
+                        }
+                    }).catch(async err => {
+                        FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                    })
+                }
                 
             }).catch(err => {
                 FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)

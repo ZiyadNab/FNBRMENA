@@ -5,7 +5,6 @@ module.exports = {
     minArgs: 0,
     maxArgs: 1,
     cooldown: -1,
-    permissionError: 'Sorry you do not have acccess to this command',
     callback: async (FNBRMENA, message, args, text, Discord, client, admin, userData, alias, emojisObject) => {
 
         // Get the last message sent
@@ -44,7 +43,7 @@ module.exports = {
         // Create a row for drop down menu for categories
         const leaderboardTypePaksRow = new Discord.ActionRowBuilder()
 
-        const leaderboardTypeDropMenu = new Discord.SelectMenuBuilder()
+        const leaderboardTypeDropMenu = new Discord.StringSelectMenuBuilder()
         leaderboardTypeDropMenu.setCustomId('leaderboard')
         if(userData.lang === "en") leaderboardTypeDropMenu.setPlaceholder('Select a leaderboard type!')
         else if(userData.lang === "ar") leaderboardTypeDropMenu.setPlaceholder('من فضلك اختر نوع الترتيب!')

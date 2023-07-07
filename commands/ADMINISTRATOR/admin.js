@@ -1,4 +1,6 @@
 const moment = require('moment')
+const Canvas = require('canvas')
+const CryptoJS = require('crypto');
 
 module.exports = {
     commands: 'admin',
@@ -8,7 +10,7 @@ module.exports = {
     cooldown: -1,
     callback: async (FNBRMENA, message, args, text, Discord, client, admin, userData, alias, emojisObject) => {
         
-        // Seeting up the db firestore
+        // Setting up the db firestore
         var db = await admin.firestore()
 
         // Create an embed
@@ -32,7 +34,7 @@ module.exports = {
         const adminCommandsRow = new Discord.ActionRowBuilder()
 
         // Create a select menu
-        const adminCommandsDropMenu = new Discord.SelectMenuBuilder()
+        const adminCommandsDropMenu = new Discord.StringSelectMenuBuilder()
         adminCommandsDropMenu.setCustomId('tasks')
         adminCommandsDropMenu.setPlaceholder('Select a task!')
         adminCommandsDropMenu.addOptions(
@@ -56,6 +58,10 @@ module.exports = {
                 label: `Talk`,
                 value: `talk`,
             },
+            {
+                label: `Poll`,
+                value: `poll`,
+            },
         )
 
         // Add the drop menu to the categoryDropMenu
@@ -64,7 +70,7 @@ module.exports = {
         // Send the message
         const dropMenuMessage = await message.reply({embeds: [adminCommandEmbed], components: [adminCommandsRow, buttonDataRow]})
         .catch(err => {
-            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
+            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
         })
 
         // Filtering the admin clicker
@@ -292,7 +298,7 @@ module.exports = {
                             const chooseOperationRow = new Discord.ActionRowBuilder()
 
                             // Create a select menu
-                            const chooseOperationDropMenu = new Discord.SelectMenuBuilder()
+                            const chooseOperationDropMenu = new Discord.StringSelectMenuBuilder()
                             chooseOperationDropMenu.setCustomId('Operations')
                             chooseOperationDropMenu.setPlaceholder('Select an operation!')
                             chooseOperationDropMenu.addOptions(
@@ -311,6 +317,10 @@ module.exports = {
                                 {
                                     label: `Ban/Unban a User`,
                                     value: `banUnban`
+                                },
+                                {
+                                    label: `Allowed Chats`,
+                                    value: `allowedChannels`
                                 },
                                 {
                                     label: `Cooldown`,
@@ -364,8 +374,8 @@ module.exports = {
                                         var cooldown = `Servers Cooldown: ${(commandData.data().commandData.cooldown.serversCooldown !== -1) ? `${commandData.data().commandData.cooldown.serversCooldown}s` : `0s`}\nFiles Cooldown: ${(commandData.data().commandData.cooldown.filesCooldown !== -1) ? `${commandData.data().commandData.cooldown.filesCooldown}s` : `0s`}\nCooldown Source: ${commandData.data().commandData.cooldown.filesSource ? "Files" : "Servers"}`
 
                                         // Command Status
-                                        if(commandData.data().commandData.commandStatus.status) var commandStatus = `\`ACTIVE\` ${emojisObject.uncommon}`
-                                        else var commandStatus = `Status: \`Diabled\` ${emojisObject.marvel}\nBy: \`${commandData.data().commandData.commandStatus.by}\`\nDate: \`${moment(commandData.data().commandData.commandStatus.date).format("dddd, MMMM Do of YYYY")}\`\nEnglish Reason: \`${(commandData.data().commandData.commandStatus.reasonEN !== null) ? `${commandData.data().commandData.commandStatus.reasonEN}` : `No reason has been specified`}\`\Arabic Reason: \`${(commandData.data().commandData.commandStatus.reasonAR !== null) ? `${commandData.data().commandData.commandStatus.reasonAR}` : `No reason has been specified`}\``
+                                        if(commandData.data().commandData.commandStatus.status) var commandStatus = `\`ACTIVE\` ${emojisObject.Uncommon}`
+                                        else var commandStatus = `Status: \`Diabled\` ${emojisObject.MarvelSeries}\nBy: \`${commandData.data().commandData.commandStatus.by}\`\nDate: \`${moment(commandData.data().commandData.commandStatus.date).format("dddd, MMMM Do of YYYY")}\`\nEnglish Reason: \`${(commandData.data().commandData.commandStatus.reasonEN !== null) ? `${commandData.data().commandData.commandStatus.reasonEN}` : `No reason has been specified`}\`\Arabic Reason: \`${(commandData.data().commandData.commandStatus.reasonAR !== null) ? `${commandData.data().commandData.commandStatus.reasonAR}` : `No reason has been specified`}\``
 
                                         // Create an embed
                                         const commandOverviewEmbed = new Discord.EmbedBuilder()
@@ -559,6 +569,7 @@ module.exports = {
                                             .setCustomId('Show')
                                             .setStyle(Discord.ButtonStyle.Success)
                                             .setLabel("Show")
+                                            .setDisabled(commandData.data().commandData.showInCommands)
                                         )
 
                                         appearanceButtonDataRow.addComponents(
@@ -566,7 +577,7 @@ module.exports = {
                                             .setCustomId('Hide')
                                             .setStyle(Discord.ButtonStyle.Primary)
                                             .setLabel("Hide")
-                                            .setDisabled(res[eventID].Active)
+                                            .setDisabled(!commandData.data().commandData.showInCommands)
                                         )
 
                                         appearanceButtonDataRow.addComponents(
@@ -839,42 +850,82 @@ module.exports = {
                                         })
                                     }
 
-                                    // Premium has been selected
-                                    if(collected.values[0] === "premium"){
+                                    // Allowed Chats has been selected
+                                    if(collected.values[0] === "allowedChannels"){
+
+                                        // Get all allowed chats
+                                        var string = ``
+                                        if(!commandData.data().allowedChannels.length) string = `Currently there isn't any allowed chats.`
+                                        else for(const chats of commandData.data().allowedChannels) string += `<#${chats}>\n`
 
                                         // Create an embed
-                                        const banUnbanEmbed = new Discord.EmbedBuilder()
-                                        banUnbanEmbed.setColor(FNBRMENA.Colors("embed"))
-                                        banUnbanEmbed.setTitle(`Set Or Delete Premium Access, ${commandName}`)
-                                        banUnbanEmbed.setDescription('Click on premium or remove to edit the command exclusivity.\n\`You have only 30 seconds until this operation ends, Make it quick\`')
+                                        const commandAllowedChatsEmbed = new Discord.EmbedBuilder()
+                                        commandAllowedChatsEmbed.setColor(FNBRMENA.Colors("embed"))
+                                        commandAllowedChatsEmbed.setTitle(`Allowed Chats, ${commandName}`)
+                                        commandAllowedChatsEmbed.setDescription(`Click on edit to change the allowed chats for a command.\n\`You have only 30 seconds until this operation ends, Make it quick\`\n\n${string}`)
 
                                         // Add a button row
-                                        const banUnbanButtonDataRow = new Discord.ActionRowBuilder()
+                                        const allowedChatsButtonDataRow = new Discord.ActionRowBuilder()
                                         
-                                        // Add ban, unban and cancel buttons
-                                        banUnbanButtonDataRow.addComponents(
+                                        // Add edit and cancel buttons
+                                        allowedChatsButtonDataRow.addComponents(
                                             new Discord.ButtonBuilder()
-                                            .setCustomId('Premium')
+                                            .setCustomId('Add')
                                             .setStyle(Discord.ButtonStyle.Success)
-                                            .setLabel("Premium")
+                                            .setLabel("Add a Chat")
                                         )
 
-                                        banUnbanButtonDataRow.addComponents(
+                                        allowedChatsButtonDataRow.addComponents(
                                             new Discord.ButtonBuilder()
                                             .setCustomId('Remove')
                                             .setStyle(Discord.ButtonStyle.Primary)
-                                            .setLabel("Remove")
+                                            .setLabel("Remove a Chat")
                                         )
 
-                                        banUnbanButtonDataRow.addComponents(
+                                        allowedChatsButtonDataRow.addComponents(
+                                            new Discord.ButtonBuilder()
+                                            .setCustomId('RAC')
+                                            .setStyle(Discord.ButtonStyle.Secondary)
+                                            .setLabel("Remove All Chats")
+                                        )
+
+                                        allowedChatsButtonDataRow.addComponents(
                                             new Discord.ButtonBuilder()
                                             .setCustomId('Cancel')
                                             .setStyle(Discord.ButtonStyle.Danger)
                                             .setLabel("Cancel")
                                         )
 
+                                        // Create the modal and add text fields
+                                        const addChatModal = new Discord.ModalBuilder()
+                                        addChatModal.setCustomId(`addChat-${message.id}`)
+                                        addChatModal.setTitle('Add a Chat') // Set modal title
+                                        addChatModal.addComponents( // add fields
+                                            new Discord.ActionRowBuilder().addComponents(
+                                                new Discord.TextInputBuilder()
+                                                .setCustomId('addedChat')
+                                                .setLabel("Please type the chat ID.")
+                                                .setStyle(Discord.TextInputStyle.Short)
+                                                .setRequired(true)
+                                            ),
+                                        )
+
+                                        // Create the modal and add text fields
+                                        const deleteChatModal = new Discord.ModalBuilder()
+                                        deleteChatModal.setCustomId(`removeChat-${message.id}`)
+                                        deleteChatModal.setTitle('Remove a Chat') // Set modal title
+                                        deleteChatModal.addComponents( // add fields
+                                            new Discord.ActionRowBuilder().addComponents(
+                                                new Discord.TextInputBuilder()
+                                                .setCustomId('removedChat')
+                                                .setLabel("Please type the chat ID.")
+                                                .setStyle(Discord.TextInputStyle.Short)
+                                                .setRequired(true)
+                                            ),
+                                        )
+
                                         // Edit the message
-                                        dropMenuMessage.edit({embeds: [banUnbanEmbed], components: [banUnbanButtonDataRow]})
+                                        dropMenuMessage.edit({embeds: [commandAllowedChatsEmbed], components: [allowedChatsButtonDataRow]})
                                         .catch(err => {
                                             FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
                                         })
@@ -885,46 +936,147 @@ module.exports = {
                                         })
 
                                         // Await for the admin
-                                        await message.channel.awaitMessageComponent({filter, time: 5 * 60000})
+                                        await message.channel.awaitMessageComponent({filter, time: 60000})
                                         .then(async collected => {
 
                                             // Cancel has been selected
                                             if(collected.customId === "Cancel") dropMenuMessage.delete()
 
-                                            // Premium has been selected
-                                            if(collected.customId === "Premium"){
+                                            // Add a Chat has been selected
+                                            if(collected.customId === "Add"){
+                            
+                                                // showModal
+                                                collected.showModal(addChatModal)
 
-                                                // Update the data
-                                                await db.collection("Commands").doc(`${commandName.toLowerCase()}`).update({
-                                                    'commandData.premium': true
+                                                // Listen for modal submission
+                                                const filter = (i => {
+                                                    return i.customId === `addChat-${message.id}` && i.user.id === message.author.id && i.guild.id === message.guild.id
                                                 })
+                                                await collected.awaitModalSubmit({filter, time: 2 * 60000})
+                                                .then(async modalCollect => {
+                                                    modalCollect.deferUpdate();
 
-                                                // Successfully updated
-                                                const premiumUpdatedEmbed = new Discord.EmbedBuilder()
-                                                premiumUpdatedEmbed.setColor(FNBRMENA.Colors("embedSuccess"))
-                                                premiumUpdatedEmbed.setTitle(`The ${commandName} command is now only for premium users ${emojisObject.checkEmoji}.`)
-                                                dropMenuMessage.edit({embeds: [premiumUpdatedEmbed], components: []})
-                                                .catch(err => {
+                                                    // Get admin inputs
+                                                    var addedChat = await modalCollect.fields.getTextInputValue('addedChat')
+
+                                                    // Get the channel data
+                                                    const channelData = await client.channels.cache.get(addedChat)
+
+                                                    // Check if channel exists
+                                                    if(!channelData){
+
+                                                        // Channel not found
+                                                        const channelNotFoundEmbed = new Discord.EmbedBuilder()
+                                                        channelNotFoundEmbed.setColor(FNBRMENA.Colors("embedError"))
+                                                        channelNotFoundEmbed.setTitle(`The channel cannot be found ${emojisObject.errorEmoji}.`)
+                                                        dropMenuMessage.edit({embeds: [channelNotFoundEmbed], components: []})
+                                                        .catch(err => {
+                                                            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                                                        })
+                                                        return
+                                                    }
+
+                                                    // New channels
+                                                    var allowedChannels = commandData.data().allowedChannels
+                                                    allowedChannels.push(channelData.id)
+
+                                                    // Update the data
+                                                    await db.collection("Commands").doc(`${commandName.toLowerCase()}`).update({
+                                                        'allowedChannels': allowedChannels
+                                                    })
+
+                                                    // Successfully updated
+                                                    const addedTheChatSuccessfullyEmbed = new Discord.EmbedBuilder()
+                                                    addedTheChatSuccessfullyEmbed.setColor(FNBRMENA.Colors("embedSuccess"))
+                                                    addedTheChatSuccessfullyEmbed.setTitle(`The ${channelData.name} has been added successfully ${emojisObject.checkEmoji}.`)
+                                                    dropMenuMessage.edit({embeds: [addedTheChatSuccessfullyEmbed], components: []})
+                                                    .catch(err => {
+                                                        FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                                                    })
+                                                    
+                                                }).catch(err => {
                                                     FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
                                                 })
+                                                
                                             }
 
-                                            // Remove has been selected
+                                            // Remove a Chat has been selected
                                             if(collected.customId === "Remove"){
+                            
+                                                // showModal
+                                                collected.showModal(deleteChatModal)
 
+                                                // Listen for modal submission
+                                                const filter = (i => {
+                                                    return i.customId === `removeChat-${message.id}` && i.user.id === message.author.id && i.guild.id === message.guild.id
+                                                })
+                                                await collected.awaitModalSubmit({filter, time: 2 * 60000})
+                                                .then(async modalCollect => {
+                                                    modalCollect.deferUpdate();
+
+                                                    // Get admin inputs
+                                                    var removedChat = await modalCollect.fields.getTextInputValue('removedChat')
+
+                                                    // Get the channel data
+                                                    const channelData = await client.channels.cache.get(removedChat)
+
+                                                    // Check if channel exists
+                                                    if(!channelData){
+
+                                                        // Channel not found
+                                                        const channelNotFoundEmbed = new Discord.EmbedBuilder()
+                                                        channelNotFoundEmbed.setColor(FNBRMENA.Colors("embedError"))
+                                                        channelNotFoundEmbed.setTitle(`The channel cannot be found ${emojisObject.errorEmoji}.`)
+                                                        dropMenuMessage.edit({embeds: [channelNotFoundEmbed], components: []})
+                                                        .catch(err => {
+                                                            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                                                        })
+                                                        return
+                                                    }
+
+                                                    // Get the existing roles from database
+                                                    const allowedChannels = commandData.data().allowedChannels
+                                                    allowedChannels.splice(allowedChannels.findIndex(ids => {
+                                                        return ids === channelData.id
+                                                    }), 1)
+
+                                                    // Update the data
+                                                    await db.collection("Commands").doc(`${commandName.toLowerCase()}`).update({
+                                                        'allowedChannels': allowedChannels
+                                                    })
+
+                                                    // Successfully updated
+                                                    const removedTheChatSuccessfullyEmbed = new Discord.EmbedBuilder()
+                                                    removedTheChatSuccessfullyEmbed.setColor(FNBRMENA.Colors("embedSuccess"))
+                                                    removedTheChatSuccessfullyEmbed.setTitle(`The ${channelData.name} has been removed successfully ${emojisObject.checkEmoji}.`)
+                                                    dropMenuMessage.edit({embeds: [removedTheChatSuccessfullyEmbed], components: []})
+                                                    .catch(err => {
+                                                        FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                                                    })
+                                                    
+                                                }).catch(err => {
+                                                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                                                })
+                                                
+                                            }
+
+                                            // Remove All Chats has been selected
+                                            if(collected.customId === "RAC"){
+                            
                                                 // Update the data
                                                 await db.collection("Commands").doc(`${commandName.toLowerCase()}`).update({
-                                                    'commandData.premium': false
+                                                    'allowedChannels': []
                                                 })
 
                                                 // Successfully updated
-                                                const premiumUpdatedEmbed = new Discord.EmbedBuilder()
-                                                premiumUpdatedEmbed.setColor(FNBRMENA.Colors("embedSuccess"))
-                                                premiumUpdatedEmbed.setTitle(`The ${commandName} command is now for everyone to use ${emojisObject.checkEmoji}.`)
-                                                dropMenuMessage.edit({embeds: [premiumUpdatedEmbed], components: []})
+                                                const removedAllChatSuccessfullyEmbed = new Discord.EmbedBuilder()
+                                                removedAllChatSuccessfullyEmbed.setColor(FNBRMENA.Colors("embedSuccess"))
+                                                removedAllChatSuccessfullyEmbed.setTitle(`All channels has been removed successfully ${emojisObject.checkEmoji}.`)
+                                                dropMenuMessage.edit({embeds: [removedAllChatSuccessfullyEmbed], components: []})
                                                 .catch(err => {
                                                     FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
                                                 })
+                                                
                                             }
 
                                         }).catch(err => {
@@ -1082,6 +1234,99 @@ module.exports = {
                                                     FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
                                                 })
                                                 
+                                            }
+
+                                        }).catch(err => {
+                                            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                                        })
+                                    }
+
+                                    // Premium has been selected
+                                    if(collected.values[0] === "premium"){
+
+                                        // Create an embed
+                                        const banUnbanEmbed = new Discord.EmbedBuilder()
+                                        banUnbanEmbed.setColor(FNBRMENA.Colors("embed"))
+                                        banUnbanEmbed.setTitle(`Set Or Delete Premium Access, ${commandName}`)
+                                        banUnbanEmbed.setDescription('Click on premium or remove to edit the command exclusivity.\n\`You have only 30 seconds until this operation ends, Make it quick\`')
+
+                                        // Add a button row
+                                        const banUnbanButtonDataRow = new Discord.ActionRowBuilder()
+                                        
+                                        // Add ban, unban and cancel buttons
+                                        banUnbanButtonDataRow.addComponents(
+                                            new Discord.ButtonBuilder()
+                                            .setCustomId('Premium')
+                                            .setStyle(Discord.ButtonStyle.Success)
+                                            .setLabel("Premium")
+                                        )
+
+                                        banUnbanButtonDataRow.addComponents(
+                                            new Discord.ButtonBuilder()
+                                            .setCustomId('Remove')
+                                            .setStyle(Discord.ButtonStyle.Primary)
+                                            .setLabel("Remove")
+                                        )
+
+                                        banUnbanButtonDataRow.addComponents(
+                                            new Discord.ButtonBuilder()
+                                            .setCustomId('Cancel')
+                                            .setStyle(Discord.ButtonStyle.Danger)
+                                            .setLabel("Cancel")
+                                        )
+
+                                        // Edit the message
+                                        dropMenuMessage.edit({embeds: [banUnbanEmbed], components: [banUnbanButtonDataRow]})
+                                        .catch(err => {
+                                            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                                        })
+
+                                        // Filtering the admin clicker
+                                        const filter = (i => {
+                                            return (i.user.id === message.author.id && i.message.id === dropMenuMessage.id && i.guild.id === message.guild.id)
+                                        })
+
+                                        // Await for the admin
+                                        await message.channel.awaitMessageComponent({filter, time: 5 * 60000})
+                                        .then(async collected => {
+
+                                            // Cancel has been selected
+                                            if(collected.customId === "Cancel") dropMenuMessage.delete()
+
+                                            // Premium has been selected
+                                            if(collected.customId === "Premium"){
+
+                                                // Update the data
+                                                await db.collection("Commands").doc(`${commandName.toLowerCase()}`).update({
+                                                    'commandData.premium': true
+                                                })
+
+                                                // Successfully updated
+                                                const premiumUpdatedEmbed = new Discord.EmbedBuilder()
+                                                premiumUpdatedEmbed.setColor(FNBRMENA.Colors("embedSuccess"))
+                                                premiumUpdatedEmbed.setTitle(`The ${commandName} command is now only for premium users ${emojisObject.checkEmoji}.`)
+                                                dropMenuMessage.edit({embeds: [premiumUpdatedEmbed], components: []})
+                                                .catch(err => {
+                                                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                                                })
+                                            }
+
+                                            // Remove has been selected
+                                            if(collected.customId === "Remove"){
+
+                                                // Update the data
+                                                await db.collection("Commands").doc(`${commandName.toLowerCase()}`).update({
+                                                    'commandData.premium': false
+                                                })
+
+                                                // Successfully updated
+                                                const premiumUpdatedEmbed = new Discord.EmbedBuilder()
+                                                premiumUpdatedEmbed.setColor(FNBRMENA.Colors("embedSuccess"))
+                                                premiumUpdatedEmbed.setTitle(`The ${commandName} command is now for everyone to use ${emojisObject.checkEmoji}.`)
+                                                dropMenuMessage.edit({embeds: [premiumUpdatedEmbed], components: []})
+                                                .catch(err => {
+                                                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                                                })
                                             }
 
                                         }).catch(err => {
@@ -1363,7 +1608,7 @@ module.exports = {
                     // Await for the admin
                     await message.channel.awaitMessageComponent({filter, time: 30000})
                     .then(async collected => {
-                        collected.deferUpdate();
+                        collected.deferUpdate()
 
                         // Cancel has been selected
                         if(collected.customId === "Cancel") dropMenuMessage.delete()
@@ -1410,14 +1655,14 @@ module.exports = {
                                             // Add the choice option
                                             eventsListOptions.push({
                                                 label: res[Object.keys(res)[x]].name,
-                                                emoji: (res[Object.keys(res)[x]].Active ? `${emojisObject.uncommon.name}:${emojisObject.uncommon.id}` : `${emojisObject.marvel.name}:${emojisObject.marvel.id}`),
+                                                emoji: (res[Object.keys(res)[x]].Active ? `${emojisObject.Uncommon.name}:${emojisObject.Uncommon.id}` : `${emojisObject.MarvelSeries.name}:${emojisObject.MarvelSeries.id}`),
                                                 value: `${x}`,
                                             })
                                         }
                                     }
 
                                     // Create a select menu
-                                    var eventsListDropMenu = new Discord.SelectMenuBuilder()
+                                    var eventsListDropMenu = new Discord.StringSelectMenuBuilder()
                                     eventsListDropMenu.setCustomId(`${i}`)
                                     eventsListDropMenu.setPlaceholder(`Select an event!`)
                                     eventsListDropMenu.addOptions(eventsListOptions)
@@ -1442,7 +1687,7 @@ module.exports = {
                                 // Await for the admin
                                 await message.channel.awaitMessageComponent({filter, time: 30000})
                                 .then(async collected => {
-                                    collected.deferUpdate();
+                                    collected.deferUpdate()
 
                                     // Cancel has been selected
                                     if(collected.customId === "Cancel") dropMenuMessage.delete()
@@ -1509,13 +1754,13 @@ module.exports = {
                                         // Await for the admin
                                         await message.channel.awaitMessageComponent({filter, time: 30000})
                                         .then(async collected => {
-                                            collected.deferUpdate();
 
                                             // Cancel has been selected
                                             if(collected.customId === "Cancel") dropMenuMessage.delete()
 
                                             // Status has been selected
                                             if(collected.customId === "Status"){
+                                                collected.deferUpdate()
 
                                                 // Create an embed
                                                 const eventStatusEmbed = new Discord.EmbedBuilder()
@@ -1613,31 +1858,190 @@ module.exports = {
 
                                                 // Get the type of the push field
                                                 if(typeof res[eventID].Push === "boolean"){
+                                                    collected.deferUpdate()
 
                                                     // Change the event push status
                                                     admin.database().ref("ERA's").child("Events").child(eventID).update({
                                                         Push: true
                                                     })
-                                                }else{
 
-                                                    // Change the event push status
-                                                    admin.database().ref("ERA's").child("Events").child(eventID).child("Push").update({
-                                                        Status: true
+                                                    // Successfully updated
+                                                    const eventStatusUpdatedEmbed = new Discord.EmbedBuilder()
+                                                    eventStatusUpdatedEmbed.setColor(FNBRMENA.Colors("embedSuccess"))
+                                                    eventStatusUpdatedEmbed.setTitle(`The ${res[eventID].name} has been pushed successfully, Please wait until next rotaion ${emojisObject.checkEmoji}.`)
+                                                    dropMenuMessage.edit({embeds: [eventStatusUpdatedEmbed], components: []})
+                                                    .catch(err => {
+                                                        FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
                                                     })
-                                                }
 
-                                                // Successfully updated
-                                                const eventStatusUpdatedEmbed = new Discord.EmbedBuilder()
-                                                eventStatusUpdatedEmbed.setColor(FNBRMENA.Colors("embedSuccess"))
-                                                eventStatusUpdatedEmbed.setTitle(`The ${res[eventID].name} has been pushed successfully, Please wait until next rotaion ${emojisObject.checkEmoji}.`)
-                                                dropMenuMessage.edit({embeds: [eventStatusUpdatedEmbed], components: []})
-                                                .catch(err => {
-                                                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
-                                                })
+                                                } else {
+
+                                                    if(eventID === "bundles"){
+                                                        collected.deferUpdate()
+
+                                                        FNBRMENA.getBundles("en", true)
+                                                        .then(async ab => {
+
+                                                            // Embed for all bundles
+                                                            const allActiveBundlesToPushEmbed = new Discord.EmbedBuilder()
+                                                            allActiveBundlesToPushEmbed.setColor(FNBRMENA.Colors("embed"))
+                                                            allActiveBundlesToPushEmbed.setTitle(`Select a bundle to push`)
+                                                            allActiveBundlesToPushEmbed.setDescription('Please choose an operation.\n\`You have only 30 seconds until this operation ends, Make it quick\`')
+
+                                                            // Create a row for drop down menu for categories
+                                                            const allActiveBundlesToPushRow = new Discord.ActionRowBuilder()
+
+                                                            // Set all bundle option
+                                                            var optionAB = []
+                                                            for(const i of ab.data.bundles) optionAB.push({
+                                                                label: `${i.name}`,
+                                                                value: `${i.offerId}`,
+                                                                description: `Out ${moment(i.viewableDate).fromNow()}`
+                                                            })
+
+                                                            // Create a select menu
+                                                            const allActiveBundlesToPushDropMenu = new Discord.StringSelectMenuBuilder()
+                                                            allActiveBundlesToPushDropMenu.setCustomId('ab')
+                                                            allActiveBundlesToPushDropMenu.setPlaceholder('Select a task!')
+                                                            allActiveBundlesToPushDropMenu.addOptions(optionAB)
+
+                                                            // Add the drop menu to the categoryDropMenu
+                                                            allActiveBundlesToPushRow.addComponents(allActiveBundlesToPushDropMenu)
+
+                                                            // Edit the message
+                                                            dropMenuMessage.edit({embeds: [allActiveBundlesToPushEmbed], components: [allActiveBundlesToPushRow, buttonDataRow]})
+                                                            .catch(err => {
+                                                                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                                                            })
+
+                                                            // Filtering the admin clicker
+                                                            const filter = (i => {
+                                                                return (i.user.id === message.author.id && i.message.id === dropMenuMessage.id && i.guild.id === message.guild.id)
+                                                            })
+
+                                                            // Await for the admin
+                                                            await message.channel.awaitMessageComponent({filter, time: 30000})
+                                                            .then(async collected => {
+                                                                collected.deferUpdate()
+
+                                                                // Cancel has been selected
+                                                                if(collected.customId === "Cancel") dropMenuMessage.delete()
+                                                                else{
+
+                                                                    // Change the event push status
+                                                                    admin.database().ref("ERA's").child("Events").child(eventID).child("Push").update({
+                                                                        Status: true,
+                                                                        offerID: `${collected.values[0]}`
+                                                                    })
+
+                                                                    // Successfully updated
+                                                                    const eventStatusUpdatedEmbed = new Discord.EmbedBuilder()
+                                                                    eventStatusUpdatedEmbed.setColor(FNBRMENA.Colors("embedSuccess"))
+                                                                    eventStatusUpdatedEmbed.setTitle(`The ${res[eventID].name} has been pushed successfully, Please wait until next rotaion ${emojisObject.checkEmoji}.`)
+                                                                    dropMenuMessage.edit({embeds: [eventStatusUpdatedEmbed], components: []})
+                                                                    .catch(err => {
+                                                                        FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                                                                    })
+                                                                }
+
+                                                            }).catch(err => {
+                                                                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                                                            })
+
+                                                        }).catch(err => {
+                                                            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                                                        })
+
+                                                    } else {
+
+                                                        // Create the modal and add text fields
+                                                        const eventPushModal = new Discord.ModalBuilder()
+                                                        eventPushModal.setCustomId(`eventPush-${message.id}`)
+                                                        eventPushModal.setTitle(`${res[eventID].name} Event Push`) // Set modal title
+                                                        if(eventID === "pak"){
+
+                                                            eventPushModal.addComponents( // Add fields
+                                                                new Discord.ActionRowBuilder().addComponents(
+                                                                    new Discord.TextInputBuilder()
+                                                                    .setCustomId('pak')
+                                                                    .setLabel("Please type pak number.")
+                                                                    .setStyle(Discord.TextInputStyle.Short)
+                                                                    .setValue(`${res[eventID].Push.pakNumber}`)
+                                                                    .setRequired(true)
+                                                                )
+                                                            )
+                                                        }
+
+                                                        if(eventID === "set"){
+
+                                                            eventPushModal.addComponents( // Add fields
+                                                                new Discord.ActionRowBuilder().addComponents(
+                                                                    new Discord.TextInputBuilder()
+                                                                    .setCustomId('id')
+                                                                    .setLabel("Please type the set name or id.")
+                                                                    .setValue(`${res[eventID].Push.setNameOrId}`)
+                                                                    .setStyle(Discord.TextInputStyle.Short)
+                                                                    .setRequired(true)
+                                                                )
+                                                            )
+                                                        }
+
+                                                        if(eventPushModal.components.length > 0){
+
+                                                            // showModal
+                                                            collected.showModal(eventPushModal)
+
+                                                            // Listen for modal submission
+                                                            const filter = (i => {
+                                                                return i.customId === `eventPush-${message.id}` && i.user.id === message.author.id && i.guild.id === message.guild.id
+                                                            })
+                                                            await collected.awaitModalSubmit({filter, time: 2 * 60000})
+                                                            .then(async modalCollect => {
+                                                                modalCollect.deferUpdate();
+
+                                                                if(eventID === "pak") // Change the event push status
+                                                                admin.database().ref("ERA's").child("Events").child(eventID).child("Push").update({
+                                                                    Status: true,
+                                                                    pakNumber: `${modalCollect.fields.getTextInputValue('pak').toLowerCase()}`
+                                                                })
+
+                                                                if(eventID === "set") // Change the event push status
+                                                                admin.database().ref("ERA's").child("Events").child(eventID).child("Push").update({
+                                                                    Status: true,
+                                                                    setNameOrId: `${modalCollect.fields.getTextInputValue('id').toLowerCase()}`
+                                                                })
+
+                                                                // Successfully updated
+                                                                const eventStatusUpdatedEmbed = new Discord.EmbedBuilder()
+                                                                eventStatusUpdatedEmbed.setColor(FNBRMENA.Colors("embedSuccess"))
+                                                                eventStatusUpdatedEmbed.setTitle(`The ${res[eventID].name} has been pushed successfully, Please wait until next rotaion ${emojisObject.checkEmoji}.`)
+                                                                dropMenuMessage.edit({embeds: [eventStatusUpdatedEmbed], components: []})
+                                                                .catch(err => {
+                                                                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                                                                })
+
+                                                            }).catch(err => {
+                                                                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                                                            })
+                                                        } else {
+                                                            collected.deferUpdate()
+
+                                                            // Event cannot be pushed
+                                                            const eventCannotBePushedEmbed = new Discord.EmbedBuilder()
+                                                            eventCannotBePushedEmbed.setColor(FNBRMENA.Colors("embedSuccess"))
+                                                            eventCannotBePushedEmbed.setTitle(`The ${res[eventID].name} can not be pushed for now ${emojisObject.errorEmoji}.`)
+                                                            dropMenuMessage.edit({embeds: [eventCannotBePushedEmbed], components: []})
+                                                            .catch(err => {
+                                                                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                                                            })
+                                                        }
+                                                    }
+                                                }
                                             }
 
                                             // Language has been selected
                                             if(collected.customId === "Language"){
+                                                collected.deferUpdate()
 
                                                 // Create an embed
                                                 const eventLanguageEmbed = new Discord.EmbedBuilder()
@@ -1734,6 +2138,7 @@ module.exports = {
 
                                             // Role has been selected
                                             if(collected.customId === "Role"){
+                                                collected.deferUpdate()
 
                                                 // Create an embed
                                                 const eventRoleEmbed = new Discord.EmbedBuilder()
@@ -1915,7 +2320,6 @@ module.exports = {
 
                         // View has been selected
                         if(collected.customId === "View"){
-
                             // Request data from the database
                             FNBRMENA.Admin(admin, message, "", "Events")
                             .then(async res => {
@@ -1949,7 +2353,7 @@ module.exports = {
                                     // Add event field
                                     eventsOverviewEmbed.addFields(
                                         {
-                                            name: `Status ${(res[Object.keys(res)[i]].Active ? emojisObject.uncommon : emojisObject.marvel)}`, 
+                                            name: `Status ${(res[Object.keys(res)[i]].Active ? emojisObject.Uncommon : emojisObject.MarvelSeries)}`, 
                                             value: str, inline: true
                                         }
                                     )
@@ -2328,6 +2732,15 @@ module.exports = {
                                     .setStyle(Discord.TextInputStyle.Paragraph)
                                     .setPlaceholder("Type something...")
                                     .setRequired(true)
+                                ),
+                                new Discord.ActionRowBuilder().addComponents(
+                                    new Discord.TextInputBuilder()
+                                    .setCustomId('embedTranslator')
+                                    .setLabel("Wanna translate the embed ? Yes, No")
+                                    .setStyle(Discord.TextInputStyle.Short)
+                                    .setPlaceholder("Type something...")
+                                    .setRequired(true)
+                                    .setValue("No")
                                 )
                             )
 
@@ -2346,6 +2759,7 @@ module.exports = {
                                 const embedColor = modalCollect.fields.getTextInputValue('embedColor');
                                 const embedTitle = modalCollect.fields.getTextInputValue('embedTitle');
                                 const embedDescription = modalCollect.fields.getTextInputValue('embedDescription');
+                                const embedTranslator = modalCollect.fields.getTextInputValue('embedTranslator');
 
                                 // Find the given text channel
                                 const channel = client.channels.cache.find(channel => channel.id === channelID)
@@ -2359,8 +2773,26 @@ module.exports = {
                                     talkEmbed.setTitle(embedTitle)
                                     talkEmbed.setDescription(embedDescription)
 
+                                    // If embedTranslator is enabled
+                                    if(embedTranslator.toLowerCase().includes("yes")){
+
+                                        // Create a button
+                                        const talkButtonDataRow = new Discord.ActionRowBuilder()
+                                        
+                                        // Add buttons
+                                        talkButtonDataRow.addComponents(
+                                            new Discord.ButtonBuilder()
+                                            .setCustomId('Translate')
+                                            .setStyle(Discord.ButtonStyle.Success)
+                                            .setLabel("Translate")
+                                        )
+
+                                        // Send the embed message
+                                        await channel.send({content: `<@&1052581935429451836>`, embeds: [talkEmbed], components: [talkButtonDataRow]})
+                                    }
+
                                     // Send the embed message
-                                    await channel.send({embeds: [talkEmbed]})
+                                    else await channel.send({embeds: [talkEmbed]})
 
                                     // Create a successfull embed message
                                     const successfulMessageEmbed = new Discord.EmbedBuilder()
@@ -2626,8 +3058,161 @@ module.exports = {
                     
                 }
 
+                // Poll has been selected
+                if(collected.values[0] === `poll`){
+
+                    // Create the modal and add text fields
+                    const pollQuestionModal = new Discord.ModalBuilder()
+                    pollQuestionModal.setCustomId(`pollQuestion-${message.id}`)
+                    pollQuestionModal.setTitle('Poll Question') // Set modal title
+                    pollQuestionModal.addComponents( // Add fields
+                        new Discord.ActionRowBuilder().addComponents(
+                            new Discord.TextInputBuilder()
+                            .setCustomId('channelId')
+                            .setLabel("The channel ID")
+                            .setStyle(Discord.TextInputStyle.Short)
+                            .setValue('1061401342201049229')
+                            .setRequired(true)
+                        ),
+                        new Discord.ActionRowBuilder().addComponents(
+                            new Discord.TextInputBuilder()
+                            .setCustomId('question')
+                            .setLabel("What is your poll question ?")
+                            .setStyle(Discord.TextInputStyle.Paragraph)
+                            .setRequired(true)
+                        ),
+                        new Discord.ActionRowBuilder().addComponents(
+                            new Discord.TextInputBuilder()
+                            .setCustomId('color')
+                            .setLabel("The question color?")
+                            .setStyle(Discord.TextInputStyle.Short)
+                            .setPlaceholder('Leave empty to skip')
+                            .setRequired(false)
+                        ),
+                        new Discord.ActionRowBuilder().addComponents(
+                            new Discord.TextInputBuilder()
+                            .setCustomId('restrict')
+                            .setLabel("Single Submittion? Yes or No")
+                            .setStyle(Discord.TextInputStyle.Short)
+                            .setValue('Yes')
+                            .setRequired(true)
+                        ),
+                        new Discord.ActionRowBuilder().addComponents(
+                            new Discord.TextInputBuilder()
+                            .setCustomId('tag')
+                            .setLabel("Tag everyone? Yes or No")
+                            .setStyle(Discord.TextInputStyle.Short)
+                            .setValue('No')
+                            .setRequired(true)
+                        )
+                    )
+
+                    // showModal
+                    collected.showModal(pollQuestionModal)
+
+                    // Listen for modal submission
+                    const filter = (i => {
+                        return i.customId === `pollQuestion-${message.id}` && i.user.id === message.author.id && i.guild.id === message.guild.id
+                    })
+                    await collected.awaitModalSubmit({filter, time: 2 * 60000})
+                    .then(async modalCollect => {
+
+                        // Poll UUID
+                        const UUID = CryptoJS.randomUUID().split('-')
+
+                        // Get the question input data
+                        const pollQuestionChannelID = modalCollect.fields.getTextInputValue('channelId')
+                        const pollQuestion = modalCollect.fields.getTextInputValue('question')
+                        var pollColor = modalCollect.fields.getTextInputValue('color').replace('#', '') || null
+                        var pollRestrict = modalCollect.fields.getTextInputValue('restrict').toLowerCase()
+                        var pollTag = modalCollect.fields.getTextInputValue('tag').toLowerCase()
+                        pollRestrict = pollRestrict === "no" ? false : true
+                        pollTag = pollTag === "no" ? false : true
+
+
+                        // Creating canvas
+                        const canvas = Canvas.createCanvas(2000, 23)
+                        const ctx = canvas.getContext('2d')
+
+                        // Create an embed to display the poll
+                        const pollEmbed = new Discord.EmbedBuilder()
+
+                        // Set embed colors and the background
+                        if(!pollColor) pollColor = '67cc9b'
+                        pollEmbed.setColor(`#${pollColor}`)
+                        ctx.fillStyle = `#${pollColor}`
+                        ctx.fillRect(0, 0, canvas.width, canvas.height)
+                        
+                        // Attach the image
+                        const attachment = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `pollFooter.png`})
+                        pollEmbed.setImage('attachment://pollFooter.png')
+                        pollEmbed.setFooter({text: `Poll UUID: ${UUID[0]}`})
+                        pollEmbed.setDescription(`**Question:**\n${pollQuestion}`)
+                        pollEmbed.addFields(
+                            {
+                                name: 'Yes\'s',
+                                value: '0',
+                                inline: true
+                            },
+                            {
+                                name: 'No\'s',
+                                value: '0',
+                                inline: true
+                            }
+                        )
+
+                        // Create buttons
+                        const talkButtonDataRow = new Discord.ActionRowBuilder()
+
+                        // Send the message
+                        const channel = client.channels.cache.find(channel => channel.id === pollQuestionChannelID)
+                        if(channel){ // Check if the channel given does exist
+                            modalCollect.deferUpdate()
+                            const msg = await channel.send({embeds: [pollEmbed], files: [attachment], components: []})
+
+                            // Add buttons
+                            talkButtonDataRow.addComponents(
+                                new Discord.ButtonBuilder()
+                                .setCustomId(`Poll-Yes-${msg.id}-${UUID[0]}-${pollRestrict}-${pollColor}`)
+                                .setStyle(Discord.ButtonStyle.Primary)
+                                .setLabel("Yes")
+                            )
+                            talkButtonDataRow.addComponents(
+                                new Discord.ButtonBuilder()
+                                .setCustomId(`Poll-No-${msg.id}-${UUID[0]}-${pollRestrict}-${pollColor}`)
+                                .setStyle(Discord.ButtonStyle.Danger)
+                                .setLabel("No")
+                            )
+
+                            // Edit the message
+                           if(pollTag) msg.edit({content: `<@1052581935429451836>`, components: [talkButtonDataRow]})
+                            .catch(err => {
+                                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
+                            })
+
+                            if(!pollTag) msg.edit({components: [talkButtonDataRow]})
+                            .catch(err => {
+                                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
+                            })
+
+                            // Create a successfull embed message
+                            const successfulMessageEmbed = new Discord.EmbedBuilder()
+                            successfulMessageEmbed.setColor(FNBRMENA.Colors("embedSuccess"))
+                            successfulMessageEmbed.setTitle(`The poll has been sent to \`${channel.name}\`'s channel successfully ${emojisObject.checkEmoji}.`)
+                            dropMenuMessage.edit({embeds: [successfulMessageEmbed], components: [], files: []})
+                            .catch(err => {
+                                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                            })
+
+                        }else modalCollect.reply({content: 'Please try again and specify a valid text channel id.', ephemeral: true})
+                    }).catch(err => {
+                        FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                    })
+                }
+
             }
         }).catch(err => {
+            console.log(err)
             FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
         })
     }

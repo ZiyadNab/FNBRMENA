@@ -1389,11 +1389,11 @@ class FNBRMENA {
      */
     APIKeys(Type){
         if(Type === "guildId"){
-            return "746143287383031878"
+            return ""
         }
 
         if(Type === "clientId"){
-            return "813746918789218386"
+            return ""
         }
 
         if(Type === "FortniteAPI.io"){
@@ -1405,7 +1405,7 @@ class FNBRMENA {
         }
 
         if(Type === "DiscordBotToken"){
-            return 'ODEzNzQ2OTE4Nzg5MjE4Mzg2.YDTy4A.f3-p1rLNr3V199oOps1wWk5cIS8'
+            return ''
         }
 
         if(Type === "FNBRJS"){

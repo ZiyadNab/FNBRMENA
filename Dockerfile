@@ -1,11 +1,5 @@
-# Use the latest Node.js image
-FROM node:latest
-
-# Install build tools
-RUN apt-get update && apt-get install -y \
-    build-essential \
-    python \
-    && rm -rf /var/lib/apt/lists/*
+# Use the v20.8.0 Node.js image
+FROM node:20.8.0-alpine3.18
 
 # Set the working directory
 WORKDIR /App

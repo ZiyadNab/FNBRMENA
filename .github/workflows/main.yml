@@ -16,9 +16,9 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
-      - name: Build Docker image for multiple architectures
+      - name: Build Docker image
         run: |
-          docker buildx build --platform linux/arm64/v8 -t fnbrmena_image:latest --load .
+          docker build -t fnbrmena_image:latest .
 
       - name: Save Docker image to file
         run: |

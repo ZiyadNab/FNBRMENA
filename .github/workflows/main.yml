@@ -1,9 +1,9 @@
-name: Auto Deploy FNBRMENA Bot On Main Branch
+name: Auto Deploy FNBRMENA Bot On Master Branch
 
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   build:

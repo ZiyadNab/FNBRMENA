@@ -5,7 +5,9 @@ FROM node:20.8.0-alpine3.18
 RUN apk add --no-cache \
     python3 \
     make \
-    g++
+    g++ \
+    pkgconfig \
+    pixman-dev  # Include other libraries if your project requires them
 
 # Set the working directory
 WORKDIR /App

@@ -18,7 +18,7 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t fnbrmena_image:latest .
+          docker build --platform linux/arm64 -t fnbrmena_image:latest .
 
       - name: Save Docker image to file
         run: |

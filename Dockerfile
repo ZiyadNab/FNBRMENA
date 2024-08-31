@@ -1,5 +1,12 @@
 # Use the v20.8.0 Node.js Alpine image
-FROM node:latest
+FROM node:20.8.0-alpine3.18
+
+# Install build dependencies and Python
+RUN apk add --no-cache \
+    python3 \
+    make \
+    g++ \
+    pkgconfig
 
 # Set the working directory
 WORKDIR /App

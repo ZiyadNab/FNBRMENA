@@ -6,7 +6,15 @@ RUN apk add --no-cache \
     python3 \
     make \
     g++ \
-    pkgconfig
+    pkgconfig \
+    cairo-dev \
+    pango-dev \
+    libpng-dev \
+    giflib-dev \
+    librsvg-dev \
+    freetype-dev \
+    harfbuzz-dev \
+    libjpeg-turbo-dev
 
 # Set the working directory
 WORKDIR /App

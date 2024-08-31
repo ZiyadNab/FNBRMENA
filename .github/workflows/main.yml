@@ -33,7 +33,7 @@ jobs:
 
       - name: Deploy to VM
         run: |
-          sshpass -p "${{ secrets.VM_PASSWORD }}" ssh -o StrictHostKeyChecking=no -nT ${{ secrets.VM_USER }}@${{ secrets.VM_HOST }} << 'EOF'
+          sshpass -p "${{ secrets.VM_PASSWORD }}" ssh -o StrictHostKeyChecking=no ${{ secrets.VM_USER }}@${{ secrets.VM_HOST }} << 'EOF'
             mkdir /root/test
             docker rm -f FNBRMENA_CONTAINER || true
             docker load -i /tmp/fnbrmena_image.tar

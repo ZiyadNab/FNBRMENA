@@ -7,7 +7,7 @@ const client = new Discord.Client({ intents: [Discord.GatewayIntentBits.DirectMe
   Discord.GatewayIntentBits.GuildEmojisAndStickers, Discord.GatewayIntentBits.GuildIntegrations, Discord.GatewayIntentBits.GuildInvites, Discord.GatewayIntentBits.GuildMembers,
   Discord.GatewayIntentBits.GuildMessages, Discord.GatewayIntentBits.GuildMessageReactions, Discord.GatewayIntentBits.GuildMessageTyping, Discord.GatewayIntentBits.GuildPresences,
   Discord.GatewayIntentBits.GuildVoiceStates, Discord.GatewayIntentBits.GuildWebhooks, Discord.GatewayIntentBits.MessageContent], partials: [Discord.Partials.Channel], allowedMentions:{ parse:["everyone"] }})
-const Data = require('./FNBRMENA')
+const Data = require('./FNBRMENA.js')
 const path = require('path')
 const FNBRMENA = new Data()
 const fs = require('fs')

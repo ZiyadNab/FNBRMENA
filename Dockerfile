@@ -2,7 +2,7 @@
 FROM node:latest
 
 # Set the working directory
-WORKDIR /root/FNBRMENA
+WORKDIR ./App
 
 # Copy package.json and package-lock.json files
 COPY package*.json ./

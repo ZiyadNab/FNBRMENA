@@ -18,7 +18,7 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t FNBRMENA_IMAGE:latest .
+          docker build -t fnbrmena_image:latest .
 
       - name: Install sshpass
         run: sudo apt-get install -y sshpass
@@ -28,5 +28,5 @@ jobs:
           sshpass -p "${{ secrets.VM_PASSWORD }}" ssh -o StrictHostKeyChecking=no ${{ secrets.VM_USER }}@${{ secrets.VM_HOST }} << 'EOF'
             docker stop FNBRMENA_CONTAINER || true
             docker rm FNBRMENA_CONTAINER || true
-            docker run -d --name FNBRMENA_CONTAINER FNBRMENA_IMAGE:latest
+            docker run -d --name FNBRMENA_CONTAINER fnbrmena_image:latest
           EOF

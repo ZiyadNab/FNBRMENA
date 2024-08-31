@@ -11,21 +11,31 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Build Docker image
+        run: |
+          docker build -t fnbrmena_image:latest .
+
+      - name: Save Docker image to file
+        run: |
+          docker save fnbrmena_image:latest -o fnbrmena_image.tar
 
       - name: Install sshpass
         run: sudo apt-get install -y sshpass
 
-      - name: Copy App files to VM
+      - name: Transfer Docker image to VM
         run: |
-          sshpass -p "${{ secrets.VM_PASSWORD }}" scp -o StrictHostKeyChecking=no -r App/ ${{ secrets.VM_USER }}@${{ secrets.VM_HOST }}:~/App/
+          sshpass -p "${{ secrets.VM_PASSWORD }}" scp -o StrictHostKeyChecking=no fnbrmena_image.tar ${{ secrets.VM_USER }}@${{ secrets.VM_HOST }}:/tmp
 
       - name: Deploy to VM
         run: |
           sshpass -p "${{ secrets.VM_PASSWORD }}" ssh -o StrictHostKeyChecking=no -nT ${{ secrets.VM_USER }}@${{ secrets.VM_HOST }} << 'EOF'
-            cd ~/App
-            docker build --no-cache -t fnbrmena_image:latest .
             docker stop FNBRMENA_CONTAINER || true
             docker rm FNBRMENA_CONTAINER || true
+            docker load -i /tmp/fnbrmena_image.tar
             docker run -d --name FNBRMENA_CONTAINER fnbrmena_image:latest
           EOF

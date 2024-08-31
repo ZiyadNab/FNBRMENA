@@ -28,5 +28,5 @@ RUN npm install
 # Copy the rest of your application code from the App directory
 COPY App ./
 
-# Command to run the application
+# Command to start the application
 CMD ["node", "index.js"]

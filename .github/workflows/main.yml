@@ -32,6 +32,7 @@ jobs:
             rm -rf FNBRMENA.tar
             docker rm -f FNBRMENA_CONTAINER || true
             docker rmi fnbrmena_image || true
+            docker system prune -a --volumes
             docker build --no-cache -t fnbrmena_image:latest .
             docker run -d --name FNBRMENA_CONTAINER \
               --restart always \

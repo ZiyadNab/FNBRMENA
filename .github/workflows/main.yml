@@ -30,9 +30,10 @@ jobs:
             cd /tmp/fnbrmena_repo
             tar -xf FNBRMENA.tar
             rm -rf FNBRMENA.tar
-            docker rm -f FNBRMENA || true
+            echo "${{ secrets.FIREBASE_CONFIG }}"
+            docker rm -f FNBRMENA_CONTAINER || true
             docker build --no-cache -t fnbrmena_image:latest .
-            docker run -d --name FNBRMENA \
+            docker run -d --name FNBRMENA_CONTAINER \
               -e firebase_config="${{ secrets.FIREBASE_CONFIG }}" \
               -e discord_token="${{ secrets.PRD_DISCORD_TOKEN }}" \
               fnbrmena_image:latest

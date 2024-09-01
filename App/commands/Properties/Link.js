@@ -63,7 +63,7 @@ module.exports = {
                     userInput.id = account.data.accounts[0].id
                     for (const auth of account.data.accounts[0].externalAuths) linkAccountEmbed.addFields({
                         name: auth.type === "epic" ? "Epic Games" : auth.type === "psn" ? "Playstation" : auth.type === "xbl" ? "Xbox" : auth.type === "steam" ? "Steam" : auth.type === "nintendo" ? "Nintendo" : "UNKNOWN",
-                        value: auth.username !== undefined ? auth.username : "UNKNOWN"
+                        value: auth.username !== undefined && auth.username !== null ? auth.username : "UNKNOWN"
                     })
                 }
             } else if (userData.lang === "ar") {
@@ -74,7 +74,7 @@ module.exports = {
                     userInput.id = account.data.accounts[0].id
                     for (const auth of account.data.accounts[0].externalAuths) if (auth.type !== "nintendo") linkAccountEmbed.addFields({
                         name: auth.type === "epic" ? "Epic Games" : auth.type === "psn" ? "Playstation" : auth.type === "xbl" ? "Xbox" : auth.type === "steam" ? "Steam" : "UNKNOWN",
-                        value: auth.username !== undefined ? auth.username : "UNKNOWN"
+                        value: auth.username !== undefined && auth.username !== null ? auth.username : "UNKNOWN"
                     })
                 }
             }

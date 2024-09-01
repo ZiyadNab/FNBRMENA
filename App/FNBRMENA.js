@@ -1426,7 +1426,7 @@ class FNBRMENA {
         }
 
         if(Type === "DiscordBotToken"){
-            return process.env.DISCORD_TOKEN
+            return process.env.discord_token
         }
 
         if(Type === "FNBRJS"){

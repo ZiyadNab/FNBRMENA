@@ -331,13 +331,9 @@ module.exports = {
                             accountFoundEmbed.setColor(FNBRMENA.Colors("embedLink"))
                             accountFoundEmbed.setThumbnail('https://i.ibb.co/QcfScLd/jKXrAOb.png')
                             for(const auth of account.data.accounts[0].externalAuths) {
-                                console.log({
-                                    name: auth.type === "epic" ? "Epic Games" : auth.type === "psn" ? "Playstation" : auth.type === "xbl" ? "Xbox" : auth.type === "steam" ? "Steam" : auth.type === "nintendo" ? "Nintendo" : "UNKNOWN",
-                                    value: auth.username !== undefined ? auth.username : "UNKNOWN"
-                                })
                                 accountFoundEmbed.addFields({
                                     name: auth.type === "epic" ? "Epic Games" : auth.type === "psn" ? "Playstation" : auth.type === "xbl" ? "Xbox" : auth.type === "steam" ? "Steam" : auth.type === "nintendo" ? "Nintendo" : "UNKNOWN",
-                                    value: auth.username !== undefined ? auth.username : "UNKNOWN"
+                                    value: auth.username !== undefined || auth.username !== null ? auth.username : "UNKNOWN"
                                 })
                             }
                             if(userData.lang === "en"){

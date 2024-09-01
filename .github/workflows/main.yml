@@ -29,6 +29,7 @@ jobs:
           sshpass -p "${{ secrets.VM_PASSWORD }}" ssh -o StrictHostKeyChecking=no ${{ secrets.VM_USER }}@${{ secrets.VM_HOST }} << 'EOF'
             cd /tmp/fnbrmena_repo
             tar -xf FNBRMENA.tar
+            ls
             rm -rf FNBRMENA.tar
             docker rm -f FNBRMENA_CONTAINER || true
             docker build -t fnbrmena_image:latest .

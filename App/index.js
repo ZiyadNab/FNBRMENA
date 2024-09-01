@@ -14,7 +14,7 @@ const FNBRMENA = new Data()
 const fs = require('fs')
 const { Player } = require('discord-player')
 
-// Get access to the database
+// Get access to the firebase database
 admin.initializeApp({
   credential: admin.credential.cert({
     type: process.env.type,

@@ -21,7 +21,7 @@ jobs:
 
       - name: Build Docker image for multiple platforms
         run: |
-          docker buildx build --platform linux/amd64,linux/arm64 -t fnbrmena_image:latest --output type=docker --load
+          docker buildx build --platform linux/amd64,linux/arm64 -t fnbrmena_image:latest --output type=docker --load .
 
       - name: Save Docker image to file
         run: |

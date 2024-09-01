@@ -30,11 +30,20 @@ jobs:
             cd /tmp/fnbrmena_repo
             tar -xf FNBRMENA.tar
             rm -rf FNBRMENA.tar
-            echo "${{ secrets.FIREBASE_CONFIG }}"
             docker rm -f FNBRMENA_CONTAINER || true
             docker build --no-cache -t fnbrmena_image:latest .
             docker run -d --name FNBRMENA_CONTAINER \
-              -e firebase_config="${{ secrets.FIREBASE_CONFIG }}" \
+              -e type="${{ secrets.FIREBASE_TYPE }}" \
+              -e project_id="${{ secrets.FIREBASE_PROJECT_ID }}" \
+              -e private_key_id="${{ secrets.FIREBASE_PRIVATE_KEY_ID }}" \
+              -e private_key="${{ secrets.FIREBASE_PRIVATE_KEY }}" \
+              -e client_email="${{ secrets.FIREBASE_CLIENT_EMAIL }}" \
+              -e client_id="${{ secrets.FIREBASE_CLIENT_ID }}" \
+              -e auth_uri="${{ secrets.FIREBASE_AUTH_URI }}" \
+              -e token_uri="${{ secrets.FIREBASE_TOKEN_URI }}" \
+              -e auth_provider_x509_cert_url="${{ secrets.FIREBASE_AUTH_PROVIDER_X509_CERT_URL }}" \
+              -e client_x509_cert_url="${{ secrets.FIREBASE_CLIENT_X509_CERT_URL }}" \
+              -e universe_domain="${{ secrets.FIREBASE_UNIVERSE_DOMAIN }}" \
               -e discord_token="${{ secrets.PRD_DISCORD_TOKEN }}" \
               fnbrmena_image:latest
             rm -rf *

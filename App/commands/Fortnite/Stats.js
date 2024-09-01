@@ -252,33 +252,33 @@ module.exports = {
 
                     // Add stats type
                     if(userInput.type === "all"){
-                        const allTypeIMG = await Canvas.loadImage('https://i.ibb.co/q9CNh4z/IGV05Yq.png')
+                        const allTypeIMG = await Canvas.loadImage('https://firebasestorage.googleapis.com/v0/b/fnbrmena-bot.appspot.com/o/code_images%2FIGV05Yq.png?alt=media&token=fab5fa1c-9543-4b1a-8ff9-9ea01b94cfc0')
                         ctx.drawImage(allTypeIMG, 115, 120, 120, 120)
                     }
                     if(userInput.type === "kbm"){
-                        const kbmTypeIMG = await Canvas.loadImage('https://i.ibb.co/W6qDrSr/gUCgxuZ.png')
+                        const kbmTypeIMG = await Canvas.loadImage('https://firebasestorage.googleapis.com/v0/b/fnbrmena-bot.appspot.com/o/code_images%2FgUCgxuZ.png?alt=media&token=232be046-e30d-47b6-bab7-d3eb385b613d')
                         ctx.drawImage(kbmTypeIMG, 115, 120, 120, 120)
                     }
                     if(userInput.type === "controller"){
-                        const controllerTypeIMG = await Canvas.loadImage('https://i.ibb.co/WWWZPhX/BfRpXon.png')
+                        const controllerTypeIMG = await Canvas.loadImage('https://firebasestorage.googleapis.com/v0/b/fnbrmena-bot.appspot.com/o/code_images%2FBfRpXon.png?alt=media&token=8d9fc7e2-9b46-42a0-832b-342a183cec11')
                         ctx.drawImage(controllerTypeIMG, 115, 120, 120, 120)
                     }
                     if(userInput.type === "touch"){
-                        const touchTypeIMG = await Canvas.loadImage('https://i.ibb.co/xm3hHWD/mVWCmjy.png')
+                        const touchTypeIMG = await Canvas.loadImage('https://firebasestorage.googleapis.com/v0/b/fnbrmena-bot.appspot.com/o/code_images%2FmVWCmjy.png?alt=media&token=35c7b197-fa72-4533-9deb-2c1c21cfc6a1')
                         ctx.drawImage(touchTypeIMG, 115, 120, 120, 120)
                     }
 
                     // Add player's platform
                     if(userInput.platform === "epic"){
-                        const allTypeIMG = await Canvas.loadImage('https://i.ibb.co/WHK22xy/tSDjS5L.png')
+                        const allTypeIMG = await Canvas.loadImage('https://firebasestorage.googleapis.com/v0/b/fnbrmena-bot.appspot.com/o/code_images%2FtSDjS5L.png?alt=media&token=d67c197e-8afe-4f26-83f9-1c2ef4621e40')
                         ctx.drawImage(allTypeIMG, 115, 250, 120, 120)
                     }
                     if(userInput.platform === "psn"){
-                        const allTypeIMG = await Canvas.loadImage('https://i.ibb.co/dkMKvKB/gnVRNSs.png')
+                        const allTypeIMG = await Canvas.loadImage('https://firebasestorage.googleapis.com/v0/b/fnbrmena-bot.appspot.com/o/code_images%2FgnVRNSs.png?alt=media&token=0a7b6346-639a-487e-8585-b2988a465256')
                         ctx.drawImage(allTypeIMG, 115, 250, 120, 120)
                     }
                     if(userInput.platform === "xbl"){
-                        const allTypeIMG = await Canvas.loadImage('https://i.ibb.co/drJJHwy/zmJKwQw.png')
+                        const allTypeIMG = await Canvas.loadImage('https://firebasestorage.googleapis.com/v0/b/fnbrmena-bot.appspot.com/o/code_images%2FzmJKwQw.png?alt=media&token=cf73659e-9b51-46d0-9d0d-a3a8bf4f894c')
                         ctx.drawImage(allTypeIMG, 115, 250, 120, 120)
                     }
 
@@ -811,7 +811,7 @@ module.exports = {
 
                         const theUserAccountIsPrivate = new Discord.EmbedBuilder()
                         theUserAccountIsPrivate.setColor(FNBRMENA.Colors("embedError"))
-                        if(userData.lang === "en") theUserAccountIsPrivate.setTitle(`Invalid season, please specicy a valid season ${emojisObject.errorEmoji}.`)
+                        if(userData.lang === "en") theUserAccountIsPrivate.setTitle(`Invalid season, please specify a valid season ${emojisObject.errorEmoji}.`)
                         else if(userData.lang === "ar") theUserAccountIsPrivate.setTitle(`الموسم المدخل ليس صحيح , الرجاء ادخل موسم صحيح ${emojisObject.errorEmoji}.`)
                         await dropMenuMessage.edit({embeds: [theUserAccountIsPrivate], components: [], files: []})
                         .catch(err => {

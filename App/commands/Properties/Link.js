@@ -330,10 +330,16 @@ module.exports = {
                             const accountFoundEmbed = new Discord.EmbedBuilder()
                             accountFoundEmbed.setColor(FNBRMENA.Colors("embedLink"))
                             accountFoundEmbed.setThumbnail('https://i.ibb.co/QcfScLd/jKXrAOb.png')
-                            for(const auth of account.data.accounts[0].externalAuths) accountFoundEmbed.addFields({
-                                name: auth.type === "epic" ? "Epic Games" : auth.type === "psn" ? "Playstation" : auth.type === "xbl" ? "Xbox" : auth.type === "steam" ? "Steam" : auth.type === "nintendo" ? "Nintendo" : "UNKNOWN",
-                                value: auth.username !== undefined ? auth.username : "UNKNOWN"
-                            })
+                            for(const auth of account.data.accounts[0].externalAuths) {
+                                console.log({
+                                    name: auth.type === "epic" ? "Epic Games" : auth.type === "psn" ? "Playstation" : auth.type === "xbl" ? "Xbox" : auth.type === "steam" ? "Steam" : auth.type === "nintendo" ? "Nintendo" : "UNKNOWN",
+                                    value: auth.username !== undefined ? auth.username : "UNKNOWN"
+                                })
+                                accountFoundEmbed.addFields({
+                                    name: auth.type === "epic" ? "Epic Games" : auth.type === "psn" ? "Playstation" : auth.type === "xbl" ? "Xbox" : auth.type === "steam" ? "Steam" : auth.type === "nintendo" ? "Nintendo" : "UNKNOWN",
+                                    value: auth.username !== undefined ? auth.username : "UNKNOWN"
+                                })
+                            }
                             if(userData.lang === "en"){
                                 accountFoundEmbed.setTitle(`Hello ${account.data.accounts[0].username.toUpperCase()},`)
                                 accountFoundEmbed.setDescription('To complete your account link process please click on confirm button, Keep in mind you can unlink whenever you want.')

@@ -31,8 +31,10 @@ jobs:
             tar -xf FNBRMENA.tar
             rm -rf FNBRMENA.tar
             docker rm -f FNBRMENA_CONTAINER || true
+            docker rmi fnbrmena_image || true
             docker build --no-cache -t fnbrmena_image:latest .
             docker run -d --name FNBRMENA_CONTAINER \
+              --restart always \
               -e type="${{ secrets.FIREBASE_TYPE }}" \
               -e project_id="${{ secrets.FIREBASE_PROJECT_ID }}" \
               -e private_key_id="${{ secrets.FIREBASE_PRIVATE_KEY_ID }}" \

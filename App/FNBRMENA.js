@@ -1344,6 +1344,7 @@ class FNBRMENA {
             if(err.isAxiosError) logs.setDescription(`Command: \`${alias}\`\nUser: \`${message.author.tag}\`\nDate: \`${new Date()}\`\nLanguage: \`${lang}\`\nMessageID: \`${message.id}\`\nChannel: \`${message.channel.name} | ${message.channel.id}\`\nMessage Content: \`${message.content}\n\`Request Status: \`${err.response.status}\`\n\nError:\`\`\`json\n${JSON.stringify(err.response.data)}\`\`\``)
             else logs.setDescription(`Command: \`${alias}\`\nUser: \`${message.author.tag}\`\nDate: \`${new Date()}\`\nLanguage: \`${lang}\`\nMessageID: \`${message.id}\`\nChannel: \`${message.channel.name} | ${message.channel.id}\`\nMessage Content: \`${message.content}\`\n\nError:\`\`\`yaml\n${err.stack}\`\`\``)
             logsChannel.send({embeds: [logs]})
+            console.log(err)
         }
     }
 
@@ -1378,6 +1379,7 @@ class FNBRMENA {
         if(err.isAxiosError) logs.setDescription(`Event: \`${event}\`\nDate: \`${new Date()}\`\nRequest Status: \`${status}\`\n\nError:\`\`\`json\n${JSON.stringify(response)}\`\`\``)
         else logs.setDescription(`Event: \`${event}\`\nDate: \`${new Date()}\`\n\nError:\`\`\`json\n${JSON.stringify(err.stack)}\`\`\``)
         logsChannel.send({embeds: [logs]})
+        console.log(err)
     }
 
     /**

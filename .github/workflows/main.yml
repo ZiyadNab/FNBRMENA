@@ -19,9 +19,13 @@ jobs:
       - name: Create a builder instance
         run: docker buildx create --use
 
-      - name: Build Docker image for multiple platforms and save as tar
+      - name: Build Docker image for multiple platforms
         run: |
-          docker buildx build --platform linux/amd64,linux/arm64 -t fnbrmena_image:latest --output type=oci,dest=fnbrmena_image.tar .
+          docker buildx build --platform linux/amd64,linux/arm64 -t fnbrmena_image:latest --output type=docker .
+
+      - name: Save Docker image to file
+        run: |
+          docker save fnbrmena_image:latest -o fnbrmena_image.tar
 
       - name: Install sshpass
         run: sudo apt-get install -y sshpass

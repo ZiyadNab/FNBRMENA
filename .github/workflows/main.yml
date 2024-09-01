@@ -18,13 +18,18 @@ jobs:
 
       - name: Transfer repository files to VM
         run: |
-          sshpass -p "${{ secrets.VM_PASSWORD }}" ls
-          sshpass -p "${{ secrets.VM_PASSWORD }}" scp -o StrictHostKeyChecking=no -r ./ ${{ secrets.VM_USER }}@${{ secrets.VM_HOST }}:/tmp/fnbrmena_repo/
+          sshpass -p "${{ secrets.VM_PASSWORD }}" ssh -o StrictHostKeyChecking=no ${{ secrets.VM_USER }}@${{ secrets.VM_HOST }} << 'EOF'
+            tar -cvf FNBRMENA.tar .
+            scp -o StrictHostKeyChecking=no FNBRMENA.tar ${{ secrets.VM_USER }}@${{ secrets.VM_HOST }}:/tmp/fnbrmena_repo/
+
+          EOF
 
       - name: Deploy and Build Docker image on VM
         run: |
           sshpass -p "${{ secrets.VM_PASSWORD }}" ssh -o StrictHostKeyChecking=no ${{ secrets.VM_USER }}@${{ secrets.VM_HOST }} << 'EOF'
             cd /tmp/fnbrmena_repo
+            tar -xf FNBRMENA.tar
+            rm -rf FNBRMENA.tar
             docker rm -f FNBRMENA_CONTAINER || true
             docker build -t fnbrmena_image:latest .
             docker run -d --name FNBRMENA_CONTAINER fnbrmena_image:latest

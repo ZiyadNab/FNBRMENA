@@ -1,5 +1,6 @@
-node_modules
-package-lock.json
-commands/.DS_Store
+App/node_modules
+App/package-lock.json
+App/commands/.DS_Store
+App/Firebase
 .DS_Store
 .DS_Store

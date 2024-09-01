@@ -19,7 +19,7 @@ module.exports = {
         }
         
         // Get the queue
-        const queue = client.player.getQueue(message.guild.id)
+        const queue = client.player.nodes.get(message.guild.id)
 
         // Check if the queue is empty
         if (!queue){
@@ -33,7 +33,7 @@ module.exports = {
         }
 
         // Check if there is previous tracks
-        if(queue.previousTracks.length > 0){
+        if(!queue.history.previousTrack){
             const noPreviousSongsError = new Discord.EmbedBuilder()
             noPreviousSongsError.setColor(FNBRMENA.Colors("embedError"))
             noPreviousSongsError.setTitle(`There isn't any previous tracks ${emojisObject.errorEmoji}.`)
@@ -44,7 +44,7 @@ module.exports = {
         }
 
         // Get prev
-        await queue.back()
+        await queue.history.previous()
 
     }
 }

@@ -1,5 +1,6 @@
 const Discord = require('discord.js')
 const key = require('../Configs/config.json')
+const { translate } = require('bing-translate-api')
 
 module.exports = (FNBRMENA, client, admin, emojisObject) => {
     const message = client.channels.cache.find(channel => channel.id === key.events.Section)
@@ -30,9 +31,9 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                     if(counter === 1){
 
                         //store data
-                        for(let i = 0; i < res.data.shopSections.sectionList.sections.length; i++){
-                            sectionsResponseData[i] = await res.data.shopSections.sectionList.sections[i]
-                            responseSectionId[i] = await res.data.shopSections.sectionList.sections[i].sectionId
+                        for(let i = 0; i < res.data.mpItemShop.shopData.sections.length; i++){
+                            sectionsResponseData[i] = await res.data.mpItemShop.shopData.sections[i]
+                            responseSectionId[i] = await res.data.mpItemShop.shopData.sections[i].sectionID
                         }
 
                         //add sets names
@@ -40,15 +41,15 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                     }
 
                     //up to date sections data
-                    for(let i = 0; i < res.data.shopSections.sectionList.sections.length; i++){
-                        sectionsIdData[i] = await res.data.shopSections.sectionList.sections[i].sectionId
+                    for(let i = 0; i < res.data.mpItemShop.shopData.sections.length; i++){
+                        sectionsIdData[i] = await res.data.mpItemShop.shopData.sections[i].sectionID
                     }
 
                     //if push was enabled
-                    if(push){
+                    if(true){
 
                         //remove data
-                        for(let i = 0; i < data.val().Push.Number; i++){
+                        for(let i = 0; i < 100; i++){
                             if(type.toLowerCase() === "removed") await sectionsIdData.shift()
                             if(type.toLowerCase() === "added") await responseSectionId.shift()
                         }
@@ -74,11 +75,11 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                             if(!responseSectionId.includes(sectionsIdData[i])){
 
                                 //add the new sections to added array
-                                for(let x = 0; x < res.data.shopSections.sectionList.sections.length; x++){
+                                for(let x = 0; x < res.data.mpItemShop.shopData.sections.length; x++){
 
-                                    //catch the searched sectionId
-                                    if(res.data.shopSections.sectionList.sections[x].sectionId === sectionsIdData[i])
-                                    added[counter++] = await res.data.shopSections.sectionList.sections[x]
+                                    //catch the searched sectionID
+                                    if(res.data.mpItemShop.shopData.sections[x].sectionID === sectionsIdData[i])
+                                    added[counter++] = await res.data.mpItemShop.shopData.sections[x]
                                 }
                             }
                         }
@@ -94,8 +95,8 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                                 //add the removed sections to removed array
                                 for(let x = 0; x < sectionsResponseData.length; x++){
 
-                                    //catch the searched sectionId
-                                    if(sectionsResponseData[x].sectionId === responseSectionId[i])
+                                    //catch the searched sectionID
+                                    if(sectionsResponseData[x].sectionID === responseSectionId[i])
                                     removed[counter++] = await sectionsResponseData[x]
                                 }
                             }
@@ -103,6 +104,8 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
 
                         //print all the added sections
                         const printSections = async (Sections, String) => {
+                            console.log(Sections)
+                            var regExp = /[a-zA-Z]/g;
 
                             //get the section tabs and add them to a string
                             while(Sections.length !== 0){
@@ -118,7 +121,7 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                                 while(i !== Sections.length){
 
                                     //if there is another tab for the section at index 0
-                                    if(firstIndex.sectionDisplayName === Sections[i].sectionDisplayName){
+                                    if(firstIndex.displayName === Sections[i].displayName){
 
                                         //remove the section from the section array
                                         const index = Sections.indexOf(Sections[i])
@@ -131,14 +134,14 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                                 }
 
                                 //add the tabs string
-                                if(firstIndex.sectionDisplayName !== undefined){
+                                if(firstIndex.displayName !== undefined){
 
-                                    if(lang === "en") String += `${firstIndex.sectionDisplayName} | ${tabs} Tabs\n`
-                                    else if(lang === "ar") String += `${firstIndex.sectionDisplayName} | ${tabs} صفحة\n`
+                                    if(lang === "en") String += `${firstIndex.displayName} | ${tabs} Tabs\n`
+                                    else if(lang === "ar") String += `القسم ${firstIndex.displayName} | ${tabs} صفحة\n`
                                 }else{
                                     
-                                    if(lang === "en") String += `${firstIndex.sectionId} | ${tabs} Tabs\n`
-                                    else if(lang === "ar") String += `${firstIndex.sectionId} | ${tabs} صفحة\n`
+                                    if(lang === "en") String += `${firstIndex.sectionID} | ${tabs} Tabs\n`
+                                    else if(lang === "ar") String += `${firstIndex.sectionID} | ${tabs} صفحة\n`
                                 }
                             }
                                 
@@ -161,9 +164,9 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                         if(removed.length > 0) await printSections(removed, stringRemoved)
 
                         //store data
-                        for(let i = 0; i < res.data.shopSections.sectionList.sections.length; i++){
-                            sectionsResponseData[i] = await res.data.shopSections.sectionList.sections[i]
-                            responseSectionId[i] = await res.data.shopSections.sectionList.sections[i].sectionId
+                        for(let i = 0; i < res.data.mpItemShop.shopData.sections.length; i++){
+                            sectionsResponseData[i] = await res.data.mpItemShop.shopData.sections[i]
+                            responseSectionId[i] = await res.data.mpItemShop.shopData.sections[i].sectionID
                         }
 
                         //trun off push if enabled

@@ -19,7 +19,7 @@ module.exports = {
         }
         
         // Get the queue
-        const queue = client.player.getQueue(message.guild.id)
+        const queue = client.player.nodes.get(message.guild.id)
 
         // Check if the queue is empty
         if (!queue){
@@ -60,14 +60,14 @@ module.exports = {
         if(args.length === 0){
             const currentVolume = new Discord.EmbedBuilder()
             currentVolume.setColor(FNBRMENA.Colors("embedSuccess"))
-            currentVolume.setTitle(`The current volume is set to \`${queue.setVolume()}\``)
+            currentVolume.setTitle(`The current volume is set to \`${queue.node.volume}\``)
             return message.reply({embeds: [currentVolume], components: [], files: []})
             .catch(err => {
                 FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
             })
 
         }else{
-            await queue.setVolume(parseInt(text))
+            await queue.node.setVolume(parseInt(text))
             const volumeHasBeenChanged = new Discord.EmbedBuilder()
             volumeHasBeenChanged.setColor(FNBRMENA.Colors("embedSuccess"))
             volumeHasBeenChanged.setTitle(`The volume has changed to \`${text}\` ${emojisObject.checkEmoji}`)

@@ -41,7 +41,7 @@ module.exports = {
                     //loop throw every NPC
                     for(let i = 0; i < res.data.npc.length; i++){
 
-                        if(res.data.npc[i].spawnLocations.length != 0){
+                        if(res.data.npc[i].spawnLocations.length != 0 && res.data.npc[i].spawnLocations[res.data.npc[i].spawnLocations.length - 1].locations.length != 0){
 
                             //get the npc data by his outfit name
                             const NPCOutfitData = await FNBRMENA.Search("en", "name", res.data.npc[i].displayName)
@@ -82,12 +82,12 @@ module.exports = {
                     
                 }).catch(err => {
                     console.log(err)
-                    FNBRMENA.Logs(admin, client, Discord, message, alias, lang, text, err, errorEmoji)
+                    FNBRMENA.Logs(admin, client, Discord, message, alias, lang, text, err, emojisObject)
                     
                 })
 
             }).catch(err => {
-                FNBRMENA.Logs(admin, client, Discord, message, alias, lang, text, err, errorEmoji)
+                FNBRMENA.Logs(admin, client, Discord, message, alias, lang, text, err, emojisObject)
                 
             })
 
@@ -118,7 +118,7 @@ module.exports = {
                         
                         
                     }).catch(err => {
-                        FNBRMENA.Logs(admin, client, Discord, message, alias, lang, text, err, errorEmoji)
+                        FNBRMENA.Logs(admin, client, Discord, message, alias, lang, text, err, emojisObject)
                         
                     })
                 }else{
@@ -133,7 +133,7 @@ module.exports = {
                 }
 
             }).catch(err => {
-                FNBRMENA.Logs(admin, client, Discord, message, alias, lang, text, err, errorEmoji)
+                FNBRMENA.Logs(admin, client, Discord, message, alias, lang, text, err, emojisObject)
                 
             })
         }

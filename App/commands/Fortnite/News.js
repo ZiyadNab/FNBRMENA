@@ -216,10 +216,10 @@ module.exports = {
             const newsTypeEmbed = new Discord.EmbedBuilder()
             newsTypeEmbed.setColor(FNBRMENA.Colors("embed"))
             if(userData.lang === "en"){
-                newsTypeEmbed.setAuthor({name: `NEWS`, iconURL: `https://imgur.com/g1j40Om.png`})
+                newsTypeEmbed.setAuthor({name: `NEWS`, iconURL: `https://i.ibb.co/Pjm8Bjc/g1j40Om.png`})
                 newsTypeEmbed.setDescription('Choose the news type BR or STW.\n`You have only 30 seconds until this operation ends, Make it quick`!')
             }else if(userData.lang === "ar"){
-                newsTypeEmbed.setAuthor({name: `الأخبار`, iconURL: `https://imgur.com/g1j40Om.png`})
+                newsTypeEmbed.setAuthor({name: `الأخبار`, iconURL: `https://i.ibb.co/Pjm8Bjc/g1j40Om.png`})
                 newsTypeEmbed.setDescription('اختر نوع باتل رويال ام انقاذ العالم.\n.`لديك فقط 30 ثانية حتى تنتهي العملية, استعجل`!')
             }
 

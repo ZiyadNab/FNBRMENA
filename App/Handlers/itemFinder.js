@@ -36,10 +36,10 @@ module.exports = async (FNBRMENA, message, client, lang, emojisObject) => {
         const itemFinderEmbed = new Discord.EmbedBuilder()
         itemFinderEmbed.setColor(FNBRMENA.Colors("embed"))
         if(lang === "en"){
-            itemFinderEmbed.setAuthor({name: `Item Lookup`, iconURL: `https://imgur.com/irY22oA.png`})
+            itemFinderEmbed.setAuthor({name: `Item Lookup`, iconURL: `https://i.ibb.co/ygrzVKm/irY22oA.png`})
             itemFinderEmbed.setDescription('Please click on the Drop-Down menu and choose a type.\n`You have only 30 seconds until this operation ends, Make it quick`!')
         }else if(lang === "ar"){
-            itemFinderEmbed.setAuthor({name: `الكشف عن العنصر`, iconURL: `https://imgur.com/irY22oA.png`})
+            itemFinderEmbed.setAuthor({name: `الكشف عن العنصر`, iconURL: `https://i.ibb.co/ygrzVKm/irY22oA.png`})
             itemFinderEmbed.setDescription('الرجاء الضغط على السهم لاختيار تحديث.\n`لديك فقط 30 ثانية حتى تنتهي العملية, استعجل`!')
         }
 
@@ -261,10 +261,10 @@ module.exports = async (FNBRMENA, message, client, lang, emojisObject) => {
         const typeOfCosmeticsEmbed = new Discord.EmbedBuilder()
         typeOfCosmeticsEmbed.setColor(FNBRMENA.Colors("embed"))
         if(lang === "en"){
-            typeOfCosmeticsEmbed.setAuthor({name: `Cosmetic Type`, iconURL: 'https://imgur.com/X8eMJUN.png'})
+            typeOfCosmeticsEmbed.setAuthor({name: `Cosmetic Type`, iconURL: 'https://i.ibb.co/HD0pXrY/X8eMJUN.png'})
             typeOfCosmeticsEmbed.setDescription(`Please click on the Drop-Down menu and choose a cosmetic type.`)
         }else if(lang === "ar"){
-            typeOfCosmeticsEmbed.setAuthor({name: `نوع العنصر`, iconURL: 'https://imgur.com/X8eMJUN.png'})
+            typeOfCosmeticsEmbed.setAuthor({name: `نوع العنصر`, iconURL: 'https://i.ibb.co/HD0pXrY/X8eMJUN.png'})
             typeOfCosmeticsEmbed.setDescription('الرجاء الضغط على السهم لاختيار نوع عنصر.')
         }
 
@@ -1020,10 +1020,10 @@ module.exports = async (FNBRMENA, message, client, lang, emojisObject) => {
         const searchTagsEmbed = new Discord.EmbedBuilder()
         searchTagsEmbed.setColor(FNBRMENA.Colors("embed"))
         if(lang === "en"){
-            searchTagsEmbed.setAuthor({name: `Search Tags`, iconURL: `https://imgur.com/qz99gAl.png`})
+            searchTagsEmbed.setAuthor({name: `Search Tags`, iconURL: `https://i.ibb.co/7GWvbDJ/qz99gAl.png`})
             searchTagsEmbed.setDescription(`Please click on the Drop-Down menu and choose the search tags`)
         }else if(lang === "ar"){
-            searchTagsEmbed.setAuthor({name: `عبارات البحث`, iconURL: `https://imgur.com/qz99gAl.png`})
+            searchTagsEmbed.setAuthor({name: `عبارات البحث`, iconURL: `https://i.ibb.co/7GWvbDJ/qz99gAl.png`})
             searchTagsEmbed.setDescription('الرجاء الضغط على السهم لاختيار عبارات البحث`')
         }
 
@@ -1420,10 +1420,10 @@ module.exports = async (FNBRMENA, message, client, lang, emojisObject) => {
         const tagsEmbed = new Discord.EmbedBuilder()
         tagsEmbed.setColor(FNBRMENA.Colors("embed"))
         if(lang === "en"){
-            tagsEmbed.setAuthor({name: `Cosmetic's Tags`, iconURL: `https://imgur.com/zW1G9kt.png`})
+            tagsEmbed.setAuthor({name: `Cosmetic's Tags`, iconURL: `https://i.ibb.co/s1tRcyC/zW1G9kt.png`})
             tagsEmbed.setDescription(`Please click on the Drop-Down menu and choose the cosmetic tags`)
         }else if(lang === "ar"){
-            tagsEmbed.setAuthor({name: `شعارات العنصر`, iconURL: `https://imgur.com/zW1G9kt.png`})
+            tagsEmbed.setAuthor({name: `شعارات العنصر`, iconURL: `https://i.ibb.co/s1tRcyC/zW1G9kt.png`})
             tagsEmbed.setDescription('الرجاء الضغط على السهم لاختيار شعارات العنصر`')
         }
 
@@ -1924,10 +1924,10 @@ module.exports = async (FNBRMENA, message, client, lang, emojisObject) => {
         const chapterOfCosmeticsEmbed = new Discord.EmbedBuilder()
         chapterOfCosmeticsEmbed.setColor(FNBRMENA.Colors("embed"))
         if(lang === "en"){
-            chapterOfCosmeticsEmbed.setAuthor({name: `Battlepass, Chapter`, iconURL: 'https://imgur.com/90m1ldM.png'})
+            chapterOfCosmeticsEmbed.setAuthor({name: `Battlepass, Chapter`, iconURL: 'https://i.ibb.co/vcPQsBY/90m1ldM.png'})
             chapterOfCosmeticsEmbed.setDescription(`Please click on the Drop-Down menu and choose the battlepass's chapter.`)
         }else if(lang === "ar"){
-            chapterOfCosmeticsEmbed.setAuthor({name: `بطاقة المعركة, الفصل`, iconURL: 'https://imgur.com/90m1ldM.png'})
+            chapterOfCosmeticsEmbed.setAuthor({name: `بطاقة المعركة, الفصل`, iconURL: 'https://i.ibb.co/vcPQsBY/90m1ldM.png'})
             chapterOfCosmeticsEmbed.setDescription('الرجاء الضغط على السهم لاختيار فصل بطاقة المعركة')
         }
 
@@ -1988,10 +1988,10 @@ module.exports = async (FNBRMENA, message, client, lang, emojisObject) => {
                 const seasonOfCosmeticsEmbed = new Discord.EmbedBuilder()
                 seasonOfCosmeticsEmbed.setColor(FNBRMENA.Colors("embed"))
                 if(lang === "en"){
-                    seasonOfCosmeticsEmbed.setAuthor({name: `Battlepass, Season`, iconURL: 'https://imgur.com/90m1ldM.png'})
+                    seasonOfCosmeticsEmbed.setAuthor({name: `Battlepass, Season`, iconURL: 'https://i.ibb.co/vcPQsBY/90m1ldM.png'})
                     seasonOfCosmeticsEmbed.setDescription(`Please click on the Drop-Down menu and choose the battlepass's season`)
                 }else if(lang === "ar"){
-                    seasonOfCosmeticsEmbed.setAuthor({name: `بطاقة المعركة, الموسم`, iconURL: 'https://imgur.com/90m1ldM.png'})
+                    seasonOfCosmeticsEmbed.setAuthor({name: `بطاقة المعركة, الموسم`, iconURL: 'https://i.ibb.co/vcPQsBY/90m1ldM.png'})
                     seasonOfCosmeticsEmbed.setDescription('الرجاء الضغط على السهم لاختيار موسم بطاقة المعركة')
                 }
 
@@ -2156,10 +2156,10 @@ module.exports = async (FNBRMENA, message, client, lang, emojisObject) => {
         const copyrightedEmbed = new Discord.EmbedBuilder()
         copyrightedEmbed.setColor(FNBRMENA.Colors("embed"))
         if(lang === "en"){
-            copyrightedEmbed.setAuthor({name: `Copyrighted`, iconURL: `https://imgur.com/Xx5n7WW.png`})
+            copyrightedEmbed.setAuthor({name: `Copyrighted`, iconURL: `https://i.ibb.co/BPDyKbW/Xx5n7WW.png`})
             copyrightedEmbed.setDescription(`Please click on the Drop-Down menu and choose if the cosmetic contains copyrighted audio or not.`)
         }else if(lang === "ar"){
-            copyrightedEmbed.setAuthor({name: `حقوق الطبع و النشر`, iconURL: `https://imgur.com/Xx5n7WW.png`})
+            copyrightedEmbed.setAuthor({name: `حقوق الطبع و النشر`, iconURL: `https://i.ibb.co/BPDyKbW/Xx5n7WW.png`})
             copyrightedEmbed.setDescription('الرجاء الضغط على السهم لاختيار ما اذا كان العنصر يحتوي على حقوق الطبع و النشر ام لا.')
         }
 
@@ -2231,10 +2231,10 @@ module.exports = async (FNBRMENA, message, client, lang, emojisObject) => {
         const upcomingEmbed = new Discord.EmbedBuilder()
         upcomingEmbed.setColor(FNBRMENA.Colors("embed"))
         if(lang === "en"){
-            upcomingEmbed.setAuthor({name: `Upcoming`, iconURL: `https://imgur.com/ZPlqPhO.png`})
+            upcomingEmbed.setAuthor({name: `Upcoming`, iconURL: `https://i.ibb.co/TbRtxqJ/ZPlqPhO.png`})
             upcomingEmbed.setDescription(`Please click on the Drop-Down menu and choose if the cosmetic is upcoming or not.`)
         }else if(lang === "ar"){
-            upcomingEmbed.setAuthor({name: `قادم قريبا`, iconURL: `https://imgur.com/ZPlqPhO.png`})
+            upcomingEmbed.setAuthor({name: `قادم قريبا`, iconURL: `https://i.ibb.co/TbRtxqJ/ZPlqPhO.png`})
             upcomingEmbed.setDescription('الرجاء الضغط على السهم لاختيار ما اذا كان العنصر قادم قريبا ام لا.')
         }
 

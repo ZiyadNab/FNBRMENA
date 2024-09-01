@@ -155,7 +155,7 @@ module.exports = {
                     }else var Source = item.type.name.toUpperCase()
 
                     var name = item.name
-                    if(item.images.icon === null) var image = 'https://imgur.com/HVH5sqV.png'
+                    if(item.images.icon === null) var image = 'https://i.ibb.co/XCDwKHh/HVH5sqV.png'
                     else var image = item.images.icon
                     if(item.series === null) var rarity = item.rarity.id
                     else var rarity = item.series.id
@@ -324,6 +324,25 @@ module.exports = {
 
                     }
 
+                    // Add juno style top left
+                    if(item.juno.icon){
+                        
+                        //save the ctx
+                        ctx.save()
+
+                        //draw a circle and clip it
+                        ctx.beginPath()
+                        ctx.arc(x + 65, y + 10, 100, 0 * Math.PI, 2 * Math.PI);
+                        ctx.clip()
+
+                        //draw the npc img
+                        const juno = await Canvas.loadImage(item.juno.icon);
+                        ctx.drawImage(juno, x + 10, y + 10, 110, 110)
+
+                        //restoe the clip
+                        ctx.restore()
+                    }
+
                     // Add the item name
                     ctx.textAlign = 'center';
                     ctx.font = applyText(canvas, name, 900, 72)
@@ -463,128 +482,140 @@ module.exports = {
             }
         }
 
-        // Requesting data
-        FNBRMENA.List(userData.lang, '')
-        .then(async res => {
+        // Request all seasons data
+        FNBRMENA.Seasons(userData.lang)
+        .then(season => {
 
-            const newCosmetics = res.data.items.filter(e => {
-                return e.added.version === res.data.items[res.data.items.length - 1].added.version
-            })
+            // Requesting data
+            FNBRMENA.Search(userData.lang, "custom", `&added.date=${season.data.seasons[season.data.seasons.length - 2].patchList[season.data.seasons[season.data.seasons.length - 2].patchList.length - 1].date}`)
+            .then(async res => {
 
-            // Create an embed
-            const cosmeticsTypesEmbed = new Discord.EmbedBuilder()
-            cosmeticsTypesEmbed.setColor(FNBRMENA.Colors("embed"))
-            if(userData.lang === "en"){
-                cosmeticsTypesEmbed.setTitle(`Cosmetics Type`)
-                cosmeticsTypesEmbed.setDescription('Please click on the Drop-Down menu and choose a cosmetic type.\n`You have only 30 seconds until this operation ends, Make it quick`!')
-            }else if(userData.lang === "ar"){
-                cosmeticsTypesEmbed.setTitle(`نوع العناصر`)
-                cosmeticsTypesEmbed.setDescription('الرجاء الضغط على السهم لاختيار نوع العناصر.\n`لديك فقط 30 ثانية حتى تنتهي العملية, استعجل`!')
-            }
+                // No items found
+                if(res.data.items.length === 0){
 
-            // Create a row for cancel button
-            const buttonDataRow = new Discord.ActionRowBuilder()
-            
-            // Add buttons
-            if(userData.lang === "en"){
-                buttonDataRow.addComponents(
-                    new Discord.ButtonBuilder()
-                    .setCustomId('All')
-                    .setStyle(Discord.ButtonStyle.Success)
-                    .setLabel("All")
-                    .setDisabled(newCosmetics.length > 50)
-                )
-
-                buttonDataRow.addComponents(
-                    new Discord.ButtonBuilder()
-                    .setCustomId('Cancel')
-                    .setStyle(Discord.ButtonStyle.Danger)
-                    .setLabel("Cancel")
-                )
-            }
-
-            else if(userData.lang === "ar"){
-                buttonDataRow.addComponents(
-                    new Discord.ButtonBuilder()
-                    .setCustomId('All')
-                    .setStyle(Discord.ButtonStyle.Success)
-                    .setLabel("الكل")
-                    .setDisabled(newCosmetics.length > 50)
-                )
-
-                buttonDataRow.addComponents(
-                    new Discord.ButtonBuilder()
-                    .setCustomId('Cancel')
-                    .setStyle(Discord.ButtonStyle.Danger)
-                    .setLabel("اغلاق")
-                )
-            }
-
-            // Create a row for drop down menu for categories
-            const allAvaliableTypesRow = new Discord.ActionRowBuilder()
-
-            // Loop through every patch
-            var types = [], foundTypes = []
-            for(const item of newCosmetics){
-
-                if(!foundTypes.includes(item.type.id)){
-                    foundTypes.push(item.type.id)
-                    types.push({
-                        label: `${item.type.name}`,
-                        value: `${item.type.id}`,
-                        emoji: emojisObject[item.type.id] ? `${emojisObject[item.type.id].name}:${emojisObject[item.type.id].id}` : undefined
-                    })
+                    const noItemsFound = new Discord.EmbedBuilder()
+                    noItemsFound.setColor(FNBRMENA.Colors("embed"))
+                    if(userData.lang === "en") noItemsFound.setTitle(`Bot is updating, try again later ${emojisObject.errorEmoji}`)
+                    else if(userData.lang === "ar") noItemsFound.setTitle(`يتم تحديث البوت , حاول مجددا لاحقا ${emojisObject.errorEmoji}`)
+                    message.reply({embeds: [noItemsFound], components: [], files: []})
+                    return
                 }
-            }
 
-            // Create a drop menu
-            const allAvaliableTypesDropMenu = new Discord.StringSelectMenuBuilder()
-            allAvaliableTypesDropMenu.setCustomId('Types')
-            if(userData.lang === "en") allAvaliableTypesDropMenu.setPlaceholder('Nothing selected!')
-            else if(userData.lang === "ar") allAvaliableTypesDropMenu.setPlaceholder('الرجاء الأختيار!')
-            allAvaliableTypesDropMenu.addOptions(types)
+                // Create an embed
+                const cosmeticsTypesEmbed = new Discord.EmbedBuilder()
+                cosmeticsTypesEmbed.setColor(FNBRMENA.Colors("embed"))
+                if(userData.lang === "en"){
+                    cosmeticsTypesEmbed.setTitle(`Cosmetics Type`)
+                    cosmeticsTypesEmbed.setDescription('Please click on the Drop-Down menu and choose a cosmetic type.\n`You have only 30 seconds until this operation ends, Make it quick`!')
+                }else if(userData.lang === "ar"){
+                    cosmeticsTypesEmbed.setTitle(`نوع العناصر`)
+                    cosmeticsTypesEmbed.setDescription('الرجاء الضغط على السهم لاختيار نوع العناصر.\n`لديك فقط 30 ثانية حتى تنتهي العملية, استعجل`!')
+                }
 
-            // Add the drop menu to the categoryDropMenu
-            allAvaliableTypesRow.addComponents(allAvaliableTypesDropMenu)
+                // Create a row for cancel button
+                const buttonDataRow = new Discord.ActionRowBuilder()
+                
+                // Add buttons
+                if(userData.lang === "en"){
+                    buttonDataRow.addComponents(
+                        new Discord.ButtonBuilder()
+                        .setCustomId('All')
+                        .setStyle(Discord.ButtonStyle.Success)
+                        .setLabel("All")
+                    )
 
-            // Send the message
-            const dropMenuMessage = await message.reply({embeds: [cosmeticsTypesEmbed], components: [allAvaliableTypesRow, buttonDataRow], files: []})
-            .catch(err => {
+                    buttonDataRow.addComponents(
+                        new Discord.ButtonBuilder()
+                        .setCustomId('Cancel')
+                        .setStyle(Discord.ButtonStyle.Danger)
+                        .setLabel("Cancel")
+                    )
+                }
+
+                else if(userData.lang === "ar"){
+                    buttonDataRow.addComponents(
+                        new Discord.ButtonBuilder()
+                        .setCustomId('All')
+                        .setStyle(Discord.ButtonStyle.Success)
+                        .setLabel("الكل")
+                    )
+
+                    buttonDataRow.addComponents(
+                        new Discord.ButtonBuilder()
+                        .setCustomId('Cancel')
+                        .setStyle(Discord.ButtonStyle.Danger)
+                        .setLabel("اغلاق")
+                    )
+                }
+
+                // Create a row for drop down menu for categories
+                const allAvaliableTypesRow = new Discord.ActionRowBuilder()
+
+                // Loop through every patch
+                var types = [], foundTypes = []
+                for(const item of res.data.items){
+
+                    if(!foundTypes.includes(item.type.id)){
+                        foundTypes.push(item.type.id)
+                        types.push({
+                            label: `${item.type.name}`,
+                            value: `${item.type.id}`,
+                            emoji: emojisObject[item.type.id] ? `${emojisObject[item.type.id].name}:${emojisObject[item.type.id].id}` : undefined
+                        })
+                    }
+                }
+
+                // Create a drop menu
+                const allAvaliableTypesDropMenu = new Discord.StringSelectMenuBuilder()
+                allAvaliableTypesDropMenu.setCustomId('Types')
+                if(userData.lang === "en") allAvaliableTypesDropMenu.setPlaceholder('Nothing selected!')
+                else if(userData.lang === "ar") allAvaliableTypesDropMenu.setPlaceholder('الرجاء الأختيار!')
+                allAvaliableTypesDropMenu.addOptions(types)
+
+                // Add the drop menu to the categoryDropMenu
+                allAvaliableTypesRow.addComponents(allAvaliableTypesDropMenu)
+
+                // Send the message
+                const dropMenuMessage = await message.reply({embeds: [cosmeticsTypesEmbed], components: [allAvaliableTypesRow, buttonDataRow], files: []})
+                .catch(err => {
+                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
+                })
+
+                // Filtering the user clicker
+                const filter = (i => {
+                    return (i.user.id === message.author.id && i.message.id === dropMenuMessage.id && i.guild.id === message.guild.id)
+                })
+
+                // Await for the user
+                await message.channel.awaitMessageComponent({filter, time: 30000})
+                .then(async collected => {
+                    collected.deferUpdate();
+
+                    // If cancel button has been clicked
+                    if(collected.customId === "Cancel") dropMenuMessage.delete()
+
+                    // If all button is clicked
+                    if(collected.customId === "All") cosmeticsImage(res.data.items, dropMenuMessage)
+
+                    // If the user chose a type
+                    if(collected.customId === "Types"){
+
+                        const items = []
+                        res.data.items.map(obj => {
+                            if(obj.type.id === collected.values[0]) items.push(obj)
+                        })
+
+                        cosmeticsImage(items, dropMenuMessage)
+                    }
+                
+                }).catch(async err => {
+                    FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
+                })
+                
+            }).catch(err => {
                 FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
+                
             })
-
-            // Filtering the user clicker
-            const filter = (i => {
-                return (i.user.id === message.author.id && i.message.id === dropMenuMessage.id && i.guild.id === message.guild.id)
-            })
-
-            // Await for the user
-            await message.channel.awaitMessageComponent({filter, time: 30000})
-            .then(async collected => {
-                collected.deferUpdate();
-
-                // If cancel button has been clicked
-                if(collected.customId === "Cancel") dropMenuMessage.delete()
-
-                // If all button is clicked
-                if(collected.customId === "All") cosmeticsImage(newCosmetics, dropMenuMessage)
-
-                // If the user chose a type
-                if(collected.customId === "Types"){
-
-                    const items = []
-                    newCosmetics.map(obj => {
-                        if(obj.type.id === collected.values[0]) items.push(obj)
-                    })
-
-                    console.log(items)
-                    cosmeticsImage(items, dropMenuMessage)
-                }
-            
-            }).catch(async err => {
-                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
-            })
-            
         }).catch(err => {
             FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
             

@@ -19,7 +19,7 @@ module.exports = {
         }
         
         // Get the queue
-        const queue = client.player.getQueue(message.guild.id)
+        const queue = client.player.nodes.get(message.guild.id);
 
         // Check if the queue is empty
         if (!queue){
@@ -33,7 +33,7 @@ module.exports = {
         }
 
         // Destroy queue
-        queue.destroy();
+        queue.delete();
         const stopPlaying = new Discord.EmbedBuilder()
         stopPlaying.setColor(FNBRMENA.Colors("embedSuccess"))
         stopPlaying.setTitle(`Queue has been destroyed ${emojisObject.checkEmoji}.`)

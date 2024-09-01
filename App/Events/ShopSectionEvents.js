@@ -1,107 +1,190 @@
 const Discord = require('discord.js')
+const Canvas = require('canvas')
+const config = require('../Configs/config.json')
+const axios = require('axios')
 const moment = require('moment')
-const key = require('../Configs/config.json')
 
 module.exports = (FNBRMENA, client, admin, emojisObject) => {
-    const message = client.channels.cache.find(channel => channel.id === key.events.Section)
+    const message = client.channels.cache.find(channel => channel.id === config.events.Section)
 
     // Results
-    var tag = false
-    const Sections = async () => {
+    var response = []
+    var lastModified = []
 
-        // Getting the sets data
-        admin.database().ref("ERA's").child("Events").child("section").once('value', async function (data) {
-            const status = data.val().Active
-            const lang = data.val().Lang
-            const push = data.val().Push
-            const role = data.val().Role
+    // Handle the blogs
+    const DynamicBackgrounds = async () => {
+        const data = (await admin.database().ref("ERA's").child("Events").child("section").once('value')).val();
+        
+        if (data.Active) {
+            try {
+                const res = await axios({ method: 'GET', url: `https://fortnitecontent-website-prod07.ol.epicgames.com/content/api/pages/fortnite-game/mp-item-shop?lang=${data.Lang}` });
+                if (response.length === 0) {
+                    lastModified = res.data.lastModified;
+                    for (const section of res.data.shopData.sections) response.push(section)
+                }
+    
+                if (data.Push.Status) {
+                    lastModified = '';
+                    const pushIndex = response.findIndex(section => section.sectionID === data.Push.id);
+                    if (pushIndex !== -1) response.splice(pushIndex, 1);
+                }
+    
+                if (res.data.lastModified !== lastModified) {
+                    for (const section of res.data.shopData.sections) {
+                        if (!JSON.stringify(response).includes(JSON.stringify(section))){
 
-            // Checking if the event is active
-            if(status){
+                            // Set supported playlists
+                            const contextMap = {
+                                "battleRoyale": "Battle Royale",
+                                "juno": "Lego",
+                                "delMar": "Rocket Racing",
+                                "sparks": "Festival"
+                            }
 
-                // Request shop sections
-                FNBRMENA.shopSections(lang)
-                .then(async res => {
+                            const addedEmbed = new Discord.EmbedBuilder()
+                            addedEmbed.setColor(FNBRMENA.Colors("embedSuccess"))
+                            addedEmbed.setTimestamp(parseFloat(moment().format("x")))
+                            addedEmbed.addFields(
+                                {
+                                    name: 'Section ID', value: section.sectionID, inline: true
+                                },
+                                {
+                                    name: 'Display Name', value: section.displayName, inline: true
+                                },
+                                {
+                                    name: 'Priority Rank [1-100]', value: `${section.metadata.stackRanks[0].stackRankValue}`, inline: true
+                                },
+                                {
+                                    name: 'Start Date', value: moment(section.metadata.stackRanks[0].startDate).format("dddd, Do MMMM YYYY")
+                                },
+                                {
+                                    name: 'Supports', value: Object.keys(contextMap).map(key => {
+                                        const found = section.metadata.stackRanks.find(item => item.context === key);
+                                        return `${found ? emojisObject.uncommon : emojisObject.MarvelSeries} ${contextMap[key]}`;
+                                    }).join('\n')
+                                }
+                            )
 
-                    // If push is enabled
-                    if(push){
+                            // Check if the section has a custom texture background
+                            if(section.metadata.background.customTexture !== undefined){
 
-                        // Trun off push if enabled
-                        admin.database().ref("ERA's").child("Events").child("section").update({
-                            Push: false
-                        })
+                                // Registering fonts
+                                Canvas.registerFont('./assets/font/Lalezar-Regular.ttf', {family: 'Arabic',weight: "700"});
+                                Canvas.registerFont('./assets/font/BurbankBigCondensed-Black.ttf', {family: 'Burbank Big Condensed', weight: "700", style: "italic"})
 
-                        // Apply push request
-                        tag = true
+                                // Create a canvas
+                                const backgroundIMG = await Canvas.loadImage(section.metadata.background.customTexture)
+                                const canvas = Canvas.createCanvas(2560, 1440);
+                                const ctx = canvas.getContext('2d')
+
+                                // Draw the image
+                                ctx.drawImage(backgroundIMG, 0, 0, canvas.width, canvas.height)
+
+                                // Add credits
+                                if(data.Credits){
+                                    ctx.fillStyle = '#ffffff';
+                                    ctx.textAlign='left';
+                                    ctx.font = '50px Burbank Big Condensed';
+                                    ctx.fillText("FNBRMENA", 15, 55);
+                                }
+
+                                // Add attachments
+                                const att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `${section.sectionID}.png`})
+                                if(data.Role.Status) await message.send({content: `<@&${data.Role.roleID}>`, embeds: [addedEmbed], files: [att]})
+                                else await message.send({embeds: [addedEmbed], files: [att]})
+
+                            }else{
+                                if(data.Role.Status) await message.send({content: `<@&${data.Role.roleID}>`, embeds: [addedEmbed]})
+                                else await message.send({embeds: [addedEmbed]})
+
+                            }
+                        }
                     }
 
-                    // If tag is set to true and there is a next section
-                    if(tag && res.data.list.some(e => (e.isNext && moment().isBefore(e.nextRotation)))){
+                    for (const section of response) {
+                        if (!JSON.stringify(res.data.shopData.sections).includes(JSON.stringify(section))){
 
-                        // Set the new sections
-                        var current = `\`\`\`ansi\n[2;36m[2;31m`
-                        var next = `\`\`\`ansi\n[2;36m[2;31m[2;34m`
-                        var summary = `\`\`\`ansi\n[2;36m`
+                            // Set supported playlists
+                            const contextMap = {
+                                "battleRoyale": "Battle Royale",
+                                "juno": "Lego",
+                                "delMar": "Rocket Racing",
+                                "sparks": "Festival"
+                            }
 
-                        for(const i of res.data.list[1].sections){
-                            next += `• ${i.sectionDisplayName} | ${i.tabs} ${lang === "en" ? "Tab(s)" : "صفحة"}\n`
-                            if(!res.data.list[0].sections.some(e => e.sectionDisplayName === i.sectionDisplayName && e.tabs === i.tabs)) summary += `• ${i.sectionDisplayName} | ${i.tabs} ${lang === "en" ? "Tab(s)" : "صفحة"}\n`
+                            const removedEmbed = new Discord.EmbedBuilder()
+                            removedEmbed.setColor(FNBRMENA.Colors("embedError"))
+                            removedEmbed.setTimestamp(parseFloat(moment().format("x")))
+                            removedEmbed.addFields(
+                                {
+                                    name: 'Section ID', value: section.sectionID, inline: true
+                                },
+                                {
+                                    name: 'Display Name', value: section.displayName, inline: true
+                                },
+                                {
+                                    name: 'Priority Rank [1-100]', value: `${section.metadata.stackRanks[0].stackRankValue}`, inline: true
+                                },
+                                {
+                                    name: 'Start Date', value: moment(section.metadata.stackRanks[0].startDate).format("dddd, Do MMMM YYYY")
+                                },
+                                {
+                                    name: 'Supports', value: Object.keys(contextMap).map(key => {
+                                        const found = section.metadata.stackRanks.find(item => item.context === key);
+                                        return `${found ? emojisObject.uncommon : emojisObject.MarvelSeries} ${contextMap[key]}`;
+                                    }).join('\n')
+                                }
+                            )
+
+                            // Check if the section has a custom texture background
+                            if(section.metadata.background.customTexture !== undefined){
+
+                                // Registering fonts
+                                Canvas.registerFont('./assets/font/Lalezar-Regular.ttf', {family: 'Arabic',weight: "700"});
+                                Canvas.registerFont('./assets/font/BurbankBigCondensed-Black.ttf', {family: 'Burbank Big Condensed', weight: "700", style: "italic"})
+
+                                // Create a canvas
+                                const backgroundIMG = await Canvas.loadImage(section.metadata.background.customTexture)
+                                const canvas = Canvas.createCanvas(2560, 1440);
+                                const ctx = canvas.getContext('2d')
+
+                                // Draw the image
+                                ctx.drawImage(backgroundIMG, 0, 0, canvas.width, canvas.height)
+
+                                // Add credits
+                                if(data.Credits){
+                                    ctx.fillStyle = '#ffffff';
+                                    ctx.textAlign='left';
+                                    ctx.font = '50px Burbank Big Condensed';
+                                    ctx.fillText("FNBRMENA", 15, 55);
+                                }
+
+                                // Add attachments
+                                const att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `${section.sectionID}.png`})
+                                if(data.Role.Status) await message.send({content: `<@&${data.Role.roleID}>`, embeds: [removedEmbed], files: [att]})
+                                else await message.send({embeds: [removedEmbed], files: [att]})
+
+                            }else{
+                                if(data.Role.Status) await message.send({content: `<@&${data.Role.roleID}>`, embeds: [removedEmbed]})
+                                else await message.send({embeds: [removedEmbed]})
+
+                            }
                         }
+                    }
 
-                        summary += `[2;31m`
-                        for(const i of res.data.list[0].sections){
-                            current += `• ${i.sectionDisplayName} | ${i.tabs} ${lang === "en" ? "Tab(s)" : "صفحة"}\n`
-
-                            if(!res.data.list[1].sections.some(e => e.sectionDisplayName === i.sectionDisplayName && e.tabs === i.tabs)) summary += `• ${i.sectionDisplayName} | ${i.tabs} ${lang === "en" ? "Tab(s)" : "صفحة"}\n`
-                        }
-
-                        summary += `[2;37m`
-                        for(const i of res.data.list[0].sections)
-                            if(res.data.list[1].sections.some(e => e.sectionDisplayName === i.sectionDisplayName && e.tabs === i.tabs)) summary += `• ${i.sectionDisplayName} | ${i.tabs} ${lang === "en" ? "Tab(s)" : "صفحة"}\n`
-                        
-                        // Close fields
-                        current += `\`\`\``
-                        next += `\`\`\``
-                        summary += `\`\`\``
-
-                        // Create an embed
-                        const shopSectionsEmbed = new Discord.EmbedBuilder()
-                        shopSectionsEmbed.setColor(FNBRMENA.Colors("embed"))
-                        shopSectionsEmbed.setTimestamp(new Date(res.data.list[1].nextRotation))
-                        shopSectionsEmbed.setFields(
-                            {
-                                name: lang === "en" ? "New" : "جديد",
-                                value: next,
-                                inline: true
-                            },
-                            {
-                                name: lang === "en" ? "Old" : "قديم",
-                                value: current,
-                                inline: true
-                            },
-                            {
-                                name: lang === "en" ? "Summary" : "ملخص",
-                                value: summary,
-                                inline: false
-                            },
-                        )
-
-                        // Update tag to false so in does not get inside again unless pushed
-                        tag = false
-
-                        // Send the message
-                        if(role.Status) await message.send({content: `<@&${role.roleID}>`, embeds: [shopSectionsEmbed]})
-                        else await message.send({embeds: [shopSectionsEmbed]})
-                        
-
-                    } else if(!res.data.list.some(e => e.isNext)) tag = true // Set tag to true only if sections has gone public 
-                    
-                }).catch(async err => {
-                    FNBRMENA.eventsLogs(admin, client, err, 'shopsections')
-        
-                })
+                    lastModified = res.data.lastModified;
+                    response = res.data.shopData.sections;
+    
+                    await admin.database().ref("ERA's").child("Events").child("section").child("Push").update({
+                        Status: false
+                    });
+                }
+            } catch (err) {
+                console.log(err)
+                FNBRMENA.eventsLogs(admin, client, err, 'sections');
             }
-        })
-    }
-    setInterval(Sections, 1 * 30000)
+        }
+    };
+    
+    setInterval(DynamicBackgrounds, 1 * 20000)
 }

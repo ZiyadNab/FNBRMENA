@@ -127,7 +127,7 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                                 if(lang === "en") var name = 'NAME NOT FOUND'
                                 else if(lang === "ar") var name = 'لا يوجد اسم'
                             }
-                            if(res.data.history[0].rewards[i].item.images.icon === null) var image = 'https://imgur.com/HVH5sqV.png'
+                            if(res.data.history[0].rewards[i].item.images.icon === null) var image = 'https://i.ibb.co/XCDwKHh/HVH5sqV.png'
                             else var image = res.data.history[0].rewards[i].item.images.icon
                             if(res.data.history[0].rewards[i].item.series === null) var rarity = res.data.history[0].rewards[i].item.rarity.id
                             else var rarity = res.data.history[0].rewards[i].item.series.id

@@ -366,7 +366,7 @@ module.exports = {
                             }else var Source = styles[i].type.name.toUpperCase()
 
                             var name = styles[i].name;
-                            if(styles[i].images.icon === null) var image = 'https://imgur.com/HVH5sqV.png'
+                            if(styles[i].images.icon === null) var image = 'https://i.ibb.co/XCDwKHh/HVH5sqV.png'
                             else var image = styles[i].images.icon
                             if(styles[i].series === null) var rarity = styles[i].rarity.id
                             else var rarity = styles[i].series.id
@@ -853,7 +853,7 @@ module.exports = {
                             }else var Source = grants[i].type.name.toUpperCase()
 
                             var name = grants[i].name;
-                            if(grants[i].images.icon === null) var image = 'https://imgur.com/HVH5sqV.png'
+                            if(grants[i].images.icon === null) var image = 'https://i.ibb.co/XCDwKHh/HVH5sqV.png'
                             else var image = grants[i].images.icon
                             if(grants[i].series === null) var rarity = grants[i].rarity.id
                             else var rarity = grants[i].series.id

@@ -487,10 +487,10 @@ module.exports = {
             const yearmonthCrewPickerEmbed = new Discord.EmbedBuilder()
             yearmonthCrewPickerEmbed.setColor(FNBRMENA.Colors("embed"))
             if(userData.lang === "en"){
-                yearmonthCrewPickerEmbed.setAuthor({name: `Fortnite Crew`, iconURL: 'https://i.imgur.com/7Sp9z5H.png'})
+                yearmonthCrewPickerEmbed.setAuthor({name: `Fortnite Crew`, iconURL: 'https://i.ibb.co/JjPvyCr/7Sp9z5H.png'})
                 yearmonthCrewPickerEmbed.setDescription('Please click on the Drop-Down menu and select a crew year.\n`You have only 30 seconds until this operation ends, Make it quick`!')
             }else if(userData.lang === "ar"){
-                yearmonthCrewPickerEmbed.setAuthor({name: `طاقم فورت نايت`, iconURL: 'https://i.imgur.com/7Sp9z5H.png'})
+                yearmonthCrewPickerEmbed.setAuthor({name: `طاقم فورت نايت`, iconURL: 'https://i.ibb.co/JjPvyCr/7Sp9z5H.png'})
                 yearmonthCrewPickerEmbed.setDescription('الرجاء الضغط على السهم لاختيار سنه الطاقم.\n`لديك فقط 30 ثانية حتى تنتهي العملية, استعجل`!')
             }
 
@@ -574,10 +574,10 @@ module.exports = {
                     const monthCrewPickerEmbed = new Discord.EmbedBuilder()
                     monthCrewPickerEmbed.setColor(FNBRMENA.Colors("embed"))
                     if(userData.lang === "en"){
-                        monthCrewPickerEmbed.setAuthor({name: `Fortnite Crew`, iconURL: 'https://i.imgur.com/7Sp9z5H.png'})
+                        monthCrewPickerEmbed.setAuthor({name: `Fortnite Crew`, iconURL: 'https://i.ibb.co/JjPvyCr/7Sp9z5H.png'})
                         monthCrewPickerEmbed.setDescription('Now please click the drop-down menu and select a crew pack.\n`You have only 30 seconds until this operation ends, Make it quick`!')
                     }else if(userData.lang === "ar"){
-                        monthCrewPickerEmbed.setAuthor({name: `طاقم فورت نايت`, iconURL: 'https://i.imgur.com/7Sp9z5H.png'})
+                        monthCrewPickerEmbed.setAuthor({name: `طاقم فورت نايت`, iconURL: 'https://i.ibb.co/JjPvyCr/7Sp9z5H.png'})
                         monthCrewPickerEmbed.setDescription('الان الرجاء الضغط على السهم لاختيار حزمة الطاقم فورت نايت.\n`لديك فقط 30 ثانية حتى تنتهي العملية, استعجل`!')
                     }
 

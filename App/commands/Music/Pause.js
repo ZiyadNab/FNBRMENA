@@ -19,7 +19,7 @@ module.exports = {
         }
         
         // Get the queue
-        const queue = client.player.getQueue(message.guild.id)
+        const queue = client.player.nodes.get(message.guild.id)
 
         // Check if the queue is empty
         if (!queue){
@@ -33,10 +33,10 @@ module.exports = {
         }
 
         // If the music already puased
-        if(queue.setPaused()){
+        if(queue.node.isPaused()){
 
             // Queue resume
-            await queue.setPaused(false)
+            await queue.node.setPaused(false)
             const queueResume = new Discord.EmbedBuilder()
             queueResume.setColor(FNBRMENA.Colors("embedSuccess"))
             queueResume.setTitle(`Queue already paused, Resuming now ${emojisObject.checkEmoji}.`)
@@ -47,7 +47,7 @@ module.exports = {
         }
 
         // Queue pause
-        await queue.setPaused(true)
+        await queue.node.setPaused(true)
         const queuePause = new Discord.EmbedBuilder()
         queuePause.setColor(FNBRMENA.Colors("embedSuccess"))
         queuePause.setTitle(`The queue has been paused ${emojisObject.checkEmoji}.`)

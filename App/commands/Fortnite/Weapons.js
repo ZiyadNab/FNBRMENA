@@ -477,10 +477,10 @@ module.exports = {
 
                 //set Author
                 if(userData.lang === "en"){
-                    listWeaponsEmbed.setAuthor({name: `Weapons`, iconURL: 'https://imgur.com/mvFcjNF.png'})
+                    listWeaponsEmbed.setAuthor({name: `Weapons`, iconURL: 'https://i.ibb.co/YNKLKN5/mvFcjNF.png'})
                     listWeaponsEmbed.setDescription('Please click on the Drop-Down menu and choose a weapons.\n`You have only 30 seconds until this operation ends, Make it quick`!')
                 }else if(userData.lang === "ar"){
-                    listWeaponsEmbed.setAuthor({name: `الأسلحة`, iconURL: 'https://imgur.com/mvFcjNF.png'})
+                    listWeaponsEmbed.setAuthor({name: `الأسلحة`, iconURL: 'https://i.ibb.co/YNKLKN5/mvFcjNF.png'})
                     listWeaponsEmbed.setDescription('الرجاء الضغط على السهم لاختيار سلاح.\n`لديك فقط 30 ثانية حتى تنتهي العملية, استعجل`!')
                 }
 

@@ -19,7 +19,7 @@ module.exports = {
         }
 
         // Get the queue
-        const queue = client.player.getQueue(message.guild.id)
+        const queue = client.player.nodes.get(message.guild.id)
 
         // Check if the queue is empty
         if (!queue){
@@ -33,7 +33,7 @@ module.exports = {
         }
 
         // Check if there is up next song
-        if(queue.tracks.length < 1){
+        if(queue.tracks.data.length < 1){
             const noUpNextSongError = new Discord.EmbedBuilder()
             noUpNextSongError.setColor(FNBRMENA.Colors("embedError"))
             noUpNextSongError.setTitle(`There isn't any up next song to skip ${emojisObject.errorEmoji}.`)
@@ -44,7 +44,7 @@ module.exports = {
         }
         
         // Skip current track
-        await queue.skip()
+        await queue.node.skip()
 
     }
 }

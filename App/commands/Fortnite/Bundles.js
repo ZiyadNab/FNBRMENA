@@ -501,6 +501,25 @@ module.exports = {
                                 ctx.drawImage(builtInEmote, xTags - 15, yTags, ((1024 / 512) * 30) + x, ((1024 / 512) * 30) + y)
                             }
 
+                            // Add juno style top left
+                            if(res.data.items[0].juno.icon){
+                                
+                                //save the ctx
+                                ctx.save()
+
+                                //draw a circle and clip it
+                                ctx.beginPath()
+                                ctx.arc(x + 65, y + 10, 100, 0 * Math.PI, 2 * Math.PI);
+                                ctx.clip()
+
+                                //draw the npc img
+                                const juno = await Canvas.loadImage(res.data.items[0].juno.icon);
+                                ctx.drawImage(juno, x + 10, y + 10, 110, 110)
+
+                                //restoe the clip
+                                ctx.restore()
+                            }
+
                             // X and Y modifications
                             x = x + 10 + 1024; 
                             if (length === newline){
@@ -508,7 +527,9 @@ module.exports = {
                                 x = 0;
                                 newline = 0;
                             }
+
                         }).catch(err => {
+                            console.log(err)
                             FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
                             
                         })
@@ -571,7 +592,7 @@ module.exports = {
                         // Creating image
                         const bundlescheduleholder = await Canvas.loadImage('./assets/Rarities/newStyle/legendary.png')
                         ctx.drawImage(bundlescheduleholder, x, y, 1024, 1024)
-                        const bundleschedule = await Canvas.loadImage('https://i.imgur.com/MaGvfNq.png');
+                        const bundleschedule = await Canvas.loadImage('https://i.ibb.co/mb4HMLZ/MaGvfNq.png');
                         ctx.drawImage(bundleschedule, x, y, 1024, 1024)
                         const bundlescheduleborder = await Canvas.loadImage('./assets/Rarities/newStyle/borderLegendary.png')
                         ctx.drawImage(bundlescheduleborder, x, y, 1024, 1024)
@@ -623,7 +644,7 @@ module.exports = {
                         // Creating image
                         const campaignaccessholder = await Canvas.loadImage('./assets/Rarities/newStyle/uncommon.png')
                         ctx.drawImage(campaignaccessholder, x, y, 1024, 1024)
-                        const campaignaccess = await Canvas.loadImage('https://imgur.com/4LmOgaj.png');
+                        const campaignaccess = await Canvas.loadImage('https://i.ibb.co/YjR8T82/4LmOgaj.png');
                         ctx.drawImage(campaignaccess, x, y, 1024, 1024)
                         const campaignaccessborder = await Canvas.loadImage('./assets/Rarities/newStyle/borderUncommon.png')
                         ctx.drawImage(campaignaccessborder, x, y, 1024, 1024)
@@ -672,7 +693,7 @@ module.exports = {
                         // Creating image
                         const rewardsholder = await Canvas.loadImage('./assets/Rarities/newStyle/legendary.png')
                         ctx.drawImage(rewardsholder, x, y, 1024, 1024)
-                        const rewards = await Canvas.loadImage('https://imgur.com/IM4C1Ab.png');
+                        const rewards = await Canvas.loadImage('https://i.ibb.co/7zdkbn2/IM4C1Ab.png');
                         ctx.drawImage(rewards, x, y, 1024, 1024)
                         const rewardsborder = await Canvas.loadImage('./assets/Rarities/newStyle/borderLegendary.png')
                         ctx.drawImage(rewardsborder, x, y, 1024, 1024)
@@ -851,6 +872,7 @@ module.exports = {
                 })
 
             }catch(err) {
+                console.log(err)
                 FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, msg)
                 
             }

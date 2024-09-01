@@ -7,29 +7,31 @@ const client = new Discord.Client({ intents: [Discord.GatewayIntentBits.DirectMe
   Discord.GatewayIntentBits.GuildEmojisAndStickers, Discord.GatewayIntentBits.GuildIntegrations, Discord.GatewayIntentBits.GuildInvites, Discord.GatewayIntentBits.GuildMembers,
   Discord.GatewayIntentBits.GuildMessages, Discord.GatewayIntentBits.GuildMessageReactions, Discord.GatewayIntentBits.GuildMessageTyping, Discord.GatewayIntentBits.GuildPresences,
   Discord.GatewayIntentBits.GuildVoiceStates, Discord.GatewayIntentBits.GuildWebhooks, Discord.GatewayIntentBits.MessageContent], partials: [Discord.Partials.Channel], allowedMentions:{ parse:["everyone"] }})
-const Data = require('./FNBRMENA.js')
+const Data = require('./FNBRMENA')
 const path = require('path')
 const FNBRMENA = new Data()
 const fs = require('fs')
-const { Player } = require('discord-player');
+const { Player } = require('discord-player')
 
 // Get access to the database
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
-  databaseURL: "https://fnbrmena-1-default-rtdb.firebaseio.com",
-  storageBucket: 'gs://fnbrmena-1.appspot.com'
-});
+  databaseURL: "https://fnbrmena-bot-default-rtdb.europe-west1.firebasedatabase.app/",
+  storageBucket: 'gs://fnbrmena-bot.appspot.com'
+})
 
 client.player = new Player(client, {
-  smoothVolume: true,
   ytdlOptions: {
-    quality: "highestaudio",
-    highWaterMark: 1 << 25
+      filter: "audioonly",
+      quality: "highestaudio",
+      highWaterMark: 1 << 25
   }
 })
 
-client.player
-  .on("trackStart", (queue, track) => {
+client.player.extractors.loadDefault()
+
+client.player.events
+  .on("playerStart", (queue, track) => {
 
     // Emitted a new song
     const musicPlaying = new Discord.EmbedBuilder()
@@ -47,6 +49,14 @@ client.player
          .setURL(track.url)
       )
     ]})
+  })
+  .on("error", (queue, track) => {
+
+    // Emitted an error
+    const errorNotPlaying = new Discord.EmbedBuilder()
+    errorNotPlaying.setColor(FNBRMENA.Colors("embedError"))
+    errorNotPlaying.setTitle(`An error has been occurred.`)
+    queue.metadata.channel.send({embeds: [musicPlaying]})
   })
 
 // Client event listner
@@ -216,6 +226,7 @@ client.on('ready', async () => {
     xbox: client.emojis.cache.get("1112198996992208956"),
     build: client.emojis.cache.get("1113505134996095026"),
     nobuild: client.emojis.cache.get("1113505138951344208"),
+    rocketracing: client.emojis.cache.get("1182822193944592464"),
   }
 
   // Excute

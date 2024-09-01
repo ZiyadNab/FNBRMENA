@@ -57,10 +57,9 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
 
                         // Check whether onject i is included in results or not
                         if(!result.some(e => e.id == i.id && e.name == i.name)){
-                            result.push(i)
 
                             // Request a specific set
-                            FNBRMENA.Set(lang, i.name)
+                            await FNBRMENA.Set(lang, i.name)
                             .then(async set => {
 
                                 // Variables
@@ -194,7 +193,7 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                                         if(lang === "en") var name = 'NAME NOT FOUND'
                                         else if(lang === "ar") var name = 'لا يوجد اسم'
                                     }
-                                    if(set.data.items[i].images.icon === null) var image = 'https://imgur.com/HVH5sqV.png'
+                                    if(set.data.items[i].images.icon === null) var image = 'https://i.ibb.co/XCDwKHh/HVH5sqV.png'
                                     else var image = set.data.items[i].images.icon
                                     if(set.data.items[i].series !== null) var rarity = set.data.items[i].series.id
                                     else var rarity = set.data.items[i].rarity.id
@@ -511,6 +510,7 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                                 var att = new Discord.AttachmentBuilder(canvas.toBuffer(), {name: `${i.id}.png`})
                                 if(role.Status) await message.send({content: `<@&${role.roleID}>`, embeds: [setEmbed], files: [att]})
                                 else await message.send({embeds: [setEmbed], files: [att]})
+                                result.push(i)
 
                             })
                         }
@@ -524,5 +524,5 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
             }
         })
     }
-    setInterval(Set, 1.5 * 60000)
+    setInterval(Set, 2 * 60000)
 }

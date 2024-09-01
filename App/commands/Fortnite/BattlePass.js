@@ -486,10 +486,10 @@ module.exports = {
             const battlepassChapterEmbed = new Discord.EmbedBuilder()
             battlepassChapterEmbed.setColor(FNBRMENA.Colors("embed"))
             if(userData.lang === "en"){
-                battlepassChapterEmbed.setAuthor({name: `Battlepass, Chapter`, iconURL: 'https://imgur.com/90m1ldM.png'})
+                battlepassChapterEmbed.setAuthor({name: `Battlepass, Chapter`, iconURL: 'https://i.ibb.co/vcPQsBY/90m1ldM.png'})
                 battlepassChapterEmbed.setDescription(`Please click on the Drop-Down menu and choose the battlepass's chapter.`)
             }else if(userData.lang === "ar"){
-                battlepassChapterEmbed.setAuthor({name: `بطاقة المعركة, الفصل`, iconURL: 'https://imgur.com/90m1ldM.png'})
+                battlepassChapterEmbed.setAuthor({name: `بطاقة المعركة, الفصل`, iconURL: 'https://i.ibb.co/vcPQsBY/90m1ldM.png'})
                 battlepassChapterEmbed.setDescription('الرجاء الضغط على السهم لاختيار فصل بطاقة المعركة')
             }
 
@@ -585,10 +585,10 @@ module.exports = {
                     const battlepassSeasonEmbed = new Discord.EmbedBuilder()
                     battlepassSeasonEmbed.setColor(FNBRMENA.Colors("embed"))
                     if(userData.lang === "en"){
-                        battlepassSeasonEmbed.setAuthor({name: `Battlepass, Season`, iconURL: 'https://imgur.com/90m1ldM.png'})
+                        battlepassSeasonEmbed.setAuthor({name: `Battlepass, Season`, iconURL: 'https://i.ibb.co/vcPQsBY/90m1ldM.png'})
                         battlepassSeasonEmbed.setDescription(`Please click on the Drop-Down menu and choose the battlepass's season`)
                     }else if(userData.lang === "ar"){
-                        battlepassSeasonEmbed.setAuthor({name: `بطاقة المعركة, الموسم`, iconURL: 'https://imgur.com/90m1ldM.png'})
+                        battlepassSeasonEmbed.setAuthor({name: `بطاقة المعركة, الموسم`, iconURL: 'https://i.ibb.co/vcPQsBY/90m1ldM.png'})
                         battlepassSeasonEmbed.setDescription('الرجاء الضغط على السهم لاختيار موسم بطاقة المعركة')
                     }
 

@@ -159,7 +159,7 @@ module.exports = {
                     }else var Source = item.type.name.toUpperCase()
 
                     var name = item.name
-                    if(item.images.icon === null) var image = 'https://imgur.com/HVH5sqV.png'
+                    if(item.images.icon === null) var image = 'https://i.ibb.co/XCDwKHh/HVH5sqV.png'
                     else var image = item.images.icon
                     if(item.series === null) var rarity = item.rarity.id
                     else var rarity = item.series.id

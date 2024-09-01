@@ -6,6 +6,7 @@ const moment = require('moment')
 require('moment-timezone')
 const config = require('./../Configs/config.json')
 const { translate } = require('bing-translate-api')
+const emojis = require('node-emoji')
 
 const allCommands = {}
 
@@ -84,6 +85,8 @@ module.exports.listen = async (client, admin, emojisObject) => {
 
             return
         }
+        // Add emojis
+        // message.react(emojis.random().emoji)
 
         // Split on any number of spaces
         const args = content.split(/[ ]+/)
@@ -176,7 +179,7 @@ module.exports.listen = async (client, admin, emojisObject) => {
                     }
 
                     // Set thumbnail
-                    syntaxError.setThumbnail('https://imgur.com/auAsgQN.png')
+                    syntaxError.setThumbnail('https://i.ibb.co/7NRmhYr/auAsgQN.png')
 
                     // Send a guided message
                     message.reply({embeds: [syntaxError], components: [], files: []})
@@ -201,7 +204,7 @@ module.exports.listen = async (client, admin, emojisObject) => {
 
                         const userBanErr = new Discord.EmbedBuilder()
                         userBanErr.setColor(FNBRMENA.Colors("embedError"))
-                        userBanErr.setThumbnail('https://imgur.com/tS0dHcs.png')
+                        userBanErr.setThumbnail('https://i.ibb.co/0FZxNr6/tS0dHcs.png')
                         if(userData.lang === "en"){
                             userBanErr.setTitle(`YOU HAVE BEEN BANNED!`)
                             userBanErr.setFooter({text: `Banned ${(moment().diff(moment(commandData.usersBanned.date), 'days') === 0) ? `${(moment().diff(moment(commandData.usersBanned.date), 'hours') === 0) ? `${moment().diff(moment(commandData.usersBanned.date), 'minutes')} minute(s)` : `${moment().diff(moment(commandData.usersBanned.date), 'hours')} hour(s)`}` : `${moment().diff(moment(commandData.usersBanned.date), 'days')} days`} ago`})
@@ -240,7 +243,7 @@ module.exports.listen = async (client, admin, emojisObject) => {
                     if((!serverStats.allowedChannels.includes(message.channel.id) && !commandData.command.allowedChannels.includes(message.channel.id) && serverStats.lockedChannels)){
 
                         const wrongChat = new Discord.EmbedBuilder()
-                        wrongChat.setThumbnail('https://imgur.com/x7F9Q0K.png')
+                        wrongChat.setThumbnail('https://i.ibb.co/gdV8YrS/x7F9Q0K.png')
                         wrongChat.setColor(FNBRMENA.Colors("syntaxError"))
                         if(userData.lang === "en"){
                             wrongChat.setTitle(`INCORRECT CHANNEL ${emojisObject.errorEmoji}.`)
@@ -382,7 +385,7 @@ module.exports.listen = async (client, admin, emojisObject) => {
                         }
 
                         // Set thumbnail
-                        syntaxError.setThumbnail('https://imgur.com/auAsgQN.png')
+                        syntaxError.setThumbnail('https://i.ibb.co/7NRmhYr/auAsgQN.png')
 
                         // Send a guided message
                         message.reply({embeds: [syntaxError], components: [], files: []})
@@ -597,6 +600,8 @@ module.exports.listen = async (client, admin, emojisObject) => {
                 interaction.reply({embeds: [translateEmbed], ephemeral: true})
 
             }
+
+
         }
 
         if(interaction.isChatInputCommand()){

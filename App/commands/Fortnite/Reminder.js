@@ -243,7 +243,7 @@ module.exports = {
                     // Set the item info
                     var name = res.data.items[num].name
                     var price = res.data.items[num].price
-                    if(res.data.items[num].images.icon === null) var image = 'https://imgur.com/HVH5sqV.png'
+                    if(res.data.items[num].images.icon === null) var image = 'https://i.ibb.co/XCDwKHh/HVH5sqV.png'
                     else var image = res.data.items[num].images.icon
                     if(res.data.items[num].series !== null) var rarity = res.data.items[num].series.id
                     else var rarity = res.data.items[num].rarity.id
@@ -409,6 +409,25 @@ module.exports = {
                         const skinborder = await Canvas.loadImage('./assets/Rarities/newStyle/borderCommon.png')
                         ctx.drawImage(skinborder, 0, 0, 1024, 1024)
                         
+                    }
+
+                    // Add juno style top left
+                    if(res.data.items[num].juno.icon){
+                        
+                        //save the ctx
+                        ctx.save()
+
+                        //draw a circle and clip it
+                        ctx.beginPath()
+                        ctx.arc(65, 10, 100, 0 * Math.PI, 2 * Math.PI);
+                        ctx.clip()
+
+                        //draw the npc img
+                        const juno = await Canvas.loadImage(res.data.items[num].juno.icon);
+                        ctx.drawImage(juno, 10, 10, 110, 110)
+
+                        //restoe the clip
+                        ctx.restore()
                     }
 
                     // Add the item name

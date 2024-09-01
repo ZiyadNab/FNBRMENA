@@ -10,19 +10,46 @@ module.exports = {
         // User input
         var userInput = {
             id: null,
-            name: null,
-            platform: null,
             epic: userData.lang === "en" ? "Epic Games" : "ايبك قيمز",
             psn: userData.lang === "en" ? "Playstation" : "بلايستيشن",
             xbl: userData.lang === "en" ? "Xbox" : "اكسبوكس",
         }
 
+        const roleIds = [
+            "1206993258715021322",
+            "1206987505916706928",
+            "1206989070165876816",
+            "1206989192991866960",
+            "1206989274017169408",
+            "1206989526946283560",
+            "1206989617857826856",
+            "1206989703795179561",
+            "1206989864290099220",
+            "1206989911354507364",
+            "1206991129153634374",
+            "1206993216168136746",
+            "1206993436079685683",
+            "1206994609155219516",
+            "1206995200585633863",
+            "1206995959255670794",
+            "1206996982774894603",
+            "1206997072587264041",
+            "1206997161477414993",
+            "1007326574594494524"
+        ]
+
         // Seeting up the db firestore
         var db = await admin.firestore()
 
+        // Read server collection
+        const rankedRoles = await db.collection("Server").doc("rankedRoles").get()
+
         // Get user linked account
-        var linkedAccount = null
-        if(userData.linkedAccount) linkedAccount = await FNBRMENA.AccountExternalAuths(userData.linkedAccount.epicId)
+        var account = null
+        const hasLinked = rankedRoles.data().accounts.filter(e => {
+            return (e.userId === message.author.id)
+        })
+        if(hasLinked.length) account = await FNBRMENA.AccountExternalAuths(hasLinked[0].epicId)
 
         // Create an embed
         const linkAccountEmbed = new Discord.EmbedBuilder()
@@ -30,17 +57,25 @@ module.exports = {
         if(userData.lang === "en"){
             linkAccountEmbed.setTitle(`ACCOUNT LINK, ${message.author.username}`.toUpperCase())
             linkAccountEmbed.setDescription('This command lets you link your Epic Games, Playstation or Xbox account to your current discord profile in the bot servers. It will help to easily use commands that requires your account and many more features.\n\n\`You have only 30 seconds until this operation ends, Make it quick\`!')
-            if(linkedAccount) for(const auth of linkedAccount.data.accounts[0].externalAuths) linkAccountEmbed.addFields({
-                name: auth.type === "epic" ? "Epic Games" : auth.type === "psn" ? "Playstation" : auth.type === "xbl" ? "Xbox" : auth.type === "steam" ? "Steam" : auth.type === "nintendo" ? "Nintendo" : "UNKNOWN",
-                value: auth.username !== undefined ? auth.username : "UNKNOWN"
-            })
+            if(account){
+
+                userInput.id = account.data.accounts[0].id
+                for(const auth of account.data.accounts[0].externalAuths) linkAccountEmbed.addFields({
+                    name: auth.type === "epic" ? "Epic Games" : auth.type === "psn" ? "Playstation" : auth.type === "xbl" ? "Xbox" : auth.type === "steam" ? "Steam" : auth.type === "nintendo" ? "Nintendo" : "UNKNOWN",
+                    value: auth.username !== undefined ? auth.username : "UNKNOWN"
+                })
+            }
         }else if(userData.lang === "ar"){
             linkAccountEmbed.setTitle(`اربط حسابك, ${message.author.username}`)
             linkAccountEmbed.setDescription('يتيح لك هذا الأمر ربط حساب Epic Games أو Playstation أو Xbox بملف تعريف دسكورد الحالي في خوادم الروبوت. سيساعدك على استخدام الأوامر التي تتطلب حسابك والعديد من الميزات الأخرى بسهولة.\n\n\`لديك فقط 30 ثانية حتى تنتهي العملية, استعجل\`!')
-            if(linkedAccount) for(const auth of linkedAccount.data.accounts[0].externalAuths) linkAccountEmbed.addFields({
-                name: auth.type === "epic" ? "Epic Games" : auth.type === "psn" ? "Playstation" : auth.type === "xbl" ? "Xbox" : auth.type === "steam" ? "Steam" : auth.type === "nintendo" ? "Nintendo" : "UNKNOWN",
-                value: auth.username !== undefined ? auth.username : "UNKNOWN"
-            })
+            if(account){
+                
+                userInput.id = account.data.accounts[0].id
+                for(const auth of account.data.accounts[0].externalAuths) if(auth.type !== "nintendo") linkAccountEmbed.addFields({
+                    name: auth.type === "epic" ? "Epic Games" : auth.type === "psn" ? "Playstation" : auth.type === "xbl" ? "Xbox" : auth.type === "steam" ? "Steam" : "UNKNOWN",
+                    value: auth.username !== undefined ? auth.username : "UNKNOWN"
+                })
+            }
         }
 
         // Create a row for cancel button
@@ -53,7 +88,7 @@ module.exports = {
                 .setCustomId(`Link`)
                 .setStyle(Discord.ButtonStyle.Success)
                 .setLabel("Link")
-                .setDisabled(userData.linkedAccount !== null)
+                .setDisabled(hasLinked.length > 0)
             )
 
             ButtonDataRow.addComponents(
@@ -61,7 +96,7 @@ module.exports = {
                 .setCustomId(`Unlink`)
                 .setStyle(Discord.ButtonStyle.Primary)
                 .setLabel("Unlink")
-                .setDisabled(userData.linkedAccount === null)
+                .setDisabled(hasLinked.length === 0)
             )
 
             ButtonDataRow.addComponents(
@@ -77,7 +112,7 @@ module.exports = {
                 .setCustomId(`Link`)
                 .setStyle(Discord.ButtonStyle.Success)
                 .setLabel("ربط")
-                .setDisabled(userData.linkedAccount !== null)
+                .setDisabled(hasLinked.length > 0)
             )
 
             ButtonDataRow.addComponents(
@@ -85,7 +120,7 @@ module.exports = {
                 .setCustomId(`Unlink`)
                 .setStyle(Discord.ButtonStyle.Primary)
                 .setLabel("الغاء الربط")
-                .setDisabled(userData.linkedAccount === null)
+                .setDisabled(hasLinked.length === 0)
             )
 
             ButtonDataRow.addComponents(
@@ -290,13 +325,11 @@ module.exports = {
 
                             // Add the user account to userInput
                             userInput.id = account.data.accounts[0].id
-                            userInput.name = account.data.accounts[0].username
-                            userInput.platform = collected.values[0]
 
                             // Account Found
                             const accountFoundEmbed = new Discord.EmbedBuilder()
                             accountFoundEmbed.setColor(FNBRMENA.Colors("embedLink"))
-                            accountFoundEmbed.setThumbnail('https://imgur.com/jKXrAOb.png')
+                            accountFoundEmbed.setThumbnail('https://i.ibb.co/QcfScLd/jKXrAOb.png')
                             for(const auth of account.data.accounts[0].externalAuths) accountFoundEmbed.addFields({
                                 name: auth.type === "epic" ? "Epic Games" : auth.type === "psn" ? "Playstation" : auth.type === "xbl" ? "Xbox" : auth.type === "steam" ? "Steam" : auth.type === "nintendo" ? "Nintendo" : "UNKNOWN",
                                 value: auth.username !== undefined ? auth.username : "UNKNOWN"
@@ -369,18 +402,17 @@ module.exports = {
                 colllector.stop()
                 
                 // Add the account id to the user database profile
-                await db.collection("Users").doc(`${message.author.id}`).update({
-                    'linkedAccount': {
+                await db.collection("Server").doc('rankedRoles').update({
+                    'accounts': admin.firestore.FieldValue.arrayUnion({
                         epicId: userInput.id,
-                        name: userInput.name,
-                        platform: userInput.platform
-                    }
+                        userId: `${message.author.id}`
+                    })
                 })
 
                 // Successfully updated
                 const accountHasBeenLinkedEmbed = new Discord.EmbedBuilder()
                 accountHasBeenLinkedEmbed.setColor(FNBRMENA.Colors("embedSuccess"))
-                accountHasBeenLinkedEmbed.setTitle(`Your account ${userInput.name} has been linked successfully ${emojisObject.checkEmoji}.`)
+                accountHasBeenLinkedEmbed.setTitle(`Your account has been linked successfully ${emojisObject.checkEmoji}.`)
                 dropMenuMessage.edit({embeds: [accountHasBeenLinkedEmbed], components: []})
                 .catch(err => {
                     FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
@@ -391,16 +423,26 @@ module.exports = {
             // If unlink button has been clicked
             if(collected.customId === `Unlink`){
                 colllector.stop()
+
+                console.log({
+                    epicId: userInput.id,
+                    userId: `${message.author.id}`
+                })
                 
                 // Add the account id to the user database profile
-                await db.collection("Users").doc(`${message.author.id}`).update({
-                    'linkedAccount': null
+                await db.collection("Server").doc('rankedRoles').update({
+                    'accounts': admin.firestore.FieldValue.arrayRemove({
+                        epicId: userInput.id,
+                        userId: `${message.author.id}`
+                    })
                 })
+
+                await message.member.roles.remove(roleIds)
 
                 // Successfully updated
                 const accountHasBeenUnlinkedEmbed = new Discord.EmbedBuilder()
                 accountHasBeenUnlinkedEmbed.setColor(FNBRMENA.Colors("embedSuccess"))
-                accountHasBeenUnlinkedEmbed.setTitle(`Your account ${userData.linkedAccount.name} has been unlinked successfully ${emojisObject.checkEmoji}.`)
+                accountHasBeenUnlinkedEmbed.setTitle(`Your account has been unlinked successfully ${emojisObject.checkEmoji}.`)
                 dropMenuMessage.edit({embeds: [accountHasBeenUnlinkedEmbed], components: []})
                 .catch(err => {
                     FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)

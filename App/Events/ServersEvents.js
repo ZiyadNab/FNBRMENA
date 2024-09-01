@@ -65,9 +65,9 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                             //add description
                             serversStatusEmbed.setDescription(res.data.message + '\n\n**Allowed Actions**\n' + string)
 
-                            if(res.data.status.toLowerCase() === "up") serversStatusEmbed.setImage('https://imgur.com/Q6TA03N.png')
-                            else if(res.data.status.toLowerCase() === "down") serversStatusEmbed.setImage('https://imgur.com/sm2JZhX.png')
-                            else serversStatusEmbed.setImage('https://i.imgur.com/OuV0nHn.jpg')
+                            if(res.data.status.toLowerCase() === "up") serversStatusEmbed.setImage('https://i.ibb.co/qmWWrd6/Q6TA03N.jpg')
+                            else if(res.data.status.toLowerCase() === "down") serversStatusEmbed.setImage('https://i.ibb.co/JxYZpj2/sm2JZhX.jpg')
+                            else serversStatusEmbed.setImage('https://i.ibb.co/9vLdQtD/OuV0nHn.jpg')
 
                             //add footer
                             serversStatusEmbed.setFooter({text: res.data.launcherInfoDTO.appName})

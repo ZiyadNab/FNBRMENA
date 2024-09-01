@@ -96,7 +96,7 @@ module.exports = {
                 // Create an embed
                 const playersCount = new Discord.EmbedBuilder()
                 playersCount.setColor(FNBRMENA.Colors("embed"))
-                playersCount.setThumbnail(`https://imgur.com/oFULqaR.png`)
+                playersCount.setThumbnail(`https://i.ibb.co/R27LjY9/oFULqaR.png`)
                 if(userData.lang === "en"){
                     playersCount.setTitle(`FORTNITE ACTIVE PLAYERS ${emojisObject.info}`)
                     playersCount.setDescription(`Fortnite has \`${res.data.totalPlayers}\` currently active players at the moment, this result has been taken <t:${moment().unix()}:R>.`)

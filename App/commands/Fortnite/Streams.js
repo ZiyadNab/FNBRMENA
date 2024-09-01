@@ -25,10 +25,10 @@ module.exports = {
             const avaliableStreamLanguagesEmbed = new Discord.EmbedBuilder()
             avaliableStreamLanguagesEmbed.setColor(FNBRMENA.Colors("embed"))
             if(userData.lang === "en"){
-                avaliableStreamLanguagesEmbed.setAuthor({name: `Streams`, iconURL: 'https://imgur.com/f8N9MP1.png'})
+                avaliableStreamLanguagesEmbed.setAuthor({name: `Streams`, iconURL: 'https://i.ibb.co/StnY9Vb/f8N9MP1.png'})
                 avaliableStreamLanguagesEmbed.setDescription('Please click on the Drop-Down menu and choose a stream language.\n`You have only 30 seconds until this operation ends, Make it quick`!')
             }else if(userData.lang === "ar"){
-                avaliableStreamLanguagesEmbed.setAuthor({name: `الفيديو`, iconURL: 'https://imgur.com/f8N9MP1.png'})
+                avaliableStreamLanguagesEmbed.setAuthor({name: `الفيديو`, iconURL: 'https://i.ibb.co/StnY9Vb/f8N9MP1.png'})
                 avaliableStreamLanguagesEmbed.setDescription('الرجاء الضغط على السهم لغة الفيديو.\n`لديك فقط 30 ثانية حتى تنتهي العملية, استعجل`!')
             }
 

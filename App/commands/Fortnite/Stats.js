@@ -43,9 +43,8 @@ module.exports = {
         const listOfColors = [
             '00e7ff,0006ff',
             'FF00F3,9700FF',
-            '23FF00,116F02',
+            '23FF00,9700FF',
             'FF0000,8C0000',
-            'E1FEFE,66FFFF',
             '00FFAA,01764F',
             'FF0080,810041',
             'AE00FF,570180',
@@ -54,7 +53,7 @@ module.exports = {
             'F4FF00,818701',
             'FFAA00,895C01',
             '9E00FF,D086FD',
-            '000000,000000',
+            '000000,5A5A5A',
             '003AFF,031B6B',
             '00F2F9,F900F9',
             '002DF9,00F9F5',
@@ -177,7 +176,7 @@ module.exports = {
                     if(!loadingscreen){
 
                         // Get a random loadingscreen
-                        const listOfLoadingscreans = await FNBRMENA.Search(userData.lang, "custom", "&type=loadingscreen")
+                        const listOfLoadingscreans = await FNBRMENA.Search(userData.lang, "custom", "&type=loadingscreen&introduction.chapter=Chapter 1")
                         ctx.globalAlpha = 0.5;
                         const randomImage = await randomNumber(listOfLoadingscreans.data.items.length)
                         const loadingscreanIMG = await Canvas.loadImage(listOfLoadingscreans.data.items[randomImage].images.featured)
@@ -253,33 +252,33 @@ module.exports = {
 
                     // Add stats type
                     if(userInput.type === "all"){
-                        const allTypeIMG = await Canvas.loadImage('https://imgur.com/IGV05Yq.png')
+                        const allTypeIMG = await Canvas.loadImage('https://i.ibb.co/q9CNh4z/IGV05Yq.png')
                         ctx.drawImage(allTypeIMG, 115, 120, 120, 120)
                     }
                     if(userInput.type === "kbm"){
-                        const kbmTypeIMG = await Canvas.loadImage('https://imgur.com/gUCgxuZ.png')
+                        const kbmTypeIMG = await Canvas.loadImage('https://i.ibb.co/W6qDrSr/gUCgxuZ.png')
                         ctx.drawImage(kbmTypeIMG, 115, 120, 120, 120)
                     }
                     if(userInput.type === "controller"){
-                        const controllerTypeIMG = await Canvas.loadImage('https://imgur.com/BfRpXon.png')
+                        const controllerTypeIMG = await Canvas.loadImage('https://i.ibb.co/WWWZPhX/BfRpXon.png')
                         ctx.drawImage(controllerTypeIMG, 115, 120, 120, 120)
                     }
                     if(userInput.type === "touch"){
-                        const touchTypeIMG = await Canvas.loadImage('https://imgur.com/mVWCmjy.png')
+                        const touchTypeIMG = await Canvas.loadImage('https://i.ibb.co/xm3hHWD/mVWCmjy.png')
                         ctx.drawImage(touchTypeIMG, 115, 120, 120, 120)
                     }
 
                     // Add player's platform
                     if(userInput.platform === "epic"){
-                        const allTypeIMG = await Canvas.loadImage('https://imgur.com/tSDjS5L.png')
+                        const allTypeIMG = await Canvas.loadImage('https://i.ibb.co/WHK22xy/tSDjS5L.png')
                         ctx.drawImage(allTypeIMG, 115, 250, 120, 120)
                     }
                     if(userInput.platform === "psn"){
-                        const allTypeIMG = await Canvas.loadImage('https://imgur.com/gnVRNSs.png')
+                        const allTypeIMG = await Canvas.loadImage('https://i.ibb.co/dkMKvKB/gnVRNSs.png')
                         ctx.drawImage(allTypeIMG, 115, 250, 120, 120)
                     }
                     if(userInput.platform === "xbl"){
-                        const allTypeIMG = await Canvas.loadImage('https://imgur.com/zmJKwQw.png')
+                        const allTypeIMG = await Canvas.loadImage('https://i.ibb.co/drJJHwy/zmJKwQw.png')
                         ctx.drawImage(allTypeIMG, 115, 250, 120, 120)
                     }
 

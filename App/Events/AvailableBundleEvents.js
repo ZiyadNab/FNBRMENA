@@ -515,7 +515,7 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                                         //creating image
                                         const bundlescheduleholder = await Canvas.loadImage('./assets/Rarities/newStyle/legendary.png')
                                         ctx.drawImage(bundlescheduleholder, x, y, 1024, 1024)
-                                        const bundleschedule = await Canvas.loadImage('https://i.imgur.com/MaGvfNq.png');
+                                        const bundleschedule = await Canvas.loadImage('https://i.ibb.co/mb4HMLZ/MaGvfNq.png');
                                         ctx.drawImage(bundleschedule, x, y, 1024, 1024)
                                         const bundlescheduleborder = await Canvas.loadImage('./assets/Rarities/newStyle/borderLegendary.png')
                                         ctx.drawImage(bundlescheduleborder, x, y, 1024, 1024)
@@ -567,7 +567,7 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                                         //creating image
                                         const campaignaccessholder = await Canvas.loadImage('./assets/Rarities/newStyle/uncommon.png')
                                         ctx.drawImage(campaignaccessholder, x, y, 1024, 1024)
-                                        const campaignaccess = await Canvas.loadImage('https://imgur.com/4LmOgaj.png');
+                                        const campaignaccess = await Canvas.loadImage('https://i.ibb.co/YjR8T82/4LmOgaj.png');
                                         ctx.drawImage(campaignaccess, x, y, 1024, 1024)
                                         const campaignaccessborder = await Canvas.loadImage('./assets/Rarities/newStyle/borderUncommon.png')
                                         ctx.drawImage(campaignaccessborder, x, y, 1024, 1024)
@@ -616,7 +616,7 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                                         //creating image
                                         const rewardsholder = await Canvas.loadImage('./assets/Rarities/newStyle/legendary.png')
                                         ctx.drawImage(rewardsholder, x, y, 1024, 1024)
-                                        const rewards = await Canvas.loadImage('https://imgur.com/IM4C1Ab.png');
+                                        const rewards = await Canvas.loadImage('https://i.ibb.co/7zdkbn2/IM4C1Ab.png');
                                         ctx.drawImage(rewards, x, y, 1024, 1024)
                                         const rewardsborder = await Canvas.loadImage('./assets/Rarities/newStyle/borderLegendary.png')
                                         ctx.drawImage(rewardsborder, x, y, 1024, 1024)

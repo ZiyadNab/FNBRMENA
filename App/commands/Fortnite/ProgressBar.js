@@ -49,7 +49,7 @@ module.exports = {
             // Creating canvas
             const canvas = Canvas.createCanvas(4000, (active * 420) + 1000);
             const ctx = canvas.getContext('2d');
-
+            
             // Create background grediant
             const grediant = ctx.createLinearGradient(0, canvas.height, canvas.width, 0)
 
@@ -79,8 +79,12 @@ module.exports = {
                             // Change the opacity from the database and check blur if enabled
                             ctx.globalAlpha = data.Images[x].Opacity
 
+                            if(i == 2) console.log(data.Images[x])
+
                             // Upload the image to canvas
                             const upcomingEventImage = await Canvas.loadImage(data.Images[x].Image)
+
+                            if(i == 2) console.log("E2")
 
                             // If scaling is enabled
                             if(data.Images[x].Scaling){
@@ -139,7 +143,9 @@ module.exports = {
                             }else{
 
                                 // Drawimage
+                                console.log("S")
                                 ctx.drawImage(upcomingEventImage, data.Images[x].X, data.Images[x].Y, data.Images[x].W, data.Images[x].H)
+                                console.log("SA")
                             }
                             
 
@@ -151,7 +157,7 @@ module.exports = {
                     break
                 }
             }
-
+            
             // Add FNBRMENA credit
             ctx.fillStyle = '#ffffff';
             ctx.textAlign = 'left';
@@ -380,7 +386,7 @@ module.exports = {
 
             // If there is finished string
             let finishedStringEN = `Will be available soon...`
-            let finishedStringAR = `سوف تتاح قريبا...`
+            let finishedStringAR = `سوف يتاح قريبا...`
             let previewDay = 0
 
             // Get object length and percentage
@@ -392,8 +398,8 @@ module.exports = {
                 ['FF0064', 'FF0008'], {
                 Status: true,
                 Urls: {
-                    EN: 'https://cdn2.unrealengine.com/en-subscriptions-fn-crew-png-wordmark-2200x1400-582022337.png',
-                    AR: 'https://cdn2.unrealengine.com/ar-subscriptions-fn-crew-png-wordmark-2200x1400-582022286.png'
+                    EN: 'https://cdn2.unrealengine.com/en-24br-subs-lilac-sonypdp-logo-nocrown-1400x807-e82819f5a529.png',
+                    AR: 'https://cdn2.unrealengine.com/ar-24br-subs-lilac-sonypdp-logo-nocrown-1400x807-d255de1129bb.png'
                 },
                 Scales: {
                     Status: true,

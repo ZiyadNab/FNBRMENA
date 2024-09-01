@@ -123,7 +123,7 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                                 // Set image
                                 if(newBlog.shareImage !== undefined) blogEmbed.setImage(newBlog.shareImage)
                                 else if(newBlog.trendingImage !== undefined) blogEmbed.setImage(newBlog.trendingImage)
-                                else blogEmbed.setImage("https:// I.imgur.com/Dg7jrFV.jpeg")
+                                else blogEmbed.setImage("https://i.ibb.co/1TBWBPQ/Dg7jrFV.jpg")
 
                                 // Set author
                                 if(lang === "en") blogEmbed.setFooter({text: `${newBlog.author} | ${moment(newBlog.date).format("dddd, MMMM Do of YYYY")}`})

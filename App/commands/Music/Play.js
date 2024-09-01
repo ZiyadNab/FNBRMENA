@@ -20,22 +20,14 @@ module.exports = {
             
         }
 
-        // Create a queue
-        const queue = await client.player.createQueue(message.guild, {
-            metadata: message
-        })
-
-        // If the bot has net joined yet
-        if(!queue.connection) await queue.connect(message.member.voice.channel)
-
         // Search the music
-        const result = await client.player.search(text, {
+        const searchResult = await client.player.search(text, {
             requestedBy: message.author,
-            searchEngine: QueryType.YOUTUBE_SEARCH
+            searchEngine: QueryType.AUTO
         })
 
         // Check for results
-        if(result.tracks.length == 0){
+        if(!searchResult.hasTracks()){
             const noResultsErr = new Discord.EmbedBuilder()
             noResultsErr.setColor(FNBRMENA.Colors("embedError"))
             noResultsErr.setTitle(`Couldn't find what you are looking for. ${emojisObject.errorEmoji}`)
@@ -45,8 +37,19 @@ module.exports = {
             })
         }
 
+        await client.player.play(message.member.voice.channel, searchResult, {
+            nodeOptions: {
+                metadata: {
+                    channel: message.channel,
+                    client: message.guild?.members.me,
+                    requestedBy: message.author.username
+                },
+                volume: 30
+            }
+        });
+
         // Song variable
-        const song = result.tracks[0]
+        const song = searchResult.tracks[0]
 
         // Play the requested song
         const musicPlaying = new Discord.EmbedBuilder()
@@ -67,10 +70,6 @@ module.exports = {
         .catch(err => {
             FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, dropMenuMessage)
         })
-
-        // Add the song to the queue track
-        await queue.addTrack(song)
-        if(!queue.playing) queue.play() // Play
 
     }
 }

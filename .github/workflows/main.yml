@@ -31,8 +31,7 @@ jobs:
             tar -xf FNBRMENA.tar
             rm -rf FNBRMENA.tar
             docker rm -f FNBRMENA_CONTAINER || true
-            docker build -t fnbrmena_image:latest .
+            docker build --no-cache -t fnbrmena_image:latest .
             docker run -d --name FNBRMENA_CONTAINER fnbrmena_image:latest
-            cd ..
-            rm -rf fnbrmena_repo
+            rm -rf *
           EOF

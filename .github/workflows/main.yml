@@ -18,7 +18,7 @@ jobs:
 
       - name: Transfer repo files to VM
         run: |
-          sshpass -p "${{ secrets.VM_PASSWORD }}" scp -o StrictHostKeyChecking=no ./ ${{ secrets.VM_USER }}@${{ secrets.VM_HOST }}:/tmp/fnbrmena_repo
+          sshpass -p "${{ secrets.VM_PASSWORD }}" scp -o StrictHostKeyChecking=no -r ./ ${{ secrets.VM_USER }}@${{ secrets.VM_HOST }}:/tmp/fnbrmena_repo
 
       - name: Deploy to VM
         run: |

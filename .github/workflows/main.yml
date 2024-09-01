@@ -6,7 +6,7 @@ on:
       - master
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -16,11 +16,11 @@ jobs:
       - name: Install sshpass
         run: sudo apt-get install -y sshpass
 
-      - name: Transfer repo files to VM
+      - name: Transfer repository files to VM
         run: |
           sshpass -p "${{ secrets.VM_PASSWORD }}" scp -o StrictHostKeyChecking=no -r ./ ${{ secrets.VM_USER }}@${{ secrets.VM_HOST }}:/tmp/fnbrmena_repo
 
-      - name: Deploy to VM
+      - name: Deploy and Build Docker image on VM
         run: |
           sshpass -p "${{ secrets.VM_PASSWORD }}" ssh -o StrictHostKeyChecking=no ${{ secrets.VM_USER }}@${{ secrets.VM_HOST }} << 'EOF'
             cd /tmp/fnbrmena_repo

@@ -70,7 +70,7 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                         if(member){
 
                             // Add the specific role if the user doesn't already have it
-                            const desiredRole = progress.data.lastUpdated !== "1970-01-01T00:00:00Z" + 1 ? roleIds[progress.data.currentDivision + 1] : roleIds[0];
+                            const desiredRole = progress.data.lastUpdated !== "1970-01-01T00:00:00Z" ? roleIds[progress.data.currentDivision + 1] : roleIds[0];
                             if (!member.roles.cache.has(desiredRole)) {
 
                                 const rolesToRemove = member.roles.cache.filter(role => roleIds.includes(role.id));

@@ -19,7 +19,8 @@ jobs:
       - name: Transfer repository files to VM
         run: |
           sshpass -p "${{ secrets.VM_PASSWORD }}" ssh -o StrictHostKeyChecking=no ${{ secrets.VM_USER }}@${{ secrets.VM_HOST }} << 'EOF'
-            tar -cvf FNBRMENA.tar .
+            ls
+            tar -cvf FNBRMENA.tar App Dockerfile
             scp -o StrictHostKeyChecking=no FNBRMENA.tar ${{ secrets.VM_USER }}@${{ secrets.VM_HOST }}:/tmp/fnbrmena_repo/
 
           EOF

@@ -1,9 +1,10 @@
-name: Auto Deploy FNBRMENA Bot On Master Branch
+name: Auto Deploy FNBRMENA Bot
 
 on:
   push:
     branches:
       - master
+      - dev
 
 jobs:
   deploy:
@@ -33,6 +34,14 @@ jobs:
             docker rm -f FNBRMENA_CONTAINER || true
             docker rmi fnbrmena_image || true
             docker build --no-cache -t fnbrmena_image:latest .
+            
+            # Determine the correct Discord token based on the branch
+            if [ "${GITHUB_REF##*/}" == "master" ]; then
+              discord_token="${{ secrets.PRD_DISCORD_TOKEN }}"
+            else
+              discord_token="${{ secrets.DEV_DISCORD_TOKEN }}"
+            fi
+            
             docker run -d --name FNBRMENA_CONTAINER \
               --restart always \
               -e type="${{ secrets.FIREBASE_TYPE }}" \
@@ -46,7 +55,7 @@ jobs:
               -e auth_provider_x509_cert_url="${{ secrets.FIREBASE_AUTH_PROVIDER_X509_CERT_URL }}" \
               -e client_x509_cert_url="${{ secrets.FIREBASE_CLIENT_X509_CERT_URL }}" \
               -e universe_domain="${{ secrets.FIREBASE_UNIVERSE_DOMAIN }}" \
-              -e discord_token="${{ secrets.PRD_DISCORD_TOKEN }}" \
+              -e discord_token="$discord_token" \
               fnbrmena_image:latest
             rm -rf *
           EOF

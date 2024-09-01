@@ -44,6 +44,7 @@ jobs:
               -e auth_provider_x509_cert_url="${{ secrets.FIREBASE_AUTH_PROVIDER_X509_CERT_URL }}" \
               -e client_x509_cert_url="${{ secrets.FIREBASE_CLIENT_X509_CERT_URL }}" \
               -e universe_domain="${{ secrets.FIREBASE_UNIVERSE_DOMAIN }}" \
+              -e firebase_config="${{ secrets.FIREBASE_CONFIG }}" \
               -e discord_token="${{ secrets.PRD_DISCORD_TOKEN }}" \
               fnbrmena_image:latest
             rm -rf *

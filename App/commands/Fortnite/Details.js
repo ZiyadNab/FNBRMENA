@@ -366,7 +366,7 @@ module.exports = {
                             }else var Source = styles[i].type.name.toUpperCase()
 
                             var name = styles[i].name;
-                            if(styles[i].images.icon === null) var image = 'https://i.ibb.co/XCDwKHh/HVH5sqV.png'
+                            if(styles[i].images.icon === null) var image = 'https://firebasestorage.googleapis.com/v0/b/fnbrmena-bot.appspot.com/o/code_images%2FHVH5sqV.png?alt=media&token=41c26ee2-c98e-492d-a84c-299a69ac6012'
                             else var image = styles[i].images.icon
                             if(styles[i].series === null) var rarity = styles[i].rarity.id
                             else var rarity = styles[i].series.id
@@ -853,7 +853,7 @@ module.exports = {
                             }else var Source = grants[i].type.name.toUpperCase()
 
                             var name = grants[i].name;
-                            if(grants[i].images.icon === null) var image = 'https://i.ibb.co/XCDwKHh/HVH5sqV.png'
+                            if(grants[i].images.icon === null) var image = 'https://firebasestorage.googleapis.com/v0/b/fnbrmena-bot.appspot.com/o/code_images%2FHVH5sqV.png?alt=media&token=41c26ee2-c98e-492d-a84c-299a69ac6012'
                             else var image = grants[i].images.icon
                             if(grants[i].series === null) var rarity = grants[i].rarity.id
                             else var rarity = grants[i].series.id

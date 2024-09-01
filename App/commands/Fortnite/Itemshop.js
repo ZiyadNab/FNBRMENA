@@ -109,7 +109,7 @@ module.exports = {
                 for (const item of data) {
                     if(item.mainType === "sparks_song") continue
 
-                    const image = item.displayAssets[0]?.url ? item.displayAssets[0].url : "https://i.ibb.co/XCDwKHh/HVH5sqV.png"
+                    const image = item.displayAssets[0]?.url ? item.displayAssets[0].url : "https://firebasestorage.googleapis.com/v0/b/fnbrmena-bot.appspot.com/o/code_images%2FHVH5sqV.png?alt=media&token=41c26ee2-c98e-492d-a84c-299a69ac6012"
                     const rarity = item.series ? item.series?.id : item.rarity?.id
                     newline++
 

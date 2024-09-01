@@ -261,8 +261,8 @@ module.exports = {
                 ctx.globalAlpha = 1
                 ctx.fillText(`FNBRMENA | ${data.account.displayName}`.toUpperCase(),  25, 130)
 
-                if(data.rankedData.rankingType === "ranked-zb") var rankingType = await Canvas.loadImage(`https://i.ibb.co/F6WrjzS/IoJKRyk.png`)
-                else if(data.rankedData.rankingType === "ranked-br") var rankingType = await Canvas.loadImage(`https://i.ibb.co/9tPS7Xr/hoZI3ew.png`)
+                if(data.rankedData.rankingType === "ranked-zb") var rankingType = await Canvas.loadImage(`https://firebasestorage.googleapis.com/v0/b/fnbrmena-bot.appspot.com/o/code_images%2FIoJKRyk.png?alt=media&token=88be0a4a-db43-4a63-ad4c-88633879fc22`)
+                else if(data.rankedData.rankingType === "ranked-br") var rankingType = await Canvas.loadImage(`https://firebasestorage.googleapis.com/v0/b/fnbrmena-bot.appspot.com/o/code_images%2FhoZI3ew.png?alt=media&token=55c11d8a-f8b7-4c8e-97a3-7783bf29fcf8`)
                 else var rankingType = await Canvas.loadImage(`https://media.fortniteapi.io/images/037a909c38715a43d8d0babd06a43d2c/transparent.png`)
                 ctx.drawImage(rankingType, 7, 160, 110, 110)
 
@@ -329,10 +329,10 @@ module.exports = {
         const rankedStatsPlatformEmbed = new Discord.EmbedBuilder()
         rankedStatsPlatformEmbed.setColor(FNBRMENA.Colors("embed"))
         if(userData.lang === "en"){
-            rankedStatsPlatformEmbed.setAuthor({name: `Player Ranked Stats`, iconURL: 'https://i.ibb.co/989xcCP/KnaEbr7.png'})
+            rankedStatsPlatformEmbed.setAuthor({name: `Player Ranked Stats`, iconURL: 'https://firebasestorage.googleapis.com/v0/b/fnbrmena-bot.appspot.com/o/code_images%2FKnaEbr7.png?alt=media&token=7e69303f-0f23-42b6-a623-8e4915d0835f'})
             rankedStatsPlatformEmbed.setDescription(`This command will return an image contains the ${text} player ranked stats. Please click on the Drop-Down menu and select a platform.\n\n\`You have only 30 seconds until this operation ends, Make it quick\`!`)
         }else if(userData.lang === "ar"){
-            rankedStatsPlatformEmbed.setAuthor({name: `إحصائيات تصنيف اللاعب`, iconURL: 'https://i.ibb.co/989xcCP/KnaEbr7.png'})
+            rankedStatsPlatformEmbed.setAuthor({name: `إحصائيات تصنيف اللاعب`, iconURL: 'https://firebasestorage.googleapis.com/v0/b/fnbrmena-bot.appspot.com/o/code_images%2FKnaEbr7.png?alt=media&token=7e69303f-0f23-42b6-a623-8e4915d0835f'})
             rankedStatsPlatformEmbed.setDescription(`سيعيد هذا الأمر صورة تحتوي على إحصائيات مرتبة اللاعب ${text}. الرجاء الضغط على السهم لاختيار نوع المنصه.\n\n\`لديك فقط 30 ثانية حتى تنتهي العملية, استعجل\`!`)
         }
 

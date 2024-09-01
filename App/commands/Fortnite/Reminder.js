@@ -243,7 +243,7 @@ module.exports = {
                     // Set the item info
                     var name = res.data.items[num].name
                     var price = res.data.items[num].price
-                    if(res.data.items[num].images.icon === null) var image = 'https://i.ibb.co/XCDwKHh/HVH5sqV.png'
+                    if(res.data.items[num].images.icon === null) var image = 'https://firebasestorage.googleapis.com/v0/b/fnbrmena-bot.appspot.com/o/code_images%2FHVH5sqV.png?alt=media&token=41c26ee2-c98e-492d-a84c-299a69ac6012'
                     else var image = res.data.items[num].images.icon
                     if(res.data.items[num].series !== null) var rarity = res.data.items[num].series.id
                     else var rarity = res.data.items[num].rarity.id

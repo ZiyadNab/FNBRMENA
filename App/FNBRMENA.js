@@ -1325,7 +1325,7 @@ class FNBRMENA {
             //create error embed
             const anErrorHappened = new Discord.EmbedBuilder()
             anErrorHappened.setColor(this.Colors("embedError"))
-            anErrorHappened.setThumbnail('https://i.ibb.co/Y2yXPf8/yjMpDe3.png')
+            anErrorHappened.setThumbnail('https://firebasestorage.googleapis.com/v0/b/fnbrmena-bot.appspot.com/o/code_images%2FyjMpDe3.png?alt=media&token=6801593c-cbe5-49f5-a7cf-c55187bd57b7')
             if(lang === "en"){
                 anErrorHappened.setTitle(`Ouch, Errr thats awkward ${emojisObject.errorEmoji}`)
                 anErrorHappened.setDescription(`An error occurred while getting data for the \`${alias}\` command. A complete log has been sent to the developer and a fix is being worked on right now. If this issue took longer than necessary, please [__CONTACT OUR SUPPORT TEAM__](https://discord.com/channels/756464693492842496/800405068880281661) ASAP.\n\nWe're sorry for the inconvenience\n\`\`\`yaml\n${err.message}\`\`\``)

@@ -127,7 +127,7 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                                 if(lang === "en") var name = 'NAME NOT FOUND'
                                 else if(lang === "ar") var name = 'لا يوجد اسم'
                             }
-                            if(res.data.history[0].rewards[i].item.images.icon === null) var image = 'https://i.ibb.co/XCDwKHh/HVH5sqV.png'
+                            if(res.data.history[0].rewards[i].item.images.icon === null) var image = 'https://firebasestorage.googleapis.com/v0/b/fnbrmena-bot.appspot.com/o/code_images%2FHVH5sqV.png?alt=media&token=41c26ee2-c98e-492d-a84c-299a69ac6012'
                             else var image = res.data.history[0].rewards[i].item.images.icon
                             if(res.data.history[0].rewards[i].item.series === null) var rarity = res.data.history[0].rewards[i].item.rarity.id
                             else var rarity = res.data.history[0].rewards[i].item.series.id

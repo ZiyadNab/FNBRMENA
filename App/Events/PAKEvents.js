@@ -208,7 +208,7 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                                 }else var Source = item.type.name.toUpperCase()
 
                                 var name = item.name
-                                if(item.images.icon === null) var image = 'https://i.ibb.co/XCDwKHh/HVH5sqV.png'
+                                if(item.images.icon === null) var image = 'https://firebasestorage.googleapis.com/v0/b/fnbrmena-bot.appspot.com/o/code_images%2FHVH5sqV.png?alt=media&token=41c26ee2-c98e-492d-a84c-299a69ac6012'
                                 else var image = item.images.icon
                                 if(item.series === null) var rarity = item.rarity.id
                                 else var rarity = item.series.id

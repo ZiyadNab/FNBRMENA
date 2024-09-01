@@ -231,7 +231,7 @@ module.exports = {
                         if(userData.lang === "en") var name = 'NAME NOT FOUND'
                         else if(userData.lang === "ar") var name = 'لا يوجد اسم'
                     }
-                    if(res.data.items[0].images.icon === null) var image = 'https://i.ibb.co/XCDwKHh/HVH5sqV.png'
+                    if(res.data.items[0].images.icon === null) var image = 'https://firebasestorage.googleapis.com/v0/b/fnbrmena-bot.appspot.com/o/code_images%2FHVH5sqV.png?alt=media&token=41c26ee2-c98e-492d-a84c-299a69ac6012'
                     else var image = res.data.items[0].images.icon
                     if(res.data.items[0].series !== null) var rarity = res.data.items[0].series.id
                     else var rarity = res.data.items[0].rarity.id

@@ -321,7 +321,7 @@ module.exports = {
 
                 // Skin informations
                 var name = mergedItemsDataList[i].name
-                if (mergedItemsDataList[i].images.icon === null) var image = 'https://i.ibb.co/XCDwKHh/HVH5sqV.png'
+                if (mergedItemsDataList[i].images.icon === null) var image = 'https://firebasestorage.googleapis.com/v0/b/fnbrmena-bot.appspot.com/o/code_images%2FHVH5sqV.png?alt=media&token=41c26ee2-c98e-492d-a84c-299a69ac6012'
                 else var image = mergedItemsDataList[i].images.icon
                 if (mergedItemsDataList[i].series === null) var rarity = mergedItemsDataList[i].rarity.id
                 else var rarity = mergedItemsDataList[i].series.id

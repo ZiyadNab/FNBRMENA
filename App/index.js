@@ -1,12 +1,13 @@
-const serviceAccount = require('./Firebase/ServiceAccount.json')
 const Events = require('./Events/Events.js')
 const admin = require('firebase-admin')
 const Discord = require('discord.js')
-const client = new Discord.Client({ intents: [Discord.GatewayIntentBits.DirectMessages, Discord.GatewayIntentBits.DirectMessageReactions,
+const client = new Discord.Client({
+  intents: [Discord.GatewayIntentBits.DirectMessages, Discord.GatewayIntentBits.DirectMessageReactions,
   Discord.GatewayIntentBits.DirectMessageTyping, Discord.GatewayIntentBits.Guilds, Discord.GatewayIntentBits.GuildBans, Discord.GatewayIntentBits.GuildEmojisAndStickers,
   Discord.GatewayIntentBits.GuildEmojisAndStickers, Discord.GatewayIntentBits.GuildIntegrations, Discord.GatewayIntentBits.GuildInvites, Discord.GatewayIntentBits.GuildMembers,
   Discord.GatewayIntentBits.GuildMessages, Discord.GatewayIntentBits.GuildMessageReactions, Discord.GatewayIntentBits.GuildMessageTyping, Discord.GatewayIntentBits.GuildPresences,
-  Discord.GatewayIntentBits.GuildVoiceStates, Discord.GatewayIntentBits.GuildWebhooks, Discord.GatewayIntentBits.MessageContent], partials: [Discord.Partials.Channel], allowedMentions:{ parse:["everyone"] }})
+  Discord.GatewayIntentBits.GuildVoiceStates, Discord.GatewayIntentBits.GuildWebhooks, Discord.GatewayIntentBits.MessageContent], partials: [Discord.Partials.Channel], allowedMentions: { parse: ["everyone"] }
+})
 const Data = require('./FNBRMENA')
 const path = require('path')
 const FNBRMENA = new Data()
@@ -15,16 +16,29 @@ const { Player } = require('discord-player')
 
 // Get access to the database
 admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
+  credential: admin.credential.cert({
+    type: process.env.type,
+    project_id: process.env.project_id,
+    private_key_id: process.env.private_key_id,
+    private_key: process.env.private_key,
+    client_email: process.env.client_email,
+    client_id: process.env.client_id,
+    auth_uri: process.env.auth_uri,
+    token_uri: process.env.token_uri,
+    auth_provider_x509_cert_url: process.env.auth_provider_x509_cert_url,
+    client_x509_cert_url: process.env.client_x509_cert_url,
+    universe_domain: process.env.universe_domain
+  }
+  ),
   databaseURL: "https://fnbrmena-bot-default-rtdb.europe-west1.firebasedatabase.app/",
   storageBucket: 'gs://fnbrmena-bot.appspot.com'
 })
 
 client.player = new Player(client, {
   ytdlOptions: {
-      filter: "audioonly",
-      quality: "highestaudio",
-      highWaterMark: 1 << 25
+    filter: "audioonly",
+    quality: "highestaudio",
+    highWaterMark: 1 << 25
   }
 })
 
@@ -39,16 +53,18 @@ client.player.events
     musicPlaying.setTitle(`Now Playing \`${track.title}\``)
     musicPlaying.setDescription(`Duration: \`${track.duration}\` Queue: \`${queue.tracks.length}\``)
     musicPlaying.setThumbnail(track.thumbnail)
-    musicPlaying.setAuthor({name: `Played By ${track.requestedBy.username}`, iconURL: `https://cdn.discordapp.com/avatars/${track.requestedBy.id}/${track.requestedBy.avatar}.jpeg`})
-    queue.metadata.channel.send({embeds: [musicPlaying], components: [
-      new Discord.ActionRowBuilder()
-      .addComponents(
-        new Discord.ButtonBuilder()
-         .setStyle(Discord.ButtonStyle.Link)
-         .setLabel("Music Link")
-         .setURL(track.url)
-      )
-    ]})
+    musicPlaying.setAuthor({ name: `Played By ${track.requestedBy.username}`, iconURL: `https://cdn.discordapp.com/avatars/${track.requestedBy.id}/${track.requestedBy.avatar}.jpeg` })
+    queue.metadata.channel.send({
+      embeds: [musicPlaying], components: [
+        new Discord.ActionRowBuilder()
+          .addComponents(
+            new Discord.ButtonBuilder()
+              .setStyle(Discord.ButtonStyle.Link)
+              .setLabel("Music Link")
+              .setURL(track.url)
+          )
+      ]
+    })
   })
   .on("error", (queue, track) => {
 
@@ -56,7 +72,7 @@ client.player.events
     const errorNotPlaying = new Discord.EmbedBuilder()
     errorNotPlaying.setColor(FNBRMENA.Colors("embedError"))
     errorNotPlaying.setTitle(`An error has been occurred.`)
-    queue.metadata.channel.send({embeds: [musicPlaying]})
+    queue.metadata.channel.send({ embeds: [musicPlaying] })
   })
 
 // Client event listner
@@ -95,7 +111,7 @@ client.on('ready', async () => {
 
   // Set interval to change the status
   setInterval(async () => {
-    
+
     // setPresence
     client.user.setPresence({
       activities: [
@@ -108,9 +124,9 @@ client.on('ready', async () => {
     })
 
     // Change the index status
-    if(index < (statusOptions.length - 1)) index++
+    if (index < (statusOptions.length - 1)) index++
     else index = 0
-      
+
   }, 30000)
 
   const baseFile = 'CommandBase.js'
@@ -140,14 +156,14 @@ client.on('ready', async () => {
   const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'))
 
   for (const file of commandFiles) {
-      const filePath = path.join(commandsPath, file)
-      const command = require(filePath)
-      // Set a new item in the Collection with the key as the command name and the value as the exported module
-      if ('data' in command && 'execute' in command) {
-          client.commands.set(command.data.name, command)
-      } else {
-          console.log(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`)
-      }
+    const filePath = path.join(commandsPath, file)
+    const command = require(filePath)
+    // Set a new item in the Collection with the key as the command name and the value as the exported module
+    if ('data' in command && 'execute' in command) {
+      client.commands.set(command.data.name, command)
+    } else {
+      console.log(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`)
+    }
   }
 
   // Initializing emojis
@@ -233,7 +249,7 @@ client.on('ready', async () => {
   readCommands('commands')
   commandBase.listen(client, admin, emojisObject)
   Events(client, admin, commandsData, emojisObject)
-  
+
 })
 
 client.login(FNBRMENA.APIKeys("DiscordBotToken"));

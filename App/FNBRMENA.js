@@ -1412,11 +1412,11 @@ class FNBRMENA {
      */
     APIKeys(Type){
         if(Type === "guildId"){
-            return "746143287383031878"
+            return process.env.guild_id
         }
 
         if(Type === "clientId"){
-            return "813746918789218386"
+            return process.env.client_id_discord
         }
 
         if(Type === "FortniteAPI.io"){

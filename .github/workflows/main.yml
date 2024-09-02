@@ -44,8 +44,12 @@ jobs:
             # Determine the correct Discord token based on the branch
             if [ "\${branch_name}" == "master" ]; then
               discord_token="${{ secrets.PRD_DISCORD_TOKEN }}"
+              guild_id="${{ secrets.PRD_GUILD_ID }}"
+              client_id_discord="${{ secrets.PRD_CLIENT_ID }}"
             else
               discord_token="${{ secrets.DEV_DISCORD_TOKEN }}"
+              guild_id="${{ secrets.DEV_GUILD_ID }}"
+              client_id_discord="${{ secrets.DEV_CLIENT_ID }}"
             fi
             
             docker run -d --name \${container_name} \
@@ -62,6 +66,8 @@ jobs:
               -e client_x509_cert_url="${{ secrets.FIREBASE_CLIENT_X509_CERT_URL }}" \
               -e universe_domain="${{ secrets.FIREBASE_UNIVERSE_DOMAIN }}" \
               -e discord_token="\${discord_token}" \
+              -e guild_id="\${guild_id}" \
+              -e client_id_discord="\${client_id_discord}" \
               \${image_name}:latest
             rm -rf *
           EOF

@@ -377,7 +377,7 @@ module.exports = {
             // Check if there is an item found
             if (weaponId.length === 0) {
                 // No weapons have been found
-                const noWeaponsFoundError = new EmbedBuilder()
+                const noWeaponsFoundError = new Discord.EmbedBuilder()
                     .setColor(FNBRMENA.Colors("embedError"))
                     .setTitle(userData.lang === "en" ? `No weapons have been found ${emojisObject.errorEmoji}.` : `لم يتم العثور على اسلحه ${emojisObject.errorEmoji}.`);
                 await interaction.reply({ embeds: [noWeaponsFoundError], ephemeral: true });
@@ -390,7 +390,7 @@ module.exports = {
                 await FNBRMENA.Weapon(userData.lang, "", false)
                     .then(async res => {
                         if (!res.data.result) {
-                            const noResultFoundError = new EmbedBuilder()
+                            const noResultFoundError = new Discord.EmbedBuilder()
                                 .setColor(FNBRMENA.Colors("embedError"))
                                 .setTitle(userData.lang === "en" ? `No result found (API Error) ${emojisObject.errorEmoji}.` : `لم يتم العثور على نتائج (مشكلة API) ${emojisObject.errorEmoji}.`);
                             return await interaction.reply({ embeds: [noResultFoundError], ephemeral: true });
@@ -408,15 +408,15 @@ module.exports = {
             // If more than one item has been found
             if (weaponId.length > 1) {
                 // Create an embed
-                const listWeaponsEmbed = new EmbedBuilder()
+                const listWeaponsEmbed = new Discord.EmbedBuilder()
                     .setColor(FNBRMENA.Colors("embed"))
                     .setAuthor({ name: userData.lang === "en" ? `Weapons` : `الأسلحة`, iconURL: 'https://i.ibb.co/YNKLKN5/mvFcjNF.png' })
                     .setDescription(userData.lang === "en" ? 'Please select a weapon from the dropdown menu.' : 'الرجاء اختيار سلاح من القائمة المنسدلة.');
 
                 // Create a row for buttons
-                const buttonDataRow = new ActionRowBuilder()
+                const buttonDataRow = new Discord.ActionRowBuilder()
                     .addComponents(
-                        new ButtonBuilder()
+                        new Discord.ButtonBuilder()
                             .setCustomId(`Cancel`)
                             .setStyle(ButtonStyle.Danger)
                             .setLabel(userData.lang === "en" ? "Cancel" : "اغلاق")
@@ -429,12 +429,12 @@ module.exports = {
                     emoji: `${emojisObject[wid.rarity].name}:${emojisObject[wid.rarity].id}`
                 }));
 
-                const listWeaponsDropMenu = new StringSelectMenuBuilder()
+                const listWeaponsDropMenu = new Discord.StringSelectMenuBuilder()
                     .setCustomId(`weapons-select`)
                     .setPlaceholder(userData.lang === "en" ? 'Select a weapon...' : 'اختر سلاحًا...')
                     .addOptions(weapons);
 
-                const selectMenuRow = new ActionRowBuilder().addComponents(listWeaponsDropMenu).addComponents(buttonDataRow);
+                const selectMenuRow = new Discord.ActionRowBuilder().addComponents(listWeaponsDropMenu).addComponents(buttonDataRow);
 
                 // Send the message
                 await interaction.reply({ embeds: [listWeaponsEmbed], components: [selectMenuRow] });
@@ -453,7 +453,7 @@ module.exports = {
                         await FNBRMENA.Weapon(userData.lang, "", false)
                             .then(async res => {
                                 if (!res.data.result) {
-                                    const noResultFoundError = new EmbedBuilder()
+                                    const noResultFoundError = new Discord.EmbedBuilder()
                                         .setColor(FNBRMENA.Colors("embedError"))
                                         .setTitle(userData.lang === "en" ? `No result found (API Error) ${emojisObject.errorEmoji}.` : `لم يتم العثور على نتائج (مشكلة API) ${emojisObject.errorEmoji}.`);
                                     return await interaction.editReply({ embeds: [noResultFoundError], components: [] });

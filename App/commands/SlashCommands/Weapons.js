@@ -517,7 +517,8 @@ module.exports = {
 
                     // If cancel button has been clicked
                     if (collected.customId === `Cancel-${text}`) {
-                        await interaction.followUp({ content: 'Operation cancelled.', ephemeral: true });
+                        // Delete the original interaction message
+                        await interaction.deleteReply(); // Deletes the initial reply message
                         collector.stop();
                     } else if (collected.customId.startsWith('weapon-select')) {
                         // Handle weapon selection
@@ -545,11 +546,8 @@ module.exports = {
                                         listOfWeapons.push(wid);
                                 });
 
-                                // Perform your actions with the selected weapon here
-                                // For example, send another embed with weapon details or images
-                                await interaction.followUp({ content: `You selected: ${selectedWeapon}`, ephemeral: true });
                             }).catch(async err => {
-                                console.log(err)
+                                console.log(err);
                             });
                     }
                 });
@@ -561,10 +559,14 @@ module.exports = {
                         await interaction.editReply({ components: [] });
                     }
                 });
+
             }
 
             // Call the weapon image builder
-            if (listOfWeapons.length > 0) weaponImageBuilder(listOfWeapons)
+            if (listOfWeapons.length > 0){
+                console.log(listOfWeapons)
+                weaponImageBuilder(listOfWeapons)
+            }
         }
     }
 }

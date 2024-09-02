@@ -8,7 +8,7 @@ module.exports = {
             option.setName('name')
                 .setDescription('Specify the outfit name or ID')
                 .setRequired(true)),
-    async execute(interaction, FNBRMENA, Discord, client, admin, emojisObject) {
+    async execute(FNBRMENA, interaction, Discord, client, admin, userData, emojisObject) {
         const userData = {}; // Assuming you have a way to retrieve userData
         const text = interaction.options.getString('name');
         let searchType = text.includes("_") ? "id" : "name";

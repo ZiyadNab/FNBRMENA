@@ -15,7 +15,7 @@ module.exports = async (client, admin, commandsData, emojisObject) => {
     // FNBRMENA.Events(FNBRMENA, client, admin, commandsData, emojisObject, "Notice")
     FNBRMENA.Events(FNBRMENA, client, admin, commandsData, emojisObject, "AvailableBundle")
     FNBRMENA.Events(FNBRMENA, client, admin, commandsData, emojisObject, "Servers")
-    FNBRMENA.Events(FNBRMENA, client, admin, commandsData, emojisObject, "Reminders")
+    // FNBRMENA.Events(FNBRMENA, client, admin, commandsData, emojisObject, "Reminders")
     FNBRMENA.Events(FNBRMENA, client, admin, commandsData, emojisObject, "Twitch")
     FNBRMENA.Events(FNBRMENA, client, admin, commandsData, emojisObject, "EventFlags")
     FNBRMENA.Events(FNBRMENA, client, admin, commandsData, emojisObject, "rankedRoles")

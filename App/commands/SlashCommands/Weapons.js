@@ -332,7 +332,7 @@ module.exports = {
             }
         };
 
-        const text = interaction.options.getString('name');
+        const text = interaction.options.getString('weapon');
         var list = [];
         var listCounter = 0;
 

@@ -10,7 +10,7 @@ module.exports = {
 			.setRequired(true)
 		),
 
-	async execute(FNBRMENA, interaction, client, admin, userData, emojisObject) {
+	async execute(FNBRMENA, interaction, Discord, client, admin, userData, emojisObject) {
 		// Initializing data
 		const text = interaction.options.getString('emote');
 		let searchType = "name";

@@ -12,6 +12,7 @@ module.exports = {
         ),
 
     async execute(FNBRMENA, interaction, Discord, client, admin, userData, emojisObject) {
+        var text = interaction.options.getString('weapon');
 
         // Set of rarity colors
         const colors = {
@@ -331,47 +332,61 @@ module.exports = {
                 console.log(err)
             }
         };
-        
-        // Request a weapon
-        const rquestedWeapons = await FNBRMENA.Weapon("en", "", false)
-        .catch(err => {
-            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
-        })
-
-        var text = interaction.options.getString('weapon');
-        var list = [];
-        var listCounter = 0;
-
-        // Storing the items from the input
-        while (text.indexOf("+") !== -1) {
-            var stringNumber = text.indexOf("+");
-            var cosmetic = text.substring(0, stringNumber).trim();
-            list[listCounter++] = cosmetic;
-            text = text.replace(cosmetic + ' +', '').trim();
-        }
-
-        // Add the last cosmetic name
-        text = text.trim();
-        list[listCounter++] = text;
 
         // Variables
         var weaponId = []
-        var listOfWeapons = [];
+        const listOfWeapons = []
+
+        // Request a weapon
+        const rquestedWeapons = await FNBRMENA.Weapon("en", "", false)
+            .catch(err => {
+                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
+            })
+
+        // Storing the items
+        var list = []
+        var listCounter = 0
+        while (text.indexOf("+") !== -1) {
+
+            // Getting the index of the + in text string
+            var stringNumber = text.indexOf("+")
+            // Substring the cosmetic name and store it
+            var cosmetic = text.substring(0, stringNumber)
+            // Trimming every space
+            cosmetic = cosmetic.trim()
+            // Store it into the array
+            list[listCounter] = cosmetic
+            // Remove the cosmetic from text to start again if the while statment !== -1
+            text = text.replace(cosmetic + ' +', '')
+            // Remove every space in text
+            text = text.trim()
+            // Add the listCounter index
+            listCounter++
+            // End of wile lets try aagin
+        }
+
+        // Still there is the last cosmetic name so lets trim text
+        text = text.trim()
+        // Add the what text holds in the last index
+        list[listCounter++] = text
 
         // Loop through every item
         for (let i = 0; i < list.length; i++) {
 
             // Check if the user searched using an id or a name
             if (list[i].includes("_")) {
-                // Filter for ids
+
+                // Filter for wids
                 weaponId = await rquestedWeapons.data.weapons.filter(wid => {
-                    return wid.id.toLowerCase() === list[i].toLowerCase();
-                });
+                    return wid.id.toLowerCase() === list[i].toLowerCase()
+                })
+
             } else {
+
                 // Filter for names
                 weaponId = await rquestedWeapons.data.weapons.filter(wid => {
-                    return wid.name.toLowerCase().includes(list[i].toLowerCase());
-                });
+                    return wid.name.toLowerCase().includes(list[i].toLowerCase())
+                })
             }
 
             // Check if there is an item found
@@ -401,82 +416,154 @@ module.exports = {
                             if (wid.id === weaponId[0].id) listOfWeapons.push(wid);
                         });
                     }).catch(err => {
-                        FNBRMENA.Logs(admin, null, Discord, interaction, null, userData.lang, text, err, emojisObject, null);
+                        console.log(err)
                     });
             }
 
             // If more than one item has been found
             if (weaponId.length > 1) {
+
+                // Check if out of range
+                if (weaponId.length >= 120) {
+
+                    // Too large entry
+                    const requestEntryTooLargeError = new Discord.EmbedBuilder()
+                    requestEntryTooLargeError.setColor(FNBRMENA.Colors("embedError"))
+                    if (userData.lang === "en") requestEntryTooLargeError.setTitle(`Request entry too large ${emojisObject.errorEmoji}`)
+                    else if (userData.lang === "ar") requestEntryTooLargeError.setTitle(`تم تخطي الكميه المحدودة ${emojisObject.errorEmoji}`)
+                    return await interaction.reply({ embeds: [requestEntryTooLargeError], ephemeral: true });
+
+                }
+
                 // Create an embed
                 const listWeaponsEmbed = new Discord.EmbedBuilder()
-                    .setColor(FNBRMENA.Colors("embed"))
-                    .setAuthor({ name: userData.lang === "en" ? `Weapons` : `الأسلحة`, iconURL: 'https://i.ibb.co/YNKLKN5/mvFcjNF.png' })
-                    .setDescription(userData.lang === "en" ? 'Please select a weapon from the dropdown menu.' : 'الرجاء اختيار سلاح من القائمة المنسدلة.');
+                listWeaponsEmbed.setColor(FNBRMENA.Colors("embed"))
+
+                //set Author
+                if (userData.lang === "en") {
+                    listWeaponsEmbed.setAuthor({ name: `Weapons`, iconURL: 'https://i.ibb.co/YNKLKN5/mvFcjNF.png' })
+                    listWeaponsEmbed.setDescription('Please click on the Drop-Down menu and choose a weapons.\n`You have only 30 seconds until this operation ends, Make it quick`!')
+                } else if (userData.lang === "ar") {
+                    listWeaponsEmbed.setAuthor({ name: `الأسلحة`, iconURL: 'https://i.ibb.co/YNKLKN5/mvFcjNF.png' })
+                    listWeaponsEmbed.setDescription('الرجاء الضغط على السهم لاختيار سلاح.\n`لديك فقط 30 ثانية حتى تنتهي العملية, استعجل`!')
+                }
 
                 // Create a row for buttons
                 const buttonDataRow = new Discord.ActionRowBuilder()
-                    .addComponents(
-                        new Discord.ButtonBuilder()
-                            .setCustomId(`Cancel`)
-                            .setStyle(Discord.ButtonStyle.Danger)
-                            .setLabel(userData.lang === "en" ? "Cancel" : "اغلاق")
-                    );
 
-                // Create select menu options
-                const weapons = weaponId.map(wid => ({
-                    label: wid.name,
-                    value: wid.id,
-                    // emoji: `${emojisObject[wid.rarity].name}:${emojisObject[wid.rarity].id}`
-                }));
+                // Add buttons
+                if (userData.lang === "en") buttonDataRow.addComponents(
+                    new Discord.ButtonBuilder()
+                        .setCustomId(`Cancel-${alias}`)
+                        .setStyle(Discord.ButtonStyle.Danger)
+                        .setLabel("Cancel")
+                )
 
-                const listWeaponsDropMenu = new Discord.StringSelectMenuBuilder()
-                    .setCustomId(`weapons-select`)
-                    .setPlaceholder(userData.lang === "en" ? 'Select a weapon...' : 'اختر سلاحًا...')
-                    .addOptions(weapons);
+                else if (userData.lang === "ar") buttonDataRow.addComponents(
+                    new Discord.ButtonBuilder()
+                        .setCustomId(`Cancel-${alias}`)
+                        .setStyle(Discord.ButtonStyle.Danger)
+                        .setLabel("اغلاق")
+                )
 
-                const selectMenuRow = new Discord.ActionRowBuilder().addComponents(listWeaponsDropMenu).addComponents(buttonDataRow);
+                // Force int
+                var size = (weaponId.length / 25), components = [], limit = 0
+                if (size % 2 !== 0 && size != 1) {
+                    size += 1;
+                    size = size | 0
+                }
 
-                // Send the message
-                await interaction.reply({ embeds: [listWeaponsEmbed], components: [selectMenuRow] });
+                // Loop trough every weapon found
+                for (let i = 1; i <= size; i++) {
 
-                // Filtering the user interaction
-                const filter = (i) => i.user.id === interaction.user.id;
+                    var weapons = []
+                    for (let x = limit; x < 25 * i; x++) {
 
-                // Await for the user
+                        if (weaponId[x]) weapons.push({
+                            label: `${weaponId[x].name}`,
+                            value: `${weaponId[x].id}`,
+                            emoji: `${emojisObject[weaponId[x].rarity].name}:${emojisObject[weaponId[x].rarity].id}`
+                        })
+                    }
+
+                    // Create a drop menu
+                    var listWeaponsDropMenu = new Discord.StringSelectMenuBuilder()
+                    listWeaponsDropMenu.setCustomId(`${i}`)
+                    listWeaponsDropMenu.setMinValues(1)
+                    listWeaponsDropMenu.setMaxValues(weapons.length)
+                    if (userData.lang === "en") listWeaponsDropMenu.setPlaceholder('Nothing selected!')
+                    else if (userData.lang === "ar") listWeaponsDropMenu.setPlaceholder('لم يتم اختيار شيء بعد!')
+                    listWeaponsDropMenu.addOptions(weapons)
+
+                    // Add the drop menu to the categoryDropMenu
+                    components.push(new Discord.ActionRowBuilder().addComponents(listWeaponsDropMenu))
+                    limit = 25 * i
+
+                } components.push(buttonDataRow)
+
+                // Send the message with the embed and components
+                await interaction.reply({ embeds: [listWeaponsEmbed], components: components });
+
+                // Create a filter for the interaction collector
+                const filter = (i) => {
+                    return (i.user.id === interaction.user.id && i.guild.id === interaction.guild.id);
+                };
+
+                // Create a collector for message components
                 const collector = interaction.channel.createMessageComponentCollector({ filter, time: 30000 });
 
-                collector.on('collect', async (i) => {
-                    if (i.customId === 'Cancel') {
+                collector.on('collect', async (collected) => {
+                    await collected.deferUpdate();
+
+                    // If cancel button has been clicked
+                    if (collected.customId === `Cancel-${alias}`) {
                         await interaction.followUp({ content: 'Operation cancelled.', ephemeral: true });
                         collector.stop();
-                    } else if (i.customId === 'weapons-select') {
+                    } else if (collected.customId.startsWith('weapon-select')) {
+                        // Handle weapon selection
+                        const selectedWeapon = collected.values[0];
+
+                        // Request a weapon
                         await FNBRMENA.Weapon(userData.lang, "", false)
                             .then(async res => {
+                                // Check if there is data
                                 if (!res.data.result) {
-                                    const noResultFoundError = new Discord.EmbedBuilder()
+                                    // No result found
+                                    const noResultFoundError = new EmbedBuilder()
                                         .setColor(FNBRMENA.Colors("embedError"))
-                                        .setTitle(userData.lang === "en" ? `No result found (API Error) ${emojisObject.errorEmoji}.` : `لم يتم العثور على نتائج (مشكلة API) ${emojisObject.errorEmoji}.`);
-                                    return await interaction.editReply({ embeds: [noResultFoundError], components: [] });
+                                        .setTitle(userData.lang === "en"
+                                            ? `No result found (API Error) ${emojisObject.errorEmoji}.`
+                                            : `لم يتم العثور على نتائج (مشكلة API) ${emojisObject.errorEmoji}.`);
+
+                                    return await interaction.followUp({ embeds: [noResultFoundError], ephemeral: true });
                                 }
 
-                                // Call the weapon image builder
-                                listOfWeapons.push(res.data.weapons.find(wid => wid.id === i.values[0]));
-                                await weaponImageBuilder(listOfWeapons);
-                            }).catch(err => {
-                                FNBRMENA.Logs(admin, null, Discord, interaction, null, userData.lang, text, err, emojisObject, null);
+                                // Filter for names
+                                const listOfWeapons = [];
+                                res.data.weapons.filter(wid => {
+                                    if (selectedWeapon === wid.id) // Find the weapon
+                                        listOfWeapons.push(wid);
+                                });
+
+                                // Perform your actions with the selected weapon here
+                                // For example, send another embed with weapon details or images
+                                await interaction.followUp({ content: `You selected: ${selectedWeapon}`, ephemeral: true });
+                            }).catch(async err => {
+                                FNBRMENA.Logs(admin, client, Discord, interaction, alias, userData.lang, err, emojisObject);
                             });
                     }
                 });
 
-                collector.on('end', collected => {
-                    if (collected.size === 0) {
-                        interaction.followUp({ content: 'No selection made, operation timed out.', ephemeral: true });
+                collector.on('end', async (collected, reason) => {
+                    if (reason === 'time') {
+                        await interaction.followUp({ content: 'Time is up! Please try again.', ephemeral: true });
+                        // Optionally disable the components
+                        await interaction.editReply({ components: [] });
                     }
                 });
             }
-        }
 
-        // Call the weapon image builder
-        if (listOfWeapons.length > 0) weaponImageBuilder(listOfWeapons);
-    }
-};
+            // Call the weapon image builder
+            if (listOfWeapons.length > 0) weaponImageBuilder(listOfWeapons)
+        }
+    };

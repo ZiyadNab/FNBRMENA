@@ -65,6 +65,7 @@ module.exports = {
             await interaction.editReply({ embeds: [], files: [att] });
 
         } catch (err) {
+            console.log(err)
 
             // Try sending it as a content message
             await interaction.editReply({ content: res.data.items[0].video, embeds: [], components: [], files: [] });

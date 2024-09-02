@@ -9,7 +9,6 @@ module.exports = {
                 .setDescription('Specify the outfit name or ID')
                 .setRequired(true)),
     async execute(FNBRMENA, interaction, Discord, client, admin, userData, emojisObject) {
-        const userData = {}; // Assuming you have a way to retrieve userData
         const text = interaction.options.getString('name');
         let searchType = text.includes("_") ? "id" : "name";
 

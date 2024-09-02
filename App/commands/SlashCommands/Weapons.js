@@ -426,7 +426,7 @@ module.exports = {
                 const weapons = weaponId.map(wid => ({
                     label: wid.name,
                     value: wid.id,
-                    emoji: `${emojisObject[wid.rarity].name}:${emojisObject[wid.rarity].id}`
+                    // emoji: `${emojisObject[wid.rarity].name}:${emojisObject[wid.rarity].id}`
                 }));
 
                 const listWeaponsDropMenu = new Discord.StringSelectMenuBuilder()

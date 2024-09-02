@@ -566,4 +566,5 @@ module.exports = {
             // Call the weapon image builder
             if (listOfWeapons.length > 0) weaponImageBuilder(listOfWeapons)
         }
-    };
+    }
+}

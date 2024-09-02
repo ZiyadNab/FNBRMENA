@@ -418,7 +418,7 @@ module.exports = {
                     .addComponents(
                         new Discord.ButtonBuilder()
                             .setCustomId(`Cancel`)
-                            .setStyle(ButtonStyle.Danger)
+                            .setStyle(Discord.ButtonStyle.Danger)
                             .setLabel(userData.lang === "en" ? "Cancel" : "اغلاق")
                     );
 

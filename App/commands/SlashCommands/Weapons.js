@@ -331,6 +331,12 @@ module.exports = {
                 console.log(err)
             }
         };
+        
+        // Request a weapon
+        const rquestedWeapons = await FNBRMENA.Weapon("en", "", false)
+        .catch(err => {
+            FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
+        })
 
         var text = interaction.options.getString('weapon');
         var list = [];
@@ -348,11 +354,12 @@ module.exports = {
         text = text.trim();
         list[listCounter++] = text;
 
+        // Variables
+        var weaponId = []
         var listOfWeapons = [];
 
         // Loop through every item
         for (let i = 0; i < list.length; i++) {
-            let weaponId;
 
             // Check if the user searched using an id or a name
             if (list[i].includes("_")) {

@@ -340,7 +340,7 @@ module.exports = {
         // Request a weapon
         const rquestedWeapons = await FNBRMENA.Weapon("en", "", false)
             .catch(err => {
-                FNBRMENA.Logs(admin, client, Discord, message, alias, userData.lang, text, err, emojisObject, null)
+                console.log(err)
             })
 
         // Storing the items
@@ -454,14 +454,14 @@ module.exports = {
                 // Add buttons
                 if (userData.lang === "en") buttonDataRow.addComponents(
                     new Discord.ButtonBuilder()
-                        .setCustomId(`Cancel-${alias}`)
+                        .setCustomId(`Cancel-${text}`)
                         .setStyle(Discord.ButtonStyle.Danger)
                         .setLabel("Cancel")
                 )
 
                 else if (userData.lang === "ar") buttonDataRow.addComponents(
                     new Discord.ButtonBuilder()
-                        .setCustomId(`Cancel-${alias}`)
+                        .setCustomId(`Cancel-${text}`)
                         .setStyle(Discord.ButtonStyle.Danger)
                         .setLabel("اغلاق")
                 )
@@ -516,7 +516,7 @@ module.exports = {
                     await collected.deferUpdate();
 
                     // If cancel button has been clicked
-                    if (collected.customId === `Cancel-${alias}`) {
+                    if (collected.customId === `Cancel-${text}`) {
                         await interaction.followUp({ content: 'Operation cancelled.', ephemeral: true });
                         collector.stop();
                     } else if (collected.customId.startsWith('weapon-select')) {
@@ -549,7 +549,7 @@ module.exports = {
                                 // For example, send another embed with weapon details or images
                                 await interaction.followUp({ content: `You selected: ${selectedWeapon}`, ephemeral: true });
                             }).catch(async err => {
-                                FNBRMENA.Logs(admin, client, Discord, interaction, alias, userData.lang, err, emojisObject);
+                                console.log(err)
                             });
                     }
                 });

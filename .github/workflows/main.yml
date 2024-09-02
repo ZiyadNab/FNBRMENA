@@ -1,9 +1,10 @@
-name: Auto Deploy FNBRMENA Bot On Master Branch
+name: Auto Deploy FNBRMENA Bot
 
 on:
   push:
     branches:
       - master
+      - dev
 
 jobs:
   deploy:
@@ -26,14 +27,28 @@ jobs:
 
       - name: Deploy and Build Docker image on VM
         run: |
-          sshpass -p "${{ secrets.VM_PASSWORD }}" ssh -o StrictHostKeyChecking=no ${{ secrets.VM_USER }}@${{ secrets.VM_HOST }} << 'EOF'
+          sshpass -p "${{ secrets.VM_PASSWORD }}" ssh -o StrictHostKeyChecking=no ${{ secrets.VM_USER }}@${{ secrets.VM_HOST }} << EOF
             cd /tmp/fnbrmena_repo
             tar -xf FNBRMENA.tar
             rm -rf FNBRMENA.tar
-            docker rm -f FNBRMENA_CONTAINER || true
-            docker rmi fnbrmena_image || true
-            docker build --no-cache -t fnbrmena_image:latest .
-            docker run -d --name FNBRMENA_CONTAINER \
+
+            # Determine the correct Docker image and container names based on the branch
+            branch_name="${GITHUB_REF##*/}"
+            image_name="fnbrmena_image_\${branch_name}"
+            container_name="FNBRMENA_CONTAINER_\${branch_name}"
+
+            docker rm -f \${container_name} || true
+            docker rmi \${image_name} || true
+            docker build --no-cache -t \${image_name}:latest .
+            
+            # Determine the correct Discord token based on the branch
+            if [ "\${branch_name}" == "master" ]; then
+              discord_token="${{ secrets.PRD_DISCORD_TOKEN }}"
+            else
+              discord_token="${{ secrets.DEV_DISCORD_TOKEN }}"
+            fi
+            
+            docker run -d --name \${container_name} \
               --restart always \
               -e type="${{ secrets.FIREBASE_TYPE }}" \
               -e project_id="${{ secrets.FIREBASE_PROJECT_ID }}" \
@@ -46,7 +61,7 @@ jobs:
               -e auth_provider_x509_cert_url="${{ secrets.FIREBASE_AUTH_PROVIDER_X509_CERT_URL }}" \
               -e client_x509_cert_url="${{ secrets.FIREBASE_CLIENT_X509_CERT_URL }}" \
               -e universe_domain="${{ secrets.FIREBASE_UNIVERSE_DOMAIN }}" \
-              -e discord_token="${{ secrets.PRD_DISCORD_TOKEN }}" \
-              fnbrmena_image:latest
+              -e discord_token="\${discord_token}" \
+              \${image_name}:latest
             rm -rf *
           EOF

@@ -11,6 +11,8 @@ module.exports = {
 		),
 
 	async execute(FNBRMENA, interaction, Discord, client, admin, userData, emojisObject) {
+
+        console.log(1)
 		// Initializing data
 		const text = interaction.options.getString('emote');
 		let searchType = "name";
@@ -21,6 +23,7 @@ module.exports = {
 		// Request the emote video
 		try {
 			const res = await FNBRMENA.SearchByType(userData.lang, text, 'emote', searchType);
+            console.log(2)
 
 			// Check if the user entered a valid emote name
 			if (res.data.items.length <= 0) {
@@ -33,6 +36,7 @@ module.exports = {
 				}
 				return interaction.reply({ embeds: [noEmoteFoundError], ephemeral: true });
 			}
+            console.log(3)
 
 			// Check if the emote has a video
 			if (res.data.items[0].video === null) {
@@ -45,6 +49,7 @@ module.exports = {
 				}
 				return interaction.reply({ embeds: [noVideoFoundError], ephemeral: true });
 			}
+            console.log(4)
 
 			// Send the generating message
 			const generating = new Discord.EmbedBuilder()
@@ -54,6 +59,7 @@ module.exports = {
 			} else if (userData.lang === "ar") {
 				generating.setTitle(`جاري تحميل بيانات ${res.data.items[0].name}... ${emojisObject.loadingEmoji}`);
 			}
+            console.log(5)
 
 			await interaction.deferReply();
 
@@ -62,16 +68,12 @@ module.exports = {
 
 			// Send the emote video
 			await interaction.editReply({ embeds: [], files: [att] });
+            console.log(6)
 
 		} catch (err) {
-			FNBRMENA.Logs(admin, client, Discord, interaction, 'emote', userData.lang, text, err, emojisObject, null);
 
 			// Try sending it as a content message
-			try {
-				await interaction.editReply({ content: res.data.items[0].video, embeds: [], components: [], files: [] });
-			} catch (error) {
-				FNBRMENA.Logs(admin, client, Discord, interaction, 'emote', userData.lang, text, error, emojisObject, null);
-			}
+			await interaction.editReply({ content: res.data.items[0].video, embeds: [], components: [], files: [] });
 		}
 	}
 };

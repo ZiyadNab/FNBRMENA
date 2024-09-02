@@ -482,7 +482,7 @@ module.exports = {
                         if (weaponId[x]) weapons.push({
                             label: `${weaponId[x].name}`,
                             value: `${weaponId[x].id}`,
-                            emoji: `${emojisObject[weaponId[x].rarity].name}:${emojisObject[weaponId[x].rarity].id}`
+                            // emoji: `${emojisObject[weaponId[x].rarity].name}:${emojisObject[weaponId[x].rarity].id}`
                         })
                     }
 

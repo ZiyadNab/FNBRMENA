@@ -616,6 +616,7 @@ module.exports.listen = async (client, admin, emojisObject) => {
             try {
                 await command.execute(FNBRMENA, interaction, Discord, client, admin, userData, emojisObject);
             } catch (error) {
+                console.log(error)
                 await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
             }
         }

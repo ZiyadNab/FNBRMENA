@@ -407,7 +407,7 @@ module.exports = {
                 const noWeaponsFoundError = new Discord.EmbedBuilder()
                     .setColor(FNBRMENA.Colors("embedError"))
                     .setTitle(userData.lang === "en" ? `No weapons have been found ${emojisObject.errorEmoji}.` : `لم يتم العثور على اسلحه ${emojisObject.errorEmoji}.`);
-                await interaction.reply({ embeds: [noWeaponsFoundError], ephemeral: true });
+                await interaction.editReply({ embeds: [noWeaponsFoundError], ephemeral: true });
                 continue;
             }
 
@@ -420,7 +420,7 @@ module.exports = {
                             const noResultFoundError = new Discord.EmbedBuilder()
                                 .setColor(FNBRMENA.Colors("embedError"))
                                 .setTitle(userData.lang === "en" ? `No result found (API Error) ${emojisObject.errorEmoji}.` : `لم يتم العثور على نتائج (مشكلة API) ${emojisObject.errorEmoji}.`);
-                            return await interaction.reply({ embeds: [noResultFoundError], ephemeral: true });
+                            return await interaction.editReply({ embeds: [noResultFoundError], ephemeral: true });
                         }
 
                         // Filter for names
@@ -443,7 +443,7 @@ module.exports = {
                     requestEntryTooLargeError.setColor(FNBRMENA.Colors("embedError"))
                     if (userData.lang === "en") requestEntryTooLargeError.setTitle(`Request entry too large ${emojisObject.errorEmoji}`)
                     else if (userData.lang === "ar") requestEntryTooLargeError.setTitle(`تم تخطي الكميه المحدودة ${emojisObject.errorEmoji}`)
-                    return await interaction.reply({ embeds: [requestEntryTooLargeError], ephemeral: true });
+                    return await interaction.editReply({ embeds: [requestEntryTooLargeError], ephemeral: true });
 
                 }
 

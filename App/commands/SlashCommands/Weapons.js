@@ -335,15 +335,15 @@ module.exports = {
 
 
         const loadingCommand = new Discord.EmbedBuilder()
-                .setColor(FNBRMENA.Colors("embed"));
-            if (userData.lang === "en")
-                loadingCommand.setTitle(`Loading Command ${emojisObject.loadingEmoji}.`);
-            else if (userData.lang === "ar")
-                loadingCommand.setTitle(`جاري التحميل ${emojisObject.loadingEmoji}.`);
-            await interaction.reply({ embeds: [loadingCommand], components: [], files: [], fetchReply: true })
-                .catch(err => {
-                    console.log(err)
-                });
+            .setColor(FNBRMENA.Colors("embed"));
+        if (userData.lang === "en")
+            loadingCommand.setTitle(`Loading Command ${emojisObject.loadingEmoji}.`);
+        else if (userData.lang === "ar")
+            loadingCommand.setTitle(`جاري التحميل ${emojisObject.loadingEmoji}.`);
+        await interaction.reply({ embeds: [loadingCommand], components: [], files: [], fetchReply: true })
+            .catch(err => {
+                console.log(err)
+            });
 
         // Variables
         var weaponId = []
@@ -407,7 +407,21 @@ module.exports = {
                 const noWeaponsFoundError = new Discord.EmbedBuilder()
                     .setColor(FNBRMENA.Colors("embedError"))
                     .setTitle(userData.lang === "en" ? `No weapons have been found ${emojisObject.errorEmoji}.` : `لم يتم العثور على اسلحه ${emojisObject.errorEmoji}.`);
-                await interaction.editReply({ embeds: [noWeaponsFoundError], ephemeral: true });
+                if (list.length === 1) {
+                    if (userData.lang === "en") noWeaponsFoundError.setTitle(`No weapons has been found ${emojisObject.errorEmoji}.`)
+                    else if (userData.lang === "ar") noWeaponsFoundError.setTitle(`لم يتم العثور على اسلحه ${emojisObject.errorEmoji}.`)
+                    return interaction.editReply({ embeds: [noWeaponsFoundError], components: [], files: [] })
+                        .catch(err => {
+                            console.log(err)
+                        })
+                } else {
+                    if (userData.lang === "en") noWeaponsFoundError.setTitle(`Can't find ${list[i]}, Attempting to skip ${emojisObject.errorEmoji}.`)
+                    else if (userData.lang === "ar") noWeaponsFoundError.setTitle(`لا يمكنني العثور على ${list[i]} , سوف يتم تخطي العنصر ${emojisObject.errorEmoji}.`)
+                        interaction.editReply({ embeds: [noWeaponsFoundError], components: [], files: [] })
+                        .catch(err => {
+                            console.log(err)
+                        })
+                }
                 continue;
             }
 
@@ -460,6 +474,7 @@ module.exports = {
                     listWeaponsEmbed.setDescription('الرجاء الضغط على السهم لاختيار سلاح.\n`لديك فقط 30 ثانية حتى تنتهي العملية, استعجل`!')
                 }
 
+                console.log(i, "Before Button")
                 // Create a row for buttons
                 const buttonDataRow = new Discord.ActionRowBuilder()
 
@@ -477,6 +492,7 @@ module.exports = {
                         .setStyle(Discord.ButtonStyle.Danger)
                         .setLabel("اغلاق")
                 )
+                console.log(i, "After Button")
 
                 // Force int
                 var size = (weaponId.length / 25), components = [], limit = 0
@@ -485,6 +501,7 @@ module.exports = {
                     size = size | 0
                 }
 
+                console.log(i, "Before Menu")
                 // Loop trough every weapon found
                 for (let i = 1; i <= size; i++) {
 
@@ -512,6 +529,7 @@ module.exports = {
                     limit = 25 * i
 
                 } components.push(buttonDataRow)
+                console.log(i, "Finished Menu")
 
                 // Send the message with the embed and components
                 await interaction.editReply({ embeds: [listWeaponsEmbed], components: components });

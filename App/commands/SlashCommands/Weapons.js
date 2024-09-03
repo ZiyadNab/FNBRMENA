@@ -510,9 +510,9 @@ module.exports = {
                 };
 
                 // Create a collector for message components
-                const collector = interaction.channel.createMessageComponentCollector({ filter, time: 30000 });
+                const collector = await interaction.channel.createMessageComponentCollector({ filter, time: 30000 });
 
-                collector.on('collect', async (collected) => {
+                await collector.on('collect', async (collected) => {
                     await collected.deferUpdate();
 
                     // If cancel button has been clicked
@@ -568,8 +568,8 @@ module.exports = {
 
 
         // Call the weapon image builder
+        console.log(listOfWeapons)
         if (listOfWeapons.length > 0) {
-            console.log(listOfWeapons)
             weaponImageBuilder(listOfWeapons)
         }
     }

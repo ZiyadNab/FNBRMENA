@@ -521,6 +521,7 @@ module.exports = {
                         await interaction.deleteReply(); // Deletes the initial reply message
                         collector.stop();
                     } else if (collected.customId.startsWith('weapon-select')) {
+                        console.log("LL")
                         // Handle weapon selection
                         const selectedWeapon = collected.values[0];
 

@@ -103,7 +103,7 @@ module.exports = {
         }
 
         // Weapon Image Builder
-        const weaponImageBuilder = async (interaction, res) => {
+        const weaponImageBuilder = async (res) => {
             // Send the generating message
             const generating = new Discord.EmbedBuilder()
                 .setColor(FNBRMENA.Colors("embed"));
@@ -112,7 +112,7 @@ module.exports = {
             else if (userData.lang === "ar")
                 generating.setTitle(`جاري تحميل ${res.length} اسلحه ${emojisObject.loadingEmoji}.`);
 
-            const msg = await interaction.reply({ embeds: [generating], components: [], files: [], fetchReply: true })
+            await interaction.editReply({ embeds: [generating], components: [], files: [], fetchReply: true })
                 .catch(err => {
                     console.log(err)
                 });

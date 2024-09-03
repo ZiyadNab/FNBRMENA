@@ -521,7 +521,7 @@ module.exports = {
                         await interaction.deleteReply(); // Deletes the initial reply message
                         collector.stop();
                     } else if (collected.type === Discord.ComponentType.SelectMenu) {
-                        
+
                         // Handle weapon selection
                         const selectedWeapon = collected.values[0];
 
@@ -540,21 +540,19 @@ module.exports = {
                                     return await interaction.followUp({ embeds: [noResultFoundError], ephemeral: true });
                                 }
 
-                                console.log(selectedWeapon)
                                 // Filter for names
                                 const listOfWeapons = [];
                                 res.data.weapons.filter(wid => {
                                     if (selectedWeapon === wid.id) // Find the weapon
                                         listOfWeapons.push(wid);
                                 });
-                                console.log(listOfWeapons)
 
                             }).catch(async err => {
                                 console.log(err);
                             });
 
                         // Stop the collector after processing the interaction
-                        // collector.stop();
+                        collector.stop();
                     }
                 });
 
@@ -567,12 +565,13 @@ module.exports = {
                 });
 
             }
+        }
 
-            // Call the weapon image builder
-            if (listOfWeapons.length > 0) {
-                console.log(listOfWeapons)
-                weaponImageBuilder(listOfWeapons)
-            }
+
+        // Call the weapon image builder
+        if (listOfWeapons.length > 0) {
+            console.log(listOfWeapons)
+            weaponImageBuilder(listOfWeapons)
         }
     }
 }

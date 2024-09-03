@@ -514,8 +514,6 @@ module.exports = {
 
                 collector.on('collect', async (collected) => {
                     await collected.deferUpdate();
-                    console.log(collected.type)
-                    console.log(Discord.ComponentType.SelectMenu)
 
                     // If cancel button has been clicked
                     if (collected.customId === `Cancel-${text}`) {
@@ -523,7 +521,7 @@ module.exports = {
                         await interaction.deleteReply(); // Deletes the initial reply message
                         collector.stop();
                     } else if (collected.type === Discord.ComponentType.SelectMenu) {
-                        console.log("LL")
+                        
                         // Handle weapon selection
                         const selectedWeapon = collected.values[0];
 
@@ -547,6 +545,7 @@ module.exports = {
                                 res.data.weapons.filter(wid => {
                                     if (selectedWeapon === wid.id) // Find the weapon
                                         listOfWeapons.push(wid);
+                                        console.log(listOfWeapons)
                                 });
 
                             }).catch(async err => {
@@ -554,7 +553,7 @@ module.exports = {
                             });
 
                         // Stop the collector after processing the interaction
-                        collector.stop();
+                        // collector.stop();
                     }
                 });
 

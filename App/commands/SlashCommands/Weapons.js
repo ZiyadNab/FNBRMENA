@@ -510,9 +510,9 @@ module.exports = {
                 };
 
                 // Create a collector for message components
-                const collector = await interaction.channel.createMessageComponentCollector({ filter, time: 30000 });
+                await interaction.channel.awaitMessageComponent({ filter, time: 30000 })
+                .then(async collected => {
 
-                await collector.on('collect', async (collected) => {
                     await collected.deferUpdate();
 
                     // If cancel button has been clicked

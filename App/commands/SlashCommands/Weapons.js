@@ -417,7 +417,7 @@ module.exports = {
                 } else {
                     if (userData.lang === "en") noWeaponsFoundError.setTitle(`Can't find ${list[i]}, Attempting to skip ${emojisObject.errorEmoji}.`)
                     else if (userData.lang === "ar") noWeaponsFoundError.setTitle(`لا يمكنني العثور على ${list[i]} , سوف يتم تخطي العنصر ${emojisObject.errorEmoji}.`)
-                        interaction.editReply({ embeds: [noWeaponsFoundError], components: [], files: [] })
+                        interaction.followUp({ embeds: [noWeaponsFoundError], components: [], files: [], ephemeral: true })
                         .catch(err => {
                             console.log(err)
                         })
@@ -467,14 +467,13 @@ module.exports = {
 
                 //set Author
                 if (userData.lang === "en") {
-                    listWeaponsEmbed.setAuthor({ name: `Weapons`, iconURL: 'https://i.ibb.co/YNKLKN5/mvFcjNF.png' })
+                    listWeaponsEmbed.setAuthor({ name: `Weapons`, iconURL: 'https://firebasestorage.googleapis.com/v0/b/fnbrmena-bot.appspot.com/o/code_images%2Fgdwt52F.PNG?alt=media&token=018da419-a8c3-4a6b-bf11-149d18b33482' })
                     listWeaponsEmbed.setDescription('Please click on the Drop-Down menu and choose a weapons.\n`You have only 30 seconds until this operation ends, Make it quick`!')
                 } else if (userData.lang === "ar") {
-                    listWeaponsEmbed.setAuthor({ name: `الأسلحة`, iconURL: 'https://i.ibb.co/YNKLKN5/mvFcjNF.png' })
+                    listWeaponsEmbed.setAuthor({ name: `الأسلحة`, iconURL: 'https://firebasestorage.googleapis.com/v0/b/fnbrmena-bot.appspot.com/o/code_images%2Fgdwt52F.PNG?alt=media&token=018da419-a8c3-4a6b-bf11-149d18b33482' })
                     listWeaponsEmbed.setDescription('الرجاء الضغط على السهم لاختيار سلاح.\n`لديك فقط 30 ثانية حتى تنتهي العملية, استعجل`!')
                 }
 
-                console.log(i, "Before Button")
                 // Create a row for buttons
                 const buttonDataRow = new Discord.ActionRowBuilder()
 
@@ -492,7 +491,6 @@ module.exports = {
                         .setStyle(Discord.ButtonStyle.Danger)
                         .setLabel("اغلاق")
                 )
-                console.log(i, "After Button")
 
                 // Force int
                 var size = (weaponId.length / 25), components = [], limit = 0
@@ -501,7 +499,6 @@ module.exports = {
                     size = size | 0
                 }
 
-                console.log(i, "Before Menu")
                 // Loop trough every weapon found
                 for (let i = 1; i <= size; i++) {
 
@@ -511,7 +508,7 @@ module.exports = {
                         if (weaponId[x]) weapons.push({
                             label: `${weaponId[x].name}`,
                             value: `${weaponId[x].id}`,
-                            // emoji: `${emojisObject[weaponId[x].rarity].name}:${emojisObject[weaponId[x].rarity].id}`
+                            emoji: `${emojisObject[weaponId[x].rarity].name}:${emojisObject[weaponId[x].rarity].id}`
                         })
                     }
 
@@ -529,7 +526,6 @@ module.exports = {
                     limit = 25 * i
 
                 } components.push(buttonDataRow)
-                console.log(i, "Finished Menu")
 
                 // Send the message with the embed and components
                 await interaction.editReply({ embeds: [listWeaponsEmbed], components: components });

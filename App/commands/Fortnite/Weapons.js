@@ -477,10 +477,10 @@ module.exports = {
 
                 //set Author
                 if(userData.lang === "en"){
-                    listWeaponsEmbed.setAuthor({name: `Weapons`, iconURL: 'https://i.ibb.co/YNKLKN5/mvFcjNF.png'})
+                    listWeaponsEmbed.setAuthor({name: `Weapons`, iconURL: 'https://firebasestorage.googleapis.com/v0/b/fnbrmena-bot.appspot.com/o/code_images%2Fgdwt52F.PNG?alt=media&token=018da419-a8c3-4a6b-bf11-149d18b33482'})
                     listWeaponsEmbed.setDescription('Please click on the Drop-Down menu and choose a weapons.\n`You have only 30 seconds until this operation ends, Make it quick`!')
                 }else if(userData.lang === "ar"){
-                    listWeaponsEmbed.setAuthor({name: `الأسلحة`, iconURL: 'https://i.ibb.co/YNKLKN5/mvFcjNF.png'})
+                    listWeaponsEmbed.setAuthor({name: `الأسلحة`, iconURL: 'https://firebasestorage.googleapis.com/v0/b/fnbrmena-bot.appspot.com/o/code_images%2Fgdwt52F.PNG?alt=media&token=018da419-a8c3-4a6b-bf11-149d18b33482'})
                     listWeaponsEmbed.setDescription('الرجاء الضغط على السهم لاختيار سلاح.\n`لديك فقط 30 ثانية حتى تنتهي العملية, استعجل`!')
                 }
 

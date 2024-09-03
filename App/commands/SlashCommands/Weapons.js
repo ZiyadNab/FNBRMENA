@@ -549,6 +549,9 @@ module.exports = {
                             }).catch(async err => {
                                 console.log(err);
                             });
+
+                        // Stop the collector after processing the interaction
+                        collector.stop();
                     }
                 });
 
@@ -563,7 +566,7 @@ module.exports = {
             }
 
             // Call the weapon image builder
-            if (listOfWeapons.length > 0){
+            if (listOfWeapons.length > 0) {
                 console.log(listOfWeapons)
                 weaponImageBuilder(listOfWeapons)
             }

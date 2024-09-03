@@ -511,57 +511,47 @@ module.exports = {
 
                 // Create a collector for message components
                 await interaction.channel.awaitMessageComponent({ filter, time: 30000 })
-                .then(async collected => {
+                    .then(async collected => {
 
-                    await collected.deferUpdate();
+                        await collected.deferUpdate();
 
-                    // If cancel button has been clicked
-                    if (collected.customId === `Cancel-${text}`) {
-                        // Delete the original interaction message
-                        await interaction.deleteReply(); // Deletes the initial reply message
-                        collector.stop();
-                    } else if (collected.type === Discord.ComponentType.SelectMenu) {
+                        // If cancel button has been clicked
+                        if (collected.customId === `Cancel-${text}`) {
+                            // Delete the original interaction message
+                            await interaction.deleteReply(); // Deletes the initial reply message
 
-                        // Handle weapon selection
-                        const selectedWeapon = collected.values[0];
+                        } else if (collected.type === Discord.ComponentType.SelectMenu) {
 
-                        // Request a weapon
-                        await FNBRMENA.Weapon(userData.lang, "", false)
-                            .then(async res => {
-                                // Check if there is data
-                                if (!res.data.result) {
-                                    // No result found
-                                    const noResultFoundError = new EmbedBuilder()
-                                        .setColor(FNBRMENA.Colors("embedError"))
-                                        .setTitle(userData.lang === "en"
-                                            ? `No result found (API Error) ${emojisObject.errorEmoji}.`
-                                            : `لم يتم العثور على نتائج (مشكلة API) ${emojisObject.errorEmoji}.`);
+                            // Handle weapon selection
+                            const selectedWeapon = collected.values[0];
 
-                                    return await interaction.followUp({ embeds: [noResultFoundError], ephemeral: true });
-                                }
+                            // Request a weapon
+                            await FNBRMENA.Weapon(userData.lang, "", false)
+                                .then(async res => {
+                                    // Check if there is data
+                                    if (!res.data.result) {
+                                        // No result found
+                                        const noResultFoundError = new EmbedBuilder()
+                                            .setColor(FNBRMENA.Colors("embedError"))
+                                            .setTitle(userData.lang === "en"
+                                                ? `No result found (API Error) ${emojisObject.errorEmoji}.`
+                                                : `لم يتم العثور على نتائج (مشكلة API) ${emojisObject.errorEmoji}.`);
 
-                                // Filter for names
-                                res.data.weapons.filter(wid => {
-                                    if (selectedWeapon === wid.id) // Find the weapon
-                                        listOfWeapons.push(wid);
+                                        return await interaction.followUp({ embeds: [noResultFoundError], ephemeral: true });
+                                    }
+
+                                    // Filter for names
+                                    res.data.weapons.filter(wid => {
+                                        if (selectedWeapon === wid.id) // Find the weapon
+                                            listOfWeapons.push(wid);
+                                    });
+
+                                }).catch(async err => {
+                                    console.log(err);
                                 });
 
-                            }).catch(async err => {
-                                console.log(err);
-                            });
-
-                        // Stop the collector after processing the interaction
-                        collector.stop();
-                    }
-                });
-
-                collector.on('end', async (collected, reason) => {
-                    if (reason === 'time') {
-                        await interaction.followUp({ content: 'Time is up! Please try again.', ephemeral: true });
-                        // Optionally disable the components
-                        await interaction.editReply({ components: [] });
-                    }
-                });
+                        }
+                    });
 
             }
         }

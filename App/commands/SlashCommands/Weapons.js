@@ -327,11 +327,23 @@ module.exports = {
 
                 // Send the image
                 const attachment = new Discord.AttachmentBuilder(await canvas.toBuffer(), { name: 'weapon.png' });
-                await interaction.editReply({ files: [attachment] });
+                await interaction.editReply({ embeds: [], components: [], files: [attachment], fetchReply: true });
             } catch (err) {
                 console.log(err)
             }
         };
+
+
+        const loadingCommand = new Discord.EmbedBuilder()
+                .setColor(FNBRMENA.Colors("embed"));
+            if (userData.lang === "en")
+                loadingCommand.setTitle(`Loading Command ${emojisObject.loadingEmoji}.`);
+            else if (userData.lang === "ar")
+                loadingCommand.setTitle(`جاري التحميل ${emojisObject.loadingEmoji}.`);
+            await interaction.reply({ embeds: [loadingCommand], components: [], files: [], fetchReply: true })
+                .catch(err => {
+                    console.log(err)
+                });
 
         // Variables
         var weaponId = []
@@ -502,7 +514,7 @@ module.exports = {
                 } components.push(buttonDataRow)
 
                 // Send the message with the embed and components
-                await interaction.reply({ embeds: [listWeaponsEmbed], components: components });
+                await interaction.editReply({ embeds: [listWeaponsEmbed], components: components });
 
                 // Create a filter for the interaction collector
                 const filter = (i) => {
@@ -522,9 +534,6 @@ module.exports = {
 
                         } else if (collected.type === Discord.ComponentType.SelectMenu) {
 
-                            // Handle weapon selection
-                            const selectedWeapon = collected.values[0];
-
                             // Request a weapon
                             await FNBRMENA.Weapon(userData.lang, "", false)
                                 .then(async res => {
@@ -542,9 +551,10 @@ module.exports = {
 
                                     // Filter for names
                                     res.data.weapons.filter(wid => {
-                                        if (selectedWeapon === wid.id) // Find the weapon
-                                            listOfWeapons.push(wid);
-                                    });
+                                        if (collected.values.includes(wid.id)) // Find the weapon
+                                            listOfWeapons.push(wid)
+
+                                    })
 
                                 }).catch(async err => {
                                     console.log(err);

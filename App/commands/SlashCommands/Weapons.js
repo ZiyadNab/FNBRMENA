@@ -540,13 +540,14 @@ module.exports = {
                                     return await interaction.followUp({ embeds: [noResultFoundError], ephemeral: true });
                                 }
 
+                                console.log(selectedWeapon)
                                 // Filter for names
                                 const listOfWeapons = [];
                                 res.data.weapons.filter(wid => {
                                     if (selectedWeapon === wid.id) // Find the weapon
                                         listOfWeapons.push(wid);
-                                        console.log(listOfWeapons)
                                 });
+                                console.log(listOfWeapons)
 
                             }).catch(async err => {
                                 console.log(err);

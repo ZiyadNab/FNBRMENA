@@ -445,31 +445,31 @@ module.exports = {
                         label: `Ranked Battle Royale`,
                         value: `br`,
                         default: false,
-                        // emoji: `${emojisObject.build.name}:${emojisObject.build.id}`
+                        emoji: `${emojisObject.build.name}:${emojisObject.build.id}`
                     },
                     {
                         label: `Ranked Zero Build`,
                         value: `zb`,
                         default: false,
-                        // emoji: `${emojisObject.nobuild.name}:${emojisObject.nobuild.id}`
+                        emoji: `${emojisObject.nobuild.name}:${emojisObject.nobuild.id}`
                     },
                     {
                         label: `Ranked Rocket Racing`,
                         value: `dr`,
                         default: false,
-                        // emoji: `${emojisObject.rocketracing.name}:${emojisObject.rocketracing.id}`
+                        emoji: `${emojisObject.rocketracing.name}:${emojisObject.rocketracing.id}`
                     },
                     {
                         label: `Ranked Reload`,
                         value: `rr`,
                         default: false,
-                        // emoji: `${emojisObject.rocketracing.name}:${emojisObject.reload.id}`
+                        emoji: `${emojisObject.rocketracing.name}:${emojisObject.reload.id}`
                     },
                     {
                         label: `Ranked Reload Zero Build`,
                         value: `rrn`,
                         default: false,
-                        // emoji: `${emojisObject.rocketracing.name}:${emojisObject.reload.id}`
+                        emoji: `${emojisObject.rocketracing.name}:${emojisObject.reload.id}`
                     },
                 ]
 
@@ -479,37 +479,31 @@ module.exports = {
                         label: `باتل رويال مُصنّفة`,
                         value: `br`,
                         default: false,
-                        // emoji: `${emojisObject.build.name}:${emojisObject.build.id}`
+                        emoji: `${emojisObject.build.name}:${emojisObject.build.id}`
                     },
                     {
                         label: `بلا بناء مُصنّفة`,
                         value: `zb`,
                         default: false,
-                        // emoji: `${emojisObject.nobuild.name}:${emojisObject.nobuild.id}`
+                        emoji: `${emojisObject.nobuild.name}:${emojisObject.nobuild.id}`
                     },
                     {
                         label: `سباق سيارات مُصنّفة`,
                         value: `dr`,
                         default: false,
-                        // emoji: `${emojisObject.rocketracing.name}:${emojisObject.rocketracing.id}`
-                    },
-                    {
-                        label: `سباق الاعادة`,
-                        value: `rrn`,
-                        default: false,
-                        // emoji: `${emojisObject.rocketracing.name}:${emojisObject.reload.id}`
+                        emoji: `${emojisObject.rocketracing.name}:${emojisObject.rocketracing.id}`
                     },
                     {
                         label: `الاعادة مُصنّفة`,
                         value: `rr`,
                         default: false,
-                        // emoji: `${emojisObject.rocketracing.name}:${emojisObject.reload.id}`
+                        emoji: `${emojisObject.rocketracing.name}:${emojisObject.reload.id}`
                     },
                     {
                         label: `بلا بناء الاعادة مُصنّفة`,
                         value: `rrn`,
                         default: false,
-                        // emoji: `${emojisObject.rocketracing.name}:${emojisObject.reload.id}`
+                        emoji: `${emojisObject.rocketracing.name}:${emojisObject.reload.id}`
                     },
                 ]
 

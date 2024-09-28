@@ -363,19 +363,19 @@ module.exports = {
                 label: `Epic Games`,
                 value: `epic`,
                 default: false,
-                emoji: `${emojisObject.epicgames.name}:${emojisObject.epicgames.id}`
+                // emoji: `${emojisObject.epicgames.name}:${emojisObject.epicgames.id}`
             },
             {
                 label: `Playstation`,
                 value: `psn`,
                 default: false,
-                emoji: `${emojisObject.playstation.name}:${emojisObject.playstation.id}`
+                // emoji: `${emojisObject.playstation.name}:${emojisObject.playstation.id}`
             },
             {
                 label: `Xbox`,
                 value: `xbl`,
                 default: false,
-                emoji: `${emojisObject.xbox.name}:${emojisObject.xbox.id}`
+                // emoji: `${emojisObject.xbox.name}:${emojisObject.xbox.id}`
             }
         )
 
@@ -385,19 +385,19 @@ module.exports = {
                 label: `ايبك قيمز`,
                 value: `epic`,
                 default: false,
-                emoji: `${emojisObject.epicgames.name}:${emojisObject.epicgames.id}`
+                // emoji: `${emojisObject.epicgames.name}:${emojisObject.epicgames.id}`
             },
             {
                 label: `بلايستيشن`,
                 value: `psn`,
                 default: false,
-                emoji: `${emojisObject.playstation.name}:${emojisObject.playstation.id}`
+                // emoji: `${emojisObject.playstation.name}:${emojisObject.playstation.id}`
             },
             {
                 label: `اكسبوكس`,
                 value: `xbl`,
                 default: false,
-                emoji: `${emojisObject.xbox.name}:${emojisObject.xbox.id}`
+                // emoji: `${emojisObject.xbox.name}:${emojisObject.xbox.id}`
             }
         )
 

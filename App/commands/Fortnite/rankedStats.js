@@ -363,19 +363,19 @@ module.exports = {
                 label: `Epic Games`,
                 value: `epic`,
                 default: false,
-                emoji: `${emojisObject.epicgames.name}:${emojisObject.epicgames.id}`
+                // emoji: `${emojisObject.epicgames.name}:${emojisObject.epicgames.id}`
             },
             {
                 label: `Playstation`,
                 value: `psn`,
                 default: false,
-                emoji: `${emojisObject.playstation.name}:${emojisObject.playstation.id}`
+                // emoji: `${emojisObject.playstation.name}:${emojisObject.playstation.id}`
             },
             {
                 label: `Xbox`,
                 value: `xbl`,
                 default: false,
-                emoji: `${emojisObject.xbox.name}:${emojisObject.xbox.id}`
+                // emoji: `${emojisObject.xbox.name}:${emojisObject.xbox.id}`
             }
         )
 
@@ -385,19 +385,19 @@ module.exports = {
                 label: `ايبك قيمز`,
                 value: `epic`,
                 default: false,
-                emoji: `${emojisObject.epicgames.name}:${emojisObject.epicgames.id}`
+                // emoji: `${emojisObject.epicgames.name}:${emojisObject.epicgames.id}`
             },
             {
                 label: `بلايستيشن`,
                 value: `psn`,
                 default: false,
-                emoji: `${emojisObject.playstation.name}:${emojisObject.playstation.id}`
+                // emoji: `${emojisObject.playstation.name}:${emojisObject.playstation.id}`
             },
             {
                 label: `اكسبوكس`,
                 value: `xbl`,
                 default: false,
-                emoji: `${emojisObject.xbox.name}:${emojisObject.xbox.id}`
+                // emoji: `${emojisObject.xbox.name}:${emojisObject.xbox.id}`
             }
         )
 
@@ -459,6 +459,18 @@ module.exports = {
                         default: false,
                         emoji: `${emojisObject.rocketracing.name}:${emojisObject.rocketracing.id}`
                     },
+                    {
+                        label: `Ranked Reload`,
+                        value: `rr`,
+                        default: false,
+                        emoji: `${emojisObject.rocketracing.name}:${emojisObject.reload.id}`
+                    },
+                    {
+                        label: `Ranked Reload Zero Build`,
+                        value: `rrn`,
+                        default: false,
+                        emoji: `${emojisObject.rocketracing.name}:${emojisObject.reload.id}`
+                    },
                 ]
 
                 // Add Arabic options
@@ -480,6 +492,18 @@ module.exports = {
                         value: `dr`,
                         default: false,
                         emoji: `${emojisObject.rocketracing.name}:${emojisObject.rocketracing.id}`
+                    },
+                    {
+                        label: `الاعادة مُصنّفة`,
+                        value: `rr`,
+                        default: false,
+                        emoji: `${emojisObject.rocketracing.name}:${emojisObject.reload.id}`
+                    },
+                    {
+                        label: `بلا بناء الاعادة مُصنّفة`,
+                        value: `rrn`,
+                        default: false,
+                        emoji: `${emojisObject.rocketracing.name}:${emojisObject.reload.id}`
                     },
                 ]
 

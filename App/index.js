@@ -242,6 +242,7 @@ client.on('ready', async () => {
     build: client.emojis.cache.get("1113502191400013956"), 
     nobuild: client.emojis.cache.get("1113504738655346738"), 
     rocketracing: client.emojis.cache.get("1182822193944592464"), 
+    reload: client.emojis.cache.get("1289625458601885787"), 
   }
 
   // Excute

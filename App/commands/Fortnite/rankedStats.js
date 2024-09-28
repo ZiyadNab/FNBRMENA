@@ -460,10 +460,16 @@ module.exports = {
                         // emoji: `${emojisObject.rocketracing.name}:${emojisObject.rocketracing.id}`
                     },
                     {
-                        label: `Ranked Rocket Racing`,
+                        label: `Ranked Reload`,
                         value: `rr`,
                         default: false,
-                        // emoji: `${emojisObject.rocketracing.name}:${emojisObject.rocketracing.id}`
+                        // emoji: `${emojisObject.rocketracing.name}:${emojisObject.reload.id}`
+                    },
+                    {
+                        label: `Ranked Reload Zero Build`,
+                        value: `rrn`,
+                        default: false,
+                        // emoji: `${emojisObject.rocketracing.name}:${emojisObject.reload.id}`
                     },
                 ]
 
@@ -488,10 +494,22 @@ module.exports = {
                         // emoji: `${emojisObject.rocketracing.name}:${emojisObject.rocketracing.id}`
                     },
                     {
-                        label: `سباق سيارات مُصنّفة`,
+                        label: `سباق الاعادة`,
                         value: `rrn`,
                         default: false,
-                        // emoji: `${emojisObject.rocketracing.name}:${emojisObject.rocketracing.id}`
+                        // emoji: `${emojisObject.rocketracing.name}:${emojisObject.reload.id}`
+                    },
+                    {
+                        label: `الاعادة مُصنّفة`,
+                        value: `rr`,
+                        default: false,
+                        // emoji: `${emojisObject.rocketracing.name}:${emojisObject.reload.id}`
+                    },
+                    {
+                        label: `بلا بناء الاعادة مُصنّفة`,
+                        value: `rrn`,
+                        default: false,
+                        // emoji: `${emojisObject.rocketracing.name}:${emojisObject.reload.id}`
                     },
                 ]
 

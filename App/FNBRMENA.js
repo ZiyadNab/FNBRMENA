@@ -142,26 +142,6 @@ class FNBRMENA {
     }
 
     /**
-     * Return the current sections
-     * 
-     * @param {String} Lang
-     * @example
-     * FNBRMENA.shopSections(Lang)
-     * .then(async res => {
-     * 
-     *        //you will get a response weather the requested data has been found or not
-     * 
-     * })
-     * 
-     */
-    async shopSections(Lang){
-
-        //request the data and return the response
-        return await axios.get(`https://fnbrmena.com/api/v1/fortnite/sections/active?lang=${Lang}`)
-
-    }
-
-    /**
      * Return the user fish history
      * 
      * @param {String} playerID

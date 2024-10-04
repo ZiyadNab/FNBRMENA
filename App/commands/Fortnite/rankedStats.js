@@ -170,7 +170,7 @@ module.exports = {
                     if (i <= data.rankedData.highestDivision) ctx.globalAlpha = 1
                     else ctx.globalAlpha = 0.5
                     if (data.rankedData.lastUpdated === "1970-01-01T00:00:00Z") ctx.globalAlpha = 0.5
-                    const RHSRanks = await Canvas.loadImage(`https://fnbrmena.com/api/media/v1/fortnite/ranked/ranked_icon_color_${i}.png`)
+                    const RHSRanks = await Canvas.loadImage(`https://fnbrmena.com/api/v1/service/media/fortnite/ranked/ranked_icon_color_${i}.png`)
                     ctx.drawImage(RHSRanks, 2471, y, 82, 82)
                     y -= 70
                 } ctx.globalAlpha = 1

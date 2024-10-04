@@ -8,7 +8,7 @@ module.exports = {
     cooldown: -1,
     callback: async (FNBRMENA, message, args, text, Discord, client, admin, userData, alias, emojisObject) => {
 
-        axios.get(`https://fnbrmena.com/api/v1/dl?url=${text}`)
+        axios.get(`https://fnbrmena.com/api/v1/service/dl?url=${text}`)
 
         // Send the generating message
         const generating = new Discord.EmbedBuilder()

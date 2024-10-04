@@ -14,8 +14,6 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
         //checking if the bot on or off
         admin.database().ref("ERA's").child("Events").child("servers").once('value', async function (data) {
             const status = data.val().Active
-            const lang = data.val().Lang
-            const token = data.val().Token
             const push = data.val().Push
             const role = data.val().Role
 
@@ -23,7 +21,7 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
             if(status){
 
                 //request the token
-                axios.get(`http://fnbrmena.com/api/auth/get/${token}`)
+                axios.get(`https://fnbrmena.com/api/v1/auth/get/Android`)
                 .then(async token => {
 
                     //request data

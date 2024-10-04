@@ -39,7 +39,7 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                 await Promise.all(accounts.map(async player => {
                     const res = await axios({
                         method: "GET",
-                        url: "https://www.fnbrmena.com/api/auth/get/ios"
+                        url: "https://fnbrmena.com/api/v1/auth/get/Android"
                     })
 
                     const tracks = await axios({

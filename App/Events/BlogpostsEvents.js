@@ -145,6 +145,7 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
                     }
                 
                 }).catch(async err => {
+                    console.log(err)
                     FNBRMENA.eventsLogs(admin, client, err, 'blogposts')
         
                 })

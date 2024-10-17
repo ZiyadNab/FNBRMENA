@@ -28,10 +28,12 @@ jobs:
       - name: Deploy and Build Docker image on VM
         run: |
           sshpass -p "${{ secrets.VM_PASSWORD }}" ssh -o StrictHostKeyChecking=no ${{ secrets.VM_USER }}@${{ secrets.VM_HOST }} << EOF
+            mkdir /tmp/fnbrmena_repo
             cd /tmp/fnbrmena_repo
             tar -xf FNBRMENA.tar
             rm -rf FNBRMENA.tar
-
+            rmdir /tmp/fnbrmena_repo
+            
             # Determine the correct Docker image and container names based on the branch
             branch_name="${GITHUB_REF##*/}"
             image_name="fnbrmena_image_\${branch_name}"

@@ -142,26 +142,6 @@ class FNBRMENA {
     }
 
     /**
-     * Return the current sections
-     * 
-     * @param {String} Lang
-     * @example
-     * FNBRMENA.shopSections(Lang)
-     * .then(async res => {
-     * 
-     *        //you will get a response weather the requested data has been found or not
-     * 
-     * })
-     * 
-     */
-    async shopSections(Lang){
-
-        //request the data and return the response
-        return await axios.get(`https://fnbrmena.com/api/v1/fortnite/sections/active?lang=${Lang}`)
-
-    }
-
-    /**
      * Return the user fish history
      * 
      * @param {String} playerID
@@ -1343,7 +1323,11 @@ class FNBRMENA {
             logs.setTitle(`Error happened in ${alias.toUpperCase()}`)
             if(err.isAxiosError) logs.setDescription(`Command: \`${alias}\`\nUser: \`${message.author.tag}\`\nDate: \`${new Date()}\`\nLanguage: \`${lang}\`\nMessageID: \`${message.id}\`\nChannel: \`${message.channel.name} | ${message.channel.id}\`\nMessage Content: \`${message.content}\n\`Request Status: \`${err.response.status}\`\n\nError:\`\`\`json\n${JSON.stringify(err.response.data)}\`\`\``)
             else logs.setDescription(`Command: \`${alias}\`\nUser: \`${message.author.tag}\`\nDate: \`${new Date()}\`\nLanguage: \`${lang}\`\nMessageID: \`${message.id}\`\nChannel: \`${message.channel.name} | ${message.channel.id}\`\nMessage Content: \`${message.content}\`\n\nError:\`\`\`yaml\n${err.stack}\`\`\``)
-            logsChannel.send({embeds: [logs]})
+            try {
+                logsChannel.send({embeds: [logs]})
+            } catch(e){
+                console.log(e)
+            }
             console.log(err)
         }
     }

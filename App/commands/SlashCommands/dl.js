@@ -28,7 +28,7 @@ module.exports = {
 	async execute(FNBRMENA, interaction, A, client, admin, userData, emojisObject) {
         await interaction.deferReply()
 		
-        axios.get(`https://fnbrmena.com/api/v1/dl?url=${interaction.options.getString('url')}`)
+        axios.get(`https://fnbrmena.com/api/v1/service/dl?url=${interaction.options.getString('url')}`)
         .then(res => {
             
             const files = []

@@ -47,7 +47,7 @@ module.exports = {
                 })
 
                 // Request token
-                const token = await axios.get('https://fnbrmena.com/api/auth/get/ios')
+                const token = await axios.get('https://fnbrmena.com/api/v1/auth/get/Android')
 
                 // Request playlists data
                     const playlists = await axios.post('https://links-public-service-live.ol.epicgames.com/links/api/fn/mnemonic/', [

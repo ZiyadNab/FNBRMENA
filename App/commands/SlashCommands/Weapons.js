@@ -103,7 +103,7 @@ module.exports = {
         }
 
         // Weapon Image Builder
-        const weaponImageBuilder = async (interaction, res) => {
+        const weaponImageBuilder = async (res) => {
             // Send the generating message
             const generating = new Discord.EmbedBuilder()
                 .setColor(FNBRMENA.Colors("embed"));
@@ -112,7 +112,7 @@ module.exports = {
             else if (userData.lang === "ar")
                 generating.setTitle(`جاري تحميل ${res.length} اسلحه ${emojisObject.loadingEmoji}.`);
 
-            const msg = await interaction.reply({ embeds: [generating], components: [], files: [], fetchReply: true })
+            await interaction.editReply({ embeds: [generating], components: [], files: [], fetchReply: true })
                 .catch(err => {
                     console.log(err)
                 });
@@ -327,11 +327,23 @@ module.exports = {
 
                 // Send the image
                 const attachment = new Discord.AttachmentBuilder(await canvas.toBuffer(), { name: 'weapon.png' });
-                await interaction.editReply({ files: [attachment] });
+                await interaction.editReply({ embeds: [], components: [], files: [attachment], fetchReply: true });
             } catch (err) {
                 console.log(err)
             }
         };
+
+
+        const loadingCommand = new Discord.EmbedBuilder()
+            .setColor(FNBRMENA.Colors("embed"));
+        if (userData.lang === "en")
+            loadingCommand.setTitle(`Loading Command ${emojisObject.loadingEmoji}.`);
+        else if (userData.lang === "ar")
+            loadingCommand.setTitle(`جاري التحميل ${emojisObject.loadingEmoji}.`);
+        await interaction.reply({ embeds: [loadingCommand], components: [], files: [], fetchReply: true })
+            .catch(err => {
+                console.log(err)
+            });
 
         // Variables
         var weaponId = []
@@ -395,7 +407,21 @@ module.exports = {
                 const noWeaponsFoundError = new Discord.EmbedBuilder()
                     .setColor(FNBRMENA.Colors("embedError"))
                     .setTitle(userData.lang === "en" ? `No weapons have been found ${emojisObject.errorEmoji}.` : `لم يتم العثور على اسلحه ${emojisObject.errorEmoji}.`);
-                await interaction.reply({ embeds: [noWeaponsFoundError], ephemeral: true });
+                if (list.length === 1) {
+                    if (userData.lang === "en") noWeaponsFoundError.setTitle(`No weapons has been found ${emojisObject.errorEmoji}.`)
+                    else if (userData.lang === "ar") noWeaponsFoundError.setTitle(`لم يتم العثور على اسلحه ${emojisObject.errorEmoji}.`)
+                    return interaction.editReply({ embeds: [noWeaponsFoundError], components: [], files: [] })
+                        .catch(err => {
+                            console.log(err)
+                        })
+                } else {
+                    if (userData.lang === "en") noWeaponsFoundError.setTitle(`Can't find ${list[i]}, Attempting to skip ${emojisObject.errorEmoji}.`)
+                    else if (userData.lang === "ar") noWeaponsFoundError.setTitle(`لا يمكنني العثور على ${list[i]} , سوف يتم تخطي العنصر ${emojisObject.errorEmoji}.`)
+                        interaction.followUp({ embeds: [noWeaponsFoundError], components: [], files: [], ephemeral: true })
+                        .catch(err => {
+                            console.log(err)
+                        })
+                }
                 continue;
             }
 
@@ -408,7 +434,7 @@ module.exports = {
                             const noResultFoundError = new Discord.EmbedBuilder()
                                 .setColor(FNBRMENA.Colors("embedError"))
                                 .setTitle(userData.lang === "en" ? `No result found (API Error) ${emojisObject.errorEmoji}.` : `لم يتم العثور على نتائج (مشكلة API) ${emojisObject.errorEmoji}.`);
-                            return await interaction.reply({ embeds: [noResultFoundError], ephemeral: true });
+                            return await interaction.editReply({ embeds: [noResultFoundError], ephemeral: true });
                         }
 
                         // Filter for names
@@ -431,7 +457,7 @@ module.exports = {
                     requestEntryTooLargeError.setColor(FNBRMENA.Colors("embedError"))
                     if (userData.lang === "en") requestEntryTooLargeError.setTitle(`Request entry too large ${emojisObject.errorEmoji}`)
                     else if (userData.lang === "ar") requestEntryTooLargeError.setTitle(`تم تخطي الكميه المحدودة ${emojisObject.errorEmoji}`)
-                    return await interaction.reply({ embeds: [requestEntryTooLargeError], ephemeral: true });
+                    return await interaction.editReply({ embeds: [requestEntryTooLargeError], ephemeral: true });
 
                 }
 
@@ -441,10 +467,10 @@ module.exports = {
 
                 //set Author
                 if (userData.lang === "en") {
-                    listWeaponsEmbed.setAuthor({ name: `Weapons`, iconURL: 'https://i.ibb.co/YNKLKN5/mvFcjNF.png' })
+                    listWeaponsEmbed.setAuthor({ name: `Weapons`, iconURL: 'https://firebasestorage.googleapis.com/v0/b/fnbrmena-bot.appspot.com/o/code_images%2Fgdwt52F.PNG?alt=media&token=018da419-a8c3-4a6b-bf11-149d18b33482' })
                     listWeaponsEmbed.setDescription('Please click on the Drop-Down menu and choose a weapons.\n`You have only 30 seconds until this operation ends, Make it quick`!')
                 } else if (userData.lang === "ar") {
-                    listWeaponsEmbed.setAuthor({ name: `الأسلحة`, iconURL: 'https://i.ibb.co/YNKLKN5/mvFcjNF.png' })
+                    listWeaponsEmbed.setAuthor({ name: `الأسلحة`, iconURL: 'https://firebasestorage.googleapis.com/v0/b/fnbrmena-bot.appspot.com/o/code_images%2Fgdwt52F.PNG?alt=media&token=018da419-a8c3-4a6b-bf11-149d18b33482' })
                     listWeaponsEmbed.setDescription('الرجاء الضغط على السهم لاختيار سلاح.\n`لديك فقط 30 ثانية حتى تنتهي العملية, استعجل`!')
                 }
 
@@ -482,7 +508,7 @@ module.exports = {
                         if (weaponId[x]) weapons.push({
                             label: `${weaponId[x].name}`,
                             value: `${weaponId[x].id}`,
-                            // emoji: `${emojisObject[weaponId[x].rarity].name}:${emojisObject[weaponId[x].rarity].id}`
+                            emoji: `${emojisObject[weaponId[x].rarity].name}:${emojisObject[weaponId[x].rarity].id}`
                         })
                     }
 
@@ -502,7 +528,7 @@ module.exports = {
                 } components.push(buttonDataRow)
 
                 // Send the message with the embed and components
-                await interaction.reply({ embeds: [listWeaponsEmbed], components: components });
+                await interaction.editReply({ embeds: [listWeaponsEmbed], components: components });
 
                 // Create a filter for the interaction collector
                 const filter = (i) => {
@@ -510,63 +536,55 @@ module.exports = {
                 };
 
                 // Create a collector for message components
-                const collector = interaction.channel.createMessageComponentCollector({ filter, time: 30000 });
+                await interaction.channel.awaitMessageComponent({ filter, time: 30000 })
+                    .then(async collected => {
 
-                collector.on('collect', async (collected) => {
-                    await collected.deferUpdate();
+                        await collected.deferUpdate();
 
-                    // If cancel button has been clicked
-                    if (collected.customId === `Cancel-${text}`) {
-                        // Delete the original interaction message
-                        await interaction.deleteReply(); // Deletes the initial reply message
-                        collector.stop();
-                    } else if (collected.customId.startsWith('weapon-select')) {
-                        // Handle weapon selection
-                        const selectedWeapon = collected.values[0];
+                        // If cancel button has been clicked
+                        if (collected.customId === `Cancel-${text}`) {
+                            // Delete the original interaction message
+                            await interaction.deleteReply(); // Deletes the initial reply message
 
-                        // Request a weapon
-                        await FNBRMENA.Weapon(userData.lang, "", false)
-                            .then(async res => {
-                                // Check if there is data
-                                if (!res.data.result) {
-                                    // No result found
-                                    const noResultFoundError = new EmbedBuilder()
-                                        .setColor(FNBRMENA.Colors("embedError"))
-                                        .setTitle(userData.lang === "en"
-                                            ? `No result found (API Error) ${emojisObject.errorEmoji}.`
-                                            : `لم يتم العثور على نتائج (مشكلة API) ${emojisObject.errorEmoji}.`);
+                        } else if (collected.type === Discord.ComponentType.SelectMenu) {
 
-                                    return await interaction.followUp({ embeds: [noResultFoundError], ephemeral: true });
-                                }
+                            // Request a weapon
+                            await FNBRMENA.Weapon(userData.lang, "", false)
+                                .then(async res => {
+                                    // Check if there is data
+                                    if (!res.data.result) {
+                                        // No result found
+                                        const noResultFoundError = new EmbedBuilder()
+                                            .setColor(FNBRMENA.Colors("embedError"))
+                                            .setTitle(userData.lang === "en"
+                                                ? `No result found (API Error) ${emojisObject.errorEmoji}.`
+                                                : `لم يتم العثور على نتائج (مشكلة API) ${emojisObject.errorEmoji}.`);
 
-                                // Filter for names
-                                const listOfWeapons = [];
-                                res.data.weapons.filter(wid => {
-                                    if (selectedWeapon === wid.id) // Find the weapon
-                                        listOfWeapons.push(wid);
+                                        return await interaction.followUp({ embeds: [noResultFoundError], ephemeral: true });
+                                    }
+
+                                    // Filter for names
+                                    res.data.weapons.filter(wid => {
+                                        if (collected.values.includes(wid.id)) // Find the weapon
+                                            listOfWeapons.push(wid)
+
+                                    })
+
+                                }).catch(async err => {
+                                    console.log(err);
                                 });
 
-                            }).catch(async err => {
-                                console.log(err);
-                            });
-                    }
-                });
-
-                collector.on('end', async (collected, reason) => {
-                    if (reason === 'time') {
-                        await interaction.followUp({ content: 'Time is up! Please try again.', ephemeral: true });
-                        // Optionally disable the components
-                        await interaction.editReply({ components: [] });
-                    }
-                });
+                        }
+                    });
 
             }
+        }
 
-            // Call the weapon image builder
-            if (listOfWeapons.length > 0){
-                console.log(listOfWeapons)
-                weaponImageBuilder(listOfWeapons)
-            }
+
+        // Call the weapon image builder
+        console.log(listOfWeapons)
+        if (listOfWeapons.length > 0) {
+            weaponImageBuilder(listOfWeapons)
         }
     }
 }

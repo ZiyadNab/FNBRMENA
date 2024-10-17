@@ -25,11 +25,7 @@ module.exports = (FNBRMENA, client, admin, emojisObject) => {
             if(status){
 
                 // Request data
-                axios.get(`https://www.epicgames.com/fortnite/competitive/api/blog/getPosts?category=&postsPerPage=0&offset=0&rootPageSlug=news&locale=${lang}`, {
-                    headers: {
-                        'User-Agent': 'Mozilla/5.0 (Windows NT 6.2; WOW64; rv:28.0) Gecko/20100101 Firefox/28.0)'
-                    }
-                })
+                axios.get(`https://www.fnbrmena.com/api/v1/fortnite/blogposts?lang=${lang}&type=comp`)
                 .then(async res => {
 
                     // Storing the first start up

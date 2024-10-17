@@ -56,7 +56,7 @@ module.exports = {
                 generating.setTitle(`جاري تحميل بيانات ${res.data.items[0].name}... ${emojisObject.loadingEmoji}`);
             }
 
-            await interaction.deferReply();
+            await interaction.reply({ embeds: [generating] });
 
             // Send attachment
             const att = new Discord.AttachmentBuilder(res.data.items[0].video);

@@ -23,7 +23,9 @@ jobs:
 
       - name: Transfer TAR file to VM
         run: |
+          sshpass -p "${{ secrets.VM_PASSWORD }}" ssh -o StrictHostKeyChecking=no ${{ secrets.VM_USER }}@${{ secrets.VM_HOST }} "mkdir -p /tmp/fnbrmena_repo"
           sshpass -p "${{ secrets.VM_PASSWORD }}" scp -o StrictHostKeyChecking=no FNBRMENA.tar ${{ secrets.VM_USER }}@${{ secrets.VM_HOST }}:/tmp/fnbrmena_repo/
+
 
       - name: Deploy and Build Docker image on VM
         run: |
@@ -31,7 +33,8 @@ jobs:
             cd /tmp/fnbrmena_repo
             tar -xf FNBRMENA.tar
             rm -rf FNBRMENA.tar
-
+            rmdir /tmp/fnbrmena_repo
+            
             # Determine the correct Docker image and container names based on the branch
             branch_name="${GITHUB_REF##*/}"
             image_name="fnbrmena_image_\${branch_name}"
